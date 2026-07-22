@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all Azure Arc PrivateLinkScopes within a subscription.
  *
  * @summary gets a list of all Azure Arc PrivateLinkScopes within a subscription.
- * x-ms-original-file: 2025-09-16-preview/privateLinkScope/PrivateLinkScopes_List.json
+ * x-ms-original-file: 2026-06-16-preview/privateLinkScope/PrivateLinkScopes_List.json
  */
 async function privateLinkScopesListJson() {
   const credential = new DefaultAzureCredential();

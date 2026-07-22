@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get confluent connector by Name
  *
  * @summary get confluent connector by Name
- * x-ms-original-file: 2025-08-18-preview/Connector_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Connector_Get_MaximumSet_Gen.json
  */
 async function connectorGetMaximumSet() {
   const credential = new DefaultAzureCredential();

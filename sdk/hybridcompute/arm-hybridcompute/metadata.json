@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.HybridCompute": "2025-09-16-preview"
+    "Microsoft.HybridCompute": "2026-06-16-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.HybridCompute",
     "CrossLanguageDefinitionId": {
@@ -63,7 +63,8 @@
       "@azure/arm-hybridcompute!IpAddress:interface": "Microsoft.HybridCompute.IpAddress",
       "@azure/arm-hybridcompute!Subnet:interface": "Microsoft.HybridCompute.Subnet",
       "@azure/arm-hybridcompute!MachineExtension:interface": "Microsoft.HybridCompute.MachineExtension",
-      "@azure/arm-hybridcompute!Identity:interface": "Azure.ResourceManager.CommonTypes.Identity",
+      "@azure/arm-hybridcompute!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-hybridcompute!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
       "@azure/arm-hybridcompute!MachineUpdate:interface": "Microsoft.HybridCompute.MachineUpdate",
       "@azure/arm-hybridcompute!MachineUpdateProperties:interface": "Microsoft.HybridCompute.MachineUpdateProperties",
       "@azure/arm-hybridcompute!MachineListResult:interface": "Azure.ResourceManager.ResourceListResult",
@@ -164,9 +165,10 @@
       "@azure/arm-hybridcompute!KnownEsuKeyState:enum": "Microsoft.HybridCompute.EsuKeyState",
       "@azure/arm-hybridcompute!KnownLicenseProfileSubscriptionStatus:enum": "Microsoft.HybridCompute.LicenseProfileSubscriptionStatus",
       "@azure/arm-hybridcompute!KnownLicenseProfileProductType:enum": "Microsoft.HybridCompute.LicenseProfileProductType",
+      "@azure/arm-hybridcompute!KnownMachineStatusReason:enum": "Microsoft.HybridCompute.MachineStatusReason",
       "@azure/arm-hybridcompute!KnownStatusTypes:enum": "Microsoft.HybridCompute.StatusTypes",
       "@azure/arm-hybridcompute!KnownIdentityKeyStore:enum": "Microsoft.HybridCompute.IdentityKeyStore",
-      "@azure/arm-hybridcompute!KnownResourceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ResourceIdentityType",
+      "@azure/arm-hybridcompute!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-hybridcompute!KnownArcKindEnum:enum": "Microsoft.HybridCompute.ArcKindEnum",
       "@azure/arm-hybridcompute!KnownPatchOperationStatus:enum": "Microsoft.HybridCompute.PatchOperationStatus",
       "@azure/arm-hybridcompute!KnownPatchOperationStartedBy:enum": "Microsoft.HybridCompute.PatchOperationStartedBy",
@@ -187,6 +189,7 @@
       "@azure/arm-hybridcompute!KnownPublicNetworkAccessType:enum": "CustomPublicNetworkAccessType",
       "@azure/arm-hybridcompute!KnownServiceExtensionPublicNetworkAccess:enum": "Microsoft.HybridCompute.ServiceExtensionPublicNetworkAccess",
       "@azure/arm-hybridcompute!KnownVersions:enum": "Microsoft.HybridCompute.Versions",
+      "@azure/arm-hybridcompute!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-hybridcompute!ServiceExtensionType:type": "Microsoft.HybridCompute.ServiceExtensionType",
       "@azure/arm-hybridcompute!HybridComputeManagementClient#setupExtensions:member(1)": "Microsoft.HybridCompute.Machines.setupExtensions",
       "@azure/arm-hybridcompute!HybridComputeManagementClient#upgradeExtensions:member(1)": "Microsoft.HybridCompute.Machines.upgradeExtensions",

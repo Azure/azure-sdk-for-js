@@ -23,6 +23,10 @@ jobs:
     displayName: "Run Pnpm Update"
 
   - script: |
+      pnpm install --force
+    displayName: "Run Pnpm install --force to install all optional dependencies"
+
+  - script: |
       pnpm turbo build
     env:
       TURBO_TEAM: azsdkjs
