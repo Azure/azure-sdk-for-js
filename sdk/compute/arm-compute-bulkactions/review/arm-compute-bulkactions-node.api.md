@@ -68,7 +68,7 @@ export interface ApiEntityReference {
 export interface ApiError {
     code?: string;
     details?: ApiErrorBase[];
-    innererror?: InnerError;
+    innererror?: BulkInstancesInnerError;
     message?: string;
     target?: string;
 }
@@ -251,6 +251,12 @@ export interface BulkCreateCustomVmSizeProfile {
 export interface BulkCreateCustomZoneAllocationPolicy {
     distributionStrategy?: BulkCreateCustomDistributionStrategy;
     zonePreferences?: ZonePreference[];
+}
+
+// @public
+export interface BulkInstancesInnerError {
+    errorDetail?: string;
+    exceptionType?: string;
 }
 
 // @public
@@ -569,12 +575,6 @@ export interface ImageReference extends SubResource {
     sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
-}
-
-// @public
-export interface InnerError {
-    errorDetail?: string;
-    exceptionType?: string;
 }
 
 // @public

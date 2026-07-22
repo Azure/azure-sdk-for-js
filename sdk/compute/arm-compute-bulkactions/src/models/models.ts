@@ -5220,7 +5220,7 @@ export interface ApiError {
   /** The API error details */
   details?: ApiErrorBase[];
   /** The API inner error */
-  innererror?: InnerError;
+  innererror?: BulkInstancesInnerError;
 }
 
 export function apiErrorDeserializer(item: any): ApiError {
@@ -5231,7 +5231,7 @@ export function apiErrorDeserializer(item: any): ApiError {
     details: !item["details"] ? item["details"] : apiErrorBaseArrayDeserializer(item["details"]),
     innererror: !item["innererror"]
       ? item["innererror"]
-      : innerErrorDeserializer(item["innererror"]),
+      : bulkInstancesInnerErrorDeserializer(item["innererror"]),
   };
 }
 
@@ -5260,14 +5260,14 @@ export function apiErrorBaseDeserializer(item: any): ApiErrorBase {
 }
 
 /** Inner error details. */
-export interface InnerError {
+export interface BulkInstancesInnerError {
   /** The exception type. */
   exceptionType?: string;
   /** The internal error message or exception dump. */
   errorDetail?: string;
 }
 
-export function innerErrorDeserializer(item: any): InnerError {
+export function bulkInstancesInnerErrorDeserializer(item: any): BulkInstancesInnerError {
   return {
     exceptionType: item["exceptionType"],
     errorDetail: item["errorDetail"],

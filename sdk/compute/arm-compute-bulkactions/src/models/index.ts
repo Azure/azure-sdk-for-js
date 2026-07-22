@@ -185,7 +185,7 @@ export type {
   VMOperationStatus,
   ApiError,
   ApiErrorBase,
-  InnerError,
+  BulkInstancesInnerError,
   LocationBasedBulkCreateCustom,
   BulkCreateCustomProperties,
   BulkCreateCustomPriorityProfile,
