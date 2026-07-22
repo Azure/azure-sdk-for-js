@@ -123,9 +123,13 @@ https://www.npmjs.com/package/@azure/arm-powerplatform
 https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-resiliencemanagement
 https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices
+https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-compute-bulkactions
 https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-commvaultcontentstore
 https://learn.microsoft.com/javascript/api/@azure/ai-translation-document
 https://www.npmjs.com/package/@azure/ai-translation-document
 https://learn.microsoft.com/javascript/api/@azure/arm-billing-trust?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-billing-trust
+https://learn.microsoft.com/javascript/api/@azure/arm-enclave?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-enclave

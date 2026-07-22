@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to get network information of hybrid machine
  *
  * @summary the operation to get network information of hybrid machine
- * x-ms-original-file: 2025-09-16-preview/NetworkProfile_Get.json
+ * x-ms-original-file: 2026-06-16-preview/NetworkProfile_Get.json
  */
 async function getNetworkProfile() {
   const credential = new DefaultAzureCredential();

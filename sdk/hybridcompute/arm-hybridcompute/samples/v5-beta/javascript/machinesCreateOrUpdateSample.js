@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a hybrid machine. Please note some properties can be set only during machine creation.
  *
  * @summary the operation to create or update a hybrid machine. Please note some properties can be set only during machine creation.
- * x-ms-original-file: 2025-09-16-preview/machine/Machines_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-16-preview/machine/Machines_CreateOrUpdate.json
  */
 async function createOrUpdateAMachine() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const result = await client.machines.createOrUpdate("myResourceGroup", "myMachine", {
     identity: { type: "SystemAssigned" },
@@ -22,9 +22,9 @@ async function createOrUpdateAMachine() {
     locationData: { name: "Redmond" },
     osProfile: { windowsConfiguration: { enableHotpatching: true } },
     parentClusterResourceId:
-      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.AzureStackHCI/clusters/myAzureStackHCICluster",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AzureStackHCI/clusters/myAzureStackHCICluster",
     privateLinkScopeResourceId:
-      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName",
     tpmEkCertificate: "string",
     vmId: "b7a098cc-b0b8-46e8-a205-62f301a62a8f",
   });

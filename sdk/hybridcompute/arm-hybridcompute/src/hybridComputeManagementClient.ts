@@ -65,7 +65,7 @@ export class HybridComputeManagementClient {
     subscriptionId: string,
     options?: HybridComputeManagementClientOptionalParams,
   );
-  /** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+  /** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | HybridComputeManagementClientOptionalParams,

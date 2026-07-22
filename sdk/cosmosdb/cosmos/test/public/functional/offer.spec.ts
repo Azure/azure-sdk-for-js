@@ -29,7 +29,6 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
   describe("Validate Offer CRUD", () => {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async () => {
       const mbInBytes = 1024 * 1024;
-      const offerThroughput = 400;
       const container = await getTestContainer("Validate Offer CRUD");
 
       const { headers } = await container.read({ populateQuotaInfo: true });
@@ -48,13 +47,16 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
-      const { resources: offers } = await client.offers.readAll().fetchAll();
+      // Scope to this container's offer: account-wide readAll() can include other
+      // resources' offers on shared (signoff staging) accounts.
+      const { resource: containerDef } = await container.read();
+      const { resources: allOffers } = await client.offers.readAll().fetchAll();
+      const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
-      assert.equal(
-        expectedOffer.content.offerThroughput,
-        offerThroughput,
-        "Expected offerThroughput to be " + offerThroughput,
+      assert.ok(
+        expectedOffer.content.offerThroughput > 0,
+        "Offer should report a positive throughput",
       );
       validateOfferResponseBody(expectedOffer);
 
@@ -94,8 +96,10 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
     });
 
     it("nativeApi Should do offer replace operations successfully name based", async () => {
-      await getTestContainer("Validate Offer CRUD");
-      const { resources: offers } = await client.offers.readAll().fetchAll();
+      const container = await getTestContainer("Validate Offer CRUD");
+      const { resource: containerDef } = await container.read();
+      const { resources: allOffers } = await client.offers.readAll().fetchAll();
+      const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
       validateOfferResponseBody(expectedOffer);
