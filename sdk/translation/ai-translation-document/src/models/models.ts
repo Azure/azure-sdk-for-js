@@ -533,6 +533,7 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
 }
 
+/** The translated document returned by a single-document translation request. */
 export type TranslateResponse = {
   /**
    * BROWSER ONLY

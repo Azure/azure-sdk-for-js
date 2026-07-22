@@ -31,7 +31,7 @@ This release migrates the package to the `@azure/ai-translation-document` name a
 - **Call operations:** replace the `path(...).method()` pattern with typed methods.
 
   ```diff
-  - await client.path("/batches").post({ body: { inputs } });
+  - await client.path("/document/batches").post({ body: { inputs } });
   + await client.startTranslation({ inputs });
   ```
 

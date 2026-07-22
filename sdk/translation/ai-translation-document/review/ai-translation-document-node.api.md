@@ -259,7 +259,7 @@ export interface TranslateOptionalParams extends OperationOptions {
     translateTextWithinImage?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type TranslateResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;

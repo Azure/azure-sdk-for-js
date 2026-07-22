@@ -125,7 +125,7 @@ export interface TargetInput {
     targetUrl: string;
 }
 
-// @public (undocumented)
+// @public
 export type TranslateResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;
