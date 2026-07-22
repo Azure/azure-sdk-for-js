@@ -16,12 +16,6 @@ This release migrates the package to the `@azure/ai-translation-document` name a
 - The package name changed from `@azure-rest/ai-translation-document` to `@azure/ai-translation-document`.
 - The REST-level client (RLC) surface (`client.path(...).post(...)`) has been replaced with a modeled client surface exposing `DocumentTranslationClient` and `SingleDocumentTranslationClient`. See the README for migration examples.
 
-## 1.0.0 (2024-11-15)
-
-### Other Changes
-
-- Renamed SingleDocumentTranslationClient's API from `document_translate` to `translate`
-
 ## 1.0.0-beta.2 (2024-07-01)
 
 ### Other Changes
