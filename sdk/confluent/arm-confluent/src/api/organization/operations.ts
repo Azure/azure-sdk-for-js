@@ -8,6 +8,10 @@ import type {
   _OrganizationResourceListResult,
   ListAccessRequestModel,
   ListRegionsSuccessResponse,
+  SaaSData,
+  LatestLinkedSaaSResponse,
+  ActivateSaaSParameterRequest,
+  SaaSResourceDetailsResponse,
   SCEnvironmentRecord,
   _GetEnvironmentsResponse,
   _ListSchemaRegistryClustersResponse,
@@ -17,6 +21,7 @@ import type {
   CreateAPIKeyModel,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
   apiKeyRecordDeserializer,
   organizationResourceSerializer,
@@ -25,6 +30,10 @@ import {
   _organizationResourceListResultDeserializer,
   listAccessRequestModelSerializer,
   listRegionsSuccessResponseDeserializer,
+  saaSDataSerializer,
+  latestLinkedSaaSResponseDeserializer,
+  activateSaaSParameterRequestSerializer,
+  saaSResourceDetailsResponseDeserializer,
   scEnvironmentRecordDeserializer,
   _getEnvironmentsResponseDeserializer,
   _listSchemaRegistryClustersResponseDeserializer,
@@ -45,6 +54,9 @@ import type {
   OrganizationListSchemaRegistryClustersOptionalParams,
   OrganizationListEnvironmentsOptionalParams,
   OrganizationGetEnvironmentByIdOptionalParams,
+  OrganizationActivateResourceOptionalParams,
+  OrganizationLatestLinkedSaaSOptionalParams,
+  OrganizationLinkSaaSOptionalParams,
   OrganizationListRegionsOptionalParams,
   OrganizationListBySubscriptionOptionalParams,
   OrganizationListByResourceGroupOptionalParams,
@@ -76,7 +88,7 @@ export function _createAPIKeySend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,14 +108,15 @@ export async function _createAPIKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return apiKeyRecordDeserializer(result.body);
 }
-
 /** Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment */
 export async function createAPIKey(
   context: Client,
@@ -140,7 +153,7 @@ export function _listClustersSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       pageSize: options?.pageSize,
       pageToken: options?.pageToken,
     },
@@ -160,14 +173,15 @@ export async function _listClustersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _listClustersSuccessResponseDeserializer(result.body);
 }
-
 /** Lists of all the clusters in a environment */
 export function listClusters(
   context: Client,
@@ -184,7 +198,7 @@ export function listClusters(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -205,7 +219,7 @@ export function _getClusterByIdSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,14 +237,15 @@ export async function _getClusterByIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return scClusterRecordDeserializer(result.body);
 }
-
 /** Get cluster by Id */
 export async function getClusterById(
   context: Client,
@@ -267,7 +282,7 @@ export function _getSchemaRegistryClusterByIdSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,14 +300,15 @@ export async function _getSchemaRegistryClusterByIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return schemaRegistryClusterRecordDeserializer(result.body);
 }
-
 /** Get schema registry cluster by Id */
 export async function getSchemaRegistryClusterById(
   context: Client,
@@ -327,7 +343,7 @@ export function _listSchemaRegistryClustersSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       pageSize: options?.pageSize,
       pageToken: options?.pageToken,
     },
@@ -347,14 +363,15 @@ export async function _listSchemaRegistryClustersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _listSchemaRegistryClustersResponseDeserializer(result.body);
 }
-
 /** Get schema registry clusters */
 export function listSchemaRegistryClusters(
   context: Client,
@@ -378,7 +395,7 @@ export function listSchemaRegistryClusters(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -395,7 +412,7 @@ export function _listEnvironmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
       pageSize: options?.pageSize,
       pageToken: options?.pageToken,
     },
@@ -415,14 +432,15 @@ export async function _listEnvironmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _getEnvironmentsResponseDeserializer(result.body);
 }
-
 /** Lists of all the environments in a organization */
 export function listEnvironments(
   context: Client,
@@ -438,7 +456,7 @@ export function listEnvironments(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -457,7 +475,7 @@ export function _getEnvironmentByIdSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -475,14 +493,15 @@ export async function _getEnvironmentByIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return scEnvironmentRecordDeserializer(result.body);
 }
-
 /** Get Environment details by environment Id */
 export async function getEnvironmentById(
   context: Client,
@@ -501,6 +520,169 @@ export async function getEnvironmentById(
   return _getEnvironmentByIdDeserialize(result);
 }
 
+export function _activateResourceSend(
+  context: Client,
+  body: ActivateSaaSParameterRequest,
+  options: OrganizationActivateResourceOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/activateSaaS{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: activateSaaSParameterRequestSerializer(body),
+  });
+}
+
+export async function _activateResourceDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SaaSResourceDetailsResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return saaSResourceDetailsResponseDeserializer(result.body);
+}
+/** Resolve the token to get the SaaS resource ID and activate the SaaS resource */
+export function activateResource(
+  context: Client,
+  body: ActivateSaaSParameterRequest,
+  options: OrganizationActivateResourceOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse> {
+  return getLongRunningPoller(context, _activateResourceDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _activateResourceSend(context, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+  }) as PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
+}
+
+export function _latestLinkedSaaSSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  options: OrganizationLatestLinkedSaaSOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/latestLinkedSaaS{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationName: organizationName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _latestLinkedSaaSDeserialize(
+  result: PathUncheckedResponse,
+): Promise<LatestLinkedSaaSResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return latestLinkedSaaSResponseDeserializer(result.body);
+}
+/** Returns the latest SaaS linked to the Confluent organization of the underlying resource. */
+export async function latestLinkedSaaS(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  options: OrganizationLatestLinkedSaaSOptionalParams = { requestOptions: {} },
+): Promise<LatestLinkedSaaSResponse> {
+  const result = await _latestLinkedSaaSSend(context, resourceGroupName, organizationName, options);
+  return _latestLinkedSaaSDeserialize(result);
+}
+
+export function _linkSaaSSend(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  body: SaaSData,
+  options: OrganizationLinkSaaSOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/linkSaaS{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      organizationName: organizationName,
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: saaSDataSerializer(body),
+  });
+}
+
+export async function _linkSaaSDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OrganizationResource> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return organizationResourceDeserializer(result.body);
+}
+/** Links a new SaaS to the Confluent organization of the underlying resource. */
+export function linkSaaS(
+  context: Client,
+  resourceGroupName: string,
+  organizationName: string,
+  body: SaaSData,
+  options: OrganizationLinkSaaSOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
+  return getLongRunningPoller(context, _linkSaaSDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _linkSaaSSend(context, resourceGroupName, organizationName, body, options),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+  }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+}
+
 export function _listRegionsSend(
   context: Client,
   resourceGroupName: string,
@@ -514,7 +696,7 @@ export function _listRegionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -534,14 +716,15 @@ export async function _listRegionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return listRegionsSuccessResponseDeserializer(result.body);
 }
-
 /** cloud provider regions available for creating Schema Registry clusters. */
 export async function listRegions(
   context: Client,
@@ -568,7 +751,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -586,14 +769,15 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _organizationResourceListResultDeserializer(result.body);
 }
-
 /** List all organizations under the specified subscription. */
 export function listBySubscription(
   context: Client,
@@ -607,7 +791,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -622,7 +806,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -640,14 +824,15 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _organizationResourceListResultDeserializer(result.body);
 }
-
 /** List all Organizations under the specified resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -662,7 +847,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }
@@ -679,7 +864,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -692,20 +877,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete Organization resource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -717,7 +898,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, organizationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-18-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -733,7 +914,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -743,9 +924,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"]
-      ? options["body"]
-      : organizationResourceUpdateSerializer(options["body"]),
+    body: !options?.body ? options?.body : organizationResourceUpdateSerializer(options?.body),
   });
 }
 
@@ -755,14 +934,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Update Organization resource */
 export async function update(
   context: Client,
@@ -786,7 +966,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -796,7 +976,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"] ? options["body"] : organizationResourceSerializer(options["body"]),
+    body: !options?.body ? options?.body : organizationResourceSerializer(options?.body),
   });
 }
 
@@ -806,14 +986,15 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Create Organization resource */
 export function create(
   context: Client,
@@ -826,7 +1007,7 @@ export function create(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceGroupName, organizationName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-18-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
@@ -842,7 +1023,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -860,14 +1041,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Get the properties of a specific Organization resource. */
 export async function get(
   context: Client,
@@ -893,7 +1075,7 @@ export function _deleteClusterAPIKeySend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       apiKeyId: apiKeyId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -908,14 +1090,15 @@ export async function _deleteClusterAPIKeyDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes API key of a kafka or schema registry cluster */
 export async function deleteClusterAPIKey(
   context: Client,
@@ -948,7 +1131,7 @@ export function _getClusterAPIKeySend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       apiKeyId: apiKeyId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -966,14 +1149,15 @@ export async function _getClusterAPIKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return apiKeyRecordDeserializer(result.body);
 }
-
 /** Get API key details of a kafka or schema registry cluster */
 export async function getClusterAPIKey(
   context: Client,

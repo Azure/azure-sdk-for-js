@@ -23,7 +23,7 @@ export function _listSend(
     "/providers/Microsoft.HybridCompute/locations/{location}/publishers{?api%2Dversion}",
     {
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-09-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-09-16-preview",
+      apiVersion: context.apiVersion ?? "2026-06-16-preview",
     },
   );
 }

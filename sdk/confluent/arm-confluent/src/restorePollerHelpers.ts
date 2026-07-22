@@ -7,9 +7,19 @@ import { _$deleteDeserialize as _$deleteDeserializeConnector } from "./api/conne
 import { _$deleteDeserialize as _$deleteDeserializeCluster } from "./api/cluster/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeEnvironment } from "./api/environment/operations.js";
 import {
+  _activateResourceDeserialize,
+  _linkSaaSDeserialize,
   _$deleteDeserialize as _$deleteDeserializeOrganization,
   _createDeserialize,
 } from "./api/organization/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeAccessPointResources,
+  _createOrReplaceDeserialize,
+} from "./api/accessPointResources/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeNetworkGatewayResources,
+  _createOrReplaceDeserialize as _createOrReplaceDeserializeNetworkGatewayResources,
+} from "./api/networkGatewayResources/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -88,10 +98,33 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _$deleteDeserializeCluster, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}":
     { deserializer: _$deleteDeserializeEnvironment, expectedStatuses: ["202", "204", "200"] },
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Confluent/activateSaaS": {
+    deserializer: _activateResourceDeserialize,
+    expectedStatuses: ["200", "202", "201"],
+  },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/linkSaaS":
+    { deserializer: _linkSaaSDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}":
     { deserializer: _$deleteDeserializeOrganization, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/networkGateways/{networkGatewayId}/accessPoints/{accessPointId}":
+    {
+      deserializer: _$deleteDeserializeAccessPointResources,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/networkGateways/{networkGatewayId}/accessPoints/{accessPointId}":
+    { deserializer: _createOrReplaceDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/networkGateways/{networkGatewayId}":
+    {
+      deserializer: _$deleteDeserializeNetworkGatewayResources,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/networkGateways/{networkGatewayId}":
+    {
+      deserializer: _createOrReplaceDeserializeNetworkGatewayResources,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

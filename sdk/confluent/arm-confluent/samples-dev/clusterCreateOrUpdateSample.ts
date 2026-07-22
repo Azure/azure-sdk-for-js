@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create confluent clusters
  *
  * @summary create confluent clusters
- * x-ms-original-file: 2025-08-18-preview/Cluster_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Cluster_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function clusterCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

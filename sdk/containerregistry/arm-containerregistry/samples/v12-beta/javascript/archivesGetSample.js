@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the archive.
  *
  * @summary gets the properties of the archive.
- * x-ms-original-file: 2026-01-01-preview/ArchiveGet.json
+ * x-ms-original-file: 2026-03-01-preview/ArchiveGet.json
  */
 async function archiveGet() {
   const credential = new DefaultAzureCredential();

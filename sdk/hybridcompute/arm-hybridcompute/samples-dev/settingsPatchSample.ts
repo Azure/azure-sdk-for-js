@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the base Settings of the target resource.
  *
  * @summary update the base Settings of the target resource.
- * x-ms-original-file: 2025-09-16-preview/settings/SettingsPatch.json
+ * x-ms-original-file: 2026-06-16-preview/settings/SettingsPatch.json
  */
 async function networkConfigurationsPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();

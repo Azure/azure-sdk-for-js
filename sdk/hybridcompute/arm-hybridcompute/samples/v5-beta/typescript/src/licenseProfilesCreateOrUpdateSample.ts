@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a license profile.
  *
  * @summary the operation to create or update a license profile.
- * x-ms-original-file: 2025-09-16-preview/licenseProfile/LicenseProfile_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-16-preview/licenseProfile/LicenseProfile_CreateOrUpdate.json
  */
 async function createOrUpdateALicenseProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const result = await client.licenseProfiles.createOrUpdate("myResourceGroup", "myMachine", {
     location: "eastus2euap",

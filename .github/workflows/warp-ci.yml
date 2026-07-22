@@ -35,10 +35,21 @@ jobs:
           node-version: "24"
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: |
+          PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
+          npm install -g "pnpm@${PNPM_VERSION}"
 
+      # The repo root .npmrc points at the Azure DevOps feed mirror of npmjs, but this
+      # GitHub-hosted runner has no ADO service identity to authenticate with. The feed only
+      # lazily ingests package versions on the first authenticated request, so anonymously
+      # requesting an un-ingested optional native binding (e.g. rolldown's exotic-platform
+      # bindings) returns 401. Resolve against npmjs directly instead: it hosts the same
+      # tarballs with matching integrity hashes, so --frozen-lockfile stays happy with no
+      # lockfile churn.
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+        env:
+          npm_config_registry: https://registry.npmjs.org/
 
       - name: Build
         run: pnpm --filter @microsoft/warp... build

@@ -11,10 +11,6 @@ import {
   deleteCassandraRoleDefinition,
   createUpdateCassandraRoleDefinition,
   getCassandraRoleDefinition,
-  listCassandraViews,
-  deleteCassandraView,
-  createUpdateCassandraView,
-  getCassandraView,
   listCassandraTables,
   deleteCassandraTable,
   createUpdateCassandraTable,
@@ -23,10 +19,6 @@ import {
   deleteCassandraKeyspace,
   createUpdateCassandraKeyspace,
   getCassandraKeyspace,
-  migrateCassandraViewToManualThroughput,
-  migrateCassandraViewToAutoscale,
-  updateCassandraViewThroughput,
-  getCassandraViewThroughput,
   migrateCassandraTableToManualThroughput,
   migrateCassandraTableToAutoscale,
   updateCassandraTableThroughput,
@@ -45,10 +37,6 @@ import type {
   CassandraResourcesDeleteCassandraRoleDefinitionOptionalParams,
   CassandraResourcesCreateUpdateCassandraRoleDefinitionOptionalParams,
   CassandraResourcesGetCassandraRoleDefinitionOptionalParams,
-  CassandraResourcesListCassandraViewsOptionalParams,
-  CassandraResourcesDeleteCassandraViewOptionalParams,
-  CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-  CassandraResourcesGetCassandraViewOptionalParams,
   CassandraResourcesListCassandraTablesOptionalParams,
   CassandraResourcesDeleteCassandraTableOptionalParams,
   CassandraResourcesCreateUpdateCassandraTableOptionalParams,
@@ -57,10 +45,6 @@ import type {
   CassandraResourcesDeleteCassandraKeyspaceOptionalParams,
   CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
-  CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-  CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-  CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-  CassandraResourcesGetCassandraViewThroughputOptionalParams,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
   CassandraResourcesMigrateCassandraTableToAutoscaleOptionalParams,
   CassandraResourcesUpdateCassandraTableThroughputOptionalParams,
@@ -77,8 +61,6 @@ import type {
   CassandraKeyspaceCreateUpdateParameters,
   CassandraTableGetResults,
   CassandraTableCreateUpdateParameters,
-  CassandraViewGetResults,
-  CassandraViewCreateUpdateParameters,
   CassandraRoleDefinitionResource,
   CassandraRoleAssignmentResource,
 } from "../../models/models.js";
@@ -215,72 +197,6 @@ export interface CassandraResourcesOperations {
     roleDefinitionId: string,
     options?: CassandraResourcesGetCassandraRoleDefinitionOptionalParams,
   ) => Promise<CassandraRoleDefinitionResource>;
-  /** Lists the Cassandra materialized views under an existing Azure Cosmos DB database account. */
-  listCassandraViews: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    options?: CassandraResourcesListCassandraViewsOptionalParams,
-  ) => PagedAsyncIterableIterator<CassandraViewGetResults>;
-  /** Deletes an existing Azure Cosmos DB Cassandra view. */
-  deleteCassandraView: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use deleteCassandraView instead */
-  beginDeleteCassandraView: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use deleteCassandraView instead */
-  beginDeleteCassandraViewAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-  ) => Promise<void>;
-  /** Create or update an Azure Cosmos DB Cassandra View */
-  createUpdateCassandraView: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-  ) => PollerLike<OperationState<CassandraViewGetResults>, CassandraViewGetResults>;
-  /** @deprecated use createUpdateCassandraView instead */
-  beginCreateUpdateCassandraView: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<CassandraViewGetResults>, CassandraViewGetResults>>;
-  /** @deprecated use createUpdateCassandraView instead */
-  beginCreateUpdateCassandraViewAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-    options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-  ) => Promise<CassandraViewGetResults>;
-  /** Gets the Cassandra view under an existing Azure Cosmos DB database account. */
-  getCassandraView: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesGetCassandraViewOptionalParams,
-  ) => Promise<CassandraViewGetResults>;
   /** Lists the Cassandra table under an existing Azure Cosmos DB database account. */
   listCassandraTables: (
     resourceGroupName: string,
@@ -409,95 +325,6 @@ export interface CassandraResourcesOperations {
     keyspaceName: string,
     options?: CassandraResourcesGetCassandraKeyspaceOptionalParams,
   ) => Promise<CassandraKeyspaceGetResults>;
-  /** Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput */
-  migrateCassandraViewToManualThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-  ) => PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-  /** @deprecated use migrateCassandraViewToManualThroughput instead */
-  beginMigrateCassandraViewToManualThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>
-  >;
-  /** @deprecated use migrateCassandraViewToManualThroughput instead */
-  beginMigrateCassandraViewToManualThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-  ) => Promise<ThroughputSettingsGetResults>;
-  /** Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale */
-  migrateCassandraViewToAutoscale: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-  ) => PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-  /** @deprecated use migrateCassandraViewToAutoscale instead */
-  beginMigrateCassandraViewToAutoscale: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>
-  >;
-  /** @deprecated use migrateCassandraViewToAutoscale instead */
-  beginMigrateCassandraViewToAutoscaleAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-  ) => Promise<ThroughputSettingsGetResults>;
-  /** Update RUs per second of an Azure Cosmos DB Cassandra view */
-  updateCassandraViewThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-  ) => PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
-  /** @deprecated use updateCassandraViewThroughput instead */
-  beginUpdateCassandraViewThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>
-  >;
-  /** @deprecated use updateCassandraViewThroughput instead */
-  beginUpdateCassandraViewThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-  ) => Promise<ThroughputSettingsGetResults>;
-  /** Gets the RUs per second of the Cassandra view under an existing Azure Cosmos DB database account with the provided name. */
-  getCassandraViewThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    keyspaceName: string,
-    viewName: string,
-    options?: CassandraResourcesGetCassandraViewThroughputOptionalParams,
-  ) => Promise<ThroughputSettingsGetResults>;
   /** Migrate an Azure Cosmos DB Cassandra table from autoscale to manual throughput */
   migrateCassandraTableToManualThroughput: (
     resourceGroupName: string,
@@ -890,116 +717,6 @@ function _getCassandraResources(context: CosmosDBManagementContext) {
         roleDefinitionId,
         options,
       ),
-    listCassandraViews: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      options?: CassandraResourcesListCassandraViewsOptionalParams,
-    ) => listCassandraViews(context, resourceGroupName, accountName, keyspaceName, options),
-    deleteCassandraView: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-    ) =>
-      deleteCassandraView(context, resourceGroupName, accountName, keyspaceName, viewName, options),
-    beginDeleteCassandraView: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-    ) => {
-      const poller = deleteCassandraView(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginDeleteCassandraViewAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesDeleteCassandraViewOptionalParams,
-    ) => {
-      return await deleteCassandraView(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-    },
-    createUpdateCassandraView: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-      options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-    ) =>
-      createUpdateCassandraView(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        createUpdateCassandraViewParameters,
-        options,
-      ),
-    beginCreateUpdateCassandraView: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-      options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-    ) => {
-      const poller = createUpdateCassandraView(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        createUpdateCassandraViewParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginCreateUpdateCassandraViewAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      createUpdateCassandraViewParameters: CassandraViewCreateUpdateParameters,
-      options?: CassandraResourcesCreateUpdateCassandraViewOptionalParams,
-    ) => {
-      return await createUpdateCassandraView(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        createUpdateCassandraViewParameters,
-        options,
-      );
-    },
-    getCassandraView: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesGetCassandraViewOptionalParams,
-    ) => getCassandraView(context, resourceGroupName, accountName, keyspaceName, viewName, options),
     listCassandraTables: (
       resourceGroupName: string,
       accountName: string,
@@ -1214,174 +931,6 @@ function _getCassandraResources(context: CosmosDBManagementContext) {
       keyspaceName: string,
       options?: CassandraResourcesGetCassandraKeyspaceOptionalParams,
     ) => getCassandraKeyspace(context, resourceGroupName, accountName, keyspaceName, options),
-    migrateCassandraViewToManualThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-    ) =>
-      migrateCassandraViewToManualThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      ),
-    beginMigrateCassandraViewToManualThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-    ) => {
-      const poller = migrateCassandraViewToManualThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMigrateCassandraViewToManualThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams,
-    ) => {
-      return await migrateCassandraViewToManualThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-    },
-    migrateCassandraViewToAutoscale: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-    ) =>
-      migrateCassandraViewToAutoscale(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      ),
-    beginMigrateCassandraViewToAutoscale: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-    ) => {
-      const poller = migrateCassandraViewToAutoscale(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMigrateCassandraViewToAutoscaleAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams,
-    ) => {
-      return await migrateCassandraViewToAutoscale(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      );
-    },
-    updateCassandraViewThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      updateThroughputParameters: ThroughputSettingsUpdateParameters,
-      options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-    ) =>
-      updateCassandraViewThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        updateThroughputParameters,
-        options,
-      ),
-    beginUpdateCassandraViewThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      updateThroughputParameters: ThroughputSettingsUpdateParameters,
-      options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-    ) => {
-      const poller = updateCassandraViewThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        updateThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateCassandraViewThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      updateThroughputParameters: ThroughputSettingsUpdateParameters,
-      options?: CassandraResourcesUpdateCassandraViewThroughputOptionalParams,
-    ) => {
-      return await updateCassandraViewThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        updateThroughputParameters,
-        options,
-      );
-    },
-    getCassandraViewThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      keyspaceName: string,
-      viewName: string,
-      options?: CassandraResourcesGetCassandraViewThroughputOptionalParams,
-    ) =>
-      getCassandraViewThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        keyspaceName,
-        viewName,
-        options,
-      ),
     migrateCassandraTableToManualThroughput: (
       resourceGroupName: string,
       accountName: string,

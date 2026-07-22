@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get schema registry clusters
  *
  * @summary get schema registry clusters
- * x-ms-original-file: 2025-08-18-preview/Organization_ListSchemaRegistryClusters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListSchemaRegistryClusters_MaximumSet_Gen.json
  */
 async function organizationListSchemaRegistryClustersMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function organizationListSchemaRegistryClustersMaximumSet() {
  * This sample demonstrates how to get schema registry clusters
  *
  * @summary get schema registry clusters
- * x-ms-original-file: 2025-08-18-preview/Organization_ListSchemaRegistryClusters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListSchemaRegistryClusters_MinimumSet_Gen.json
  */
 async function organizationListSchemaRegistryClustersMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the base Settings for the target resource.
  *
  * @summary returns the base Settings for the target resource.
- * x-ms-original-file: 2025-09-16-preview/settings/SettingsGet.json
+ * x-ms-original-file: 2026-06-16-preview/settings/SettingsGet.json
  */
 async function networkConfigurationsGet() {
   const credential = new DefaultAzureCredential();

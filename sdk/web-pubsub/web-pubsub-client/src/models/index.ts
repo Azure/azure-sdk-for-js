@@ -126,6 +126,89 @@ export interface LeaveGroupOptions {
 }
 
 /**
+ * A group state value: string-to-string dictionary.
+ */
+export type GroupState = Record<string, string>;
+
+/**
+ * A connection's state record within a group.
+ */
+export interface GroupStateRecord {
+  /**
+   * The connection identifier.
+   */
+  connectionId: string;
+  /**
+   * The user id owning this connection. Undefined for anonymous connections.
+   */
+  userId?: string;
+  /**
+   * The current state dictionary. Undefined means state has been cleared.
+   */
+  state?: GroupState;
+  /**
+   * Server time, in Unix epoch milliseconds, when this state was last updated.
+   */
+  updatedAt: number;
+}
+
+/**
+ * Set group state operation options.
+ */
+export interface SetGroupStateOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Clear group state operation options.
+ */
+export interface ClearGroupStateOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Subscribe group states operation options.
+ */
+export interface SubscribeGroupStatesOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Unsubscribe group states operation options.
+ */
+export interface UnsubscribeGroupStatesOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Send to group operation options
  */
 export interface SendToGroupOptions {
@@ -324,6 +407,16 @@ export interface OnRejoinGroupFailedArgs {
    * The failure error
    */
   error: Error;
+}
+
+/**
+ * Parameter of group states changed callback.
+ */
+export interface OnGroupStatesChangedArgs {
+  /**
+   * The group name.
+   */
+  group: string;
 }
 
 /**

@@ -49,6 +49,29 @@ describe("snippets", () => {
     await client.sendToGroup(groupName, "hello world", "text");
   });
 
+  it("ReadmeSampleGroupState", async () => {
+    const client = new WebPubSubClient("<client-access-url>");
+    await client.start();
+    // @ts-preserve-whitespace
+    const groupName = "group1";
+    await client.joinGroup(groupName);
+    // @ts-preserve-whitespace
+    await client.setGroupState(groupName, { status: "typing" });
+    const ownState = client.getGroupState(groupName);
+    console.log(`Own status: ${ownState?.status}`);
+    // @ts-preserve-whitespace
+    client.on("group-states-changed", (e) => {
+      if (e.group === groupName) {
+        const members = client.listGroupStates(groupName);
+        console.log(`Tracked state records: ${members.length}`);
+      }
+    });
+    // @ts-preserve-whitespace
+    await client.subscribeGroupStates(groupName);
+    await client.clearGroupState(groupName);
+    await client.unsubscribeGroupStates(groupName);
+  });
+
   it("ReadmeSampleInvokeEvent", async () => {
     const client = new WebPubSubClient("<client-access-url>");
     await client.start();

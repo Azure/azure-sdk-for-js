@@ -3,7 +3,7 @@
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
-import importX from "eslint-plugin-import-x";
+import importPlugin from "eslint-plugin-import";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -197,7 +197,7 @@ const noDynamicModuleLoad: FlatConfig.Config = {
       },
       { selector: "VariableDeclarator[init.name='require']", message: requireAliasMessage },
       { selector: "AssignmentExpression[right.name='require']", message: requireAliasMessage },
-      // Literal `import("pkg")` stays allowed (and is covered by import-x); only a non-literal
+      // Literal `import("pkg")` stays allowed (and is covered by eslint-plugin-import); only a non-literal
       // specifier — `import(expr)` / `import(`${x}`)` — hides the dependency and is flagged here.
       { selector: "ImportExpression[source.type!='Literal']", message: dynamicImportMessage },
     ],
@@ -221,13 +221,13 @@ const srcRuntimeDepsOnly: FlatConfig.Config = {
     "**/*-react-native.{ts,cts,mts}",
   ],
   plugins: {
-    "import-x": importX,
+    import: importPlugin,
   },
   rules: {
     // `includeTypes: false` (default): only runtime value imports are checked. Type-only
     // imports (`import type`) are erased at runtime, so a dev-only type import is not a
     // runtime failure; flagging them added noise without runtime risk.
-    "import-x/no-extraneous-dependencies": [
+    "import/no-extraneous-dependencies": [
       "error",
       {
         devDependencies: false,
