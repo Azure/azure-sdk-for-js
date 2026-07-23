@@ -27,24 +27,28 @@ describe("Realtime Notifications", { skip: !isLiveMode() }, () => {
     recorder = await createRecorder(ctx);
     await recorder.setMatcher("HeaderlessMatcher");
 
-    // Perform the one-time thread setup on the first test only.
+    // Perform the one-time token setup on the first test only.
     if (!communicationUserToken) {
       communicationUserToken = await createTestUser(recorder);
-      chatClient = createChatClient(communicationUserToken.token, recorder);
       testUser = communicationUserToken.user;
       testUser2 = (await createTestUser(recorder)).user;
+    }
 
-      // Create a thread
+    // Recreate the client for each test using the current recorder.
+    chatClient = createChatClient(communicationUserToken.token, recorder);
+
+    // Create the thread once, then reuse the cached thread id in later tests.
+    if (!threadId) {
       const request = {
         topic: "notification tests",
         participants: [{ id: testUser }],
       };
       const chatThreadResult = await chatClient.createChatThread(request);
       threadId = chatThreadResult.chatThread?.id;
-
-      // Create ChatThreadClient
-      chatThreadClient = chatClient.getChatThreadClient(threadId!);
     }
+
+    // Recreate ChatThreadClient for each test using the current chatClient/recorder.
+    chatThreadClient = chatClient.getChatThreadClient(threadId!);
 
     // Start notifications
     await chatClient.startRealtimeNotifications();
