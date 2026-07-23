@@ -19,6 +19,7 @@ import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 export async function main(): Promise<void> {
   // Load the file to be indexed for search
@@ -45,7 +46,7 @@ export async function main(): Promise<void> {
 
   // Create agent with file search tool
   console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion("agent-file-search", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that can search through product information.",

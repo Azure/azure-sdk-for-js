@@ -1,6 +1,6 @@
 ---
 name: apply-post-emitter-edits
-description: 'Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill.'
+description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
 ---
 
 # Apply Post-Emitter Edits to ai-projects
@@ -31,12 +31,26 @@ Run from `sdk/ai/ai-projects/`.
 
 Use this phase order to avoid mixing unrelated decisions:
 
-| Phase | Steps | Exit point |
-| --- | --- | --- |
-| Cleanup | Step -1, Step 0, Step 1 | Upstream intent is known, conflict markers are gone, protected files are restored. |
-| Public surface | Step 2, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
-| Workarounds | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up. |
-| Verification | Step 6 | Build, API extraction, API report spot-checks, and formatting all pass. |
+| Phase          | Steps                            | Exit point                                                                                                                                         |
+| -------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 1          | Upstream intent is known, conflict markers are gone, protected files are restored.                                                                 |
+| Public surface | Step 2, Step 2b, Step 3          | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise. |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                       |
+| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                            |
+
+### Recovery: customization stopped on a dirty target
+
+`npm run generate:client` runs formatting before `dev-tool customization apply`. If the active formatter rewrites committed `src/` files, customization can stop with `Uncommitted changes were detected in the target directory` after generation has already updated `generated/`.
+
+Do not regenerate again and do not restore all of `src/`. First confirm that regeneration preflight recorded a clean `src/` tree, inspect every current `src/` diff, and identify changes that are formatter-only. Restore only those proven formatter-created files, then apply customization to the already-emitted `generated/` tree:
+
+```powershell
+git diff -- src
+git restore --source=HEAD -- <verified-formatter-only-files>
+npx dev-tool customization apply
+```
+
+If any affected file had a user change before regeneration, stop and recover that change instead of restoring the file. After customization completes, continue with Step 0 and repeat the protected-file audit in Step 1.
 
 ### Step -1: Read the upstream validation guide
 
@@ -65,6 +79,8 @@ Get-ChildItem -Recurse -File src -Include *.ts |
 
 If the custom side is missing a type that the spec side adds (common when the spec introduces a brand-new model type like `SessionLogEvent`), Step 2 will catch it. Don't try to merge sides by hand here.
 
+Treat custom-side conflict resolution as syntax cleanup, not proof that the file is semantically merged. A large diff3 conflict can retain duplicated model regions or remove existing exports even after all markers are gone. Immediately after resolving markers, run the duplicate scan from Step 2b and compare the exported names in `src/models/models.ts` with `HEAD`. If dozens of duplicates or removals appear, do not repair the merged file declaration by declaration: restore the affected additions-only file from `HEAD`, then use Step 2 to reapply only genuine generated additions.
+
 ### Step 1: Pre-flight — verify protected files are intact
 
 Inspect `git diff` for the protected paths listed in [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md). If the emitter touched any of them, **revert those files and surface to a human**:
@@ -88,13 +104,15 @@ $protected = @(
   'src/api/datasets/operations.ts','src/classic/telemetry/index.ts',
   'src/classic/datasets/index.ts','src/classic/index.ts'
 )
-$changed = git diff --name-only HEAD -- src
+$changed = git diff --name-only --relative HEAD -- src
 $violations = $changed | Where-Object { $protected -contains $_ -or $_ -like 'src/static-helpers/*' }
 if ($violations) {
   Write-Warning "Protected files modified by emitter; reverting:`n$($violations -join "`n")"
-  $violations | ForEach-Object { git checkout HEAD -- $_ }
+  $violations | ForEach-Object { git restore --source=HEAD -- $_ }
 }
 ```
+
+`--relative` is required when this command runs from the package directory. Without it, Git may return paths such as `sdk/ai/ai-projects/src/aiProjectClient.ts`, which do not match the package-relative protected list and produce a false zero-violation result.
 
 ### Step 2: Propagate new public-surface additions from generated/ to src/
 
@@ -151,6 +169,26 @@ Then, for each genuine addition:
 
 If nothing is missing, this step is a no-op — confirm and move on.
 
+#### Distinguish emitter additions from customization renames
+
+Do not classify additions from only the current `generated/` versus current `src/` comparison. Conflict cleanup can make `src/` temporarily incomplete, and the customization layer intentionally keeps many symbols under names that differ from generated output.
+
+Use this three-way test:
+
+1. **Current `generated/` versus `HEAD:generated/`** identifies what the emitter actually added or removed in this regeneration.
+2. **Current `generated/` versus `HEAD:src/`** identifies which emitted symbols were already represented by the committed customization layer.
+3. **Current `generated/` versus cleaned current `src/`** identifies what still needs propagation after conflict cleanup.
+
+A symbol is a genuine addition only when it is new relative to committed generated output, has no same-purpose symbol in committed customized source, and is still absent from cleaned current source. This prevents propagating known rename pairs and avoids copying `ApiError` merely because the generated name differs from the maintained `ErrorModel` surface.
+
+For files with severe conflict churn, restore these additions-only/public-export files before running the three-way test:
+
+```powershell
+git restore --source=HEAD -- src/models/models.ts src/models/index.ts src/index.ts
+```
+
+Restore only files proven clean before regeneration. Never use this recovery on a file that contained user changes at preflight.
+
 #### Step 2b: Detect and dedupe redeclared symbols
 
 When a model moves locations between regens, the customization layer can leave both copies in place. Before moving on, scan for duplicate top-level exports in `src/models/models.ts`:
@@ -197,6 +235,7 @@ From [references/post-emitter-workarounds.md](./references/post-emitter-workarou
   # Find local-const cases (allowed pattern, for reference):
   git diff HEAD -- src | Select-String 'const foundryFeatures ='
   ```
+
 - **`BetaEvaluatorsOperations.list` must keep its name.** If the emitter renamed it to `listLatestVersions`, revert the rename (method name, all call sites, and any related type names).
   ```powershell
   git diff HEAD -- src | Select-String 'listLatestVersions'
@@ -245,10 +284,14 @@ Remove-Item -ErrorAction SilentlyContinue `
   src/restorePollerHelpers.ts, `
   metadata.json, `
   agent_version_lines.txt, `
+  review/ai-projects-browser.api.diff.md, `
+  review/ai-projects-react-native.api.diff.md, `
   src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
 ```
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
+
+Do not run `scripts/post-emitter.mjs` as a substitute for the per-rule checks without auditing its output. It currently also rewrites user-agent construction in protected client/context files. If it is run, immediately repeat Step 1 and restore every protected-file change before building.
 
 ### Step 6: Build and surface verification
 
@@ -257,6 +300,14 @@ npx dev-tool run build-package
 ```
 
 All four targets (browser, react-native, esm, commonjs) must succeed.
+
+If `dev-tool` or one of its workspace dependencies is missing because a prior install was interrupted, recover the package dependency closure rather than reinstalling all workspace projects mid-regen:
+
+```powershell
+pnpm install --filter @azure/ai-projects...
+```
+
+If the repository's configured Azure Artifacts feed returns `401`, do not change or print credentials. After confirming the required packages are public or local workspace packages, retry the same filtered install with `--registry=https://registry.npmjs.org/`. Avoid an unfiltered `pnpm install` during post-emitter work: it can remove existing module directories before a feed failure and leave `dev-tool` only partially installed.
 
 Then regenerate the API report and confirm the new public surface is present in it:
 
@@ -287,3 +338,5 @@ Once the build is green, hand off to the `author-samples` skill.
 - Do **not** use unbounded `(Get-Content X) -replace 'old', 'new' | Set-Content X` for parameter renames — it silently corrupts substrings (`name` → `toolboxName` produced `toolboxtoolboxName`). Always use `(?<![\w.])old(?![\w])` word-boundary anchors and prefer per-line edits.
 - Do **not** delegate the entire build-fix loop to a single subagent prompt with seven independent tasks — observed failure mode is the subagent stopping after 3 of N. Either run fixes inline or split into ≤3 fixes per subagent invocation.
 - Do **not** trust `npx dev-tool run extract-api` after a single source edit — it may pick up stale `dist/` artifacts. Run `npm run build` (which cleans first) before re-extracting if the API report still shows old symbols.
+- Do **not** trust a zero-result protected-file audit unless Git paths were normalized with `--relative`; repository-relative paths silently fail the package-relative comparison.
+- Do **not** repair a conflict-corrupted model file one duplicate at a time when the diff shows broad existing-export removals. Restore the clean committed customization baseline and propagate only verified additions.

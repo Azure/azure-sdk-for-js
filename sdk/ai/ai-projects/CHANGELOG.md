@@ -1,5 +1,11 @@
 # Release History
 
+## 2.4.0 (Unreleased)
+
+### Features Added
+
+- Added `project.agents.patchAgentObject` for merge-patching agent endpoint configuration and agent card metadata.
+
 ## 2.3.1 (2026-07-09)
 
 ### Other Changes
