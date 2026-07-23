@@ -424,7 +424,7 @@ importers:
         version: 4.13.1
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../../../sdk/storage/storage-blob
+        version: 12.31.0
       '@fastify/multipart':
         specifier: ^9.0.3
         version: 9.4.0
@@ -1025,7 +1025,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -1536,7 +1536,7 @@ importers:
         version: 4.13.1
       '@azure/storage-blob':
         specifier: ^12.17.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       mime:
         specifier: ^4.0.1
         version: 4.1.0
@@ -4628,7 +4628,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
@@ -14364,7 +14364,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       tslib:
         specifier: ^2.6.3
         version: 2.8.1
@@ -19506,7 +19506,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.24.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -30850,6 +30850,9 @@ importers:
 
   sdk/storage/storage-blob:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.6.0
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -30860,7 +30863,7 @@ importers:
         specifier: ^1.9.3
         version: link:../../core/core-client
       '@azure/core-http-compat':
-        specifier: ^2.2.0
+        specifier: ^2.4.0
         version: link:../../core/core-http-compat
       '@azure/core-lro':
         specifier: ^2.2.0
@@ -30877,9 +30880,6 @@ importers:
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
-      '@azure/core-xml':
-        specifier: ^1.4.5
-        version: link:../../core/core-xml
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -30889,6 +30889,9 @@ importers:
       events:
         specifier: ^3.0.0
         version: 3.3.0
+      fast-xml-parser:
+        specifier: ^5.5.9
+        version: 5.10.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -30985,7 +30988,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../storage-blob
+        version: 12.31.0
       '@azure/storage-internal-avro':
         specifier: workspace:^
         version: link:../storage-internal-avro
@@ -31058,7 +31061,7 @@ importers:
         version: link:../../core/core-rest-pipeline
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../storage-blob
+        version: 12.31.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -31173,11 +31176,11 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
+        specifier: 1.10.1
+        version: 1.10.1
       '@azure/core-http-compat':
-        specifier: ^2.0.0
-        version: link:../../core/core-http-compat
+        specifier: 2.3.2
+        version: 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
       '@azure/core-paging':
         specifier: ^1.6.2
         version: link:../../core/core-paging
@@ -31198,7 +31201,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.33.0
-        version: link:../storage-blob
+        version: 12.33.0
       '@azure/storage-common':
         specifier: ^12.5.0
         version: link:../storage-common
@@ -34220,7 +34223,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
@@ -35521,9 +35524,20 @@ packages:
     resolution: {integrity: sha1-Ha7/32LRqHHSK4ZfnzFkpj6h9XU=}
     engines: {node: '>=22.0.0'}
 
+  '@azure/core-client@1.10.1':
+    resolution: {integrity: sha1-g9ePl9ZHqyLmgRp6aLtCI+eh0Bk=}
+    engines: {node: '>=20.0.0'}
+
   '@azure/core-client@1.11.0':
     resolution: {integrity: sha1-5z0JrHl33l17QVaWt+1F0/3rZ7A=}
     engines: {node: '>=22.0.0'}
+
+  '@azure/core-http-compat@2.3.2':
+    resolution: {integrity: sha1-u1DiPo827DG1grLRYZJcDSnnWwM=}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      '@azure/core-client': ^1.10.0
+      '@azure/core-rest-pipeline': ^1.22.0
 
   '@azure/core-http-compat@2.5.0':
     resolution: {integrity: sha1-14BmGln4pDL+yyt8b6LVgi3KHeo=}
@@ -35673,6 +35687,10 @@ packages:
   '@azure/storage-blob@12.31.0':
     resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=}
     engines: {node: '>=20.0.0'}
+
+  '@azure/storage-blob@12.33.0':
+    resolution: {integrity: sha1-EK1FhvSSJzG4t5zIa+ytp1Z6H6s=}
+    engines: {node: '>=22.0.0'}
 
   '@azure/storage-common@12.4.1':
     resolution: {integrity: sha1-eMI6si3QTOJ7E9/omRtFtv3ts0U=}
@@ -42032,6 +42050,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/core-client@1.10.1':
+    dependencies:
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-auth': 1.11.0
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-tracing': 1.4.0
+      '@azure/core-util': 1.14.0
+      '@azure/logger': 1.4.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/core-client@1.11.0':
     dependencies:
       '@azure/abort-controller': 2.2.0
@@ -42043,6 +42073,12 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/core-http-compat@2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)':
+    dependencies:
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
 
   '@azure/core-http-compat@2.5.0(@azure/core-client@1.11.0)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)':
     dependencies:
@@ -42377,6 +42413,25 @@ snapshots:
       - supports-color
 
   '@azure/storage-blob@12.31.0':
+    dependencies:
+      '@azure/abort-controller': 2.2.0
+      '@azure/core-auth': 1.11.0
+      '@azure/core-client': 1.11.0
+      '@azure/core-http-compat': 2.5.0(@azure/core-client@1.11.0)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.7.0
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      '@azure/core-tracing': 1.4.0
+      '@azure/core-util': 1.14.0
+      '@azure/core-xml': 1.6.0
+      '@azure/logger': 1.4.0
+      '@azure/storage-common': 12.4.1(@azure/core-client@1.11.0)
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-blob@12.33.0':
     dependencies:
       '@azure/abort-controller': 2.2.0
       '@azure/core-auth': 1.11.0

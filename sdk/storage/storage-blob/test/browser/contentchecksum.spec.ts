@@ -36,6 +36,10 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     const blobServiceClient = getBSU(recorder, {
       uploadContentChecksumAlgorithm: "StorageCrc64",
       downloadContentChecksumAlgorithm: "StorageCrc64",
