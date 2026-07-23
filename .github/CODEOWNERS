@@ -965,7 +965,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagecache/arm-storagecache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/storagemover/arm-storagemover/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

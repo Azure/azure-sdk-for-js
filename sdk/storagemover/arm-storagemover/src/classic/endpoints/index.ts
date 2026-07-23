@@ -23,11 +23,6 @@ export interface EndpointsOperations {
     options?: EndpointsListOptionalParams,
   ) => PagedAsyncIterableIterator<Endpoint>;
   /** Deletes an Endpoint resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,
@@ -58,7 +53,6 @@ export interface EndpointsOperations {
     options?: EndpointsGetOptionalParams,
   ) => Promise<Endpoint>;
 }
-
 function _getEndpoints(context: StorageMoverContext) {
   return {
     list: (
@@ -102,7 +96,6 @@ function _getEndpoints(context: StorageMoverContext) {
     ) => get(context, resourceGroupName, storageMoverName, endpointName, options),
   };
 }
-
 export function _getEndpointsOperations(context: StorageMoverContext): EndpointsOperations {
   return {
     ..._getEndpoints(context),

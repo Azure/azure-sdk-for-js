@@ -1,16 +1,38 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.2.0 (2026-07-23)
 
 ### Features Added
+  - Added operation JobDefinitionsOperations.reconcileJob
+  - Added Interface JobDefinitionsReconcileJobOptionalParams
+  - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter allowedStorageAccounts
+  - Interface AzureStorageBlobContainerEndpointProperties has a new optional parameter enableCrossTenantTransfer
+  - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new optional parameter allowedStorageAccounts
+  - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new optional parameter enableCrossTenantTransfer
+  - Interface AzureStorageSmbFileShareEndpointProperties has a new optional parameter allowedStorageAccounts
+  - Interface AzureStorageSmbFileShareEndpointProperties has a new optional parameter enableCrossTenantTransfer
+  - Interface AzureStorageSmbFileShareEndpointUpdateProperties has a new optional parameter allowedStorageAccounts
+  - Interface AzureStorageSmbFileShareEndpointUpdateProperties has a new optional parameter enableCrossTenantTransfer
+  - Interface JobDefinitionProperties has a new optional parameter crossTenantEndpointResourceId
+  - Interface JobDefinitionProperties has a new optional parameter crossTenantEndpointTenantId
+  - Interface JobDefinitionProperties has a new optional parameter isCrossTenantJob
+  - Interface JobDefinitionProperties has a new optional parameter moverSyncedUntil
+  - Interface JobDefinitionProperties has a new optional parameter syncMode
+  - Interface JobDefinitionUpdateProperties has a new optional parameter moverSyncedUntil
+  - Interface JobDefinitionUpdateProperties has a new optional parameter syncMode
+  - Interface NfsMountEndpointProperties has a new optional parameter sourceType
+  - Interface ScheduleInfo has a new optional parameter repeatInterval
+  - Interface SmbMountEndpointProperties has a new optional parameter sourceType
+  - Added Type Alias NfsMountSourceType
+  - Added Type Alias SmbMountSourceType
+  - Added Enum KnownNfsMountSourceType
+  - Added Enum KnownSmbMountSourceType
+  - Enum KnownFrequency has a new value Hourly
+  - Enum KnownJobType has a new value OnPremToCloudAgentLess
+  - Enum KnownNfsVersion has a new value NFSv41
+  - Enum KnownVersions has a new value V20260501
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0 (2026-06-12)
+## 3.1.0 (2026-04-06)
 
 ### Features Added
   - Added operation group ConnectionsOperations
