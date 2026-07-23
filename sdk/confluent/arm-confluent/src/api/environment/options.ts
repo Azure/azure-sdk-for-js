@@ -9,7 +9,6 @@ export interface EnvironmentDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface EnvironmentCreateOrUpdateOptionalParams extends OperationOptions {
   /** Confluent Environment resource model */

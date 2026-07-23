@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to organization accounts invitation details
  *
  * @summary organization accounts invitation details
- * x-ms-original-file: 2025-08-18-preview/Access_ListInvitations_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListInvitations_MaximumSet_Gen.json
  */
 async function accessListInvitationsMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function accessListInvitationsMaximumSet() {
  * This sample demonstrates how to organization accounts invitation details
  *
  * @summary organization accounts invitation details
- * x-ms-original-file: 2025-08-18-preview/Access_ListInvitations_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListInvitations_MinimumSet_Gen.json
  */
 async function accessListInvitationsMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Azure Arc PrivateLinkScope.
  *
  * @summary returns a Azure Arc PrivateLinkScope.
- * x-ms-original-file: 2025-09-16-preview/privateLinkScope/PrivateLinkScopes_Get.json
+ * x-ms-original-file: 2026-06-16-preview/privateLinkScope/PrivateLinkScopes_Get.json
  */
 async function privateLinkScopeGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

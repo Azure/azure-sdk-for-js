@@ -1,8 +1,11 @@
 {
   "extends": "../../../../eng/tsconfigs/src.react-native.json",
   "compilerOptions": {
-    // rhea's .d.ts files contain `/// <reference types="node" />` directives,
-    // which pull in @types/node globals that conflict with react-native globals.
+    // rhea and rhea-promise stop including `///` reference to "node", but their source
+    // still use NodeJS types, which caused error now that TypeScript v7 no longer includes
+    // @types/node implicitly.
+    "types": ["react-native","node"],
+    // Also react-native's EventEmitter type is incompatible with NodeJS'
     "skipLibCheck": true
   },
   "include": ["../src/index.ts"]

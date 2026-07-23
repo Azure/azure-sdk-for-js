@@ -17,7 +17,6 @@ export interface BackupsUnderAccountOperations {
     options?: BackupsUnderAccountMigrateBackupsOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
 }
-
 function _getBackupsUnderAccount(context: NetAppManagementContext) {
   return {
     migrateBackups: (
@@ -28,7 +27,6 @@ function _getBackupsUnderAccount(context: NetAppManagementContext) {
     ) => migrateBackups(context, resourceGroupName, accountName, body, options),
   };
 }
-
 export function _getBackupsUnderAccountOperations(
   context: NetAppManagementContext,
 ): BackupsUnderAccountOperations {
