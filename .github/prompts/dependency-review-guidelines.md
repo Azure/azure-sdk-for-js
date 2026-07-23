@@ -40,14 +40,17 @@ Internal dev tools and test utils (e.g., `@azure-tools/test-recorder`,
 `@azure/dev-tool`) should continue to use `workspace:^`.
 
 ```jsonc
-// ✅ Correct — dev/internal tool
-"@azure-tools/test-recorder": "workspace:^"
-
-// ✅ Correct — published runtime dep, explicit semver range
-"@azure/core-rest-pipeline": "^1.19.0"
-
-// ✅ Also correct — published runtime dep using the workspace protocol
-"@azure/core-rest-pipeline": "workspace:^"
+{
+  "dependencies": {
+    // ✅ Correct — published runtime dep, explicit semver range.
+    //    "workspace:^" is also acceptable here for the same dependency.
+    "@azure/core-rest-pipeline": "^1.19.0"
+  },
+  "devDependencies": {
+    // ✅ Correct — dev/internal tool
+    "@azure-tools/test-recorder": "workspace:^"
+  }
+}
 ```
 
 **When a `workspace:` runtime dependency has unreleased source
