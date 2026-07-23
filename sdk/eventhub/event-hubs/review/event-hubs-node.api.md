@@ -7,6 +7,7 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import type { AzureLogger } from '@azure/logger';
+import { Buffer as Buffer_2 } from 'buffer';
 import { MessagingError } from '@azure/core-amqp';
 import type { NamedKeyCredential } from '@azure/core-auth';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -71,8 +72,8 @@ export interface EnqueueEventOptions extends SendBatchOptions {
 export interface EventData {
     body: any;
     contentType?: string;
-    correlationId?: string | number | Buffer;
-    messageId?: string | number | Buffer;
+    correlationId?: string | number | Buffer_2;
+    messageId?: string | number | Buffer_2;
     properties?: {
         [key: string]: any;
     };
@@ -80,8 +81,8 @@ export interface EventData {
 
 // @public
 export interface EventDataAdapterParameters {
-    correlationId?: string | number | Buffer;
-    messageId?: string | number | Buffer;
+    correlationId?: string | number | Buffer_2;
+    messageId?: string | number | Buffer_2;
     properties?: {
         [key: string]: any;
     };
@@ -320,10 +321,10 @@ export type ProcessInitializeHandler = (context: PartitionContext) => Promise<vo
 export interface ReceivedEventData {
     body: any;
     contentType?: string;
-    correlationId?: string | number | Buffer;
+    correlationId?: string | number | Buffer_2;
     enqueuedTimeUtc: Date;
     getRawAmqpMessage(): AmqpAnnotatedMessage;
-    messageId?: string | number | Buffer;
+    messageId?: string | number | Buffer_2;
     offset: string;
     partitionKey: string | null;
     properties?: {

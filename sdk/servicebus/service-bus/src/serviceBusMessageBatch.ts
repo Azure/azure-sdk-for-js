@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ServiceBusMessage } from "./serviceBusMessage.js";
+import { Buffer } from "buffer";
 import { toRheaMessage } from "./serviceBusMessage.js";
 import {
   errorInvalidMessageTypeSingle,

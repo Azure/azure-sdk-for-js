@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { EventData } from "./eventData.js";
+import { Buffer } from "buffer";
 
 /**
  * A message with payload and content type fields

@@ -17,6 +17,7 @@ import type { OperationTracingOptions, TracingContext } from "@azure/core-tracin
 import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
 import { throwTypeErrorIfParameterMissing } from "./util/error.js";
 import type { PartitionPublishingProperties } from "./models/private.js";
+import { Buffer } from "buffer";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.

@@ -10,6 +10,7 @@ import type {
   Message as RheaMessage,
 } from "rhea-promise";
 import { message, types } from "rhea-promise";
+import { Buffer } from "buffer";
 import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
 import {
   ErrorNameConditionMapper,

@@ -10,6 +10,7 @@ import type {
   OnAmqpEvent,
 } from "rhea-promise";
 import { message as RheaMessageUtil } from "rhea-promise";
+import { Buffer } from "buffer";
 import type {
   MessagingError,
   RetryConfig,

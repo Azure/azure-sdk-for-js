@@ -7,6 +7,7 @@ import { logger, receiverLogger, messageLogger } from "../log.js";
 import type { AmqpError } from "rhea-promise";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
+import { Buffer } from "buffer";
 import * as Constants from "../util/constants.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";

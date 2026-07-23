@@ -11,6 +11,7 @@
 - Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
 - Fixed CBS token renewal stopping permanently after a single failed renewal. A transient credential error (for example a failed AAD `getToken` during a workload-identity rotation) no longer leaves the link's token un-renewed; renewal now retries with a capped exponential backoff until it succeeds or the link closes. [#38467](https://github.com/Azure/azure-sdk-for-js/issues/38467)
+- Import `Buffer` from the `buffer` package instead of relying on the Node.js global in public-facing types (for example `ServiceBusMessage.correlationId` and `ServiceBusMessage.messageId`). This makes the emitted browser and react-native type declarations self-contained so they resolve without `@types/node`, fixing `error TS2304: Cannot find name 'Buffer'` for browser/react-native consumers using TypeScript's `types: []` default. [#39315](https://github.com/Azure/azure-sdk-for-js/pull/39315)
 
 ### Other Changes
 

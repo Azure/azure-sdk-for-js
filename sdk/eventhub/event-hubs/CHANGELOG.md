@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Import `Buffer` from the `buffer` package instead of relying on the Node.js global in public-facing types (for example `EventData.correlationId` and `EventData.messageId`). This makes the emitted browser and react-native type declarations self-contained so they resolve without `@types/node`, fixing `error TS2304: Cannot find name 'Buffer'` for browser/react-native consumers using TypeScript's `types: []` default. [#39315](https://github.com/Azure/azure-sdk-for-js/pull/39315)
+
 ### Other Changes
 
 ## 6.0.4 (2026-04-22)

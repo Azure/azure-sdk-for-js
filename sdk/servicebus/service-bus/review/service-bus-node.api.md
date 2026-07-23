@@ -462,7 +462,7 @@ export interface ServiceBusMessage {
 export interface ServiceBusMessageBatch {
     readonly count: number;
     // @internal
-    _generateMessage(): Buffer;
+    _generateMessage(): Buffer_2;
     readonly maxSizeInBytes: number;
     // @internal
     readonly _messageSpanContexts: TracingContext[];

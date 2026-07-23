@@ -13,6 +13,7 @@ import {
 } from "@azure/core-amqp";
 import type { EventContext, Message, ReceiverOptions, SenderOptions } from "rhea-promise";
 import { ReceiverEvents, SenderEvents } from "rhea-promise";
+import { Buffer } from "buffer";
 import type { SimpleLogger } from "./logger.js";
 import {
   logErrorStackTrace,

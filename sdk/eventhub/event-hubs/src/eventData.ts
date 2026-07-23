@@ -10,6 +10,7 @@ import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/cor
 import type { PENDING_PUBLISH_SEQ_NUM_SYMBOL } from "./util/constants.js";
 import { idempotentProducerAmqpPropertyNames } from "./util/constants.js";
 import isBuffer from "is-buffer";
+import { Buffer } from "buffer";
 
 /**
  * Describes the delivery annotations.

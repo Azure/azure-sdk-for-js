@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Buffer } from "buffer";
+
 /* eslint-disable no-fallthrough */
 
 export function mapPartitionKeyToId(partitionKey: string, partitionCount: number): number {
