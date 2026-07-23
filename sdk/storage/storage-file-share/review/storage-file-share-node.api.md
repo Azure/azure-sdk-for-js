@@ -865,9 +865,16 @@ export interface FileListRangesOptions extends CommonOptions {
 }
 
 // @public
-export type FileListRangesSegmentResponse = WithResponse<FileGetRangeListHeaders & FileRangeListSegment & {
+export interface FileListRangesSegment {
+    clearRanges?: RangeModel[];
+    nextMarker?: string;
+    ranges?: RangeModel[];
+}
+
+// @public
+export type FileListRangesSegmentResponse = WithResponse<FileGetRangeListHeaders & FileListRangesSegment & {
     continuationToken?: string;
-}, FileGetRangeListHeaders, FileRangeListSegment>;
+}, FileGetRangeListHeaders, FileListRangesSegment>;
 
 // @public
 export interface FileParallelUploadOptions extends CommonOptions {
@@ -921,13 +928,6 @@ export interface FileProperty {
     lastModified?: Date;
     // (undocumented)
     lastWriteTime?: Date;
-}
-
-// @public
-export interface FileRangeListSegment {
-    clearRanges?: RangeModel[];
-    nextMarker?: string;
-    ranges?: RangeModel[];
 }
 
 // @public

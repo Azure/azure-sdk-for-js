@@ -3535,7 +3535,7 @@ interface FileListRangesSegmentOptions extends CommonOptions {
  * The body of a single page of results for the {@link ShareFileClient.listRanges} and
  * {@link ShareFileClient.listRangesDiff} operations.
  */
-export interface FileRangeListSegment {
+export interface FileListRangesSegment {
   /**
    * The valid data ranges for the file.
    */
@@ -3556,7 +3556,7 @@ export interface FileRangeListSegment {
  */
 export type FileListRangesSegmentResponse = WithResponse<
   FileGetRangeListHeaders &
-    FileRangeListSegment & {
+    FileListRangesSegment & {
       /**
        * A token that identifies the portion of the list to be returned with the next list operation.
        * The value is opaque to the client.
@@ -3564,7 +3564,7 @@ export type FileListRangesSegmentResponse = WithResponse<
       continuationToken?: string;
     },
   FileGetRangeListHeaders,
-  FileRangeListSegment
+  FileListRangesSegment
 >;
 
 /**

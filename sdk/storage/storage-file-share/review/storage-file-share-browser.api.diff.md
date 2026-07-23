@@ -238,7 +238,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileItem {
      // (undocumented)
      attributes?: string;
-@@ -889,17 +812,8 @@
+@@ -896,17 +819,8 @@
  
  // @public
  export type FilePermissionPreserveType = "preserve";
