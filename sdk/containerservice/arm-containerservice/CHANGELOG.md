@@ -1,14 +1,23 @@
 # Release History
 
-## 25.4.0-beta.2 (Unreleased)
+## 26.0.0 (2026-07-23)
 
 ### Features Added
+  - Added Interface AutoScaleProfile
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityGating
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity
+  - Added Interface SchedulerInstanceProfile
+  - Added Interface SchedulerProfile
+  - Interface ManagedCluster has a new optional parameter schedulerProfile
+  - Interface ManagedClusterProperties has a new optional parameter schedulerProfile
+  - Interface ManagedClusterSecurityProfileDefender has a new optional parameter securityGating
+  - Interface ScaleProfile has a new optional parameter autoscale
+  - Added Type Alias SchedulerConfigMode
+  - Added Enum KnownSchedulerConfigMode
+  - Enum KnownVersions has a new value V20260501
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation ManagedClustersOperations.getCommandResult has a new signature
 
 ## 25.4.0-beta.1 (2026-06-09)
 Compared with version 25.3.0

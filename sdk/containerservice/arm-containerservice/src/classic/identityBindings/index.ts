@@ -81,7 +81,6 @@ export interface IdentityBindingsOperations {
     options?: IdentityBindingsGetOptionalParams,
   ) => Promise<IdentityBinding>;
 }
-
 function _getIdentityBindings(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -176,7 +175,6 @@ function _getIdentityBindings(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, identityBindingName, options),
   };
 }
-
 export function _getIdentityBindingsOperations(
   context: ContainerServiceContext,
 ): IdentityBindingsOperations {
