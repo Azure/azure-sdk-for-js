@@ -4,11 +4,11 @@
 
 ### Features Added
 
-- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
-
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
 
 ### Other Changes
 
