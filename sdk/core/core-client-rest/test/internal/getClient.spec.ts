@@ -559,7 +559,7 @@ describe("getClient", () => {
     });
   });
 
-  describe("#addDefaultAcceptHeader", () => {
+  describe("#noDefaultAcceptHeader", () => {
     it("should add a default accept header by default", async () => {
       const client = getClient("https://example.org", { httpClient });
       const validationPolicy: PipelinePolicy = {
@@ -575,11 +575,10 @@ describe("getClient", () => {
     });
 
     it("should not add a default accept header when opted out (options form)", async () => {
-      const client = getClient(
-        "https://example.org",
-        { httpClient },
-        { addDefaultAcceptHeader: false },
-      );
+      const client = getClient("https://example.org", {
+        httpClient,
+        internal: { noDefaultAcceptHeader: true },
+      });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -596,12 +595,10 @@ describe("getClient", () => {
       const credential: TokenCredential = {
         getToken: async () => ({ token: "mock-token", expiresOnTimestamp: Date.now() + 3600000 }),
       };
-      const client = getClient(
-        "https://example.org",
-        credential,
-        { httpClient },
-        { addDefaultAcceptHeader: false },
-      );
+      const client = getClient("https://example.org", credential, {
+        httpClient,
+        internal: { noDefaultAcceptHeader: true },
+      });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -615,11 +612,10 @@ describe("getClient", () => {
     });
 
     it("should keep operation-level accept when opted out", async () => {
-      const client = getClient(
-        "https://example.org",
-        { httpClient },
-        { addDefaultAcceptHeader: false },
-      );
+      const client = getClient("https://example.org", {
+        httpClient,
+        internal: { noDefaultAcceptHeader: true },
+      });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {

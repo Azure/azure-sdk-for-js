@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -127,11 +127,9 @@
+@@ -128,11 +128,9 @@
  
  export { InternalClientOptions }
  

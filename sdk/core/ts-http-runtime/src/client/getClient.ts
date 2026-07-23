@@ -9,7 +9,6 @@ import type {
   ClientOptions,
   HttpBrowserStreamResponse,
   HttpNodeStreamResponse,
-  InternalClientOptions,
   RequestParameters,
   ResourceMethods,
   StreamableMethod,
@@ -22,13 +21,8 @@ import { isNodeLike } from "#platform/env";
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
  * @param clientOptions - Client options
- * @param internalOptions - Additional options intended for use by generated clients
  */
-export function getClient(
-  endpoint: string,
-  clientOptions: ClientOptions = {},
-  internalOptions: InternalClientOptions = {},
-): Client {
+export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
   const pipeline = clientOptions.pipeline ?? createDefaultPipeline(clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
@@ -41,7 +35,7 @@ export function getClient(
     }
   }
 
-  const addDefaultAcceptHeader = internalOptions.addDefaultAcceptHeader ?? true;
+  const noDefaultAcceptHeader = clientOptions.internal?.noDefaultAcceptHeader ?? false;
   const { allowInsecureConnection, httpClient } = clientOptions;
   const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
@@ -57,7 +51,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -68,7 +62,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -79,7 +73,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -90,7 +84,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -101,7 +95,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -112,7 +106,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -123,7 +117,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -134,7 +128,7 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          addDefaultAcceptHeader,
+          noDefaultAcceptHeader,
         );
       },
     };
@@ -154,7 +148,7 @@ function buildOperation(
   options: RequestParameters,
   allowInsecureConnection?: boolean,
   httpClient?: HttpClient,
-  addDefaultAcceptHeader: boolean = true,
+  noDefaultAcceptHeader: boolean = false,
 ): StreamableMethod {
   allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
   return {
@@ -163,7 +157,7 @@ function buildOperation(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection, addDefaultAcceptHeader },
+        { ...options, allowInsecureConnection, noDefaultAcceptHeader },
         httpClient,
       ).then(onFulfilled, onrejected);
     },
@@ -177,7 +171,7 @@ function buildOperation(
           method,
           url,
           pipeline,
-          { ...options, allowInsecureConnection, addDefaultAcceptHeader, responseAsStream: true },
+          { ...options, allowInsecureConnection, noDefaultAcceptHeader, responseAsStream: true },
           httpClient,
         ) as Promise<HttpBrowserStreamResponse>;
       }
@@ -188,7 +182,7 @@ function buildOperation(
           method,
           url,
           pipeline,
-          { ...options, allowInsecureConnection, addDefaultAcceptHeader, responseAsStream: true },
+          { ...options, allowInsecureConnection, noDefaultAcceptHeader, responseAsStream: true },
           httpClient,
         ) as Promise<HttpNodeStreamResponse>;
       } else {

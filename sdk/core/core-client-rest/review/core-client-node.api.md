@@ -60,6 +60,7 @@ export type ClientOptions = PipelineOptions & {
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
     pipeline?: Pipeline;
+    internal?: InternalClientOptions;
 };
 
 // @public
@@ -96,10 +97,10 @@ export function getBinaryStreamResponse(streamableMethod: StreamableMethod): Pro
 }>;
 
 // @public
-export function getClient(endpoint: string, options?: ClientOptions, internalOptions?: InternalClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions, internalOptions?: InternalClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {

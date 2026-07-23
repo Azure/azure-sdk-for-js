@@ -437,17 +437,17 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
   });
 
-  it("should not set a default accept header when addDefaultAcceptHeader is false", async () => {
+  it("should not set a default accept header when noDefaultAcceptHeader is true", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
       assert.isFalse(request.headers.has("accept"));
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("GET", mockBaseUrl, mockPipeline, { addDefaultAcceptHeader: false });
+    await sendRequest("GET", mockBaseUrl, mockPipeline, { noDefaultAcceptHeader: true });
   });
 
-  it("should keep custom accept option when addDefaultAcceptHeader is false", async () => {
+  it("should keep custom accept option when noDefaultAcceptHeader is true", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
       assert.equal(request.headers.get("accept"), "testContent");
@@ -456,11 +456,11 @@ describe("sendRequest", () => {
 
     await sendRequest("POST", mockBaseUrl, mockPipeline, {
       accept: "testContent",
-      addDefaultAcceptHeader: false,
+      noDefaultAcceptHeader: true,
     });
   });
 
-  it("should keep accept header when addDefaultAcceptHeader is false", async () => {
+  it("should keep accept header when noDefaultAcceptHeader is true", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
       assert.equal(request.headers.get("accept"), "testContent");
@@ -469,18 +469,18 @@ describe("sendRequest", () => {
 
     await sendRequest("POST", mockBaseUrl, mockPipeline, {
       headers: { accept: "testContent" },
-      addDefaultAcceptHeader: false,
+      noDefaultAcceptHeader: true,
     });
   });
 
-  it("should set a default accept header when addDefaultAcceptHeader is true", async () => {
+  it("should set a default accept header when noDefaultAcceptHeader is false", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
       assert.equal(request.headers.get("accept"), "application/json");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("GET", mockBaseUrl, mockPipeline, { addDefaultAcceptHeader: true });
+    await sendRequest("GET", mockBaseUrl, mockPipeline, { noDefaultAcceptHeader: false });
   });
 
   it("should set custom headers", async () => {

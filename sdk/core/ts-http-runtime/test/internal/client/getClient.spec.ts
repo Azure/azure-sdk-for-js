@@ -327,7 +327,7 @@ describe("getClient", () => {
     assert.isEmpty(client.pipeline.getOrderedPolicies());
   });
 
-  describe("#addDefaultAcceptHeader", () => {
+  describe("#noDefaultAcceptHeader", () => {
     it("should add a default accept header by default", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
       vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
@@ -347,13 +347,15 @@ describe("getClient", () => {
       await client.pathUnchecked("/foo").get();
     });
 
-    it("should not add a default accept header when addDefaultAcceptHeader is false", async () => {
+    it("should not add a default accept header when internal.noDefaultAcceptHeader is true", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
       vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
-      const client = getClient("https://example.org", {}, { addDefaultAcceptHeader: false });
+      const client = getClient("https://example.org", {
+        internal: { noDefaultAcceptHeader: true },
+      });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
@@ -366,13 +368,15 @@ describe("getClient", () => {
       await client.pathUnchecked("/foo").get();
     });
 
-    it("should keep operation-level accept when addDefaultAcceptHeader is false", async () => {
+    it("should keep operation-level accept when internal.noDefaultAcceptHeader is true", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
       vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
-      const client = getClient("https://example.org", {}, { addDefaultAcceptHeader: false });
+      const client = getClient("https://example.org", {
+        internal: { noDefaultAcceptHeader: true },
+      });
       const validationPolicy: PipelinePolicy = {
         name: "validationPolicy",
         sendRequest: (req, next) => {
