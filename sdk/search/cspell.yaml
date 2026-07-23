@@ -1,0 +1,29 @@
+# cspell configuration for this service. Words are case-insensitive and
+# kept sorted alphabetically. The import of the central config is required.
+import:
+  - ../../.vscode/cspell.json
+words:
+  - Adls
+  - adlsgen
+  - agentic
+  - bangla
+  - beider
+  - Bokmaal
+  - Createor
+  - Decompounder
+  - haase
+  - koelner
+  - kstem
+  - lovins
+  - nysiis
+  - odatatype
+  - Phonetik
+  - Piqd
+  - rerank
+  - reranker
+  - Rslp
+  - Sorani
+  - Vectorizable
+  - vectorize
+  - vectorizer
+  - vectorizers
