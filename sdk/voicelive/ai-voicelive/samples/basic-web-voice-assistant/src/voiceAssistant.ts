@@ -11,17 +11,63 @@ import {
   type SessionContext
 } from '@azure/ai-voicelive';
 import { AzureKeyCredential } from '@azure/core-auth';
-import type { TokenCredential, KeyCredential } from '@azure/core-auth';
+import type {
+  AccessToken,
+  GetTokenOptions,
+  KeyCredential,
+  TokenCredential
+} from '@azure/core-auth';
 import { SimpleAudioCapture } from './audioCapture.js';
 
-// Note: DefaultAzureCredential would come from @azure/identity package
-// For this demo, we'll create a mock implementation
-class MockDefaultAzureCredential implements TokenCredential {
-  async getToken(): Promise<{ token: string; expiresOnTimestamp: number } | null> {
-    console.warn('Mock DefaultAzureCredential used - implement proper Azure authentication for production');
+interface LocalTokenResponse {
+  token?: unknown;
+  expiresOnTimestamp?: unknown;
+  error?: unknown;
+}
+
+/**
+ * Gets a development token from the local Vite server.
+ *
+ * The Vite server uses AzureCliCredential, which reuses an `az login` session
+ * without exposing Azure CLI files to browser code.
+ */
+class LocalAzureCredential implements TokenCredential {
+  async getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions
+  ): Promise<AccessToken> {
+    const response = await fetch('/api/azure-token', {
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/json'
+      }
+    });
+    const body = (await response.json()) as LocalTokenResponse;
+
+    if (!response.ok) {
+      const details = typeof body.error === 'string' ? body.error : response.statusText;
+      throw new Error(`Local Azure authentication failed: ${details}`);
+    }
+
+    if (
+      typeof body.token !== 'string' ||
+      typeof body.expiresOnTimestamp !== 'number'
+    ) {
+      throw new Error('Local Azure token endpoint returned an invalid response');
+    }
+
     return {
-      token: 'mock-token-for-demo',
-      expiresOnTimestamp: Date.now() + 3600000 // 1 hour from now
+      token: body.token,
+      expiresOnTimestamp: body.expiresOnTimestamp
+    };
+  }
+}
+
+class LocalBridgeCredential implements TokenCredential {
+  async getToken(): Promise<AccessToken> {
+    return {
+      token: 'bridge-managed',
+      expiresOnTimestamp: Date.now() + 3600000
     };
   }
 }
@@ -37,6 +83,7 @@ export interface VoiceAssistantConfig {
 
 const OPENAI_VOICES = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse', 'fable', 'onyx', 'nova'];
 const AZURE_REALTIME_NATIVE_VOICE_SUFFIX = '-native';
+const VOICE_LIVE_API_VERSION = '2025-10-01';
 
 export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
@@ -73,6 +120,7 @@ export class VoiceAssistant {
   private isPlayingAudio = false;
   private nextAudioStartTime = 0;
   private currentAudioSources: AudioBufferSourceNode[] = [];
+  private isVoiceAgentConnection = false;
 
   constructor() {
     this.audioCapture = new SimpleAudioCapture();
@@ -85,13 +133,20 @@ export class VoiceAssistant {
   async connect(config: VoiceAssistantConfig): Promise<void> {
     try {
       this.callbacks?.onConnectionStatusChange('connecting');
-      
+
+      this.isVoiceAgentConnection = this.isVoiceAgentWebSocketUrl(config.endpoint);
+      if (this.isVoiceAgentConnection) {
+        // A voice agent can emit a greeting immediately after connecting. Create
+        // playback while the Connect click still counts as a user gesture.
+        await this.ensurePlaybackAudioContext();
+      }
+
       // Create appropriate credential based on configuration
       const credential = this._createCredential(config);
-      
-      // Create session options
-      const sessionOptions: any = {
-        connectionTimeoutInMs: 30000,
+
+      // Voice Agent startup can include agent resolution and upstream Voice Live setup.
+      const sessionOptions = {
+        connectionTimeoutInMs: this.isVoiceAgentConnection ? 65000 : 30000,
       };
 
       console.log(`🔑 Using credential type: ${config.useTokenCredential ? 'TokenCredential' : 'API Key'}`);
@@ -103,20 +158,38 @@ export class VoiceAssistant {
         console.log('📡 Watch Events panel for real-time SDK events');
       }
 
-      // Create Voice Live client. `apiVersion` defaults to the latest known
-      // version; override only to pin a specific version.
-      this.client = new VoiceLiveClient(config.endpoint, credential, {
+      const clientEndpoint = this.isVoiceAgentConnection
+        ? this.createVoiceAgentProxyEndpoint(config.endpoint)
+        : config.endpoint;
+
+      // The local proxy preserves the supplied Voice Agent URL while the SDK
+      // continues to own the browser WebSocket and Voice Live protocol.
+      this.client = new VoiceLiveClient(clientEndpoint, credential, {
+        apiVersion: VOICE_LIVE_API_VERSION,
         defaultSessionOptions: sessionOptions
       });
-      
-      // Create and connect a session with a model compatible with the selected voice.
-      this.session = await this.client.startSession(this.getModelForVoice(config.voice), sessionOptions);
-      
-      // Setup handler-based event subscription (Azure SDK pattern)
+
+      // Subscribe before connecting so immediate session.created/session.updated
+      // events from the Voice Agent orchestrator are not missed.
+      this.session = this.client.createSession(
+        this.isVoiceAgentConnection ? 'voice-agent-proxy' : this.getModelForVoice(config.voice),
+        sessionOptions
+      );
       this.subscription = this.session.subscribe(this.createEventHandlers());
-      
-      // Configure session
-      await this.configureSession(config);
+      const restoreWebSocket = this.isVoiceAgentConnection
+        ? this.installVoiceAgentWebSocketAdapter()
+        : undefined;
+      try {
+        await this.session.connect();
+      } finally {
+        restoreWebSocket?.();
+      }
+
+      if (!this.isVoiceAgentConnection) {
+        // A Voice Live resource is configured per session. A Voice Agent already
+        // owns its model, instructions, voice, tools, and audio stack.
+        await this.configureSession(config);
+      }
       
       this.isConnected = true;
       this.callbacks?.onConnectionStatusChange('connected');
@@ -131,10 +204,14 @@ export class VoiceAssistant {
   }
 
   private _createCredential(config: VoiceAssistantConfig): TokenCredential | KeyCredential {
+    if (this.isVoiceAgentConnection) {
+      console.log('🔑 Authentication is managed by the local Voice Agent bridge');
+      return new LocalBridgeCredential();
+    }
+
     if (config.useTokenCredential) {
-      // Use Azure Default Credential (for production scenarios)
-      console.log('🔑 Using Azure Default Credential (token-based authentication)');
-      return new MockDefaultAzureCredential();
+      console.log('🔑 Using the local Vite AzureCliCredential token endpoint');
+      return new LocalAzureCredential();
     } else {
       // Use API Key (for development/simple scenarios)
       if (!config.apiKey) {
@@ -162,6 +239,7 @@ export class VoiceAssistant {
       }
       
       this.isConnected = false;
+      this.isVoiceAgentConnection = false;
       this.callbacks?.onConnectionStatusChange('disconnected');
       
       console.log('Disconnected from Voice Live service');
@@ -431,11 +509,10 @@ export class VoiceAssistant {
     }
 
     try {
+      await this.ensurePlaybackAudioContext();
+
       // Initialize audio capture
       await this.audioCapture.initialize();
-      
-      // Setup audio context for playback
-      this.audioContext = new AudioContext();
       
       // Start audio capture
       this.audioCapture.startCapture(
@@ -448,7 +525,9 @@ export class VoiceAssistant {
       
       this.callbacks?.onConversationMessage({
         role: 'system',
-        content: 'Conversation started. Start speaking to the assistant!',
+        content: this.isVoiceAgentConnection
+          ? 'Conversation started. Audio is streaming to the selected voice agent through the Voice Live SDK.'
+          : 'Conversation started. Start speaking to the assistant!',
         timestamp: new Date()
       });
       
@@ -533,6 +612,67 @@ export class VoiceAssistant {
     }
   }
 
+  private createVoiceAgentProxyEndpoint(voiceAgentUrl: string): string {
+    const proxyEndpoint = new URL(window.location.origin);
+    proxyEndpoint.searchParams.set('voice-agent-url', voiceAgentUrl);
+    return proxyEndpoint.toString();
+  }
+
+  private isVoiceAgentWebSocketUrl(endpoint: string): boolean {
+    try {
+      const url = new URL(endpoint);
+      return (
+        (url.protocol === 'ws:' || url.protocol === 'wss:') &&
+        url.pathname.endsWith('/endpoint/protocols/voice')
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  private installVoiceAgentWebSocketAdapter(): () => void {
+    const NativeWebSocket = window.WebSocket;
+    const BridgeWebSocket = function (
+      url: string | URL,
+      protocols?: string | string[]
+    ): WebSocket {
+      const sdkUrl = new URL(url.toString());
+      const voiceAgentUrl = sdkUrl.searchParams.get('voice-agent-url');
+      if (
+        voiceAgentUrl &&
+        sdkUrl.hostname === window.location.hostname &&
+        sdkUrl.pathname === '/voice-live/realtime'
+      ) {
+        const bridgeUrl = new URL(window.location.origin);
+        bridgeUrl.protocol = bridgeUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+        bridgeUrl.pathname = '/voice';
+        bridgeUrl.searchParams.set('voice-agent-url', voiceAgentUrl);
+        return protocols === undefined
+          ? new NativeWebSocket(bridgeUrl)
+          : new NativeWebSocket(bridgeUrl, protocols);
+      }
+
+      return protocols === undefined
+        ? new NativeWebSocket(url)
+        : new NativeWebSocket(url, protocols);
+    } as unknown as typeof WebSocket;
+
+    BridgeWebSocket.prototype = NativeWebSocket.prototype;
+    Object.defineProperties(BridgeWebSocket, {
+      CONNECTING: { value: NativeWebSocket.CONNECTING },
+      OPEN: { value: NativeWebSocket.OPEN },
+      CLOSING: { value: NativeWebSocket.CLOSING },
+      CLOSED: { value: NativeWebSocket.CLOSED }
+    });
+    window.WebSocket = BridgeWebSocket;
+
+    return () => {
+      if (window.WebSocket === BridgeWebSocket) {
+        window.WebSocket = NativeWebSocket;
+      }
+    };
+  }
+
   private createVoiceObject(voiceName: string): any {
     if (voiceName.endsWith(AZURE_REALTIME_NATIVE_VOICE_SUFFIX)) {
       return {
@@ -583,6 +723,10 @@ export class VoiceAssistant {
     }
 
     try {
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
+
       // VoiceLive sends raw PCM16 data, not encoded audio
       const sampleRate = 24000; // VoiceLive default output sample rate
       const numberOfChannels = 1; // Mono audio
@@ -697,5 +841,14 @@ export class VoiceAssistant {
     }
     
     console.log('🛑 Audio queue cleared and all sources stopped (barge-in or response change)');
+  }
+
+  private async ensurePlaybackAudioContext(): Promise<void> {
+    if (!this.audioContext || this.audioContext.state === 'closed') {
+      this.audioContext = new AudioContext();
+    }
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+    }
   }
 }
