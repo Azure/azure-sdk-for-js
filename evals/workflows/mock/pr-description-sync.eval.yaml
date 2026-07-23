@@ -13,7 +13,7 @@ environment: azsdk-mcp-mock
 
 tags:
   tier: scenario
-  area: agent-pr-hygiene
+  area: github
 
 defaults:
   runs: 1
