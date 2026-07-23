@@ -99,7 +99,7 @@ export async function buildPackage(
   let buildStatus = `succeeded`;
   await ensurePnpmInstalled();
   logger.info(`Start to pnpm install.`);
-  await runCommand(`pnpm`, ["install"], runCommandOptions, false);
+  await runCommand(`pnpm`, ["install", "--filter", `${name}...`], runCommandOptions, false);
   logger.info(`Pnpm install successfully.`);
 
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
