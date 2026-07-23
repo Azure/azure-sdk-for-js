@@ -28,9 +28,10 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeadersInput;
   /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
+   * Sets the accept header to send to the service.
+   * When omitted, defaults to 'application/json' unless the client was created
+   * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
+   * applied. If also a header "accept" is set this property will take precedence.
    */
   accept?: string;
   /**
