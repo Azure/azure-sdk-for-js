@@ -17,6 +17,7 @@ safe-outputs:
   create-issue:
     title-prefix: "[agentic-workflows] "
     labels: [agentic-workflows, automated, dependencies]
+    deduplicate-by-title: true
   noop:
     report-as-issue: false
 network:
@@ -35,8 +36,10 @@ an issue asking the **Agent Workflows** agent to perform the upgrade.
    the `with.version` value).
 2. Get the latest released version:
    `gh api repos/github/gh-aw/releases/latest --jq '.tag_name'`.
-3. If the pinned version already matches the latest, call `noop` with a short
-   message and stop without creating an issue.
+3. Compare the two as **semantic versions**. Only proceed if the latest release
+   is strictly greater than the pinned version. If they are equal, or the pin is
+   already newer (e.g. a prerelease or a rolled-back latest), call `noop` with a
+   short message and stop without creating an issue.
 4. Otherwise, before filing, check for an existing open issue requesting the
    same upgrade and, if one exists, call `noop` and stop.
 5. Open one issue titled `Upgrade gh-aw from v<old> to v<new>` that states the
