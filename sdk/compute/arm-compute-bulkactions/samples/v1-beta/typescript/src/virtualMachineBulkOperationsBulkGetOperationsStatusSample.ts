@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
  *
  * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkGetOperationsStatus_MaximumSet_Gen.json
  */
-async function virtualMachineBulkOperationsBulkGetOperationsStatusExample(): Promise<void> {
+async function virtualMachineBulkOperationsBulkGetOperationsStatusGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["406e7856-f94b-48ae-93ee-b062afee54e5"] },
+    "myResourceGroup",
+    "eastus2euap",
+    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
   );
   console.log(result);
 }
@@ -26,23 +26,23 @@ async function virtualMachineBulkOperationsBulkGetOperationsStatusExample(): Pro
  * This sample demonstrates how to bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
  *
  * @summary bulkGetOperationsStatus: Polling endpoint to read status of operations performed on virtual machines
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkGetOperationsStatus_MinimumSet_Gen.json
  */
-async function virtualMachineBulkOperationsBulkGetOperationsStatusExampleGeneratedByMinimumSetRule(): Promise<void> {
+async function virtualMachineBulkOperationsBulkGetOperationsStatusGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkGetOperationsStatus(
-    "rgBulkactions",
-    "useast2euap",
-    { operationIds: ["406e7856-f94b-48ae-93ee-b062afee54e5"] },
+    "myResourceGroup",
+    "eastus2euap",
+    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkGetOperationsStatusExample();
-  await virtualMachineBulkOperationsBulkGetOperationsStatusExampleGeneratedByMinimumSetRule();
+  await virtualMachineBulkOperationsBulkGetOperationsStatusGeneratedByMaximumSetRule();
+  await virtualMachineBulkOperationsBulkGetOperationsStatusGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

@@ -443,7 +443,7 @@
 # PRLabel: %Mgmt
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1687,6 +1687,7 @@ sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

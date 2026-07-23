@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to organization Validate proxy resource
  *
  * @summary organization Validate proxy resource
- * x-ms-original-file: 2025-08-18-preview/Validations_ValidateOrganization_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Validations_ValidateOrganization_MaximumSet_Gen.json
  */
 async function organizationValidateProxyResource() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,6 @@ async function organizationValidateProxyResource() {
       privateOfferId:
         "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
       privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
-      status: "Started",
     },
     userDetail: {
       firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",
