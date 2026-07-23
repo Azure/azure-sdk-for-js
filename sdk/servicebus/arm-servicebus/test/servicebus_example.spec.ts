@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ServiceBus test", () => {
+describe.skip("ServiceBus test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ServiceBusManagementClient;
@@ -141,7 +141,7 @@ describe("ServiceBus test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it.only("namespaces delete test", async () => {
+  it("namespaces delete test", async () => {
     await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
   });
 });

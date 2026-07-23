@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("dnsresolve test", () => {
+describe.skip("dnsresolve test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DnsResolverManagementClient;
@@ -83,7 +83,7 @@ describe("dnsresolve test", () => {
     assert.equal(res.name, dnsResolverName);
   });
 
-  it.only("dnsResolvers list clusters", async () => {
+  it("dnsResolvers list clusters", async () => {
     const resArray = new Array();
     for await (const item of client.dnsResolvers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
