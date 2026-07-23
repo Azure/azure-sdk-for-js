@@ -63,6 +63,8 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
+  /** Console Instrumentation Config */
+  console?: InstrumentationConfig;
 }
 
 /**
@@ -160,7 +162,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.2";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.19.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";

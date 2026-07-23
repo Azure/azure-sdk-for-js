@@ -3,6 +3,7 @@
 
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -45,6 +46,10 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
+// Retained so instrumentations (e.g. ConsoleInstrumentation, which patches the
+// global console) can be disabled on shutdown; NodeSDK.shutdown() does not
+// disable instrumentations.
+let activeInstrumentations: Instrumentation[] = [];
 
 /**
  * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
@@ -105,6 +110,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
+  // Disable any instrumentations from a previous initialization so global
+  // patches (e.g. console) are restored before re-instrumenting.
+  activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
+  activeInstrumentations = [];
 
   // Clear the entire OpenTelemetry API global state to avoid version conflicts.
   // The disable() calls above remove individual providers but leave the `version` field
@@ -124,6 +133,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const instrumentations = traceHandler
     .getInstrumentations()
     .concat(logHandler.getInstrumentations());
+  activeInstrumentations = instrumentations;
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
@@ -176,6 +186,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
+  // NodeSDK.shutdown() does not disable instrumentations, so restore any global
+  // patches (e.g. console) explicitly.
+  activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
+  activeInstrumentations = [];
   return sdk?.shutdown();
 }
 

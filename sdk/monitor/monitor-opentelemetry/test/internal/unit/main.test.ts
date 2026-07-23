@@ -205,6 +205,22 @@ describe("Main functions", () => {
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
 
+  it("should restore console after shutdown when console instrumentation is enabled", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched while enabled");
+    await shutdownAzureMonitor();
+    assert.strictEqual(console.log, originalLog, "console.log should be restored after shutdown");
+  });
+
   it("should add custom spanProcessors", () => {
     const processor: SpanProcessor = {
       forceFlush: () => {

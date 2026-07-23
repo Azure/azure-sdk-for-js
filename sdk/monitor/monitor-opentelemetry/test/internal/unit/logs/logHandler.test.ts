@@ -15,6 +15,7 @@ import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
+import type { ConsoleInstrumentationConfig } from "@opentelemetry/instrumentation-console";
 import type { MockInstance } from "vitest";
 import {
   afterAll,
@@ -221,6 +222,38 @@ describe("LogHandler", () => {
         (logHandler.getInstrumentations()[0].getConfig() as WinstonInstrumentationConfig)
           .logSeverity,
         SeverityNumber.ERROR,
+      );
+    });
+
+    it("should add console instrumentation", () => {
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.isTrue(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-console",
+        "Console instrumentation not added",
+      );
+    });
+
+    it("should set console log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "WARN";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.WARN,
       );
     });
   });

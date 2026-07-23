@@ -31,7 +31,7 @@ const loggerProvider = new LoggerProvider({
   resource: resourceFromAttributes({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
-  processors: [new SimpleLogRecordProcessor(logExporter)],
+  processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
 });
 const logger = loggerProvider.getLogger("example-basic-logger-node");
 
