@@ -70,6 +70,10 @@ lint rule or CI check, not an eval).
 - Always consult `.github/skills/find-package-skill/SKILL.md` (and the
   relevant package-specific `SKILL.md` if one is registered there)
   **before** modifying a package under `sdk/`.
+- When pushing new commits to an **existing** pull request, re-check that
+  the PR description still matches the current changes. If iterating has
+  made it inaccurate or incomplete, update the description in the same
+  step — don't leave a stale description behind.
 
 ## Where new guidance belongs
 

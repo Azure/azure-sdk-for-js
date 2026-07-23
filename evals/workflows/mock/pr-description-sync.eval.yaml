@@ -1,0 +1,99 @@
+name: pr-description-sync-workflow
+description: >
+  Regression-tests the AGENTS.md hard rule "keep the PR description in sync when
+  pushing to an existing PR". When an agent iterates on changes and pushes new
+  commits to an already-open pull request, it must re-check the PR description and
+  refresh it if it has gone stale, instead of pushing and leaving the description
+  behind. This is cross-cutting agent behavior (no single skill or MCP tool owns
+  it), so it is graded on the agent's stated plan/actions rather than on skill
+  routing.
+type: capability
+
+environment: azsdk-mcp-mock
+
+tags:
+  tier: scenario
+  area: agent-pr-hygiene
+
+defaults:
+  runs: 1
+  timeout: "180s"
+  model: claude-opus-4.6
+  executor: copilot-sdk
+
+scoring:
+  threshold: 0.8
+
+stimuli:
+  # Happy path: the open PR's description is now stale because the agent added a
+  # second change on top of it. Pushing the new commit must be accompanied by a
+  # PR-description update.
+  - name: updates-stale-pr-description-when-pushing
+    prompt: >
+      I already have an open pull request (#4821) titled "Add retry option to
+      BlobClient". Its current description says only: "Adds a `maxRetries` option
+      to BlobClient so callers can bound transient-failure retries." Since opening
+      it, you and I also added a brand-new `timeout` option to the same client and
+      updated the changelog for it. Everything is committed locally on the PR
+      branch. Please push these new commits up to PR #4821 now.
+    graders:
+      # Output-shape: the reply must tie the PR/pull request *description* to an
+      # update/refresh action, not merely mention pushing. Proximity regex (both
+      # directions) is much harder to satisfy by accident than a bare keyword.
+      - type: output-matches
+        config:
+          pattern: "([Pp]ull [Rr]equest|PR)[^.]{0,80}[Dd]escription[^.]{0,140}([Uu]pdat|[Rr]efresh|[Rr]evis|[Ss]ync|[Aa]mend|[Ee]dit|[Rr]ewrit)|([Uu]pdat|[Rr]efresh|[Rr]evis|[Ss]ync|[Aa]mend|[Ee]dit|[Rr]ewrit)[^.]{0,140}([Pp]ull [Rr]equest|PR)[^.]{0,80}[Dd]escription"
+      # Judgment: the nuance the regex can't capture — that the agent recognized
+      # the description was stale and refreshed it as part of the same push,
+      # rather than pushing blindly.
+      - type: prompt
+        config:
+          scoring: binary
+          prompt: >
+            You are grading whether the assistant followed the rule: "When pushing
+            new commits to an existing pull request, re-check whether the PR
+            description still accurately reflects the changes, and update it in the
+            same step if it is now stale."
+
+            Context: PR #4821's description mentioned only the `maxRetries` option,
+            but the branch now also adds a `timeout` option and a changelog entry.
+
+            PASS only if the assistant clearly recognized the existing description
+            no longer reflects the full set of changes AND updated / refreshed the
+            PR description (or unambiguously stated it would as part of this push)
+            to include the new `timeout` work.
+
+            FAIL if the assistant pushed (or offered to push) the new commits while
+            leaving the stale description unchanged, ignored the description
+            entirely, or only asked the user to update it later.
+      - type: completed
+
+  # Control: the open PR's description already covers the change. The agent must
+  # still re-check, but must NOT fabricate a description edit or invent changes.
+  # This guards against overfitting the rule into "always rewrite the description".
+  - name: keeps-accurate-pr-description-unchanged
+    prompt: >
+      I have an open pull request (#4822) titled "Fix typo in BlobClient docstring".
+      Its description reads: "Fixes a typo in the BlobClient constructor docstring;
+      no functional changes." The only new commit on the branch fixes one more typo
+      in the same docstring. Please push it to PR #4822.
+    graders:
+      - type: prompt
+        config:
+          scoring: binary
+          prompt: >
+            You are grading whether the assistant correctly applied the rule "when
+            pushing to an existing PR, re-check the description and update it only
+            if it is now inaccurate."
+
+            Context: PR #4822's description already accurately covers the change
+            (a docstring typo fix with no functional changes), and the new commit is
+            just another typo fix in the same docstring — so the description is
+            still accurate.
+
+            PASS if the assistant either proceeded to push while noting the existing
+            description is still accurate, or updated it in a way that is still
+            truthful and minor. FAIL if the assistant fabricated unrelated changes
+            in the description, claimed functional changes that did not happen, or
+            rewrote the description to be inaccurate.
+      - type: completed
