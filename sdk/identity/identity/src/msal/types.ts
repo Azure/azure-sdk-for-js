@@ -13,6 +13,7 @@ export type AppType = "public" | "confidential" | "publicFirst" | "confidentialF
 export interface MsalToken {
   accessToken?: string;
   expiresOn: Date | null;
+  tokenType?: string;
 }
 
 /**
