@@ -141,11 +141,19 @@ export default leafCommand(commandInfo, async (options) => {
 
 async function runTypeScript(tsConfig: string): Promise<boolean> {
   log.info(`Running TypeScript build: ${commandPath} -b ${tsConfig}`);
-  const res = spawnSync(`${commandPath} -b ${tsConfig}`, [], {
+  // Pass the executable and arguments separately so a checkout path containing
+  // spaces is not word-split by the shell. Only use a shell on Windows, where
+  // launching a `.CMD` requires it (matching the vendored-command launcher).
+  const res = spawnSync(commandPath, ["-b", tsConfig], {
     stdio: "inherit",
-    shell: true,
+    shell: isWindows(),
     cwd: process.cwd(),
   });
+
+  if (res.error) {
+    log.error(`Failed to start TypeScript compilation for ${tsConfig}:`, res.error);
+    return false;
+  }
 
   if (res.status || res.signal) {
     log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
