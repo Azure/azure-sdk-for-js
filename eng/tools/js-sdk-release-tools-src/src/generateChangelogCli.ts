@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 
-import commandLineArgs from 'command-line-args';
+import commandLineArgs from "command-line-args";
 import {
   generateChangelogAndBumpVersion,
   UpdateMode,
-} from './common/changelog/automaticGenerateChangeLogAndBumpVersion.js';
-import { logger } from './utils/logger.js';
+} from "./common/changelog/automaticGenerateChangeLogAndBumpVersion.js";
+import { logger } from "./utils/logger.js";
 
-const generateChangelogCli = async (sdkRepoPath: string | undefined, packageFolderPath: string | undefined) => {
+const generateChangelogCli = async (
+  sdkRepoPath: string | undefined,
+  packageFolderPath: string | undefined,
+) => {
   if (!sdkRepoPath || !packageFolderPath) {
     logger.error(`SdkRepoPath and PackagePath are required.`);
-    logger.error(`Usage: generateChangelogCli --sdkRepoPath <SdkRepoPath> --packagePath <PackagePath>`);
+    logger.error(
+      `Usage: generateChangelogCli --sdkRepoPath <SdkRepoPath> --packagePath <PackagePath>`,
+    );
     process.exit(1);
   }
 
@@ -21,15 +26,15 @@ const generateChangelogCli = async (sdkRepoPath: string | undefined, packageFold
       sdkReleaseType: undefined,
     },
     UpdateMode.ChangelogOnly,
-    sdkRepoPath
+    sdkRepoPath,
   );
 };
 
 const optionDefinitions = [
-  { name: 'sdkRepoPath', type: String },
-  { name: 'packagePath', type: String },
+  { name: "sdkRepoPath", type: String },
+  { name: "packagePath", type: String },
 ];
 
 const options = commandLineArgs(optionDefinitions);
 
-generateChangelogCli(options['sdkRepoPath'], options['packagePath']);
+generateChangelogCli(options["sdkRepoPath"], options["packagePath"]);

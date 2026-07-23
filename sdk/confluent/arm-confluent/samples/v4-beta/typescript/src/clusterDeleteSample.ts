@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete confluent cluster by id
  *
  * @summary delete confluent cluster by id
- * x-ms-original-file: 2025-08-18-preview/Cluster_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Cluster_Delete_MaximumSet_Gen.json
  */
 async function clusterDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function clusterDeleteMaximumSet(): Promise<void> {
  * This sample demonstrates how to delete confluent cluster by id
  *
  * @summary delete confluent cluster by id
- * x-ms-original-file: 2025-08-18-preview/Cluster_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Cluster_Delete_MinimumSet_Gen.json
  */
 async function clusterDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

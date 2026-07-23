@@ -26,7 +26,6 @@ export interface ValidationsOperations {
     options?: ValidationsValidateOrganizationOptionalParams,
   ) => Promise<OrganizationResource>;
 }
-
 function _getValidations(context: ConfluentManagementContext) {
   return {
     validateOrganizationV2: (
@@ -43,7 +42,6 @@ function _getValidations(context: ConfluentManagementContext) {
     ) => validateOrganization(context, resourceGroupName, organizationName, body, options),
   };
 }
-
 export function _getValidationsOperations(
   context: ConfluentManagementContext,
 ): ValidationsOperations {

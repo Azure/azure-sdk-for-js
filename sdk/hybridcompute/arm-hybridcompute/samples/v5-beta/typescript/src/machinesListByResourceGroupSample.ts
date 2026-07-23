@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
  *
  * @summary lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
- * x-ms-original-file: 2025-09-16-preview/machine/Machines_ListByResourceGroup.json
+ * x-ms-original-file: 2026-06-16-preview/machine/Machines_ListByResourceGroup.json
  */
 async function listMachinesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.machines.listByResourceGroup("myResourceGroup")) {

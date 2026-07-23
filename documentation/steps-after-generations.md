@@ -9,7 +9,7 @@ After this finishes, you will see the generated code in `src` folder in your **{
 
 ```shell
 pnpm install
-pnpm turbo build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>... --token 1
 ```
 
 # Customizing the generated code
@@ -49,8 +49,8 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
 
     Also, you could refer to the below examples for more cases:
-    - RLC example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
-    - DPG example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - RLC example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - DPG example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
     - MPG example: [Containerservice Fleet Testing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/test/public/)
 
 2. **Run the test**
@@ -60,14 +60,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm turbo build --filter=${PACKAGE_NAME}...
+      pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm turbo build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -193,8 +193,8 @@ allow-list.
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-pnpm update
-pnpm turbo build --filter=<your-package-name>...
+pnpm install
+pnpm turbo build --filter=<your-package-name>... --token 1
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test
 pnpm pack

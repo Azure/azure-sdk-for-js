@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+`proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+
 ## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
