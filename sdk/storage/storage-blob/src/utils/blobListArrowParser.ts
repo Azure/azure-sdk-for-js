@@ -52,9 +52,7 @@ export async function parseBlobListArrowResponse(response: {
  *
  * @param bytes - The Apache Arrow IPC stream bytes.
  */
-async function parseBlobListArrowBytes(
-  bytes: Uint8Array,
-): Promise<ParsedBlobListArrowSegment> {
+async function parseBlobListArrowBytes(bytes: Uint8Array): Promise<ParsedBlobListArrowSegment> {
   // Load apache-arrow lazily so the (sizable) dependency is only pulled in when a
   // caller actually opts into the Apache Arrow response format. This keeps the
   // default XML path and browser bundles lean.
@@ -104,7 +102,10 @@ async function parseBlobListArrowBytes(
       accessTier: reader.string(i, "AccessTier") as BlobPropertiesInternal["accessTier"],
       accessTierInferred: reader.boolean(i, "AccessTierInferred"),
       archiveStatus: reader.string(i, "ArchiveStatus") as BlobPropertiesInternal["archiveStatus"],
-      smartAccessTier: reader.string(i, "SmartAccessTier") as BlobPropertiesInternal["smartAccessTier"],
+      smartAccessTier: reader.string(
+        i,
+        "SmartAccessTier",
+      ) as BlobPropertiesInternal["smartAccessTier"],
       customerProvidedKeySha256: reader.string(i, "CustomerProvidedKeySha256"),
       encryptionScope: reader.string(i, "EncryptionScope"),
       accessTierChangedOn: reader.date(i, "AccessTierChangeTime"),
