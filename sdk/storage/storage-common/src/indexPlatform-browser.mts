@@ -10,6 +10,7 @@ export * from "./StorageCRC64Calculator.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
 export type * from "#platform/interfaces";
 export * from "./StorageResponseFormat.js";
+export * from "./ArrowTableReader.js";
 
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";

@@ -6,6 +6,7 @@
 
 - add `storageRedirectRangeHeaderPolicy`
 - Added the `StorageResponseFormat` enum (`Auto`, `Xml`, `Arrow`), re-exported by `@azure/storage-blob` to opt into the Apache Arrow response format when listing blobs.
+- Added `ArrowTableReader`, a format-agnostic reader over a decoded Apache Arrow table (typed cell accessors plus schema metadata), shared by the Storage client libraries that parse Apache Arrow list responses.
 
 ### Breaking Changes
 
