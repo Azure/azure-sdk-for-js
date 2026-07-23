@@ -61,7 +61,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     return name;
   }
 
-  it("listBlobsFlat returns all blobs", async () => {
+  it("listBlobsFlat should return all blobs", async () => {
     const names: string[] = [];
     for (let i = 0; i < 3; i++) {
       names.push(await createBlockBlob(getRecorderUniqueVariable(recorder, `blob${i}`)));
@@ -77,7 +77,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.sameMembers(found, names);
   });
 
-  it("listBlobsFlat parses blob properties", async () => {
+  it("listBlobsFlat should parse blob properties", async () => {
     const content = "hello world";
     const name = await createBlockBlob(getRecorderUniqueVariable(recorder, "blob"), content);
 
@@ -110,7 +110,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.isBelow(blob.properties.lastModified.getFullYear(), 2100);
   });
 
-  it("listBlobsFlat with includeMetadata returns metadata", async () => {
+  it("listBlobsFlat with includeMetadata should return metadata", async () => {
     const metadata = { keya: "a", keyb: "b" };
     const name = await createBlockBlob(getRecorderUniqueVariable(recorder, "blob"), "hello", {
       metadata,
@@ -128,7 +128,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.deepStrictEqual(blob!.metadata, metadata);
   });
 
-  it("listBlobsFlat with includeTags returns tags", async () => {
+  it("listBlobsFlat with includeTags should return tags", async () => {
     const tags: Tags = { tag1: "value1", tag2: "value2" };
     const name = await createBlockBlob(getRecorderUniqueVariable(recorder, "blob"), "hello", {
       tags,
@@ -147,7 +147,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.strictEqual(blob!.properties.tagCount, 2);
   });
 
-  it("listBlobsFlat pages results with maxPageSize", async () => {
+  it("listBlobsFlat should page results with maxPageSize", async () => {
     const names: string[] = [];
     for (let i = 0; i < 4; i++) {
       names.push(await createBlockBlob(getRecorderUniqueVariable(recorder, `blob${i}`)));
@@ -169,7 +169,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.sameMembers(found, names);
   });
 
-  it("listBlobsFlat with prefix filters results", async () => {
+  it("listBlobsFlat with prefix should filter results", async () => {
     await createBlockBlob("foo/a");
     await createBlockBlob("foo/b");
     await createBlockBlob("bar/c");
@@ -185,7 +185,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.deepStrictEqual(found.sort(), ["foo/a", "foo/b"]);
   });
 
-  it("listBlobsFlat with special characters in blob name", async () => {
+  it("listBlobsFlat should list with special characters in blob name", async () => {
     const name = "dir1/dir2/file\uFFFF.blob";
     await createBlockBlob(name);
 
@@ -196,7 +196,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.strictEqual(result.value.name, name);
   });
 
-  it("listBlobsFlat with snapshots", async () => {
+  it("listBlobsFlat should list with snapshots", async () => {
     const name = getRecorderUniqueVariable(recorder, "blob");
     const blockBlobClient = containerClient.getBlockBlobClient(name);
     await blockBlobClient.upload("hello", 5);
@@ -214,7 +214,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.include(snapshots, snapshotResponse.snapshot!);
   });
 
-  it("listBlobsFlat with uncommitted blobs", async () => {
+  it("listBlobsFlat should list with uncommitted blobs", async () => {
     const name = getRecorderUniqueVariable(recorder, "blob");
     const blockBlobClient = containerClient.getBlockBlobClient(name);
     await blockBlobClient.stageBlock(base64encode("1"), "hello", 5);
@@ -229,7 +229,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.include(found, name);
   });
 
-  it("listBlobsFlat with startFrom returns blobs from the marker inclusive", async () => {
+  it("listBlobsFlat with startFrom should return blobs from the marker inclusive", async () => {
     // Names sort lexicographically as aaa < bbb < ccc.
     await createBlockBlob("aaa");
     await createBlockBlob("bbb");
@@ -245,7 +245,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.deepStrictEqual(found, ["bbb", "ccc"]);
   });
 
-  it("listBlobsFlat with endBefore ends the listing before the marker (Apache Arrow only)", async () => {
+  it("listBlobsFlat with endBefore should end the listing before the marker (Apache Arrow only)", async () => {
     await createBlockBlob("aaa");
     await createBlockBlob("bbb");
     await createBlockBlob("ccc");
@@ -260,7 +260,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.deepStrictEqual(found, ["aaa", "bbb"]);
   });
 
-  it("listBlobsFlat with startFrom and endBefore bounds the listing on both ends (Apache Arrow only)", async () => {
+  it("listBlobsFlat with startFrom and endBefore should bound the listing on both ends (Apache Arrow only)", async () => {
     await createBlockBlob("aaa");
     await createBlockBlob("bbb");
     await createBlockBlob("ccc");
@@ -277,7 +277,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.deepStrictEqual(found, ["bbb", "ccc"]);
   });
 
-  it("listBlobsFlat surfaces service errors", async () => {
+  it("listBlobsFlat should surface service errors", async () => {
     const missingContainer = blobServiceClient.getContainerClient(
       recorder.variable("missing", getUniqueName("missing")),
     );
@@ -290,7 +290,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     }
   });
 
-  it("listBlobsByHierarchy returns prefixes and blobs", async () => {
+  it("listBlobsByHierarchy should return prefixes and blobs", async () => {
     await createBlockBlob("root.txt");
     await createBlockBlob("folder1/a.txt");
     await createBlockBlob("folder1/b.txt");
@@ -312,7 +312,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.sameMembers(prefixes, ["folder1/", "folder2/"]);
   });
 
-  it("listBlobsByHierarchy pages results with maxPageSize", async () => {
+  it("listBlobsByHierarchy should page results with maxPageSize", async () => {
     await createBlockBlob("folder1/a.txt");
     await createBlockBlob("folder2/b.txt");
     await createBlockBlob("folder3/c.txt");
@@ -334,7 +334,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.isAtLeast(pages, 2);
   });
 
-  it("listBlobsFlat preserves whitespace in blob names", async () => {
+  it("listBlobsFlat should preserve whitespace in blob names", async () => {
     const names = ["  leading", "trailing  ", "  surrounded  "];
     for (const name of names) {
       await createBlockBlob(name);
@@ -349,7 +349,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.sameMembers(found, names);
   });
 
-  it("listBlobsFlat with versions", async () => {
+  it("listBlobsFlat should list with versions", async () => {
     const name = getRecorderUniqueVariable(recorder, "blob");
     const blockBlobClient = containerClient.getBlockBlobClient(name);
     const createResponse = await blockBlobClient.upload("hello", 5);
@@ -376,7 +376,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.isTrue(sawCurrentVersion);
   });
 
-  it("listBlobsFlat with soft-deleted blobs", async (ctx) => {
+  it("listBlobsFlat should list with soft-deleted blobs", async (ctx) => {
     let softDeleteServiceClient: BlobServiceClient;
     try {
       softDeleteServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");

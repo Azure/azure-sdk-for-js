@@ -4,7 +4,7 @@
 import * as zlib from "zlib";
 
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
-import { AnonymousCredential } from "@azure/storage-common";
+import { AnonymousCredential, StorageCRC64Calculator } from "@azure/storage-common";
 import {
   SimpleTokenCredential,
   base64encode,
@@ -367,6 +367,31 @@ describe("MD5/CRC64 combined return", () => {
     });
     assert.isDefined(result.contentMD5);
     assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("stageBlock should return CRC64 but not MD5 when only a CRC64 is provided", async () => {
+    await StorageCRC64Calculator.init();
+    const crc64Calculator = new StorageCRC64Calculator();
+    const buffer = Buffer.from(content);
+    crc64Calculator.append(buffer, buffer.length);
+    const transactionalContentCrc64 = crc64Calculator.final(new Uint8Array([]), 0);
+
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const result = await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
+      contentChecksumAlgorithm: "Customized",
+      transactionalContentCrc64,
+    });
+    // The service echoes Content-MD5 only when the caller supplies one; CRC64 is always returned.
+    assert.isDefined(result.xMsContentCrc64);
+    assert.isUndefined(result.contentMD5);
+  });
+
+  it("stageBlock should return CRC64 but not MD5 when no checksum is provided", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const result = await blockBlobClient.stageBlock(base64encode("1"), content, content.length);
+    // The service echoes Content-MD5 only when the caller supplies one; CRC64 is always returned.
+    assert.isDefined(result.xMsContentCrc64);
+    assert.isUndefined(result.contentMD5);
   });
 
   it("appendBlock returns CRC64 when a Content-MD5 is provided", async () => {
