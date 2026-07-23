@@ -10,6 +10,7 @@ import type {
   FeatureFlagClientOptions,
   GetFeatureFlagOptions,
   ListFeatureFlagRevisionsOptions,
+  ListFeatureFlagRevisionsPage,
   ListFeatureFlagsOptions,
   ListFeatureFlagPage,
   ListLabelsOptions,
@@ -26,6 +27,7 @@ import type { AppConfigurationContext } from "./generated/api/appConfigurationCo
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import { listLabels } from "./internal/listLabels.js";
 import { listFeatureFlags } from "./internal/listFeatureFlags.js";
+import { listFeatureFlagRevisions } from "./internal/listFeatureFlagRevisions.js";
 import { tracingClient } from "./internal/tracing.js";
 
 /**
@@ -262,19 +264,19 @@ export class FeatureFlagClient {
    */
   listFeatureFlagRevisions(
     options: ListFeatureFlagRevisionsOptions = {},
-  ): PagedAsyncIterableIterator<FeatureFlag> {
+  ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings> {
     const { nameFilter, labelFilter, tagsFilter, fields, ...restOptions } = options;
-    return this.client.featureFlagClient.getFeatureFlagRevisions({
-      ...restOptions,
-      name: nameFilter,
-      label: labelFilter,
-      tags: tagsFilter,
-      select: fields,
-      requestOptions: {
-        ...restOptions.requestOptions,
-        skipUrlEncoding: true,
+    return listFeatureFlagRevisions(
+      this._context,
+      "FeatureFlagClient.listFeatureFlagRevisions",
+      {
+        name: nameFilter,
+        label: labelFilter,
+        tags: tagsFilter,
+        select: fields,
       },
-    });
+      restOptions,
+    );
   }
 
   /**

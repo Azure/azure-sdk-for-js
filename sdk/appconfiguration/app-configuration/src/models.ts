@@ -6,7 +6,7 @@ import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
-import type { FeatureFlagFields } from "./generated/models/index.js";
+import type { FeatureFlag, FeatureFlagFields } from "./generated/models/index.js";
 
 export type {
   FeatureFlag,
@@ -599,6 +599,17 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
 
   /** Which fields to return for each feature flag. */
   fields?: FeatureFlagFields[];
+}
+
+/**
+ * A page of feature flag revisions and the corresponding HTTP response
+ */
+export interface ListFeatureFlagRevisionsPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+  /**
+   * The feature flag revisions for this page of results.
+   */
+  items: FeatureFlag[];
 }
 
 /**

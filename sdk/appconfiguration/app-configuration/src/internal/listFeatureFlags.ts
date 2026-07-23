@@ -58,7 +58,7 @@ export function listFeatureFlags(
             },
           });
           const parsed = await _getFeatureFlagsDeserialize(rawResponse);
-          return Object.assign(parsed, { _response: rawResponse });
+          return Object.assign(parsed, { _response: rawResponse as any });
         });
         const currentResponse: ListFeatureFlagPage = {
           ...response,

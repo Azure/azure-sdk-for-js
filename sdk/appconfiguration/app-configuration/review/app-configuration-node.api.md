@@ -172,14 +172,18 @@ export interface FeatureFlagAllocation {
 
 // @public
 export class FeatureFlagClient {
-    constructor(connectionString: string, options?: AppConfigurationClientOptions);
-    constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
+    constructor(connectionString: string, options?: FeatureFlagClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
     deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
     getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
-    listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag>;
+    listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
+}
+
+// @public
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {
 }
 
 // @public
@@ -355,6 +359,11 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
     labelFilter?: string;
     nameFilter?: string;
     tagsFilter?: string[];
+}
+
+// @public
+export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+    items: FeatureFlag[];
 }
 
 // @public
