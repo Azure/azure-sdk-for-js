@@ -65,6 +65,11 @@ describe("http request related tests", () => {
           splitAndSort(syncTokens.getSyncTokenHeaderValue()),
         );
 
+        // multiple tokens with spaces after commas (as HTTP may join duplicate headers)
+        syncTokens.addSyncTokenFromHeaderValue(undefined); // reset
+        syncTokens.addSyncTokenFromHeaderValue("x=val1;sn=1, y=val2;sn=2");
+        assert.equal(splitAndSort(syncTokens.getSyncTokenHeaderValue()), "x=val1,y=val2");
+
         // and if we get back undefined (ie, the header wasn't there) then it
         // resets the entire thing
         // (sync tokens are temporary in nature and expire as things are committed
@@ -230,6 +235,60 @@ describe("http request related tests", () => {
 
       await iterator.next();
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "listRevisions=value");
+    });
+
+    it("handles multiple sync tokens in a single response header", async () => {
+      let capturedSyncTokenHeader: string | undefined;
+      let callCount = 0;
+
+      client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
+        callCount++;
+        if (callCount === 1) {
+          return {
+            headers: createHttpHeaders({
+              "sync-token": "tokenA=valueA;sn=1,tokenB=valueB;sn=2,tokenC=valueC;sn=3",
+            }),
+            status: 200,
+            request,
+          };
+        }
+        capturedSyncTokenHeader = request.headers.get("sync-token");
+        return {
+          headers: createHttpHeaders(),
+          status: 200,
+          request,
+        };
+      });
+
+      await client.setConfigurationSetting({ key: "key1" });
+
+      const headerValue = syncTokens.getSyncTokenHeaderValue()!;
+      const tokens = headerValue.split(",").sort();
+      assert.equal(tokens.length, 3);
+      assert.deepEqual(tokens, ["tokenA=valueA", "tokenB=valueB", "tokenC=valueC"]);
+
+      await client.getConfigurationSetting({ key: "key2" });
+      const sentTokens = capturedSyncTokenHeader!.split(",").sort();
+      assert.deepEqual(sentTokens, ["tokenA=valueA", "tokenB=valueB", "tokenC=valueC"]);
+    });
+
+    it("handles sync tokens with spaces after commas (HTTP joined headers)", async () => {
+      client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
+        return {
+          headers: createHttpHeaders({
+            "sync-token": "tokenA=valueA;sn=1, tokenB=valueB;sn=2",
+          }),
+          status: 200,
+          request,
+        };
+      });
+
+      await client.setConfigurationSetting({ key: "key1" });
+
+      const headerValue = syncTokens.getSyncTokenHeaderValue()!;
+      const tokens = headerValue.split(",").sort();
+      assert.equal(tokens.length, 2);
+      assert.deepEqual(tokens, ["tokenA=valueA", "tokenB=valueB"]);
     });
 
     it("setReadOnly (clear and set)", async () => {
