@@ -676,6 +676,34 @@ function isApacheArrow(contentType: string | undefined): boolean {
 }
 
 /**
+ * Attaches the response metadata common to every List Blobs segment response - the
+ * request IDs, service version, date, content-type, and the retained `_response` kept
+ * only for headers/status - so the flat/hierarchy and Apache Arrow/XML paths don't each
+ * repeat it. The raw stream body has already been consumed by the caller.
+ */
+function withListSegmentResponseMetadata<T>(
+  base: Omit<T, "clientRequestId" | "requestId" | "version" | "date" | "contentType" | "_response">,
+  rawResponse: {
+    clientRequestId?: string;
+    requestId?: string;
+    version?: string;
+    date?: Date;
+    contentType?: string;
+    _response: unknown;
+  },
+): T {
+  return {
+    ...base,
+    clientRequestId: rawResponse.clientRequestId,
+    requestId: rawResponse.requestId,
+    version: rawResponse.version,
+    date: rawResponse.date,
+    contentType: rawResponse.contentType,
+    _response: rawResponse._response,
+  } as T;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  */
 export class ContainerClient extends StorageClient {
@@ -1417,46 +1445,34 @@ export class ContainerClient extends StorageClient {
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
       const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
-      const xmlWrappedResponse: ContainerListBlobFlatSegmentResponse = {
-        ...internalResponse,
-        clientRequestId: rawResponse.clientRequestId,
-        requestId: rawResponse.requestId,
-        version: rawResponse.version,
-        date: rawResponse.date,
-        contentType: rawResponse.contentType,
-        // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
-        _response:
-          rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
-        segment: {
-          ...internalResponse.segment,
-          blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+      return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+        {
+          ...internalResponse,
+          segment: {
+            ...internalResponse.segment,
+            blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+          },
         },
-      };
-      return xmlWrappedResponse;
+        rawResponse,
+      );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
-    const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-      serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
-      containerName: this.containerName,
-      prefix: options.prefix,
-      marker,
-      maxPageSize: options.maxPageSize,
-      segment: {
-        blobItems: parsed.blobItems.map(mapBlobItemInternal),
+    return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+      {
+        serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        segment: {
+          blobItems: parsed.blobItems.map(mapBlobItemInternal),
+        },
+        continuationToken: parsed.nextMarker,
       },
-      continuationToken: parsed.nextMarker,
-      clientRequestId: rawResponse.clientRequestId,
-      requestId: rawResponse.requestId,
-      version: rawResponse.version,
-      date: rawResponse.date,
-      contentType: rawResponse.contentType,
-      // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
-      _response:
-        rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
-    };
-    return wrappedResponse;
+      rawResponse,
+    );
   }
 
   /**
@@ -1544,49 +1560,37 @@ export class ContainerClient extends StorageClient {
     // issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
       const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
-      const xmlWrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-        ...internalResponse,
-        clientRequestId: rawResponse.clientRequestId,
-        requestId: rawResponse.requestId,
-        version: rawResponse.version,
-        date: rawResponse.date,
-        contentType: rawResponse.contentType,
-        // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
-        _response:
-          rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
-        segment: {
-          ...internalResponse.segment,
-          blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
-          blobPrefixes: internalResponse.segment?.blobPrefixes?.map(mapBlobPrefixInternal),
+      return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+        {
+          ...internalResponse,
+          segment: {
+            ...internalResponse.segment,
+            blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+            blobPrefixes: internalResponse.segment?.blobPrefixes?.map(mapBlobPrefixInternal),
+          },
         },
-      };
-      return xmlWrappedResponse;
+        rawResponse,
+      );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
-    const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-      serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
-      containerName: this.containerName,
-      prefix: options.prefix,
-      marker,
-      maxPageSize: options.maxPageSize,
-      delimiter,
-      segment: {
-        blobItems: parsed.blobItems.map(mapBlobItemInternal),
-        blobPrefixes: parsed.blobPrefixes.map(mapBlobPrefixInternal),
+    return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+      {
+        serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        delimiter,
+        segment: {
+          blobItems: parsed.blobItems.map(mapBlobItemInternal),
+          blobPrefixes: parsed.blobPrefixes.map(mapBlobPrefixInternal),
+        },
+        continuationToken: parsed.nextMarker,
       },
-      continuationToken: parsed.nextMarker,
-      clientRequestId: rawResponse.clientRequestId,
-      requestId: rawResponse.requestId,
-      version: rawResponse.version,
-      date: rawResponse.date,
-      contentType: rawResponse.contentType,
-      // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
-      _response:
-        rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
-    };
-    return wrappedResponse;
+      rawResponse,
+    );
   }
 
   /**

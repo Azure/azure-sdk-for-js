@@ -52,7 +52,7 @@ export async function parseBlobListArrowResponse(response: {
  *
  * @param bytes - The Apache Arrow IPC stream bytes.
  */
-export async function parseBlobListArrowBytes(
+async function parseBlobListArrowBytes(
   bytes: Uint8Array,
 ): Promise<ParsedBlobListArrowSegment> {
   // Load apache-arrow lazily so the (sizable) dependency is only pulled in when a
