@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-policy",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "A generated SDK for PolicyClient.",
   "engines": {
     "node": ">=22.0.0"
