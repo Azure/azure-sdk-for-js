@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of the specified NGroups resource.
  *
  * @summary get the properties of the specified NGroups resource.
- * x-ms-original-file: 2026-06-01-preview/NGroupsGet.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsGet.json
  */
 async function nGroupsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

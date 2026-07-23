@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all NGroups resources under a resource group.
  *
  * @summary gets a list of all NGroups resources under a resource group.
- * x-ms-original-file: 2026-06-01-preview/NGroupsListByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/NGroupsListByResourceGroup.json
  */
 async function nGroupsListByResourceGroup() {
   const credential = new DefaultAzureCredential();

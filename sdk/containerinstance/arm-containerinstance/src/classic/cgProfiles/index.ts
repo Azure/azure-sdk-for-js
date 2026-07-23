@@ -22,7 +22,6 @@ export interface CGProfilesOperations {
     options?: CGProfilesListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<ContainerGroupProfile>;
 }
-
 function _getCGProfiles(context: ContainerInstanceManagementContext) {
   return {
     listByResourceGroup: (
@@ -33,7 +32,6 @@ function _getCGProfiles(context: ContainerInstanceManagementContext) {
       listBySubscription(context, options),
   };
 }
-
 export function _getCGProfilesOperations(
   context: ContainerInstanceManagementContext,
 ): CGProfilesOperations {
