@@ -46,6 +46,13 @@ describe("ContainerService test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
+    // The existing recording was captured against api-version=2026-04-02-preview.
+    // Map the current stable api-version to the recorded preview version so that
+    // playback can match the recorded request URI until the recording is refreshed.
+    await recorder.addSanitizers(
+      { uriSanitizers: [{ target: "api-version=2026-05-01", value: "api-version=2026-04-02-preview" }] },
+      ["playback"],
+    );
     subscriptionId = env.SUBSCRIPTION_ID || "";
     clientId = env.AZURE_CLIENT_ID || "";
     // This is an example of how the environment variables are used
