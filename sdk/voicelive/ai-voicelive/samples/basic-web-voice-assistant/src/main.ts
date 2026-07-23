@@ -219,7 +219,19 @@ class WebVoiceAssistantApp {
     const instructions = (document.getElementById('instructions') as HTMLTextAreaElement).value;
     const debugMode = (document.getElementById('debugMode') as HTMLInputElement).checked;
     const authMethodElement = document.querySelector('input[name="authMethod"]:checked') as HTMLInputElement;
-    const useTokenCredential = authMethodElement ? authMethodElement.value === 'token' : false;
+    const isVoiceAgentEndpoint = (() => {
+      try {
+        const url = new URL(endpoint);
+        return (
+          (url.protocol === 'ws:' || url.protocol === 'wss:') &&
+          url.pathname.endsWith('/endpoint/protocols/voice')
+        );
+      } catch {
+        return false;
+      }
+    })();
+    const useTokenCredential =
+      isVoiceAgentEndpoint || (authMethodElement ? authMethodElement.value === 'token' : false);
 
     if (!endpoint) {
       throw new Error('Endpoint is required');
