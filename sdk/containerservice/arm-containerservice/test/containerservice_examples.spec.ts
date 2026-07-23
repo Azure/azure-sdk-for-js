@@ -64,7 +64,7 @@ describe("ContainerService test", () => {
     await recorder.stop();
   });
 
-  it.skip("operation list test", async function () {
+  it("operation list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
