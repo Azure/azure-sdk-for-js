@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-06/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListGeneratedByMaximumSetRule() {
+async function operationsListMaximumSetGenExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -26,9 +26,9 @@ async function operationsListGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-06-06/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListGeneratedByMinimumSetRule() {
+async function operationsListMinimumGenExample() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -41,8 +41,8 @@ async function operationsListGeneratedByMinimumSetRule() {
 }
 
 async function main() {
-  await operationsListGeneratedByMaximumSetRule();
-  await operationsListGeneratedByMinimumSetRule();
+  await operationsListMaximumSetGenExample();
+  await operationsListMinimumGenExample();
 }
 
 main().catch(console.error);

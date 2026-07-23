@@ -1,4 +1,358 @@
 # Release History
+
+## 1.0.0-beta.2 (2026-07-23)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation group BulkCreateCustomOperations
+  - Added operation group LaunchBulkInstancesOperationOperations
+  - Added operation group OccurrenceExtensionOperations
+  - Added operation group OccurrencesOperations
+  - Added operation group ScheduledActionExtensionOperations
+  - Added operation group ScheduledActionOperationStatusOperations
+  - Added operation group ScheduledActionsOperations
+  - Added operation VirtualMachineBulkOperationsOperations.bulkAcknowledgeOperationErrors
+  - Added operation VirtualMachineBulkOperationsOperations.bulkCreateOperation
+  - Added operation VirtualMachineBulkOperationsOperations.bulkListOperationErrors
+  - Added operation VirtualMachineBulkOperationsOperations.bulkReimageOperation
+  - Added operation VirtualMachineBulkOperationsOperations.bulkVdiFlexCreateOperation
+  - Class ComputeClient has a new constructor "constructor(credential: TokenCredential, options?: ComputeClientOptionalParams);"
+  - Added Interface AcknowledgeBulkOperationErrorsRequest
+  - Added Interface AcknowledgeBulkOperationErrorsResponse
+  - Added Interface AdditionalCapabilities
+  - Added Interface AdditionalUnattendContent
+  - Added Interface AllInstancesDown
+  - Added Interface ApiEntityReference
+  - Added Interface ApiError
+  - Added Interface ApiErrorBase
+  - Added Interface ApplicationProfile
+  - Added Interface BootDiagnostics
+  - Added Interface BulkactionVMExtension
+  - Added Interface BulkActionVmExtensionProperties
+  - Added Interface BulkactionVMProperties
+  - Added Interface BulkCreateCustomCancelOptionalParams
+  - Added Interface BulkCreateCustomCreateOrUpdateOptionalParams
+  - Added Interface BulkCreateCustomDeleteOptionalParams
+  - Added Interface BulkCreateCustomGetAsyncOperationStatusOptionalParams
+  - Added Interface BulkCreateCustomGetOptionalParams
+  - Added Interface BulkCreateCustomListByResourceGroupOptionalParams
+  - Added Interface BulkCreateCustomListBySubscriptionOptionalParams
+  - Added Interface BulkCreateCustomOverride
+  - Added Interface BulkCreateCustomOverrideBase
+  - Added Interface BulkCreateCustomOverridesProfile
+  - Added Interface BulkCreateCustomPriorityProfile
+  - Added Interface BulkCreateCustomProperties
+  - Added Interface BulkCreateCustomVmSizeProfile
+  - Added Interface BulkCreateCustomZoneAllocationPolicy
+  - Added Interface BulkInstancesInnerError
+  - Added Interface CancelOccurrenceRequest
+  - Added Interface CapacityReservationProfile
+  - Added Interface ComputeProfile
+  - Added Interface CreateResourceOperationResponse
+  - Added Interface DataDisk
+  - Added Interface DelayRequest
+  - Added Interface DiagnosticsProfile
+  - Added Interface DiffDiskSettings
+  - Added Interface DiskEncryptionSetParametersContent
+  - Added Interface DiskEncryptionSettings
+  - Added Interface EncryptionIdentity
+  - Added Interface EventGridAndResourceGraph
+  - Added Interface ExecuteCreateContent
+  - Added Interface ExecuteReimageRequest
+  - Added Interface ExecuteVdiCreateRequest
+  - Added Interface ExtensionResource
+  - Added Interface FlexProperties
+  - Added Interface HardwareProfile
+  - Added Interface HostEndpointSettings
+  - Added Interface ImageReference
+  - Added Interface KeyVaultKeyReference
+  - Added Interface KeyVaultSecretReference
+  - Added Interface LaunchBulkInstancesOperationCancelOptionalParams
+  - Added Interface LaunchBulkInstancesOperationCreateOrUpdateOptionalParams
+  - Added Interface LaunchBulkInstancesOperationDeleteOptionalParams
+  - Added Interface LaunchBulkInstancesOperationGetOperationStatusOptionalParams
+  - Added Interface LaunchBulkInstancesOperationGetOptionalParams
+  - Added Interface LaunchBulkInstancesOperationListByResourceGroupOptionalParams
+  - Added Interface LaunchBulkInstancesOperationListBySubscriptionOptionalParams
+  - Added Interface LaunchBulkInstancesOperationListVirtualMachinesOptionalParams
+  - Added Interface LaunchBulkInstancesOperationProperties
+  - Added Interface LinuxConfiguration
+  - Added Interface LinuxPatchSettings
+  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface LocationBasedBulkCreateCustom
+  - Added Interface LocationBasedLaunchBulkInstancesOperation
+  - Added Interface ManagedDiskParametersContent
+  - Added Interface ManagedServiceIdentity
+  - Added Interface NetworkInterfaceReference
+  - Added Interface NetworkInterfaceReferenceProperties
+  - Added Interface NetworkProfile
+  - Added Interface NotificationProperties
+  - Added Interface Occurrence
+  - Added Interface OccurrenceExtensionListOccurrenceByVmsOptionalParams
+  - Added Interface OccurrenceExtensionProperties
+  - Added Interface OccurrenceExtensionResource
+  - Added Interface OccurrenceProperties
+  - Added Interface OccurrenceResource
+  - Added Interface OccurrenceResultSummary
+  - Added Interface OccurrencesCancelOptionalParams
+  - Added Interface OccurrencesDelayOptionalParams
+  - Added Interface OccurrencesGetOptionalParams
+  - Added Interface OccurrencesListByScheduledActionOptionalParams
+  - Added Interface OccurrencesListResourcesOptionalParams
+  - Added Interface OperationStatusResult
+  - Added Interface OSDisk
+  - Added Interface OSImageNotificationProfile
+  - Added Interface OSProfile
+  - Added Interface OSProfileProvisioningData
+  - Added Interface PatchSettings
+  - Added Interface Plan
+  - Added Interface PriorityProfile
+  - Added Interface ProxyAgentSettings
+  - Added Interface ProxyResource
+  - Added Interface PublicIPAddressSku
+  - Added Interface RecurringScheduledActionsExecutionParameters
+  - Added Interface RecurringScheduledActionsRetryPolicy
+  - Added Interface ReimagePayload
+  - Added Interface ReimageResourceOperationResponse
+  - Added Interface ReimageResourceOverride
+  - Added Interface Resource
+  - Added Interface ResourceAttachRequest
+  - Added Interface ResourceDetachRequest
+  - Added Interface ResourceNotificationDetails
+  - Added Interface ResourceOperationResponse
+  - Added Interface ResourcePatchRequest
+  - Added Interface ResourceProvisionPayload
+  - Added Interface ResourceProvisionVdiPayload
+  - Added Interface ResourceResultSummary
+  - Added Interface ResourceStatus
+  - Added Interface ResourcesWithContext
+  - Added Interface ResourceWithContext
+  - Added Interface RestorePollerOptions
+  - Added Interface ScheduledAction
+  - Added Interface ScheduledActionExtensionListByVmsOptionalParams
+  - Added Interface ScheduledActionOperationStatusGetOptionalParams
+  - Added Interface ScheduledActionProperties
+  - Added Interface ScheduledActionResource
+  - Added Interface ScheduledActionResourceInput
+  - Added Interface ScheduledActionResources
+  - Added Interface ScheduledActionsAttachResourcesOptionalParams
+  - Added Interface ScheduledActionsCancelNextOccurrenceOptionalParams
+  - Added Interface ScheduledActionsCreateOrUpdateOptionalParams
+  - Added Interface ScheduledActionsDeleteOptionalParams
+  - Added Interface ScheduledActionsDetachResourcesOptionalParams
+  - Added Interface ScheduledActionsDisableOptionalParams
+  - Added Interface ScheduledActionsEnableOptionalParams
+  - Added Interface ScheduledActionsExtensionProperties
+  - Added Interface ScheduledActionsGetOptionalParams
+  - Added Interface ScheduledActionsListByResourceGroupOptionalParams
+  - Added Interface ScheduledActionsListBySubscriptionOptionalParams
+  - Added Interface ScheduledActionsListResourcesOptionalParams
+  - Added Interface ScheduledActionsPatchResourcesOptionalParams
+  - Added Interface ScheduledActionsSchedule
+  - Added Interface ScheduledActionsScheduleUpdate
+  - Added Interface ScheduledActionsTriggerManualOccurrenceOptionalParams
+  - Added Interface ScheduledActionsUpdateOptionalParams
+  - Added Interface ScheduledActionUpdate
+  - Added Interface ScheduledActionUpdateProperties
+  - Added Interface ScheduledEventsAdditionalPublishingTargets
+  - Added Interface ScheduledEventsPolicy
+  - Added Interface ScheduledEventsProfile
+  - Added Interface SecurityProfile
+  - Added Interface SshConfiguration
+  - Added Interface SshPublicKey
+  - Added Interface StorageProfile
+  - Added Interface SubResource
+  - Added Interface SystemData
+  - Added Interface TerminateNotificationProfile
+  - Added Interface TrackedResource
+  - Added Interface UefiSettings
+  - Added Interface UserAssignedIdentitiesValue
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserInitiatedReboot
+  - Added Interface UserInitiatedRedeploy
+  - Added Interface VaultCertificate
+  - Added Interface VaultSecretGroup
+  - Added Interface VirtualHardDisk
+  - Added Interface VirtualMachine
+  - Added Interface VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams
+  - Added Interface VirtualMachineBulkOperationsBulkCreateOperationOptionalParams
+  - Added Interface VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams
+  - Added Interface VirtualMachineBulkOperationsBulkReimageOperationOptionalParams
+  - Added Interface VirtualMachineBulkOperationsBulkVdiFlexCreateOperationOptionalParams
+  - Added Interface VirtualMachineIdentity
+  - Added Interface VirtualMachineInfo
+  - Added Interface VirtualMachineIpTag
+  - Added Interface VirtualMachineNetworkInterfaceConfiguration
+  - Added Interface VirtualMachineNetworkInterfaceConfigurationProperties
+  - Added Interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+  - Added Interface VirtualMachineNetworkInterfaceIPConfiguration
+  - Added Interface VirtualMachineNetworkInterfaceIPConfigurationProperties
+  - Added Interface VirtualMachinePublicIPAddressConfiguration
+  - Added Interface VirtualMachinePublicIPAddressConfigurationProperties
+  - Added Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration
+  - Added Interface VirtualMachineReimageParameters
+  - Added Interface VMAttributeMinMaxDouble
+  - Added Interface VMAttributeMinMaxInteger
+  - Added Interface VMAttributes
+  - Added Interface VMDiskSecurityProfile
+  - Added Interface VMGalleryApplication
+  - Added Interface VmSizeProfile
+  - Added Interface VmSizeProperties
+  - Added Interface WindowsConfiguration
+  - Added Interface WindowsVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface WinRMConfiguration
+  - Added Interface WinRMListener
+  - Added Interface ZoneAllocationPolicy
+  - Added Interface ZonePreference
+  - Interface ExecuteDeallocateContent has a new optional parameter resourcesWithContext
+  - Interface ExecuteDeleteContent has a new optional parameter resourcesWithContext
+  - Interface ExecuteHibernateContent has a new optional parameter resourcesWithContext
+  - Interface ExecuteStartContent has a new optional parameter resourcesWithContext
+  - Interface ExecutionParameters has a new optional parameter optimizationPreference
+  - Interface ExecutionParameters has a new optional parameter verifyVmAgentHealth
+  - Interface ResourceOperation has a new optional parameter virtualMachineInfo
+  - Interface ResourceOperationDetails has a new optional parameter resourceNotificationDetails
+  - Added Type Alias AcceleratorManufacturer
+  - Added Type Alias AcceleratorType
+  - Added Type Alias AllocationStrategy
+  - Added Type Alias ArchitectureType
+  - Added Type Alias BulkCreateCustomAllocationStrategy
+  - Added Type Alias BulkCreateCustomDistributionStrategy
+  - Added Type Alias CachingTypes
+  - Added Type Alias CapacityType
+  - Added Type Alias CpuManufacturer
+  - Added Type Alias CreatedByType
+  - Added Type Alias DeleteOptions
+  - Added Type Alias DiffDiskOptions
+  - Added Type Alias DiffDiskPlacement
+  - Added Type Alias DiskControllerTypes
+  - Added Type Alias DiskCreateOptionTypes
+  - Added Type Alias DiskDeleteOptionTypes
+  - Added Type Alias DiskDetachOptionTypes
+  - Added Type Alias DistributionStrategy
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias EvictionPolicy
+  - Added Type Alias HyperVGeneration
+  - Added Type Alias IPVersions
+  - Added Type Alias Language
+  - Added Type Alias LinuxPatchAssessmentMode
+  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias LinuxVMGuestPatchMode
+  - Added Type Alias LocalStorageDiskType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias Mode
+  - Added Type Alias Modes
+  - Added Type Alias Month
+  - Added Type Alias NetworkApiVersion
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Added Type Alias NotificationType
+  - Added Type Alias OccurrenceState
+  - Added Type Alias OperatingSystemTypes
+  - Added Type Alias OptimizationPreference
+  - Added Type Alias OsType
+  - Added Type Alias PriorityType
+  - Added Type Alias ProtocolTypes
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicIPAddressSkuName
+  - Added Type Alias PublicIPAddressSkuTier
+  - Added Type Alias PublicIPAllocationMethod
+  - Added Type Alias RecurringScheduledActionsDeadlineType
+  - Added Type Alias RecurringScheduledActionsProvisioningState
+  - Added Type Alias RecurringScheduledActionsResourceOperationType
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias ResourceOperationStatus
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias ResourceType
+  - Added Type Alias ScheduledActionType
+  - Added Type Alias SecurityEncryptionTypes
+  - Added Type Alias SecurityTypes
+  - Added Type Alias SettingNames
+  - Added Type Alias StorageAccountTypes
+  - Added Type Alias VMAttributeSupport
+  - Added Type Alias VMCategory
+  - Added Type Alias VMOperationStatus
+  - Added Type Alias WeekDay
+  - Added Type Alias WindowsPatchAssessmentMode
+  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias WindowsVMGuestPatchMode
+  - Added Enum KnownAcceleratorManufacturer
+  - Added Enum KnownAcceleratorType
+  - Added Enum KnownAllocationStrategy
+  - Added Enum KnownArchitectureType
+  - Added Enum KnownBulkCreateCustomAllocationStrategy
+  - Added Enum KnownBulkCreateCustomDistributionStrategy
+  - Added Enum KnownCachingTypes
+  - Added Enum KnownCapacityType
+  - Added Enum KnownCpuManufacturer
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDeleteOptions
+  - Added Enum KnownDiffDiskOptions
+  - Added Enum KnownDiffDiskPlacement
+  - Added Enum KnownDiskControllerTypes
+  - Added Enum KnownDiskCreateOptionTypes
+  - Added Enum KnownDiskDeleteOptionTypes
+  - Added Enum KnownDiskDetachOptionTypes
+  - Added Enum KnownDistributionStrategy
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownEvictionPolicy
+  - Added Enum KnownHyperVGeneration
+  - Added Enum KnownIPVersions
+  - Added Enum KnownLanguage
+  - Added Enum KnownLinuxPatchAssessmentMode
+  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownLinuxVMGuestPatchMode
+  - Added Enum KnownLocalStorageDiskType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMode
+  - Added Enum KnownModes
+  - Added Enum KnownMonth
+  - Added Enum KnownNetworkApiVersion
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Added Enum KnownNotificationType
+  - Added Enum KnownOccurrenceState
+  - Added Enum KnownOperatingSystemTypes
+  - Added Enum KnownOptimizationPreference
+  - Added Enum KnownOsType
+  - Added Enum KnownPriorityType
+  - Added Enum KnownProtocolTypes
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicIPAddressSkuName
+  - Added Enum KnownPublicIPAddressSkuTier
+  - Added Enum KnownPublicIPAllocationMethod
+  - Added Enum KnownRecurringScheduledActionsDeadlineType
+  - Added Enum KnownRecurringScheduledActionsProvisioningState
+  - Added Enum KnownRecurringScheduledActionsResourceOperationType
+  - Added Enum KnownResourceOperationStatus
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownResourceType
+  - Added Enum KnownScheduledActionType
+  - Added Enum KnownSecurityEncryptionTypes
+  - Added Enum KnownSecurityTypes
+  - Added Enum KnownSettingNames
+  - Added Enum KnownStorageAccountTypes
+  - Added Enum KnownVMAttributeSupport
+  - Added Enum KnownVMCategory
+  - Added Enum KnownVMOperationStatus
+  - Added Enum KnownWeekDay
+  - Added Enum KnownWindowsPatchAssessmentMode
+  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownWindowsVMGuestPatchMode
+  - Enum KnownResourceOperationType has a new value GetInstanceView
+  - Enum KnownVersions has a new value V20260406Preview
+  - Enum KnownVersions has a new value V20260706Preview
+
+### Breaking Changes
+  - Operation VirtualMachineBulkOperationsOperations.bulkDeallocateOperation has a new signature
+  - Operation VirtualMachineBulkOperationsOperations.bulkDeleteOperation has a new signature
+  - Operation VirtualMachineBulkOperationsOperations.bulkHibernateOperation has a new signature
+  - Operation VirtualMachineBulkOperationsOperations.bulkStartOperation has a new signature
+  - Parameter resources of interface ExecuteDeallocateContent is now optional
+  - Parameter resources of interface ExecuteDeleteContent is now optional
+  - Parameter resources of interface ExecuteHibernateContent is now optional
+  - Parameter resources of interface ExecuteStartContent is now optional
+
     
 ## 1.0.0-beta.1 (2026-06-29)
 
