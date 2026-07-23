@@ -1,4 +1,4 @@
-# @azure/arm-connectedcache client library samples for JavaScript (Beta)
+# @azure/arm-connectedcache client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-connectedcache in some common scenarios.
 
@@ -74,37 +74,37 @@ node enterpriseMccCacheNodesOperationsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[enterprisemcccachenodesoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsCreateOrUpdateSample.js
-[enterprisemcccachenodesoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsDeleteSample.js
-[enterprisemcccachenodesoperationsgetcachenodeautoupdatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistorySample.js
-[enterprisemcccachenodesoperationsgetcachenodeinstalldetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsSample.js
-[enterprisemcccachenodesoperationsgetcachenodemccissuedetailshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistorySample.js
-[enterprisemcccachenodesoperationsgetcachenodetlscertificatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistorySample.js
-[enterprisemcccachenodesoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsGetSample.js
-[enterprisemcccachenodesoperationslistbyenterprisemcccustomerresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceSample.js
-[enterprisemcccachenodesoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCacheNodesOperationsUpdateSample.js
-[enterprisemcccustomerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersCreateOrUpdateSample.js
-[enterprisemcccustomersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersDeleteSample.js
-[enterprisemcccustomersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersGetSample.js
-[enterprisemcccustomerslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersListByResourceGroupSample.js
-[enterprisemcccustomerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersListBySubscriptionSample.js
-[enterprisemcccustomersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/enterpriseMccCustomersUpdateSample.js
-[ispcachenodesoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsCreateOrUpdateSample.js
-[ispcachenodesoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsDeleteSample.js
-[ispcachenodesoperationsgetbgpcidrssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsGetBgpCidrsSample.js
-[ispcachenodesoperationsgetcachenodeautoupdatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsGetCacheNodeAutoUpdateHistorySample.js
-[ispcachenodesoperationsgetcachenodeinstalldetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsGetCacheNodeInstallDetailsSample.js
-[ispcachenodesoperationsgetcachenodemccissuedetailshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsGetCacheNodeMccIssueDetailsHistorySample.js
-[ispcachenodesoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsGetSample.js
-[ispcachenodesoperationslistbyispcustomerresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsListByIspCustomerResourceSample.js
-[ispcachenodesoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCacheNodesOperationsUpdateSample.js
-[ispcustomerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersCreateOrUpdateSample.js
-[ispcustomersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersDeleteSample.js
-[ispcustomersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersGetSample.js
-[ispcustomerslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersListByResourceGroupSample.js
-[ispcustomerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersListBySubscriptionSample.js
-[ispcustomersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/ispCustomersUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
+[enterprisemcccachenodesoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsCreateOrUpdateSample.js
+[enterprisemcccachenodesoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsDeleteSample.js
+[enterprisemcccachenodesoperationsgetcachenodeautoupdatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistorySample.js
+[enterprisemcccachenodesoperationsgetcachenodeinstalldetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsSample.js
+[enterprisemcccachenodesoperationsgetcachenodemccissuedetailshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistorySample.js
+[enterprisemcccachenodesoperationsgetcachenodetlscertificatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistorySample.js
+[enterprisemcccachenodesoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsGetSample.js
+[enterprisemcccachenodesoperationslistbyenterprisemcccustomerresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceSample.js
+[enterprisemcccachenodesoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCacheNodesOperationsUpdateSample.js
+[enterprisemcccustomerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersCreateOrUpdateSample.js
+[enterprisemcccustomersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersDeleteSample.js
+[enterprisemcccustomersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersGetSample.js
+[enterprisemcccustomerslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersListByResourceGroupSample.js
+[enterprisemcccustomerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersListBySubscriptionSample.js
+[enterprisemcccustomersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/enterpriseMccCustomersUpdateSample.js
+[ispcachenodesoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsCreateOrUpdateSample.js
+[ispcachenodesoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsDeleteSample.js
+[ispcachenodesoperationsgetbgpcidrssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsGetBgpCidrsSample.js
+[ispcachenodesoperationsgetcachenodeautoupdatehistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsGetCacheNodeAutoUpdateHistorySample.js
+[ispcachenodesoperationsgetcachenodeinstalldetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsGetCacheNodeInstallDetailsSample.js
+[ispcachenodesoperationsgetcachenodemccissuedetailshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsGetCacheNodeMccIssueDetailsHistorySample.js
+[ispcachenodesoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsGetSample.js
+[ispcachenodesoperationslistbyispcustomerresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsListByIspCustomerResourceSample.js
+[ispcachenodesoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCacheNodesOperationsUpdateSample.js
+[ispcustomerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersCreateOrUpdateSample.js
+[ispcustomersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersDeleteSample.js
+[ispcustomersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersGetSample.js
+[ispcustomerslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersListByResourceGroupSample.js
+[ispcustomerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersListBySubscriptionSample.js
+[ispcustomersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/ispCustomersUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedcache/arm-connectedcache/samples/v1/javascript/operationsListSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-connectedcache
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/connectedcache/arm-connectedcache/README.md
