@@ -71,10 +71,7 @@ export function queryRequestOptionsSerializer(item: QueryRequestOptions): any {
 
 /** Defines what level of authorization resources should be returned based on the which subscriptions and management groups are passed as scopes. */
 export type AuthorizationScopeFilter =
-  | "AtScopeAndBelow"
-  | "AtScopeAndAbove"
-  | "AtScopeExact"
-  | "AtScopeAboveAndBelow";
+  "AtScopeAndBelow" | "AtScopeAndAbove" | "AtScopeExact" | "AtScopeAboveAndBelow";
 
 export function facetRequestArraySerializer(result: Array<FacetRequest>): any[] {
   return result.map((item) => {

@@ -3,6 +3,7 @@
 
 import type { RequestOptions } from "node:http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+import * as coreTracing from "@azure/core-tracing";
 import {
   AzureMonitorTraceExporter,
   RateLimitedSampler,
@@ -24,8 +25,12 @@ import type { MetricHandler } from "../metrics/handler.js";
 import { ignoreOutgoingRequestHook } from "../utils/common.js";
 import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
 import { AzureFunctionsHook } from "./azureFnHook.js";
-import type { Instrumentation } from "@opentelemetry/instrumentation";
+import type {
+  Instrumentation,
+  InstrumentationModuleDefinition,
+} from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler.js";
+import { Logger } from "../shared/logging/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -126,9 +131,11 @@ export class TraceHandler {
       );
     }
     if (this._config.instrumentationOptions.azureSdk?.enabled) {
-      this._instrumentations.push(
-        createAzureSdkInstrumentation(this._config.instrumentationOptions.azureSdk),
+      const azureSdkInstrumentation = createAzureSdkInstrumentation(
+        this._config.instrumentationOptions.azureSdk,
       );
+      this._instrumentations.push(azureSdkInstrumentation);
+      this._wireAzureSdkInstrumenter(azureSdkInstrumentation);
     }
     if (this._config.instrumentationOptions.mongoDb?.enabled) {
       this._instrumentations.push(
@@ -152,6 +159,35 @@ export class TraceHandler {
       this._instrumentations.push(
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
       );
+    }
+  }
+
+  /**
+   * Wire the Azure SDK instrumenter into `@azure/core-tracing` directly.
+   *
+   * The Azure SDK instrumentation registers its instrumenter through an OpenTelemetry
+   * module-patch hook that only fires via `require`/`import`-in-the-middle. In ESM hosts
+   * where the OpenTelemetry loader cannot be registered up front (for example, Azure
+   * Functions, which controls the Node.js start command), that hook never runs, so Azure
+   * SDK dependency spans are missing. Because `@azure/core-tracing` resolves its
+   * instrumenter lazily at span-creation time from shared module-local state, applying
+   * the same patch directly here enables Azure SDK tracing regardless of module system.
+   */
+  private _wireAzureSdkInstrumenter(instrumentation: Instrumentation): void {
+    try {
+      const moduleDefinitions =
+        (
+          instrumentation as Instrumentation & {
+            getModuleDefinitions?: () => InstrumentationModuleDefinition[];
+          }
+        ).getModuleDefinitions?.() ?? [];
+      for (const moduleDefinition of moduleDefinitions) {
+        if (moduleDefinition.name === "@azure/core-tracing" && moduleDefinition.patch) {
+          moduleDefinition.patch(coreTracing);
+        }
+      }
+    } catch (error) {
+      Logger.getInstance().warn("Failed to enable Azure SDK tracing for ESM applications", error);
     }
   }
 }

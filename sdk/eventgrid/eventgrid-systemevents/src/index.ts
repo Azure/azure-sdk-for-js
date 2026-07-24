@@ -408,11 +408,11 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: EventGridEvent<unknown> | CloudEvent<unknown>,
 ): event is
-  | EventGridEvent<SystemEventNameToEventData[T]>
-  | CloudEvent<SystemEventNameToEventData[T]> {
+  EventGridEvent<SystemEventNameToEventData[T]> | CloudEvent<SystemEventNameToEventData[T]> {
   if (isCloudEventLike(event)) {
     return event.type === eventType;
   } else {
     return event.eventType === eventType;
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the detailed information for a given pipeline run.
  *
  * @summary gets the detailed information for a given pipeline run.
- * x-ms-original-file: 2026-01-01-preview/PipelineRunGet.json
+ * x-ms-original-file: 2026-03-01-preview/PipelineRunGet.json
  */
 async function pipelineRunGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

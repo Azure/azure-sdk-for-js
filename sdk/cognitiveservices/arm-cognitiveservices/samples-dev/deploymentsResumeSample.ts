@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resumes inferencing on a previously paused deployment by setting the deploymentState to 'Running' (see #/definitions/DeploymentProperties/properties/deploymentState). This operation is idempotent and can be safely called on already running deployments.
  *
  * @summary resumes inferencing on a previously paused deployment by setting the deploymentState to 'Running' (see #/definitions/DeploymentProperties/properties/deploymentState). This operation is idempotent and can be safely called on already running deployments.
- * x-ms-original-file: 2026-03-15-preview/ResumeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/ResumeDeployment.json
  */
 async function resumeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

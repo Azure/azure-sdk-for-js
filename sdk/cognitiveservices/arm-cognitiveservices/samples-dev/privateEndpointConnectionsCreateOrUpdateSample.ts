@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified private endpoint connection associated with the Cognitive Services account.
  *
  * @summary update the state of specified private endpoint connection associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/PutPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-05-15-preview/PutPrivateEndpointConnection.json
  */
 async function putPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

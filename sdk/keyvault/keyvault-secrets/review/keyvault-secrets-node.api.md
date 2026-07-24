@@ -7,10 +7,12 @@
 import { AzureLogger } from '@azure/logger';
 import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/keyvault-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -54,6 +56,8 @@ export interface GetSecretOptions extends coreClient.OperationOptions {
     outContentType?: ContentType;
     version?: string;
 }
+
+export { isRestError }
 
 // @public
 export interface KeyVaultSecret {
@@ -116,6 +120,8 @@ export { PollOperationState }
 // @public
 export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
 }
+
+export { RestError }
 
 // @public
 export interface RestoreSecretBackupOptions extends coreClient.OperationOptions {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacities.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacities.json
  */
 async function listLocationBasedModelCapacities() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function listLocationBasedModelCapacities() {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesClassicScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesClassicScope.json
  */
 async function listLocationBasedModelCapacitiesClassicScope() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function listLocationBasedModelCapacitiesClassicScope() {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesDataZoneScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesDataZoneScope.json
  */
 async function listLocationBasedModelCapacitiesDataZoneScope() {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function listLocationBasedModelCapacitiesDataZoneScope() {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesGlobalScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesGlobalScope.json
  */
 async function listLocationBasedModelCapacitiesGlobalScope() {
   const credential = new DefaultAzureCredential();

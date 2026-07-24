@@ -10379,7 +10379,7 @@ export interface WorkflowVersionsOperations {
 
 // Warnings were encountered during analysis:
 //
-// src/models/models.ts:26082:3 - (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
+// src/models/models.ts:26039:3 - (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

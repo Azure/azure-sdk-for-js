@@ -59,7 +59,6 @@ export interface BackupVaultsOperations {
     options?: BackupVaultsGetOptionalParams,
   ) => Promise<BackupVault>;
 }
-
 function _getBackupVaults(context: NetAppManagementContext) {
   return {
     listByNetAppAccount: (
@@ -95,7 +94,6 @@ function _getBackupVaults(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, backupVaultName, options),
   };
 }
-
 export function _getBackupVaultsOperations(
   context: NetAppManagementContext,
 ): BackupVaultsOperations {

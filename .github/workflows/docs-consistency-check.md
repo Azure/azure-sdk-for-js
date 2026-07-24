@@ -8,6 +8,7 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
+  copilot-requests: write
 # DataOps + planner-worker pattern. A deterministic step enumerates the docs
 # (zero AI tokens); each doc is then verified by an isolated `model: small`
 # `doc-checker` sub-agent that returns only compact findings. The orchestrator

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
-import { enableGenAITracing, disableGenAITracing } from "../../../src/tracing/configuration.js";
+import { resolveTracingConfig } from "../../../src/tracing/configuration.js";
 import { getTracingFetch } from "../../../src/tracing/tracingFetch.js";
 
 // Mock tracingClient so we can control createRequestHeaders
@@ -35,13 +35,12 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   afterEach(() => {
-    disableGenAITracing();
     mockCreateRequestHeaders.mockReset();
   });
 
   it("injects traceparent and tracestate when propagation is enabled", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -54,8 +53,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does NOT inject headers when propagation is explicitly disabled", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: false });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: false });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -65,8 +64,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does NOT inject headers when experimental is not acknowledged", async () => {
-    enableGenAITracing({ traceContextPropagation: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ traceContextPropagation: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -76,8 +75,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does NOT inject headers when experimental is false", async () => {
-    enableGenAITracing({ experimental: false, traceContextPropagation: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: false, traceContextPropagation: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -87,9 +86,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does NOT inject headers when tracing is disabled entirely", async () => {
-    enableGenAITracing({ experimental: true });
-    disableGenAITracing();
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig(undefined);
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -99,9 +97,9 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does NOT inject headers when createRequestHeaders returns empty", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: true });
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: true });
     mockCreateRequestHeaders.mockReturnValue({});
-    const fetch = getTracingFetch(mockFetch as any);
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -111,8 +109,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("propagation defaults to true when option is omitted", async () => {
-    enableGenAITracing({ experimental: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(capturedRequests.length, 1);
@@ -127,8 +125,8 @@ describe("tracingFetch - trace context propagation", () => {
   it("propagation disabled via env var prevents header injection", async () => {
     process.env.AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION = "false";
     try {
-      enableGenAITracing({ experimental: true });
-      const fetch = getTracingFetch(mockFetch as any);
+      const config = resolveTracingConfig({ experimental: true });
+      const fetch = getTracingFetch(mockFetch as any, config);
       await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
       assert.equal(capturedRequests.length, 1);
@@ -141,8 +139,8 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("preserves existing headers from the original request", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: { Authorization: "Bearer test-key", "Content-Type": "application/json" },
@@ -161,24 +159,24 @@ describe("tracingFetch - trace context propagation", () => {
   });
 
   it("does not call createRequestHeaders when propagation is disabled", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: false });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: false });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(mockCreateRequestHeaders.mock.calls.length, 0);
   });
 
   it("does not call createRequestHeaders when experimental is not set", async () => {
-    enableGenAITracing({ traceContextPropagation: true });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ traceContextPropagation: true });
+    const fetch = getTracingFetch(mockFetch as any, config);
     await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(mockCreateRequestHeaders.mock.calls.length, 0);
   });
 
   it("calls inner fetch even when propagation is disabled", async () => {
-    enableGenAITracing({ experimental: true, traceContextPropagation: false });
-    const fetch = getTracingFetch(mockFetch as any);
+    const config = resolveTracingConfig({ experimental: true, traceContextPropagation: false });
+    const fetch = getTracingFetch(mockFetch as any, config);
     const response = await fetch("https://api.openai.com/v1/chat/completions", { method: "POST" });
 
     assert.equal(response.status, 200);

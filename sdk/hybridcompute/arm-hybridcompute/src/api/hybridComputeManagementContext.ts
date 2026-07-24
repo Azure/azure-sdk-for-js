@@ -9,7 +9,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+/** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
 export interface HybridComputeManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +27,7 @@ export interface HybridComputeManagementClientOptionalParams extends ClientOptio
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+/** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
 export function createHybridComputeManagement(
   credential: TokenCredential,
   subscriptionId: string,
@@ -36,7 +36,7 @@ export function createHybridComputeManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-hybridcompute/5.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-arm-hybridcompute/5.0.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

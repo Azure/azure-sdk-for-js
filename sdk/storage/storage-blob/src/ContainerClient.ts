@@ -668,11 +668,7 @@ export class ContainerClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: ContainerClientOptions,

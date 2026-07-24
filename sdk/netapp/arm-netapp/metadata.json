@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.NetApp": "2026-04-01"
+    "Microsoft.NetApp": "2026-05-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.NetApp",
     "CrossLanguageDefinitionId": {
@@ -210,6 +210,7 @@
       "@azure/arm-netapp!KnownFileAccessLogs:enum": "Microsoft.NetApp.FileAccessLogs",
       "@azure/arm-netapp!KnownAvsDataStore:enum": "Microsoft.NetApp.AvsDataStore",
       "@azure/arm-netapp!KnownEnableSubvolumes:enum": "Microsoft.NetApp.EnableSubvolumes",
+      "@azure/arm-netapp!KnownBreakthroughMode:enum": "Microsoft.NetApp.BreakthroughMode",
       "@azure/arm-netapp!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-netapp!KnownBackupType:enum": "Microsoft.NetApp.BackupType",
       "@azure/arm-netapp!KnownVolumeBackupRelationshipStatus:enum": "Microsoft.NetApp.VolumeBackupRelationshipStatus",

@@ -14,3 +14,4 @@ export * from "./paginateHelper.js";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default AccessControlRestClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
+import type { InternalRequestParameters } from "../../../src/client/sendRequest.js";
 import { sendRequest } from "../../../src/client/sendRequest.js";
-import {
-  RestError,
-  type MultipartRequestBody,
-  type PipelineResponse,
-  type Pipeline,
-  createEmptyPipeline,
-  createHttpHeaders,
+import type {
+  PipelineRequest,
+  MultipartRequestBody,
+  PipelineResponse,
+  Pipeline,
 } from "../../../src/index.js";
+import { RestError, createEmptyPipeline, createHttpHeaders } from "../../../src/index.js";
 import { stringToUint8Array } from "../../../src/util/internal.js";
 import type { PartDescriptor } from "../../../src/client/multipart.js";
 
@@ -686,17 +686,22 @@ describe("sendRequest", () => {
     const tracingOptions = { tracingContext: {} as any };
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.deepEqual(request.tracingOptions, tracingOptions);
+      assert.deepEqual(
+        (request as PipelineRequest & Record<string, unknown>).tracingOptions,
+        tracingOptions,
+      );
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("GET", mockBaseUrl, mockPipeline, { tracingOptions });
+    await sendRequest("GET", mockBaseUrl, mockPipeline, {
+      tracingOptions,
+    } as InternalRequestParameters);
   });
 
   it("should not set tracingOptions on the pipeline request when not provided", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.isUndefined(request.tracingOptions);
+      assert.isUndefined((request as PipelineRequest & Record<string, unknown>).tracingOptions);
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a workbench associated with the project.
  *
  * @summary creates or updates a workbench associated with the project.
- * x-ms-original-file: 2026-03-15-preview/PutWorkbench.json
+ * x-ms-original-file: 2026-05-15-preview/PutWorkbench.json
  */
 async function putWorkbench() {
   const credential = new DefaultAzureCredential();

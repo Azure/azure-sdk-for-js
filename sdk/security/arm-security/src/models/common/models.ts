@@ -289,9 +289,7 @@ export function resourceDetailsDeserializer(item: any): ResourceDetails {
 
 /** Alias for ResourceDetailsUnion */
 export type ResourceDetailsUnion =
-  | AzureResourceDetails
-  | OnPremiseResourceDetailsUnion
-  | ResourceDetails;
+  AzureResourceDetails | OnPremiseResourceDetailsUnion | ResourceDetails;
 
 export function resourceDetailsUnionSerializer(item: ResourceDetailsUnion): any {
   switch (item.source) {

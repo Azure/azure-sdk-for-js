@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to evaluate Azure Policy compliance for a set of hypothetical deployments without creating them.
  *
  * @summary evaluate Azure Policy compliance for a set of hypothetical deployments without creating them.
- * x-ms-original-file: 2026-03-15-preview/EvaluateDeploymentPolicies.json
+ * x-ms-original-file: 2026-05-15-preview/EvaluateDeploymentPolicies.json
  */
 async function evaluateDeploymentPolicies() {
   const credential = new DefaultAzureCredential();

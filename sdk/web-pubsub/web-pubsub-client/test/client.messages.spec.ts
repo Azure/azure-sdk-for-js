@@ -4,10 +4,8 @@
 import type {
   DisconnectedMessage,
   GroupDataMessage,
-  GroupStreamHandler,
   JoinGroupOptions,
   LeaveGroupOptions,
-  OnGroupStreamArgs,
   ServerDataMessage,
 } from "../src/models/index.js";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
@@ -474,17 +472,22 @@ describe("WebPubSubClient", () => {
       });
     });
 
-    it("keeps inbound streams distinct when group and streamId contain separators", () => {
+    it("keeps inbound streams distinct when group and streamId contain separators", async () => {
       const client = new WebPubSubClient("wss://service.com");
       const messages: string[] = [];
+      let resolveReceived!: () => void;
+      const received = new Promise<void>((resolve) => {
+        resolveReceived = resolve;
+      });
 
-      client.onGroupStream(
-        (stream: OnGroupStreamArgs): GroupStreamHandler => ({
-          onMessage: (args) => {
-            messages.push(`${stream.group}/${stream.streamId}:${args.data}`);
-          },
-        }),
-      );
+      const subscription = client.onGroupStream(async (stream) => {
+        for await (const message of stream) {
+          messages.push(`${stream.groupName}/${stream.streamId}:${message.data}`);
+          if (messages.length === 2) {
+            resolveReceived();
+          }
+        }
+      });
 
       client["_handleStreamGroupMessage"]({
         kind: "groupData",
@@ -509,7 +512,84 @@ describe("WebPubSubClient", () => {
         },
       } as GroupDataMessage);
 
+      await received;
+      await subscription.close();
       expect(messages).toEqual(["a|b/c:first", "a/b|c:second"]);
+    });
+
+    it("filters inbound streams by groupNames", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const streams: string[] = [];
+      const messages: string[] = [];
+      let resolveCompleted!: () => void;
+      const completed = new Promise<void>((resolve) => {
+        resolveCompleted = resolve;
+      });
+
+      const subscription = client.onGroupStream(
+        async (stream) => {
+          streams.push(`${stream.groupName}/${stream.streamId}`);
+          for await (const message of stream) {
+            messages.push(`${stream.groupName}:${message.data}`);
+          }
+          resolveCompleted();
+        },
+        { groupNames: ["allowed"] },
+      );
+
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "blocked",
+        fromUserId: "user",
+        dataType: "text",
+        data: "should-not-be-delivered",
+        stream: {
+          streamId: "s-blocked",
+          streamSequenceId: 1,
+        },
+      } as GroupDataMessage);
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "blocked",
+        fromUserId: "user",
+        dataType: "text",
+        data: "",
+        stream: {
+          streamId: "s-blocked",
+          streamSequenceId: 2,
+          endOfStream: true,
+        },
+      } as GroupDataMessage);
+
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "allowed",
+        fromUserId: "user",
+        dataType: "text",
+        data: "accepted",
+        stream: {
+          streamId: "s-allowed",
+          streamSequenceId: 1,
+        },
+      } as GroupDataMessage);
+      client["_handleStreamGroupMessage"]({
+        kind: "groupData",
+        group: "allowed",
+        fromUserId: "user",
+        dataType: "text",
+        data: "",
+        stream: {
+          streamId: "s-allowed",
+          streamSequenceId: 2,
+          endOfStream: true,
+        },
+      } as GroupDataMessage);
+
+      await completed;
+      await subscription.close();
+
+      expect(streams).toEqual(["allowed/s-allowed"]);
+      expect(messages).toEqual(["allowed:accepted"]);
     });
 
     it("add server message event", () => {

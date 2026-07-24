@@ -20,13 +20,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Features operations. */
 export interface FeaturesOperations {
-  /** Disables a compute limit feature for the subscription at the specified location. */
+  /** Disables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
   disable: (
     location: string,
     featureName: string,
     options?: FeaturesDisableOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-  /** Enables a compute limit feature for the subscription at the specified location. */
+  /** Enables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
   enable: (
     location: string,
     featureName: string,

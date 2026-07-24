@@ -263,10 +263,7 @@ export class DataLakePathClient extends StorageClient {
   public constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: DataLakePathClientOptions,
@@ -1229,10 +1226,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   public constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: DataLakeFileClientOptions,

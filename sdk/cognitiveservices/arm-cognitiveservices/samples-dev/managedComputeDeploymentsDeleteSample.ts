@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified managed compute deployment associated with the Cognitive Services account.
  *
  * @summary deletes the specified managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/DeleteManagedComputeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteManagedComputeDeployment.json
  */
 async function deleteManagedComputeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

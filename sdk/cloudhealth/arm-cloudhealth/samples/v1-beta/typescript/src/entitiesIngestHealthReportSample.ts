@@ -8,22 +8,22 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to ingest a health report for a specific signal on an entity (the entity must already exist)
  *
  * @summary ingest a health report for a specific signal on an entity (the entity must already exist)
- * x-ms-original-file: 2026-01-01-preview/Entities_IngestHealthReport.json
+ * x-ms-original-file: 2026-05-01-preview/Entities_IngestHealthReport.json
  */
 async function entitiesIngestHealthReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.entities.ingestHealthReport("rgopenapi", "myHealthModel", "entity1", {
-    signalName: "uniqueSignalName1",
-    value: 85.5,
-    healthState: "Degraded",
+  await client.entities.ingestHealthReport("online-store-rg", "online-store", "orders-api", {
+    signalName: "error-rate",
+    healthState: "Unhealthy",
+    value: 6.5,
     evaluationRules: {
-      degradedRule: { operator: "GreaterThan", threshold: 70 },
-      unhealthyRule: { operator: "GreaterThan", threshold: 90 },
+      degradedRule: { operator: "GreaterThan", threshold: 1 },
+      unhealthyRule: { operator: "GreaterThan", threshold: 5 },
     },
     expiresInMinutes: 60,
-    additionalContext: "CPU usage elevated due to batch processing job",
+    additionalContext: "Elevated 5xx error rate during the checkout traffic spike.",
   });
 }
 

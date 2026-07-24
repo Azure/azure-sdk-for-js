@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified compute associated with the Cognitive Services account.
  *
  * @summary gets the specified compute associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/GetCompute.json
+ * x-ms-original-file: 2026-05-15-preview/GetCompute.json
  */
 async function getCompute() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getCompute() {
  * This sample demonstrates how to gets the specified compute associated with the Cognitive Services account.
  *
  * @summary gets the specified compute associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/GetContainerInstanceCompute.json
+ * x-ms-original-file: 2026-05-15-preview/GetContainerInstanceCompute.json
  */
 async function getContainerInstanceCompute() {
   const credential = new DefaultAzureCredential();

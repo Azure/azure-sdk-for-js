@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or Updates the specified Defender for AI setting.
  *
  * @summary creates or Updates the specified Defender for AI setting.
- * x-ms-original-file: 2026-03-15-preview/PutDefenderForAISetting.json
+ * x-ms-original-file: 2026-05-15-preview/PutDefenderForAISetting.json
  */
 async function putDefenderForAISetting() {
   const credential = new DefaultAzureCredential();

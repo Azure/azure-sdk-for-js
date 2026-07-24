@@ -75,8 +75,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;

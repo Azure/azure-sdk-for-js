@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the state of specified encryptionScope associated with the Cognitive Services account.
  *
  * @summary update the state of specified encryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/PutEncryptionScope.json
+ * x-ms-original-file: 2026-05-15-preview/PutEncryptionScope.json
  */
 async function putEncryptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

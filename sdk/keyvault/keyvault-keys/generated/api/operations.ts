@@ -31,6 +31,12 @@ import {
   keyVerifyParametersSerializer,
   KeyVerifyResult,
   keyVerifyResultDeserializer,
+  SecureKeyWrapOperationParameters,
+  secureKeyWrapOperationParametersSerializer,
+  SecureKeyOperationResult,
+  secureKeyOperationResultDeserializer,
+  SecureKeyUnWrapOperationParameters,
+  secureKeyUnWrapOperationParametersSerializer,
   KeyReleaseParameters,
   keyReleaseParametersSerializer,
   KeyReleaseResult,
@@ -62,6 +68,8 @@ import {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
@@ -96,7 +104,7 @@ export function _getKeyAttestationSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +151,7 @@ export function _getRandomBytesSend(
   const path = expandUrlTemplate(
     "/rng{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +201,7 @@ export function _updateKeyRotationPolicySend(
     "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +251,7 @@ export function _getKeyRotationPolicySend(
     "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -290,7 +298,7 @@ export function _recoverDeletedKeySend(
     "/deletedkeys/{key-name}/recover{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -337,7 +345,7 @@ export function _purgeDeletedKeySend(
     "/deletedkeys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -377,7 +385,7 @@ export function _getDeletedKeySend(
     "/deletedkeys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +430,7 @@ export function _getDeletedKeysSend(
   const path = expandUrlTemplate(
     "/deletedkeys{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -461,7 +469,11 @@ export function getDeletedKeys(
     () => _getDeletedKeysSend(context, options),
     _getDeletedKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -477,7 +489,7 @@ export function _releaseSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,7 +543,7 @@ export function _unwrapKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -573,6 +585,113 @@ export async function unwrapKey(
   return _unwrapKeyDeserialize(result);
 }
 
+export function _secureUnwrapKeySend(
+  context: Client,
+  keyName: string,
+  parameters: SecureKeyUnWrapOperationParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/secureunwrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": options?.keyVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secureKeyUnWrapOperationParametersSerializer(parameters),
+    });
+}
+
+export async function _secureUnwrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SecureKeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return secureKeyOperationResultDeserializer(result.body);
+}
+
+/**
+ * The SECURE UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the SECURE WRAP operation. The SECURE UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission.
+ * The SECURE UNWRAP operation ensures that MAA (Microsoft Azure Attestation Service) is used to attest the TEE (Trusted Execution Environment) before the key is unwrapped.
+ */
+export async function secureUnwrapKey(
+  context: Client,
+  keyName: string,
+  parameters: SecureKeyUnWrapOperationParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): Promise<SecureKeyOperationResult> {
+  const result = await _secureUnwrapKeySend(context, keyName, parameters, options);
+  return _secureUnwrapKeyDeserialize(result);
+}
+
+export function _secureWrapKeySend(
+  context: Client,
+  keyName: string,
+  parameters: SecureKeyWrapOperationParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/securewrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": options?.keyVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secureKeyWrapOperationParametersSerializer(parameters),
+    });
+}
+
+export async function _secureWrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SecureKeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+
+    throw error;
+  }
+
+  return secureKeyOperationResultDeserializer(result.body);
+}
+
+/** The SECURE WRAP operation creates a new 256 bit AES key within the trusted execution environment(TEE) and encrypts the same with a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
+export async function secureWrapKey(
+  context: Client,
+  keyName: string,
+  parameters: SecureKeyWrapOperationParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): Promise<SecureKeyOperationResult> {
+  const result = await _secureWrapKeySend(context, keyName, parameters, options);
+  return _secureWrapKeyDeserialize(result);
+}
+
 export function _wrapKeySend(
   context: Client,
   keyName: string,
@@ -585,7 +704,7 @@ export function _wrapKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -639,7 +758,7 @@ export function _verifySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -691,7 +810,7 @@ export function _signSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -743,7 +862,7 @@ export function _decryptSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -797,7 +916,7 @@ export function _encryptSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -847,7 +966,7 @@ export function _restoreKeySend(
   const path = expandUrlTemplate(
     "/keys/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -894,7 +1013,7 @@ export function _backupKeySend(
     "/keys/{key-name}/backup{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -939,7 +1058,7 @@ export function _getKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -976,7 +1095,11 @@ export function getKeys(
     () => _getKeysSend(context, options),
     _getKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -989,7 +1112,7 @@ export function _getKeyVersionsSend(
     "/keys/{key-name}/versions{?api%2Dversion,maxresults}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -1029,7 +1152,11 @@ export function getKeyVersions(
     () => _getKeyVersionsSend(context, keyName, options),
     _getKeyVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -1044,7 +1171,7 @@ export function _getKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1093,7 +1220,7 @@ export function _updateKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1142,7 +1269,7 @@ export function _deleteKeySend(
     "/keys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1190,7 +1317,7 @@ export function _importKeySend(
     "/keys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1238,7 +1365,7 @@ export function _rotateKeySend(
     "/keys/{key-name}/rotate{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1284,7 +1411,7 @@ export function _createKeySend(
     "/keys/{key-name}/create{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

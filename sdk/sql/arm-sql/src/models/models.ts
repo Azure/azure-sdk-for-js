@@ -5233,11 +5233,7 @@ export type AdvisorStatus = "GA" | "PublicPreview" | "LimitedPublicPreview" | "P
 export type AutoExecuteStatus = "Enabled" | "Disabled" | "Default";
 /** Gets the resource from which current value of auto-execute status is inherited. Auto-execute status can be set on (and inherited from) different levels in the resource hierarchy. Possible values are 'Subscription', 'Server', 'ElasticPool', 'Database' and 'Default' (when status is not explicitly set on any level). */
 export type AutoExecuteStatusInheritedFrom =
-  | "Default"
-  | "Subscription"
-  | "Server"
-  | "ElasticPool"
-  | "Database";
+  "Default" | "Subscription" | "Server" | "ElasticPool" | "Database";
 
 export function recommendedActionArraySerializer(result: Array<RecommendedAction>): any[] {
   return result.map((item) => {

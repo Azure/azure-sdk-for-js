@@ -374,9 +374,7 @@ export function ingestionSourceDeserializer(item: any): IngestionSource {
 
 /** Alias for IngestionSourceUnion */
 export type IngestionSourceUnion =
-  | SharedAccessSignatureTokenIngestionSource
-  | ManagedIdentityIngestionSource
-  | IngestionSource;
+  SharedAccessSignatureTokenIngestionSource | ManagedIdentityIngestionSource | IngestionSource;
 
 export function ingestionSourceUnionSerializer(item: IngestionSourceUnion): any {
   switch (item.kind) {
@@ -1944,9 +1942,7 @@ export function stacItemOrStacItemCollectionDeserializer(item: any): StacItemOrS
 
 /** Alias for StacItemOrStacItemCollectionUnion */
 export type StacItemOrStacItemCollectionUnion =
-  | StacItemCollection
-  | StacItem
-  | StacItemOrStacItemCollection;
+  StacItemCollection | StacItem | StacItemOrStacItemCollection;
 
 export function stacItemOrStacItemCollectionUnionSerializer(
   item: StacItemOrStacItemCollectionUnion,
@@ -2189,13 +2185,7 @@ export function geometryDeserializer(item: any): Geometry {
 
 /** Alias for GeometryUnion */
 export type GeometryUnion =
-  | Point
-  | Polygon
-  | MultiPolygon
-  | MultiLineString
-  | LineString
-  | MultiPoint
-  | Geometry;
+  Point | Polygon | MultiPolygon | MultiLineString | LineString | MultiPoint | Geometry;
 
 export function geometryUnionSerializer(item: GeometryUnion): any {
   switch (item.type) {

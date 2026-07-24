@@ -1,0 +1,80 @@
+{
+  "name": "@azure-tools/js-sdk-release-tools",
+  "version": "2.16.12",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/changelogToolCli.ts",
+    "start": "node dist/changelogToolCli.js",
+    "debug": "node --inspect-brk dist/changelogToolCli.js",
+    "build": "rimraf dist && tsc -p . && npm run copy-files",
+    "copy-files": "copyfiles -f src/common/ciYamlTemplates/*.template.yml dist/common/ciYamlTemplates/",
+    "prepack": "npm run build",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "bin": {
+    "changelog-tool": "./dist/changelogToolCli.js",
+    "hlc-code-gen": "./dist/hlcCodeGenCli.js",
+    "hlc-code-gen-for-pipeline": "./dist/autoGenerateInPipeline.js",
+    "code-gen-pipeline": "./dist/autoGenerateInPipeline.js",
+    "rlc-code-gen": "./dist/rlcCodegenCli.js",
+    "update-changelog": "./dist/generateChangelogCli.js",
+    "update-version": "./dist/updateBumpVersionCli.js",
+    "generate-ci-yaml": "./dist/generateCiYamlCli.js"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@azure-tools/openapi-tools-common": "^1.2.2",
+    "@npmcli/package-json": "^8.0.0",
+    "colors": "1.4.0",
+    "command-line-args": "^6.0.1",
+    "comment-json": "^4.2.5",
+    "copyfiles": "^2.4.1",
+    "fs-extra": "^11.3.0",
+    "glob": "^13.0.6",
+    "js-yaml": "^4.1.0",
+    "minimatch": "^10.2.4",
+    "npm-registry-fetch": "^20.0.1",
+    "parse-ts-to-ast": "^0.1.4",
+    "semver": "^7.7.1",
+    "shelljs": "^0.9.2",
+    "simple-git": "^3.5.0",
+    "string-template": "^1.0.0",
+    "ts-morph": "^26.0.0",
+    "tslib": "^2.8.1",
+    "typescript-codegen-breaking-change-detector": "0.7.10",
+    "unixify": "^1.0.0",
+    "winston": "^3.17.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.13.10",
+    "@types/npm-registry-fetch": "^8.0.7",
+    "@types/npmcli__package-json": "^4.0.4",
+    "@types/shelljs": "^0.8.15",
+    "@types/string-template": "^1.0.6",
+    "@types/unixify": "^1.0.2",
+    "@typespec/compiler": "^1.0.0",
+    "prettier": "^3.8.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.22.4",
+    "typescript": "5.8.2",
+    "vitest": "4.1.9"
+  },
+  "peerDependencies": {
+    "@typespec/compiler": "^1.0.0"
+  },
+  "overrides": {
+    "front-matter": {
+      "js-yaml": "^4.2.0"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "4.4.3",
+  "version": "4.5.0",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -87,7 +87,6 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@rollup/plugin-inject": "catalog:testing",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",
     "@types/react": "catalog:testing",

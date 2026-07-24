@@ -60,7 +60,7 @@ describe("agents - mcp tool", () => {
         input: "Please summarize the Azure REST API specifications Readme",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 
@@ -90,7 +90,7 @@ describe("agents - mcp tool", () => {
         previous_response_id: response.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 
@@ -138,7 +138,7 @@ describe("agents - mcp tool", () => {
         input: "What is my username in Github profile?",
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 
@@ -168,7 +168,7 @@ describe("agents - mcp tool", () => {
         previous_response_id: response.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
 

@@ -412,6 +412,9 @@ export interface BreakReplicationRequest {
 }
 
 // @public
+export type BreakthroughMode = string;
+
+// @public
 export interface Bucket extends ProxyResource {
     properties?: BucketProperties;
 }
@@ -959,6 +962,12 @@ export enum KnownBackupType {
 }
 
 // @public
+export enum KnownBreakthroughMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownBucketPatchPermissions {
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
@@ -1337,7 +1346,8 @@ export enum KnownVersions {
     V20251201 = "2025-12-01",
     V20260101 = "2026-01-01",
     V20260301 = "2026-03-01",
-    V20260401 = "2026-04-01"
+    V20260401 = "2026-04-01",
+    V20260501 = "2026-05-01"
 }
 
 // @public
@@ -2543,6 +2553,7 @@ export interface VolumeProperties {
     avsDataStore?: AvsDataStore;
     backupId?: string | null;
     readonly baremetalTenantId?: string;
+    breakthroughMode?: BreakthroughMode;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number | null;
     coolAccess?: boolean;

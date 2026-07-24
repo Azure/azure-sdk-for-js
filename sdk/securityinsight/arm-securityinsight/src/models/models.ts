@@ -8028,8 +8028,7 @@ export function dataConnectorDefinitionDeserializer(item: any): DataConnectorDef
 
 /** Alias for DataConnectorDefinitionUnion */
 export type DataConnectorDefinitionUnion =
-  | CustomizableConnectorDefinition
-  | DataConnectorDefinition;
+  CustomizableConnectorDefinition | DataConnectorDefinition;
 
 export function dataConnectorDefinitionUnionSerializer(item: DataConnectorDefinitionUnion): any {
   switch (item.kind) {
@@ -13980,8 +13979,7 @@ export function securityMLAnalyticsSettingDeserializer(item: any): SecurityMLAna
 
 /** Alias for SecurityMLAnalyticsSettingUnion */
 export type SecurityMLAnalyticsSettingUnion =
-  | AnomalySecurityMLAnalyticsSettings
-  | SecurityMLAnalyticsSetting;
+  AnomalySecurityMLAnalyticsSettings | SecurityMLAnalyticsSetting;
 
 export function securityMLAnalyticsSettingUnionSerializer(
   item: SecurityMLAnalyticsSettingUnion,
@@ -20800,8 +20798,7 @@ export function threatIntelligenceInformationDeserializer(
 
 /** Alias for ThreatIntelligenceInformationUnion */
 export type ThreatIntelligenceInformationUnion =
-  | ThreatIntelligenceIndicatorModel
-  | ThreatIntelligenceInformation;
+  ThreatIntelligenceIndicatorModel | ThreatIntelligenceInformation;
 
 export function threatIntelligenceInformationUnionSerializer(
   item: ThreatIntelligenceInformationUnion,
@@ -22562,12 +22559,7 @@ export function tiObjectDeserializer(item: any): TIObject {
 
 /** Alias for TIObjectUnion */
 export type TIObjectUnion =
-  | ThreatActor
-  | AttackPattern
-  | Identity
-  | Relationship
-  | Indicator
-  | TIObject;
+  ThreatActor | AttackPattern | Identity | Relationship | Indicator | TIObject;
 
 export function tiObjectUnionDeserializer(item: any): TIObjectUnion {
   switch (item["kind"]) {

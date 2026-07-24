@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-consumption",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "description": "A generated SDK for ConsumptionManagementClient.",
   "engines": {
     "node": ">=22.0.0"

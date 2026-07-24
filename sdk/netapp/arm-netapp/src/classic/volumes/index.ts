@@ -318,7 +318,6 @@ export interface VolumesOperations {
     options?: VolumesGetOptionalParams,
   ) => Promise<Volume>;
 }
-
 function _getVolumes(context: NetAppManagementContext) {
   return {
     listQuotaReport: (
@@ -604,7 +603,6 @@ function _getVolumes(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, options),
   };
 }
-
 export function _getVolumesOperations(context: NetAppManagementContext): VolumesOperations {
   return {
     ..._getVolumes(context),

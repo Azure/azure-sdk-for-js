@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates the RAI Tool Label associated with the Azure OpenAI account.
  *
  * @summary creates the RAI Tool Label associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-03-15-preview/PutRaiToolLabel.json
+ * x-ms-original-file: 2026-05-15-preview/PutRaiToolLabel.json
  */
 async function putRaiToolLabel(): Promise<void> {
   const credential = new DefaultAzureCredential();

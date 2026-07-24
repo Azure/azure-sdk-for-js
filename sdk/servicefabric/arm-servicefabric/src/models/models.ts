@@ -2511,10 +2511,7 @@ export function managedIdentityDeserializer(item: any): ManagedIdentity {
 
 /** The type of managed identity for the resource. */
 export type ManagedIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -3145,9 +3142,7 @@ export function serviceResourcePropertiesDeserializer(item: any): ServiceResourc
 
 /** Alias for ServiceResourcePropertiesUnion */
 export type ServiceResourcePropertiesUnion =
-  | StatefulServiceProperties
-  | StatelessServiceProperties
-  | ServiceResourceProperties;
+  StatefulServiceProperties | StatelessServiceProperties | ServiceResourceProperties;
 
 export function serviceResourcePropertiesUnionSerializer(
   item: ServiceResourcePropertiesUnion,

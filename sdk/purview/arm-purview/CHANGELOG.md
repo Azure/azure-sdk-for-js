@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.1 (2026-05-26)
 Compared with version 1.1.0
 
@@ -129,7 +139,7 @@ Compared with version 1.1.0
   - Enum KnownType has a new value None
   - Enum KnownType has a new value UserAssigned
     
-### 1.0.1 (2022-04-28)
+## 1.0.1 (2022-04-28)
 
 ### Features Added
 

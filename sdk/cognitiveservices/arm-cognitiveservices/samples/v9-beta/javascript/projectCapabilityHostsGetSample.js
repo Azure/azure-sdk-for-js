@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get project capabilityHost.
  *
  * @summary get project capabilityHost.
- * x-ms-original-file: 2026-03-15-preview/ProjectCapabilityHost/get.json
+ * x-ms-original-file: 2026-05-15-preview/ProjectCapabilityHost/get.json
  */
 async function getProjectCapabilityHost() {
   const credential = new DefaultAzureCredential();

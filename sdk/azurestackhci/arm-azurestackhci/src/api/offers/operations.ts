@@ -31,7 +31,7 @@ export function _listByClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
       "%24expand": options?.expand,
     },
     {
@@ -70,11 +70,7 @@ export function listByCluster(
     () => _listByClusterSend(context, resourceGroupName, clusterName, options),
     _listByClusterDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -92,7 +88,7 @@ export function _listByPublisherSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       publisherName: publisherName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
       "%24expand": options?.expand,
     },
     {
@@ -132,11 +128,7 @@ export function listByPublisher(
     () => _listByPublisherSend(context, resourceGroupName, clusterName, publisherName, options),
     _listByPublisherDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -156,7 +148,7 @@ export function _getSend(
       clusterName: clusterName,
       publisherName: publisherName,
       offerName: offerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
       "%24expand": options?.expand,
     },
     {

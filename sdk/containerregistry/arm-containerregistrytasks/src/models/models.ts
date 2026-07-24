@@ -888,11 +888,7 @@ export function runRequestDeserializer(item: any): RunRequest {
 
 /** Alias for RunRequestUnion */
 export type RunRequestUnion =
-  | DockerBuildRequest
-  | FileTaskRunRequest
-  | TaskRunRequest
-  | EncodedTaskRunRequest
-  | RunRequest;
+  DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest | RunRequest;
 
 export function runRequestUnionSerializer(item: RunRequestUnion): any {
   switch (item.type) {
@@ -1529,10 +1525,7 @@ export function identityPropertiesDeserializer(item: any): IdentityProperties {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userIdentityPropertiesRecordSerializer(
   item: Record<string, UserIdentityProperties>,
@@ -1809,10 +1802,7 @@ export function taskStepPropertiesDeserializer(item: any): TaskStepProperties {
 
 /** Alias for TaskStepPropertiesUnion */
 export type TaskStepPropertiesUnion =
-  | DockerBuildStep
-  | FileTaskStep
-  | EncodedTaskStep
-  | TaskStepProperties;
+  DockerBuildStep | FileTaskStep | EncodedTaskStep | TaskStepProperties;
 
 export function taskStepPropertiesUnionSerializer(item: TaskStepPropertiesUnion): any {
   switch (item.type) {

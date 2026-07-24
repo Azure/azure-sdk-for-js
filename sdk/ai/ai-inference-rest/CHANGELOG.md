@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Declared `@azure/core-util` as a runtime dependency. It is imported at runtime by the package (e.g. `isError`, `getErrorMessage`) but was previously only a `devDependency`, which could fail to resolve for consumers.
+
 ### Other Changes
 
 - Updated to OpenTelemetry v2 packages.

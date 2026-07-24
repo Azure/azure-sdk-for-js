@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +63,6 @@ export async function _listDeserialize(
 
   return privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
 export async function list(
   context: Client,
@@ -89,7 +88,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +110,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a private endpoint connection. */
 export function $delete(
   context: Client,
@@ -132,7 +130,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -151,7 +149,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +178,6 @@ export async function _updateDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Updates a private endpoint connection. */
 export async function update(
   context: Client,
@@ -215,7 +212,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +239,6 @@ export async function _getDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
 export async function get(
   context: Client,

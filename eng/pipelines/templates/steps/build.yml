@@ -99,7 +99,7 @@ steps:
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      pnpm purge
+      node eng/tools/purge-node-modules.mjs sdk common
     displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml

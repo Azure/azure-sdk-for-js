@@ -34,6 +34,7 @@ pr:
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
+    EnableCiCodeCoverage: true
     ServiceDirectory: storage
     Artifacts:
       - name: azure-storage-common
