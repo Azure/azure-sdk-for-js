@@ -960,6 +960,46 @@ export function EscapePath(blobName: string): string {
 }
 
 /**
+ * Reads a raw response body (a Node.js readable stream or a browser Blob) into a
+ * single byte array. Shared by the Apache Arrow and XML List Blobs response parsers.
+ */
+export async function readResponseBodyToBytes(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<Uint8Array> {
+  if (response.blobBody) {
+    const blob = await response.blobBody;
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+  if (response.readableStreamBody) {
+    return readNodeStreamToBytes(response.readableStreamBody);
+  }
+  throw new RangeError("List Blobs Apache Arrow response body is empty or unavailable.");
+}
+
+function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+    stream.on("data", (chunk: Uint8Array | string) => {
+      const bytes = typeof chunk === "string" ? new TextEncoder().encode(chunk) : chunk;
+      chunks.push(bytes);
+      totalLength += bytes.byteLength;
+    });
+    stream.on("end", () => {
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        result.set(chunk, offset);
+        offset += chunk.byteLength;
+      }
+      resolve(result);
+    });
+    stream.on("error", reject);
+  });
+}
+
+/**
  * A representation of an HTTP response that
  * includes a reference to the request that
  * originated it.

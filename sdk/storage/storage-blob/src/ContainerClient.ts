@@ -79,11 +79,11 @@ import {
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common.js";
+import { parseBlobListArrowResponse } from "./utils/blobListArrowParser.js";
 import {
   deserializeListBlobFlatSegmentXml,
   deserializeListBlobHierarchySegmentXml,
-  parseBlobListArrowResponse,
-} from "./utils/blobListArrowParser.js";
+} from "./utils/blobListXmlParser.js";
 import { ApacheArrowContentType } from "./utils/constants.js";
 import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
