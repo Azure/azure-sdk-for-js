@@ -82,11 +82,6 @@ export interface AzureSdkMetadata {
   sampleConfiguration?: SampleConfiguration;
 
   /**
-   * The date this package was last migrated.
-   */
-  migrationDate?: string;
-
-  /**
    * Paths that contain instances of the package's version number that should be updated automatically.
    */
   constantPaths?: Array<{
