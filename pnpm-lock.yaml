@@ -22264,7 +22264,7 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       '@opentelemetry/api':
-        specifier: ^1.9.0
+        specifier: ^1.9.1
         version: 1.9.1
       '@opentelemetry/api-logs':
         specifier: ^0.220.0
