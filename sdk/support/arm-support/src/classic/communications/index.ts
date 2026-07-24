@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { checkNameAvailability, list, create, get } from "../../api/communications/operations.js";
-import {
+import type {
   CommunicationsCheckNameAvailabilityOptionalParams,
   CommunicationsListOptionalParams,
   CommunicationsCreateOptionalParams,
   CommunicationsGetOptionalParams,
 } from "../../api/communications/options.js";
-import {
+import type {
   CommunicationDetails,
   CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Communications operations. */
 export interface CommunicationsOperations {

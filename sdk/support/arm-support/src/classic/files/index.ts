@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { upload, list, create, get } from "../../api/files/operations.js";
-import {
+import type {
   FilesUploadOptionalParams,
   FilesListOptionalParams,
   FilesCreateOptionalParams,
   FilesGetOptionalParams,
 } from "../../api/files/options.js";
-import { FileDetails, UploadFile } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { FileDetails, UploadFile } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Files operations. */
 export interface FilesOperations {

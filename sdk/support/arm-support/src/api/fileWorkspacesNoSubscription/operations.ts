@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type { FileWorkspaceDetails } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  FileWorkspaceDetails,
   fileWorkspaceDetailsDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FileWorkspacesNoSubscriptionCreateOptionalParams,
   FileWorkspacesNoSubscriptionGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createSend(
   context: Client,
@@ -28,7 +24,7 @@ export function _createSend(
     "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}{?api%2Dversion}",
     {
       fileWorkspaceName: fileWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +71,7 @@ export function _getSend(
     "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}{?api%2Dversion}",
     {
       fileWorkspaceName: fileWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

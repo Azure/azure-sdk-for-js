@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { list, get } from "../../api/problemClassifications/operations.js";
-import {
+import type {
   ProblemClassificationsListOptionalParams,
   ProblemClassificationsGetOptionalParams,
 } from "../../api/problemClassifications/options.js";
-import { ProblemClassification } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ProblemClassification } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProblemClassifications operations. */
 export interface ProblemClassificationsOperations {

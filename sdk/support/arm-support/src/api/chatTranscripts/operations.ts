@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type { ChatTranscriptDetails, _ChatTranscriptsListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ChatTranscriptDetails,
   chatTranscriptDetailsDeserializer,
-  _ChatTranscriptsListResult,
   _chatTranscriptsListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ChatTranscriptsListOptionalParams, ChatTranscriptsGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  ChatTranscriptsListOptionalParams,
+  ChatTranscriptsGetOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -32,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,11 +67,7 @@ export function list(
     () => _listSend(context, supportTicketName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -91,7 +83,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       supportTicketName: supportTicketName,
       chatTranscriptName: chatTranscriptName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

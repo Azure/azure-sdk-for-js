@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type {
+  ProblemClassificationsClassificationInput,
+  ProblemClassificationsClassificationOutput,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ProblemClassificationsClassificationInput,
   problemClassificationsClassificationInputSerializer,
-  ProblemClassificationsClassificationOutput,
   problemClassificationsClassificationOutputDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ClassifyProblemsNoSubscriptionClassifyProblemsOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ClassifyProblemsNoSubscriptionClassifyProblemsOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _classifyProblemsSend(
   context: Client,
@@ -28,7 +26,7 @@ export function _classifyProblemsSend(
     "/providers/Microsoft.Support/services/{problemServiceName}/classifyProblems{?api%2Dversion}",
     {
       problemServiceName: problemServiceName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

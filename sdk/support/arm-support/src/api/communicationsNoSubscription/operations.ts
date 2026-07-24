@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type {
   CommunicationDetails,
-  communicationDetailsSerializer,
-  communicationDetailsDeserializer,
   _CommunicationsListResult,
-  _communicationsListResultDeserializer,
   CheckNameAvailabilityInput,
-  checkNameAvailabilityInputSerializer,
   CheckNameAvailabilityOutput,
-  checkNameAvailabilityOutputDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  communicationDetailsSerializer,
+  communicationDetailsDeserializer,
+  _communicationsListResultDeserializer,
+  checkNameAvailabilityInputSerializer,
+  checkNameAvailabilityOutputDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams,
   CommunicationsNoSubscriptionListOptionalParams,
   CommunicationsNoSubscriptionCreateOptionalParams,
   CommunicationsNoSubscriptionGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,
@@ -44,7 +40,7 @@ export function _checkNameAvailabilitySend(
     "/providers/Microsoft.Support/supportTickets/{supportTicketName}/checkNameAvailability{?api%2Dversion}",
     {
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,7 +95,7 @@ export function _listSend(
     "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications{?api%2Dversion,%24top,%24filter}",
     {
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24top": options?.top,
       "%24filter": options?.filter,
     },
@@ -140,11 +136,7 @@ export function list(
     () => _listSend(context, supportTicketName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -160,7 +152,7 @@ export function _createSend(
     {
       supportTicketName: supportTicketName,
       communicationName: communicationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +202,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<CommunicationDetails>, CommunicationDetails>;
 }
 
@@ -225,7 +217,7 @@ export function _getSend(
     {
       supportTicketName: supportTicketName,
       communicationName: communicationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

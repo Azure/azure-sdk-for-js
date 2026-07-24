@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -59,6 +60,8 @@ export type {
   UserConsent,
   DirectConnectEscalation,
   EscalationStatus,
+  SupportChannel,
+  ChatConversationStatus,
   UpdateSupportTicket,
   Status,
   UpdateContactProfile,
@@ -85,6 +88,8 @@ export {
   KnownIsTemporaryTicket,
   KnownUserConsent,
   KnownEscalationStatus,
+  KnownSupportChannel,
+  KnownChatConversationStatus,
   KnownStatus,
   KnownVersions,
 } from "./models/index.js";

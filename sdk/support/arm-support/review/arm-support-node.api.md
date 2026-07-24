@@ -4,17 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -28,6 +28,9 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ChatConversationStatus = string;
 
 // @public
 export interface ChatTranscriptDetails extends ProxyResource {
@@ -382,6 +385,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownChatConversationStatus {
+    Active = "Active",
+    Closed = "Closed"
+}
+
+// @public
 export enum KnownCommunicationDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -450,6 +459,12 @@ export enum KnownStatus {
 }
 
 // @public
+export enum KnownSupportChannel {
+    Chat = "Chat",
+    Web = "Web"
+}
+
+// @public
 export enum KnownUserConsent {
     No = "No",
     Yes = "Yes"
@@ -458,7 +473,8 @@ export enum KnownUserConsent {
 // @public
 export enum KnownVersions {
     V20240401 = "2024-04-01",
-    V20250601Preview = "2025-06-01-preview"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -580,6 +596,7 @@ export interface ProblemClassificationsClassificationOutput {
 
 // @public
 export interface ProblemClassificationsClassificationResult {
+    readonly articleId?: string;
     readonly description?: string;
     readonly problemClassificationId?: string;
     readonly problemId?: string;
@@ -730,6 +747,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 export type Status = string;
 
 // @public
+export type SupportChannel = string;
+
+// @public
 export interface SupportEngineer {
     readonly emailAddress?: string;
 }
@@ -737,6 +757,7 @@ export interface SupportEngineer {
 // @public
 export interface SupportTicketDetails extends ProxyResource {
     advancedDiagnosticConsent: Consent;
+    readonly chatConversationStatus?: ChatConversationStatus;
     communityForumPost?: string;
     contactDetails: ContactProfile;
     readonly createdDate?: Date;
@@ -758,6 +779,7 @@ export interface SupportTicketDetails extends ProxyResource {
     serviceLevelAgreement?: ServiceLevelAgreement;
     severity: SeverityLevel;
     readonly status?: string;
+    readonly supportChannel?: SupportChannel;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
     supportPlanId?: string;
@@ -770,6 +792,7 @@ export interface SupportTicketDetails extends ProxyResource {
 // @public
 export interface SupportTicketDetailsProperties {
     advancedDiagnosticConsent: Consent;
+    readonly chatConversationStatus?: ChatConversationStatus;
     communityForumPost?: string;
     contactDetails: ContactProfile;
     readonly createdDate?: Date;
@@ -791,6 +814,7 @@ export interface SupportTicketDetailsProperties {
     serviceLevelAgreement?: ServiceLevelAgreement;
     severity: SeverityLevel;
     readonly status?: string;
+    readonly supportChannel?: SupportChannel;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
     supportPlanId?: string;

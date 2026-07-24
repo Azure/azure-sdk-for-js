@@ -1,34 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type { FileDetails, _FilesListResult, UploadFile } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  FileDetails,
   fileDetailsSerializer,
   fileDetailsDeserializer,
-  _FilesListResult,
   _filesListResultDeserializer,
-  UploadFile,
   uploadFileSerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   FilesUploadOptionalParams,
   FilesListOptionalParams,
   FilesCreateOptionalParams,
   FilesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _uploadSend(
   context: Client,
@@ -43,7 +35,7 @@ export function _uploadSend(
       subscriptionId: context.subscriptionId,
       fileWorkspaceName: fileWorkspaceName,
       fileName: fileName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,7 +84,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       fileWorkspaceName: fileWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,11 +121,7 @@ export function list(
     () => _listSend(context, fileWorkspaceName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -150,7 +138,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       fileWorkspaceName: fileWorkspaceName,
       fileName: fileName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +196,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       fileWorkspaceName: fileWorkspaceName,
       fileName: fileName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

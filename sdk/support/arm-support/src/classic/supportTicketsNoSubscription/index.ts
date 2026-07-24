@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import {
   checkNameAvailability,
   list,
@@ -9,22 +9,23 @@ import {
   create,
   get,
 } from "../../api/supportTicketsNoSubscription/operations.js";
-import {
+import type {
   SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams,
   SupportTicketsNoSubscriptionListOptionalParams,
   SupportTicketsNoSubscriptionUpdateOptionalParams,
   SupportTicketsNoSubscriptionCreateOptionalParams,
   SupportTicketsNoSubscriptionGetOptionalParams,
 } from "../../api/supportTicketsNoSubscription/options.js";
-import {
+import type {
   CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput,
   SupportTicketDetails,
   UpdateSupportTicket,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SupportTicketsNoSubscription operations. */
 export interface SupportTicketsNoSubscriptionOperations {

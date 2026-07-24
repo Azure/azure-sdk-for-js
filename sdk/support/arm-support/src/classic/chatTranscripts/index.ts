@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { list, get } from "../../api/chatTranscripts/operations.js";
-import {
+import type {
   ChatTranscriptsListOptionalParams,
   ChatTranscriptsGetOptionalParams,
 } from "../../api/chatTranscripts/options.js";
-import { ChatTranscriptDetails } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ChatTranscriptDetails } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ChatTranscripts operations. */
 export interface ChatTranscriptsOperations {

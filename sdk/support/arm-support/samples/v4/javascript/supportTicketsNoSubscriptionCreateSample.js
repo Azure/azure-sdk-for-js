@@ -1,0 +1,117 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { MicrosoftSupport } = require("@azure/arm-support");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ *
+ * @summary creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ * x-ms-original-file: 2026-07-01/CreateBillingSupportTicket.json
+ */
+async function createATicketForBillingRelatedIssues() {
+  const credential = new DefaultAzureCredential();
+  const client = new MicrosoftSupport(credential);
+  const result = await client.supportTicketsNoSubscription.create("testticket", {
+    description: "my description",
+    advancedDiagnosticConsent: "No",
+    contactDetails: {
+      country: "usa",
+      firstName: "abc",
+      lastName: "xyz",
+      preferredContactMethod: "email",
+      preferredSupportLanguage: "en-US",
+      preferredTimeZone: "Pacific Standard Time",
+      primaryEmailAddress: "abc@contoso.com",
+    },
+    fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
+    problemClassificationId:
+      "/providers/Microsoft.Support/services/billing_service_guid/problemClassifications/billing_problemClassification_guid",
+    serviceId: "/providers/Microsoft.Support/services/billing_service_guid",
+    severity: "moderate",
+    supportPlanId:
+      "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
+    title: "my title",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ *
+ * @summary creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ * x-ms-original-file: 2026-07-01/CreateSubMgmtSupportTicket.json
+ */
+async function createATicketForSubscriptionManagementRelatedIssues() {
+  const credential = new DefaultAzureCredential();
+  const client = new MicrosoftSupport(credential);
+  const result = await client.supportTicketsNoSubscription.create("testticket", {
+    description: "my description",
+    advancedDiagnosticConsent: "Yes",
+    contactDetails: {
+      country: "usa",
+      firstName: "abc",
+      lastName: "xyz",
+      preferredContactMethod: "email",
+      preferredSupportLanguage: "en-US",
+      preferredTimeZone: "Pacific Standard Time",
+      primaryEmailAddress: "abc@contoso.com",
+    },
+    fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
+    problemClassificationId:
+      "/providers/Microsoft.Support/services/subscription_management_service_guid/problemClassifications/subscription_management_problemClassification_guid",
+    serviceId: "/providers/Microsoft.Support/services/subscription_management_service_guid",
+    severity: "moderate",
+    supportPlanId:
+      "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
+    title: "my title",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ *
+ * @summary creates a new support ticket for Billing, and Subscription Management issues. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>
+ * x-ms-original-file: 2026-07-01/CreateTechnicalSupportTicket.json
+ */
+async function createATicketForTechnicalIssueRelatedToASpecificResource() {
+  const credential = new DefaultAzureCredential();
+  const client = new MicrosoftSupport(credential);
+  const result = await client.supportTicketsNoSubscription.create("testticket", {
+    description: "my description",
+    advancedDiagnosticConsent: "Yes",
+    communityForumPost:
+      "https://learn.microsoft.com/en-us/answers/questions/2283704/unverified-app-listed-under-applications-from-pers",
+    contactDetails: {
+      country: "usa",
+      firstName: "abc",
+      lastName: "xyz",
+      preferredContactMethod: "email",
+      preferredSupportLanguage: "en-US",
+      preferredTimeZone: "Pacific Standard Time",
+      primaryEmailAddress: "abc@contoso.com",
+    },
+    fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
+    problemClassificationId:
+      "/providers/Microsoft.Support/services/virtual_machine_running_linux_service_guid/problemClassifications/problemClassification_guid",
+    problemScopingQuestions:
+      '{"articleId":"076846c1-4c0b-4b21-91c6-1a30246b3867","scopingDetails":[{"question":"When did the problem begin?","controlId":"problem_start_time","orderId":1,"inputType":"static","answer":{"displayValue":"2023-08-31T18:55:00.739Z","value":"2023-08-31T18:55:00.739Z","type":"datetime"}},{"question":"API Type of the Cosmos DB account","controlId":"api_type","orderId":2,"inputType":"static","answer":{"displayValue":"Table","value":"tables","type":"string"}},{"question":"Table name","controlId":"collection_name_table","orderId":11,"inputType":"nonstatic","answer":{"displayValue":"Select Table Name","value":"dont_know_answer","type":"string"}},{"question":"Provide additional details about the issue you\'re facing","controlId":"problem_description","orderId":12,"inputType":"nonstatic","answer":{"displayValue":"test ticket, please ignore and close","value":"test ticket, please ignore and close","type":"string"}}]}',
+    secondaryConsent: [{ type: "virtualmachinerunninglinuxservice", userConsent: "Yes" }],
+    serviceId: "/providers/Microsoft.Support/services/cddd3eb5-1830-b494-44fd-782f691479dc",
+    severity: "moderate",
+    supportPlanId:
+      "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
+    title: "my title",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await createATicketForBillingRelatedIssues();
+  await createATicketForSubscriptionManagementRelatedIssues();
+  await createATicketForTechnicalIssueRelatedToASpecificResource();
+}
+
+main().catch(console.error);

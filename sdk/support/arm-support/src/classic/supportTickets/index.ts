@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import {
   checkNameAvailability,
   lookUpResourceId,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/supportTickets/operations.js";
-import {
+import type {
   SupportTicketsCheckNameAvailabilityOptionalParams,
   SupportTicketsLookUpResourceIdOptionalParams,
   SupportTicketsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   SupportTicketsCreateOptionalParams,
   SupportTicketsGetOptionalParams,
 } from "../../api/supportTickets/options.js";
-import {
+import type {
   CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput,
   SupportTicketDetails,
@@ -26,9 +26,10 @@ import {
   LookUpResourceIdRequest,
   LookUpResourceIdResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SupportTickets operations. */
 export interface SupportTicketsOperations {
