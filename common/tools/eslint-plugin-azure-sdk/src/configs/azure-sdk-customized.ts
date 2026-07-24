@@ -297,9 +297,28 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     },
   },
   {
+    files: [
+      "src/**/*.ts",
+      "src/**/*.cts",
+      "src/**/*.mts",
+      "**/src/**/*.ts",
+      "**/src/**/*.cts",
+      "**/src/**/*.mts",
+    ],
+    rules: {
+      "@azure/azure-sdk/ts-no-direct-child-process": "error",
+    },
+  },
+  {
     files: ["**/src/**/*.ts"],
     rules: {
       "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
+    },
+  },
+  {
+    files: ["dtx.ts"],
+    rules: {
+      "@azure/azure-sdk/ts-no-direct-child-process": "error",
     },
   },
   noDynamicModuleLoad,

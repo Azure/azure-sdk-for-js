@@ -17,7 +17,12 @@ export type OverridePromptResponse = {
   confirmationForExit: boolean;
 };
 
+export type ProcessCommand = {
+  command: string;
+  args: string[];
+};
+
 export type PackageManager = {
-  installDevDependencyCommand: (packageName: string) => string;
-  runCommand: (command: string, args: string) => string;
+  installDevDependencyCommand: (packageNames: string[]) => ProcessCommand;
+  runCommand: (command: string, args: string[]) => ProcessCommand;
 };

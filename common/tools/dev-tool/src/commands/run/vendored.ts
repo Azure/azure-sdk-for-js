@@ -8,13 +8,12 @@
 
 import { readdir } from "node:fs/promises";
 import path from "node:path";
-import type { SpawnOptions } from "node:child_process";
-import { spawn } from "node:child_process";
+import { spawn, type SpawnOptions } from "@azure/core-process";
 import { makeCommandInfo, subCommand } from "../../framework/command.ts";
 import type { CommandOptions } from "../../framework/CommandInfo.ts";
 import type { CommandModule } from "../../framework/CommandModule.ts";
-import { createPrinter } from "../../util/printer.ts";
 import { isWindows } from "../../util/platform.ts";
+import { createPrinter } from "../../util/printer.ts";
 
 const log = createPrinter("vendored");
 
@@ -36,7 +35,7 @@ function makeCommandExecutor(
 
   const spawnOptions = options || {};
   spawnOptions.stdio = "inherit";
-  spawnOptions.shell = isWindows();
+  spawnOptions.allowWindowsBatchFiles = true;
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {

@@ -19,6 +19,37 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 const logger = credentialLogger("AzurePowerShellCredential");
 
 const isWindows = process.platform === "win32";
+const powerShellResourceEnvironmentVariable = "AZURE_IDENTITY_POWERSHELL_RESOURCE";
+const powerShellTenantEnvironmentVariable = "AZURE_IDENTITY_POWERSHELL_TENANT_ID";
+const powerShellPrivateEnvironmentVariables = new Set(
+  [powerShellResourceEnvironmentVariable, powerShellTenantEnvironmentVariable].map((name) =>
+    name.toLowerCase(),
+  ),
+);
+
+/**
+ * Creates the child environment used to pass private values to PowerShell.
+ *
+ * @param resource - The resource passed to PowerShell.
+ * @param tenantId - The optional tenant ID passed to PowerShell.
+ * @param environment - The environment to copy.
+ * @returns A child environment containing canonical private variable names.
+ * @internal
+ */
+export function createPowerShellEnvironment(
+  resource: string,
+  tenantId: string | undefined,
+  environment: NodeJS.ProcessEnv = process.env,
+): NodeJS.ProcessEnv {
+  const childEnvironment = Object.fromEntries(
+    Object.entries(environment).filter(
+      ([name]) => !powerShellPrivateEnvironmentVariables.has(name.toLowerCase()),
+    ),
+  );
+  childEnvironment[powerShellResourceEnvironmentVariable] = resource;
+  childEnvironment[powerShellTenantEnvironmentVariable] = tenantId ?? "";
+  return childEnvironment;
+}
 
 /**
  * Returns a platform-appropriate command name by appending ".exe" on Windows.
@@ -38,15 +69,20 @@ export function formatCommand(commandName: string): string {
  * If anything fails, an error is thrown.
  * @internal
  */
-async function runCommands(commands: string[][], timeout?: number): Promise<string[]> {
+async function runCommands(
+  commands: string[][],
+  timeout?: number,
+  env?: NodeJS.ProcessEnv,
+): Promise<string[]> {
   const results: string[] = [];
 
   for (const command of commands) {
     const [file, ...parameters] = command;
-    const result = (await processUtils.execFile(file, parameters, {
+    const result = await processUtils.execFile(file, parameters, {
       encoding: "utf8",
+      env,
       timeout,
-    })) as string;
+    });
 
     results.push(result);
   }
@@ -147,19 +183,21 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
-      const results = await runCommands([
+      const results = await runCommands(
         [
-          powerShellCommand,
-          "-NoProfile",
-          "-NonInteractive",
-          "-Command",
-          `
-          $tenantId = "${tenantId ?? ""}"
+          [
+            powerShellCommand,
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            `
+          $tenantId = $env:${powerShellTenantEnvironmentVariable}
+          $resource = $env:${powerShellResourceEnvironmentVariable}
           $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru
           $useSecureString = $m.Version -ge [version]'2.17.0' -and $m.Version -lt [version]'5.0.0'
 
           $params = @{
-            ResourceUrl = "${resource}"
+            ResourceUrl = $resource
           }
 
           if ($tenantId.Length -gt 0) {
@@ -195,8 +233,11 @@ export class AzurePowerShellCredential implements TokenCredential {
 
           Write-Output (ConvertTo-Json $result)
           `,
+          ],
         ],
-      ]);
+        timeout,
+        createPowerShellEnvironment(resource, tenantId),
+      );
 
       const result = results[0];
       return parseJsonToken(result);

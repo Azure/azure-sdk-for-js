@@ -43,6 +43,7 @@
   "dependencies": {
     "@_ts/max": "npm:typescript@~6.0.3",
     "@_ts/min": "npm:typescript@~5.4.2",
+    "@azure/core-process": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@microsoft/api-extractor": "^7.52.4",
     "@microsoft/api-extractor-model": "^7.30.5",
@@ -52,7 +53,6 @@
     "@pnpm/catalogs.types": "^1100.0.0",
     "@pnpm/workspace.read-manifest": "^1000.3.1",
     "chalk": "^5.4.1",
-    "concurrently": "^9.2.1",
     "diff": "^8.0.2",
     "dotenv": "^16.0.0",
     "express": "catalog:internal",
@@ -69,6 +69,7 @@
     "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@eslint/js": "^9.9.0",
     "@types/express": "^5.0.1",
     "@types/express-serve-static-core": "^5.0.6",

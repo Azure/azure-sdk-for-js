@@ -10,6 +10,9 @@
 
 ### Other Changes
 
+- Replaced shell-based developer credential commands with safe, structured
+  process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
 ## 4.14.0-beta.4 (2026-06-08)
 
 ### Bugs Fixed

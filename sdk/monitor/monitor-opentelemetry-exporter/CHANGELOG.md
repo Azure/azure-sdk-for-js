@@ -8,6 +8,8 @@
 
 ### Other Changes
 
+- Centralized native process execution and hardened Windows system executable
+  resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 - Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
 
 ## 1.0.0-beta.43 (2026-07-01)
@@ -70,7 +72,7 @@
 
 ## 1.0.0-beta.39 (2026-02-20)
 
-### Features Added 
+### Features Added
 
 - Add ownership checks for storage directories.
 - Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
@@ -79,14 +81,14 @@
 
 - Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
 
-### 1.0.0-beta.38 (2026-01-16)
+## 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
 - Updated customer SDK Stats metric names from preview format to stable format.
 
-### 1.0.0-beta.37 (2026-01-15)
+## 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 

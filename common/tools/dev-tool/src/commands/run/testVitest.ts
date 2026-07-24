@@ -2,11 +2,13 @@
 // Licensed under the MIT License
 
 import path from "node:path";
-import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
-import { runTestsWithProxyTool, summarizeCloseEvents } from "../../util/testUtils.ts";
+import { runTestsWithProxyTool } from "../../util/testUtils.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
+import { run } from "../../util/run.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
+import { buildVitestCommand } from "../../util/vitestCommand.ts";
 
 const log = createPrinter("test:vitest");
 
@@ -48,14 +50,10 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
-  const { result } = concurrently([
-    {
-      command: "npx playwright install",
-      name: "playwright install",
-    },
-  ]);
-
-  await result;
+  const playwrightCli = resolveNodeModuleBin("playwright", "playwright", process.cwd());
+  await run([process.execPath, "--", playwrightCli, "install"], {
+    stdio: "inherit",
+  });
   log.info("playwright browsers installed");
 }
 
@@ -64,26 +62,11 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const updatedArgs = options["--"]?.map((opt) =>
-    (opt.includes("**") || opt.includes(" ")) && !opt.startsWith("'") && !opt.startsWith('"')
-      ? `"${opt}"`
-      : opt,
-  );
-
-  let args = "";
-  // Only set if we didn't provide a config file path
-  const providedConfig = updatedArgs?.find((arg) => arg === "-c" || arg === "--config");
-  if (options["browser"] && !providedConfig) {
-    args = "-c vitest.browser.config.ts";
-  } else if (options["esm"] && !providedConfig) {
-    args = "-c vitest.esm.config.ts";
-  }
-
-  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
-  const command = {
-    command: `vitest ${args} ${vitestArgs}`,
-    name: "vitest",
-  };
+  const updatedArgs = options["--"] ?? [];
+  const command = buildVitestCommand(updatedArgs, {
+    browser: options["browser"],
+    esm: options["esm"],
+  });
 
   const stopRelayServer =
     options.browser && options["relay-server"] && (await shouldStartRelay())
@@ -108,10 +91,10 @@ export default leafCommand(commandInfo, async (options) => {
 
     log.info("Running vitest without test-proxy");
     try {
-      await concurrently([command]).result;
+      await run(command, { stdio: "inherit" });
       return true;
-    } catch (closeEvents: unknown) {
-      log.error(`vitest failed: ${summarizeCloseEvents(closeEvents)}`);
+    } catch (error: unknown) {
+      log.error(`vitest failed: ${error instanceof Error ? error.message : String(error)}`);
       return false;
     }
   } finally {
