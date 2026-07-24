@@ -53,6 +53,6 @@ When reviewing dependency changes, check for:
 ## Output Format
 
 For each finding include: **package** (which `package.json`), **severity**
-(🔴 Blocker / 🟡 Concern / �� Suggestion), a one-line description, and
+(🔴 Blocker / 🟡 Concern / 🔵 Suggestion), a one-line description, and
 a concrete suggested fix. If all dependency changes look good, say so in
 one sentence.
