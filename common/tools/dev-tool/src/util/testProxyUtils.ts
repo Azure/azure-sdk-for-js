@@ -235,8 +235,14 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   }
 }
 
-export function createAssetsJson(project: ProjectInfo): Promise<void> {
-  return runMigrationScript(project, false);
+export async function createAssetsJson(project: ProjectInfo): Promise<void> {
+  const scriptLocation = path.join(
+    await resolveRoot(),
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
+  );
+  const argv = [scriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
+
+  await runCommand("pwsh", argv, { stdio: "inherit", cwd: project.path }).result;
 }
 
 async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
@@ -465,23 +471,6 @@ export async function printRecordingsDiff(
       }
     }
   }
-}
-
-export async function runMigrationScript(
-  project: ProjectInfo,
-  initialPush: boolean,
-): Promise<void> {
-  const migrationScriptLocation = path.join(
-    await resolveRoot(),
-    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
-  );
-
-  const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
-  if (initialPush) {
-    argv.push("-InitialPush");
-  }
-
-  await runCommand("pwsh", argv, { stdio: "inherit", cwd: project.path }).result;
 }
 
 export interface TestProxy {

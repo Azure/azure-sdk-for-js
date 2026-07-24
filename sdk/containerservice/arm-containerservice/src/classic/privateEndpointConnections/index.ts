@@ -62,7 +62,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: ContainerServiceContext) {
   return {
     list: (
@@ -129,7 +128,6 @@ function _getPrivateEndpointConnections(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: ContainerServiceContext,
 ): PrivateEndpointConnectionsOperations {
