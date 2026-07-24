@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves the settings not specified in the request body unmodified.
  *
  * @summary replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves the settings not specified in the request body unmodified.
- * x-ms-original-file: 2026-01-01/Clusters/ClusterQuotaConfigurationPatch.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClusterQuotaConfigurationPatch.json
  */
 async function clustersQuotasConfigurationPatch() {
   const credential = new DefaultAzureCredential();

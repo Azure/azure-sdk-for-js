@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the description of the specified namespace.
  *
  * @summary gets the description of the specified namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceGet.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceGet.json
  */
 async function nameSpaceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to refreshes any information about the association.
  *
  * @summary refreshes any information about the association.
- * x-ms-original-file: 2026-01-01/NameSpaces/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationList() {
   const credential = new DefaultAzureCredential();

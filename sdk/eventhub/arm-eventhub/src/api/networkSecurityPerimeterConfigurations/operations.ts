@@ -33,7 +33,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       resourceAssociationName: resourceAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _createOrUpdateDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
-
 /** Refreshes any information about the association. */
 export function createOrUpdate(
   context: Client,
@@ -83,7 +82,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
@@ -106,7 +105,7 @@ export function _getResourceAssociationNameSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       resourceAssociationName: resourceAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +132,6 @@ export async function _getResourceAssociationNameDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
-
 /** Return a NetworkSecurityPerimeterConfigurations resourceAssociationName */
 export async function getResourceAssociationName(
   context: Client,

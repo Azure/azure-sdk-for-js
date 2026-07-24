@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates the primary or secondary connection strings for the specified Namespace.
  *
  * @summary regenerates the primary or secondary connection strings for the specified Namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceAuthorizationRuleRegenerateKey.json
  */
 async function nameSpaceAuthorizationRuleRegenerateKey() {
   const credential = new DefaultAzureCredential();

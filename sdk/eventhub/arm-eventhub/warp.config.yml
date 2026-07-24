@@ -10,6 +10,8 @@ exports:
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/namespaces": "./src/api/namespaces/index.ts"
   "./api/configuration": "./src/api/configuration/index.ts"
+  "./api/upgradePreferencesOperations": "./src/api/upgradePreferencesOperations/index.ts"
+  "./api/fabricShortcuts": "./src/api/fabricShortcuts/index.ts"
   "./api/consumerGroups": "./src/api/consumerGroups/index.ts"
   "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"

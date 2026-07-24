@@ -52,7 +52,6 @@ export interface ConsumerGroupsOperations {
     options?: ConsumerGroupsGetOptionalParams,
   ) => Promise<ConsumerGroup>;
 }
-
 function _getConsumerGroups(context: EventHubManagementContext) {
   return {
     listByEventHub: (
@@ -95,7 +94,6 @@ function _getConsumerGroups(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, eventHubName, consumerGroupName, options),
   };
 }
-
 export function _getConsumerGroupsOperations(
   context: EventHubManagementContext,
 ): ConsumerGroupsOperations {

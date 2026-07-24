@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region.
  *
  * @summary list the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region.
- * x-ms-original-file: 2026-01-01/Clusters/ListAvailableClustersGet.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ListAvailableClustersGet.json
  */
 async function listAvailableClusters() {
   const credential = new DefaultAzureCredential();

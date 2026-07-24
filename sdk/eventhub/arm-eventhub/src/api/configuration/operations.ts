@@ -28,7 +28,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _getDeserialize(
 
   return clusterQuotaConfigurationPropertiesDeserializer(result.body);
 }
-
 /** Get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and settings imposed on the cluster. */
 export async function get(
   context: Client,
@@ -80,7 +79,7 @@ export function _patchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +95,7 @@ export function _patchSend(
 
 export async function _patchDeserialize(
   result: PathUncheckedResponse,
-): Promise<ClusterQuotaConfigurationProperties | undefined> {
+): Promise<ClusterQuotaConfigurationProperties | void> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -107,9 +106,12 @@ export async function _patchDeserialize(
     throw error;
   }
 
-  return result.body ? clusterQuotaConfigurationPropertiesDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return clusterQuotaConfigurationPropertiesDeserializer(result.body);
+}
 /** Replace all specified Event Hubs Cluster settings with those contained in the request body. Leaves the settings not specified in the request body unmodified. */
 export async function patch(
   context: Client,
@@ -117,7 +119,7 @@ export async function patch(
   clusterName: string,
   parameters: ClusterQuotaConfigurationProperties,
   options: ConfigurationPatchOptionalParams = { requestOptions: {} },
-): Promise<ClusterQuotaConfigurationProperties | undefined> {
+): Promise<ClusterQuotaConfigurationProperties | void> {
   const result = await _patchSend(context, resourceGroupName, clusterName, parameters, options);
   return _patchDeserialize(result);
 }

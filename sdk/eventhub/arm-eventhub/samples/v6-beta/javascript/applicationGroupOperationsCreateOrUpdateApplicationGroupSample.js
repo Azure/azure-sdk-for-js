@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an ApplicationGroup for a Namespace.
  *
  * @summary creates or updates an ApplicationGroup for a Namespace.
- * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupCreate.json
+ * x-ms-original-file: 2026-07-01-preview/ApplicationGroup/ApplicationGroupCreate.json
  */
 async function applicationGroupCreate() {
   const credential = new DefaultAzureCredential();

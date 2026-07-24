@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates the ACS and SAS connection strings for the Event Hub.
  *
  * @summary regenerates the ACS and SAS connection strings for the Event Hub.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubAuthorizationRuleRegenerateKey.json
  */
 async function eventHubAuthorizationRuleRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

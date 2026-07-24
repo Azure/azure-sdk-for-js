@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Event Hubs Cluster. This operation is idempotent.
  *
  * @summary deletes an existing Event Hubs Cluster. This operation is idempotent.
- * x-ms-original-file: 2026-01-01/Clusters/ClusterDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClusterDelete.json
  */
 async function clusterDelete() {
   const credential = new DefaultAzureCredential();
