@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { logger } from "../logger.js";
+
 /**
  * Options for configuring GenAI tracing on a specific AIProjectClient instance.
  *
@@ -70,7 +72,8 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
     try {
       const envVal = process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
       experimental = !!envVal && (envVal.toLowerCase() === "true" || envVal === "1");
-    } catch {
+    } catch (e) {
+      logger.verbose(`Unable to read AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING env var, tracing disabled: ${e}`);
       experimental = false;
     }
   }
@@ -89,7 +92,8 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
     try {
       const envVal = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
       contentRecording = !!envVal && (envVal.toLowerCase() === "true" || envVal === "1");
-    } catch {
+    } catch (e) {
+      logger.verbose(`Unable to read OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT env var: ${e}`);
       contentRecording = false;
     }
   }
@@ -104,8 +108,8 @@ export function resolveTracingConfig(options?: GenAITracingOptions): ResolvedTra
       if (envVal && (envVal.toLowerCase() === "false" || envVal === "0")) {
         traceContextPropagation = false;
       }
-    } catch {
-      // process.env may not exist in browser environments
+    } catch (e) {
+      logger.verbose(`Unable to read AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION env var: ${e}`);
     }
   }
 
