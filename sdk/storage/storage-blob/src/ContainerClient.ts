@@ -393,11 +393,6 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
   /**
    * Specifies the format the service should use to return list results.
    * Defaults to {@link StorageResponseFormat.Auto}.
-   *
-   * When {@link StorageResponseFormat.Arrow} is requested the service streams a columnar
-   * body that is parsed directly into the returned items, so the low-level `_response`
-   * carries only headers and status - `_response.parsedBody` and `_response.bodyAsText`
-   * are not populated in that mode.
    */
   responseFormat?: StorageResponseFormat;
   /**
@@ -550,11 +545,6 @@ export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * Specifies the format the service should use to return list results.
    * Defaults to {@link StorageResponseFormat.Auto}.
-   *
-   * When {@link StorageResponseFormat.Arrow} is requested the service streams a columnar
-   * body that is parsed directly into the returned items, so the low-level `_response`
-   * carries only headers and status - `_response.parsedBody` and `_response.bodyAsText`
-   * are not populated in that mode.
    */
   responseFormat?: StorageResponseFormat;
   /**
@@ -687,9 +677,15 @@ function isApacheArrow(contentType: string | undefined): boolean {
 
 /**
  * Attaches the response metadata common to every List Blobs segment response - the
- * request IDs, service version, date, content-type, and the retained `_response` kept
- * only for headers/status - so the flat/hierarchy and Apache Arrow/XML paths don't each
- * repeat it. The raw stream body has already been consumed by the caller.
+ * request IDs, service version, date, content-type, and `_response` - so the
+ * flat/hierarchy and Apache Arrow/XML paths don't each repeat it.
+ *
+ * The raw stream body has already been consumed by the caller, so the stream
+ * operation's `_response` carries only headers/status. To honor the
+ * `ContainerListBlob*SegmentResponse` contract (whose `_response.parsedBody` is
+ * non-optional), the caller passes the segment it just parsed as `parsedBody`, which
+ * mirrors what the XML path exposes. `bodyAsText` is set to `""` because a native
+ * Apache Arrow body is binary and has no faithful text representation.
  */
 function withListSegmentResponseMetadata<T>(
   base: Omit<T, "clientRequestId" | "requestId" | "version" | "date" | "contentType" | "_response">,
@@ -699,8 +695,9 @@ function withListSegmentResponseMetadata<T>(
     version?: string;
     date?: Date;
     contentType?: string;
-    _response: unknown;
+    _response: object;
   },
+  parsedBody: unknown,
 ): T {
   return {
     ...base,
@@ -709,7 +706,11 @@ function withListSegmentResponseMetadata<T>(
     version: rawResponse.version,
     date: rawResponse.date,
     contentType: rawResponse.contentType,
-    _response: rawResponse._response,
+    _response: {
+      ...rawResponse._response,
+      bodyAsText: "",
+      parsedBody,
+    },
   } as T;
 }
 
@@ -1464,14 +1465,25 @@ export class ContainerClient extends StorageClient {
           },
         },
         rawResponse,
+        ConvertInternalResponseOfListBlobFlat(internalResponse),
       );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
+    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const internalResponse: ListBlobsFlatSegmentResponseInternal = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      segment: { blobItems: parsed.blobItems },
+      continuationToken: parsed.nextMarker,
+    };
     return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
       {
-        serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
+        serviceEndpoint,
         containerName: this.containerName,
         prefix: options.prefix,
         marker,
@@ -1482,6 +1494,7 @@ export class ContainerClient extends StorageClient {
         continuationToken: parsed.nextMarker,
       },
       rawResponse,
+      ConvertInternalResponseOfListBlobFlat(internalResponse),
     );
   }
 
@@ -1580,14 +1593,26 @@ export class ContainerClient extends StorageClient {
           },
         },
         rawResponse,
+        ConvertInternalResponseOfListBlobHierarchy(internalResponse),
       );
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
+    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const internalResponse: ListBlobsHierarchySegmentResponseInternal = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      delimiter,
+      segment: { blobItems: parsed.blobItems, blobPrefixes: parsed.blobPrefixes },
+      continuationToken: parsed.nextMarker,
+    };
     return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
       {
-        serviceEndpoint: `${serviceUrl.protocol}//${serviceUrl.host}/`,
+        serviceEndpoint,
         containerName: this.containerName,
         prefix: options.prefix,
         marker,
@@ -1600,6 +1625,7 @@ export class ContainerClient extends StorageClient {
         continuationToken: parsed.nextMarker,
       },
       rawResponse,
+      ConvertInternalResponseOfListBlobHierarchy(internalResponse),
     );
   }
 
