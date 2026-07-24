@@ -6,7 +6,6 @@ import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import type { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
 import { SDK_VERSION } from "../constants.js";
@@ -201,27 +200,44 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   // Here is a custom layer that allows us to abort requests that go through MSAL,
   // since MSAL doesn't allow us to pass options all the way through.
 
-  generateAbortSignal(correlationId: string): AbortSignalLike {
+  /**
+   * Registers a new {@link AbortController} for the given correlation ID and returns it.
+   * The controller's signal is used for a single request; the controller must be removed
+   * via {@link cleanupAbortControllers} once that request completes.
+   */
+  private registerAbortController(correlationId: string): AbortController {
     const controller = new AbortController();
     const controllers = this.abortControllers.get(correlationId) || [];
     controllers.push(controller);
     this.abortControllers.set(correlationId, controllers);
     const existingOnAbort = controller.signal.onabort;
     controller.signal.onabort = (...params) => {
-      this.abortControllers.delete(correlationId);
+      this.cleanupAbortControllers(correlationId, controller);
       if (existingOnAbort) {
         existingOnAbort.apply(controller.signal, params);
       }
     };
-    return controller.signal;
+    return controller;
   }
 
   /**
-   * Cleans up abort controllers for a given correlation ID.
-   * This should be called after a request completes to prevent memory leaks.
+   * Removes a single {@link AbortController} for a given correlation ID once its request
+   * completes, preventing memory leaks. The map entry is deleted only when no controllers
+   * remain, so completing one request does not remove controllers still in use by other
+   * in-flight requests that share the same correlation ID.
    */
-  private cleanupAbortControllers(correlationId: string): void {
-    this.abortControllers.delete(correlationId);
+  private cleanupAbortControllers(correlationId: string, controller: AbortController): void {
+    const controllers = this.abortControllers.get(correlationId);
+    if (!controllers) {
+      return;
+    }
+    const index = controllers.indexOf(controller);
+    if (index !== -1) {
+      controllers.splice(index, 1);
+    }
+    if (controllers.length === 0) {
+      this.abortControllers.delete(correlationId);
+    }
   }
 
   abortRequests(correlationId?: string): void {
@@ -255,13 +271,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
     const correlationId = noCorrelationId;
+    const controller = this.registerAbortController(correlationId);
     const request = createPipelineRequest({
       url,
       method: "GET",
       body: options?.body,
       allowInsecureConnection: this.allowInsecureConnection,
       headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal(correlationId),
+      abortSignal: controller.signal,
     });
 
     try {
@@ -275,8 +292,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         status: response.status,
       };
     } finally {
-      // Clean up abort controllers after request completes
-      this.cleanupAbortControllers(correlationId);
+      // Clean up this request's abort controller after it completes
+      this.cleanupAbortControllers(correlationId, controller);
     }
   }
 
@@ -284,15 +301,17 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     url: string,
     options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
-    // MSAL doesn't send the correlation ID on the get requests.
+    // MSAL only provides a correlation ID for POST requests; extract it here so it can be
+    // associated with this request (including the abort signal below).
     const correlationId = this.getCorrelationId(options);
+    const controller = this.registerAbortController(correlationId);
     const request = createPipelineRequest({
       url,
       method: "POST",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
       allowInsecureConnection: this.allowInsecureConnection,
-      abortSignal: this.generateAbortSignal(correlationId),
+      abortSignal: controller.signal,
     });
 
     try {
@@ -306,8 +325,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         status: response.status,
       };
     } finally {
-      // Clean up abort controllers after request completes
-      this.cleanupAbortControllers(correlationId);
+      // Clean up this request's abort controller after it completes
+      this.cleanupAbortControllers(correlationId, controller);
     }
   }
 

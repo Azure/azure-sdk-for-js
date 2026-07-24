@@ -10,6 +10,7 @@
 
 ### Bugs Fixed
 
+- Fixed a memory leak in `IdentityClient` where abort controllers were never removed after their request completed. Each completed request now removes only its own abort controller, so concurrent requests that share a correlation ID (such as GET requests, which all use `noCorrelationId`) remain abortable until they individually complete. [#37010](https://github.com/Azure/azure-sdk-for-js/pull/37010)
 - Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
 
 ### Other Changes

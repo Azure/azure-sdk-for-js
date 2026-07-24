@@ -296,4 +296,66 @@ describe("IdentityClient", function () {
       "Abort controllers key should be deleted even when request fails",
     );
   });
+
+  it("keeps abort controllers for other concurrent requests sharing a correlation ID", async () => {
+    // Gate each mocked request so the test controls when it completes.
+    const requestGates: Array<() => void> = [];
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest").mockImplementation(async (request) => {
+      await new Promise<void>((resolve) => requestGates.push(resolve));
+      return {
+        request,
+        status: 200,
+        bodyAsText: JSON.stringify({ test: "response" }),
+        headers: createHttpHeaders(),
+      };
+    });
+
+    const client = new IdentityClient({
+      authorityHost: "https://authority",
+      httpClient: mockHttpClient,
+    });
+
+    // Access the private abortControllers map via type assertion for testing
+    const abortControllersMap = (client as any).abortControllers as Map<
+      string,
+      AbortController[] | undefined
+    >;
+
+    // Start two concurrent GET requests, which both use "noCorrelationId".
+    const firstRequest = client.sendGetRequestAsync("https://test.com/1");
+    const secondRequest = client.sendGetRequestAsync("https://test.com/2");
+
+    // Wait until both requests have registered their abort controllers.
+    await vi.waitFor(() => {
+      assert.equal(requestGates.length, 2);
+    });
+    assert.equal(
+      abortControllersMap.get("noCorrelationId")?.length,
+      2,
+      "Both concurrent requests should be tracked under the shared correlation ID",
+    );
+
+    // Complete only the first request.
+    requestGates[0]();
+    await firstRequest;
+
+    // The second request's controller must still be tracked and abortable.
+    assert.equal(
+      abortControllersMap.get("noCorrelationId")?.length,
+      1,
+      "Completing one request must not remove the other in-flight request's controller",
+    );
+
+    // Complete the second request.
+    requestGates[1]();
+    await secondRequest;
+
+    // Once all requests complete, the map entry should be removed.
+    assert.equal(
+      abortControllersMap.has("noCorrelationId"),
+      false,
+      "Abort controllers key should be deleted after all requests complete",
+    );
+  });
 });
