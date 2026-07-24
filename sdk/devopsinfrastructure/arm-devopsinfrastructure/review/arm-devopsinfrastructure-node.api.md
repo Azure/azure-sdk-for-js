@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -33,10 +35,23 @@ export interface AutomaticResourcePredictionsProfile extends ResourcePredictions
 }
 
 // @public
+export type AvailabilityStatus = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureDevOpsOrganizationProfile extends OrganizationProfile {
+    alias?: string;
+    description?: string;
     kind: "AzureDevOps";
     organizations: Organization[];
     permissionProfile?: AzureDevOpsPermissionProfile;
+    updateDescription?: boolean;
 }
 
 // @public
@@ -50,7 +65,30 @@ export interface AzureDevOpsPermissionProfile {
 export type AzureDevOpsPermissionType = string;
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type CachingType = string;
+
+// @public
+export type CertificateStoreNameOption = string;
+
+// @public
+export interface CheckNameAvailability {
+    name: string;
+    type: DevOpsInfrastructureResourceType;
+}
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityResult {
+    available: AvailabilityStatus;
+    message: string;
+    name: string;
+    reason: CheckNameAvailabilityReason;
+}
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -69,8 +107,16 @@ export interface DataDisk {
 }
 
 // @public
+export interface DeleteResourcesDetails {
+    resourceIds: string[];
+}
+
+// @public
 export interface DevOpsAzureSku {
+    linuxNvmePath?: string;
     name: string;
+    vmSizes?: VmSize[];
+    windowsNvmeDrive?: string;
 }
 
 // @public (undocumented)
@@ -88,6 +134,33 @@ export class DevOpsInfrastructureClient {
 // @public
 export interface DevOpsInfrastructureClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export type DevOpsInfrastructureResourceType = string;
+
+// @public
+export type EphemeralType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -129,9 +202,17 @@ export interface ImageVersionsOperations {
     listByImage: (resourceGroupName: string, imageName: string, options?: ImageVersionsListByImageOptionalParams) => PagedAsyncIterableIterator<ImageVersion>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAvailabilityStatus {
+    Available = "Available",
+    Unavailable = "Unavailable"
 }
 
 // @public
@@ -149,11 +230,36 @@ export enum KnownCachingType {
 }
 
 // @public
+export enum KnownCertificateStoreNameOption {
+    My = "My",
+    Root = "Root"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDevOpsInfrastructureResourceType {
+    MicrosoftDevOpsInfrastructurePools = "Microsoft.DevOpsInfrastructure/pools"
+}
+
+// @public
+export enum KnownEphemeralType {
+    Automatic = "Automatic",
+    CacheDisk = "CacheDisk",
+    NVMeDisk = "NVMeDisk",
+    ResourceDisk = "ResourceDisk"
 }
 
 // @public
@@ -242,13 +348,17 @@ export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS"
+    StandardSsdlrs = "StandardSSD_LRS",
+    StandardSsdzrs = "StandardSSD_ZRS"
 }
 
 // @public
 export enum KnownVersions {
-    "V2024-10-19" = "2024-10-19"
+    V20250121 = "2025-01-21",
+    V20250920 = "2025-09-20",
+    V20260417Preview = "2026-04-17-preview",
+    V20260602 = "2026-06-02",
+    V20260703Preview = "2026-07-03-preview"
 }
 
 // @public
@@ -259,7 +369,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -272,13 +382,15 @@ export interface ManualResourcePredictionsProfile extends ResourcePredictionsPro
 
 // @public
 export interface NetworkProfile {
-    subnetId: string;
+    readonly ipAddresses?: string[];
+    staticIpAddressCount?: number;
+    subnetId?: string;
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -303,6 +415,8 @@ export interface OperationsOperations {
 
 // @public
 export interface Organization {
+    alias?: string;
+    openAccess?: boolean;
     parallelism?: number;
     projects?: string[];
     url: string;
@@ -350,6 +464,12 @@ export interface Pool extends TrackedResource {
 export interface PoolImage {
     aliases?: string[];
     buffer?: string;
+    ephemeralType?: EphemeralType;
+    readonly isEphemeral?: boolean;
+    provisioningScriptEntryPoint?: string;
+    provisioningScriptManagedIdentityClientId?: string;
+    provisioningScriptShouldRestart?: boolean;
+    provisioningScriptStorageAccountResourceId?: string;
     resourceId?: string;
     wellKnownImageName?: string;
 }
@@ -357,11 +477,16 @@ export interface PoolImage {
 // @public
 export interface PoolProperties {
     agentProfile: AgentProfileUnion;
-    devCenterProjectResourceId: string;
+    devCenterProjectResourceId?: string;
     fabricProfile: FabricProfileUnion;
     maximumConcurrency: number;
     organizationProfile: OrganizationProfileUnion;
     provisioningState?: ProvisioningState;
+    runtimeConfiguration?: RuntimeConfiguration;
+}
+
+// @public
+export interface PoolsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -372,6 +497,10 @@ export interface PoolsCreateOrUpdateOptionalParams extends OperationOptions {
 // @public
 export interface PoolsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface PoolsDeleteResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -388,8 +517,10 @@ export interface PoolsListBySubscriptionOptionalParams extends OperationOptions 
 
 // @public
 export interface PoolsOperations {
+    checkNameAvailability: (body: CheckNameAvailability, options?: PoolsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
     delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteResources: (resourceGroupName: string, poolName: string, body: DeleteResourcesDetails, options?: PoolsDeleteResourcesOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) => Promise<Pool>;
     listByResourceGroup: (resourceGroupName: string, options?: PoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Pool>;
     listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Pool>;
@@ -416,6 +547,7 @@ export interface PoolUpdateProperties {
     maximumConcurrency?: number;
     organizationProfile?: OrganizationProfileUnion;
     provisioningState?: ProvisioningState;
+    runtimeConfiguration?: RuntimeConfiguration;
 }
 
 // @public
@@ -546,6 +678,8 @@ export interface ResourceSkuZoneDetails {
 // @public
 export type ResourceStatus = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DevOpsInfrastructureClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -557,8 +691,14 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface RuntimeConfiguration {
+    workFolder?: string;
+}
+
+// @public
 export interface SecretsManagementSettings {
     certificateStoreLocation?: string;
+    certificateStoreName?: CertificateStoreNameOption;
     keyExportable: boolean;
     observedCertificates: string[];
 }
@@ -622,6 +762,11 @@ export interface TrackedResource extends Resource {
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface VmSize {
+    name?: string;
 }
 
 // @public

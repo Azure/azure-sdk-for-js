@@ -533,7 +533,7 @@
 # PRLabel: %Mgmt
 /sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/devopsinfrastructure/arm-devopsinfrastructure/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
