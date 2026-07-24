@@ -1,0 +1,31 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/sqlServerDatabases": "./src/api/sqlServerDatabases/index.ts"
+  "./api/activeDirectoryConnectors": "./src/api/activeDirectoryConnectors/index.ts"
+  "./api/dataControllers": "./src/api/dataControllers/index.ts"
+  "./api/sqlServerAvailabilityGroups": "./src/api/sqlServerAvailabilityGroups/index.ts"
+  "./api/failoverGroups": "./src/api/failoverGroups/index.ts"
+  "./api/sqlServerEsuLicenses": "./src/api/sqlServerEsuLicenses/index.ts"
+  "./api/postgresInstances": "./src/api/postgresInstances/index.ts"
+  "./api/sqlServerLicenses": "./src/api/sqlServerLicenses/index.ts"
+  "./api/sqlServerInstances": "./src/api/sqlServerInstances/index.ts"
+  "./api/sqlManagedInstances": "./src/api/sqlManagedInstances/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs
