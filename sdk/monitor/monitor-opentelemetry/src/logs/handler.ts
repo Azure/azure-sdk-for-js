@@ -23,6 +23,7 @@ export class LogHandler {
   private _metricHandler: MetricHandler;
   private _config: InternalConfig;
   private _instrumentations: Instrumentation[];
+  private _consoleInstrumentation: Instrumentation | undefined;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -54,16 +55,36 @@ export class LogHandler {
   }
 
   /**
+   * The console instrumentation patches the global `console` object rather than a
+   * required module. It must be disabled explicitly on shutdown/re-initialization
+   * to restore the original console methods, so expose it for that purpose.
+   */
+  public getConsoleInstrumentation(): Instrumentation | undefined {
+    return this._consoleInstrumentation;
+  }
+
+  /**
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations(): void {
     const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
+    // A logging level of "NONE" means no logs should be collected from the log
+    // instrumentations. Skip registering them entirely rather than encoding
+    // "NONE" as a severity threshold: the Bunyan and Winston instrumentations
+    // normalize an out-of-range threshold back to a real level (fatal/error) and
+    // would still export severe application logs.
+    if (logLevelEnv === "NONE") {
+      return;
+    }
+
+    const logSeverity = logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined;
+
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
         new BunyanInstrumentation({
           ...this._config.instrumentationOptions.bunyan,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+          logSeverity,
         }),
       );
     }
@@ -71,7 +92,7 @@ export class LogHandler {
       this._instrumentations.push(
         new WinstonInstrumentation({
           ...this._config.instrumentationOptions.winston,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+          logSeverity,
         }),
       );
     }
@@ -80,13 +101,13 @@ export class LogHandler {
       // Enabling ConsoleInstrumentation via its constructor patches console
       // before its field initializers run, wiping the saved originals so
       // disable() can no longer restore console.
-      this._instrumentations.push(
-        new ConsoleInstrumentation({
-          ...this._config.instrumentationOptions.console,
-          enabled: false,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
-        }),
-      );
+      const consoleInstrumentation = new ConsoleInstrumentation({
+        ...this._config.instrumentationOptions.console,
+        enabled: false,
+        logSeverity,
+      });
+      this._consoleInstrumentation = consoleInstrumentation;
+      this._instrumentations.push(consoleInstrumentation);
     }
   }
 }

@@ -221,6 +221,37 @@ describe("Main functions", () => {
     assert.strictEqual(console.log, originalLog, "console.log should be restored after shutdown");
   });
 
+  it("should not leak the console patch across re-initialization", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(
+      console.log,
+      originalLog,
+      "console.log should be patched after the first init",
+    );
+    // Re-initialize: the previous console instrumentation must be disabled so the
+    // global console is re-patched from the true original rather than layered on
+    // top of the previous patch.
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched after re-init");
+    await shutdownAzureMonitor();
+    // If the previous console patch had leaked, this single shutdown would leave a
+    // stale patch in place instead of the true original.
+    assert.strictEqual(
+      console.log,
+      originalLog,
+      "console.log should be fully restored after shutdown following re-init",
+    );
+  });
+
   it("should add custom spanProcessors", () => {
     const processor: SpanProcessor = {
       forceFlush: () => {

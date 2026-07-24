@@ -257,7 +257,7 @@ describe("LogHandler", () => {
       );
     });
 
-    it("should map a NONE logging level to a threshold above all console severities", () => {
+    it("should not register log instrumentations when the logging level is NONE", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
@@ -265,13 +265,24 @@ describe("LogHandler", () => {
       config.instrumentationOptions.console = {
         enabled: true,
       };
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      config.instrumentationOptions.winston = {
+        enabled: true,
+      };
       const logHandler = new LogHandler(config, metricHandler);
-      // The console instrumentation's highest severity is `console.error` -> ERROR (17).
-      // NONE must map above every console severity so nothing is collected.
+      // "NONE" must suppress all log collection. Rather than encoding it as a
+      // severity threshold (which Bunyan/Winston normalize back to a real level),
+      // no log instrumentation should be registered at all.
       assert.strictEqual(
-        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
-          .logSeverity,
-        SeverityNumber.FATAL4,
+        logHandler.getInstrumentations().length,
+        0,
+        "No log instrumentations should be registered when the logging level is NONE",
+      );
+      assert.isUndefined(
+        logHandler.getConsoleInstrumentation(),
+        "Console instrumentation should not be created when the logging level is NONE",
       );
       delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     });

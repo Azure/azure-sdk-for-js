@@ -46,10 +46,13 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
-// Retained so instrumentations (e.g. ConsoleInstrumentation, which patches the
-// global console) can be disabled on shutdown; NodeSDK.shutdown() does not
-// disable instrumentations.
-let activeInstrumentations: Instrumentation[] = [];
+// Retained so the ConsoleInstrumentation (which patches the global console) can
+// be disabled on shutdown/re-init; NodeSDK.shutdown() does not disable
+// instrumentations. Only the console (global-patch) instrumentation is tracked
+// here: module-based instrumentations must NOT be force-disabled on re-init, or
+// a subsequent useAzureMonitor() call may fail to re-patch already-cached module
+// loads and silently lose telemetry.
+let consoleInstrumentation: Instrumentation | undefined;
 
 /**
  * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
@@ -111,10 +114,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
-  // Disable any instrumentations from a previous initialization so global
-  // patches (e.g. console) are restored before re-instrumenting.
-  activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
-  activeInstrumentations = [];
+  // Disable the console instrumentation from a previous initialization so the
+  // global console patch is restored before re-instrumenting. Module-based
+  // instrumentations are intentionally left untouched.
+  consoleInstrumentation?.disable();
+  consoleInstrumentation = undefined;
 
   // Clear the entire OpenTelemetry API global state to avoid version conflicts.
   // The disable() calls above remove individual providers but leave the `version` field
@@ -134,7 +138,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const instrumentations = traceHandler
     .getInstrumentations()
     .concat(logHandler.getInstrumentations());
-  activeInstrumentations = instrumentations;
+  consoleInstrumentation = logHandler.getConsoleInstrumentation();
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
@@ -187,10 +191,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  // NodeSDK.shutdown() does not disable instrumentations, so restore any global
-  // patches (e.g. console) explicitly.
-  activeInstrumentations.forEach((instrumentation) => instrumentation.disable());
-  activeInstrumentations = [];
+  // NodeSDK.shutdown() does not disable instrumentations, so restore the global
+  // console patch explicitly.
+  consoleInstrumentation?.disable();
+  consoleInstrumentation = undefined;
   return sdk?.shutdown();
 }
 
