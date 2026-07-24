@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1523,6 +1523,8 @@ export interface AzureFileVolume {
   storageAccountKey?: string;
   /** The reference to the storage account access key used to access the Azure File share. */
   storageAccountKeyReference?: string;
+  /** The client id of the user-assigned managed identity that has access to the Azure File share. */
+  userAssignedIdentityClientId?: string;
 }
 
 export function azureFileVolumeSerializer(item: AzureFileVolume): any {
@@ -1532,6 +1534,7 @@ export function azureFileVolumeSerializer(item: AzureFileVolume): any {
     storageAccountName: item["storageAccountName"],
     storageAccountKey: item["storageAccountKey"],
     storageAccountKeyReference: item["storageAccountKeyReference"],
+    userAssignedIdentityClientId: item["userAssignedIdentityClientId"],
   };
 }
 
@@ -1542,6 +1545,7 @@ export function azureFileVolumeDeserializer(item: any): AzureFileVolume {
     storageAccountName: item["storageAccountName"],
     storageAccountKey: item["storageAccountKey"],
     storageAccountKeyReference: item["storageAccountKeyReference"],
+    userAssignedIdentityClientId: item["userAssignedIdentityClientId"],
   };
 }
 
@@ -3545,55 +3549,55 @@ export function containerGroupProfilePatchSerializer(item: ContainerGroupProfile
   return { tags: item["tags"] };
 }
 
-/** The response of a SandboxGroup list operation. */
-export interface _SandboxGroupListResult {
-  /** The SandboxGroup items on this page */
-  value: SandboxGroup[];
+/** The response of a AiAgentsGroup list operation. */
+export interface _AiAgentsGroupListResult {
+  /** The AiAgentsGroup items on this page */
+  value: AiAgentsGroup[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _sandboxGroupListResultDeserializer(item: any): _SandboxGroupListResult {
+export function _aiAgentsGroupListResultDeserializer(item: any): _AiAgentsGroupListResult {
   return {
-    value: sandboxGroupArrayDeserializer(item["value"]),
+    value: aiAgentsGroupArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function sandboxGroupArraySerializer(result: Array<SandboxGroup>): any[] {
+export function aiAgentsGroupArraySerializer(result: Array<AiAgentsGroup>): any[] {
   return result.map((item) => {
-    return sandboxGroupSerializer(item);
+    return aiAgentsGroupSerializer(item);
   });
 }
 
-export function sandboxGroupArrayDeserializer(result: Array<SandboxGroup>): any[] {
+export function aiAgentsGroupArrayDeserializer(result: Array<AiAgentsGroup>): any[] {
   return result.map((item) => {
-    return sandboxGroupDeserializer(item);
+    return aiAgentsGroupDeserializer(item);
   });
 }
 
-/** A SandboxGroup tracked resource. */
-export interface SandboxGroup extends TrackedResource {
+/** An AiAgentsGroup tracked resource. */
+export interface AiAgentsGroup extends TrackedResource {
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: AiAgentsGroupProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
 }
 
-export function sandboxGroupSerializer(item: SandboxGroup): any {
+export function aiAgentsGroupSerializer(item: AiAgentsGroup): any {
   return {
     tags: item["tags"],
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : sandboxGroupPropertiesSerializer(item["properties"]),
+      : aiAgentsGroupPropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
-export function sandboxGroupDeserializer(item: any): SandboxGroup {
+export function aiAgentsGroupDeserializer(item: any): AiAgentsGroup {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -3607,43 +3611,43 @@ export function sandboxGroupDeserializer(item: any): SandboxGroup {
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : sandboxGroupPropertiesDeserializer(item["properties"]),
+      : aiAgentsGroupPropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
-/** Properties of a SandboxGroup. */
-export interface SandboxGroupProperties {
+/** Properties of an AiAgentsGroup. */
+export interface AiAgentsGroupProperties {
   /** The status of the last operation. */
-  readonly provisioningState?: SandboxGroupProvisioningState;
-  /** The network profile of the SandboxGroup. */
-  networkProfile?: SandboxGroupNetworkProfile;
-  /** The ARM resource ID of the management resource group associated with this SandboxGroup. */
+  readonly provisioningState?: AiAgentsGroupProvisioningState;
+  /** The network profile of the AiAgentsGroup. */
+  networkProfile?: AiAgentsGroupNetworkProfile;
+  /** The ARM resource ID of the management resource group associated with this AiAgentsGroup. */
   readonly managementResourceGroupId?: string;
 }
 
-export function sandboxGroupPropertiesSerializer(item: SandboxGroupProperties): any {
+export function aiAgentsGroupPropertiesSerializer(item: AiAgentsGroupProperties): any {
   return {
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
-      : sandboxGroupNetworkProfileSerializer(item["networkProfile"]),
+      : aiAgentsGroupNetworkProfileSerializer(item["networkProfile"]),
   };
 }
 
-export function sandboxGroupPropertiesDeserializer(item: any): SandboxGroupProperties {
+export function aiAgentsGroupPropertiesDeserializer(item: any): AiAgentsGroupProperties {
   return {
     provisioningState: item["provisioningState"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
-      : sandboxGroupNetworkProfileDeserializer(item["networkProfile"]),
+      : aiAgentsGroupNetworkProfileDeserializer(item["networkProfile"]),
     managementResourceGroupId: item["managementResourceGroupId"],
   };
 }
 
-/** The provisioning state of a SandboxGroup resource. */
-export enum KnownSandboxGroupProvisioningState {
+/** The provisioning state of an AiAgentsGroup resource. */
+export enum KnownAiAgentsGroupProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
   /** Resource creation failed. */
@@ -3659,8 +3663,8 @@ export enum KnownSandboxGroupProvisioningState {
 }
 
 /**
- * The provisioning state of a SandboxGroup resource. \
- * {@link KnownSandboxGroupProvisioningState} can be used interchangeably with SandboxGroupProvisioningState,
+ * The provisioning state of an AiAgentsGroup resource. \
+ * {@link KnownAiAgentsGroupProvisioningState} can be used interchangeably with AiAgentsGroupProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
@@ -3670,21 +3674,21 @@ export enum KnownSandboxGroupProvisioningState {
  * **Deleting**: The resource is being deleted. \
  * **Accepted**: The resource provisioning request was accepted but not yet started.
  */
-export type SandboxGroupProvisioningState = string;
+export type AiAgentsGroupProvisioningState = string;
 
-/** The network profile for a SandboxGroup. */
-export interface SandboxGroupNetworkProfile {
-  /** The list of subnets associated with the SandboxGroup. */
+/** The network profile for an AiAgentsGroup. */
+export interface AiAgentsGroupNetworkProfile {
+  /** The list of subnets associated with the AiAgentsGroup. */
   subnets?: SubnetReference[];
 }
 
-export function sandboxGroupNetworkProfileSerializer(item: SandboxGroupNetworkProfile): any {
+export function aiAgentsGroupNetworkProfileSerializer(item: AiAgentsGroupNetworkProfile): any {
   return {
     subnets: !item["subnets"] ? item["subnets"] : subnetReferenceArraySerializer(item["subnets"]),
   };
 }
 
-export function sandboxGroupNetworkProfileDeserializer(item: any): SandboxGroupNetworkProfile {
+export function aiAgentsGroupNetworkProfileDeserializer(item: any): AiAgentsGroupNetworkProfile {
   return {
     subnets: !item["subnets"] ? item["subnets"] : subnetReferenceArrayDeserializer(item["subnets"]),
   };
@@ -3820,15 +3824,15 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
-/** The type used for updating a SandboxGroup resource. */
-export interface SandboxGroupTagsUpdate {
+/** The type used for updating an AiAgentsGroup resource. */
+export interface AiAgentsGroupTagsUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
 }
 
-export function sandboxGroupTagsUpdateSerializer(item: SandboxGroupTagsUpdate): any {
+export function aiAgentsGroupTagsUpdateSerializer(item: AiAgentsGroupTagsUpdate): any {
   return {
     tags: item["tags"],
     identity: !item["identity"]
@@ -3837,8 +3841,8 @@ export function sandboxGroupTagsUpdateSerializer(item: SandboxGroupTagsUpdate): 
   };
 }
 
-/** The result of getting an access token for a SandboxGroup. */
-export interface SandboxGroupAccessToken {
+/** The result of getting an access token for an AiAgentsGroup. */
+export interface AiAgentsGroupAccessToken {
   /** The endpoint URL to use with the access token. */
   endpoint: string;
   /** The access token used to authenticate against the endpoint. */
@@ -3847,7 +3851,7 @@ export interface SandboxGroupAccessToken {
   notAfter: Date;
 }
 
-export function sandboxGroupAccessTokenDeserializer(item: any): SandboxGroupAccessToken {
+export function aiAgentsGroupAccessTokenDeserializer(item: any): AiAgentsGroupAccessToken {
   return {
     endpoint: item["endpoint"],
     accessToken: item["accessToken"],
@@ -4098,6 +4102,10 @@ export enum KnownVersions {
   V20250901 = "2025-09-01",
   /** The 2026-06-01-preview API version. */
   V20260601Preview = "2026-06-01-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }
 
 export function _containerPropertiesSerializer(item: Container): any {

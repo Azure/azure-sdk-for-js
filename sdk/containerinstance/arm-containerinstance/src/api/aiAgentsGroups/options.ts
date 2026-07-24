@@ -4,31 +4,25 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SandboxGroupsConnectOptionalParams extends OperationOptions {}
-
+export interface AiAgentsGroupsConnectOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface SandboxGroupsDeleteOptionalParams extends OperationOptions {
+export interface AiAgentsGroupsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
-export interface SandboxGroupsUpdateOptionalParams extends OperationOptions {
+export interface AiAgentsGroupsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
-export interface SandboxGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface AiAgentsGroupsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
-export interface SandboxGroupsGetOptionalParams extends OperationOptions {}
-
+export interface AiAgentsGroupsGetOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface SandboxGroupsListByResourceGroupOptionalParams extends OperationOptions {}
-
+export interface AiAgentsGroupsListByResourceGroupOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface SandboxGroupsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface AiAgentsGroupsListBySubscriptionOptionalParams extends OperationOptions {}

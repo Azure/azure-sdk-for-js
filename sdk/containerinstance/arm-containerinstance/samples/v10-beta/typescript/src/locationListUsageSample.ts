@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the usage for a subscription
  *
  * @summary get the usage for a subscription
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupUsage.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupUsage.json
  */
 async function containerUsage(): Promise<void> {
   const credential = new DefaultAzureCredential();

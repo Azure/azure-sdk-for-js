@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_CreateConfidential.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_CreateConfidential.json
  */
 async function confidentialContainerGroupProfile() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function confidentialContainerGroupProfile() {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_EncryptionProperties.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_EncryptionProperties.json
  */
 async function containerGroupProfileWithEncryptionProperties() {
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function containerGroupProfileWithEncryptionProperties() {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfileCreateOrUpdate_Extensions.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfileCreateOrUpdate_Extensions.json
  */
 async function containerGroupProfileCreateWithExtensions() {
   const credential = new DefaultAzureCredential();
@@ -121,7 +121,7 @@ async function containerGroupProfileCreateWithExtensions() {
  * This sample demonstrates how to create a CGProfile if it doesn't exist or update an existing CGProfile.
  *
  * @summary create a CGProfile if it doesn't exist or update an existing CGProfile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesCreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesCreateOrUpdate.json
  */
 async function containerGroupProfilesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

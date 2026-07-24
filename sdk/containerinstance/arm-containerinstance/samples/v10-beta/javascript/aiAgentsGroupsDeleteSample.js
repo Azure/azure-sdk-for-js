@@ -5,21 +5,20 @@ const { ContainerInstanceManagementClient } = require("@azure/arm-containerinsta
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get an access token and endpoint for connecting to the SandboxGroup.
+ * This sample demonstrates how to delete an AiAgentsGroup
  *
- * @summary get an access token and endpoint for connecting to the SandboxGroup.
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsConnect.json
+ * @summary delete an AiAgentsGroup
+ * x-ms-original-file: 2026-08-01-preview/AiAgentsGroupsDelete.json
  */
-async function connectToASandboxGroup() {
+async function deleteAAiAgentsGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
-  const result = await client.sandboxGroups.connect("myResourceGroup", "mySandboxGroup");
-  console.log(result);
+  await client.aiAgentsGroups.delete("myResourceGroup", "myAiAgentsGroup");
 }
 
 async function main() {
-  await connectToASandboxGroup();
+  await deleteAAiAgentsGroup();
 }
 
 main().catch(console.error);

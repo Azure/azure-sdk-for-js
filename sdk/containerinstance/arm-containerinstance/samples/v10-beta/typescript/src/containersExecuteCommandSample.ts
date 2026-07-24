@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to executes a command for a specific container instance in a specified resource group and container group.
  *
  * @summary executes a command for a specific container instance in a specified resource group and container group.
- * x-ms-original-file: 2026-06-01-preview/ContainerExec.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerExec.json
  */
 async function containerExec(): Promise<void> {
   const credential = new DefaultAzureCredential();

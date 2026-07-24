@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of the specified container group profile.
  *
  * @summary get the properties of the specified container group profile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesGet.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesGet.json
  */
 async function containerGroupProfilesGetSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function containerGroupProfilesGetSucceeded(): Promise<void> {
  * This sample demonstrates how to get the properties of the specified container group profile.
  *
  * @summary get the properties of the specified container group profile.
- * x-ms-original-file: 2026-06-01-preview/ContainerGroupProfilesGetPriority.json
+ * x-ms-original-file: 2026-08-01-preview/ContainerGroupProfilesGetPriority.json
  */
 async function containerGroupProfilesGetWithPriority(): Promise<void> {
   const credential = new DefaultAzureCredential();
