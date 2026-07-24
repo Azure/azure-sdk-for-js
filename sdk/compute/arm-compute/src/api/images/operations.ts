@@ -59,7 +59,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _imageListResultDeserializer(result.body);
 }
-
 /** Gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
 export function list(
   context: Client,
@@ -111,7 +110,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _imageListResultDeserializer(result.body);
 }
-
 /** Gets the list of images under a resource group. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images. */
 export function listByResourceGroup(
   context: Client,
@@ -161,7 +159,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an Image. */
 export function $delete(
   context: Client,
@@ -218,7 +215,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return imageDeserializer(result.body);
 }
-
 /** Update an image. */
 export function update(
   context: Client,
@@ -277,7 +273,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return imageDeserializer(result.body);
 }
-
 /** Create or update an image. */
 export function createOrUpdate(
   context: Client,
@@ -334,7 +329,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Im
 
   return imageDeserializer(result.body);
 }
-
 /** Gets an image. */
 export async function get(
   context: Client,

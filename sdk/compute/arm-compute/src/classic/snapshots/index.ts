@@ -3,6 +3,8 @@
 
 import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
+  updateImmutabilityPolicyLock,
+  updateImmutabilityPolicy,
   revokeAccess,
   grantAccess,
   list,
@@ -13,6 +15,8 @@ import {
   get,
 } from "../../api/snapshots/operations.js";
 import type {
+  SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  SnapshotsUpdateImmutabilityPolicyOptionalParams,
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,
@@ -27,6 +31,8 @@ import type {
   AccessUri,
   Snapshot,
   SnapshotUpdate,
+  ImmutabilityPolicyData,
+  ImmutabilityPolicyLockData,
 } from "../../models/computeDisk/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -35,6 +41,48 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Snapshots operations. */
 export interface SnapshotsOperations {
+  /** Locks the immutability policy of a snapshot. Once locked, the policy cannot be reduced or removed until the lock period expires. */
+  updateImmutabilityPolicyLock: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyLockData,
+    options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  ) => PollerLike<OperationState<Snapshot>, Snapshot>;
+  /** @deprecated use updateImmutabilityPolicyLock instead */
+  beginUpdateImmutabilityPolicyLock: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyLockData,
+    options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+  /** @deprecated use updateImmutabilityPolicyLock instead */
+  beginUpdateImmutabilityPolicyLockAndWait: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyLockData,
+    options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  ) => Promise<Snapshot>;
+  /** Updates the immutability policy of a snapshot. Sets or extends an unlocked immutability policy with the specified duration and type. If the snapshot already has a locked policy, the request will be rejected. Use updateImmutabilityPolicyLock to lock an immutability policy. */
+  updateImmutabilityPolicy: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyData,
+    options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+  ) => PollerLike<OperationState<Snapshot>, Snapshot>;
+  /** @deprecated use updateImmutabilityPolicy instead */
+  beginUpdateImmutabilityPolicy: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyData,
+    options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+  /** @deprecated use updateImmutabilityPolicy instead */
+  beginUpdateImmutabilityPolicyAndWait: (
+    resourceGroupName: string,
+    snapshotName: string,
+    immutabilityPolicyData: ImmutabilityPolicyData,
+    options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+  ) => Promise<Snapshot>;
   /** Revokes access to a snapshot. */
   revokeAccess: (
     resourceGroupName: string,
@@ -148,9 +196,94 @@ export interface SnapshotsOperations {
     options?: SnapshotsGetOptionalParams,
   ) => Promise<Snapshot>;
 }
-
 function _getSnapshots(context: ComputeManagementContext) {
   return {
+    updateImmutabilityPolicyLock: (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyLockData,
+      options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+    ) =>
+      updateImmutabilityPolicyLock(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      ),
+    beginUpdateImmutabilityPolicyLock: async (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyLockData,
+      options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+    ) => {
+      const poller = updateImmutabilityPolicyLock(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateImmutabilityPolicyLockAndWait: async (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyLockData,
+      options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+    ) => {
+      return await updateImmutabilityPolicyLock(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      );
+    },
+    updateImmutabilityPolicy: (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyData,
+      options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+    ) =>
+      updateImmutabilityPolicy(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      ),
+    beginUpdateImmutabilityPolicy: async (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyData,
+      options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+    ) => {
+      const poller = updateImmutabilityPolicy(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateImmutabilityPolicyAndWait: async (
+      resourceGroupName: string,
+      snapshotName: string,
+      immutabilityPolicyData: ImmutabilityPolicyData,
+      options?: SnapshotsUpdateImmutabilityPolicyOptionalParams,
+    ) => {
+      return await updateImmutabilityPolicy(
+        context,
+        resourceGroupName,
+        snapshotName,
+        immutabilityPolicyData,
+        options,
+      );
+    },
     revokeAccess: (
       resourceGroupName: string,
       snapshotName: string,
@@ -280,7 +413,6 @@ function _getSnapshots(context: ComputeManagementContext) {
       get(context, resourceGroupName, snapshotName, options),
   };
 }
-
 export function _getSnapshotsOperations(context: ComputeManagementContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

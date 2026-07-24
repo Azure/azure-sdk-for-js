@@ -568,6 +568,7 @@ export type {
   PropertyUpdatesInProgress,
   DiskSecurityProfile,
   DiskSecurityTypes,
+  ConfidentialVMVersion,
   PublicNetworkAccess,
   DataAccessAuthMode,
   AvailabilityPolicy,
@@ -604,10 +605,14 @@ export type {
   SnapshotProperties,
   CopyCompletionError,
   CopyCompletionErrorReason,
+  ImmutabilityPolicy,
+  ImmutabilityPolicyType,
   SnapshotSku,
   SnapshotStorageAccountTypes,
   SnapshotUpdate,
   SnapshotUpdateProperties,
+  ImmutabilityPolicyData,
+  ImmutabilityPolicyLockData,
   DiskRestorePoint,
   DiskRestorePointProperties,
 } from "./models/computeDisk/index.js";
@@ -619,6 +624,7 @@ export {
   KnownEncryptionType,
   KnownNetworkAccessPolicy,
   KnownDiskSecurityTypes,
+  KnownConfidentialVMVersion,
   KnownPublicNetworkAccess,
   KnownDataAccessAuthMode,
   KnownAvailabilityPolicyDiskDelay,
@@ -630,6 +636,7 @@ export {
   KnownDiskEncryptionSetType,
   KnownDiskEncryptionSetIdentityType,
   KnownCopyCompletionErrorReason,
+  KnownImmutabilityPolicyType,
   KnownSnapshotStorageAccountTypes,
 } from "./models/computeDisk/index.js";
 export type {
@@ -1040,6 +1047,12 @@ export type {
   SharedGalleryImageVersionsGetOptionalParams,
 } from "./api/sharedGalleryImageVersions/index.js";
 export type {
+  SharedGalleryInvitesGallerySharingRejectOptionalParams,
+  SharedGalleryInvitesGallerySharingAcceptOptionalParams,
+} from "./api/sharedGalleryInvites/index.js";
+export type {
+  SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  SnapshotsUpdateImmutabilityPolicyOptionalParams,
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,
@@ -1059,6 +1072,10 @@ export type {
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysGetOptionalParams,
 } from "./api/sshPublicKeys/index.js";
+export type {
+  TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams,
+  TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams,
+} from "./api/tenantLevelSharedGalleryInvites/index.js";
 export type { UsageListOptionalParams } from "./api/usage/index.js";
 export type {
   VirtualMachineExtensionImagesListVersionsOptionalParams,
@@ -1241,9 +1258,11 @@ export type {
   SharedGalleriesOperations,
   SharedGalleryImagesOperations,
   SharedGalleryImageVersionsOperations,
+  SharedGalleryInvitesOperations,
   SnapshotsOperations,
   SoftDeletedResourceOperations,
   SshPublicKeysOperations,
+  TenantLevelSharedGalleryInvitesOperations,
   UsageOperations,
   VirtualMachineExtensionImagesOperations,
   VirtualMachineExtensionsOperations,
