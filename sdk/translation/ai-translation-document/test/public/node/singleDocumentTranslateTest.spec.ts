@@ -77,8 +77,13 @@ describe("SingleDocumentTranslate tests", () => {
       });
     } catch (error: any) {
       errorThrown = true;
-      // The service rejects requests with more than one glossary file with a 400.
+      // The Document Translation service caps single-document translation at one
+      // glossary file, so supplying more than one is rejected with a 400. This
+      // also exercises the binary error-body customization: the service error is
+      // delivered as the stream body, so the deserialized code/message must be
+      // surfaced on the RestError rather than a generic "Unexpected status code".
       assert.equal(error.statusCode, 400);
+      assert.match(error.message, /glossary/i);
     }
     assert.isTrue(
       errorThrown,
