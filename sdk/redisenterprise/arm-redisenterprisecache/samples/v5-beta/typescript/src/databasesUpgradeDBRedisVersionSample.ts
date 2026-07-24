@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the database Redis version to the latest available.
  *
  * @summary upgrades the database Redis version to the latest available.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesUpgradeDBRedisVersion.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesUpgradeDBRedisVersion.json
  */
 async function howToUpgradeYourDatabaseRedisVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

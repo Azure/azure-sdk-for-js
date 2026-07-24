@@ -1258,6 +1258,218 @@ export function privateEndpointConnectionArrayDeserializer(
   });
 }
 
+/** Describes the current migration operation on a Redis Enterprise cluster. */
+export interface Migration extends ProxyResource {
+  /** Properties of the migration operation. */
+  properties?: MigrationPropertiesUnion;
+}
+
+export function migrationSerializer(item: Migration): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : migrationPropertiesUnionSerializer(item["properties"]),
+  };
+}
+
+export function migrationDeserializer(item: any): Migration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : migrationPropertiesUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Properties for Redis Enterprise migration operation. */
+export interface MigrationProperties {
+  /** Describes the source of the migration operation. */
+  /** The discriminator possible values: AzureCacheForRedis */
+  sourceType: SourceType;
+  /** The Azure resource ID of the Azure Managed Redis destination cache to migrate. */
+  readonly targetResourceId?: string;
+  /** Current provisioning status of the migration */
+  readonly provisioningState?: MigrationProvisioningState;
+  /** Additional details about the migration operation's status in free text format. */
+  readonly statusDetails?: string;
+  /** The timestamp when the migration operation was created. */
+  readonly creationTime?: Date;
+  /** The timestamp when the migration operation was last updated. */
+  readonly lastModifiedTime?: Date;
+}
+
+export function migrationPropertiesSerializer(item: MigrationProperties): any {
+  return { sourceType: item["sourceType"] };
+}
+
+export function migrationPropertiesDeserializer(item: any): MigrationProperties {
+  return {
+    sourceType: item["sourceType"],
+    targetResourceId: item["targetResourceId"],
+    provisioningState: item["provisioningState"],
+    statusDetails: item["statusDetails"],
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+  };
+}
+
+/** Alias for MigrationPropertiesUnion */
+export type MigrationPropertiesUnion = AzureCacheForRedisMigrationProperties | MigrationProperties;
+
+export function migrationPropertiesUnionSerializer(item: MigrationPropertiesUnion): any {
+  switch (item.sourceType) {
+    case "AzureCacheForRedis":
+      return azureCacheForRedisMigrationPropertiesSerializer(
+        item as AzureCacheForRedisMigrationProperties,
+      );
+
+    default:
+      return migrationPropertiesSerializer(item);
+  }
+}
+
+export function migrationPropertiesUnionDeserializer(item: any): MigrationPropertiesUnion {
+  switch (item["sourceType"]) {
+    case "AzureCacheForRedis":
+      return azureCacheForRedisMigrationPropertiesDeserializer(
+        item as AzureCacheForRedisMigrationProperties,
+      );
+
+    default:
+      return migrationPropertiesDeserializer(item);
+  }
+}
+
+/** Describes the source of the migration operation. */
+export enum KnownSourceType {
+  /** Migration from Azure Cache for Redis to Redis Enterprise. */
+  AzureCacheForRedis = "AzureCacheForRedis",
+}
+
+/**
+ * Describes the source of the migration operation. \
+ * {@link KnownSourceType} can be used interchangeably with SourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureCacheForRedis**: Migration from Azure Cache for Redis to Redis Enterprise.
+ */
+export type SourceType = string;
+
+/** Current provisioning status */
+export enum KnownMigrationProvisioningState {
+  /** The request has been accepted and the migration operation is being initialized. */
+  Accepted = "Accepted",
+  /** The migration operation is in progress. */
+  InProgress = "InProgress",
+  /** The migration operation has completed transferring data and is ready for DNS switch. */
+  ReadyForDnsSwitch = "ReadyForDnsSwitch",
+  /** The migration operation has completed successfully. */
+  Succeeded = "Succeeded",
+  /** The migration operation has failed. */
+  Failed = "Failed",
+  /** The migration operation is being cancelled. */
+  Cancelling = "Cancelling",
+  /** The migration operation has been cancelled. */
+  Cancelled = "Cancelled",
+  /** The migration operation cancellation has failed. */
+  CancellationFailed = "CancellationFailed",
+}
+
+/**
+ * Current provisioning status \
+ * {@link KnownMigrationProvisioningState} can be used interchangeably with MigrationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: The request has been accepted and the migration operation is being initialized. \
+ * **InProgress**: The migration operation is in progress. \
+ * **ReadyForDnsSwitch**: The migration operation has completed transferring data and is ready for DNS switch. \
+ * **Succeeded**: The migration operation has completed successfully. \
+ * **Failed**: The migration operation has failed. \
+ * **Cancelling**: The migration operation is being cancelled. \
+ * **Cancelled**: The migration operation has been cancelled. \
+ * **CancellationFailed**: The migration operation cancellation has failed.
+ */
+export type MigrationProvisioningState = string;
+
+/** Properties for Redis Enterprise migration operation for Azure Cache for Redis. */
+export interface AzureCacheForRedisMigrationProperties extends MigrationProperties {
+  /** The source resource ID to migrate from. This is the resource ID of the Azure Cache for Redis. */
+  sourceResourceId: string;
+  /** Sets whether the DNS is switched automatically after the data is transferred from the source cache to the target cache. This property must be true during the preview. */
+  switchDns: boolean;
+  /** Sets whether the data is migrated from source to target or not. This property must be true during the preview. */
+  skipDataMigration: boolean;
+  /** Sets whether to ignore warnings when performing validation of the migration request. If this property is true, warning-level disparities between the source and target resources will be ignored, and the request will only fail validation if there are error-level disparities. The default value is false. */
+  forceMigrate?: boolean;
+  /** Describes the source of the migration operation. */
+  sourceType: "AzureCacheForRedis";
+}
+
+export function azureCacheForRedisMigrationPropertiesSerializer(
+  item: AzureCacheForRedisMigrationProperties,
+): any {
+  return {
+    sourceType: item["sourceType"],
+    sourceResourceId: item["sourceResourceId"],
+    switchDns: item["switchDns"],
+    skipDataMigration: item["skipDataMigration"],
+    forceMigrate: item["forceMigrate"],
+  };
+}
+
+export function azureCacheForRedisMigrationPropertiesDeserializer(
+  item: any,
+): AzureCacheForRedisMigrationProperties {
+  return {
+    sourceType: item["sourceType"],
+    targetResourceId: item["targetResourceId"],
+    provisioningState: item["provisioningState"],
+    statusDetails: item["statusDetails"],
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+    sourceResourceId: item["sourceResourceId"],
+    switchDns: item["switchDns"],
+    skipDataMigration: item["skipDataMigration"],
+    forceMigrate: item["forceMigrate"],
+  };
+}
+
+/** The response of a list-all migrations. */
+export interface _MigrationList {
+  /** The Migration items on this page */
+  value: Migration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _migrationListDeserializer(item: any): _MigrationList {
+  return {
+    value: migrationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function migrationArraySerializer(result: Array<Migration>): any[] {
+  return result.map((item) => {
+    return migrationSerializer(item);
+  });
+}
+
+export function migrationArrayDeserializer(result: Array<Migration>): any[] {
+  return result.map((item) => {
+    return migrationDeserializer(item);
+  });
+}
+
 /** Properties for validating migration from Azure Cache for Redis to Redis Enterprise. */
 export interface MigrationValidationRequest {
   /** The source resource ID to validate migration from. This is the resource ID of the Azure Cache for Redis. */
@@ -2416,15 +2628,19 @@ export function privateLinkResourcePropertiesDeserializer(
 export interface AccessPolicyAssignment extends ProxyResource {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
+  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
   accessPolicyName?: string;
+  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
+  accessString?: string;
+  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
+  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
   /** The user associated with the access policy. */
   user?: AccessPolicyAssignmentPropertiesUser;
 }
 
 export function accessPolicyAssignmentSerializer(item: AccessPolicyAssignment): any {
   return {
-    properties: areAllPropsUndefined(item, ["accessPolicyName", "user"])
+    properties: areAllPropsUndefined(item, ["accessPolicyName", "accessString", "user"])
       ? undefined
       : _accessPolicyAssignmentPropertiesSerializer(item),
   };
@@ -2448,8 +2664,12 @@ export function accessPolicyAssignmentDeserializer(item: any): AccessPolicyAssig
 export interface AccessPolicyAssignmentProperties {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
-  accessPolicyName: string;
+  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
+  accessPolicyName?: string;
+  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
+  accessString?: string;
+  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
+  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
   /** The user associated with the access policy. */
   user: AccessPolicyAssignmentPropertiesUser;
 }
@@ -2459,6 +2679,7 @@ export function accessPolicyAssignmentPropertiesSerializer(
 ): any {
   return {
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
     user: accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
   };
 }
@@ -2469,7 +2690,31 @@ export function accessPolicyAssignmentPropertiesDeserializer(
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
+    provisioningError: !item["provisioningError"]
+      ? item["provisioningError"]
+      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),
+  };
+}
+
+/** Error details for access policy assignment provisioning failures. */
+export interface AccessPolicyAssignmentProvisioningError {
+  /** Machine-readable error code (e.g., "InvalidAccessString"). */
+  code: string;
+  /** Human-readable error message describing the failure. */
+  message: string;
+  /** The property that caused the error (e.g., "properties.accessString"). */
+  target?: string;
+}
+
+export function accessPolicyAssignmentProvisioningErrorDeserializer(
+  item: any,
+): AccessPolicyAssignmentProvisioningError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
   };
 }
 
@@ -2524,218 +2769,6 @@ export function accessPolicyAssignmentArrayDeserializer(
   });
 }
 
-/** Describes the current migration operation on a Redis Enterprise cluster. */
-export interface Migration extends ProxyResource {
-  /** Properties of the migration operation. */
-  properties?: MigrationPropertiesUnion;
-}
-
-export function migrationSerializer(item: Migration): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : migrationPropertiesUnionSerializer(item["properties"]),
-  };
-}
-
-export function migrationDeserializer(item: any): Migration {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : migrationPropertiesUnionDeserializer(item["properties"]),
-  };
-}
-
-/** Properties for Redis Enterprise migration operation. */
-export interface MigrationProperties {
-  /** Describes the source of the migration operation. */
-  /** The discriminator possible values: AzureCacheForRedis */
-  sourceType: SourceType;
-  /** The Azure resource ID of the Azure Managed Redis destination cache to migrate. */
-  readonly targetResourceId?: string;
-  /** Current provisioning status of the migration */
-  readonly provisioningState?: MigrationProvisioningState;
-  /** Additional details about the migration operation's status in free text format. */
-  readonly statusDetails?: string;
-  /** The timestamp when the migration operation was created. */
-  readonly creationTime?: Date;
-  /** The timestamp when the migration operation was last updated. */
-  readonly lastModifiedTime?: Date;
-}
-
-export function migrationPropertiesSerializer(item: MigrationProperties): any {
-  return { sourceType: item["sourceType"] };
-}
-
-export function migrationPropertiesDeserializer(item: any): MigrationProperties {
-  return {
-    sourceType: item["sourceType"],
-    targetResourceId: item["targetResourceId"],
-    provisioningState: item["provisioningState"],
-    statusDetails: item["statusDetails"],
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    lastModifiedTime: !item["lastModifiedTime"]
-      ? item["lastModifiedTime"]
-      : new Date(item["lastModifiedTime"]),
-  };
-}
-
-/** Alias for MigrationPropertiesUnion */
-export type MigrationPropertiesUnion = AzureCacheForRedisMigrationProperties | MigrationProperties;
-
-export function migrationPropertiesUnionSerializer(item: MigrationPropertiesUnion): any {
-  switch (item.sourceType) {
-    case "AzureCacheForRedis":
-      return azureCacheForRedisMigrationPropertiesSerializer(
-        item as AzureCacheForRedisMigrationProperties,
-      );
-
-    default:
-      return migrationPropertiesSerializer(item);
-  }
-}
-
-export function migrationPropertiesUnionDeserializer(item: any): MigrationPropertiesUnion {
-  switch (item["sourceType"]) {
-    case "AzureCacheForRedis":
-      return azureCacheForRedisMigrationPropertiesDeserializer(
-        item as AzureCacheForRedisMigrationProperties,
-      );
-
-    default:
-      return migrationPropertiesDeserializer(item);
-  }
-}
-
-/** Describes the source of the migration operation. */
-export enum KnownSourceType {
-  /** Migration from Azure Cache for Redis to Redis Enterprise. */
-  AzureCacheForRedis = "AzureCacheForRedis",
-}
-
-/**
- * Describes the source of the migration operation. \
- * {@link KnownSourceType} can be used interchangeably with SourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureCacheForRedis**: Migration from Azure Cache for Redis to Redis Enterprise.
- */
-export type SourceType = string;
-
-/** Current provisioning status */
-export enum KnownMigrationProvisioningState {
-  /** The request has been accepted and the migration operation is being initialized. */
-  Accepted = "Accepted",
-  /** The migration operation is in progress. */
-  InProgress = "InProgress",
-  /** The migration operation has completed transferring data and is ready for DNS switch. */
-  ReadyForDnsSwitch = "ReadyForDnsSwitch",
-  /** The migration operation has completed successfully. */
-  Succeeded = "Succeeded",
-  /** The migration operation has failed. */
-  Failed = "Failed",
-  /** The migration operation is being cancelled. */
-  Cancelling = "Cancelling",
-  /** The migration operation has been cancelled. */
-  Cancelled = "Cancelled",
-  /** The migration operation cancellation has failed. */
-  CancellationFailed = "CancellationFailed",
-}
-
-/**
- * Current provisioning status \
- * {@link KnownMigrationProvisioningState} can be used interchangeably with MigrationProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted**: The request has been accepted and the migration operation is being initialized. \
- * **InProgress**: The migration operation is in progress. \
- * **ReadyForDnsSwitch**: The migration operation has completed transferring data and is ready for DNS switch. \
- * **Succeeded**: The migration operation has completed successfully. \
- * **Failed**: The migration operation has failed. \
- * **Cancelling**: The migration operation is being cancelled. \
- * **Cancelled**: The migration operation has been cancelled. \
- * **CancellationFailed**: The migration operation cancellation has failed.
- */
-export type MigrationProvisioningState = string;
-
-/** Properties for Redis Enterprise migration operation for Azure Cache for Redis. */
-export interface AzureCacheForRedisMigrationProperties extends MigrationProperties {
-  /** The source resource ID to migrate from. This is the resource ID of the Azure Cache for Redis. */
-  sourceResourceId: string;
-  /** Sets whether the DNS is switched automatically after the data is transferred from the source cache to the target cache. This property must be true during the preview. */
-  switchDns: boolean;
-  /** Sets whether the data is migrated from source to target or not. This property must be true during the preview. */
-  skipDataMigration: boolean;
-  /** Sets whether to ignore warnings when performing validation of the migration request. If this property is true, warning-level disparities between the source and target resources will be ignored, and the request will only fail validation if there are error-level disparities. The default value is false. */
-  forceMigrate?: boolean;
-  /** Describes the source of the migration operation. */
-  sourceType: "AzureCacheForRedis";
-}
-
-export function azureCacheForRedisMigrationPropertiesSerializer(
-  item: AzureCacheForRedisMigrationProperties,
-): any {
-  return {
-    sourceType: item["sourceType"],
-    sourceResourceId: item["sourceResourceId"],
-    switchDns: item["switchDns"],
-    skipDataMigration: item["skipDataMigration"],
-    forceMigrate: item["forceMigrate"],
-  };
-}
-
-export function azureCacheForRedisMigrationPropertiesDeserializer(
-  item: any,
-): AzureCacheForRedisMigrationProperties {
-  return {
-    sourceType: item["sourceType"],
-    targetResourceId: item["targetResourceId"],
-    provisioningState: item["provisioningState"],
-    statusDetails: item["statusDetails"],
-    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
-    lastModifiedTime: !item["lastModifiedTime"]
-      ? item["lastModifiedTime"]
-      : new Date(item["lastModifiedTime"]),
-    sourceResourceId: item["sourceResourceId"],
-    switchDns: item["switchDns"],
-    skipDataMigration: item["skipDataMigration"],
-    forceMigrate: item["forceMigrate"],
-  };
-}
-
-/** The response of a list-all migrations. */
-export interface _MigrationList {
-  /** The Migration items on this page */
-  value: Migration[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _migrationListDeserializer(item: any): _MigrationList {
-  return {
-    value: migrationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function migrationArraySerializer(result: Array<Migration>): any[] {
-  return result.map((item) => {
-    return migrationSerializer(item);
-  });
-}
-
-export function migrationArrayDeserializer(result: Array<Migration>): any[] {
-  return result.map((item) => {
-    return migrationDeserializer(item);
-  });
-}
-
 /** The status of a long-running operation. */
 export interface OperationStatus {
   /** The operation's unique id. */
@@ -2769,6 +2802,10 @@ export enum KnownVersions {
   V20250801Preview = "2025-08-01-preview",
   /** The 2026-02-01-preview API version. */
   V20260201Preview = "2026-02-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-06-01-preview API version. */
+  V20260601Preview = "2026-06-01-preview",
 }
 
 export function _databasePropertiesSerializer(item: Database): any {
@@ -2931,6 +2968,7 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
 export function _accessPolicyAssignmentPropertiesSerializer(item: AccessPolicyAssignment): any {
   return {
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
@@ -2941,6 +2979,10 @@ export function _accessPolicyAssignmentPropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
+    provisioningError: !item["provisioningError"]
+      ? item["provisioningError"]
+      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),

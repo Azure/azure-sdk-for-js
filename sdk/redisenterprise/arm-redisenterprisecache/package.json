@@ -62,20 +62,6 @@
         "default": "./dist/commonjs/api/operationsStatus/index.js"
       }
     },
-    "./api/migration": {
-      "browser": {
-        "types": "./dist/browser/api/migration/index.d.ts",
-        "default": "./dist/browser/api/migration/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/migration/index.d.ts",
-        "default": "./dist/esm/api/migration/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/migration/index.d.ts",
-        "default": "./dist/commonjs/api/migration/index.js"
-      }
-    },
     "./api/accessPolicyAssignment": {
       "browser": {
         "types": "./dist/browser/api/accessPolicyAssignment/index.d.ts",

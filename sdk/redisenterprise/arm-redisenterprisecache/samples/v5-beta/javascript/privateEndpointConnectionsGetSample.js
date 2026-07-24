@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified private endpoint connection associated with the Redis Enterprise cluster.
  *
  * @summary gets the specified private endpoint connection associated with the Redis Enterprise cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseGetPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseGetPrivateEndpointConnection.json
  */
 async function redisEnterpriseGetPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();
