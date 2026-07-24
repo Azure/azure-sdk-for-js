@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a Connection resource.
  *
  * @summary gets a Connection resource.
- * x-ms-original-file: 2025-12-01/Connections_Get.json
+ * x-ms-original-file: 2026-05-01/Connections_Get.json
  */
 async function connectionsGet() {
   const credential = new DefaultAzureCredential();

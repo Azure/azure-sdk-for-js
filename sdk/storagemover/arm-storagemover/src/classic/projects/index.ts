@@ -23,11 +23,6 @@ export interface ProjectsOperations {
     options?: ProjectsListOptionalParams,
   ) => PagedAsyncIterableIterator<Project>;
   /** Deletes a Project resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,
@@ -58,7 +53,6 @@ export interface ProjectsOperations {
     options?: ProjectsGetOptionalParams,
   ) => Promise<Project>;
 }
-
 function _getProjects(context: StorageMoverContext) {
   return {
     list: (
@@ -95,7 +89,6 @@ function _getProjects(context: StorageMoverContext) {
     ) => get(context, resourceGroupName, storageMoverName, projectName, options),
   };
 }
-
 export function _getProjectsOperations(context: StorageMoverContext): ProjectsOperations {
   return {
     ..._getProjects(context),

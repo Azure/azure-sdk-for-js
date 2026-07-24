@@ -31,7 +31,7 @@ export function _listSend(
       storageMoverName: storageMoverName,
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,14 +47,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _jobRunListDeserializer(result.body);
 }
-
 /** Lists all Job Runs in a Job Definition. */
 export function list(
   context: Client,
@@ -77,7 +78,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }
 
@@ -99,7 +100,7 @@ export function _getSend(
       projectName: projectName,
       jobDefinitionName: jobDefinitionName,
       jobRunName: jobRunName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,14 +116,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Jo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return jobRunDeserializer(result.body);
 }
-
 /** Gets a Job Run resource. */
 export async function get(
   context: Client,
