@@ -16,7 +16,6 @@ export interface MhsmRegionsOperations {
     options?: MhsmRegionsListByResourceOptionalParams,
   ) => PagedAsyncIterableIterator<MhsmGeoReplicatedRegion>;
 }
-
 function _getMhsmRegions(context: KeyVaultManagementContext) {
   return {
     listByResource: (
@@ -26,7 +25,6 @@ function _getMhsmRegions(context: KeyVaultManagementContext) {
     ) => listByResource(context, resourceGroupName, name, options),
   };
 }
-
 export function _getMhsmRegionsOperations(
   context: KeyVaultManagementContext,
 ): MhsmRegionsOperations {

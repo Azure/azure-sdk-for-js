@@ -58,7 +58,6 @@ export interface KeysOperations {
     options?: KeysGetOptionalParams,
   ) => Promise<Key>;
 }
-
 function _getKeys(context: KeyVaultManagementContext) {
   return {
     listVersions: (
@@ -91,7 +90,6 @@ function _getKeys(context: KeyVaultManagementContext) {
     ) => get(context, resourceGroupName, vaultName, keyName, options),
   };
 }
-
 export function _getKeysOperations(context: KeyVaultManagementContext): KeysOperations {
   return {
     ..._getKeys(context),

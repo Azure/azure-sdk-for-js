@@ -48,7 +48,6 @@ export interface SecretsOperations {
     options?: SecretsGetOptionalParams,
   ) => Promise<Secret>;
 }
-
 function _getSecrets(context: KeyVaultManagementContext) {
   return {
     list: (resourceGroupName: string, vaultName: string, options?: SecretsListOptionalParams) =>
@@ -75,7 +74,6 @@ function _getSecrets(context: KeyVaultManagementContext) {
     ) => get(context, resourceGroupName, vaultName, secretName, options),
   };
 }
-
 export function _getSecretsOperations(context: KeyVaultManagementContext): SecretsOperations {
   return {
     ..._getSecrets(context),

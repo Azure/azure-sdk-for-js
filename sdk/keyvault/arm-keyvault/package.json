@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-keyvault",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "description": "A generated SDK for KeyVaultManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -298,10 +298,11 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-keyvault"
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/arm-keyvault)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-keyvault)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-keyvault)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/arm-keyvault/samples)
 
 ## Getting started

@@ -15,7 +15,6 @@ export interface MhsmPrivateLinkResourcesOperations {
     options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   ) => Promise<MhsmPrivateLinkResourceListResult>;
 }
-
 function _getMhsmPrivateLinkResources(context: KeyVaultManagementContext) {
   return {
     listByMhsmResource: (
@@ -25,7 +24,6 @@ function _getMhsmPrivateLinkResources(context: KeyVaultManagementContext) {
     ) => listByMhsmResource(context, resourceGroupName, name, options),
   };
 }
-
 export function _getMhsmPrivateLinkResourcesOperations(
   context: KeyVaultManagementContext,
 ): MhsmPrivateLinkResourcesOperations {

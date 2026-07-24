@@ -26,7 +26,7 @@ export function _listByResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -44,14 +44,15 @@ export async function _listByResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = managedHsmErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = managedHsmErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _mhsmRegionsListResultDeserializer(result.body);
 }
-
 /** The List operation gets information about the regions associated with the managed HSM Pool. */
 export function listByResource(
   context: Client,
@@ -64,6 +65,10 @@ export function listByResource(
     () => _listByResourceSend(context, resourceGroupName, name, options),
     _listByResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
