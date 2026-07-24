@@ -52,7 +52,6 @@ export type {
   AutocompleteResult,
   AutocompleteItem,
   AutocompleteMode,
-  DebugInfo,
 } from "./models/azure/search/documents/index.js";
 export {
   KnownQueryType,
@@ -440,6 +439,14 @@ export type {
   KnowledgeBaseActivityRecordType,
   KnowledgeBaseErrorDetail,
   KnowledgeBaseErrorAdditionalInfo,
+  KnowledgeBaseSearchIndexActivityRecord,
+  KnowledgeBaseSearchIndexActivityArguments,
+  KnowledgeBaseAzureBlobActivityRecord,
+  KnowledgeBaseAzureBlobActivityArguments,
+  KnowledgeBaseIndexedOneLakeActivityRecord,
+  KnowledgeBaseIndexedOneLakeActivityArguments,
+  KnowledgeBaseWebActivityRecord,
+  KnowledgeBaseWebActivityArguments,
   KnowledgeBaseModelWebSummarizationActivityRecord,
   KnowledgeBaseAgenticReasoningActivityRecord,
   KnowledgeRetrievalReasoningEffort,

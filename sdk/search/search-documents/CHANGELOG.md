@@ -1,5 +1,26 @@
 # Release History
 
+## 13.1.0 (Unreleased)
+
+### Features Added
+
+- Added typed knowledge base retrieval activity records to the `KnowledgeBaseActivityRecord` union, enabling per-source inspection of agentic retrieval activity:
+  - `KnowledgeBaseSearchIndexActivityRecord` (with `KnowledgeBaseSearchIndexActivityArguments`)
+  - `KnowledgeBaseAzureBlobActivityRecord` (with `KnowledgeBaseAzureBlobActivityArguments`)
+  - `KnowledgeBaseIndexedOneLakeActivityRecord` (with `KnowledgeBaseIndexedOneLakeActivityArguments`)
+  - `KnowledgeBaseWebActivityRecord` (with `KnowledgeBaseWebActivityArguments`)
+- Added `knowledgeSourceName`, `queryTime`, and `count` properties to knowledge base retrieval activity records.
+
+### Breaking Changes
+
+- Renamed the `elapsedInMs` property on `BaseKnowledgeBaseActivityRecord` (and its derived activity records) to `elapsedMs` to match the service response.
+
+### Bugs Fixed
+
+### Other Changes
+
+- Regenerated from the `2026-04-01` (stable) Azure AI Search API specification.
+
 ## 13.0.0 (2026-05-01)
 
 ### Features Added
