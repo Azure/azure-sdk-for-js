@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Other Changes
 
