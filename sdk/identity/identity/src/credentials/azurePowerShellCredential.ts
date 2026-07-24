@@ -21,6 +21,35 @@ const logger = credentialLogger("AzurePowerShellCredential");
 const isWindows = process.platform === "win32";
 const powerShellResourceEnvironmentVariable = "AZURE_IDENTITY_POWERSHELL_RESOURCE";
 const powerShellTenantEnvironmentVariable = "AZURE_IDENTITY_POWERSHELL_TENANT_ID";
+const powerShellPrivateEnvironmentVariables = new Set(
+  [powerShellResourceEnvironmentVariable, powerShellTenantEnvironmentVariable].map((name) =>
+    name.toLowerCase(),
+  ),
+);
+
+/**
+ * Creates the child environment used to pass private values to PowerShell.
+ *
+ * @param resource - The resource passed to PowerShell.
+ * @param tenantId - The optional tenant ID passed to PowerShell.
+ * @param environment - The environment to copy.
+ * @returns A child environment containing canonical private variable names.
+ * @internal
+ */
+export function createPowerShellEnvironment(
+  resource: string,
+  tenantId: string | undefined,
+  environment: NodeJS.ProcessEnv = process.env,
+): NodeJS.ProcessEnv {
+  const childEnvironment = Object.fromEntries(
+    Object.entries(environment).filter(
+      ([name]) => !powerShellPrivateEnvironmentVariables.has(name.toLowerCase()),
+    ),
+  );
+  childEnvironment[powerShellResourceEnvironmentVariable] = resource;
+  childEnvironment[powerShellTenantEnvironmentVariable] = tenantId ?? "";
+  return childEnvironment;
+}
 
 /**
  * Returns a platform-appropriate command name by appending ".exe" on Windows.
@@ -207,11 +236,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           ],
         ],
         timeout,
-        {
-          ...process.env,
-          [powerShellResourceEnvironmentVariable]: resource,
-          [powerShellTenantEnvironmentVariable]: tenantId ?? "",
-        },
+        createPowerShellEnvironment(resource, tenantId),
       );
 
       const result = results[0];

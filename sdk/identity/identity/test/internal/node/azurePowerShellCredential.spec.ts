@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import {
+  createPowerShellEnvironment,
   formatCommand,
   parseJsonToken,
   powerShellErrors,
@@ -39,6 +40,20 @@ describe("AzurePowerShellCredential", function () {
       commandStack,
       process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"],
     );
+  });
+
+  it("replaces private environment variables case-insensitively", function () {
+    const environment = createPowerShellEnvironment("resource", "tenant", {
+      Path: "path",
+      azure_identity_powershell_resource: "stale-resource",
+      Azure_Identity_PowerShell_Tenant_Id: "stale-tenant",
+    });
+
+    assert.deepEqual(environment, {
+      Path: "path",
+      AZURE_IDENTITY_POWERSHELL_RESOURCE: "resource",
+      AZURE_IDENTITY_POWERSHELL_TENANT_ID: "tenant",
+    });
   });
 
   it("throws an expected error if the user hasn't logged in through PowerShell", async function () {
