@@ -4,7 +4,7 @@
 import type { Agent, AgentVersion } from "../models/models.js";
 import type { ResolvedTracingConfig } from "./configuration.js";
 import { startSpan, runInSpanContext } from "./tracingClient.js";
-import { setCommonAttributes, setAgentAttributes, setAgentVersionAttributes } from "./attributes.js";
+import { setCommonAttributes, setAgentAttributes, setAgentVersionAttributes, setErrorAttributes } from "./attributes.js";
 import { OperationName } from "./constants.js";
 
 /**
@@ -31,6 +31,8 @@ export async function traceAgentCreate(
     span.end();
     return agent;
   } catch (error) {
+    setErrorAttributes(span, error);
+    span.setStatus({ code: 2, message: error instanceof Error ? error.name : "Error" });
     span.end();
     throw error;
   }
@@ -57,6 +59,8 @@ export async function traceAgentVersionCreate(
     span.end();
     return version;
   } catch (error) {
+    setErrorAttributes(span, error);
+    span.setStatus({ code: 2, message: error instanceof Error ? error.name : "Error" });
     span.end();
     throw error;
   }

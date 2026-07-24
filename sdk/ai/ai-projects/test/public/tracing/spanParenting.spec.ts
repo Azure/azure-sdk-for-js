@@ -14,6 +14,7 @@ import { describe, it, assert, afterAll, beforeAll } from "vitest";
 import { trace, context } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { startSpan, runInSpanContext } from "../../../src/tracing/tracingClient.js";
+import { traceAgentCreate } from "../../../src/tracing/agentTracing.js";
 
 describe("span parenting - startSpan and runInSpanContext", () => {
   let provider: NodeTracerProvider;
@@ -43,22 +44,21 @@ describe("span parenting - startSpan and runInSpanContext", () => {
     }
   });
 
-  it("active span OUTSIDE runInSpanContext is NOT the operation span (demonstrates the bug)", () => {
-    // This demonstrates the current pattern in operations.ts where ctx is not used:
-    //   const { span } = startSpan(name);
-    //   // ... do work without runInSpanContext ...
-    //   span.end();
+  it("active span OUTSIDE runInSpanContext is NOT the operation span (demonstrates why wrapper is needed)", () => {
+    // Without runInSpanContext, starting a span does not activate it in context.
+    // This is why the tracing wrappers (traceAgentCreate, traceAgentVersionCreate)
+    // use runInSpanContext — to ensure child spans are correctly parented.
     const { span: opSpan } = startSpan("test-operation");
     try {
       // Without wrapping in runInSpanContext, the operation span is NOT active
       const activeSpan = trace.getSpan(context.active());
-      // The active span should NOT be our operation span — this is the parenting bug
+      // The active span should NOT be our operation span
       const isParented =
         activeSpan !== undefined &&
         activeSpan.spanContext().spanId === opSpan.spanContext().spanId;
       assert.isFalse(
         isParented,
-        "BUG: without runInSpanContext, operation span is not active — child spans won't be parented correctly",
+        "without runInSpanContext, operation span is not active — child spans won't be parented correctly",
       );
     } finally {
       opSpan.end();
@@ -126,5 +126,29 @@ describe("span parenting - startSpan and runInSpanContext", () => {
     } finally {
       parentSpan.end();
     }
+  });
+
+  it("traceAgentCreate activates span context so async child spans are parented", async () => {
+    let capturedActiveSpanId: string | undefined;
+
+    const fakeAgent = {
+      object: "agent" as const,
+      id: "agent-123",
+      name: "test-agent",
+      state: "active",
+      versions: { latest: { object: "agent.version" as const, id: "v1", version: 1, model: "gpt-4" } },
+    };
+
+    const tracingConfig = { enabled: true, contentRecording: false };
+
+    await traceAgentCreate("test-agent", "https://example.com", tracingConfig, async () => {
+      // Simulate async work; capture the active span inside the operation
+      await Promise.resolve();
+      const activeSpan = trace.getSpan(context.active());
+      capturedActiveSpanId = activeSpan?.spanContext().spanId;
+      return fakeAgent as any;
+    });
+
+    assert.isDefined(capturedActiveSpanId, "there should be an active span inside the async operation");
   });
 });
