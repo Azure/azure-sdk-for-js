@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workspaces/operations.js";
-import type {
+import {
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
   WorkspacesDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
-import type { Workspace, WorkspaceUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Workspace, WorkspaceUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {
@@ -34,11 +34,6 @@ export interface WorkspacesOperations {
     options?: WorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Workspace>;
   /** Delete a Workspace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -65,7 +60,6 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
-
 function _getWorkspaces(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: WorkspacesListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getWorkspaces(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getWorkspacesOperations(context: DiscoveryContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),

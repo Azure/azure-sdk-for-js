@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -78,6 +77,8 @@ export type {
   NetworkEgressType,
   SystemSku,
   SupercomputerIdentities,
+  SystemAssignedServiceIdentity,
+  SystemAssignedServiceIdentityType,
   SupercomputerUpdate,
   SupercomputerUpdateProperties,
   SupercomputerIdentitiesUpdate,
@@ -91,7 +92,9 @@ export type {
   StorageStoreUnion,
   StorageStoreType,
   AzureStorageBlobStore,
+  BlobStorageMountProtocol,
   AzureNetAppFilesStore,
+  NetAppMountProtocol,
   StorageContainerUpdate,
 } from "./models/index.js";
 export {
@@ -107,7 +110,10 @@ export {
   KnownScaleSetPriority,
   KnownNetworkEgressType,
   KnownSystemSku,
+  KnownSystemAssignedServiceIdentityType,
   KnownStorageStoreType,
+  KnownBlobStorageMountProtocol,
+  KnownNetAppMountProtocol,
   KnownVersions,
 } from "./models/index.js";
 export type { DiscoveryClientOptionalParams } from "./api/index.js";
@@ -219,3 +225,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

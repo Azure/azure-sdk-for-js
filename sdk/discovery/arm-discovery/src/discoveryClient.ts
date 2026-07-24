@@ -1,38 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext, DiscoveryClientOptionalParams } from "./api/index.js";
-import { createDiscovery } from "./api/index.js";
-import type { BookshelfPrivateEndpointConnectionsOperations } from "./classic/bookshelfPrivateEndpointConnections/index.js";
-import { _getBookshelfPrivateEndpointConnectionsOperations } from "./classic/bookshelfPrivateEndpointConnections/index.js";
-import type { BookshelfPrivateLinkResourcesOperations } from "./classic/bookshelfPrivateLinkResources/index.js";
-import { _getBookshelfPrivateLinkResourcesOperations } from "./classic/bookshelfPrivateLinkResources/index.js";
-import type { BookshelvesOperations } from "./classic/bookshelves/index.js";
-import { _getBookshelvesOperations } from "./classic/bookshelves/index.js";
-import type { ChatModelDeploymentsOperations } from "./classic/chatModelDeployments/index.js";
-import { _getChatModelDeploymentsOperations } from "./classic/chatModelDeployments/index.js";
-import type { NodePoolsOperations } from "./classic/nodePools/index.js";
-import { _getNodePoolsOperations } from "./classic/nodePools/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ProjectsOperations } from "./classic/projects/index.js";
-import { _getProjectsOperations } from "./classic/projects/index.js";
-import type { StorageAssetsOperations } from "./classic/storageAssets/index.js";
-import { _getStorageAssetsOperations } from "./classic/storageAssets/index.js";
-import type { StorageContainersOperations } from "./classic/storageContainers/index.js";
-import { _getStorageContainersOperations } from "./classic/storageContainers/index.js";
-import type { SupercomputersOperations } from "./classic/supercomputers/index.js";
-import { _getSupercomputersOperations } from "./classic/supercomputers/index.js";
-import type { ToolsOperations } from "./classic/tools/index.js";
-import { _getToolsOperations } from "./classic/tools/index.js";
-import type { WorkspacePrivateEndpointConnectionsOperations } from "./classic/workspacePrivateEndpointConnections/index.js";
-import { _getWorkspacePrivateEndpointConnectionsOperations } from "./classic/workspacePrivateEndpointConnections/index.js";
-import type { WorkspacePrivateLinkResourcesOperations } from "./classic/workspacePrivateLinkResources/index.js";
-import { _getWorkspacePrivateLinkResourcesOperations } from "./classic/workspacePrivateLinkResources/index.js";
-import type { WorkspacesOperations } from "./classic/workspaces/index.js";
-import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { DiscoveryContext, DiscoveryClientOptionalParams, createDiscovery } from "./api/index.js";
+import {
+  BookshelfPrivateEndpointConnectionsOperations,
+  _getBookshelfPrivateEndpointConnectionsOperations,
+} from "./classic/bookshelfPrivateEndpointConnections/index.js";
+import {
+  BookshelfPrivateLinkResourcesOperations,
+  _getBookshelfPrivateLinkResourcesOperations,
+} from "./classic/bookshelfPrivateLinkResources/index.js";
+import { BookshelvesOperations, _getBookshelvesOperations } from "./classic/bookshelves/index.js";
+import {
+  ChatModelDeploymentsOperations,
+  _getChatModelDeploymentsOperations,
+} from "./classic/chatModelDeployments/index.js";
+import { NodePoolsOperations, _getNodePoolsOperations } from "./classic/nodePools/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { ProjectsOperations, _getProjectsOperations } from "./classic/projects/index.js";
+import {
+  StorageAssetsOperations,
+  _getStorageAssetsOperations,
+} from "./classic/storageAssets/index.js";
+import {
+  StorageContainersOperations,
+  _getStorageContainersOperations,
+} from "./classic/storageContainers/index.js";
+import {
+  SupercomputersOperations,
+  _getSupercomputersOperations,
+} from "./classic/supercomputers/index.js";
+import { ToolsOperations, _getToolsOperations } from "./classic/tools/index.js";
+import {
+  WorkspacePrivateEndpointConnectionsOperations,
+  _getWorkspacePrivateEndpointConnectionsOperations,
+} from "./classic/workspacePrivateEndpointConnections/index.js";
+import {
+  WorkspacePrivateLinkResourcesOperations,
+  _getWorkspacePrivateLinkResourcesOperations,
+} from "./classic/workspacePrivateLinkResources/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DiscoveryClientOptionalParams } from "./api/discoveryContext.js";
 
@@ -47,14 +56,7 @@ export class DiscoveryClient {
     subscriptionId: string,
     options: DiscoveryClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDiscovery(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDiscovery(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.storageContainers = _getStorageContainersOperations(this._client);
     this.storageAssets = _getStorageAssetsOperations(this._client);

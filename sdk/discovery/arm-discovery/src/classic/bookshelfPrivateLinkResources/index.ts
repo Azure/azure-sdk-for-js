@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import { listByBookshelf, get } from "../../api/bookshelfPrivateLinkResources/operations.js";
-import type {
+import {
   BookshelfPrivateLinkResourcesListByBookshelfOptionalParams,
   BookshelfPrivateLinkResourcesGetOptionalParams,
 } from "../../api/bookshelfPrivateLinkResources/options.js";
-import type { BookshelfPrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BookshelfPrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BookshelfPrivateLinkResources operations. */
 export interface BookshelfPrivateLinkResourcesOperations {
@@ -26,7 +26,6 @@ export interface BookshelfPrivateLinkResourcesOperations {
     options?: BookshelfPrivateLinkResourcesGetOptionalParams,
   ) => Promise<BookshelfPrivateLinkResource>;
 }
-
 function _getBookshelfPrivateLinkResources(context: DiscoveryContext) {
   return {
     listByBookshelf: (
@@ -42,7 +41,6 @@ function _getBookshelfPrivateLinkResources(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, bookshelfName, privateLinkResourceName, options),
   };
 }
-
 export function _getBookshelfPrivateLinkResourcesOperations(
   context: DiscoveryContext,
 ): BookshelfPrivateLinkResourcesOperations {

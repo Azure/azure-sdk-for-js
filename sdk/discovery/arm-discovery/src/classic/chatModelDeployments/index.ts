@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/chatModelDeployments/operations.js";
-import type {
+import {
   ChatModelDeploymentsListByWorkspaceOptionalParams,
   ChatModelDeploymentsDeleteOptionalParams,
   ChatModelDeploymentsUpdateOptionalParams,
   ChatModelDeploymentsCreateOrUpdateOptionalParams,
   ChatModelDeploymentsGetOptionalParams,
 } from "../../api/chatModelDeployments/options.js";
-import type { ChatModelDeployment, ChatModelDeploymentUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ChatModelDeployment, ChatModelDeploymentUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ChatModelDeployments operations. */
 export interface ChatModelDeploymentsOperations {
@@ -29,11 +29,6 @@ export interface ChatModelDeploymentsOperations {
     options?: ChatModelDeploymentsListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<ChatModelDeployment>;
   /** Delete a ChatModelDeployment */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -64,7 +59,6 @@ export interface ChatModelDeploymentsOperations {
     options?: ChatModelDeploymentsGetOptionalParams,
   ) => Promise<ChatModelDeployment>;
 }
-
 function _getChatModelDeployments(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -116,7 +110,6 @@ function _getChatModelDeployments(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, chatModelDeploymentName, options),
   };
 }
-
 export function _getChatModelDeploymentsOperations(
   context: DiscoveryContext,
 ): ChatModelDeploymentsOperations {
