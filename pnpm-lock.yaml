@@ -22400,7 +22400,7 @@ importers:
         specifier: ^1.11.0
         version: link:../../core/core-util
       '@opentelemetry/api':
-        specifier: ^1.9.0
+        specifier: ^1.9.1
         version: 1.9.1
       '@opentelemetry/api-logs':
         specifier: ^0.220.0
