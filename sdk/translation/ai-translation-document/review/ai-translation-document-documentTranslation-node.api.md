@@ -44,8 +44,8 @@ export interface DocumentTranslationContext extends Client {
 
 // @public
 export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     documentIds?: string[];
     maxpagesize?: number;
     orderby?: string[];
@@ -64,8 +64,8 @@ export interface GetSupportedFormatsOptionalParams extends OperationOptions {
 
 // @public
 export interface GetTranslationsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     maxpagesize?: number;
     orderby?: string[];
     skip?: number;

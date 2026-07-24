@@ -37,8 +37,8 @@ export function getDocumentsStatus(context: DocumentTranslationContext, translat
 
 // @public
 export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     documentIds?: string[];
     maxpagesize?: number;
     orderby?: string[];
@@ -66,8 +66,8 @@ export function getTranslationsStatus(context: DocumentTranslationContext, optio
 
 // @public
 export interface GetTranslationsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     maxpagesize?: number;
     orderby?: string[];
     skip?: number;

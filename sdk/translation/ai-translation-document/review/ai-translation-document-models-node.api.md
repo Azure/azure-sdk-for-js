@@ -25,13 +25,13 @@ export interface DocumentFilter {
 // @public
 export interface DocumentStatus {
     characterCharged?: number;
-    createdDateTimeUtc: Date;
+    createdAt: Date;
     deploymentName?: string;
     error?: TranslationError;
     id: string;
     imageCharacterDetected?: number;
     imageCharged?: number;
-    lastActionDateTimeUtc: Date;
+    lastActionAt: Date;
     path?: string;
     progress: number;
     sourcePath: string;
@@ -144,10 +144,10 @@ export type TranslationErrorCode = "InvalidRequest" | "InvalidArgument" | "Inter
 
 // @public
 export interface TranslationStatus {
-    createdDateTimeUtc: Date;
+    createdAt: Date;
     error?: TranslationError;
     id: string;
-    lastActionDateTimeUtc: Date;
+    lastActionAt: Date;
     status: Status;
     summary: TranslationStatusSummary;
 }

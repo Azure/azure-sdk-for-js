@@ -106,12 +106,12 @@ export function _getDocumentsStatusSend(
         : options?.statuses.map((p: any) => {
             return p;
           }),
-      createdDateTimeUtcStart: !options?.createdDateTimeUtcStart
-        ? options?.createdDateTimeUtcStart
-        : options?.createdDateTimeUtcStart.toISOString(),
-      createdDateTimeUtcEnd: !options?.createdDateTimeUtcEnd
-        ? options?.createdDateTimeUtcEnd
-        : options?.createdDateTimeUtcEnd.toISOString(),
+      createdDateTimeUtcStart: !options?.createdAfter
+        ? options?.createdAfter
+        : options?.createdAfter.toISOString(),
+      createdDateTimeUtcEnd: !options?.createdBefore
+        ? options?.createdBefore
+        : options?.createdBefore.toISOString(),
       orderby: !options?.orderby
         ? options?.orderby
         : options?.orderby.map((p: any) => {
@@ -368,12 +368,12 @@ export function _getTranslationsStatusSend(
         : options?.statuses.map((p: any) => {
             return p;
           }),
-      createdDateTimeUtcStart: !options?.createdDateTimeUtcStart
-        ? options?.createdDateTimeUtcStart
-        : options?.createdDateTimeUtcStart.toISOString(),
-      createdDateTimeUtcEnd: !options?.createdDateTimeUtcEnd
-        ? options?.createdDateTimeUtcEnd
-        : options?.createdDateTimeUtcEnd.toISOString(),
+      createdDateTimeUtcStart: !options?.createdAfter
+        ? options?.createdAfter
+        : options?.createdAfter.toISOString(),
+      createdDateTimeUtcEnd: !options?.createdBefore
+        ? options?.createdBefore
+        : options?.createdBefore.toISOString(),
       orderby: !options?.orderby
         ? options?.orderby
         : options?.orderby.map((p: any) => {

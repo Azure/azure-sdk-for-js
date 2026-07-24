@@ -185,9 +185,9 @@ export interface TranslationStatus {
   /** Id of the translation operation. */
   id: string;
   /** Operation created date time */
-  createdDateTimeUtc: Date;
+  createdAt: Date;
   /** Date time in which the operation's status has been updated */
-  lastActionDateTimeUtc: Date;
+  lastActionAt: Date;
   /** List of possible statuses for job or document */
   status: Status;
   /**
@@ -202,8 +202,8 @@ export interface TranslationStatus {
 export function translationStatusDeserializer(item: any): TranslationStatus {
   return {
     id: item["id"],
-    createdDateTimeUtc: new Date(item["createdDateTimeUtc"]),
-    lastActionDateTimeUtc: new Date(item["lastActionDateTimeUtc"]),
+    createdAt: new Date(item["createdDateTimeUtc"]),
+    lastActionAt: new Date(item["lastActionDateTimeUtc"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : translationErrorDeserializer(item["error"]),
     summary: translationStatusSummaryDeserializer(item["summary"]),
@@ -375,9 +375,9 @@ export interface DocumentStatus {
   /** Location of the source document */
   sourcePath: string;
   /** Operation created date time */
-  createdDateTimeUtc: Date;
+  createdAt: Date;
   /** Date time in which the operation's status has been updated */
-  lastActionDateTimeUtc: Date;
+  lastActionAt: Date;
   /** List of possible statuses for job or document */
   status: Status;
   /** To language */
@@ -409,8 +409,8 @@ export function documentStatusDeserializer(item: any): DocumentStatus {
   return {
     path: item["path"],
     sourcePath: item["sourcePath"],
-    createdDateTimeUtc: new Date(item["createdDateTimeUtc"]),
-    lastActionDateTimeUtc: new Date(item["lastActionDateTimeUtc"]),
+    createdAt: new Date(item["createdDateTimeUtc"]),
+    lastActionAt: new Date(item["lastActionDateTimeUtc"]),
     status: item["status"],
     to: item["to"],
     error: !item["error"] ? item["error"] : translationErrorDeserializer(item["error"]),

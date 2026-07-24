@@ -55,9 +55,9 @@ export interface GetDocumentsStatusOptionalParams extends OperationOptions {
   /** Statuses to use in filtering */
   statuses?: string[];
   /** the start datetime to get items after */
-  createdDateTimeUtcStart?: Date;
+  createdAfter?: Date;
   /** the end datetime to get items before */
-  createdDateTimeUtcEnd?: Date;
+  createdBefore?: Date;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
   orderby?: string[];
 }
@@ -120,9 +120,9 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
   /** Statuses to use in filtering */
   statuses?: string[];
   /** the start datetime to get items after */
-  createdDateTimeUtcStart?: Date;
+  createdAfter?: Date;
   /** the end datetime to get items before */
-  createdDateTimeUtcEnd?: Date;
+  createdBefore?: Date;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
   orderby?: string[];
 }

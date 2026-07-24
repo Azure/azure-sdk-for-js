@@ -46,13 +46,13 @@ export interface DocumentFilter {
 // @public
 export interface DocumentStatus {
     characterCharged?: number;
-    createdDateTimeUtc: Date;
+    createdAt: Date;
     deploymentName?: string;
     error?: TranslationError;
     id: string;
     imageCharacterDetected?: number;
     imageCharged?: number;
-    lastActionDateTimeUtc: Date;
+    lastActionAt: Date;
     path?: string;
     progress: number;
     sourcePath: string;
@@ -112,8 +112,8 @@ export type FileFormatType = "Document" | "Glossary";
 
 // @public
 export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     documentIds?: string[];
     maxpagesize?: number;
     orderby?: string[];
@@ -132,8 +132,8 @@ export interface GetSupportedFormatsOptionalParams extends OperationOptions {
 
 // @public
 export interface GetTranslationsStatusOptionalParams extends OperationOptions {
-    createdDateTimeUtcEnd?: Date;
-    createdDateTimeUtcStart?: Date;
+    createdAfter?: Date;
+    createdBefore?: Date;
     maxpagesize?: number;
     orderby?: string[];
     skip?: number;
@@ -278,10 +278,10 @@ export type TranslationErrorCode = "InvalidRequest" | "InvalidArgument" | "Inter
 
 // @public
 export interface TranslationStatus {
-    createdDateTimeUtc: Date;
+    createdAt: Date;
     error?: TranslationError;
     id: string;
-    lastActionDateTimeUtc: Date;
+    lastActionAt: Date;
     status: Status;
     summary: TranslationStatusSummary;
 }
