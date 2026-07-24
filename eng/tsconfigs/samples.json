@@ -4,6 +4,7 @@
     "lib": ["ESNext", "DOM"],
     "types": ["node"],
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false
