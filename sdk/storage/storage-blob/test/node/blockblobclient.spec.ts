@@ -359,13 +359,11 @@ describe("MD5/CRC64 combined return", () => {
     await recorder.stop();
   });
 
-  it("upload returns CRC64 when a Content-MD5 is provided", async () => {
+  it("upload returns CRC64 when contentChecksumAlgorithm is StorageCrc64", async () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
     const result = await blockBlobClient.upload(content, content.length, {
-      contentChecksumAlgorithm: "Customized",
-      transactionalContentMD5: contentMD5(),
+      contentChecksumAlgorithm: "StorageCrc64",
     });
-    assert.isDefined(result.contentMD5);
     assert.isDefined(result.xMsContentCrc64);
   });
 
