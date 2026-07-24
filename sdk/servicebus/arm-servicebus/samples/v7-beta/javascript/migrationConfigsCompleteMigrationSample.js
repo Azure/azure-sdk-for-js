@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
  *
  * @summary this operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
- * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationCompleteMigration.json
+ * x-ms-original-file: 2026-07-01-preview/Migrationconfigurations/SBMigrationconfigurationCompleteMigration.json
  */
 async function migrationConfigurationsCompleteMigration() {
   const credential = new DefaultAzureCredential();

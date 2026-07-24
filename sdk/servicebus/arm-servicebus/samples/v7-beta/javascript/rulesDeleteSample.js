@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing rule.
  *
  * @summary deletes an existing rule.
- * x-ms-original-file: 2026-01-01/Rules/RuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleDelete.json
  */
 async function rulesDelete() {
   const credential = new DefaultAzureCredential();

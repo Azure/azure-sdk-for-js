@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing namespace. This operation also removes all associated resources under the namespace.
  *
  * @summary deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceDelete.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNameSpaceDelete.json
  */
 async function nameSpaceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

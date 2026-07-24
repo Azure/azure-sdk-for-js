@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all authorization rules for a queue.
  *
  * @summary gets all authorization rules for a queue.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueAuthorizationRuleListAll.json
  */
 async function queueAuthorizationRuleListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

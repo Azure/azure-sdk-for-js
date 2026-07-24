@@ -110,7 +110,6 @@ export interface DisasterRecoveryConfigsOperations {
     options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   ) => Promise<SBAuthorizationRule>;
 }
-
 function _getDisasterRecoveryConfigs(context: ServiceBusManagementContext) {
   return {
     failOver: (
@@ -185,7 +184,6 @@ function _getDisasterRecoveryConfigs(context: ServiceBusManagementContext) {
       ),
   };
 }
-
 export function _getDisasterRecoveryConfigsOperations(
   context: ServiceBusManagementContext,
 ): DisasterRecoveryConfigsOperations {

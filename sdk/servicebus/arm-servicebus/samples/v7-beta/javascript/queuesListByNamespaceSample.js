@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the queues within a namespace.
  *
  * @summary gets the queues within a namespace.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueListByNameSpace.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueListByNameSpace.json
  */
 async function queueListByNameSpace() {
   const credential = new DefaultAzureCredential();

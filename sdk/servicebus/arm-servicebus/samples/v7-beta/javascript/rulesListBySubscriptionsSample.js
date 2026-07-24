@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the rules within given topic-subscription
  *
  * @summary list all the rules within given topic-subscription
- * x-ms-original-file: 2026-01-01/Rules/RuleListBySubscription.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleListBySubscription.json
  */
 async function rulesListBySubscriptions() {
   const credential = new DefaultAzureCredential();

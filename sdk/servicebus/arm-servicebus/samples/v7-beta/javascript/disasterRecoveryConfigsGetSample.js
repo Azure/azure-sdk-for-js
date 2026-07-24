@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
  *
  * @summary retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasGet.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBAliasGet.json
  */
 async function sbAliasGet() {
   const credential = new DefaultAzureCredential();

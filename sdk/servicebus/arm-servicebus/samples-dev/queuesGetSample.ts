@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a description for the specified queue.
  *
  * @summary returns a description for the specified queue.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueGet.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueGet.json
  */
 async function queueGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

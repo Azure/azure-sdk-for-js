@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an authorization rule for a namespace.
  *
  * @summary creates or updates an authorization rule for a namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceAuthorizationRuleCreate.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNameSpaceAuthorizationRuleCreate.json
  */
 async function nameSpaceAuthorizationRuleCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

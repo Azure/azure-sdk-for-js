@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
  *
  * @summary this operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBEHAliasBreakPairing.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBEHAliasBreakPairing.json
  */
 async function sbehAliasBreakPairing() {
   const credential = new DefaultAzureCredential();

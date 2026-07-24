@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a MigrationConfiguration
  *
  * @summary deletes a MigrationConfiguration
- * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Migrationconfigurations/SBMigrationconfigurationDelete.json
  */
 async function migrationConfigurationsDelete() {
   const credential = new DefaultAzureCredential();

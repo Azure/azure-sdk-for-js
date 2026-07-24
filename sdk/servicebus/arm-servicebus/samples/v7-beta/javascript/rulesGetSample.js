@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the description for the specified rule.
  *
  * @summary retrieves the description for the specified rule.
- * x-ms-original-file: 2026-01-01/Rules/RuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/Rules/RuleGet.json
  */
 async function rulesGet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the primary and secondary connection strings for the namespace.
  *
  * @summary gets the primary and secondary connection strings for the namespace.
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasAuthorizationRuleListKey.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBAliasAuthorizationRuleListKey.json
  */
 async function disasterRecoveryConfigsAuthorizationRuleListKey() {
   const credential = new DefaultAzureCredential();

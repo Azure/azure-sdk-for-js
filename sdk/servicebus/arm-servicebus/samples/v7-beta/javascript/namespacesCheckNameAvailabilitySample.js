@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check the give namespace name availability.
  *
  * @summary check the give namespace name availability.
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceCheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNameSpaceCheckNameAvailability.json
  */
 async function nameSpaceCheckNameAvailability() {
   const credential = new DefaultAzureCredential();

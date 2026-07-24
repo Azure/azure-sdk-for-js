@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets authorization rules for a topic.
  *
  * @summary gets authorization rules for a topic.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleListAll.json
  */
 async function topicAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();

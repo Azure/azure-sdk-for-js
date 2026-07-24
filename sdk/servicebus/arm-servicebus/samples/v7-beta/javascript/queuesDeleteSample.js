@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a queue from the specified namespace in a resource group.
  *
  * @summary deletes a queue from the specified namespace in a resource group.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueDelete.json
  */
 async function queueDelete() {
   const credential = new DefaultAzureCredential();

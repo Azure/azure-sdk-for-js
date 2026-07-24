@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a topic subscription.
  *
  * @summary creates a topic subscription.
- * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Subscriptions/SBSubscriptionCreate.json
  */
 async function subscriptionCreate() {
   const credential = new DefaultAzureCredential();

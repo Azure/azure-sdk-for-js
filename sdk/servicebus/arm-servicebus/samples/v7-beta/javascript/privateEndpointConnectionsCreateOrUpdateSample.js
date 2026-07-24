@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates PrivateEndpointConnections of service namespace.
  *
  * @summary creates or updates PrivateEndpointConnections of service namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionCreate.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/PrivateEndPointConnectionCreate.json
  */
 async function nameSpacePrivateEndPointConnectionCreate() {
   const credential = new DefaultAzureCredential();
