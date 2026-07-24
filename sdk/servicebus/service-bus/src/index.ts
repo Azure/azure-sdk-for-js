@@ -19,6 +19,7 @@ export type { ServiceBusClientOptions } from "./constructorHelpers.js";
 export type { CorrelationRuleFilter } from "./core/managementClient.js";
 export type {
   DeleteMessagesOptions,
+  ListMessageSessionsOptions,
   PurgeMessagesOptions,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,

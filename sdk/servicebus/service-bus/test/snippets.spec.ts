@@ -144,6 +144,25 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleListMessageSessions", async () => {
+    const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+    const credential = new DefaultAzureCredential();
+    const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+    // @ts-preserve-whitespace
+    // List all sessions with active messages in a queue
+    for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
+      console.log("Session ID:", sessionId);
+    }
+    // @ts-preserve-whitespace
+    // List sessions in a subscription
+    for await (const sessionId of serviceBusClient.listMessageSessions(
+      "my-topic",
+      "my-subscription",
+    )) {
+      console.log("Session ID:", sessionId);
+    }
+  });
+
   it("ReadmeSampleSendMessage_Session", async () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();

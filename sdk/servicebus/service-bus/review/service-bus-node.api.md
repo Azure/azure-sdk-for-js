@@ -188,6 +188,11 @@ export { isRestError }
 export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
+export interface ListMessageSessionsOptions extends OperationOptionsBase {
+    sessionStateUpdatedAfter?: Date;
+}
+
+// @public
 export interface MessageHandlers {
     processError(args: ProcessErrorArgs): Promise<void>;
     processMessage(message: ServiceBusReceivedMessage): Promise<void>;
@@ -351,6 +356,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
+    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
 }
 
 // @public
