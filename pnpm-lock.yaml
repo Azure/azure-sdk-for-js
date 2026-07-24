@@ -34252,10 +34252,10 @@ importers:
         specifier: catalog:testing
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
-  sdk/translation/ai-translation-document-rest:
+  sdk/translation/ai-translation-document:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.0.0
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -34264,16 +34264,13 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^3.0.0
+        specifier: ^3.1.0
         version: link:../../core/core-lro
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -34285,6 +34282,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
         version: 8.1.0
@@ -34309,9 +34309,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.1.10(vitest@4.1.10)
-      autorest:
-        specifier: 'catalog:'
-        version: 3.8.0
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -34327,9 +34324,6 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.9.5
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3

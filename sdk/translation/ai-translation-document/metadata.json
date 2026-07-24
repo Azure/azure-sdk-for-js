@@ -1,0 +1,45 @@
+{
+  "apiVersions": {
+    "DocumentTranslation": "2026-03-01"
+  },
+  "emitterVersion": "0.55.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "DocumentTranslation",
+    "CrossLanguageDefinitionId": {
+      "@azure/ai-translation-document!StartTranslationDetails:interface": "DocumentTranslation.StartTranslationDetails",
+      "@azure/ai-translation-document!BatchRequest:interface": "DocumentTranslation.BatchRequest",
+      "@azure/ai-translation-document!SourceInput:interface": "DocumentTranslation.SourceInput",
+      "@azure/ai-translation-document!DocumentFilter:interface": "DocumentTranslation.DocumentFilter",
+      "@azure/ai-translation-document!TargetInput:interface": "DocumentTranslation.TargetInput",
+      "@azure/ai-translation-document!Glossary:interface": "DocumentTranslation.Glossary",
+      "@azure/ai-translation-document!BatchOptions:interface": "DocumentTranslation.BatchOptions",
+      "@azure/ai-translation-document!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/ai-translation-document!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/ai-translation-document!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/ai-translation-document!TranslationStatus:interface": "DocumentTranslation.TranslationStatus",
+      "@azure/ai-translation-document!TranslationError:interface": "DocumentTranslation.TranslationError",
+      "@azure/ai-translation-document!InnerTranslationError:interface": "DocumentTranslation.InnerTranslationError",
+      "@azure/ai-translation-document!translationStatusSummary:interface": "DocumentTranslation.StatusSummary",
+      "@azure/ai-translation-document!TranslationsStatus:interface": "DocumentTranslation.TranslationsStatus",
+      "@azure/ai-translation-document!DocumentStatus:interface": "DocumentTranslation.DocumentStatus",
+      "@azure/ai-translation-document!DocumentsStatus:interface": "DocumentTranslation.DocumentsStatus",
+      "@azure/ai-translation-document!SupportedFileFormats:interface": "DocumentTranslation.SupportedFileFormats",
+      "@azure/ai-translation-document!FileFormat:interface": "DocumentTranslation.FileFormat",
+      "@azure/ai-translation-document!DocumentTranslateContent:interface": "DocumentTranslation.DocumentTranslateContent",
+      "@azure/ai-translation-document!KnowntranslationStorageSource:enum": "DocumentTranslation.StorageSource",
+      "@azure/ai-translation-document!KnownStorageInputType:enum": "DocumentTranslation.StorageInputType",
+      "@azure/ai-translation-document!KnownStatus:enum": "DocumentTranslation.Status",
+      "@azure/ai-translation-document!KnownTranslationErrorCode:enum": "DocumentTranslation.TranslationErrorCode",
+      "@azure/ai-translation-document!KnownFileFormatType:enum": "DocumentTranslation.FileFormatType",
+      "@azure/ai-translation-document!KnownVersions:enum": "DocumentTranslation.Versions",
+      "@azure/ai-translation-document!DocumentTranslationClient#getSupportedFormats:member(1)": "ClientCustomizations.DocumentTranslationClient.getSupportedFormats",
+      "@azure/ai-translation-document!DocumentTranslationClient#getDocumentsStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getDocumentsStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#cancelTranslation:member(1)": "ClientCustomizations.DocumentTranslationClient.cancelTranslation",
+      "@azure/ai-translation-document!DocumentTranslationClient#getTranslationStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getTranslationStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#getDocumentStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getDocumentStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#getTranslationsStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getTranslationsStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#startTranslation:member(1)": "ClientCustomizations.DocumentTranslationClient.startTranslation",
+      "@azure/ai-translation-document!SingleDocumentTranslationClient#translate:member(1)": "ClientCustomizations.SingleDocumentTranslationClient.documentTranslate"
+    }
+  }
+}
