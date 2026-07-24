@@ -31,7 +31,7 @@ export type RequestParameters = {
    * Sets the accept header to send to the service.
    * When omitted, defaults to 'application/json' unless the client was created
    * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
-   * applied. If also a header "accept" is set this property will take precedence.
+   * applied. If an accept header is set in `headers`, this property will take precedence.
    */
   accept?: string;
   /**
@@ -377,8 +377,7 @@ export type ClientOptions = PipelineOptions & {
   pipeline?: Pipeline;
   /**
    * Options that are intended for use by generated clients and are not meant to
-   * be set by end users directly. Grouping them under a single `internal` key
-   * keeps them easy to ignore on a generated client's public options.
+   * be set by end users directly.
    */
   internal?: InternalClientOptions;
 };
