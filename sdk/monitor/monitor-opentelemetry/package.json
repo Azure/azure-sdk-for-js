@@ -95,7 +95,6 @@
     "@opentelemetry/core": "^2.9.0",
     "@opentelemetry/instrumentation": "^0.220.0",
     "@opentelemetry/instrumentation-bunyan": "^0.65.0",
-    "@opentelemetry/instrumentation-console": "^0.2.0",
     "@opentelemetry/instrumentation-http": "^0.220.0",
     "@opentelemetry/instrumentation-mongodb": "^0.73.0",
     "@opentelemetry/instrumentation-mysql": "^0.66.0",

@@ -88,7 +88,6 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       postgreSql: { enabled: true },
       redis: { enabled: true },
       redis4: { enabled: true },
-      console: { enabled: false },
     };
     this._setDefaultResource();
     this.browserSdkLoaderOptions = {

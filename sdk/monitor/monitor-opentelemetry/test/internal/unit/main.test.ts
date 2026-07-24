@@ -205,22 +205,6 @@ describe("Main functions", () => {
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
 
-  it("should restore console after shutdown when console instrumentation is enabled", async () => {
-    const originalLog = console.log;
-    const config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      },
-      instrumentationOptions: {
-        console: { enabled: true },
-      },
-    };
-    useAzureMonitor(config);
-    assert.notStrictEqual(console.log, originalLog, "console.log should be patched while enabled");
-    await shutdownAzureMonitor();
-    assert.strictEqual(console.log, originalLog, "console.log should be restored after shutdown");
-  });
-
   it("should add custom spanProcessors", () => {
     const processor: SpanProcessor = {
       forceFlush: () => {
@@ -341,31 +325,6 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
     assert.strictEqual(instrumentations, 31);
-  });
-
-  it("should record the Console instrumentation Statsbeat bit when console collection is enabled", async () => {
-    const config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-      },
-      instrumentationOptions: {
-        console: {
-          enabled: true,
-        },
-      },
-    };
-    useAzureMonitor(config);
-    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-    const instrumentations = Number(output["instrumentation"]);
-    assert.ok(
-      instrumentations & StatsbeatInstrumentation.CONSOLE,
-      "CONSOLE instrumentation bit (128) not set",
-    );
-    assert.strictEqual(
-      StatsbeatInstrumentationMap.get("@opentelemetry/instrumentation-console"),
-      StatsbeatInstrumentation.CONSOLE,
-    );
-    await shutdownAzureMonitor();
   });
 
   it("should set shim feature in statsbeat if env var is populated", () => {

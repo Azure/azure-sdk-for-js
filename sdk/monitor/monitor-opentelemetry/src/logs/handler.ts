@@ -4,7 +4,6 @@
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
-import { ConsoleInstrumentation } from "@opentelemetry/instrumentation-console";
 import { WinstonInstrumentation } from "@opentelemetry/instrumentation-winston";
 import type { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
@@ -71,19 +70,6 @@ export class LogHandler {
       this._instrumentations.push(
         new WinstonInstrumentation({
           ...this._config.instrumentationOptions.winston,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
-        }),
-      );
-    }
-    if (this._config.instrumentationOptions.console?.enabled) {
-      // Construct disabled and let the SDK enable it during registration.
-      // Enabling ConsoleInstrumentation via its constructor patches console
-      // before its field initializers run, wiping the saved originals so
-      // disable() can no longer restore console.
-      this._instrumentations.push(
-        new ConsoleInstrumentation({
-          ...this._config.instrumentationOptions.console,
-          enabled: false,
           logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
         }),
       );
