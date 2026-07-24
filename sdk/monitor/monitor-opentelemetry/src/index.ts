@@ -86,6 +86,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
+    console: config.instrumentationOptions?.console?.enabled,
   };
   // Check if the AKS resource detector successfully populated specific resource attributes
   // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider

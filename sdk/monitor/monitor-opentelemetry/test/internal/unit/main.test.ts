@@ -343,6 +343,31 @@ describe("Main functions", () => {
     assert.strictEqual(instrumentations, 31);
   });
 
+  it("should record the Console instrumentation Statsbeat bit when console collection is enabled", async () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: {
+          enabled: true,
+        },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE instrumentation bit (128) not set",
+    );
+    assert.strictEqual(
+      StatsbeatInstrumentationMap.get("@opentelemetry/instrumentation-console"),
+      StatsbeatInstrumentation.CONSOLE,
+    );
+    await shutdownAzureMonitor();
+  });
+
   it("should set shim feature in statsbeat if env var is populated", () => {
     getInstance()["initializedByShim"] = true;
     const config: AzureMonitorOpenTelemetryOptions = {
