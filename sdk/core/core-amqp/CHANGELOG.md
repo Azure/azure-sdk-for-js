@@ -1,5 +1,17 @@
 # Release History
 
+## 4.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Add reference documentation for the `MessagingError` constructor and for the `RetryMode` enum members. [#34916](https://github.com/Azure/azure-sdk-for-js/issues/34916)
+
 ## 4.5.0 (2026-07-13)
 
 ### Other Changes
