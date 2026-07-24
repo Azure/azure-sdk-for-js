@@ -106,6 +106,7 @@ async function parseBlobListArrowBytes(bytes: Uint8Array): Promise<ParsedBlobLis
       encryptionScope: reader.string(i, "EncryptionScope"),
       accessTierChangedOn: reader.date(i, "AccessTierChangeTime"),
       tagCount: reader.number(i, "TagCount"),
+      expiresOn: reader.date(i, "Expiry-Time"),
       isSealed: reader.boolean(i, "Sealed"),
       rehydratePriority: reader.string(
         i,

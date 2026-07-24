@@ -1536,7 +1536,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.strictEqual(blob!.properties.tagCount, 2);
   });
 
-  it("listBlobsFlat should page results with maxPageSize", async () => {
+  it("listBlobsFlat should honor maxPageSize", async () => {
     const names: string[] = [];
     for (let i = 0; i < 4; i++) {
       names.push(await createBlockBlob(getRecorderUniqueVariable(recorder, `blob${i}`)));
@@ -1555,6 +1555,54 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     }
 
     assert.strictEqual(pages, 2);
+    assert.sameMembers(found, names);
+  });
+
+  it("listBlobsFlat should paginate by continuation token and expose blob properties", async () => {
+    // Fixed-size content so contentLength is deterministic across pages.
+    const content = "hello";
+    const names: string[] = [];
+    for (let i = 0; i < 4; i++) {
+      names.push(await createBlockBlob(getRecorderUniqueVariable(recorder, `blob${i}`), content));
+    }
+
+    const assertBlobProperties = (blob: BlobItem): void => {
+      assert.strictEqual(blob.properties.contentLength, content.length);
+      assert.strictEqual(blob.properties.blobType, "BlockBlob");
+      assert.isAbove(blob.properties.etag!.length, 0);
+      assert.instanceOf(blob.properties.lastModified, Date);
+    };
+
+    const found: string[] = [];
+
+    // Page 1: cap the page size, then reuse its continuation token for page 2.
+    const firstPage = (
+      await containerClient
+        .listBlobsFlat({ responseFormat: StorageResponseFormat.Arrow })
+        .byPage({ maxPageSize: 2 })
+        .next()
+    ).value;
+    assert.isAtMost(firstPage.segment.blobItems.length, 2);
+    for (const blob of firstPage.segment.blobItems) {
+      assertBlobProperties(blob);
+      found.push(blob.name);
+    }
+
+    const marker = firstPage.continuationToken;
+    assert.ok(marker, "expected a continuation token after the first page");
+
+    // Page 2: pass the marker back in explicitly.
+    const secondPage = (
+      await containerClient
+        .listBlobsFlat({ responseFormat: StorageResponseFormat.Arrow })
+        .byPage({ continuationToken: marker, maxPageSize: 2 })
+        .next()
+    ).value;
+    for (const blob of secondPage.segment.blobItems) {
+      assertBlobProperties(blob);
+      found.push(blob.name);
+    }
+
     assert.sameMembers(found, names);
   });
 
@@ -1701,7 +1749,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.sameMembers(prefixes, ["folder1/", "folder2/"]);
   });
 
-  it("listBlobsByHierarchy should page results with maxPageSize", async () => {
+  it("listBlobsByHierarchy should honor maxPageSize", async () => {
     await createBlockBlob("folder1/a.txt");
     await createBlockBlob("folder2/b.txt");
     await createBlockBlob("folder3/c.txt");

@@ -8,7 +8,7 @@ import { stringToUint8Array } from "@azure/core-util";
  * lets this reader operate on the `apache-arrow` `Table` object without storage-common
  * taking a hard dependency on the (sizable) `apache-arrow` package.
  */
-interface ArrowTableLike {
+export interface ArrowTableLike {
   numRows: number;
   schema?: { metadata?: { get(key: string): string | null | undefined } | null } | null;
   getChild(columnName: string): { get(rowIndex: number): unknown } | null;
@@ -28,8 +28,8 @@ export class ArrowTableReader {
   /**
    * @param table - A decoded Apache Arrow table, such as the result of `tableFromIPC`.
    */
-  constructor(table: unknown) {
-    this.table = table as ArrowTableLike;
+  constructor(table: ArrowTableLike) {
+    this.table = table;
   }
 
   /**

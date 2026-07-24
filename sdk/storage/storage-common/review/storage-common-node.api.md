@@ -31,8 +31,24 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 }
 
 // @public
+export interface ArrowTableLike {
+    // (undocumented)
+    getChild(columnName: string): {
+        get(rowIndex: number): unknown;
+    } | null;
+    // (undocumented)
+    numRows: number;
+    // (undocumented)
+    schema?: {
+        metadata?: {
+            get(key: string): string | null | undefined;
+        } | null;
+    } | null;
+}
+
+// @public
 export class ArrowTableReader {
-    constructor(table: unknown);
+    constructor(table: ArrowTableLike);
     boolean(rowIndex: number, columnName: string): boolean | undefined;
     bytesFromBase64(rowIndex: number, columnName: string): Uint8Array | undefined;
     date(rowIndex: number, columnName: string): Date | undefined;

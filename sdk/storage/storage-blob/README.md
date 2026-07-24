@@ -378,6 +378,34 @@ for await (const blob of blobs) {
 
 For a complete sample on iterating blobs please see [samples/v12/typescript/src/listBlobsFlat.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/listBlobsFlat.ts).
 
+### List blobs using the Apache Arrow response format
+
+Request the listing as Apache Arrow with `responseFormat`. The service falls back to XML for accounts that don't support Apache Arrow, and the parsed blob items are identical either way.
+
+```ts snippet:ReadmeSampleListBlobs_ApacheArrow
+import { BlobServiceClient, StorageResponseFormat } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const account = "<account>";
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+
+const containerName = "<container name>";
+const containerClient = blobServiceClient.getContainerClient(containerName);
+
+// Request the listing as Apache Arrow. The service falls back to XML for accounts
+// that don't support Apache Arrow; the parsed blob items are identical either way.
+let i = 1;
+const blobs = containerClient.listBlobsFlat({
+  responseFormat: StorageResponseFormat.Arrow,
+});
+for await (const blob of blobs) {
+  console.log(`Blob ${i++}: ${blob.name}`);
+}
+```
+
 ### Download a blob and convert it to a string (Node.js)
 
 ```ts snippet:ReadmeSampleDownloadBlob_Node

@@ -393,6 +393,11 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
   /**
    * Specifies the format the service should use to return list results.
    * Defaults to {@link StorageResponseFormat.Auto}.
+   *
+   * When {@link StorageResponseFormat.Arrow} is requested the service streams a columnar
+   * body that is parsed directly into the returned items, so the low-level `_response`
+   * carries only headers and status - `_response.parsedBody` and `_response.bodyAsText`
+   * are not populated in that mode.
    */
   responseFormat?: StorageResponseFormat;
   /**
@@ -545,6 +550,11 @@ export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * Specifies the format the service should use to return list results.
    * Defaults to {@link StorageResponseFormat.Auto}.
+   *
+   * When {@link StorageResponseFormat.Arrow} is requested the service streams a columnar
+   * body that is parsed directly into the returned items, so the low-level `_response`
+   * carries only headers and status - `_response.parsedBody` and `_response.bodyAsText`
+   * are not populated in that mode.
    */
   responseFormat?: StorageResponseFormat;
   /**
