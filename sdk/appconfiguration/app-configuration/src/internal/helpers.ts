@@ -55,13 +55,6 @@ export interface SendConfigurationSettingsOptions
 }
 
 /**
- * Options for listLabels that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface SendLabelsRequestOptions extends ListLabelsOptions {}
-
-/**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
  */
@@ -194,10 +187,12 @@ export function formatSnapshotFiltersAndSelect(
  */
 export function formatLabelsFiltersAndSelect(
   listLabelsOptions: ListLabelsOptions,
-): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  resourceType?: string,
+): Pick<GetLabelsOptionalParams, "name" | "select" | "resourceType"> {
   return {
     name: listLabelsOptions.nameFilter,
     select: listLabelsOptions.fields,
+    resourceType,
   };
 }
 /**

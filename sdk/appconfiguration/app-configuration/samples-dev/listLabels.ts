@@ -5,7 +5,7 @@
  * @summary Demonstrates listing labels for a configuration setting store.
  * @azsdk-weight 40
  */
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { AppConfigurationClient, FeatureFlagClient } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -61,6 +61,18 @@ export async function main() {
 
   for await (const label of labelsForDevelopment) {
     console.log(`  Found label for development: ${label.name}`);
+  }
+
+  // ex: AppConfigurationClient.listLabels() automatically returns only the labels
+  // used by key-value settings. To list the labels used by feature flags, use
+  // FeatureFlagClient.listLabels() instead.
+  console.log(`Listing all the labels used by feature flags`);
+
+  const featureFlagClient = new FeatureFlagClient(endpoint, credential);
+  const featureFlagLabels = featureFlagClient.listLabels();
+
+  for await (const label of featureFlagLabels) {
+    console.log(`  Found feature flag label: ${label.name}`);
   }
 
   ////////////////////////////////////////////////////////

@@ -135,15 +135,83 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
+export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
+    etag?: string;
+    label?: string;
+}
+
+// @public
 export interface EtagEntity {
     etag?: string;
+}
+
+// @public
+export interface FeatureFlag {
+    allocation?: FeatureFlagAllocation;
+    conditions?: FeatureFlagConditions;
+    description?: string;
+    enabled: boolean;
+    readonly etag?: string;
+    readonly label?: string;
+    readonly lastModified?: Date;
+    readonly name: string;
+    tags?: Record<string, string>;
+    telemetry?: FeatureFlagTelemetryConfiguration;
+    variants?: FeatureFlagVariantDefinition[];
+}
+
+// @public
+export interface FeatureFlagAllocation {
+    defaultWhenDisabled?: string;
+    defaultWhenEnabled?: string;
+    group?: GroupAllocation[];
+    percentile?: PercentileAllocation[];
+    seed?: string;
+    user?: UserAllocation[];
+}
+
+// @public
+export class FeatureFlagClient {
+    constructor(connectionString: string, options?: FeatureFlagClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
+    deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
+    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
+    listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
+    listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
+    listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
+    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
+}
+
+// @public
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {
+}
+
+// @public
+export interface FeatureFlagConditions {
+    filters?: FeatureFlagFilter[];
+    requirementType?: RequirementType;
 }
 
 // @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
 // @public
+export type FeatureFlagFields = "name" | "enabled" | "label" | "description" | "conditions" | "variants" | "allocation" | "telemetry" | "tags" | "last_modified" | "etag";
+
+// @public
+export interface FeatureFlagFilter {
+    name: string;
+    parameters?: Record<string, string>;
+}
+
+// @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
+
+// @public
+export interface FeatureFlagTelemetryConfiguration {
+    enabled: boolean;
+    metadata?: Record<string, string>;
+}
 
 // @public
 export interface FeatureFlagValue {
@@ -161,6 +229,14 @@ export interface FeatureFlagValue {
 }
 
 // @public
+export interface FeatureFlagVariantDefinition {
+    contentType?: string;
+    name: string;
+    statusOverride?: StatusOverride;
+    value?: string;
+}
+
+// @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
@@ -174,11 +250,25 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
+export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
+    acceptDateTime?: Date;
+    etag?: string;
+    fields?: FeatureFlagFields[];
+    label?: string;
+}
+
+// @public
 export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFields {
 }
 
 // @public
 export interface GetSnapshotResponse extends SnapshotResponse {
+}
+
+// @public
+export interface GroupAllocation {
+    groups: string[];
+    variant: string;
 }
 
 // @public
@@ -226,7 +316,8 @@ export enum KnownAppConfigAudience {
 export enum KnownAppConfigurationApiVersion {
     V20231101 = "2023-11-01",
     V20240901 = "2024-09-01",
-    V20260401 = "2026-04-01"
+    V20260401 = "2026-04-01",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -255,6 +346,34 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
     pageEtags?: string[];
+}
+
+// @public
+export interface ListFeatureFlagPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+    items: FeatureFlag[];
+}
+
+// @public
+export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
+    fields?: FeatureFlagFields[];
+    labelFilter?: string;
+    nameFilter?: string;
+    tagsFilter?: string[];
+}
+
+// @public
+export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+    items: FeatureFlag[];
+}
+
+// @public
+export interface ListFeatureFlagsOptions extends OperationOptions {
+    acceptDateTime?: Date;
+    fields?: FeatureFlagFields[];
+    labelFilter?: string;
+    nameFilter?: string;
+    pageEtags?: string[];
+    tagsFilter?: string[];
 }
 
 // @public
@@ -329,6 +448,16 @@ export function parseSecretReference(setting: ConfigurationSetting): Configurati
 // @public
 export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
 
+// @public
+export interface PercentileAllocation {
+    from: number;
+    to: number;
+    variant: string;
+}
+
+// @public
+export type RequirementType = "Any" | "All";
+
 export { RestError }
 
 // @public
@@ -354,6 +483,10 @@ export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | S
 
 // @public
 export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
 }
 
 // @public
@@ -414,6 +547,9 @@ export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeader
 }
 
 // @public
+export type StatusOverride = "None" | "Enabled" | "Disabled";
+
+// @public
 export interface SyncTokenHeaderField {
     syncToken?: string;
 }
@@ -425,6 +561,12 @@ export interface UpdateSnapshotOptions extends OperationOptions {
 
 // @public
 export interface UpdateSnapshotResponse extends SnapshotResponse {
+}
+
+// @public
+export interface UserAllocation {
+    users: string[];
+    variant: string;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -6,6 +6,22 @@ import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
+import type { FeatureFlag, FeatureFlagFields } from "./generated/models/index.js";
+
+export type {
+  FeatureFlag,
+  FeatureFlagConditions,
+  RequirementType,
+  FeatureFlagFilter,
+  FeatureFlagVariantDefinition,
+  StatusOverride,
+  FeatureFlagAllocation,
+  PercentileAllocation,
+  UserAllocation,
+  GroupAllocation,
+  FeatureFlagTelemetryConfiguration,
+  FeatureFlagFields,
+} from "./generated/models/index.js";
 
 /**
  * Defines values for SnapshotComposition.
@@ -91,7 +107,7 @@ export interface SettingLabel {
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
    * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */
@@ -104,6 +120,11 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
    */
   audience?: string;
 }
+
+/**
+ * Provides configuration options for FeatureFlagClient.
+ */
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {}
 
 /**
  * Known values for Azure App Configuration Audience
@@ -133,6 +154,8 @@ export enum KnownAppConfigurationApiVersion {
   V20240901 = "2024-09-01",
   /** The 2026-04-01 API version */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
 }
 
 /**
@@ -471,6 +494,122 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
    * Requests the server to respond with the state of the resource at the specified time.
    */
   acceptDateTime?: Date;
+}
+
+/**
+ * Options used when creating or updating a feature flag through the dedicated
+ * feature flag endpoint.
+ */
+export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
+
+/**
+ * Options for getting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
+  /**
+   * The label used to identify the feature flag. Leaving this undefined means the
+   * feature flag does not have a label.
+   */
+  label?: string;
+
+  /**
+   * The etag to use for conditional retrieval, in conjunction with `onlyIfChanged`.
+   */
+  etag?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /**
+   * Which fields to return for the feature flag.
+   */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * Options for deleting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
+  /**
+   * The label used to identify the feature flag. Leaving this undefined means the
+   * feature flag does not have a label.
+   */
+  label?: string;
+
+  /**
+   * The etag to use for conditional delete, in conjunction with `onlyIfUnchanged`.
+   */
+  etag?: string;
+}
+
+/**
+ * Options for listFeatureFlags that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
+
+  /**
+   * A list of page etags, one per page, used to conditionally retrieve pages. Each etag is sent as
+   * an `If-None-Match` header for its corresponding page; when the page is unchanged the service
+   * responds with `304 Not Modified` and the SDK yields an empty page whose `etag` is preserved.
+   */
+  pageEtags?: string[];
+}
+
+/**
+ * A page of feature flags and the corresponding HTTP response
+ */
+export interface ListFeatureFlagPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+  /**
+   * The feature flags for this page of results.
+   */
+  items: FeatureFlag[];
+}
+
+/**
+ * Options for listFeatureFlagRevisions that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * A page of feature flag revisions and the corresponding HTTP response
+ */
+export interface ListFeatureFlagRevisionsPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+  /**
+   * The feature flag revisions for this page of results.
+   */
+  items: FeatureFlag[];
 }
 
 /**

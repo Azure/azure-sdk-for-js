@@ -1,14 +1,12 @@
 # Release History
 
-## 1.12.2 (Unreleased)
+## 1.13.0-beta.1 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added a new `FeatureFlagClient` that manages feature flags through the dedicated App Configuration feature flag endpoint. It exposes `setFeatureFlag`, `getFeatureFlag`, `deleteFeatureFlag`, `listFeatureFlags`, `listFeatureFlagRevisions`, and `listLabels`, along with the `FeatureFlag` model and its related types (`FeatureFlagConditions`, `FeatureFlagFilter`, `FeatureFlagVariantDefinition`, `FeatureFlagAllocation`, `FeatureFlagTelemetryConfiguration`, and others). Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
+- `listLabels` is now available on both `AppConfigurationClient` and `FeatureFlagClient`. Each client automatically scopes results to the labels used by its own resource type: `AppConfigurationClient.listLabels` returns key-value labels, while `FeatureFlagClient.listLabels` returns feature flag labels. Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
+- `FeatureFlagClient.listFeatureFlags` now supports conditional page retrieval through the `pageEtags` option, matching the behavior of `AppConfigurationClient.listConfigurationSettings`. Each etag is sent as an `If-None-Match` header for its corresponding page, and unchanged pages are returned as empty pages with their `etag` preserved. Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
 
 ## 1.12.1 (2026-06-22)
 

@@ -5,6 +5,7 @@
  * @summary Demonstrates listing multiple configuration settings using a filter for a key or label.
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -14,8 +15,9 @@ export async function main() {
   console.log(`Running listConfigurationSettings sample`);
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
-  const client = new AppConfigurationClient(connectionString);
+  const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
+  const credential = new DefaultAzureCredential();
+  const client = new AppConfigurationClient(endpoint, credential);
 
   await client.setConfigurationSetting({
     key: "sample key",
@@ -27,12 +29,18 @@ export async function main() {
     key: "sample key",
     value: "sample value",
     label: "developmentA",
+    tags: {
+      production: "prodA",
+    },
   });
 
   await client.setConfigurationSetting({
     key: "key only for development",
     value: "value",
     label: "developmentB",
+    tags: {
+      production: "prodB",
+    },
   });
 
   // ex: using a keyFilter
@@ -55,6 +63,17 @@ export async function main() {
 
   for await (const setting of samplesWithDevelopmentLabel) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
+  }
+
+  // ex: using a tagFilter
+  const samplesWithProdTag = client.listConfigurationSettings({
+    tagsFilter: ["production=prodB"],
+  });
+
+  console.log(`Settings matching tagsFilter 'prodB'`);
+
+  for await (const setting of samplesWithProdTag) {
+    console.log(`  Found key: ${setting.key}, label: ${setting.label}, tags: ${setting.tags}`);
   }
 
   ////////////////////////////////////////////////////////

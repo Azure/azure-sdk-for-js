@@ -1494,6 +1494,21 @@ describe("AppConfigurationClient", () => {
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
+      // The wildcard filter can match keys from other test runs that share the
+      // truncated prefix, and revisions are immutable history that persists in
+      // the store. So rather than asserting exact equality on the whole result,
+      // verify the wildcard returned revisions, that it is a superset of this
+      // run's exact-key revisions, and that our run's revisions are exactly the
+      // four we created.
+      assert.isTrue(revisions.length > 0, "expected the wildcard to return revisions");
+
+      const exactKeyRevisions = await toSortedArray(client.listRevisions({ keyFilter: key }));
+      assert.isTrue(
+        revisions.length >= exactKeyRevisions.length,
+        "expected the wildcard to return at least as many revisions as the exact key",
+      );
+
+      const revisionsForThisKey = revisions.filter((revision) => revision.key === key);
       assertEqualSettings(
         [
           { key, label: labelA, value: "fooA1", isReadOnly: false },
@@ -1501,7 +1516,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelB, value: "fooB1", isReadOnly: false },
           { key, label: labelB, value: "fooB2", isReadOnly: false },
         ],
-        revisions,
+        revisionsForThisKey,
       );
     });
 

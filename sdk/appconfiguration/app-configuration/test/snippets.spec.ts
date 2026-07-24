@@ -3,7 +3,11 @@
 
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
+import {
+  AppConfigurationClient,
+  FeatureFlagClient,
+  KnownAppConfigAudience,
+} from "@azure/app-configuration";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
@@ -286,6 +290,93 @@ describe("snippets", () => {
     const client = new AppConfigurationClient(endpoint, credential);
     // @ts-preserve-whitespace
     const result = await client.archiveSnapshot({ name: "MySnapshot" });
+  });
+
+  it("FeatureFlag", async () => {
+    // The endpoint for your App Configuration resource
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Create or update a feature flag through the dedicated feature flag endpoint.
+    await client.setFeatureFlag({
+      name: "my-feature",
+      enabled: true,
+      description: "A feature flag managed through the feature flag endpoint",
+    });
+    // @ts-preserve-whitespace
+    // Retrieve a single feature flag.
+    const flag = await client.getFeatureFlag("my-feature");
+    console.log(`Feature flag ${flag.name} is enabled: ${flag.enabled}`);
+    // @ts-preserve-whitespace
+    // List all feature flags.
+    for await (const item of client.listFeatureFlags()) {
+      console.log(`Found feature flag: ${item.name}`);
+    }
+    // @ts-preserve-whitespace
+    // Delete a feature flag.
+    await client.deleteFeatureFlag("my-feature");
+  });
+
+  it("SetFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const result = await client.setFeatureFlag({
+      name: "MyFeatureFlag",
+      enabled: true,
+    });
+    console.log(`Feature flag ${result.name} is enabled: ${result.enabled}`);
+  });
+
+  it("GetFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
+    console.log(`Feature flag ${featureFlag.name} is enabled: ${featureFlag.enabled}`);
+  });
+
+  it("DeleteFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    await client.deleteFeatureFlag("MyFeatureFlag");
+  });
+
+  it("ListFeatureFlags", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const featureFlag of client.listFeatureFlags()) {
+      console.log(`Feature flag: ${featureFlag.name}`);
+    }
+  });
+
+  it("ListFeatureFlagRevisions", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const featureFlag of client.listFeatureFlagRevisions({
+      nameFilter: "MyFeatureFlag",
+    })) {
+      console.log(`Revision last modified: ${featureFlag.lastModified}`);
+    }
+  });
+
+  it("ListFeatureFlagLabels", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const label of client.listLabels()) {
+      console.log(`Found label: ${label.name}`);
+    }
   });
 
   it("SetLogLevel", async () => {

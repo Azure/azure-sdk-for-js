@@ -53,6 +53,10 @@ import {
   GetKeysOptionalParams,
 } from "./api/options.js";
 import {
+  FeatureFlagClientOperations,
+  _getFeatureFlagClientOperations,
+} from "./classic/featureFlagClient/index.js";
+import {
   Key,
   KeyValue,
   ConfigurationSnapshot,
@@ -78,15 +82,9 @@ export class AppConfigurationClient {
     credential: KeyCredential | TokenCredential,
     options: AppConfigurationClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAppConfiguration(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAppConfiguration(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
+    this.featureFlagClient = _getFeatureFlagClientOperations(this._client);
   }
 
   /** Requests the headers and status of the given resource. */
@@ -194,7 +192,7 @@ export class AppConfigurationClient {
   deleteKeyValue(
     key: string,
     options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-  ): Promise<KeyValue | undefined> {
+  ): Promise<KeyValue | void> {
     return deleteKeyValue(this._client, key, options);
   }
 
@@ -244,4 +242,7 @@ export class AppConfigurationClient {
   ): PagedAsyncIterableIterator<Key> {
     return getKeys(this._client, options);
   }
+
+  /** The operation groups for featureFlagClient */
+  public readonly featureFlagClient: FeatureFlagClientOperations;
 }

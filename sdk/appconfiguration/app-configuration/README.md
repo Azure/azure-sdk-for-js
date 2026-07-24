@@ -335,6 +335,39 @@ const recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
 
+### Manage feature flags
+
+The dedicated feature flag endpoint lets you create, retrieve, list, and delete feature flags directly without manually building the underlying configuration setting key and JSON value. This requires the `2026-05-01-preview` API version or later.
+
+```ts snippet:FeatureFlag
+import { DefaultAzureCredential } from "@azure/identity";
+import { FeatureFlagClient } from "@azure/app-configuration";
+
+// The endpoint for your App Configuration resource
+const endpoint = "https://example.azconfig.io";
+const credential = new DefaultAzureCredential();
+const client = new FeatureFlagClient(endpoint, credential);
+
+// Create or update a feature flag through the dedicated feature flag endpoint.
+await client.setFeatureFlag({
+  name: "my-feature",
+  enabled: true,
+  description: "A feature flag managed through the feature flag endpoint",
+});
+
+// Retrieve a single feature flag.
+const flag = await client.getFeatureFlag("my-feature");
+console.log(`Feature flag ${flag.name} is enabled: ${flag.enabled}`);
+
+// List all feature flags.
+for await (const item of client.listFeatureFlags()) {
+  console.log(`Found feature flag: ${item.name}`);
+}
+
+// Delete a feature flag.
+await client.deleteFeatureFlag("my-feature");
+```
+
 ## Troubleshooting
 
 ### Logging
@@ -366,6 +399,7 @@ The following samples show you the various ways you can interact with App Config
 - [`secretReference.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts) - SecretReference represents a configuration setting that references as KeyVault secret.
 - [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) - Create, list configuration settings, and archive snapshots.
 - [`featureFlag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts) - Feature flags are settings that follow specific JSON schema for the value.
+- [`featureFlagEndpoint.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/featureFlagEndpoint.ts) - Create, retrieve, list, and delete feature flags through the dedicated feature flag endpoint (requires the `2026-05-01-preview` API version or later).
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/) folder on GitHub.
 

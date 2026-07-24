@@ -22,9 +22,21 @@ export type {
   OperationState,
   SnapshotUpdateParameters,
   Label,
+  FeatureFlag,
+  FeatureFlagConditions,
+  RequirementType,
+  FeatureFlagFilter,
+  FeatureFlagVariantDefinition,
+  StatusOverride,
+  FeatureFlagAllocation,
+  PercentileAllocation,
+  UserAllocation,
+  GroupAllocation,
+  FeatureFlagTelemetryConfiguration,
   KeyValueFields,
   SnapshotFields,
   LabelFields,
+  FeatureFlagFields,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
@@ -51,5 +63,16 @@ export type {
   CheckKeysOptionalParams,
   GetKeysOptionalParams,
 } from "./api/index.js";
+export type {
+  FeatureFlagClientCheckFeatureFlagRevisionsOptionalParams,
+  FeatureFlagClientGetFeatureFlagRevisionsOptionalParams,
+  FeatureFlagClientDeleteFeatureFlagOptionalParams,
+  FeatureFlagClientPutFeatureFlagOptionalParams,
+  FeatureFlagClientCheckFeatureFlagOptionalParams,
+  FeatureFlagClientGetFeatureFlagOptionalParams,
+  FeatureFlagClientCheckFeatureFlagsOptionalParams,
+  FeatureFlagClientGetFeatureFlagsOptionalParams,
+} from "./api/featureFlagClient/index.js";
+export type { FeatureFlagClientOperations } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
