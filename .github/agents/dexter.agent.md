@@ -12,17 +12,20 @@ Follow the full guidelines in [dependency-review-guidelines.md](../prompts/depen
 When reviewing dependency changes, check for:
 
 1. **Workspace protocol** — internal dev tools and test utils use
-   `workspace:^`; published runtime `@azure/*` deps may use either
-   `workspace:^` or semver `^` ranges (both safe, since versions only
-   bump on source changes so the local version normally matches npm).
-   When a `workspace:` runtime dep has unreleased source changes, ensure
-   it ships with/before the consumer and bump the consumer if it relies
-   on the new features.
+   `workspace:^`; published **stable** runtime `@azure/*` deps may use
+   either `workspace:^` or semver `^` ranges (both safe, since versions
+   only bump on source changes so the local version normally matches
+   npm). When a `workspace:` runtime dep has unreleased source changes,
+   ensure it ships with/before the consumer and bump the consumer if it
+   relies on the new features. **Beta** packages depending on **beta**
+   `@azure/*` packages must use an **exact pin** (e.g., `1.0.0-beta.1`),
+   not `workspace:^` or a caret range.
 2. **Catalog usage** — use `catalog:` references when entries exist in
    `pnpm-workspace.yaml` (default, arm, internal, testing catalogs)
-3. **Version ranges** — `^` or `workspace:^` for runtime deps,
-   `catalog:` or `^` for dev, `workspace:^` for internal dev tools. No
-   pinning, tilde, star, or git URLs.
+3. **Version ranges** — `^` or `workspace:^` for **stable** runtime deps
+   (beta→beta `@azure/*` deps use an exact pin instead), `catalog:` or
+   `^` for dev, `workspace:^` for internal dev tools. No pinning, tilde,
+   star, or git URLs.
 4. **New dependency evaluation** — necessity (core-* already provides?),
    size (>100 KB?), license (MIT-compatible?), maintenance, types
 5. **Dependency removal** — verify no remaining imports, check peer dep

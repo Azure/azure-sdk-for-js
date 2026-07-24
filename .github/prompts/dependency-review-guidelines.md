@@ -23,8 +23,8 @@ Review changes to **dependency declarations and package metadata** in
 ### 1. Workspace protocol
 
 Internal `@azure/*` packages that exist in this monorepo can be
-referenced in two ways for runtime dependencies — **both are
-acceptable**:
+referenced in two ways for **stable** published runtime dependencies —
+**both are acceptable**:
 
 - **`workspace:^` protocol** (e.g., `"@azure/core-rest-pipeline":
   "workspace:^"`). At `pnpm pack`/publish time, pnpm rewrites this to
@@ -35,6 +35,13 @@ acceptable**:
 - **Explicit semver caret ranges** (e.g., `"@azure/core-rest-pipeline":
   "^1.19.0"`). Use this when you need to depend on a specific minimum
   published version.
+
+> **Beta exception:** the two acceptable forms above apply only to
+> **stable** runtime `@azure/*` dependencies. A **beta** package
+> depending on a **beta** `@azure/*` package must use an **exact pin**
+> (e.g., `"1.0.0-beta.1"`) to protect against breaking changes — it must
+> **not** use `workspace:^` (which packs as a caret range) or an
+> explicit caret range.
 
 Internal dev tools and test utils (e.g., `@azure-tools/test-recorder`,
 `@azure/dev-tool`) should continue to use `workspace:^`.
@@ -68,9 +75,10 @@ version. In that case the consuming package should:
   `workspace:^`, to avoid coupling its release to the dependency's.
 
 Only flag `workspace:^` on a published runtime dependency when its local
-version is ahead of npm (unreleased source changes) **and** the consumer
-is not being released alongside it. Only flag a semver range for an
-**internal dev tool** that should use `workspace:^`.
+version is ahead of npm (unreleased source changes) **and** the
+dependency is not guaranteed to be published together with or before the
+consumer. Only flag a semver range for an **internal dev tool** that
+should use `workspace:^`.
 
 ### 2. Catalog usage
 
@@ -101,7 +109,8 @@ The defined catalogs are:
 
 | Dependency type | Expected range |
 |----------------|---------------|
-| Published runtime dependencies | `^` (caret — allows minor/patch) or `workspace:^` |
+| Published **stable** runtime dependencies | `^` (caret — allows minor/patch) or `workspace:^` |
+| **Beta** package → **beta** `@azure/*` dependency | exact pin (e.g., `1.0.0-beta.1`) — not `workspace:^`/caret |
 | Peer dependencies | `>=` range matching compatibility window |
 | Dev dependencies | `catalog:` reference or `^` |
 | Internal dev tools & test utils | `workspace:^` |
