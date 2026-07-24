@@ -107,7 +107,7 @@ export class WebPubSubChatServiceClient {
     if (isConnectionString) {
       const parsed = parseConnectionString(endpointOrConnectionString);
       endpoint = parsed.endpoint;
-      credential = new AzureKeyCredential(parsed.accessKey);
+      credential = parsed.credential;
       hub = credentialOrHub;
       options = (hubOrOptions as WebPubSubChatServiceClientOptions) ?? {};
     } else {
