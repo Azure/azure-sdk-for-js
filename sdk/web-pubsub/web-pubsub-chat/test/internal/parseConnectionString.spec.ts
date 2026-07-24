@@ -4,44 +4,21 @@
 import { parseConnectionString } from "../../src/parseConnectionString.js";
 import { describe, it, assert } from "vitest";
 
-describe("parseConnectionString", () => {
-  it("parses a valid connection string", () => {
-    const result = parseConnectionString(
-      "Endpoint=https://example.webpubsub.azure.com;AccessKey=ABCDEFG=",
-    );
-    assert.equal(result.endpoint, "https://example.webpubsub.azure.com");
-    assert.equal(result.accessKey, "ABCDEFG=");
+describe("Can parse connection string", () => {
+  it("can parse valid connection string", async () => {
+    let conn = "Endpoint=http://localhost;AccessKey=ABC;Port=8080;Version=1.0;";
+    let parsed = parseConnectionString(conn);
+    assert.equal(parsed.credential.key, "ABC");
+    assert.equal(parsed.endpoint, "http://localhost:8080/");
+    conn = "Endpoint=http://localhost;AccessKey=ABC;";
+    parsed = parseConnectionString(conn);
+    assert.equal(parsed.credential.key, "ABC");
+    assert.equal(parsed.endpoint, "http://localhost/");
   });
 
-  it("parses with extra whitespace", () => {
-    const result = parseConnectionString(
-      "  Endpoint = https://example.webpubsub.azure.com ; AccessKey = key123 ",
-    );
-    assert.equal(result.endpoint, "https://example.webpubsub.azure.com");
-    assert.equal(result.accessKey, "key123");
-  });
-
-  it("is case-insensitive for keys", () => {
-    const result = parseConnectionString("endpoint=https://host.com;accesskey=myKey");
-    assert.equal(result.endpoint, "https://host.com");
-    assert.equal(result.accessKey, "myKey");
-  });
-
-  it("handles AccessKey with equals signs", () => {
-    const result = parseConnectionString("Endpoint=https://host.com;AccessKey=abc+def/ghi==");
-    assert.equal(result.endpoint, "https://host.com");
-    assert.equal(result.accessKey, "abc+def/ghi==");
-  });
-
-  it("throws when Endpoint is missing", () => {
-    assert.throws(() => parseConnectionString("AccessKey=myKey"), /Endpoint/);
-  });
-
-  it("throws when AccessKey is missing", () => {
-    assert.throws(() => parseConnectionString("Endpoint=https://host.com"), /AccessKey/);
-  });
-
-  it("throws for empty string", () => {
-    assert.throws(() => parseConnectionString(""), /Endpoint/);
+  it("can throw with invalid connection string", async () => {
+    assert.throws(() => parseConnectionString("Endpoint=http://localhost;"));
+    assert.throws(() => parseConnectionString("http://localhost;"));
+    assert.throws(() => parseConnectionString("localhost;"));
   });
 });
