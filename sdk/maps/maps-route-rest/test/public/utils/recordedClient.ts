@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env.js";
+import "#platform/test/public/utils/env";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
 import MapsRoute from "../../../src/mapsRoute.js";
