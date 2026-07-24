@@ -85,6 +85,13 @@ export function isRushRepo(sdkRepoRoot: string): boolean {
   );
 }
 
+export async function installDependencies() {
+  await ensurePnpmInstalled();
+  logger.info(`Start to pnpm install.`);
+  await runCommand(`pnpm`, ["install"], runCommandOptions, false);
+  logger.info(`Pnpm install successfully.`);
+}
+
 export async function buildPackage(
   packageDirectory: string,
   options: ModularClientPackageOptions,
@@ -97,10 +104,7 @@ export async function buildPackage(
   logger.info(`Start to build package in '${relativePackageDirectoryToSdkRoot}'.`);
   const { name } = await getNpmPackageInfo(relativePackageDirectoryToSdkRoot);
   let buildStatus = `succeeded`;
-  await ensurePnpmInstalled();
-  logger.info(`Start to pnpm install.`);
-  await runCommand(`pnpm`, ["install"], runCommandOptions, false);
-  logger.info(`Pnpm install successfully.`);
+  await installDependencies();
 
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
     await lintFix(packageDirectory);
