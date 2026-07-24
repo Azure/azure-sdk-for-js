@@ -39,13 +39,13 @@ export interface GetDocumentsStatusOptionalParams extends OperationOptions {
    */
   skip?: number;
   /**
-   * maxpagesize is the maximum items returned in a page.  If more items are
+   * maxPageSize is the maximum items returned in a page.  If more items are
    * requested via top (or top is not specified and there are more items to be
    * returned), @nextLink will contain the link to the next page.
    *
    *
    * Clients MAY request server-driven paging with a specific page size by
-   * specifying a maxpagesize preference. The server SHOULD honor this preference
+   * specifying a maxPageSize preference. The server SHOULD honor this preference
    * if the specified page size is smaller than the server's default page size.
    */
   maxPageSize?: number;
@@ -100,13 +100,13 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
    */
   skip?: number;
   /**
-   * maxpagesize is the maximum items returned in a page.  If more items are
+   * maxPageSize is the maximum items returned in a page.  If more items are
    * requested via top (or top is not specified and there are more items to be
    * returned), @nextLink will contain the link to the next page.
    *
    *
    * Clients MAY request server-driven paging with a specific page size by
-   * specifying a maxpagesize preference. The server SHOULD honor this preference
+   * specifying a maxPageSize preference. The server SHOULD honor this preference
    * if the specified page size is smaller than the server's default page size.
    */
   maxPageSize?: number;

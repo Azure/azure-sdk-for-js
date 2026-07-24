@@ -148,7 +148,7 @@ export async function _getDocumentsStatusDeserialize(
  * token means that no additional pages are available.
  *
  * top, skip
- * and maxpagesize query parameters can be used to specify a number of results to
+ * and maxPageSize options can be used to specify a number of results to
  * return and an offset for the collection.
  *
  * top indicates the total
@@ -157,24 +157,24 @@ export async function _getDocumentsStatusDeserialize(
  * indicates the number of records to skip from the list of document status held
  * by the server based on the sorting method specified.  By default, we sort by
  * descending start time.
- * maxpagesize is the maximum items returned in a page.
+ * maxPageSize is the maximum items returned in a page.
  * If more items are requested via top (or top is not specified and there are
  * more items to be returned), @nextLink will contain the link to the next page.
  *
  *
- * orderby query parameter can be used to sort the returned list (ex
- * "orderby=createdDateTimeUtc asc" or "orderby=createdDateTimeUtc
- * desc").
+ * The orderBy option can be used to sort the returned list (ex:
+ * orderBy: ["createdDateTimeUtc asc"] or orderBy: ["createdDateTimeUtc
+ * desc"]).
  * The default sorting is descending by createdDateTimeUtc.
- * Some query
- * parameters can be used to filter the returned list (ex:
- * "status=Succeeded,Cancelled") will only return succeeded and cancelled
- * documents.
- * createdDateTimeUtcStart and createdDateTimeUtcEnd can be used
+ * The statuses,
+ * documentIds, createdAfter, and createdBefore options can be used to filter the
+ * returned list (ex: statuses: ["Succeeded", "Cancelled"] will only return
+ * succeeded and cancelled documents).
+ * createdAfter and createdBefore can be used
  * combined or separately to specify a range of datetime to filter the returned
  * list by.
- * The supported filtering query parameters are (status, ids,
- * createdDateTimeUtcStart, createdDateTimeUtcEnd).
+ * The supported filtering options are (statuses, documentIds,
+ * createdAfter, createdBefore).
  *
  * When both top
  * and skip are included, the server should first apply skip and then top on
@@ -408,7 +408,7 @@ export async function _getTranslationsStatusDeserialize(
  * token means that no additional pages are available.
  *
  * top, skip
- * and maxpagesize query parameters can be used to specify a number of results to
+ * and maxPageSize options can be used to specify a number of results to
  * return and an offset for the collection.
  *
  * top indicates the total
@@ -417,24 +417,24 @@ export async function _getTranslationsStatusDeserialize(
  * indicates the number of records to skip from the list of batches based on the
  * sorting method specified.  By default, we sort by descending start
  * time.
- * maxpagesize is the maximum items returned in a page.  If more items are
+ * maxPageSize is the maximum items returned in a page.  If more items are
  * requested via top (or top is not specified and there are more items to be
  * returned), @nextLink will contain the link to the next page.
  *
  *
- * orderby query parameter can be used to sort the returned list (ex
- * "orderby=createdDateTimeUtc asc" or "orderby=createdDateTimeUtc
- * desc").
+ * The orderBy option can be used to sort the returned list (ex:
+ * orderBy: ["createdDateTimeUtc asc"] or orderBy: ["createdDateTimeUtc
+ * desc"]).
  * The default sorting is descending by createdDateTimeUtc.
- * Some query
- * parameters can be used to filter the returned list (ex:
- * "status=Succeeded,Cancelled") will only return succeeded and cancelled
- * operations.
- * createdDateTimeUtcStart and createdDateTimeUtcEnd can be used
+ * The statuses,
+ * translationIds, createdAfter, and createdBefore options can be used to filter the
+ * returned list (ex: statuses: ["Succeeded", "Cancelled"] will only return
+ * succeeded and cancelled operations).
+ * createdAfter and createdBefore can be used
  * combined or separately to specify a range of datetime to filter the returned
  * list by.
- * The supported filtering query parameters are (status, ids,
- * createdDateTimeUtcStart, createdDateTimeUtcEnd).
+ * The supported filtering options are (statuses, translationIds,
+ * createdAfter, createdBefore).
  *
  * The server honors
  * the values specified by the client. However, clients must be prepared to handle
