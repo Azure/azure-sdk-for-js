@@ -88,6 +88,17 @@ export interface WarpConfig {
   exports: Record<string, string>;
   /** Ordered list of build targets. Declaration order determines condition key order. */
   targets: WarpTarget[];
+  /**
+   * When `true`, Warp automatically drops platform targets (`browser`,
+   * `react-native`) that contribute no platform-specific output — i.e. the
+   * package has no polyfill files or `#`-imports mapping for that condition.
+   * Such targets would compile to output identical to the ESM build, so
+   * removing them lets those consumers fall through to the `import` condition
+   * while saving build time and shrinking the published package.
+   *
+   * Inherited through `extends` (child overrides base). Defaults to `false`.
+   */
+  prunePlatformTargets?: boolean;
 }
 
 /**

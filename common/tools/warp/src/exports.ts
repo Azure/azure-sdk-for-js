@@ -4,12 +4,43 @@
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { WarpError } from "./types.ts";
-import type { WarpConfig, ModuleType } from "./types.ts";
+import type { WarpConfig, WarpTarget, ModuleType } from "./types.ts";
 import type { CompileResult } from "./compiler.ts";
+import { LEGACY_PLATFORM_FIELD_BY_CONDITION } from "./platformTargets.ts";
 
 /** Narrow `unknown` to a plain object record. */
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Compute updates for the legacy top-level `package.json` platform fields
+ * (`browser`, `react-native`) after their build targets were pruned.
+ *
+ * Each pruned platform condition maps to a legacy field that historically
+ * pointed at that target's output. With the target gone, the field is repointed
+ * at the ESM `.` entry so bundlers and older tooling resolve a file that still
+ * exists. Returns a map of field name → new value; empty when there is nothing
+ * to update (no pruned platform targets or no ESM entry to fall back to).
+ */
+export function computeLegacyPlatformFieldUpdates(
+  prunedTargets: readonly WarpTarget[],
+  exportsMap: Record<string, unknown>,
+): Record<string, string> {
+  const updates: Record<string, string> = {};
+  if (prunedTargets.length === 0) return updates;
+
+  const rootExport = exportsMap["."];
+  if (!isRecord(rootExport)) return updates;
+  const importExport = rootExport["import"];
+  if (!isRecord(importExport) || typeof importExport["default"] !== "string") return updates;
+  const esmDefault = importExport["default"];
+
+  for (const target of prunedTargets) {
+    const field = LEGACY_PLATFORM_FIELD_BY_CONDITION[target.condition];
+    if (field) updates[field] = esmDefault;
+  }
+  return updates;
 }
 
 /**
@@ -87,11 +118,16 @@ function sourceToDistPath(
  *
  * Warp-managed entries are those whose keys appear in `config.exports`.
  * Any existing entries with different keys are preserved.
+ *
+ * `legacyFieldUpdates` (optional) repoints legacy top-level fields such as
+ * `browser` / `react-native` — applied only when the field already exists — so
+ * pruning a platform target doesn't leave them dangling.
  */
 export async function writeExportsToPackageJson(
   exportsMap: Record<string, unknown>,
   results: CompileResult[],
   packageRoot: string,
+  legacyFieldUpdates?: Record<string, string>,
 ): Promise<void> {
   const pkgPath = path.join(packageRoot, "package.json");
   let pkg: Record<string, unknown>;
@@ -122,6 +158,16 @@ export async function writeExportsToPackageJson(
   }
 
   pkg.exports = merged;
+
+  // Repoint legacy top-level platform fields left behind by pruned targets.
+  // Only touch fields that already exist to avoid introducing new ones.
+  if (legacyFieldUpdates) {
+    for (const [field, value] of Object.entries(legacyFieldUpdates)) {
+      if (field in pkg) {
+        pkg[field] = value;
+      }
+    }
+  }
 
   // Skip write if exports are unchanged — avoids unnecessary I/O and
   // prevents tools watching package.json from triggering false rebuilds.
