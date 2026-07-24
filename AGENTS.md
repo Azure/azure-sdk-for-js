@@ -44,10 +44,11 @@ load them all up front.
 
 ## Hard rules
 
-Rules agents have violated in the past and which the eval suite at
-`eng/agent-evals/` actively regression-tests. Each one is here because
-it has no static-analysis enforcement today (otherwise it would be a
-lint rule or CI check, not an eval).
+Rules agents have violated in the past and which the Vally eval suites
+under `evals/` (cross-cutting agent-behavior rules live in
+`evals/workflows/mock/`) actively regression-test. Each one is here
+because it has no static-analysis enforcement today (otherwise it would
+be a lint rule or CI check, not an eval).
 
 - Build a single package with `pnpm turbo build --filter=<pkg>... --token 1`.
   Do **not** use `npm run build` at the package level — turbo workspace
@@ -70,6 +71,10 @@ lint rule or CI check, not an eval).
 - Always consult `.github/skills/find-package-skill/SKILL.md` (and the
   relevant package-specific `SKILL.md` if one is registered there)
   **before** modifying a package under `sdk/`.
+- When pushing new commits to an **existing** pull request, re-check that
+  the PR description still matches the current changes. If iterating has
+  made it inaccurate or incomplete, update the description in the same
+  step — don't leave a stale description behind.
 
 ## Where new guidance belongs
 
@@ -77,8 +82,9 @@ Rules for the agent that maintains this file:
 
 - A rule that applies to **all** package work → here, "Hard rules"
   section, **only if** it's eval-covered. Don't add hard rules without
-  a corresponding eval in `eng/agent-evals/` — the eval is what
-  prevents the rule from silently drifting.
+  a corresponding eval under `evals/` (cross-cutting agent-behavior
+  rules go in `evals/workflows/mock/`) — the eval is what prevents the
+  rule from silently drifting.
 - A workflow that's specific to one task type (build, generate,
   release, ...) → a new or existing skill in `.github/skills/`.
 - Reviewer-only behavior → `.github/instructions/reviewer/`.
