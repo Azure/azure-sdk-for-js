@@ -1,5 +1,10 @@
 # Release History
 
+## 7.0.2 (2026-07-23)
+
+### Bugs Fixed
+  - Completed the fix for the Node.js ESM `SyntaxError` at module load time by adding the missing `type` keyword to the remaining re-exported type-only symbols in the operation and classic barrel files, so they are removed from the emitted JavaScript. [#39367](https://github.com/Azure/azure-sdk-for-js/issues/39367)
+
 ## 7.0.1 (2026-07-23)
 
 ### Bugs Fixed
