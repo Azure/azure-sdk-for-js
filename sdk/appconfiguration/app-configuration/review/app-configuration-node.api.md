@@ -175,7 +175,7 @@ export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
     deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
-    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
+    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
@@ -255,6 +255,10 @@ export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChang
     etag?: string;
     fields?: FeatureFlagFields[];
     label?: string;
+}
+
+// @public
+export interface GetFeatureFlagResponse extends FeatureFlag, HttpResponseFields {
 }
 
 // @public

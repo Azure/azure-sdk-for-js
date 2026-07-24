@@ -503,6 +503,16 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
 export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
 
 /**
+ * Response from retrieving a feature flag through the dedicated feature flag endpoint.
+ *
+ * When a conditional request is made with `onlyIfChanged` and the feature flag has
+ * not changed, the service responds with a 304 status and an otherwise empty body. In
+ * that case `statusCode` is `304` and the feature flag fields (other than `name`) are
+ * left unset.
+ */
+export interface GetFeatureFlagResponse extends FeatureFlag, HttpResponseFields {}
+
+/**
  * Options for getting a feature flag through the dedicated feature flag endpoint.
  */
 export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {

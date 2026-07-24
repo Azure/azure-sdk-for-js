@@ -9,6 +9,7 @@ import type {
   FeatureFlag,
   FeatureFlagClientOptions,
   GetFeatureFlagOptions,
+  GetFeatureFlagResponse,
   ListFeatureFlagRevisionsOptions,
   ListFeatureFlagRevisionsPage,
   ListFeatureFlagsOptions,
@@ -21,6 +22,7 @@ import type {
 } from "./models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TokenCredential } from "@azure/core-auth";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { checkAndFormatIfAndIfNoneMatch } from "./internal/helpers.js";
 import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
@@ -132,7 +134,7 @@ export class FeatureFlagClient {
    * @param name - The name of the feature flag to retrieve.
    * @param options - Optional parameters for the request.
    */
-  getFeatureFlag(name: string, options: GetFeatureFlagOptions = {}): Promise<FeatureFlag> {
+  getFeatureFlag(name: string, options: GetFeatureFlagOptions = {}): Promise<GetFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.getFeatureFlag",
       options,
@@ -143,18 +145,29 @@ export class FeatureFlagClient {
           { etag },
           { onlyIfChanged },
         );
-        return this.client.featureFlagClient.getFeatureFlag(name, {
-          ...restOptions,
-          label,
-          select: fields,
-          acceptDatetime: acceptDateTime?.toISOString(),
-          ifMatch,
-          ifNoneMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
+        try {
+          const featureFlag = await this.client.featureFlagClient.getFeatureFlag(name, {
+            ...restOptions,
+            label,
+            select: fields,
+            acceptDatetime: acceptDateTime?.toISOString(),
+            ifMatch,
+            ifNoneMatch,
+            requestOptions: {
+              ...restOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
+          });
+          return { ...featureFlag, statusCode: 200 };
+        } catch (error) {
+          const err = error as RestError;
+          // 304 only comes back if the user has passed `onlyIfChanged` in their request
+          // _and_ the remote feature flag still has the same etag as what the user passed.
+          if (err.statusCode === 304) {
+            return { name, statusCode: 304 } as GetFeatureFlagResponse;
+          }
+          throw err;
+        }
       },
     );
   }
