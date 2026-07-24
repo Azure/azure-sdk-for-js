@@ -24,8 +24,9 @@ When reviewing dependency changes, check for:
    `pnpm-workspace.yaml` (default, arm, internal, testing catalogs)
 3. **Version ranges** — `^` or `workspace:^` for **stable** runtime deps
    (beta→beta `@azure/*` deps use an exact pin instead), `catalog:` or
-   `^` for dev, `workspace:^` for internal dev tools. No pinning, tilde,
-   star, or git URLs.
+   `^` for dev, `workspace:^` for internal dev tools. No tilde, star, or
+   git URLs, and no exact pins except the beta→beta exact-pin case noted
+   above.
 4. **New dependency evaluation** — necessity (core-* already provides?),
    size (>100 KB?), license (MIT-compatible?), maintenance, types
 5. **Dependency removal** — verify no remaining imports, check peer dep
