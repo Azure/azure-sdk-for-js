@@ -196,6 +196,32 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface FileListAllRangesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
+  shareSnapshot?: string;
+  /** The previous snapshot parameter is an opaque DateTime value that specifies a previous file snapshot to compare against. */
+  prevsharesnapshot?: string;
+  /** The timeout parameter is expressed in seconds. */
+  timeoutInSeconds?: number;
+  /** Return file data only from the specified byte range. */
+  range?: string;
+  /** If specified, the lease ID must match the lease ID of the file. */
+  leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
+  /** Valid values are 'backup'. */
+  fileRequestIntent?: ShareTokenIntent;
+  /** This header is allowed only when PrevShareSnapshot query parameter is set. Determines whether the changed ranges for a file that has been renamed or moved should be listed. */
+  supportRename?: boolean;
+  /** A string value that identifies the portion of the list to be returned with the next listing operation. */
+  marker?: string;
+  /** Specifies the maximum number of items to return. */
+  maxResults?: number;
+}
+
+/** Optional parameters. */
 export interface FileGetRangeListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;

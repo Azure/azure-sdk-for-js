@@ -5,6 +5,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
+  extractShareFileRangeItems,
 } from "../src/utils/utils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
@@ -138,5 +139,62 @@ describe("Utility Helpers", () => {
       ),
       true,
     );
+  });
+});
+
+describe("extractShareFileRangeItems", () => {
+  it("emits the data range before the clear range when starts are equal", () => {
+    const items = [
+      ...extractShareFileRangeItems([{ start: 0, end: 511 }], [{ start: 0, end: 511 }]),
+    ];
+    assert.deepStrictEqual(items, [
+      { start: 0, end: 511, isClear: false },
+      { start: 0, end: 511, isClear: true },
+    ]);
+  });
+
+  it("interleaves data and clear ranges sorted by start", () => {
+    const items = [
+      ...extractShareFileRangeItems(
+        [
+          { start: 512, end: 1023 },
+          { start: 1536, end: 2047 },
+        ],
+        [
+          { start: 0, end: 511 },
+          { start: 1024, end: 1535 },
+        ],
+      ),
+    ];
+    assert.deepStrictEqual(items, [
+      { start: 0, end: 511, isClear: true },
+      { start: 512, end: 1023, isClear: false },
+      { start: 1024, end: 1535, isClear: true },
+      { start: 1536, end: 2047, isClear: false },
+    ]);
+  });
+
+  it("appends leftover ranges from either side", () => {
+    const dataLeftover = [
+      ...extractShareFileRangeItems(
+        [
+          { start: 0, end: 1 },
+          { start: 2, end: 3 },
+        ],
+        [],
+      ),
+    ];
+    assert.deepStrictEqual(dataLeftover, [
+      { start: 0, end: 1, isClear: false },
+      { start: 2, end: 3, isClear: false },
+    ]);
+
+    const clearLeftover = [...extractShareFileRangeItems([], [{ start: 4, end: 5 }])];
+    assert.deepStrictEqual(clearLeftover, [{ start: 4, end: 5, isClear: true }]);
+  });
+
+  it("returns nothing for empty inputs", () => {
+    assert.deepStrictEqual([...extractShareFileRangeItems()], []);
+    assert.deepStrictEqual([...extractShareFileRangeItems([], [])], []);
   });
 });
