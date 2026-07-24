@@ -961,7 +961,7 @@ export function EscapePath(blobName: string): string {
 
 /**
  * Reads a raw response body (a Node.js readable stream or a browser Blob) into a
- * single byte array. Shared by the Apache Arrow and XML List Blobs response parsers.
+ * single byte array. Shared by the Apache Arrow or XML List Blobs response parsers.
  */
 export async function readResponseBodyToBytes(response: {
   readableStreamBody?: NodeJS.ReadableStream;
