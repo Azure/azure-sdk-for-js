@@ -1,5 +1,10 @@
 import { ModularClientPackageOptions, NpmPackageInfo, PackageResult } from "../../common/types.js";
-import { buildPackage, createArtifact, tryBuildSamples } from "../../common/rushUtils.js";
+import {
+  buildPackage,
+  createArtifact,
+  installDependencies,
+  tryBuildSamples,
+} from "../../common/rushUtils.js";
 import {
   initPackageResult,
   updateChangelogResult,
@@ -70,6 +75,7 @@ export async function generateAzureSDKPackage(
     const changelog = await generateChangelogAndBumpVersion(relativePackageDirToSdkRoot, options);
     updateChangelogResult(packageResult, changelog);
     changeReadmeMd(packageDirectory);
+    await installDependencies();
     await tryBuildSamples(packageDirectory, options.sdkRepoRoot, options.runMode);
 
     const npmPackageInfo = await getNpmPackageInfo(packageDirectory);
