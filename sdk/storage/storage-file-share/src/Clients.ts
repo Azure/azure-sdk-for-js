@@ -3517,9 +3517,25 @@ export interface FileListRangesDiffOptions extends CommonOptions {
  * {@link ShareFileClient.listRanges} and {@link ShareFileClient.listRangesDiff}.
  */
 interface FileListRangesSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
   abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
   range?: Range;
+  /**
+   * Lease access conditions.
+   */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
   includeRenames?: boolean;
   /**
    * The previous share snapshot to compare with, when listing range diffs.
