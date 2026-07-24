@@ -118,6 +118,11 @@ function getContentType(body: any): string | undefined {
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
+  /**
+   * When set to `true`, no default `Accept: application/json` header is added
+   * when a request does not otherwise specify an `Accept` header. Internal only.
+   */
+  noDefaultAcceptHeader?: boolean;
 }
 
 function buildPipelineRequest(
@@ -128,9 +133,14 @@ function buildPipelineRequest(
   const requestContentType = getRequestContentType(options);
   const { body, multipartBody } = getRequestBody(options.body, requestContentType);
 
+  const accept =
+    options.accept ??
+    options.headers?.accept ??
+    (options.noDefaultAcceptHeader ? undefined : "application/json");
+
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? options.headers?.accept ?? "application/json",
+    ...(accept !== undefined && { accept }),
     ...(requestContentType && {
       "content-type": requestContentType,
     }),
@@ -143,6 +153,7 @@ function buildPipelineRequest(
     onDownloadProgress,
     timeout,
     responseAsStream,
+    noDefaultAcceptHeader: _noDefaultAcceptHeader,
     url: _url,
     method: _method,
     body: _body,

@@ -16,6 +16,7 @@ import type {
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { InternalClientOptions } from "@typespec/ts-http-runtime";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -27,9 +28,10 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeadersInput;
   /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
+   * Sets the accept header to send to the service.
+   * When omitted, defaults to 'application/json' unless the client was created
+   * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
+   * applied. If also a header "accept" is set this property will take precedence.
    */
   accept?: string;
   /**
@@ -373,6 +375,12 @@ export type ClientOptions = PipelineOptions & {
    * will be ignored.
    */
   pipeline?: Pipeline;
+  /**
+   * Options that are intended for use by generated clients and are not meant to
+   * be set by end users directly. Grouping them under a single `internal` key
+   * keeps them easy to ignore on a generated client's public options.
+   */
+  internal?: InternalClientOptions;
 };
 
 /**

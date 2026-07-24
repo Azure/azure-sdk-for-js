@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -151,13 +151,14 @@
+@@ -152,13 +152,14 @@
  export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
  
  // @public
@@ -24,7 +24,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface FullOperationResponse extends PipelineResponse {
      parsedBody?: RequestBodyType;
-@@ -253,12 +254,12 @@
+@@ -259,12 +260,12 @@
      kind: "noAuth";
  }
  
@@ -39,7 +39,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
      flows: TFlows;
-@@ -562,9 +563,9 @@
+@@ -568,9 +569,9 @@
      userAgentPrefix?: string;
  }
  

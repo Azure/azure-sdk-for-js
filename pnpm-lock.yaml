@@ -8816,7 +8816,7 @@ importers:
         specifier: ^1.3.0
         version: link:../core-tracing
       '@typespec/ts-http-runtime':
-        specifier: ^0.3.0
+        specifier: ^0.3.8
         version: link:../ts-http-runtime
       tslib:
         specifier: ^2.6.2

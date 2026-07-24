@@ -27,9 +27,10 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeadersInput;
   /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
+   * Sets the accept header to send to the service.
+   * When omitted, defaults to 'application/json' unless the client was created
+   * with `internal.noDefaultAcceptHeader` enabled, in which case no default is
+   * applied. If also a header "accept" is set this property will take precedence.
    */
   accept?: string;
   /**
@@ -347,7 +348,30 @@ export type ClientOptions = PipelineOptions & {
    * will be ignored.
    */
   pipeline?: Pipeline;
+  /**
+   * Options that are intended for use by generated clients and are not meant to
+   * be set by end users directly. Grouping them under a single `internal` key
+   * keeps them easy to ignore on a generated client's public options.
+   */
+  internal?: InternalClientOptions;
 };
+
+/**
+ * Options for {@link getClient} that are intended for use by generated clients.
+ * These are grouped under {@link ClientOptions.internal} so they are not
+ * surfaced as top-level options on every generated client.
+ */
+export interface InternalClientOptions {
+  /**
+   * When set to `true`, the client does not add a default
+   * `Accept: application/json` request header to operations that do not
+   * otherwise specify an `Accept` header. This allows operations that expect
+   * no response body to omit the `Accept` header.
+   *
+   * @defaultValue `false`
+   */
+  noDefaultAcceptHeader?: boolean;
+}
 
 /**
  * Represents the shape of an HttpResponse
