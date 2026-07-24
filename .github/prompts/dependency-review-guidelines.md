@@ -43,6 +43,11 @@ referenced in two ways for **stable** published runtime dependencies —
 > **not** use `workspace:^` (which packs as a caret range) or an
 > explicit caret range.
 
+> **Peer dependencies:** this relaxed `workspace:^` / caret acceptance
+> applies only to regular `dependencies` (and `devDependencies`).
+> `peerDependencies` are unaffected and must continue to use the `>=`
+> compatibility-window range (see the version-range table below).
+
 Internal dev tools and test utils (e.g., `@azure-tools/test-recorder`,
 `@azure/dev-tool`) should continue to use `workspace:^`.
 

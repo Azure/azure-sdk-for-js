@@ -15,6 +15,7 @@ This monorepo uses **pnpm** with workspace linking:
   - **When the dependency has unreleased source changes** (local version ahead of npm): release it together with/before the consumer, bump the consumer's version + `CHANGELOG.md` when it uses the new features, or use an explicit `^` range against the last published version
   - Only flag `workspace:^` on a runtime dep when its local version is ahead of npm **and** the dependency is not guaranteed to be published together with or before the consumer
   - **Beta exception:** a **beta** package depending on a **beta** `@azure/*` package must use an **exact pin** (e.g., `"1.0.0-beta.1"`), not `workspace:^` or a caret range (see [Beta Dependency Rules](#beta-dependency-rules))
+  - **Peer dependencies:** this relaxed `workspace:^`/caret acceptance applies only to regular `dependencies` (and `devDependencies`); `peerDependencies` are unaffected and must continue to use the `>=` compatibility-window range (see Version Range Conventions below)
 
 ## Catalog Usage (pnpm-workspace.yaml)
 Use `catalog:` references when entry exists:
