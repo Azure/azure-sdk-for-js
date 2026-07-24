@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Fleet
  *
  * @summary create a Fleet
- * x-ms-original-file: 2026-04-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fleetsCreateOrUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
