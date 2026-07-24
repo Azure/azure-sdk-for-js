@@ -17,7 +17,10 @@ When reviewing dependency changes, check for:
    only bump on source changes so the local version normally matches
    npm). When a `workspace:` runtime dep has unreleased source changes,
    ensure it ships with/before the consumer and bump the consumer if it
-   relies on the new features. **Beta** packages depending on **beta**
+   relies on the new features — or, if the consumer does not need those
+   changes yet, switch it to an explicit caret range against the last
+   published version to avoid coupling their releases. **Beta** packages
+   depending on **beta**
    `@azure/*` packages must use an **exact pin** (e.g., `1.0.0-beta.1`),
    not `workspace:^` or a caret range.
 2. **Catalog usage** — use `catalog:` references when entries exist in
@@ -47,6 +50,6 @@ When reviewing dependency changes, check for:
 ## Output Format
 
 For each finding include: **package** (which `package.json`), **severity**
-(🔴 Blocker / 🟡 Concern / 🔵 Suggestion), a one-line description, and
+(🔴 Blocker / 🟡 Concern / �� Suggestion), a one-line description, and
 a concrete suggested fix. If all dependency changes look good, say so in
 one sentence.
