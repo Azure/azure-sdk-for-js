@@ -45,6 +45,9 @@ allowed:
   - "@opentelemetry/*"
 
 exceptions:
+  - dependency: "apache-arrow"
+    packages:
+      - "@azure/storage-blob"
   - dependency: "avsc"
     packages:
       - "@azure/schema-registry-avro"

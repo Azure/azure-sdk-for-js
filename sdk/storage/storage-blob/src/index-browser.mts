@@ -65,6 +65,7 @@ export { logger } from "./log.js";
 
 // Re-export from @azure/storage-common for backward compatibility
 export {
+  StorageResponseFormat,
   BaseRequestPolicy,
   AnonymousCredential,
   Credential,

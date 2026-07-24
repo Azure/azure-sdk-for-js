@@ -8,8 +8,20 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "@azure/storage-common";
-import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageResponseFormat,
+  StorageSharedKeyCredential,
+} from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
+import type {
+  BlobItemInternal,
+  BlobPrefix as BlobPrefixInternal,
+  ContainerListBlobFlatSegmentApacheArrowHeaders,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
+  ContainerListBlobHierarchySegmentApacheArrowHeaders,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+} from "./generated/src/models/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -63,9 +75,16 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
+  resolveResponseFormat,
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common.js";
+import { parseBlobListArrowResponse } from "./utils/blobListArrowParser.js";
+import {
+  deserializeListBlobFlatSegmentXml,
+  deserializeListBlobHierarchySegmentXml,
+} from "./utils/blobListXmlParser.js";
+import { ApacheArrowContentType } from "./utils/constants.js";
 import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
   generateBlobSASQueryParameters,
@@ -371,6 +390,17 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * For non-recursive list, only one entity level is supported;
    * For recursive list, multiple entity levels are supported. (Inclusive) */
   startFrom?: string;
+  /**
+   * Specifies the format the service should use to return list results.
+   * Defaults to {@link StorageResponseFormat.Auto}.
+   */
+  responseFormat?: StorageResponseFormat;
+  /**
+   * Optional. Specifies a fully qualified path within the container, ending the listing
+   * when all results before it have been returned. Only supported when the response format
+   * is {@link StorageResponseFormat.Arrow}.
+   */
+  endBefore?: string;
 }
 
 /**
@@ -512,6 +542,17 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * For non-recursive list, only one entity level is supported;
    * For recursive list, multiple entity levels are supported. (Inclusive) */
   startFrom?: string;
+  /**
+   * Specifies the format the service should use to return list results.
+   * Defaults to {@link StorageResponseFormat.Auto}.
+   */
+  responseFormat?: StorageResponseFormat;
+  /**
+   * Optional. Specifies a fully qualified path within the container, ending the listing
+   * when all results before it have been returned. Only supported when the response format
+   * is {@link StorageResponseFormat.Arrow}.
+   */
+  endBefore?: string;
 }
 
 /**
@@ -594,6 +635,83 @@ export interface ContainerGetAccountInfoOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Maps a generated internal blob item (with a structured `name`) to the public
+ * {@link BlobItem} shape, decoding the name and parsing tags / object-replication
+ * metadata. Shared by the XML and Apache Arrow list paths so they cannot drift.
+ */
+function mapBlobItemInternal(blobItemInternal: BlobItemInternal): BlobItem {
+  const blobItem: BlobItem = {
+    ...blobItemInternal,
+    name: BlobNameToString(blobItemInternal.name),
+    tags: toTags(blobItemInternal.blobTags),
+    objectReplicationSourceProperties: parseObjectReplicationRecord(
+      blobItemInternal.objectReplicationMetadata,
+    ),
+  };
+  return blobItem;
+}
+
+/**
+ * Maps a generated internal blob prefix (with a structured `name`) to the public
+ * {@link BlobPrefix} shape. Shared by the XML and Apache Arrow list paths.
+ */
+function mapBlobPrefixInternal(blobPrefixInternal: BlobPrefixInternal): BlobPrefix {
+  const blobPrefix: BlobPrefix = {
+    ...blobPrefixInternal,
+    name: BlobNameToString(blobPrefixInternal.name),
+  };
+  return blobPrefix;
+}
+
+/**
+ * Returns true when a raw List Blobs response was actually returned as Apache Arrow.
+ * The service falls back to XML for accounts that do not support Apache Arrow, so the
+ * Content-Type header (ignoring parameters such as charset) is how the two are told apart.
+ */
+function isApacheArrow(contentType: string | undefined): boolean {
+  return (contentType ?? "").split(";")[0].trim().toLowerCase() === ApacheArrowContentType;
+}
+
+/**
+ * Attaches the response metadata common to every List Blobs segment response - the
+ * request IDs, service version, date, content-type, and `_response` - so the
+ * flat/hierarchy and Apache Arrow/XML paths don't each repeat it.
+ *
+ * The raw stream body has already been consumed by the caller, so the stream
+ * operation's `_response` carries only headers/status. To honor the
+ * `ContainerListBlob*SegmentResponse` contract (whose `_response.parsedBody` is
+ * non-optional), the caller passes the segment it just parsed as `parsedBody`, which
+ * mirrors what the XML path exposes. `bodyAsText` is set to `""` because a native
+ * Apache Arrow body is binary and has no faithful text representation.
+ */
+function withListSegmentResponseMetadata<T>(
+  base: Omit<T, "clientRequestId" | "requestId" | "version" | "date" | "contentType" | "_response">,
+  rawResponse: {
+    clientRequestId?: string;
+    requestId?: string;
+    version?: string;
+    date?: Date;
+    contentType?: string;
+    _response: object;
+  },
+  parsedBody: unknown,
+): T {
+  return {
+    ...base,
+    clientRequestId: rawResponse.clientRequestId,
+    requestId: rawResponse.requestId,
+    version: rawResponse.version,
+    date: rawResponse.date,
+    contentType: rawResponse.contentType,
+    _response: {
+      ...rawResponse._response,
+      bodyAsText: "",
+      parsedBody,
+    },
+  } as T;
 }
 
 /**
@@ -1276,6 +1394,12 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
+        if (resolveResponseFormat(options.responseFormat) === StorageResponseFormat.Arrow) {
+          return this.listBlobFlatSegmentApacheArrow(marker, {
+            ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+        }
         const response = assertResponse<
           ListBlobsFlatSegmentResponseInternal,
           ContainerListBlobFlatSegmentHeaders,
@@ -1296,21 +1420,81 @@ export class ContainerClient extends StorageClient {
           }, // _response is made non-enumerable
           segment: {
             ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
-              const blobItem: BlobItem = {
-                ...blobItemInternal,
-                name: BlobNameToString(blobItemInternal.name),
-                tags: toTags(blobItemInternal.blobTags),
-                objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
-                ),
-              };
-              return blobItem;
-            }),
+            blobItems: response.segment.blobItems.map(mapBlobItemInternal),
           },
         };
         return wrappedResponse;
       },
+    );
+  }
+
+  /**
+   * Lists a single segment of blobs using the Apache Arrow response format. The service
+   * returns a raw stream that is either Apache Arrow or XML (when the account does not
+   * support Apache Arrow); both formats are parsed here and produce the same result.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Flat Segment operation.
+   */
+  private async listBlobFlatSegmentApacheArrow(
+    marker: string | undefined,
+    options: ContainerListBlobsSegmentOptions,
+  ): Promise<ContainerListBlobFlatSegmentResponse> {
+    const rawResponse = assertResponse<
+      ContainerListBlobFlatSegmentApacheArrowResponse,
+      ContainerListBlobFlatSegmentApacheArrowHeaders
+    >(
+      await this.containerContext.listBlobFlatSegmentApacheArrow({
+        marker,
+        ...options,
+      }),
+    );
+
+    // The service falls back to XML for accounts that do not support Apache Arrow.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place
+    // instead of issuing a second request.
+    if (!isApacheArrow(rawResponse.contentType)) {
+      const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
+      return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+        {
+          ...internalResponse,
+          segment: {
+            ...internalResponse.segment,
+            blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+          },
+        },
+        rawResponse,
+        ConvertInternalResponseOfListBlobFlat(internalResponse),
+      );
+    }
+
+    const parsed = await parseBlobListArrowResponse(rawResponse);
+    const serviceUrl = new URL(this.url);
+    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const internalResponse: ListBlobsFlatSegmentResponseInternal = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      segment: { blobItems: parsed.blobItems },
+      continuationToken: parsed.nextMarker,
+    };
+    return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
+      {
+        serviceEndpoint,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        segment: {
+          blobItems: parsed.blobItems.map(mapBlobItemInternal),
+        },
+        continuationToken: parsed.nextMarker,
+      },
+      rawResponse,
+      ConvertInternalResponseOfListBlobFlat(internalResponse),
     );
   }
 
@@ -1334,6 +1518,12 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
+        if (resolveResponseFormat(options.responseFormat) === StorageResponseFormat.Arrow) {
+          return this.listBlobHierarchySegmentApacheArrow(delimiter, marker, {
+            ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+        }
         const response = assertResponse<
           ContainerListBlobHierarchySegmentResponseModel,
           ContainerListBlobHierarchySegmentHeaders,
@@ -1354,28 +1544,88 @@ export class ContainerClient extends StorageClient {
           }, // _response is made non-enumerable
           segment: {
             ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
-              const blobItem: BlobItem = {
-                ...blobItemInternal,
-                name: BlobNameToString(blobItemInternal.name),
-                tags: toTags(blobItemInternal.blobTags),
-                objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
-                ),
-              };
-              return blobItem;
-            }),
-            blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
-              const blobPrefix: BlobPrefix = {
-                ...blobPrefixInternal,
-                name: BlobNameToString(blobPrefixInternal.name),
-              };
-              return blobPrefix;
-            }),
+            blobItems: response.segment.blobItems.map(mapBlobItemInternal),
+            blobPrefixes: response.segment.blobPrefixes?.map(mapBlobPrefixInternal),
           },
         };
         return wrappedResponse;
       },
+    );
+  }
+
+  /**
+   * Lists a single segment of blobs by hierarchy using the Apache Arrow response format.
+   * The service returns a raw stream that is either Apache Arrow or XML (when the account
+   * does not support Apache Arrow); both formats are parsed here and produce the same result.
+   *
+   * @param delimiter - The character or string used to define the virtual hierarchy
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Container List Blob Hierarchy Segment operation.
+   */
+  private async listBlobHierarchySegmentApacheArrow(
+    delimiter: string,
+    marker: string | undefined,
+    options: ContainerListBlobsSegmentOptions,
+  ): Promise<ContainerListBlobHierarchySegmentResponse> {
+    const rawResponse = assertResponse<
+      ContainerListBlobHierarchySegmentApacheArrowResponse,
+      ContainerListBlobHierarchySegmentApacheArrowHeaders
+    >(
+      await this.containerContext.listBlobHierarchySegmentApacheArrow(delimiter, {
+        marker,
+        ...options,
+      }),
+    );
+
+    // The service falls back to XML for accounts that do not support Apache Arrow.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place instead of
+    // issuing a second request.
+    if (!isApacheArrow(rawResponse.contentType)) {
+      const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
+      return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+        {
+          ...internalResponse,
+          segment: {
+            ...internalResponse.segment,
+            blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+            blobPrefixes: internalResponse.segment?.blobPrefixes?.map(mapBlobPrefixInternal),
+          },
+        },
+        rawResponse,
+        ConvertInternalResponseOfListBlobHierarchy(internalResponse),
+      );
+    }
+
+    const parsed = await parseBlobListArrowResponse(rawResponse);
+    const serviceUrl = new URL(this.url);
+    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const internalResponse: ListBlobsHierarchySegmentResponseInternal = {
+      serviceEndpoint,
+      containerName: this.containerName,
+      prefix: options.prefix,
+      marker,
+      maxPageSize: options.maxPageSize,
+      delimiter,
+      segment: { blobItems: parsed.blobItems, blobPrefixes: parsed.blobPrefixes },
+      continuationToken: parsed.nextMarker,
+    };
+    return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
+      {
+        serviceEndpoint,
+        containerName: this.containerName,
+        prefix: options.prefix,
+        marker,
+        maxPageSize: options.maxPageSize,
+        delimiter,
+        segment: {
+          blobItems: parsed.blobItems.map(mapBlobItemInternal),
+          blobPrefixes: parsed.blobPrefixes.map(mapBlobPrefixInternal),
+        },
+        continuationToken: parsed.nextMarker,
+      },
+      rawResponse,
+      ConvertInternalResponseOfListBlobHierarchy(internalResponse),
     );
   }
 

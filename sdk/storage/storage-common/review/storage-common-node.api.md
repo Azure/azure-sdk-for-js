@@ -31,6 +31,35 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 }
 
 // @public
+export interface ArrowTableLike {
+    // (undocumented)
+    getChild(columnName: string): {
+        get(rowIndex: number): unknown;
+    } | null;
+    // (undocumented)
+    numRows: number;
+    // (undocumented)
+    schema?: {
+        metadata?: {
+            get(key: string): string | null | undefined;
+        } | null;
+    } | null;
+}
+
+// @public
+export class ArrowTableReader {
+    constructor(table: ArrowTableLike);
+    boolean(rowIndex: number, columnName: string): boolean | undefined;
+    bytesFromBase64(rowIndex: number, columnName: string): Uint8Array | undefined;
+    date(rowIndex: number, columnName: string): Date | undefined;
+    map(rowIndex: number, columnName: string): Record<string, string> | undefined;
+    metadata(key: string): string | undefined;
+    number(rowIndex: number, columnName: string): number | undefined;
+    get rowCount(): number;
+    string(rowIndex: number, columnName: string): string | undefined;
+}
+
+// @public
 export abstract class BaseRequestPolicy implements RequestPolicy {
     protected constructor(
     _nextPolicy: RequestPolicy,
@@ -132,6 +161,13 @@ export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+
+// @public
+export enum StorageResponseFormat {
+    Arrow = 2,
+    Auto = 0,
+    Xml = 1
+}
 
 // @public
 export interface StorageRetryOptions {

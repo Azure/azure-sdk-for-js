@@ -6,6 +6,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
+import { StorageResponseFormat } from "@azure/storage-common";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -820,6 +821,21 @@ export function parseObjectReplicationRecord(
 }
 
 /**
+ * Resolves a {@link StorageResponseFormat} to the concrete format the client should use.
+ * `Auto` currently resolves to `Xml`; this mapping may change in a future service version.
+ *
+ * @param responseFormat - The requested response format, or undefined to use the default.
+ */
+export function resolveResponseFormat(
+  responseFormat?: StorageResponseFormat,
+): StorageResponseFormat {
+  if (responseFormat === undefined || responseFormat === StorageResponseFormat.Auto) {
+    return StorageResponseFormat.Xml;
+  }
+  return responseFormat;
+}
+
+/**
  * Attach a TokenCredential to an object.
  *
  * @param thing -
@@ -941,6 +957,46 @@ export function EscapePath(blobName: string): string {
     split[i] = encodeURIComponent(split[i]);
   }
   return split.join("/");
+}
+
+/**
+ * Reads a raw response body (a Node.js readable stream or a browser Blob) into a
+ * single byte array. Shared by the Apache Arrow or XML List Blobs response parsers.
+ */
+export async function readResponseBodyToBytes(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<Uint8Array> {
+  if (response.blobBody) {
+    const blob = await response.blobBody;
+    return new Uint8Array(await blob.arrayBuffer());
+  }
+  if (response.readableStreamBody) {
+    return readNodeStreamToBytes(response.readableStreamBody);
+  }
+  throw new RangeError("List Blobs response body is empty or unavailable.");
+}
+
+function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
+  return new Promise<Uint8Array>((resolve, reject) => {
+    const chunks: Uint8Array[] = [];
+    let totalLength = 0;
+    stream.on("data", (chunk: Uint8Array | string) => {
+      const bytes = typeof chunk === "string" ? new TextEncoder().encode(chunk) : chunk;
+      chunks.push(bytes);
+      totalLength += bytes.byteLength;
+    });
+    stream.on("end", () => {
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        result.set(chunk, offset);
+        offset += chunk.byteLength;
+      }
+      resolve(result);
+    });
+    stream.on("error", reject);
+  });
 }
 
 /**

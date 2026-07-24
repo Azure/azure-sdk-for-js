@@ -50,6 +50,7 @@ export {
   getBlobServiceAccountAudience,
 } from "./models.js";
 export type { NodeJSReadableStream } from "@azure/storage-common";
+export { StorageResponseFormat } from "@azure/storage-common";
 export {
   Pipeline,
   type PipelineLike,

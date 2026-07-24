@@ -102,7 +102,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2026-06-06",
+    defaultValue: "2026-10-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -689,6 +689,29 @@ export const startFrom: OperationQueryParameter = {
   mapper: {
     serializedName: "startFrom",
     xmlName: "startFrom",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/vnd.apache.arrow.stream,application/xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const endBefore: OperationQueryParameter = {
+  parameterPath: ["options", "endBefore"],
+  mapper: {
+    serializedName: "endBefore",
+    xmlName: "endBefore",
     type: {
       name: "String",
     },
@@ -1519,7 +1542,7 @@ export const body1: OperationParameter = {
   },
 };
 
-export const accept2: OperationParameter = {
+export const accept3: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/xml",
