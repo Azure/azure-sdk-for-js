@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `GitHubActionsCredential` for authenticating to Microsoft Entra ID using GitHub Actions OIDC federated identity credentials. This credential reads `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `ACTIONS_ID_TOKEN_REQUEST_URL`, and `ACTIONS_ID_TOKEN_REQUEST_TOKEN` from the environment and exchanges the GitHub OIDC token for an Azure access token. Sovereign cloud audience is derived automatically from `authorityHost`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
