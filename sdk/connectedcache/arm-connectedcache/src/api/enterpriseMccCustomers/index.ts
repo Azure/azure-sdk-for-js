@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type EnterpriseMccCustomersListBySubscriptionOptionalParams,
-  type EnterpriseMccCustomersListByResourceGroupOptionalParams,
-  type EnterpriseMccCustomersDeleteOptionalParams,
-  type EnterpriseMccCustomersUpdateOptionalParams,
-  type EnterpriseMccCustomersCreateOrUpdateOptionalParams,
-  type EnterpriseMccCustomersGetOptionalParams,
+export type {
+  EnterpriseMccCustomersListBySubscriptionOptionalParams,
+  EnterpriseMccCustomersListByResourceGroupOptionalParams,
+  EnterpriseMccCustomersDeleteOptionalParams,
+  EnterpriseMccCustomersUpdateOptionalParams,
+  EnterpriseMccCustomersCreateOrUpdateOptionalParams,
+  EnterpriseMccCustomersGetOptionalParams,
 } from "./options.js";

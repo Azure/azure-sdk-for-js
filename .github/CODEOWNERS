@@ -422,7 +422,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/communication/arm-communication/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
