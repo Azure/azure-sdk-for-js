@@ -52,7 +52,7 @@ describe("TranslationFilter tests", { skip: true }, () => {
     // get Translation Status
     for await (const translationStatus of client.getTranslationsStatus({
       statuses: cancelledStatusList,
-      createdDateTimeUtcStart: new Date(testStartTime),
+      createdAfter: new Date(testStartTime),
     })) {
       assert.isTrue(cancelledStatusList.includes(translationStatus.status));
       assert.isTrue((await cancelledIds).includes(translationStatus.id));
@@ -88,10 +88,10 @@ describe("TranslationFilter tests", { skip: true }, () => {
 
     // get Translation Status
     for await (const translationStatus of client.getTranslationsStatus({
-      createdDateTimeUtcStart: new Date(testStartTime),
+      createdAfter: new Date(testStartTime),
     })) {
       assert.isTrue((await targetIds).includes(translationStatus.id));
-      assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() > testStartTime);
+      assert.isTrue(new Date(translationStatus.createdAt).toISOString() > testStartTime);
     }
   });
 
@@ -121,13 +121,13 @@ describe("TranslationFilter tests", { skip: true }, () => {
     // get Translation Status
     let idExists = false;
     for await (const translationStatus of client.getTranslationsStatus({
-      createdDateTimeUtcStart: new Date(startDateTime),
-      createdDateTimeUtcEnd: new Date(endDateTime),
+      createdAfter: new Date(startDateTime),
+      createdBefore: new Date(endDateTime),
     })) {
       if ((await targetIds).includes(translationStatus.id)) {
         idExists = true;
       }
-      assert.isTrue(new Date(translationStatus.createdDateTimeUtc).toISOString() < endDateTime);
+      assert.isTrue(new Date(translationStatus.createdAt).toISOString() < endDateTime);
     }
     assert.isTrue(idExists);
   });
@@ -151,11 +151,11 @@ describe("TranslationFilter tests", { skip: true }, () => {
     let timestamp = new Date(-8640000000000000); // Minimum valid Date value in JavaScript
 
     for await (const translationStatus of client.getTranslationsStatus({
-      createdDateTimeUtcStart: new Date(startDateTime),
-      orderby: orderByList,
+      createdAfter: new Date(startDateTime),
+      orderBy: orderByList,
     })) {
-      assert.isTrue(new Date(translationStatus.createdDateTimeUtc) > timestamp);
-      timestamp = new Date(translationStatus.createdDateTimeUtc);
+      assert.isTrue(new Date(translationStatus.createdAt) > timestamp);
+      timestamp = new Date(translationStatus.createdAt);
     }
   });
 

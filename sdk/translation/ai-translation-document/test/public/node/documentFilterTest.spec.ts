@@ -75,15 +75,15 @@ describe("DocumentFilter tests", () => {
     // get Documents Status w.r.t orderby
     const testCreatedOnDateTimes: Date[] = [];
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      orderby: orderByList,
+      orderBy: orderByList,
     })) {
-      testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
+      testCreatedOnDateTimes.push(documentStatus.createdAt);
     }
 
     // Asserting that only the last document is returned
     let itemCount = 0;
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      createdDateTimeUtcStart: testCreatedOnDateTimes[4],
+      createdAfter: testCreatedOnDateTimes[4],
     })) {
       assert.isNotNull(documentStatus);
       itemCount += 1;
@@ -104,9 +104,9 @@ describe("DocumentFilter tests", () => {
     // get Documents Status w.r.t orderby
     const testCreatedOnDateTimes: Date[] = [];
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      orderby: orderByList,
+      orderBy: orderByList,
     })) {
-      testCreatedOnDateTimes.push(documentStatus.createdDateTimeUtc);
+      testCreatedOnDateTimes.push(documentStatus.createdAt);
     }
 
     // Asserting that only the first document is returned
@@ -114,7 +114,7 @@ describe("DocumentFilter tests", () => {
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
       // Add 1ms: JS Date truncates the service's sub-millisecond createdDateTimeUtc,
       // so the raw value would fall just before the doc and exclude it from the range.
-      createdDateTimeUtcEnd: new Date(testCreatedOnDateTimes[0].getTime() + 1),
+      createdBefore: new Date(testCreatedOnDateTimes[0].getTime() + 1),
     })) {
       assert.isNotNull(documentStatus);
       itemCount2 += 1;
@@ -126,7 +126,7 @@ describe("DocumentFilter tests", () => {
     let itemCount3 = 0;
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
       // Add 1ms to compensate for JS Date sub-millisecond truncation (see above).
-      createdDateTimeUtcEnd: new Date(testCreatedOnDateTimes[3].getTime() + 1),
+      createdBefore: new Date(testCreatedOnDateTimes[3].getTime() + 1),
     })) {
       assert.isNotNull(documentStatus);
       itemCount3 += 1;
@@ -147,9 +147,9 @@ describe("DocumentFilter tests", () => {
     // get Documents Status
     const timestamp = new Date();
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      orderby: orderByList,
+      orderBy: orderByList,
     })) {
-      const createdDateTime = new Date(documentStatus.createdDateTimeUtc);
+      const createdDateTime = new Date(documentStatus.createdAt);
       assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
     }
   });

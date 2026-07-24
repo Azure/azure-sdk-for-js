@@ -398,8 +398,8 @@ describe("DocumentTranslation tests", () => {
     if (isLiveMode()) {
       assert.equal(targetLanguage, documentStatusOutput.to);
     }
-    assert.notEqual(new Date(), new Date(documentStatusOutput.createdDateTimeUtc));
-    assert.notEqual(new Date(), new Date(documentStatusOutput.lastActionDateTimeUtc));
+    assert.notEqual(new Date(), new Date(documentStatusOutput.createdAt));
+    assert.notEqual(new Date(), new Date(documentStatusOutput.lastActionAt));
     assert.equal(documentStatusOutput.progress, 1);
 
     return;
