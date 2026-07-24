@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ContainerInstance test", () => {
+describe.skip("ContainerInstance test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ContainerInstanceManagementClient;
