@@ -7,13 +7,13 @@
  * @packageDocumentation
  */
 
-import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { FileContents } from "./static-helpers/multipartHelpers.js";
 import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 
 export { DocumentTranslationClient } from "./documentTranslation/documentTranslationClient.js";
 export type { RestorePollerOptions } from "./documentTranslation/restorePollerHelpers.js";

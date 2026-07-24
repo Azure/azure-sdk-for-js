@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DocumentTranslationContext,
   DocumentTranslationClientOptionalParams,
+  createDocumentTranslation,
 } from "./api/index.js";
-import { createDocumentTranslation } from "./api/index.js";
-import type {
+import {
   StartTranslationDetails,
   TranslationStatus,
   DocumentStatus,
   SupportedFileFormats,
   FileFormatType,
 } from "../models/models.js";
-import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   getSupportedFormats,
   getDocumentsStatus,
@@ -23,7 +23,7 @@ import {
   getTranslationsStatus,
   startTranslation,
 } from "./api/operations.js";
-import type {
+import {
   GetSupportedFormatsOptionalParams,
   GetDocumentsStatusOptionalParams,
   CancelTranslationOptionalParams,
@@ -32,9 +32,9 @@ import type {
   GetTranslationsStatusOptionalParams,
   StartTranslationOptionalParams,
 } from "./api/options.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { PollerLike, OperationState } from "@azure/core-lro";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DocumentTranslationClientOptionalParams } from "./api/documentTranslationContext.js";
 
@@ -43,19 +43,13 @@ export class DocumentTranslationClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  /** Client for the Azure AI Document Translation service, used to translate batches of documents stored in Azure Blob Storage. */
   constructor(
     endpointParam: string,
     credential: KeyCredential | TokenCredential,
     options: DocumentTranslationClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDocumentTranslation(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDocumentTranslation(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 

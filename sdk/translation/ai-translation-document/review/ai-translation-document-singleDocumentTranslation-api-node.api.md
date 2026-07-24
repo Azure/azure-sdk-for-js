@@ -10,7 +10,7 @@ import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export function createSingleDocumentTranslation(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SingleDocumentTranslationClientOptionalParams): SingleDocumentTranslationContext;
 
 // @public
@@ -18,7 +18,7 @@ export interface SingleDocumentTranslationClientOptionalParams extends ClientOpt
     apiVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SingleDocumentTranslationContext extends Client {
     apiVersion?: string;
 }

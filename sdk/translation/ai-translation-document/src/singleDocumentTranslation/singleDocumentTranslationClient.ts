@@ -34,14 +34,7 @@ export class SingleDocumentTranslationClient {
     credential: KeyCredential | TokenCredential,
     options: SingleDocumentTranslationClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSingleDocumentTranslation(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSingleDocumentTranslation(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 

@@ -7,6 +7,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
+/** Client for the Azure AI Document Translation service, used to translate a single document. */
 export interface SingleDocumentTranslationContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
@@ -20,6 +21,7 @@ export interface SingleDocumentTranslationClientOptionalParams extends ClientOpt
   apiVersion?: string;
 }
 
+/** Client for the Azure AI Document Translation service, used to translate a single document. */
 export function createSingleDocumentTranslation(
   endpointParam: string,
   credential: KeyCredential | TokenCredential,
@@ -27,10 +29,10 @@ export function createSingleDocumentTranslation(
 ): SingleDocumentTranslationContext {
   const endpointUrl = options.endpoint ?? `${endpointParam}/translator`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

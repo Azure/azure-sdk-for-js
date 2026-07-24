@@ -2,7 +2,7 @@
   "apiVersions": {
     "DocumentTranslation": "2026-03-01"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "DocumentTranslation",
     "CrossLanguageDefinitionId": {

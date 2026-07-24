@@ -19,7 +19,7 @@ export function cancelTranslation(context: DocumentTranslationContext, translati
 export interface CancelTranslationOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export function createDocumentTranslation(endpointParam: string, credential: KeyCredential | TokenCredential, options?: DocumentTranslationClientOptionalParams): DocumentTranslationContext;
 
 // @public
@@ -27,7 +27,7 @@ export interface DocumentTranslationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DocumentTranslationContext extends Client {
     apiVersion?: string;
 }
@@ -40,8 +40,8 @@ export interface GetDocumentsStatusOptionalParams extends OperationOptions {
     createdAfter?: Date;
     createdBefore?: Date;
     documentIds?: string[];
-    maxpagesize?: number;
-    orderby?: string[];
+    maxPageSize?: number;
+    orderBy?: string[];
     skip?: number;
     statuses?: string[];
     top?: number;
@@ -68,8 +68,8 @@ export function getTranslationsStatus(context: DocumentTranslationContext, optio
 export interface GetTranslationsStatusOptionalParams extends OperationOptions {
     createdAfter?: Date;
     createdBefore?: Date;
-    maxpagesize?: number;
-    orderby?: string[];
+    maxPageSize?: number;
+    orderBy?: string[];
     skip?: number;
     statuses?: string[];
     top?: number;

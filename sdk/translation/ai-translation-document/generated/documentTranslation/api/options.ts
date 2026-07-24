@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GetSupportedFormatsOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface GetDocumentsStatusOptionalParams extends OperationOptions {
   /**
@@ -49,7 +48,7 @@ export interface GetDocumentsStatusOptionalParams extends OperationOptions {
    * specifying a maxpagesize preference. The server SHOULD honor this preference
    * if the specified page size is smaller than the server's default page size.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** Ids to use in filtering */
   documentIds?: string[];
   /** Statuses to use in filtering */
@@ -59,18 +58,14 @@ export interface GetDocumentsStatusOptionalParams extends OperationOptions {
   /** the end datetime to get items before */
   createdBefore?: Date;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
-  orderby?: string[];
+  orderBy?: string[];
 }
-
 /** Optional parameters. */
 export interface CancelTranslationOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface GetTranslationStatusOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface GetDocumentStatusOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface GetTranslationsStatusOptionalParams extends OperationOptions {
   /**
@@ -114,7 +109,7 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
    * specifying a maxpagesize preference. The server SHOULD honor this preference
    * if the specified page size is smaller than the server's default page size.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** Ids to use in filtering */
   translationIds?: string[];
   /** Statuses to use in filtering */
@@ -124,9 +119,8 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
   /** the end datetime to get items before */
   createdBefore?: Date;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc','CreatedDateTimeUtc desc') */
-  orderby?: string[];
+  orderBy?: string[];
 }
-
 /** Optional parameters. */
 export interface StartTranslationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

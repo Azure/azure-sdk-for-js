@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentTranslationContext as Client } from "./index.js";
-import type {
+import { DocumentTranslationContext as Client } from "./index.js";
+import {
   StartTranslationDetails,
+  startTranslationDetailsSerializer,
   TranslationStatus,
+  translationStatusDeserializer,
   _TranslationsStatus,
+  _translationsStatusDeserializer,
   DocumentStatus,
+  documentStatusDeserializer,
   _DocumentsStatus,
+  _documentsStatusDeserializer,
   SupportedFileFormats,
+  supportedFileFormatsDeserializer,
   FileFormatType,
 } from "../../models/models.js";
 import {
-  startTranslationDetailsSerializer,
-  translationStatusDeserializer,
-  _translationsStatusDeserializer,
-  documentStatusDeserializer,
-  _documentsStatusDeserializer,
-  supportedFileFormatsDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GetSupportedFormatsOptionalParams,
   GetDocumentsStatusOptionalParams,
   CancelTranslationOptionalParams,
@@ -32,9 +32,13 @@ import type {
   GetTranslationsStatusOptionalParams,
   StartTranslationOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSupportedFormatsSend(
   context: Client,
@@ -51,10 +55,12 @@ export function _getSupportedFormatsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSupportedFormatsDeserialize(
@@ -67,7 +73,6 @@ export async function _getSupportedFormatsDeserialize(
 
   return supportedFileFormatsDeserializer(result.body);
 }
-
 /**
  * The list of supported formats supported by the Document Translation
  * service.
@@ -95,7 +100,7 @@ export function _getDocumentsStatusSend(
       "api%2Dversion": context.apiVersion ?? "2026-03-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       ids: !options?.documentIds
         ? options?.documentIds
         : options?.documentIds.map((p: any) => {
@@ -112,9 +117,9 @@ export function _getDocumentsStatusSend(
       createdDateTimeUtcEnd: !options?.createdBefore
         ? options?.createdBefore
         : options?.createdBefore.toISOString(),
-      orderby: !options?.orderby
-        ? options?.orderby
-        : options?.orderby.map((p: any) => {
+      orderby: !options?.orderBy
+        ? options?.orderBy
+        : options?.orderBy.map((p: any) => {
             return p;
           }),
     },
@@ -122,10 +127,12 @@ export function _getDocumentsStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDocumentsStatusDeserialize(
@@ -138,7 +145,6 @@ export async function _getDocumentsStatusDeserialize(
 
   return _documentsStatusDeserializer(result.body);
 }
-
 /**
  * Returns the status for all documents in a batch document translation request.
  *
@@ -216,10 +222,12 @@ export function _cancelTranslationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _cancelTranslationDeserialize(
@@ -232,7 +240,6 @@ export async function _cancelTranslationDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Cancel a currently processing or queued translation.
  * A translation will not be
@@ -267,10 +274,12 @@ export function _getTranslationStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTranslationStatusDeserialize(
@@ -283,7 +292,6 @@ export async function _getTranslationStatusDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Returns the status for a document translation request.
  * The status includes the
@@ -316,10 +324,12 @@ export function _getDocumentStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDocumentStatusDeserialize(
@@ -332,7 +342,6 @@ export async function _getDocumentStatusDeserialize(
 
   return documentStatusDeserializer(result.body);
 }
-
 /**
  * Returns the translation status for a specific document based on the request Id
  * and document Id.
@@ -357,7 +366,7 @@ export function _getTranslationsStatusSend(
       "api%2Dversion": context.apiVersion ?? "2026-03-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       ids: !options?.translationIds
         ? options?.translationIds
         : options?.translationIds.map((p: any) => {
@@ -374,9 +383,9 @@ export function _getTranslationsStatusSend(
       createdDateTimeUtcEnd: !options?.createdBefore
         ? options?.createdBefore
         : options?.createdBefore.toISOString(),
-      orderby: !options?.orderby
-        ? options?.orderby
-        : options?.orderby.map((p: any) => {
+      orderby: !options?.orderBy
+        ? options?.orderBy
+        : options?.orderBy.map((p: any) => {
             return p;
           }),
     },
@@ -384,10 +393,12 @@ export function _getTranslationsStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTranslationsStatusDeserialize(
@@ -400,7 +411,6 @@ export async function _getTranslationsStatusDeserialize(
 
   return _translationsStatusDeserializer(result.body);
 }
-
 /**
  * Returns a list of batch requests submitted and the status for each
  * request.
@@ -482,11 +492,13 @@ export function _startTranslationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: startTranslationDetailsSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: startTranslationDetailsSerializer(body),
+    });
 }
 
 export async function _startTranslationDeserialize(
@@ -499,7 +511,6 @@ export async function _startTranslationDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Use this API to submit a bulk (batch) translation request to the Document
  * Translation service.

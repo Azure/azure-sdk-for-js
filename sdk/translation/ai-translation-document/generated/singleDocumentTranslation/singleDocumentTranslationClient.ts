@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   SingleDocumentTranslationContext,
   SingleDocumentTranslationClientOptionalParams,
+  createSingleDocumentTranslation,
 } from "./api/index.js";
-import { createSingleDocumentTranslation } from "./api/index.js";
-import type { DocumentTranslateContent, TranslateResponse } from "../models/models.js";
+import { DocumentTranslateContent, TranslateResponse } from "../models/models.js";
 import { translate } from "./api/operations.js";
-import type { TranslateOptionalParams } from "./api/options.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { TranslateOptionalParams } from "./api/options.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SingleDocumentTranslationClientOptionalParams } from "./api/singleDocumentTranslationContext.js";
 
@@ -19,19 +19,13 @@ export class SingleDocumentTranslationClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  /** Client for the Azure AI Document Translation service, used to translate a single document. */
   constructor(
     endpointParam: string,
     credential: KeyCredential | TokenCredential,
     options: SingleDocumentTranslationClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSingleDocumentTranslation(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSingleDocumentTranslation(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 

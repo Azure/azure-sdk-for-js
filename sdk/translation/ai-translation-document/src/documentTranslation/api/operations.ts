@@ -67,7 +67,6 @@ export async function _getSupportedFormatsDeserialize(
 
   return supportedFileFormatsDeserializer(result.body);
 }
-
 /**
  * The list of supported formats supported by the Document Translation
  * service.
@@ -95,7 +94,7 @@ export function _getDocumentsStatusSend(
       "api%2Dversion": context.apiVersion ?? "2026-03-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       ids: !options?.documentIds
         ? options?.documentIds
         : options?.documentIds.map((p: any) => {
@@ -112,9 +111,9 @@ export function _getDocumentsStatusSend(
       createdDateTimeUtcEnd: !options?.createdBefore
         ? options?.createdBefore
         : options?.createdBefore.toISOString(),
-      orderby: !options?.orderby
-        ? options?.orderby
-        : options?.orderby.map((p: any) => {
+      orderby: !options?.orderBy
+        ? options?.orderBy
+        : options?.orderBy.map((p: any) => {
             return p;
           }),
     },
@@ -138,7 +137,6 @@ export async function _getDocumentsStatusDeserialize(
 
   return _documentsStatusDeserializer(result.body);
 }
-
 /**
  * Returns the status for all documents in a batch document translation request.
  *
@@ -232,7 +230,6 @@ export async function _cancelTranslationDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Cancel a currently processing or queued translation.
  * A translation will not be
@@ -283,7 +280,6 @@ export async function _getTranslationStatusDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Returns the status for a document translation request.
  * The status includes the
@@ -332,7 +328,6 @@ export async function _getDocumentStatusDeserialize(
 
   return documentStatusDeserializer(result.body);
 }
-
 /**
  * Returns the translation status for a specific document based on the request Id
  * and document Id.
@@ -357,7 +352,7 @@ export function _getTranslationsStatusSend(
       "api%2Dversion": context.apiVersion ?? "2026-03-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       ids: !options?.translationIds
         ? options?.translationIds
         : options?.translationIds.map((p: any) => {
@@ -374,9 +369,9 @@ export function _getTranslationsStatusSend(
       createdDateTimeUtcEnd: !options?.createdBefore
         ? options?.createdBefore
         : options?.createdBefore.toISOString(),
-      orderby: !options?.orderby
-        ? options?.orderby
-        : options?.orderby.map((p: any) => {
+      orderby: !options?.orderBy
+        ? options?.orderBy
+        : options?.orderBy.map((p: any) => {
             return p;
           }),
     },
@@ -400,7 +395,6 @@ export async function _getTranslationsStatusDeserialize(
 
   return _translationsStatusDeserializer(result.body);
 }
-
 /**
  * Returns a list of batch requests submitted and the status for each
  * request.
@@ -499,7 +493,6 @@ export async function _startTranslationDeserialize(
 
   return translationStatusDeserializer(result.body);
 }
-
 /**
  * Use this API to submit a bulk (batch) translation request to the Document
  * Translation service.

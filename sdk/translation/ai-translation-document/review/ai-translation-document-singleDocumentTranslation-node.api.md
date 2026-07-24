@@ -23,7 +23,7 @@ export interface SingleDocumentTranslationClientOptionalParams extends ClientOpt
     apiVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SingleDocumentTranslationContext extends Client {
     apiVersion?: string;
 }

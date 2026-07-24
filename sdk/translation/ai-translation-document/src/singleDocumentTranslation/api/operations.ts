@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { SingleDocumentTranslationContext as Client } from "./index.js";
-import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
-import { readBinaryErrorBody } from "../../static-helpers/serialization/readErrorBody.js";
 import type { DocumentTranslateContent, TranslateResponse } from "../../models/models.js";
 import { documentTranslateContentSerializer } from "../../models/models.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
+import { readBinaryErrorBody } from "../../static-helpers/serialization/readErrorBody.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { TranslateOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -59,7 +59,6 @@ export async function _translateDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
-
 /** Use this API to submit a single translation request to the Document Translation Service. */
 export async function translate(
   context: Client,
