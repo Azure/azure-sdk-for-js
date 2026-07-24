@@ -5055,8 +5055,8 @@ export interface GetIndexStatisticsResult {
   readonly vectorIndexSize: number;
 }
 
-export function getIndexStatisticsResultSerializer(item: GetIndexStatisticsResult): any {
-  return item;
+export function getIndexStatisticsResultSerializer(_item: GetIndexStatisticsResult): any {
+  return {};
 }
 
 export function getIndexStatisticsResultDeserializer(item: any): GetIndexStatisticsResult {
@@ -5142,8 +5142,8 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
-export function analyzedTokenInfoSerializer(item: AnalyzedTokenInfo): any {
-  return item;
+export function analyzedTokenInfoSerializer(_item: AnalyzedTokenInfo): any {
+  return {};
 }
 
 export function analyzedTokenInfoDeserializer(item: any): AnalyzedTokenInfo {
