@@ -21,7 +21,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.ContainerService/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,7 +48,6 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
-
 /** Gets a list of operations. */
 export function list(
   context: Client,
@@ -59,10 +58,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }

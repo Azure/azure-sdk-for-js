@@ -1,5 +1,17 @@
 # Release History
 
+## 2.3.1 (2026-07-09)
+
+### Other Changes
+
+- The `project.beta.datasets` data generation job operations now always send the `foundry-features: DataGenerationJobs=V1Preview` header instead of deriving it from the caller-supplied `foundryFeatures` option.
+- Added hosted agent samples:
+  - `agents/hostedAgents/agentUserIdentityIsolation.ts`
+  - `agents/hostedAgents/createHostedAgentFromImage.ts`
+  - `agents/hostedAgents/sessionsCrud.ts`
+  - `agents/hostedAgents/sessionsFilesUploadDownload.ts`
+  - `agents/hostedAgents/toolboxWithSkill.ts`
+
 ## 2.3.0 (2026-07-01)
 
 ### Features Added

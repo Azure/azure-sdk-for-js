@@ -8,15 +8,69 @@ parameters:
   ServiceDirectory: ''
 
 stages:
-  - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
+    # Gate all release stages on: internal project AND (a manual/scheduled run OR post-merge CI on main).
+    # The one-line expression below is hard to scan, so here it is expanded (logically identical):
+    #   and(
+    #     eq(System.TeamProject, 'internal'),
+    #     or(
+    #       in(Build.Reason, 'Manual', ''),                             # manual queue or scheduled run
+    #       and(                                                        # post-merge CI on main
+    #         eq(Build.Reason, 'IndividualCI'),
+    #         eq(Build.SourceBranch, 'refs/heads/main')
+    #       )
+    #     )
+    #   )
+    # The trailing ")))" right after 'refs/heads/main' closes, in order: the inner and(), the or(),
+    # and the outer and(); the final " }}" then closes the template expression.
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(in(variables['Build.Reason'], 'Manual', ''), and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))) }}:
+      # For post-merge CI (not manual), resolve which packages the merged, auto-release-labeled PR
+      # changed. Auto-release only applies to PRs merged to 'main' (the Build.SourceBranch check above),
+      # so release/* and hotfix/* CI never auto-release. This shared stage emits ReleaseArtifact_<safeName>
+      # booleans consumed by each release stage's condition below. It fails closed (nothing releases)
+      # when there is no qualifying PR.
+      - ${{ if and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
+          - template: /eng/common/pipelines/templates/stages/archetype-auto-release-prepare.yml
+            parameters:
+              DependsOn:
+                - ${{ parameters.DependsOn }}
+              Artifacts: ${{ parameters.Artifacts }}
+              Condition: >-
+                and(
+                  succeeded(),
+                  ne(variables['SetDevVersion'], 'true'),
+                  ne(variables['Skip.Release'], 'true'),
+                  ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                )
+
       - ${{ each artifact in parameters.Artifacts }}:
           - stage: 'Release_${{artifact.safename}}'
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
             displayName: 'Release: ${{artifact.name}}'
-            dependsOn: ${{parameters.DependsOn}}
-            condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
+            # Manual runs release the queue-time artifact selection unchanged. Post-merge CI runs
+            # additionally gate on the auto-release resolution: only release packages the labeled PR changed.
+            ${{ if in(variables['Build.Reason'], 'Manual', '') }}:
+              dependsOn: ${{parameters.DependsOn}}
+              condition: >-
+                and(
+                  succeeded(),
+                  ne(variables['SetDevVersion'], 'true'),
+                  ne(variables['Skip.Release'], 'true'),
+                  ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                )
+            ${{ else }}:
+              dependsOn:
+                - ${{parameters.DependsOn}}
+                - AutoReleasePrepare
+              condition: >-
+                and(
+                  succeeded(),
+                  eq(dependencies.AutoReleasePrepare.outputs['ResolveAutoReleasePackages.resolve.ReleaseArtifact_${{artifact.safename}}'], 'true'),
+                  ne(variables['SetDevVersion'], 'true'),
+                  ne(variables['Skip.Release'], 'true'),
+                  ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                )
             jobs:
               - job: TagRepository
                 displayName: Create release tag
@@ -28,18 +82,15 @@ stages:
                 steps:
                   - checkout: self
                   - download: current
+                  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
                   - template: /eng/common/pipelines/templates/steps/retain-run.yml
                   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
                     parameters:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
-                  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-                    parameters:
-                      npmrcPath: $(Agent.TempDirectory)/create-release-tag/.npmrc
-                      registryUrl: '$(PublicDevOpsRegistry)'
                   - script: >
-                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install --userconfig=$(Agent.TempDirectory)/create-release-tag/.npmrc `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
@@ -62,7 +113,6 @@ stages:
                       ReleaseSha: $(Build.SourceVersion)
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
-                      NpmConfigUserConfig: $(Agent.TempDirectory)/create-release-tag/.npmrc
                       AuthToken: ''
 
               - ${{ if ne(artifact.skipPublishPackage, 'true') }}:

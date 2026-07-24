@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create confluent topics by Name
  *
  * @summary create confluent topics by Name
- * x-ms-original-file: 2025-08-18-preview/Topics_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Topics_Create_MaximumSet_Gen.json
  */
 async function topicsCreateMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -40,11 +40,15 @@ steps:
 
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
+    env:
+      PUBLISHCODECOVERAGE: $(PublishCodeCoverage)
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
+    env:
+      PUBLISHCODECOVERAGE: $(PublishCodeCoverage)
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
@@ -82,9 +86,84 @@ steps:
     condition: and(always(),eq(variables['TestType'], 'browser'))
     displayName: "Publish browser unit test results"
 
+  - template: /eng/common/pipelines/templates/steps/upload-llm-artifacts.yml
+    parameters:
+      TestResultsGlob: 'test-results*.xml'
+      SearchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
       parameters:
         ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.log'
         ArtifactName: 'test proxy logs $(Agent.JobName)'
         SbomEnabled: false
+
+  - ${{ if gt(length(parameters.Artifacts), 0) }}:
+    - ${{ each artifact in parameters.Artifacts }}:
+      - pwsh: |
+          $packageInfoPath = "$(Build.ArtifactStagingDirectory)/PackageInfo/${{ artifact.name }}.json"
+          $reportVariable = "CoverageReport_${{ artifact.safename }}"
+
+          Write-Host "##vso[task.setvariable variable=$reportVariable;]"
+
+          if (-not (Test-Path $packageInfoPath)) {
+            Write-Warning "Package info file not found for '${{ artifact.name }}': $packageInfoPath"
+            exit 0
+          }
+
+          $packageInfo = Get-Content -Raw -Path $packageInfoPath | ConvertFrom-Json
+          $packageDirectory = $packageInfo.DirectoryPath
+
+          if (-not [System.IO.Path]::IsPathRooted($packageDirectory)) {
+            $packageDirectory = Join-Path "$(System.DefaultWorkingDirectory)" $packageDirectory
+          }
+
+          $coverageDirectory = Join-Path $packageDirectory "coverage"
+          $primarySummary = Join-Path $coverageDirectory "cobertura-coverage.xml"
+          $summaryFile = $null
+
+          if (Test-Path $primarySummary) {
+            $summaryFile = $primarySummary
+          } else {
+            $summaryFile = (Get-ChildItem -Path $coverageDirectory -File -Filter "*cobertura*.xml" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName)
+          }
+
+          if (-not $summaryFile) {
+            Write-Warning "No coverage file found for '${{ artifact.name }}' under $coverageDirectory"
+            exit 0
+          }
+
+          $summaryFile = $summaryFile.Replace("\\", "/")
+
+          Write-Host "Resolved coverage for '${{ artifact.name }}': $summaryFile"
+
+          # Prefix every <package name="..."> with the artifact name so DevOps groups
+          # coverage by package rather than showing a flat directory-path list.
+          try {
+            [xml]$coverageXml = Get-Content -Raw $summaryFile
+            foreach ($pkg in $coverageXml.coverage.packages.package) {
+              $pkg.name = "${{ artifact.name }}/$($pkg.name)"
+            }
+            $coverageXml.Save($summaryFile)
+            Write-Host "Prefixed package names in $summaryFile with '${{ artifact.name }}'"
+          } catch {
+            Write-Warning "Could not rewrite package names in cobertura XML: $_"
+          }
+
+          Write-Host "##vso[task.setvariable variable=$reportVariable;]$($coverageDirectory.Replace('\\', '/'))"
+        displayName: "Resolve coverage file (${{ artifact.name }})"
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),in(lower(variables['PublishCodeCoverage']), 'true', '1'))
+
+      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+        parameters:
+          ArtifactPath: "$(CoverageReport_${{ artifact.safename }})"
+          ArtifactName: "CodeCoverage-${{ artifact.safename }}"
+          CustomCondition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),in(lower(variables['PublishCodeCoverage']), 'true', '1'),ne(variables['CoverageReport_${{ artifact.safename }}'], ''))
+          SbomEnabled: false
+
+  - task: PublishCodeCoverageResults@2
+    displayName: "Publish Code Coverage to DevOps"
+    continueOnError: true
+    condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),in(lower(variables['PublishCodeCoverage']), 'true', '1'))
+    inputs:
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/**/coverage/*cobertura*.xml"

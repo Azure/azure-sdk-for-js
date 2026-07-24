@@ -47,7 +47,7 @@
   "private": true,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
+    "@azure-tools/test-perf": "workspace:^",
     "@azure/storage-file-share": "^12.27.0",
     "dotenv": "^16.0.0",
     "tslib": "^2.8.1"

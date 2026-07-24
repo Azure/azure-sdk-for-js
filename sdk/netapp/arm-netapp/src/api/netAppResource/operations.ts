@@ -48,7 +48,7 @@ export function _updateNetworkSiblingSetSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -77,7 +77,6 @@ export async function _updateNetworkSiblingSetDeserialize(
 
   return networkSiblingSetDeserializer(result.body);
 }
-
 /** Update the network features of the specified network sibling set. */
 export function updateNetworkSiblingSet(
   context: Client,
@@ -90,7 +89,7 @@ export function updateNetworkSiblingSet(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateNetworkSiblingSetSend(context, location, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<NetworkSiblingSet>, NetworkSiblingSet>;
 }
 
@@ -105,7 +104,7 @@ export function _queryNetworkSiblingSetSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +133,6 @@ export async function _queryNetworkSiblingSetDeserialize(
 
   return networkSiblingSetDeserializer(result.body);
 }
-
 /** Get details of the specified network sibling set. */
 export async function queryNetworkSiblingSet(
   context: Client,
@@ -156,7 +154,7 @@ export function _queryRegionInfoSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +181,6 @@ export async function _queryRegionInfoDeserialize(
 
   return regionInfoDeserializer(result.body);
 }
-
 /** Provides storage to network proximity and logical zone mapping information. */
 export async function queryRegionInfo(
   context: Client,
@@ -205,7 +202,7 @@ export function _checkQuotaAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +231,6 @@ export async function _checkQuotaAvailabilityDeserialize(
 
   return checkAvailabilityResponseDeserializer(result.body);
 }
-
 /** Check if a quota is available. */
 export async function checkQuotaAvailability(
   context: Client,
@@ -257,7 +253,7 @@ export function _checkFilePathAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +282,6 @@ export async function _checkFilePathAvailabilityDeserialize(
 
   return checkAvailabilityResponseDeserializer(result.body);
 }
-
 /** Check if a file path is available. */
 export async function checkFilePathAvailability(
   context: Client,
@@ -309,7 +304,7 @@ export function _checkNameAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +333,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkAvailabilityResponseDeserializer(result.body);
 }
-
 /** Check if a resource name is available. */
 export async function checkNameAvailability(
   context: Client,

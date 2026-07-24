@@ -1,4 +1,4 @@
 directory: specification/monitor/resource-manager/Microsoft.Insights/Insights
-commit: b48bb52ddc459abccd1e1145f054b84c9a72c641
+commit: 3c4c89d0dbc2b89756240bec7b28791cc6f8cc70
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

@@ -1,14 +1,385 @@
 # Release History
 
-## 17.0.0-beta.4 (Unreleased)
+## 17.0.0 (2026-07-06)
 
 ### Features Added
+  - Added operation group MongoMIResourcesOperations
+  - Added operation CassandraClustersOperations.createUpdate
+  - Added operation CassandraClustersOperations.deallocate
+  - Added operation CassandraClustersOperations.delete
+  - Added operation CassandraClustersOperations.invokeCommand
+  - Added operation CassandraClustersOperations.start
+  - Added operation CassandraClustersOperations.update
+  - Added operation CassandraDataCentersOperations.createUpdate
+  - Added operation CassandraDataCentersOperations.delete
+  - Added operation CassandraDataCentersOperations.update
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraRoleAssignment
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraRoleAssignmentAndWait
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraRoleDefinition
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraRoleDefinitionAndWait
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraRoleAssignment
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraRoleAssignmentAndWait
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraRoleDefinition
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraRoleDefinitionAndWait
+  - Added operation CassandraResourcesOperations.createUpdateCassandraKeyspace
+  - Added operation CassandraResourcesOperations.createUpdateCassandraRoleAssignment
+  - Added operation CassandraResourcesOperations.createUpdateCassandraRoleDefinition
+  - Added operation CassandraResourcesOperations.createUpdateCassandraTable
+  - Added operation CassandraResourcesOperations.deleteCassandraKeyspace
+  - Added operation CassandraResourcesOperations.deleteCassandraRoleAssignment
+  - Added operation CassandraResourcesOperations.deleteCassandraRoleDefinition
+  - Added operation CassandraResourcesOperations.deleteCassandraTable
+  - Added operation CassandraResourcesOperations.getCassandraRoleAssignment
+  - Added operation CassandraResourcesOperations.getCassandraRoleDefinition
+  - Added operation CassandraResourcesOperations.listCassandraRoleAssignments
+  - Added operation CassandraResourcesOperations.listCassandraRoleDefinitions
+  - Added operation CassandraResourcesOperations.migrateCassandraKeyspaceToAutoscale
+  - Added operation CassandraResourcesOperations.migrateCassandraKeyspaceToManualThroughput
+  - Added operation CassandraResourcesOperations.migrateCassandraTableToAutoscale
+  - Added operation CassandraResourcesOperations.migrateCassandraTableToManualThroughput
+  - Added operation CassandraResourcesOperations.updateCassandraKeyspaceThroughput
+  - Added operation CassandraResourcesOperations.updateCassandraTableThroughput
+  - Added operation DatabaseAccountsOperations.createOrUpdate
+  - Added operation DatabaseAccountsOperations.delete
+  - Added operation DatabaseAccountsOperations.failoverPriorityChange
+  - Added operation DatabaseAccountsOperations.offlineRegion
+  - Added operation DatabaseAccountsOperations.onlineRegion
+  - Added operation DatabaseAccountsOperations.regenerateKey
+  - Added operation DatabaseAccountsOperations.update
+  - Added operation FleetOperations.delete
+  - Added operation FleetspaceOperations.create
+  - Added operation FleetspaceOperations.delete
+  - Added operation FleetspaceOperations.update
+  - Added operation FleetspaceAccountOperations.create
+  - Added operation FleetspaceAccountOperations.delete
+  - Added operation GremlinResourcesOperations.beginCreateUpdateGremlinRoleAssignment
+  - Added operation GremlinResourcesOperations.beginCreateUpdateGremlinRoleAssignmentAndWait
+  - Added operation GremlinResourcesOperations.beginCreateUpdateGremlinRoleDefinition
+  - Added operation GremlinResourcesOperations.beginCreateUpdateGremlinRoleDefinitionAndWait
+  - Added operation GremlinResourcesOperations.beginDeleteGremlinRoleAssignment
+  - Added operation GremlinResourcesOperations.beginDeleteGremlinRoleAssignmentAndWait
+  - Added operation GremlinResourcesOperations.beginDeleteGremlinRoleDefinition
+  - Added operation GremlinResourcesOperations.beginDeleteGremlinRoleDefinitionAndWait
+  - Added operation GremlinResourcesOperations.createUpdateGremlinDatabase
+  - Added operation GremlinResourcesOperations.createUpdateGremlinGraph
+  - Added operation GremlinResourcesOperations.createUpdateGremlinRoleAssignment
+  - Added operation GremlinResourcesOperations.createUpdateGremlinRoleDefinition
+  - Added operation GremlinResourcesOperations.deleteGremlinDatabase
+  - Added operation GremlinResourcesOperations.deleteGremlinGraph
+  - Added operation GremlinResourcesOperations.deleteGremlinRoleAssignment
+  - Added operation GremlinResourcesOperations.deleteGremlinRoleDefinition
+  - Added operation GremlinResourcesOperations.getGremlinRoleAssignment
+  - Added operation GremlinResourcesOperations.getGremlinRoleDefinition
+  - Added operation GremlinResourcesOperations.listGremlinRoleAssignments
+  - Added operation GremlinResourcesOperations.listGremlinRoleDefinitions
+  - Added operation GremlinResourcesOperations.migrateGremlinDatabaseToAutoscale
+  - Added operation GremlinResourcesOperations.migrateGremlinDatabaseToManualThroughput
+  - Added operation GremlinResourcesOperations.migrateGremlinGraphToAutoscale
+  - Added operation GremlinResourcesOperations.migrateGremlinGraphToManualThroughput
+  - Added operation GremlinResourcesOperations.retrieveContinuousBackupInformation
+  - Added operation GremlinResourcesOperations.updateGremlinDatabaseThroughput
+  - Added operation GremlinResourcesOperations.updateGremlinGraphThroughput
+  - Added operation MongoDBResourcesOperations.createUpdateMongoDBCollection
+  - Added operation MongoDBResourcesOperations.createUpdateMongoDBDatabase
+  - Added operation MongoDBResourcesOperations.createUpdateMongoRoleDefinition
+  - Added operation MongoDBResourcesOperations.createUpdateMongoUserDefinition
+  - Added operation MongoDBResourcesOperations.deleteMongoDBCollection
+  - Added operation MongoDBResourcesOperations.deleteMongoDBDatabase
+  - Added operation MongoDBResourcesOperations.deleteMongoRoleDefinition
+  - Added operation MongoDBResourcesOperations.deleteMongoUserDefinition
+  - Added operation MongoDBResourcesOperations.migrateMongoDBCollectionToAutoscale
+  - Added operation MongoDBResourcesOperations.migrateMongoDBCollectionToManualThroughput
+  - Added operation MongoDBResourcesOperations.migrateMongoDBDatabaseToAutoscale
+  - Added operation MongoDBResourcesOperations.migrateMongoDBDatabaseToManualThroughput
+  - Added operation MongoDBResourcesOperations.retrieveContinuousBackupInformation
+  - Added operation MongoDBResourcesOperations.updateMongoDBCollectionThroughput
+  - Added operation MongoDBResourcesOperations.updateMongoDBDatabaseThroughput
+  - Added operation NotebookWorkspacesOperations.createOrUpdate
+  - Added operation NotebookWorkspacesOperations.delete
+  - Added operation NotebookWorkspacesOperations.regenerateAuthToken
+  - Added operation NotebookWorkspacesOperations.start
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation ServiceOperations.create
+  - Added operation ServiceOperations.delete
+  - Added operation SqlResourcesOperations.createUpdateClientEncryptionKey
+  - Added operation SqlResourcesOperations.createUpdateSqlContainer
+  - Added operation SqlResourcesOperations.createUpdateSqlDatabase
+  - Added operation SqlResourcesOperations.createUpdateSqlRoleAssignment
+  - Added operation SqlResourcesOperations.createUpdateSqlRoleDefinition
+  - Added operation SqlResourcesOperations.createUpdateSqlStoredProcedure
+  - Added operation SqlResourcesOperations.createUpdateSqlTrigger
+  - Added operation SqlResourcesOperations.createUpdateSqlUserDefinedFunction
+  - Added operation SqlResourcesOperations.deleteSqlContainer
+  - Added operation SqlResourcesOperations.deleteSqlDatabase
+  - Added operation SqlResourcesOperations.deleteSqlRoleAssignment
+  - Added operation SqlResourcesOperations.deleteSqlRoleDefinition
+  - Added operation SqlResourcesOperations.deleteSqlStoredProcedure
+  - Added operation SqlResourcesOperations.deleteSqlTrigger
+  - Added operation SqlResourcesOperations.deleteSqlUserDefinedFunction
+  - Added operation SqlResourcesOperations.migrateSqlContainerToAutoscale
+  - Added operation SqlResourcesOperations.migrateSqlContainerToManualThroughput
+  - Added operation SqlResourcesOperations.migrateSqlDatabaseToAutoscale
+  - Added operation SqlResourcesOperations.migrateSqlDatabaseToManualThroughput
+  - Added operation SqlResourcesOperations.retrieveContinuousBackupInformation
+  - Added operation SqlResourcesOperations.updateSqlContainerThroughput
+  - Added operation SqlResourcesOperations.updateSqlDatabaseThroughput
+  - Added operation TableResourcesOperations.beginCreateUpdateTableRoleAssignment
+  - Added operation TableResourcesOperations.beginCreateUpdateTableRoleAssignmentAndWait
+  - Added operation TableResourcesOperations.beginCreateUpdateTableRoleDefinition
+  - Added operation TableResourcesOperations.beginCreateUpdateTableRoleDefinitionAndWait
+  - Added operation TableResourcesOperations.beginDeleteTableRoleAssignment
+  - Added operation TableResourcesOperations.beginDeleteTableRoleAssignmentAndWait
+  - Added operation TableResourcesOperations.beginDeleteTableRoleDefinition
+  - Added operation TableResourcesOperations.beginDeleteTableRoleDefinitionAndWait
+  - Added operation TableResourcesOperations.createUpdateTable
+  - Added operation TableResourcesOperations.createUpdateTableRoleAssignment
+  - Added operation TableResourcesOperations.createUpdateTableRoleDefinition
+  - Added operation TableResourcesOperations.deleteTable
+  - Added operation TableResourcesOperations.deleteTableRoleAssignment
+  - Added operation TableResourcesOperations.deleteTableRoleDefinition
+  - Added operation TableResourcesOperations.getTableRoleAssignment
+  - Added operation TableResourcesOperations.getTableRoleDefinition
+  - Added operation TableResourcesOperations.listTableRoleAssignments
+  - Added operation TableResourcesOperations.listTableRoleDefinitions
+  - Added operation TableResourcesOperations.migrateTableToAutoscale
+  - Added operation TableResourcesOperations.migrateTableToManualThroughput
+  - Added operation TableResourcesOperations.retrieveContinuousBackupInformation
+  - Added operation TableResourcesOperations.updateTableThroughput
+  - Class CosmosDBManagementClient has a new constructor "constructor(credential: TokenCredential, options?: CosmosDBManagementClientOptionalParams);"
+  - Added Interface BackupSchedule
+  - Added Interface CassandraKeyspaceCreateUpdateProperties
+  - Added Interface CassandraKeyspaceGetProperties
+  - Added Interface CassandraResourcesCreateUpdateCassandraRoleAssignmentOptionalParams
+  - Added Interface CassandraResourcesCreateUpdateCassandraRoleDefinitionOptionalParams
+  - Added Interface CassandraResourcesDeleteCassandraRoleAssignmentOptionalParams
+  - Added Interface CassandraResourcesDeleteCassandraRoleDefinitionOptionalParams
+  - Added Interface CassandraResourcesGetCassandraRoleAssignmentOptionalParams
+  - Added Interface CassandraResourcesGetCassandraRoleDefinitionOptionalParams
+  - Added Interface CassandraResourcesListCassandraRoleAssignmentsOptionalParams
+  - Added Interface CassandraResourcesListCassandraRoleDefinitionsOptionalParams
+  - Added Interface CassandraRoleAssignmentResource
+  - Added Interface CassandraRoleAssignmentResourceProperties
+  - Added Interface CassandraRoleDefinitionResource
+  - Added Interface CassandraRoleDefinitionResourceProperties
+  - Added Interface CassandraTableCreateUpdateProperties
+  - Added Interface CassandraTableGetProperties
+  - Added Interface ClientEncryptionKeyCreateUpdateProperties
+  - Added Interface ClientEncryptionKeyGetProperties
+  - Added Interface CloudError
+  - Added Interface CosmosDBErrorResult
+  - Added Interface DatabaseAccountCreateUpdateProperties
+  - Added Interface DatabaseAccountGetProperties
+  - Added Interface DatabaseAccountUpdateProperties
+  - Added Interface FleetResourceProperties
+  - Added Interface FleetspaceAccountProperties
+  - Added Interface FleetspaceProperties
+  - Added Interface GremlinDatabaseCreateUpdateProperties
+  - Added Interface GremlinDatabaseGetProperties
+  - Added Interface GremlinGraphCreateUpdateProperties
+  - Added Interface GremlinGraphGetProperties
+  - Added Interface GremlinResourcesCreateUpdateGremlinRoleAssignmentOptionalParams
+  - Added Interface GremlinResourcesCreateUpdateGremlinRoleDefinitionOptionalParams
+  - Added Interface GremlinResourcesDeleteGremlinRoleAssignmentOptionalParams
+  - Added Interface GremlinResourcesDeleteGremlinRoleDefinitionOptionalParams
+  - Added Interface GremlinResourcesGetGremlinRoleAssignmentOptionalParams
+  - Added Interface GremlinResourcesGetGremlinRoleDefinitionOptionalParams
+  - Added Interface GremlinResourcesListGremlinRoleAssignmentsOptionalParams
+  - Added Interface GremlinResourcesListGremlinRoleDefinitionsOptionalParams
+  - Added Interface GremlinRoleAssignmentResource
+  - Added Interface GremlinRoleAssignmentResourceProperties
+  - Added Interface GremlinRoleDefinitionResource
+  - Added Interface GremlinRoleDefinitionResourceProperties
+  - Added Interface MongoDBCollectionCreateUpdateProperties
+  - Added Interface MongoDBCollectionGetProperties
+  - Added Interface MongoDBDatabaseCreateUpdateProperties
+  - Added Interface MongoDBDatabaseGetProperties
+  - Added Interface MongoMIResourcesCreateUpdateMongoMIRoleAssignmentOptionalParams
+  - Added Interface MongoMIResourcesCreateUpdateMongoMIRoleDefinitionOptionalParams
+  - Added Interface MongoMIResourcesDeleteMongoMIRoleAssignmentOptionalParams
+  - Added Interface MongoMIResourcesDeleteMongoMIRoleDefinitionOptionalParams
+  - Added Interface MongoMIResourcesGetMongoMIRoleAssignmentOptionalParams
+  - Added Interface MongoMIResourcesGetMongoMIRoleDefinitionOptionalParams
+  - Added Interface MongoMIResourcesListMongoMIRoleAssignmentsOptionalParams
+  - Added Interface MongoMIResourcesListMongoMIRoleDefinitionsOptionalParams
+  - Added Interface MongoMIRoleAssignmentResource
+  - Added Interface MongoMIRoleAssignmentResourceProperties
+  - Added Interface MongoMIRoleDefinitionResource
+  - Added Interface MongoMIRoleDefinitionResourceProperties
+  - Added Interface MongoRoleDefinitionResource
+  - Added Interface MongoUserDefinitionResource
+  - Added Interface NotebookWorkspaceProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorableDatabaseAccountProperties
+  - Added Interface RestorableGremlinDatabaseProperties
+  - Added Interface RestorableGremlinGraphProperties
+  - Added Interface RestorableMongodbCollectionProperties
+  - Added Interface RestorableMongodbDatabaseProperties
+  - Added Interface RestorableSqlContainerProperties
+  - Added Interface RestorableSqlDatabaseProperties
+  - Added Interface RestorableTableProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SqlContainerCreateUpdateProperties
+  - Added Interface SqlContainerGetProperties
+  - Added Interface SqlDatabaseCreateUpdateProperties
+  - Added Interface SqlDatabaseGetProperties
+  - Added Interface SqlRoleAssignmentResource
+  - Added Interface SqlRoleDefinitionResource
+  - Added Interface SqlStoredProcedureCreateUpdateProperties
+  - Added Interface SqlStoredProcedureGetProperties
+  - Added Interface SqlTriggerCreateUpdateProperties
+  - Added Interface SqlTriggerGetProperties
+  - Added Interface SqlUserDefinedFunctionCreateUpdateProperties
+  - Added Interface SqlUserDefinedFunctionGetProperties
+  - Added Interface TableCreateUpdateProperties
+  - Added Interface TableGetProperties
+  - Added Interface TableResourcesCreateUpdateTableRoleAssignmentOptionalParams
+  - Added Interface TableResourcesCreateUpdateTableRoleDefinitionOptionalParams
+  - Added Interface TableResourcesDeleteTableRoleAssignmentOptionalParams
+  - Added Interface TableResourcesDeleteTableRoleDefinitionOptionalParams
+  - Added Interface TableResourcesGetTableRoleAssignmentOptionalParams
+  - Added Interface TableResourcesGetTableRoleDefinitionOptionalParams
+  - Added Interface TableResourcesListTableRoleAssignmentsOptionalParams
+  - Added Interface TableResourcesListTableRoleDefinitionsOptionalParams
+  - Added Interface TableRoleAssignmentResource
+  - Added Interface TableRoleAssignmentResourceProperties
+  - Added Interface TableRoleDefinitionResource
+  - Added Interface TableRoleDefinitionResourceProperties
+  - Added Interface ThroughputSettingsGetProperties
+  - Added Interface ThroughputSettingsUpdateProperties
+  - Interface ARMResourceProperties has a new optional parameter identity
+  - Interface CassandraKeyspaceCreateUpdateParameters has a new optional parameter identity
+  - Interface CassandraKeyspaceGetResults has a new optional parameter identity
+  - Interface CassandraKeyspaceGetResults has a new optional parameter systemData
+  - Interface CassandraTableCreateUpdateParameters has a new optional parameter identity
+  - Interface CassandraTableGetResults has a new optional parameter identity
+  - Interface CassandraTableGetResults has a new optional parameter systemData
+  - Interface ClientEncryptionKeyGetResults has a new optional parameter systemData
+  - Interface ClusterResource has a new optional parameter systemData
+  - Interface ClusterResourceProperties has a new optional parameter autoReplicate
+  - Interface ClusterResourceProperties has a new optional parameter backupSchedules
+  - Interface ClusterResourceProperties has a new optional parameter extensions
+  - Interface ClusterResourceProperties has a new optional parameter externalDataCenters
+  - Interface ClusterResourceProperties has a new optional parameter scheduledEventStrategy
+  - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter isLatestModel
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enforceHierarchicalPartitionKeyIdLastLevel
+  - Interface DatabaseAccountGetResults has a new optional parameter enforceHierarchicalPartitionKeyIdLastLevel
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enforceHierarchicalPartitionKeyIdLastLevel
+  - Interface DataCenterResource has a new optional parameter systemData
+  - Interface DataTransferServiceResourceProperties has a new optional parameter additionalProperties
+  - Interface FleetResourceUpdate has a new optional parameter tags
+  - Interface FleetspacePropertiesThroughputPoolConfiguration has a new optional parameter dedicatedRUs
+  - Interface FleetspacePropertiesThroughputPoolConfiguration has a new optional parameter maxConsumableRUs
+  - Interface GraphAPIComputeServiceResourceProperties has a new optional parameter additionalProperties
+  - Interface GremlinDatabaseCreateUpdateParameters has a new optional parameter identity
+  - Interface GremlinDatabaseGetResults has a new optional parameter identity
+  - Interface GremlinDatabaseGetResults has a new optional parameter systemData
+  - Interface GremlinGraphCreateUpdateParameters has a new optional parameter identity
+  - Interface GremlinGraphGetResults has a new optional parameter identity
+  - Interface GremlinGraphGetResults has a new optional parameter systemData
+  - Interface LocationGetResult has a new optional parameter systemData
+  - Interface MaterializedViewsBuilderServiceResourceProperties has a new optional parameter additionalProperties
+  - Interface MongoDBCollectionCreateUpdateParameters has a new optional parameter identity
+  - Interface MongoDBCollectionGetResults has a new optional parameter identity
+  - Interface MongoDBCollectionGetResults has a new optional parameter systemData
+  - Interface MongoDBDatabaseCreateUpdateParameters has a new optional parameter identity
+  - Interface MongoDBDatabaseGetResults has a new optional parameter identity
+  - Interface MongoDBDatabaseGetResults has a new optional parameter systemData
+  - Interface MongoRoleDefinitionGetResults has a new optional parameter systemData
+  - Interface MongoUserDefinitionGetResults has a new optional parameter systemData
+  - Interface NotebookWorkspace has a new optional parameter systemData
+  - Interface Permission has a new optional parameter id
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface RestorableDatabaseAccountGetResult has a new optional parameter systemData
+  - Interface ServiceResource has a new optional parameter systemData
+  - Interface ServiceResourceProperties has a new optional parameter additionalProperties
+  - Interface SqlContainerCreateUpdateParameters has a new optional parameter identity
+  - Interface SqlContainerGetResults has a new optional parameter identity
+  - Interface SqlContainerGetResults has a new optional parameter systemData
+  - Interface SqlDatabaseCreateUpdateParameters has a new optional parameter identity
+  - Interface SqlDatabaseGetResults has a new optional parameter identity
+  - Interface SqlDatabaseGetResults has a new optional parameter systemData
+  - Interface SqlDedicatedGatewayServiceResourceProperties has a new optional parameter additionalProperties
+  - Interface SqlRoleAssignmentGetResults has a new optional parameter systemData
+  - Interface SqlRoleDefinitionGetResults has a new optional parameter systemData
+  - Interface SqlStoredProcedureCreateUpdateParameters has a new optional parameter identity
+  - Interface SqlStoredProcedureGetResults has a new optional parameter identity
+  - Interface SqlStoredProcedureGetResults has a new optional parameter systemData
+  - Interface SqlTriggerCreateUpdateParameters has a new optional parameter identity
+  - Interface SqlTriggerGetResults has a new optional parameter identity
+  - Interface SqlTriggerGetResults has a new optional parameter systemData
+  - Interface SqlUserDefinedFunctionCreateUpdateParameters has a new optional parameter identity
+  - Interface SqlUserDefinedFunctionGetResults has a new optional parameter identity
+  - Interface SqlUserDefinedFunctionGetResults has a new optional parameter systemData
+  - Interface TableCreateUpdateParameters has a new optional parameter identity
+  - Interface TableGetResults has a new optional parameter identity
+  - Interface TableGetResults has a new optional parameter systemData
+  - Interface ThroughputSettingsGetResults has a new optional parameter identity
+  - Interface ThroughputSettingsGetResults has a new optional parameter systemData
+  - Interface ThroughputSettingsUpdateParameters has a new optional parameter identity
+  - Added Type Alias AutoReplicate
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ScheduledEventStrategy
+  - Added Enum AzureClouds
+  - Added Enum KnownAutoReplicate
+  - Added Enum KnownScheduledEventStrategy
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation CassandraResources.beginDeleteCassandraKeyspaceAndWait has a new signature
+  - Operation CassandraResources.beginDeleteCassandraTableAndWait has a new signature
+  - Operation DatabaseAccounts.beginCreateOrUpdate has a new signature
+  - Operation DatabaseAccounts.beginCreateOrUpdateAndWait has a new signature
+  - Operation DatabaseAccounts.beginDeleteAndWait has a new signature
+  - Operation DatabaseAccounts.beginFailoverPriorityChangeAndWait has a new signature
+  - Operation DatabaseAccounts.beginUpdate has a new signature
+  - Operation DatabaseAccounts.beginUpdateAndWait has a new signature
+  - Operation DatabaseAccounts.get has a new signature
+  - Operation Fleet.beginDeleteAndWait has a new signature
+  - Operation Fleet.update has a new signature
+  - Operation Fleetspace.beginDeleteAndWait has a new signature
+  - Operation FleetspaceAccount.beginDeleteAndWait has a new signature
+  - Operation GremlinResources.beginDeleteGremlinDatabaseAndWait has a new signature
+  - Operation GremlinResources.beginDeleteGremlinGraphAndWait has a new signature
+  - Operation MongoDBResources.beginDeleteMongoDBCollectionAndWait has a new signature
+  - Operation MongoDBResources.beginDeleteMongoDBDatabaseAndWait has a new signature
+  - Operation Service.beginCreate has a new signature
+  - Operation Service.beginCreateAndWait has a new signature
+  - Operation Service.get has a new signature
+  - Operation SqlResources.beginDeleteSqlContainerAndWait has a new signature
+  - Operation SqlResources.beginDeleteSqlDatabaseAndWait has a new signature
+  - Operation SqlResources.beginDeleteSqlStoredProcedureAndWait has a new signature
+  - Operation SqlResources.beginDeleteSqlTriggerAndWait has a new signature
+  - Operation SqlResources.beginDeleteSqlUserDefinedFunctionAndWait has a new signature
+  - Operation TableResources.beginDeleteTableAndWait has a new signature
+  - Class CosmosDBManagementClient no longer has parameter apiVersion
+  - Class CosmosDBManagementClient no longer has parameter subscriptionId
+  - Removed Interface DataTransferServiceResource
+  - Removed Interface ExtendedResourceProperties
+  - Removed Interface GraphAPIComputeServiceResource
+  - Removed Interface ListClusters
+  - Removed Interface ListDataCenters
+  - Removed Interface ManagedCassandraARMResourceProperties
+  - Removed Interface MaterializedViewsBuilderServiceResource
+  - Removed Interface ProxyResourceAutoGenerated
+  - Removed Interface ResourceAutoGenerated
+  - Removed Interface SqlDedicatedGatewayServiceResource
+  - Type of parameter type of interface BackupPolicy is changed from "Periodic" | "Continuous" to BackupPolicyType
+  - Type of parameter serviceType of interface ServiceResourceCreateUpdateProperties is changed from "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder" to ServiceType
+  - Type of parameter serviceType of interface ServiceResourceProperties is changed from "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder" to ServiceType
+  - Interface FleetUpdateOptionalParams no longer has parameter body
+  - Removed Type Alias NodeStatus
+  - Type alias "BackupPolicyUnion" has been changed
+  - Type alias "ServiceResourceCreateUpdatePropertiesUnion" has been changed
+  - Type alias "ServiceResourcePropertiesUnion" has been changed
+  - Removed Enum KnownNodeStatus
 
 ## 17.0.0-beta.3 (2026-04-16)
 Compared with version 16.4.0

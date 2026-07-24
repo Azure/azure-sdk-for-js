@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to retrieves the usages (most recent storage data) for the given collection.
+ *
+ * @summary retrieves the usages (most recent storage data) for the given collection.
+ * x-ms-original-file: 2026-03-15/CosmosDBCollectionGetUsages.json
+ */
+async function cosmosDBCollectionGetUsages() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.collection.listUsages(
+    "rg1",
+    "ddb1",
+    "databaseRid",
+    "collectionRid",
+    { filter: "name.value eq 'Storage'" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await cosmosDBCollectionGetUsages();
+}
+
+main().catch(console.error);

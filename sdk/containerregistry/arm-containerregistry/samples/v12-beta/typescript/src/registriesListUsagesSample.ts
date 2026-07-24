@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the quota usages for the specified container registry.
  *
  * @summary gets the quota usages for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/RegistryListUsages.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryListUsages.json
  */
 async function registryListUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

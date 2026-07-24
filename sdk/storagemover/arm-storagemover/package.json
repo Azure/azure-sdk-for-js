@@ -59,7 +59,7 @@
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/arm-authorization": "workspace:^",
-    "@azure/arm-network": "workspace:^",
+    "@azure/arm-network": "36.0.0",
     "@azure/arm-resources": "catalog:arm",
     "@azure/arm-storage": "catalog:arm",
     "@azure/dev-tool": "workspace:^",

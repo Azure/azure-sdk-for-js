@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -59,6 +59,7 @@
     "@azure/core-rest-pipeline": "^1.17.0",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
+    "@azure/logger": "^1.1.4",
     "events": "^3.3.0",
     "jwt-decode": "^4.0.0",
     "tslib": "^2.8.1"
@@ -68,7 +69,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

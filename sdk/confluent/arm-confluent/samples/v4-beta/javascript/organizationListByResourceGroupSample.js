@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Organizations under the specified resource group.
  *
  * @summary list all Organizations under the specified resource group.
- * x-ms-original-file: 2025-08-18-preview/Organization_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function organizationListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();

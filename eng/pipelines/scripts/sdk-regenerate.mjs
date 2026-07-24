@@ -522,7 +522,7 @@ async function buildRegeneratedPackages(allPackages, successfullyRegenerated, tu
 
   const installResult = await runCommandCapturing(
     "pnpm",
-    ["install", "--no-frozen-lockfile"],
+    ["install", "--no-frozen-lockfile", "--force"],
     SDK_ROOT,
   );
   if (installResult.exitCode !== 0) {
