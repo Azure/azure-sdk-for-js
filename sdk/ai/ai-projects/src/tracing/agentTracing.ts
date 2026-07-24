@@ -4,7 +4,12 @@
 import type { Agent, AgentVersion } from "../models/models.js";
 import type { ResolvedTracingConfig } from "./configuration.js";
 import { startSpan, runInSpanContext } from "./tracingClient.js";
-import { setCommonAttributes, setAgentAttributes, setAgentVersionAttributes, setErrorAttributes } from "./attributes.js";
+import {
+  setCommonAttributes,
+  setAgentAttributes,
+  setAgentVersionAttributes,
+  setErrorAttributes,
+} from "./attributes.js";
 import { OperationName } from "./constants.js";
 
 /**

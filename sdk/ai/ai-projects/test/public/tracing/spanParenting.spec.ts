@@ -54,8 +54,7 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       const activeSpan = trace.getSpan(context.active());
       // The active span should NOT be our operation span
       const isParented =
-        activeSpan !== undefined &&
-        activeSpan.spanContext().spanId === opSpan.spanContext().spanId;
+        activeSpan !== undefined && activeSpan.spanContext().spanId === opSpan.spanContext().spanId;
       assert.isFalse(
         isParented,
         "without runInSpanContext, operation span is not active — child spans won't be parented correctly",
@@ -136,7 +135,9 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       id: "agent-123",
       name: "test-agent",
       state: "active",
-      versions: { latest: { object: "agent.version" as const, id: "v1", version: 1, model: "gpt-4" } },
+      versions: {
+        latest: { object: "agent.version" as const, id: "v1", version: 1, model: "gpt-4" },
+      },
     };
 
     const tracingConfig = { enabled: true, contentRecording: false };
@@ -149,6 +150,9 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       return fakeAgent as any;
     });
 
-    assert.isDefined(capturedActiveSpanId, "there should be an active span inside the async operation");
+    assert.isDefined(
+      capturedActiveSpanId,
+      "there should be an active span inside the async operation",
+    );
   });
 });
