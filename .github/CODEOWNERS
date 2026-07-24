@@ -902,7 +902,7 @@
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/search/arm-search/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

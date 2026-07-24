@@ -8,9 +8,7 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams e
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends OperationOptions {}
