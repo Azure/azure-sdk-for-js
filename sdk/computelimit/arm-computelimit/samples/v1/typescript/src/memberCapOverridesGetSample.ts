@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the cap override configured for a single member subscription.
  *
  * @summary gets the cap override configured for a single member subscription.
- * x-ms-original-file: 2026-07-01/MemberCapOverrides_Get.json
+ * x-ms-original-file: 2026-07-31/MemberCapOverrides_Get.json
  */
 async function getASingleMemberCapOverride(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to enables a compute limit feature for the subscription at the specified location. Requires the Contributor role.
  *
  * @summary enables a compute limit feature for the subscription at the specified location. Requires the Contributor role.
- * x-ms-original-file: 2026-07-01/Features_Enable.json
+ * x-ms-original-file: 2026-07-31/Features_Enable.json
  */
 async function enableFeature() {
   const credential = new DefaultAzureCredential();

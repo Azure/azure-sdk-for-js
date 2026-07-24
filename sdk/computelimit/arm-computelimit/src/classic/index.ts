@@ -7,4 +7,5 @@ export type { MemberCapOverridesOperations } from "./memberCapOverrides/index.js
 export type { OperationsOperations } from "./operations/index.js";
 export type { SharedLimitCapsOperations } from "./sharedLimitCaps/index.js";
 export type { SharedLimitsOperations } from "./sharedLimits/index.js";
+export type { TrustedHostSubscriptionsOperations } from "./trustedHostSubscriptions/index.js";
 export type { VmFamiliesOperations } from "./vmFamilies/index.js";
