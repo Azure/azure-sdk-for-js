@@ -3,7 +3,6 @@
 
 import path from "node:path";
 import readline from "node:readline";
-import { spawnSync } from "@azure/core-process";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import type { MigrationTemplate } from "../../templates/migration.ts";
 import migrationTemplate from "../../templates/migration.ts";
@@ -33,11 +32,6 @@ export const commandInfo = makeCommandInfo("create-migration", "scaffolds a new 
     kind: "string",
     description: "A URL to more information about the migration",
     shortName: "u",
-  },
-  open: {
-    kind: "boolean",
-    description: "Open the migration in VS Code after creation",
-    default: false,
   },
 });
 
@@ -147,46 +141,6 @@ export default leafCommand(commandInfo, async (options) => {
   await writeFile(migrationFile, formattedResult);
 
   log.success(`Migration '${id}' created successfully!`);
-
-  // If the command was created within a VS Code terminal, offer to open the file in the editor.
-
-  if (process.env.TERM_PROGRAM === "vscode") {
-    let open = options.open
-      ? "y"
-      : (await prompt("Open migration in editor? (Y/n): ")).toLowerCase();
-
-    while (open !== "y" && open !== "n" && open !== "") {
-      open = await prompt("Unrecognized input. Open migration in editor (Y/n): ");
-    }
-
-    if (open === "y" || open === "") {
-      const commands = ["code", "code-insiders"];
-      for (const command of commands) {
-        try {
-          const { status } = spawnSync(command, [migrationFile], {
-            allowWindowsBatchFiles: true,
-          });
-
-          if (status === 0) {
-            log.info(`Migration opened in '${command}'.`);
-            return true;
-          } else {
-            continue;
-          }
-        } catch {
-          continue;
-        }
-      }
-
-      log.warn(
-        `Failed to open migration using one of the following commands: ${commands.join(", ")}`,
-      );
-    }
-  } else if (options.open) {
-    log.warn(
-      "Cannot detect VS Code. Skipping opening migration even though '--open' was specified.",
-    );
-  }
 
   return true;
 });
