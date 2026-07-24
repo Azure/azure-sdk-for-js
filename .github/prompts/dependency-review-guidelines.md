@@ -44,7 +44,9 @@ referenced in two ways for **stable** published runtime dependencies —
 > explicit caret range.
 
 > **Peer dependencies:** this relaxed `workspace:^` / caret acceptance
-> applies only to regular `dependencies` (and `devDependencies`).
+> applies only to regular runtime `dependencies`. `devDependencies`
+> continue to follow the existing rules (internal dev tools & test utils
+> use `workspace:^`; other dev deps use `catalog:` or `^`), and
 > `peerDependencies` are unaffected and must continue to use the `>=`
 > compatibility-window range (see the version-range table below).
 

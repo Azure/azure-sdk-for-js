@@ -23,9 +23,11 @@ When reviewing dependency changes, check for:
    depending on **beta**
    `@azure/*` packages must use an **exact pin** (e.g., `1.0.0-beta.1`),
    not `workspace:^` or a caret range. This relaxed `workspace:^`/caret
-   acceptance applies only to regular `dependencies` (and
-   `devDependencies`); `peerDependencies` are unaffected and must
-   continue to use the `>=` compatibility-window range.
+   acceptance applies only to regular runtime `dependencies`;
+   `devDependencies` continue to follow the existing rules (internal dev
+   tools & test utils use `workspace:^`; other dev deps use `catalog:` or
+   `^`), and `peerDependencies` are unaffected and must continue to use
+   the `>=` compatibility-window range.
 2. **Catalog usage** — use `catalog:` references when entries exist in
    `pnpm-workspace.yaml` (default, arm, internal, testing catalogs)
 3. **Version ranges** — `^` or `workspace:^` for **stable** runtime deps
