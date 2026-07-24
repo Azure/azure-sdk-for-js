@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "26.0.0",
+  "version": "25.4.0",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=22.0.0"

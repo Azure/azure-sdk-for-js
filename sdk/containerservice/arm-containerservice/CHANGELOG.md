@@ -1,6 +1,6 @@
 # Release History
 
-## 26.0.0 (2026-07-23)
+## 25.4.0 (2026-07-23)
 
 ### Features Added
   - Added Interface AutoScaleProfile
@@ -15,9 +15,6 @@
   - Added Type Alias SchedulerConfigMode
   - Added Enum KnownSchedulerConfigMode
   - Enum KnownVersions has a new value V20260501
-
-### Breaking Changes
-  - Operation ManagedClustersOperations.getCommandResult has a new signature
 
 ## 25.4.0-beta.1 (2026-06-09)
 Compared with version 25.3.0

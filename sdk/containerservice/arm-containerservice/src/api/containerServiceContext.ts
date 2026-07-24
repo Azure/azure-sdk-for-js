@@ -36,7 +36,7 @@ export function createContainerService(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-containerservice/26.0.0`;
+  const userAgentInfo = `azsdk-js-arm-containerservice/25.4.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
