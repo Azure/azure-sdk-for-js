@@ -124,7 +124,15 @@ export default createRule<Options, MessageIds>({
       },
 
       ExportNamedDeclaration(node: TSESTree.ExportNamedDeclaration): void {
-        if (node.source && isChildProcessModule(node.source) && node.exportKind !== "type") {
+        const hasOnlyTypeSpecifiers =
+          node.specifiers.length > 0 &&
+          node.specifiers.every((specifier) => specifier.exportKind === "type");
+        if (
+          node.source &&
+          isChildProcessModule(node.source) &&
+          node.exportKind !== "type" &&
+          !hasOnlyTypeSpecifiers
+        ) {
           report(node);
         }
       },

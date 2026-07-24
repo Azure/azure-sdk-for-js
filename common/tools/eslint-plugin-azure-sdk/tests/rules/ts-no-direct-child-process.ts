@@ -25,6 +25,10 @@ ruleTester.run("ts-no-direct-child-process", rule, {
       filename: "src/client.ts",
     },
     {
+      code: `export { type ChildProcess } from "node:child_process";`,
+      filename: "src/client.ts",
+    },
+    {
       code: `import { spawn } from "@azure/core-process";`,
       filename: "src/client.ts",
     },
@@ -56,6 +60,11 @@ ruleTester.run("ts-no-direct-child-process", rule, {
     },
     {
       code: `export { spawn } from "node:child_process";`,
+      filename: "src/client.ts",
+      errors: [{ messageId: "useCoreProcess" }],
+    },
+    {
+      code: `export { type ChildProcess, spawn } from "node:child_process";`,
       filename: "src/client.ts",
       errors: [{ messageId: "useCoreProcess" }],
     },
