@@ -184,9 +184,6 @@ importers:
       tar:
         specifier: ^7.4.3
         version: 7.5.20
-      ts-morph:
-        specifier: ^27.0.0
-        version: 27.0.2
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -37617,9 +37614,6 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha1-p5tV26+GBIEvUtFAssmrQbwVC7g=}
 
-  '@ts-morph/common@0.28.1':
-    resolution: {integrity: sha1-EOxSGC1cMQgytmmvd4SjT8PaPKE=}
-
   '@turbo/darwin-64@2.10.5':
     resolution: {integrity: sha1-u/V23ThArwmq2F/OlO0WARuXaOc=}
     cpu: [x64]
@@ -38394,9 +38388,6 @@ packages:
   cliui@8.0.1:
     resolution: {integrity: sha1-DASwddsCy/5g3I5s8vVIaxo2CKo=}
     engines: {node: '>=12'}
-
-  code-block-writer@13.0.3:
-    resolution: {integrity: sha1-kPioR2OlAS2nr2ExndY4ZVrpC1s=}
 
   color-convert@2.0.1:
     resolution: {integrity: sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM=}
@@ -40455,9 +40446,6 @@ packages:
     resolution: {integrity: sha1-naGee+6NEt/wUT7Vt2lXeTvC6NQ=}
     engines: {node: '>= 0.8'}
 
-  path-browserify@1.0.1:
-    resolution: {integrity: sha1-2YRUqcN1PVeQhg8W9ohnueRr4f0=}
-
   path-exists@4.0.0:
     resolution: {integrity: sha1-UTvb4tO5XXdi6METfvoZXGxhtbM=}
     engines: {node: '>=8'}
@@ -41370,9 +41358,6 @@ packages:
     resolution: {integrity: sha1-1AaP6ZdYKLO0U7OrEStHEdgmdog=}
     peerDependencies:
       typescript: '>=4.0.0'
-
-  ts-morph@27.0.2:
-    resolution: {integrity: sha1-ey/M5oIu7KOUL6bGAfFZ1ZILFCI=}
 
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha1-UpnsYF5VsauyPsk57xXtr0gwcNQ=}
@@ -44384,12 +44369,6 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@ts-morph/common@0.28.1':
-    dependencies:
-      minimatch: 10.2.5
-      path-browserify: 1.0.1
-      tinyglobby: 0.2.17
-
   '@turbo/darwin-64@2.10.5':
     optional: true
 
@@ -45326,8 +45305,6 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
-
-  code-block-writer@13.0.3: {}
 
   color-convert@2.0.1:
     dependencies:
@@ -47699,8 +47676,6 @@ snapshots:
 
   parseurl@1.3.3: {}
 
-  path-browserify@1.0.1: {}
-
   path-exists@4.0.0: {}
 
   path-exists@5.0.0: {}
@@ -48739,11 +48714,6 @@ snapshots:
     dependencies:
       picomatch: 4.0.5
       typescript: 6.0.3
-
-  ts-morph@27.0.2:
-    dependencies:
-      '@ts-morph/common': 0.28.1
-      code-block-writer: 13.0.3
 
   tsconfig-paths@3.15.0:
     dependencies:
