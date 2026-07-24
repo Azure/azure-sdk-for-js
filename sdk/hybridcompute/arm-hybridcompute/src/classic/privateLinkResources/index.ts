@@ -26,7 +26,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesGetOptionalParams,
   ) => Promise<PrivateLinkResource>;
 }
-
 function _getPrivateLinkResources(context: HybridComputeManagementContext) {
   return {
     listByPrivateLinkScope: (
@@ -42,7 +41,6 @@ function _getPrivateLinkResources(context: HybridComputeManagementContext) {
     ) => get(context, resourceGroupName, scopeName, groupName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: HybridComputeManagementContext,
 ): PrivateLinkResourcesOperations {

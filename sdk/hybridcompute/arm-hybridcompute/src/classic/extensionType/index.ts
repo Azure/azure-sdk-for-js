@@ -16,14 +16,12 @@ export interface ExtensionTypeOperations {
     options?: ExtensionTypeListOptionalParams,
   ) => PagedAsyncIterableIterator<ExtensionType>;
 }
-
 function _getExtensionType(context: HybridComputeManagementContext) {
   return {
     list: (location: string, publisher: string, options?: ExtensionTypeListOptionalParams) =>
       list(context, location, publisher, options),
   };
 }
-
 export function _getExtensionTypeOperations(
   context: HybridComputeManagementContext,
 ): ExtensionTypeOperations {

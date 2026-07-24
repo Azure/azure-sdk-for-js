@@ -25,7 +25,7 @@ export function _listSend(
     {
       location: location,
       publisher: publisher,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,6 @@ export async function _listDeserialize(
 
   return _extensionTypeListResultDeserializer(result.body);
 }
-
 /** Gets all Extension types based on location and publisher */
 export function list(
   context: Client,
@@ -65,10 +64,6 @@ export function list(
     () => _listSend(context, location, publisher, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }

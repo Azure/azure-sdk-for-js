@@ -97,7 +97,6 @@ export interface LicenseProfilesOperations {
     options?: LicenseProfilesGetOptionalParams,
   ) => Promise<LicenseProfile>;
 }
-
 function _getLicenseProfiles(context: HybridComputeManagementContext) {
   return {
     list: (
@@ -181,7 +180,6 @@ function _getLicenseProfiles(context: HybridComputeManagementContext) {
     ) => get(context, resourceGroupName, machineName, options),
   };
 }
-
 export function _getLicenseProfilesOperations(
   context: HybridComputeManagementContext,
 ): LicenseProfilesOperations {
