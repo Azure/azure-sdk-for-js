@@ -24,7 +24,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +51,6 @@ export async function _listDeserialize(
 
   return privateLinkResourcesListResultDeserializer(result.body);
 }
-
 /** To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters */
 export async function list(
   context: Client,
