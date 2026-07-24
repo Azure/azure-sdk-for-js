@@ -143,8 +143,8 @@ export async function generateMgmt(options: {
       }
       let changelog: ChangelogResult | undefined;
       await ensurePnpmInstalled();
-      logger.info(`Start to run command: 'pnpm install'.`);
-      execSync("pnpm install", { stdio: "inherit" });
+      logger.info(`Start to run command: 'pnpm install --no-frozen-lockfile'.`);
+      execSync("pnpm install --no-frozen-lockfile", { stdio: "inherit" });
 
       if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
         await lintFix(packagePath);
