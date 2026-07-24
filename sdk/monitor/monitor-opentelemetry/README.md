@@ -111,6 +111,8 @@ const options: AzureMonitorOpenTelemetryOptions = {
     // Instrumentations generating logs
     bunyan: { enabled: true },
     winston: { enabled: true },
+    // Console log collection is opt-in (disabled by default)
+    console: { enabled: false },
   },
   enableLiveMetrics: true,
   enableStandardMetrics: true,
@@ -161,7 +163,8 @@ useAzureMonitor(options);
   redis: { enabled: true },
   redis4: { enabled: true },
   bunyan: { enabled: false }, 
-  winston: { enabled: false } 
+  winston: { enabled: false }, 
+  console: { enabled: false } 
 }
       </code></pre>
     </td>
@@ -272,6 +275,8 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 - [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-bunyan)
 
 - [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-winston)
+
+- [Console](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-console) (disabled by default; enable with `instrumentationOptions: { console: { enabled: true } }`)
 
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 

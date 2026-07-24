@@ -63,6 +63,8 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
+  /** Console Instrumentation Config */
+  console?: InstrumentationConfig;
 }
 
 /**
@@ -110,6 +112,7 @@ export interface StatsbeatInstrumentations {
   redis?: boolean;
   bunyan?: boolean;
   winston?: boolean;
+  console?: boolean;
   /** OpenTelemetry Community Instrumentations */
   amqplib?: boolean;
   cucumber?: boolean;
@@ -223,8 +226,8 @@ export enum StatsbeatInstrumentation {
   POSTGRES = 16,
   BUNYAN = 32,
   WINSTON = 64,
+  CONSOLE = 128,
   /** OpenTelemetry Supported Instrumentations */
-  // Console instrumentation is not supported here - occupies 128
   CUCUMBER = 256,
   DATALOADER = 512,
   FS = 1024,
@@ -260,6 +263,7 @@ export enum StatsbeatInstrumentation {
  * @internal
  */
 export const StatsbeatInstrumentationMap = new Map<string, number>([
+  ["@opentelemetry/instrumentation-console", StatsbeatInstrumentation.CONSOLE],
   ["@opentelemetry/instrumentation-amqplib", StatsbeatInstrumentation.AMQPLIB],
   ["@opentelemetry/instrumentation-cucumber", StatsbeatInstrumentation.CUCUMBER],
   ["@opentelemetry/instrumentation-dataloader", StatsbeatInstrumentation.DATALOADER],
