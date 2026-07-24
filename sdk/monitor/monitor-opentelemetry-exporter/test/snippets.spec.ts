@@ -65,9 +65,10 @@ describe("snippets", () => {
       connectionString: "<connection string>",
     });
     // @ts-preserve-whitespace
-    const logRecordProcessor = new BatchLogRecordProcessor(exporter);
-    const loggerProvider = new LoggerProvider();
-    loggerProvider.addLogRecordProcessor(logRecordProcessor);
+    const logRecordProcessor = new BatchLogRecordProcessor({ exporter });
+    const loggerProvider = new LoggerProvider({
+      processors: [logRecordProcessor],
+    });
     // @ts-preserve-whitespace
     // Register logger Provider as global
     logs.setGlobalLoggerProvider(loggerProvider);
