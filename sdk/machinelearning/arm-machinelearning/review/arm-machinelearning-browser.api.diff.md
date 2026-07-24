@@ -47,7 +47,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyVaultProperties {
      identityClientId?: string;
-@@ -7247,9 +7249,9 @@
+@@ -7249,9 +7251,9 @@
  export type ReferenceType = string;
  
  // @public

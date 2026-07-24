@@ -9,7 +9,6 @@ export interface DatastoresListSecretsOptionalParams extends OperationOptions {
   /** Secret expiry information. */
   body?: SecretExpiry;
 }
-
 /** Optional parameters. */
 export interface DatastoresListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
@@ -27,15 +26,12 @@ export interface DatastoresListOptionalParams extends OperationOptions {
   /** Order by property in ascending order. */
   orderByAsc?: boolean;
 }
-
 /** Optional parameters. */
 export interface DatastoresDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DatastoresCreateOrUpdateOptionalParams extends OperationOptions {
   /** Flag to skip validation. */
   skipValidation?: boolean;
 }
-
 /** Optional parameters. */
 export interface DatastoresGetOptionalParams extends OperationOptions {}

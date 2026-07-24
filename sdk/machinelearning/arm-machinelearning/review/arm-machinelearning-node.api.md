@@ -5475,7 +5475,9 @@ export enum KnownVersions {
     V20251201 = "2025-12-01",
     V20260115Preview = "2026-01-15-preview",
     V20260301 = "2026-03-01",
-    V20260315Preview = "2026-03-15-preview"
+    V20260315Preview = "2026-03-15-preview",
+    V20260501 = "2026-05-01",
+    V20260515Preview = "2026-05-15-preview"
 }
 
 // @public

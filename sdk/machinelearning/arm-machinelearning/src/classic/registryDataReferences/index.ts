@@ -21,7 +21,6 @@ export interface RegistryDataReferencesOperations {
     options?: RegistryDataReferencesGetBlobReferenceSASOptionalParams,
   ) => Promise<GetBlobReferenceSASResponseDto>;
 }
-
 function _getRegistryDataReferences(context: AzureMachineLearningServicesManagementContext) {
   return {
     getBlobReferenceSAS: (
@@ -35,7 +34,6 @@ function _getRegistryDataReferences(context: AzureMachineLearningServicesManagem
       getBlobReferenceSAS(context, resourceGroupName, registryName, name, version, body, options),
   };
 }
-
 export function _getRegistryDataReferencesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryDataReferencesOperations {

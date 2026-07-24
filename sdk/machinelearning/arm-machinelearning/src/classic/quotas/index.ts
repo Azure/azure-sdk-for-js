@@ -28,7 +28,6 @@ export interface QuotasOperations {
     options?: QuotasUpdateOptionalParams,
   ) => Promise<UpdateWorkspaceQuotasResult>;
 }
-
 function _getQuotas(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (location: string, options?: QuotasListOptionalParams) =>
@@ -40,7 +39,6 @@ function _getQuotas(context: AzureMachineLearningServicesManagementContext) {
     ) => update(context, location, parameters, options),
   };
 }
-
 export function _getQuotasOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): QuotasOperations {

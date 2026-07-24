@@ -37,7 +37,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _outboundRuleListResultDeserializer(result.body);
 }
-
 /** The GET API for retrieveing the list of outbound rules of the managed network associated with the machine learning workspace. */
 export function list(
   context: Client,
@@ -81,7 +80,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -102,7 +101,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The DELETE API for deleting a single outbound rule of the managed network associated with the machine learning workspace. */
 export function $delete(
   context: Client,
@@ -147,7 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -168,7 +166,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +195,6 @@ export async function _createOrUpdateDeserialize(
 
   return outboundRuleBasicResourceDeserializer(result.body);
 }
-
 /** Create a OutboundRuleBasicResource */
 export function createOrUpdate(
   context: Client,
@@ -222,7 +219,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<OutboundRuleBasicResource>, OutboundRuleBasicResource>;
 }
 
@@ -242,7 +239,7 @@ export function _getSend(
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +266,6 @@ export async function _getDeserialize(
 
   return outboundRuleBasicResourceDeserializer(result.body);
 }
-
 /** The GET API for retrieveing a single outbound rule of the managed network associated with the machine learning workspace. */
 export async function get(
   context: Client,

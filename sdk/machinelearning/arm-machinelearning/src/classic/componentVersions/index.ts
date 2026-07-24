@@ -84,7 +84,6 @@ export interface ComponentVersionsOperations {
     options?: ComponentVersionsGetOptionalParams,
   ) => Promise<ComponentVersion>;
 }
-
 function _getComponentVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     publish: (
@@ -155,7 +154,6 @@ function _getComponentVersions(context: AzureMachineLearningServicesManagementCo
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getComponentVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ComponentVersionsOperations {

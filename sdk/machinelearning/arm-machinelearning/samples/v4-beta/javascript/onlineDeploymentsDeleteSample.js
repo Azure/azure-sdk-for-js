@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Inference Endpoint Deployment (asynchronous).
  *
  * @summary delete Inference Endpoint Deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineDeployment/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineDeployment/delete.json
  */
 async function deleteWorkspaceOnlineDeployment() {
   const credential = new DefaultAzureCredential();

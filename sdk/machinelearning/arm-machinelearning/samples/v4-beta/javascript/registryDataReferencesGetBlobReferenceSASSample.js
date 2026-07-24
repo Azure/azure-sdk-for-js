@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get blob reference SAS Uri.
  *
  * @summary get blob reference SAS Uri.
- * x-ms-original-file: 2026-03-15-preview/DataReference/getBlobReferenceSAS.json
+ * x-ms-original-file: 2026-05-15-preview/DataReference/getBlobReferenceSAS.json
  */
 async function getBlobReferenceSASDataReference() {
   const credential = new DefaultAzureCredential();

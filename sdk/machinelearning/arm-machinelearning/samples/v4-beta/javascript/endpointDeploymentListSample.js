@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all the deployments under the endpoint resource scope
  *
  * @summary get all the deployments under the endpoint resource scope
- * x-ms-original-file: 2026-03-15-preview/Endpoint/Deployment/getDeployments.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/Deployment/getDeployments.json
  */
 async function getEndpointDeployments() {
   const credential = new DefaultAzureCredential();

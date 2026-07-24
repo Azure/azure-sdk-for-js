@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates the idle shutdown setting of a compute instance.
  *
  * @summary updates the idle shutdown setting of a compute instance.
- * x-ms-original-file: 2026-03-15-preview/Compute/updateIdleShutdownSetting.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/updateIdleShutdownSetting.json
  */
 async function updateIdleShutdownSettingOfComputeInstance() {
   const credential = new DefaultAzureCredential();

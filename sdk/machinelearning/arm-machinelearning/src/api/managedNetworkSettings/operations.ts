@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listDeserialize(
 
   return _managedNetworkListResultDeserializer(result.body);
 }
-
 /** List API for managed network settings of a machine learning workspace. */
 export function list(
   context: Client,
@@ -81,7 +80,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -100,7 +99,7 @@ export function _patchSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _patchDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Patch API for managed network settings of a machine learning workspace. */
 export function patch(
   context: Client,
@@ -149,7 +147,7 @@ export function patch(
     getInitialResponse: () =>
       _patchSend(context, resourceGroupName, workspaceName, managedNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -171,7 +169,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +198,6 @@ export async function _putDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** PUT API for managed network settings of a machine learning workspace. */
 export function put(
   context: Client,
@@ -219,7 +216,7 @@ export function put(
     getInitialResponse: () =>
       _putSend(context, resourceGroupName, workspaceName, managedNetworkName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -240,7 +237,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +264,6 @@ export async function _getDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Get API for managed network settings of a machine learning workspace. */
 export async function get(
   context: Client,

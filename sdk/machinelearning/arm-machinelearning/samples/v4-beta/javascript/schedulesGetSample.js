@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get schedule.
  *
  * @summary get schedule.
- * x-ms-original-file: 2026-03-15-preview/Schedule/get.json
+ * x-ms-original-file: 2026-05-15-preview/Schedule/get.json
  */
 async function getSchedule() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete datastore.
  *
  * @summary delete datastore.
- * x-ms-original-file: 2026-03-15-preview/Datastore/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/delete.json
  */
 async function deleteDatastore(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -13,12 +13,9 @@ export interface ModelContainersListOptionalParams extends OperationOptions {
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface ModelContainersDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ModelContainersCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ModelContainersGetOptionalParams extends OperationOptions {}

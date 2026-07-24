@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to prepare Azure Machine Learning Workspace's notebook resource
  *
  * @summary prepare Azure Machine Learning Workspace's notebook resource
- * x-ms-original-file: 2026-03-15-preview/Notebook/prepare.json
+ * x-ms-original-file: 2026-05-15-preview/Notebook/prepare.json
  */
 async function prepareNotebook(): Promise<void> {
   const credential = new DefaultAzureCredential();

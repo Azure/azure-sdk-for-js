@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to publish version asset into registry.
  *
  * @summary publish version asset into registry.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ComponentVersion/publish.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ComponentVersion/publish.json
  */
 async function publishWorkspaceComponentVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

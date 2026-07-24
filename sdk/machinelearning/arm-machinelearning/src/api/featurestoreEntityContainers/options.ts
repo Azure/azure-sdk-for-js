@@ -21,18 +21,15 @@ export interface FeaturestoreEntityContainersListOptionalParams extends Operatio
   /** createdBy user name */
   createdBy?: string;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityContainersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityContainersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturestoreEntityContainersGetEntityOptionalParams extends OperationOptions {}

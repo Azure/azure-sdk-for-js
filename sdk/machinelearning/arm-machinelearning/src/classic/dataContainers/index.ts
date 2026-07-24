@@ -43,7 +43,6 @@ export interface DataContainersOperations {
     options?: DataContainersGetOptionalParams,
   ) => Promise<DataContainer>;
 }
-
 function _getDataContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -72,7 +71,6 @@ function _getDataContainers(context: AzureMachineLearningServicesManagementConte
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getDataContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): DataContainersOperations {

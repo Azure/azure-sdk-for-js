@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the deployments under the workspace scope.
  *
  * @summary get all the deployments under the workspace scope.
- * x-ms-original-file: 2026-03-15-preview/Endpoint/Deployment/getInWorkspace.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/Deployment/getInWorkspace.json
  */
 async function getEndpointDeploymentsInWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

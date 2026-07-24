@@ -12,18 +12,15 @@ export interface RegistryComponentVersionsListOptionalParams extends OperationOp
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface RegistryComponentVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryComponentVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryComponentVersionsGetOptionalParams extends OperationOptions {}

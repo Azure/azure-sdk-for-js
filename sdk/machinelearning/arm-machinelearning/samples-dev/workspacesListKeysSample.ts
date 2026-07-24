@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry.
  *
  * @summary lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry.
- * x-ms-original-file: 2026-03-15-preview/Workspace/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/listKeys.json
  */
 async function listWorkspaceKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get available models under the endpoint resource.
  *
  * @summary get available models under the endpoint resource.
- * x-ms-original-file: 2026-03-15-preview/Endpoint/getModels.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/getModels.json
  */
 async function getEndpointModels() {
   const credential = new DefaultAzureCredential();

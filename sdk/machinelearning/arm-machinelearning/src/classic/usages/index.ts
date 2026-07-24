@@ -12,14 +12,12 @@ export interface UsagesOperations {
   /** Gets the current usage information as well as limits for AML resources for given subscription and location. */
   list: (location: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<Usage>;
 }
-
 function _getUsages(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (location: string, options?: UsagesListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getUsagesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): UsagesOperations {

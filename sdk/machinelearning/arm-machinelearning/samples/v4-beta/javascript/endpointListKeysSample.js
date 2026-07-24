@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list keys for the endpoint resource.
  *
  * @summary list keys for the endpoint resource.
- * x-ms-original-file: 2026-03-15-preview/Endpoint/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/listKeys.json
  */
 async function listEndpointKeys() {
   const credential = new DefaultAzureCredential();

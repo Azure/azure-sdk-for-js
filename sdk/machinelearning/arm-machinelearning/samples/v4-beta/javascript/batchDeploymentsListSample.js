@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists Batch inference deployments in the workspace.
  *
  * @summary lists Batch inference deployments in the workspace.
- * x-ms-original-file: 2026-03-15-preview/Workspace/BatchDeployment/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/BatchDeployment/list.json
  */
 async function listWorkspaceBatchDeployment() {
   const credential = new DefaultAzureCredential();

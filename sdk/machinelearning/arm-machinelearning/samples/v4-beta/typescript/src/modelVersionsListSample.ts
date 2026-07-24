@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list model versions.
  *
  * @summary list model versions.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ModelVersion/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ModelVersion/list.json
  */
 async function listWorkspaceModelVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

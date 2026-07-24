@@ -45,7 +45,7 @@ export function _listDeploymentsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -75,7 +75,6 @@ export async function _listDeploymentsDeserialize(
     result.body,
   );
 }
-
 /** Get all the deployments under the Azure OpenAI connection. */
 export function listDeployments(
   context: Client,
@@ -92,7 +91,7 @@ export function listDeployments(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -113,7 +112,7 @@ export function _deleteDeploymentSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -136,7 +135,6 @@ export async function _deleteDeploymentDeserialize(result: PathUncheckedResponse
 
   return;
 }
-
 /** Delete Azure OpenAI connection deployment resource by name */
 export function deleteDeployment(
   context: Client,
@@ -159,7 +157,7 @@ export function deleteDeployment(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -180,7 +178,7 @@ export function _createOrUpdateDeploymentSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -210,7 +208,6 @@ export async function _createOrUpdateDeploymentDeserialize(
 
   return endpointDeploymentResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Create or update Azure OpenAI connection deployment resource with the specified parameters */
 export function createOrUpdateDeployment(
   context: Client,
@@ -242,7 +239,7 @@ export function createOrUpdateDeployment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   ) as PollerLike<
     OperationState<EndpointDeploymentResourcePropertiesBasicResource>,
@@ -266,7 +263,7 @@ export function _getDeploymentSend(
       workspaceName: workspaceName,
       connectionName: connectionName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -293,7 +290,6 @@ export async function _getDeploymentDeserialize(
 
   return endpointDeploymentResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Get deployments under the Azure OpenAI connection by name. */
 export async function getDeployment(
   context: Client,
@@ -328,7 +324,7 @@ export function _getModelsSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -356,7 +352,6 @@ export async function _getModelsDeserialize(
 
   return endpointModelsDeserializer(result.body);
 }
-
 /** Get available models under the Azure OpenAI connection. */
 export function getModels(
   context: Client,
@@ -373,7 +368,7 @@ export function getModels(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -390,7 +385,7 @@ export function _getAllModelsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,7 +412,6 @@ export async function _getAllModelsDeserialize(
 
   return endpointModelsDeserializer(result.body);
 }
-
 /** Get models under the Azure ML workspace for all Azure OpenAI connections that the user can deploy. */
 export async function getAllModels(
   context: Client,

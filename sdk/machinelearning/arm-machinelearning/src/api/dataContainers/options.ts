@@ -11,12 +11,9 @@ export interface DataContainersListOptionalParams extends OperationOptions {
   /** View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface DataContainersDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DataContainersCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface DataContainersGetOptionalParams extends OperationOptions {}

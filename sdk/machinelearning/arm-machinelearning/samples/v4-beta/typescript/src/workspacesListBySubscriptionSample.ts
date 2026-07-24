@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the available machine learning workspaces under the specified subscription.
  *
  * @summary lists all the available machine learning workspaces under the specified subscription.
- * x-ms-original-file: 2026-03-15-preview/Workspace/listBySubscription.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/listBySubscription.json
  */
 async function getWorkspacesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
