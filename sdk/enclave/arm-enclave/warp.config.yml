@@ -1,0 +1,30 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/approval": "./src/api/approval/index.ts"
+  "./api/dedicatedHub": "./src/api/dedicatedHub/index.ts"
+  "./api/communityEndpoints": "./src/api/communityEndpoints/index.ts"
+  "./api/enclaveEndpoints": "./src/api/enclaveEndpoints/index.ts"
+  "./api/enclaveConnection": "./src/api/enclaveConnection/index.ts"
+  "./api/transitHub": "./src/api/transitHub/index.ts"
+  "./api/community": "./src/api/community/index.ts"
+  "./api/virtualEnclave": "./src/api/virtualEnclave/index.ts"
+  "./api/workload": "./src/api/workload/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

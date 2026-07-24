@@ -289,6 +289,7 @@ export interface FirmwareProfile {
 // @public
 export interface Gateway extends TrackedResource {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
     readonly gatewayEndpoint?: string;
     readonly gatewayId?: string;
     gatewayType?: GatewayType;
@@ -298,6 +299,7 @@ export interface Gateway extends TrackedResource {
 // @public
 export interface GatewayProperties {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
     readonly gatewayEndpoint?: string;
     readonly gatewayId?: string;
     gatewayType?: GatewayType;
@@ -354,11 +356,13 @@ export type GatewayType = string;
 // @public
 export interface GatewayUpdate extends ResourceUpdate {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
 }
 
 // @public
 export interface GatewayUpdateProperties {
     allowedFeatures?: string[];
+    gatewayBypass?: string[];
 }
 
 // @public
@@ -423,13 +427,6 @@ export interface HybridComputePrivateLinkScopeProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccessType;
     serviceExtensions?: ServiceExtension[];
-}
-
-// @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: ResourceIdentityType;
 }
 
 // @public
@@ -612,12 +609,26 @@ export enum KnownLicenseStatus {
 // @public
 export enum KnownLicenseTarget {
     WindowsServer2012 = "Windows Server 2012",
-    WindowsServer2012R2 = "Windows Server 2012 R2"
+    WindowsServer2012R2 = "Windows Server 2012 R2",
+    WindowsServer2016 = "Windows Server 2016"
 }
 
 // @public
 export enum KnownLicenseType {
     ESU = "ESU"
+}
+
+// @public
+export enum KnownMachineStatusReason {
+    Cloned = "Cloned"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -722,7 +733,10 @@ export enum KnownStatusTypes {
 
 // @public
 export enum KnownVersions {
-    V20250916Preview = "2025-09-16-preview"
+    V20250916Preview = "2025-09-16-preview",
+    V20260212Preview = "2026-02-12-preview",
+    V20260604Preview = "2026-06-04-preview",
+    V20260616Preview = "2026-06-16-preview"
 }
 
 // @public
@@ -1096,7 +1110,7 @@ export interface Machine extends TrackedResource {
     readonly firmwareProfile?: FirmwareProfile;
     readonly hardwareProfile?: HardwareProfile;
     hardwareResourceId?: string;
-    identity?: Identity;
+    identity?: ManagedServiceIdentity;
     identityKeyStore?: IdentityKeyStore;
     kind?: ArcKindEnum;
     readonly lastStatusChange?: Date;
@@ -1117,6 +1131,7 @@ export interface Machine extends TrackedResource {
     readonly resources?: MachineExtension[];
     serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
+    readonly statusReason?: MachineStatusReason;
     readonly storageProfile?: StorageProfile;
     tpmEkCertificate?: string;
     vmId?: string;
@@ -1309,6 +1324,7 @@ export interface MachineProperties {
     readonly provisioningState?: string;
     serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
+    readonly statusReason?: MachineStatusReason;
     readonly storageProfile?: StorageProfile;
     tpmEkCertificate?: string;
     vmId?: string;
@@ -1463,6 +1479,9 @@ export interface MachinesOperations {
 }
 
 // @public
+export type MachineStatusReason = string;
+
+// @public
 export interface MachinesUpdateOptionalParams extends OperationOptions {
 }
 
@@ -1470,7 +1489,7 @@ export interface MachinesUpdateOptionalParams extends OperationOptions {
 export interface MachineUpdate extends ResourceUpdate {
     agentUpgrade?: AgentUpgrade;
     cloudMetadata?: CloudMetadata;
-    identity?: Identity;
+    identity?: ManagedServiceIdentity;
     identityKeyStore?: string;
     kind?: ArcKindEnum;
     locationData?: LocationData;
@@ -1491,6 +1510,17 @@ export interface MachineUpdateProperties {
     privateLinkScopeResourceId?: string;
     tpmEkCertificate?: string;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NetworkInterface {
@@ -1898,9 +1928,6 @@ export interface ResourceAssociation {
 }
 
 // @public
-export type ResourceIdentityType = "SystemAssigned";
-
-// @public
 export interface ResourceUpdate {
     tags?: Record<string, string>;
 }
@@ -2061,6 +2088,12 @@ export interface TrackedResource extends Resource {
 // @public
 export interface UpgradeExtensionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

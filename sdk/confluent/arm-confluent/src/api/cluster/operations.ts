@@ -4,10 +4,10 @@
 import type { ConfluentManagementContext as Client } from "../index.js";
 import type { SCClusterRecord } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
   scClusterRecordSerializer,
   scClusterRecordDeserializer,
-  errorResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -35,7 +35,7 @@ export function _$deleteSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,20 +48,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete confluent cluster by id */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -76,7 +72,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, organizationName, environmentId, clusterId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-18-preview",
+    apiVersion: context.apiVersion ?? "2026-06-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -96,7 +92,7 @@ export function _createOrUpdateSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +102,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"] ? options["body"] : scClusterRecordSerializer(options["body"]),
+    body: !options?.body ? options?.body : scClusterRecordSerializer(options?.body),
   });
 }
 
@@ -116,14 +112,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return scClusterRecordDeserializer(result.body);
 }
-
 /** Create confluent clusters */
 export async function createOrUpdate(
   context: Client,

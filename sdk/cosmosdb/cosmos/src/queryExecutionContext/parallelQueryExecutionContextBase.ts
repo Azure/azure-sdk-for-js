@@ -625,14 +625,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
-    // Download the new routing map
-    this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     // Get the queryRange that relates to this partitionKeyRange
     const queryRange = QueryRange.parsePartitionKeyRange(partitionKeyRange);
+    // Force refresh the routing map so the split partition's replacement ranges are downloaded.
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
       diagnosticNode,
+      true,
     );
   }
 

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about the view of a gateway.
  *
  * @summary retrieves information about the view of a gateway.
- * x-ms-original-file: 2025-09-16-preview/gateway/Gateway_Get.json
+ * x-ms-original-file: 2026-06-16-preview/gateway/Gateway_Get.json
  */
 async function getGateway() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update a gateway.
  *
  * @summary the operation to update a gateway.
- * x-ms-original-file: 2025-09-16-preview/gateway/Gateway_Update.json
+ * x-ms-original-file: 2026-06-16-preview/gateway/Gateway_Update.json
  */
 async function updateAGateway() {
   const credential = new DefaultAzureCredential();
@@ -16,6 +16,7 @@ async function updateAGateway() {
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const result = await client.gateways.update("myResourceGroup", "{gatewayName}", {
     allowedFeatures: ["*"],
+    gatewayBypass: ["contoso.com", "internal.corp.net"],
   });
   console.log(result);
 }

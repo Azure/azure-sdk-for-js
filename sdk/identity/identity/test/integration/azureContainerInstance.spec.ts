@@ -24,4 +24,22 @@ describe("Azure Container Instance Integration test", function () {
       `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
     );
   });
+
+  it.skipIf(!isLiveMode())("can authenticate using DefaultAzureCredential", async function (ctx) {
+    const containerIp = requireEnvVar("IDENTITY_ACI_IP");
+
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: `http://${containerIp}/default-azure-credential/user-assigned`,
+      method: "GET",
+    });
+    request.allowInsecureConnection = true;
+    const response = await client.sendRequest(request);
+
+    assert.strictEqual(
+      response.status,
+      200,
+      `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
+    );
+  });
 });
