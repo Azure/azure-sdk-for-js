@@ -30,8 +30,9 @@ When reviewing dependency changes, check for:
    the `>=` compatibility-window range.
 2. **Catalog usage** — use `catalog:` references when entries exist in
    `pnpm-workspace.yaml` (default, arm, internal, testing catalogs)
-3. **Version ranges** — `^` or `workspace:^` for **stable** runtime deps
-   (beta→beta `@azure/*` deps use an exact pin instead), `catalog:` or
+3. **Version ranges** — `^` for **stable** runtime deps (`workspace:^`
+   only for internal `@azure/*` monorepo packages; beta→beta `@azure/*`
+   deps use an exact pin instead), `catalog:` or
    `^` for dev, `workspace:^` for internal dev tools. No tilde, star, or
    git URLs, and no exact pins except the beta→beta exact-pin case noted
    above.

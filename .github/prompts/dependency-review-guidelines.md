@@ -116,7 +116,7 @@ The defined catalogs are:
 
 | Dependency type | Expected range |
 |----------------|---------------|
-| Published **stable** runtime dependencies | `^` (caret — allows minor/patch) or `workspace:^` |
+| Published **stable** runtime dependencies | `^` (caret — allows minor/patch); `workspace:^` only for internal `@azure/*` packages that exist in this monorepo |
 | **Beta** package → **beta** `@azure/*` dependency | exact pin (e.g., `1.0.0-beta.1`) — not `workspace:^`/caret |
 | Peer dependencies | `>=` range matching compatibility window |
 | Dev dependencies | `catalog:` reference or `^` |

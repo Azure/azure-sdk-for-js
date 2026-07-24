@@ -36,7 +36,7 @@ Hardcoded versions for cataloged deps are wrong:
 ## Version Range Conventions
 | Type | Range |
 |------|-------|
-| Published **stable** runtime deps | `^` (caret) or `workspace:^` |
+| Published **stable** runtime deps | `^` (caret); `workspace:^` only for internal `@azure/*` monorepo packages |
 | **Beta** → **beta** `@azure/*` dep | exact pin (e.g., `1.0.0-beta.1`) — not `workspace:^`/caret |
 | Peer deps | `>=` compatibility window |
 | Dev deps | `catalog:` or `^` |
