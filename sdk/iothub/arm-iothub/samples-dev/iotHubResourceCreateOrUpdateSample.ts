@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
  *
  * @summary create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_IoTHub_With_DeviceRegistry.json
+ * x-ms-original-file: 2026-05-01-preview/CreateOrReplace_IoTHub_With_DeviceRegistry.json
  */
 async function createOrReplaceIoTHubWithDeviceRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,6 +58,7 @@ async function createOrReplaceIoTHubWithDeviceRegistry(): Promise<void> {
           serviceBusQueues: [],
           serviceBusTopics: [],
           storageContainers: [],
+          eventStreams: [],
         },
         fallbackRoute: {
           name: "$fallback",
@@ -72,7 +73,7 @@ async function createOrReplaceIoTHubWithDeviceRegistry(): Promise<void> {
         $default: { connectionString: "", containerName: "", sasTtlAsIso8601: "PT1H" },
       },
     },
-    sku: { name: "GEN2", capacity: 1 },
+    sku: { name: "S1", capacity: 1 },
     tags: {},
   });
   console.log(result);
@@ -82,7 +83,7 @@ async function createOrReplaceIoTHubWithDeviceRegistry(): Promise<void> {
  * This sample demonstrates how to create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
  *
  * @summary create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_createOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_createOrUpdate.json
  */
 async function iotHubResourceCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -91,6 +92,7 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
   const result = await client.iotHubResource.createOrUpdate("myResourceGroup", "testHub", {
     etag: "AAAAAAFD6M4=",
     location: "centraluseuap",
+    identity: { type: "SystemAssigned" },
     properties: {
       cloudToDevice: {
         defaultTtlAsIso8601: "PT1H",
@@ -126,6 +128,17 @@ async function iotHubResourceCreateOrUpdate(): Promise<void> {
           serviceBusQueues: [],
           serviceBusTopics: [],
           storageContainers: [],
+          eventStreams: [
+            {
+              name: "eventstreamendpoint1",
+              endpointUri: "sb://eventstreamcustomsourceehns.azure.servicebus.net",
+              entityPath: "eventstreamcustomsourceeh",
+              authenticationType: "identityBased",
+              workspaceId: "11111111-1111-1111-1111-111111111111",
+              eventStreamId: "22222222-2222-2222-2222-222222222222",
+              sourceId: "33333333-3333-3333-3333-333333333333",
+            },
+          ],
         },
         fallbackRoute: {
           name: "$fallback",

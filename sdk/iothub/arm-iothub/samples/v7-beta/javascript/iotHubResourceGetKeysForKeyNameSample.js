@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  *
  * @summary get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
- * x-ms-original-file: 2026-03-01-preview/iothub_getkey.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_getkey.json
  */
 async function iotHubResourceGetKeysForKeyName() {
   const credential = new DefaultAzureCredential();

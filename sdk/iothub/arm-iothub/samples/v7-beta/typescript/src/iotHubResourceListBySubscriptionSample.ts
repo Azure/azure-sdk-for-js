@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the IoT hubs in a subscription.
  *
  * @summary get all the IoT hubs in a subscription.
- * x-ms-original-file: 2026-03-01-preview/iothub_listbysubscription.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_listbysubscription.json
  */
 async function iotHubResourceListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

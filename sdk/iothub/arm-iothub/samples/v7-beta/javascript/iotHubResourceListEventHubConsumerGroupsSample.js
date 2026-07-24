@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub.
  *
  * @summary get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_listehgroups.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_listehgroups.json
  */
 async function iotHubResourceListEventHubConsumerGroups() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list private link resources for the given IotHub
  *
  * @summary list private link resources for the given IotHub
- * x-ms-original-file: 2026-03-01-preview/iothub_listprivatelinkresources.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_listprivatelinkresources.json
  */
 async function privateLinkResourcesList() {
   const credential = new DefaultAzureCredential();

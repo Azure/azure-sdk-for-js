@@ -220,6 +220,9 @@ export interface EventHubProperties {
 }
 
 // @public
+export type EventStreamAuthenticationType = string;
+
+// @public
 export interface ExportDevicesRequest {
     authenticationType?: AuthenticationType;
     configurationsBlobName?: string;
@@ -559,7 +562,7 @@ export interface IotHubSkuInfo {
 }
 
 // @public
-export type IotHubSkuTier = "Free" | "Standard" | "Basic" | "Generation2";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
 // @public
 export type IpFilterActionType = "Accept" | "Reject";
@@ -636,6 +639,11 @@ export enum KnownEndpointHealthStatus {
 }
 
 // @public
+export enum KnownEventStreamAuthenticationType {
+    IdentityBased = "identityBased"
+}
+
+// @public
 export enum KnownGatewayVersion {
     V1 = "V1",
     V2 = "V2"
@@ -653,7 +661,6 @@ export enum KnownIotHubSku {
     B2 = "B2",
     B3 = "B3",
     F1 = "F1",
-    GEN2 = "GEN2",
     S1 = "S1",
     S2 = "S2",
     S3 = "S3"
@@ -733,7 +740,8 @@ export enum KnownTestResultStatus {
 
 // @public
 export enum KnownVersions {
-    V20260301Preview = "2026-03-01-preview"
+    V20260301Preview = "2026-03-01-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -999,6 +1007,7 @@ export interface RoutingCosmosDBSqlApiProperties {
 export interface RoutingEndpoints {
     cosmosDBSqlContainers?: RoutingCosmosDBSqlApiProperties[];
     eventHubs?: RoutingEventHubProperties[];
+    eventStreams?: RoutingEventStreamProperties[];
     serviceBusQueues?: RoutingServiceBusQueueEndpointProperties[];
     serviceBusTopics?: RoutingServiceBusTopicEndpointProperties[];
     storageContainers?: RoutingStorageContainerProperties[];
@@ -1015,6 +1024,19 @@ export interface RoutingEventHubProperties {
     name: string;
     resourceGroup?: string;
     subscriptionId?: string;
+}
+
+// @public
+export interface RoutingEventStreamProperties {
+    authenticationType?: EventStreamAuthenticationType;
+    endpointUri: string;
+    entityPath: string;
+    eventStreamId?: string;
+    readonly id?: string;
+    identity?: ManagedIdentity;
+    name: string;
+    sourceId?: string;
+    workspaceId?: string;
 }
 
 // @public
@@ -1085,13 +1107,13 @@ export type RoutingStorageContainerPropertiesEncoding = string;
 export interface RoutingTwin {
     // (undocumented)
     properties?: RoutingTwinProperties;
-    tags?: any;
+    tags?: Record<string, any>;
 }
 
 // @public
 export interface RoutingTwinProperties {
-    desired?: any;
-    reported?: any;
+    desired?: Record<string, any>;
+    reported?: Record<string, any>;
 }
 
 // @public
