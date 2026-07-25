@@ -12,8 +12,13 @@ permissions:
 # DataOps + planner-worker pattern. A deterministic step enumerates the docs
 # (zero AI tokens); each doc is then verified by an isolated `model: small`
 # `doc-checker` sub-agent that returns only compact findings. The orchestrator
-# never loads raw documentation contents into its own context — it reads the
-# small findings files, fixes the flagged docs, and opens the PR.
+# never loads the full documentation set into its own context: it reads the
+# small findings files and then opens only the flagged files (the subset that
+# actually has issues) to apply fixes. Its context therefore scales with the
+# number and size of flagged findings, not with the total document count —
+# which is what previously exhausted the token budget. In the rare case of many
+# simultaneously-stale docs this bound can still grow, so that subset is kept
+# small in practice.
 #
 # This replaces the previous design ("read every markdown file" + a redundant
 # general-purpose background agent), where ~30 full docs accumulated in one
