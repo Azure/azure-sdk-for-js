@@ -90,6 +90,19 @@ Read the small JSON files under `/tmp/gh-aw/agent/findings/`. Each looks like:
 
 Ignore files whose `issues` array is empty.
 
+Then **reconcile the findings against `/tmp/gh-aw/agent/docs.txt`**: every path
+listed there must have a corresponding findings file whose `file` field matches
+that path and which parses as valid JSON in the shape above. A `doc-checker`
+invocation can crash, time out, or emit malformed output, so treating the
+findings files that happen to exist as the complete result set would silently
+drop those docs — and Step 4 could then falsely report that everything is
+consistent. For any doc path with no matching valid findings file, re-invoke the
+`doc-checker` sub-agent **once** for just that path. If after that single retry a
+valid, parseable findings file whose `file` matches the path is still missing,
+mark that path as **unchecked** and treat the run as **incomplete**: do not
+report the documentation as consistent and do not silently drop the document.
+Carry the list of unchecked paths forward to Step 4.
+
 ### Step 3 — fix only the flagged files
 
 For each file that has issues, open just that file and apply the fixes with the
@@ -99,8 +112,15 @@ unrelated content.
 ### Step 4 — create the pull request
 
 Create a single pull request containing all the fixes, with a clear summary
-listing every change and why. If no file had any issues, do **not** create a
-pull request — report that the documentation is consistent and stop.
+listing every change and why.
+
+Only report that "documentation is consistent" when the Step 2 reconciliation
+passed with **no** unchecked paths and no file had any issues; in that case do
+**not** create a pull request and stop. If there are unchecked paths from Step 2,
+the run is **incomplete** — never claim everything is consistent. Still create
+the pull request for the files that were successfully checked and had fixes, and
+call out the unchecked/failed doc paths in the summary so they can be
+re-verified.
 
 ## agent: `doc-checker`
 ---
