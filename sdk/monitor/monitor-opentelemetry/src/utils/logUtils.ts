@@ -4,6 +4,15 @@
 import { SeverityNumber } from "@opentelemetry/api-logs";
 
 /**
+ * Returns true when log collection is disabled via
+ * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE`.
+ * @internal
+ */
+export function isLogCollectionDisabled(): boolean {
+  return process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL === "NONE";
+}
+
+/**
  * Convert log level to severity number.
  * @internal
  */

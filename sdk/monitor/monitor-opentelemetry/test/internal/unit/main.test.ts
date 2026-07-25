@@ -394,6 +394,38 @@ describe("Main functions", () => {
     await shutdownAzureMonitor();
   });
 
+  it("should not report log instrumentations in Statsbeat when the logging level is NONE", async () => {
+    const env = <{ [id: string]: string }>{};
+    env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+        bunyan: { enabled: true },
+        winston: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.BUNYAN,
+      "BUNYAN should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.WINSTON,
+      "WINSTON should not be reported when the logging level is NONE",
+    );
+    await shutdownAzureMonitor();
+  });
+
   it("should preserve a seeded community instrumentation bit across initialization", async () => {
     // Seed the CUCUMBER bit as a prior initialization would, then verify it is
     // re-emitted as CUCUMBER (256), not a neighboring bit.

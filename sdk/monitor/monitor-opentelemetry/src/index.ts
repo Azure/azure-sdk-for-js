@@ -30,6 +30,7 @@ import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
@@ -78,6 +79,9 @@ function sendAttachWarning(): void {
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
+  // When log collection is disabled the log instrumentations are not registered,
+  // so Statsbeat must not report them as enabled.
+  const logInstrumentationsEnabled = !isLogCollectionDisabled();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
@@ -85,9 +89,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     mySql: config.instrumentationOptions?.mySql?.enabled,
     postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
     redis: config.instrumentationOptions?.redis?.enabled,
-    bunyan: config.instrumentationOptions?.bunyan?.enabled,
-    winston: config.instrumentationOptions?.winston?.enabled,
-    console: config.instrumentationOptions?.console?.enabled,
+    bunyan: logInstrumentationsEnabled && config.instrumentationOptions?.bunyan?.enabled,
+    winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
+    console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
   // Check if the AKS resource detector successfully populated specific resource attributes
   // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider

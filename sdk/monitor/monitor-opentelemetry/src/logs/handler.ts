@@ -11,7 +11,7 @@ import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { AzureLogRecordProcessor } from "./logRecordProcessor.js";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor.js";
-import { logLevelToSeverityNumber } from "../utils/logUtils.js";
+import { isLogCollectionDisabled, logLevelToSeverityNumber } from "../utils/logUtils.js";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -66,13 +66,12 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations(): void {
-    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
-
     // "NONE" collects no logs, so no log instrumentation is registered.
-    if (logLevelEnv === "NONE") {
+    if (isLogCollectionDisabled()) {
       return;
     }
 
+    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     const logSeverity = logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined;
 
     if (this._config.instrumentationOptions.bunyan?.enabled) {
