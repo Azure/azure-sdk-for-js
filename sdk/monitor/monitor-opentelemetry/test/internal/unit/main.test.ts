@@ -399,6 +399,43 @@ describe("Main functions", () => {
     await shutdownAzureMonitor();
   });
 
+  it("should preserve a seeded community instrumentation bit across initialization", async () => {
+    // Simulate a prior initialization that recorded the CUCUMBER community bit.
+    // Encoding must map `cucumber` back to its canonical bit (256) rather than
+    // shifting it to a neighbor (e.g. DATALOADER, 512) as positional encoding did
+    // once `console` was inserted among the built-in options.
+    const env = <{ [id: string]: string }>{};
+    env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
+      instrumentation: StatsbeatInstrumentation.CUCUMBER,
+      feature: 0,
+    });
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CUCUMBER,
+      "Seeded CUCUMBER (256) bit should be preserved across initialization",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.DATALOADER,
+      "CUCUMBER must not be re-encoded as DATALOADER (512)",
+    );
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE (128) bit should be set",
+    );
+    await shutdownAzureMonitor();
+  });
+
   it("should set shim feature in statsbeat if env var is populated", () => {
     getInstance()["initializedByShim"] = true;
     const config: AzureMonitorOpenTelemetryOptions = {

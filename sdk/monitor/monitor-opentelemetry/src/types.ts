@@ -294,6 +294,62 @@ export const StatsbeatInstrumentationMap = new Map<string, number>([
   ["@opentelemetry/instrumentation-router", StatsbeatInstrumentation.ROUTER],
 ]);
 
+/**
+ * Maps each Statsbeat instrumentation *option name* (the keys of
+ * {@link StatsbeatInstrumentations}) to its canonical {@link StatsbeatInstrumentation}
+ * bit.
+ *
+ * The Statsbeat instrumentation bit map is encoded from this explicit mapping
+ * rather than from the positional order of the options object. Positional
+ * encoding (`2 ** index`) tied each bit to a key's position, so inserting a new
+ * option (e.g. `console`) shifted the emitted bit of every option after it and
+ * corrupted community instrumentation bits when they were read back from
+ * `AZURE_MONITOR_STATSBEAT_FEATURES`. An explicit name-to-bit map keeps each
+ * instrumentation's bit stable regardless of key order.
+ *
+ * Note: unlike {@link StatsbeatInstrumentationMap}, which is keyed by the
+ * OpenTelemetry package name, this map is keyed by the option/config name.
+ * @internal
+ */
+export const StatsbeatInstrumentationsMap = new Map<string, number>([
+  ["azureSdk", StatsbeatInstrumentation.AZURE_CORE_TRACING],
+  ["mongoDb", StatsbeatInstrumentation.MONGODB],
+  ["mySql", StatsbeatInstrumentation.MYSQL],
+  ["postgreSql", StatsbeatInstrumentation.POSTGRES],
+  ["redis", StatsbeatInstrumentation.REDIS],
+  ["bunyan", StatsbeatInstrumentation.BUNYAN],
+  ["winston", StatsbeatInstrumentation.WINSTON],
+  ["console", StatsbeatInstrumentation.CONSOLE],
+  ["amqplib", StatsbeatInstrumentation.AMQPLIB],
+  ["cucumber", StatsbeatInstrumentation.CUCUMBER],
+  ["dataloader", StatsbeatInstrumentation.DATALOADER],
+  ["fs", StatsbeatInstrumentation.FS],
+  ["lruMemoizer", StatsbeatInstrumentation.LRU_MEMOIZER],
+  ["mongoose", StatsbeatInstrumentation.MONGOOSE],
+  ["runtimeNode", StatsbeatInstrumentation.RUNTIME_NODE],
+  ["socketIo", StatsbeatInstrumentation.SOCKET_IO],
+  ["tedious", StatsbeatInstrumentation.TEDIOUS],
+  ["undici", StatsbeatInstrumentation.UNDICI],
+  ["cassandra", StatsbeatInstrumentation.CASSANDRA],
+  ["connect", StatsbeatInstrumentation.CONNECT],
+  ["dns", StatsbeatInstrumentation.DNS],
+  ["express", StatsbeatInstrumentation.EXPRESS],
+  ["fastify", StatsbeatInstrumentation.FASTIFY],
+  ["genericPool", StatsbeatInstrumentation.GENERIC_POOL],
+  ["graphql", StatsbeatInstrumentation.GRAPHQL],
+  ["hapi", StatsbeatInstrumentation.HAPI],
+  ["ioredis", StatsbeatInstrumentation.IOREDIS],
+  ["knex", StatsbeatInstrumentation.KNEX],
+  ["koa", StatsbeatInstrumentation.KOA],
+  ["memcached", StatsbeatInstrumentation.MEMCACHED],
+  ["mysql2", StatsbeatInstrumentation.MYSQL2],
+  ["nestjsCore", StatsbeatInstrumentation.NESTJS_CORE],
+  ["net", StatsbeatInstrumentation.NET],
+  ["pino", StatsbeatInstrumentation.PINO],
+  ["restify", StatsbeatInstrumentation.RESTIFY],
+  ["router", StatsbeatInstrumentation.ROUTER],
+]);
+
 export interface StatsbeatEnvironmentConfig {
   instrumentation: StatsbeatInstrumentation;
   feature: StatsbeatFeature;

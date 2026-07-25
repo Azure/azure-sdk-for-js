@@ -12,6 +12,7 @@ import {
   StatsbeatFeature,
   StatsbeatFeaturesMap,
   StatsbeatInstrumentation,
+  StatsbeatInstrumentationsMap,
 } from "../types.js";
 import { Logger as InternalLogger } from "../shared/logging/index.js";
 
@@ -105,10 +106,17 @@ class StatsbeatConfiguration {
       return { option: entry[0], value: entry[1] };
     });
 
-    // Map the instrumentation options to a bit map
+    // Map the instrumentation options to a bit map using the explicit
+    // option-name -> bit mapping rather than the positional order of the options
+    // object. Positional encoding shifted every subsequent instrumentation's bit
+    // whenever a new option was inserted (e.g. `console`), corrupting community
+    // instrumentation bits read back from the environment variable.
     for (let i = 0; i < instrumentationArray.length; i++) {
       if (instrumentationArray[i].value) {
-        instrumentationBitMap |= 2 ** i;
+        const instrumentationBit = StatsbeatInstrumentationsMap.get(instrumentationArray[i].option);
+        if (instrumentationBit !== undefined) {
+          instrumentationBitMap |= instrumentationBit;
+        }
       }
     }
 
