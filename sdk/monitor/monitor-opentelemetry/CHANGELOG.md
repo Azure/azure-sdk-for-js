@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). Internal diagnostic logging is routed through the console captured before instrumentation so console log collection does not create a self-telemetry loop. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Other Changes
 

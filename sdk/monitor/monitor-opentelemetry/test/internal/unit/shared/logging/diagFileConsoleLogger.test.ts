@@ -68,6 +68,25 @@ describe("Library/DiagFileConsoleLogger", () => {
       expect(appendFileAsyncStub.mock.lastCall![1]).toEqual("testMessage\r\n");
     });
 
+    it("should write console output through the console captured before instrumentation patched it", async () => {
+      logger["_logToFile"] = false;
+      logger["_logToConsole"] = true;
+      // Simulate the console instrumentation patching the global console.log after
+      // this module was loaded. Diagnostics must not route through the patch, or
+      // exporting a collected console record would loop back into collection.
+      const patchedConsoleLog = vi.fn();
+      const realConsoleLog = console.log;
+      // eslint-disable-next-line no-console
+      console.log = patchedConsoleLog;
+      try {
+        await logger["logMessage"]("diagMessage");
+      } finally {
+        // eslint-disable-next-line no-console
+        console.log = realConsoleLog;
+      }
+      expect(patchedConsoleLog).not.toHaveBeenCalled();
+    });
+
     it("should create backup file", async () => {
       vi.spyOn(fileHelper, "confirmDirExists").mockImplementation(async () => {});
       vi.spyOn(fileHelper, "accessAsync").mockImplementation(async () => {});
