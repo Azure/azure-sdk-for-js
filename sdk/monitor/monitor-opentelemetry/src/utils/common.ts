@@ -17,6 +17,25 @@ import {
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
 
+/**
+ * Number-safe bit-flag helpers for Statsbeat masks. JavaScript bitwise operators
+ * coerce operands to 32-bit integers, which drops flags at or above `2 ** 32`.
+ * Statsbeat flags are distinct powers of two within `Number.MAX_SAFE_INTEGER`,
+ * so membership and addition are done with arithmetic instead.
+ * @internal
+ */
+export function hasNumberFlag(mask: number, flag: number): boolean {
+  return flag > 0 && Math.floor(mask / flag) % 2 === 1;
+}
+
+/**
+ * Returns `mask` with `flag` set, without using 32-bit bitwise operators.
+ * @internal
+ */
+export function addNumberFlag(mask: number, flag: number): number {
+  return flag > 0 && !hasNumberFlag(mask, flag) ? mask + flag : mask;
+}
+
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
   if (request && request.headers && !Array.isArray(request.headers)) {
     const outgoingHeaders = request.headers as http.OutgoingHttpHeaders;

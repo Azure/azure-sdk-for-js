@@ -17,7 +17,7 @@ import {
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
 } from "../../../src/types.js";
-import { getOsPrefix } from "../../../src/utils/common.js";
+import { getOsPrefix, hasNumberFlag } from "../../../src/utils/common.js";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
@@ -426,12 +426,12 @@ describe("Main functions", () => {
     await shutdownAzureMonitor();
   });
 
-  it("should preserve a seeded community instrumentation bit across initialization", async () => {
-    // Seed the CUCUMBER bit as a prior initialization would, then verify it is
-    // re-emitted as CUCUMBER (256), not a neighboring bit.
+  it("should preserve seeded community instrumentation bits (including bits above 2**32) across initialization", async () => {
+    // Seed CUCUMBER (256) and AMQPLIB (2**35, beyond 32-bit range) as a prior
+    // initialization would, then verify both survive the round trip.
     const env = <{ [id: string]: string }>{};
     env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
-      instrumentation: StatsbeatInstrumentation.CUCUMBER,
+      instrumentation: StatsbeatInstrumentation.CUCUMBER + StatsbeatInstrumentation.AMQPLIB,
       feature: 0,
     });
     process.env = env;
@@ -447,15 +447,19 @@ describe("Main functions", () => {
     const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const instrumentations = Number(output["instrumentation"]);
     assert.ok(
-      instrumentations & StatsbeatInstrumentation.CUCUMBER,
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CUCUMBER),
       "Seeded CUCUMBER (256) bit should be preserved across initialization",
     );
     assert.notOk(
-      instrumentations & StatsbeatInstrumentation.DATALOADER,
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.DATALOADER),
       "CUCUMBER must not be re-encoded as DATALOADER (512)",
     );
     assert.ok(
-      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.AMQPLIB),
+      "Seeded AMQPLIB (2**35) bit should be preserved and not truncated by 32-bit ops",
+    );
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CONSOLE),
       "CONSOLE (128) bit should be set",
     );
     await shutdownAzureMonitor();
