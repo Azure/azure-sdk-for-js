@@ -237,14 +237,9 @@ describe("Main functions", () => {
       originalLog,
       "console.log should be patched after the first init",
     );
-    // Re-initialize: the previous console instrumentation must be disabled so the
-    // global console is re-patched from the true original rather than layered on
-    // top of the previous patch.
     useAzureMonitor(config);
     assert.notStrictEqual(console.log, originalLog, "console.log should be patched after re-init");
     await shutdownAzureMonitor();
-    // If the previous console patch had leaked, this single shutdown would leave a
-    // stale patch in place instead of the true original.
     assert.strictEqual(
       console.log,
       originalLog,
@@ -400,10 +395,8 @@ describe("Main functions", () => {
   });
 
   it("should preserve a seeded community instrumentation bit across initialization", async () => {
-    // Simulate a prior initialization that recorded the CUCUMBER community bit.
-    // Encoding must map `cucumber` back to its canonical bit (256) rather than
-    // shifting it to a neighbor (e.g. DATALOADER, 512) as positional encoding did
-    // once `console` was inserted among the built-in options.
+    // Seed the CUCUMBER bit as a prior initialization would, then verify it is
+    // re-emitted as CUCUMBER (256), not a neighboring bit.
     const env = <{ [id: string]: string }>{};
     env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
       instrumentation: StatsbeatInstrumentation.CUCUMBER,

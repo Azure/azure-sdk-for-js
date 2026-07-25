@@ -55,9 +55,8 @@ export class LogHandler {
   }
 
   /**
-   * The console instrumentation patches the global `console` object rather than a
-   * required module. It must be disabled explicitly on shutdown/re-initialization
-   * to restore the original console methods, so expose it for that purpose.
+   * Returns the console instrumentation, which patches the global `console` and
+   * must be disabled explicitly to restore the original methods.
    */
   public getConsoleInstrumentation(): Instrumentation | undefined {
     return this._consoleInstrumentation;
@@ -69,11 +68,7 @@ export class LogHandler {
   private _initializeInstrumentations(): void {
     const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
-    // A logging level of "NONE" means no logs should be collected from the log
-    // instrumentations. Skip registering them entirely rather than encoding
-    // "NONE" as a severity threshold: the Bunyan and Winston instrumentations
-    // normalize an out-of-range threshold back to a real level (fatal/error) and
-    // would still export severe application logs.
+    // "NONE" collects no logs, so no log instrumentation is registered.
     if (logLevelEnv === "NONE") {
       return;
     }
@@ -97,10 +92,9 @@ export class LogHandler {
       );
     }
     if (this._config.instrumentationOptions.console?.enabled) {
-      // Construct disabled and let the SDK enable it during registration.
-      // Enabling ConsoleInstrumentation via its constructor patches console
-      // before its field initializers run, wiping the saved originals so
-      // disable() can no longer restore console.
+      // Construct disabled; enabling via the constructor patches console before
+      // field initializers run, wiping the saved originals so disable() can no
+      // longer restore it. The SDK enables it during registration.
       const consoleInstrumentation = new ConsoleInstrumentation({
         ...this._config.instrumentationOptions.console,
         enabled: false,

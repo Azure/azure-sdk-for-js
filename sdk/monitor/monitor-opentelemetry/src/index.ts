@@ -46,12 +46,10 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
-// Retained so the ConsoleInstrumentation (which patches the global console) can
-// be disabled on shutdown/re-init; NodeSDK.shutdown() does not disable
-// instrumentations. Only the console (global-patch) instrumentation is tracked
-// here: module-based instrumentations must NOT be force-disabled on re-init, or
-// a subsequent useAzureMonitor() call may fail to re-patch already-cached module
-// loads and silently lose telemetry.
+// The ConsoleInstrumentation patches the global console. It must be disabled on
+// shutdown/re-init to restore console, since NodeSDK.shutdown() does not disable
+// instrumentations. Only the console instrumentation is tracked here; module
+// instrumentations are left to the SDK.
 let consoleInstrumentation: Instrumentation | undefined;
 
 /**
@@ -114,9 +112,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
-  // Disable the console instrumentation from a previous initialization so the
-  // global console patch is restored before re-instrumenting. Module-based
-  // instrumentations are intentionally left untouched.
+  // Restore the console patch from a previous initialization before re-instrumenting.
   consoleInstrumentation?.disable();
   consoleInstrumentation = undefined;
 

@@ -272,9 +272,7 @@ describe("LogHandler", () => {
         enabled: true,
       };
       const logHandler = new LogHandler(config, metricHandler);
-      // "NONE" must suppress all log collection. Rather than encoding it as a
-      // severity threshold (which Bunyan/Winston normalize back to a real level),
-      // no log instrumentation should be registered at all.
+      // "NONE" registers no log instrumentations.
       assert.strictEqual(
         logHandler.getInstrumentations().length,
         0,

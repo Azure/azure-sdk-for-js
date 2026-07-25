@@ -106,11 +106,8 @@ class StatsbeatConfiguration {
       return { option: entry[0], value: entry[1] };
     });
 
-    // Map the instrumentation options to a bit map using the explicit
-    // option-name -> bit mapping rather than the positional order of the options
-    // object. Positional encoding shifted every subsequent instrumentation's bit
-    // whenever a new option was inserted (e.g. `console`), corrupting community
-    // instrumentation bits read back from the environment variable.
+    // Map each enabled instrumentation option to its bit via the explicit
+    // name -> bit map, so bits are independent of the options object's key order.
     for (let i = 0; i < instrumentationArray.length; i++) {
       if (instrumentationArray[i].value) {
         const instrumentationBit = StatsbeatInstrumentationsMap.get(instrumentationArray[i].option);

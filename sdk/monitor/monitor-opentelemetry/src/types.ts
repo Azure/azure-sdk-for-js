@@ -295,20 +295,10 @@ export const StatsbeatInstrumentationMap = new Map<string, number>([
 ]);
 
 /**
- * Maps each Statsbeat instrumentation *option name* (the keys of
- * {@link StatsbeatInstrumentations}) to its canonical {@link StatsbeatInstrumentation}
- * bit.
- *
- * The Statsbeat instrumentation bit map is encoded from this explicit mapping
- * rather than from the positional order of the options object. Positional
- * encoding (`2 ** index`) tied each bit to a key's position, so inserting a new
- * option (e.g. `console`) shifted the emitted bit of every option after it and
- * corrupted community instrumentation bits when they were read back from
- * `AZURE_MONITOR_STATSBEAT_FEATURES`. An explicit name-to-bit map keeps each
- * instrumentation's bit stable regardless of key order.
- *
- * Note: unlike {@link StatsbeatInstrumentationMap}, which is keyed by the
- * OpenTelemetry package name, this map is keyed by the option/config name.
+ * Maps each Statsbeat instrumentation option name (the keys of
+ * {@link StatsbeatInstrumentations}) to its {@link StatsbeatInstrumentation} bit.
+ * Keyed by option/config name, unlike {@link StatsbeatInstrumentationMap}, which
+ * is keyed by OpenTelemetry package name.
  * @internal
  */
 export const StatsbeatInstrumentationsMap = new Map<string, number>([
