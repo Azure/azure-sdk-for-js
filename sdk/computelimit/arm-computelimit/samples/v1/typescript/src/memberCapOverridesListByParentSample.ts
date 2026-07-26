@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all per-member cap overrides configured under a SharedLimitCap.
  *
  * @summary lists all per-member cap overrides configured under a SharedLimitCap.
- * x-ms-original-file: 2026-07-01/MemberCapOverrides_ListByParent.json
+ * x-ms-original-file: 2026-07-31/MemberCapOverrides_ListByParent.json
  */
 async function listAllMemberCapOverridesUnderASharedLimitCap(): Promise<void> {
   const credential = new DefaultAzureCredential();
