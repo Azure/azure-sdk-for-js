@@ -278,6 +278,8 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 
 - [Console](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-console) (disabled by default; enable with `instrumentationOptions: { console: { enabled: true } }`)
 
+  Once enabled, the set of `console` methods collected is filtered by the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable (`NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE`, `ALL`; see [Self-diagnostics](#self-diagnostics)). For example, `WARN` collects only `console.warn` and `console.error`, while `NONE` disables collection of `console` (and all other) logs entirely.
+
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
 ```ts snippet:ReadmeSampleCustomInstrumentation

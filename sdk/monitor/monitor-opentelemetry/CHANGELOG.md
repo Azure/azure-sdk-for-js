@@ -6,6 +6,10 @@
 
 - Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). Internal diagnostic logging is routed through the console captured before instrumentation so console log collection does not create a self-telemetry loop. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
+### Bugs Fixed
+
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` still exporting severe application logs. `NONE` previously mapped to a severity threshold that the Bunyan and Winston instrumentations normalized back to a real level (`fatal`/`error`), so severe logs were still collected; the log instrumentations are now skipped entirely when the level is `NONE`, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
 ### Other Changes
 
 - Encode the Statsbeat instrumentation bit map from an explicit instrumentation-to-bit mapping instead of the positional order of the options object, so adding an instrumentation (such as `console`) no longer shifts the reported bit of other instrumentations. Statsbeat instrumentation flags are now encoded and decoded with Number-safe arithmetic so flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
