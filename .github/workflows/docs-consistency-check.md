@@ -38,6 +38,9 @@ safe-outputs:
   create-pull-request:
     title-prefix: "[docs] "
     labels: [documentation, automated]
+  create-issue:
+    title-prefix: "[docs-consistency-check] "
+    labels: [documentation, automated]
 ---
 
 # Documentation Consistency Check
@@ -109,18 +112,37 @@ For each file that has issues, open just that file and apply the fixes with the
 `edit` tool. Keep each change minimal and surgical — do not reformat or touch
 unrelated content.
 
-### Step 4 — create the pull request
+### Step 4 — surface the result
 
-Create a single pull request containing all the fixes, with a clear summary
-listing every change and why.
+The result of a run is exactly one of four cases. `create-pull-request` only
+produces a PR when the working tree actually has a patch, so **never rely on it
+to surface information when there are no fixes** — handle each case explicitly:
 
-Only report that "documentation is consistent" when the Step 2 reconciliation
-passed with **no** unchecked paths and no file had any issues; in that case do
-**not** create a pull request and stop. If there are unchecked paths from Step 2,
-the run is **incomplete** — never claim everything is consistent. Still create
-the pull request for the files that were successfully checked and had fixes, and
-call out the unchecked/failed doc paths in the summary so they can be
-re-verified.
+1. **Complete + no issues** — Step 2 reconciliation passed with **no** unchecked
+   paths and no file had any issues. Report that the documentation is consistent
+   and stop. Do **not** create a pull request or an issue.
+
+2. **Has fixes (at least one file edited in Step 3)** — regardless of whether the
+   run is complete or incomplete. Create a single pull request containing all the
+   fixes, with a clear summary listing every change and why. If the run is also
+   **incomplete**, additionally list the unchecked/failed doc paths (and the
+   reason each is unchecked) in that same PR summary so they can be re-verified.
+   This is the only case that creates a pull request.
+
+3. **Incomplete + no fixes** — there are unchecked paths from Step 2 but Step 3
+   produced no edits, so the working tree has no patch. Do **not** attempt to
+   create a pull request: there is nothing to commit and `create-pull-request`
+   would silently skip it, hiding the unchecked paths. Instead create an issue
+   (via the `create-issue` safe output) titled `incomplete run: unchecked
+   documentation paths` whose body lists every unchecked doc path and the reason
+   it could not be checked, so the scheduled run is visibly incomplete rather
+   than silently green. Do **not** report the documentation as consistent.
+
+4. **Complete + has fixes** — covered by case 2: create the pull request.
+
+Only report that "documentation is consistent" in case 1. Whenever there are
+unchecked paths (cases 2-incomplete and 3), never claim everything is
+consistent.
 
 ## agent: `doc-checker`
 ---
