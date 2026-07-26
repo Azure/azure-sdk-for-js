@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` still exporting severe application logs. `NONE` previously mapped to a severity threshold that the Bunyan and Winston instrumentations normalized back to a real level (`fatal`/`error`), so severe logs were still collected; the log instrumentations are now skipped entirely when the level is `NONE`, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. Previously `NONE` resolved to an `UNSPECIFIED` (`0`) severity, which the Bunyan and Winston instrumentations treat as "no filter", so all logs were still collected. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Other Changes
 
