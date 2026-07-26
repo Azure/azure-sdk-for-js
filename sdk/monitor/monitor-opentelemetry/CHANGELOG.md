@@ -4,15 +4,15 @@
 
 ### Features Added
 
-- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). Internal diagnostic logging is routed through the console captured before instrumentation so console log collection does not create a self-telemetry loop. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Bugs Fixed
 
-- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. Previously `NONE` resolved to an `UNSPECIFIED` (`0`) severity, which the Bunyan and Winston instrumentations treat as "no filter", so all logs were still collected. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Other Changes
 
-- Encode the Statsbeat instrumentation bit map from an explicit instrumentation-to-bit mapping instead of the positional order of the options object, so adding an instrumentation (such as `console`) no longer shifts the reported bit of other instrumentations. Statsbeat instrumentation flags are now encoded and decoded with Number-safe arithmetic so flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Fixed Statsbeat instrumentation encoding so adding an instrumentation no longer shifts the reported bits of others, and flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 - Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). Updated the bundled contrib instrumentations and resource detector to their latest versions. [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
 
 ## 1.18.2 (2026-07-01)
