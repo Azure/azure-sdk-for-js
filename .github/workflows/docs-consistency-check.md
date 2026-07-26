@@ -41,6 +41,7 @@ safe-outputs:
   create-issue:
     title-prefix: "[docs-consistency-check] "
     labels: [documentation, automated]
+    deduplicate-by-title: true
 ---
 
 # Documentation Consistency Check
