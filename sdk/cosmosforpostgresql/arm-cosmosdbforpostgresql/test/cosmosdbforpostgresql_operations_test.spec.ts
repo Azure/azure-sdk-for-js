@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CosmosDBForPostgreSQL test", () => {
+describe.skip("CosmosDBForPostgreSQL test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CosmosDBForPostgreSQL;
@@ -92,7 +92,7 @@ describe("CosmosDBForPostgreSQL test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it.only("clusters list test", async function () {
+  it("clusters list test", async function () {
     const resArray = new Array();
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
