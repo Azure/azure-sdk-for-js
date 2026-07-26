@@ -16,10 +16,10 @@ import {
   unlinkAsync,
 } from "../../utils/index.js";
 
-// The console instrumentation (when enabled) patches the global console. Capture
-// console.log at module load, before instrumentation runs, so internal
-// diagnostics bypass the patched console; otherwise exporting a collected console
-// record emits diag output that is itself collected, creating a self-telemetry loop.
+// Capture console.log at module load, before the console instrumentation patches
+// the global console. Internal diagnostics route through this reference so they
+// bypass console log collection; otherwise exporting a collected console record
+// emits diag output that is itself collected, creating a self-telemetry loop.
 // eslint-disable-next-line no-console
 const originalConsoleLog: (...args: any[]) => void = console.log.bind(console);
 
@@ -143,11 +143,22 @@ export class DiagFileConsoleLogger implements DiagLogger {
         await this._storeToDisk(args);
       }
       if (this._logToConsole) {
-        originalConsoleLog(...args);
+        this._writeToConsole(...args);
       }
     } catch (err: any) {
-      originalConsoleLog(this._TAG, `Failed to log to file: ${err && err.message}`);
+      this._writeToConsole(this._TAG, `Failed to log to file: ${err && err.message}`);
     }
+  }
+
+  /**
+   * Writes internal diagnostics through the console reference captured before the
+   * console instrumentation patched the global console, keeping diagnostics out of
+   * console log collection and avoiding a self-telemetry loop with the exporter's
+   * own diagnostic logging.
+   */
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  private _writeToConsole(...args: any[]): void {
+    originalConsoleLog(...args);
   }
 
   /**
@@ -218,7 +229,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
     try {
       await confirmDirExists(this._tempDir);
     } catch (err: any) {
-      originalConsoleLog(this._TAG, `Failed to create directory for log file: ${err && err.message}`);
+      this._writeToConsole(this._TAG, `Failed to create directory for log file: ${err && err.message}`);
       return;
     }
     try {
@@ -228,7 +239,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       try {
         await appendFileAsync(this._fileFullPath, data);
       } catch (appendError: any) {
-        originalConsoleLog(
+        this._writeToConsole(
           this._TAG,
           `Failed to put log into file: ${appendError && appendError.message}`,
         );
@@ -250,7 +261,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       const backupPath = path.join(this._tempDir, `${new Date().getTime()}.${this._logFileName}`);
       await writeFileAsync(backupPath, buffer);
     } catch (err: any) {
-      originalConsoleLog("Failed to generate backup log file", err);
+      this._writeToConsole("Failed to generate backup log file", err);
     } finally {
       // Store logs
       await writeFileAsync(this._fileFullPath, data);
@@ -279,7 +290,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
         await unlinkAsync(pathToDelete);
       }
     } catch (err: any) {
-      originalConsoleLog(this._TAG, `Failed to cleanup log files: ${err && err.message}`);
+      this._writeToConsole(this._TAG, `Failed to cleanup log files: ${err && err.message}`);
     }
   }
 }
