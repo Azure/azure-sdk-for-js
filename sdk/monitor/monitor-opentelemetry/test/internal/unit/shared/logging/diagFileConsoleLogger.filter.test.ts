@@ -14,9 +14,7 @@ describe("DiagFileConsoleLogger filtering", () => {
 
   const setDiagLogger = (): void => {
     const logger = new DiagFileConsoleLogger();
-    // Capture post-filter diagnostics at the console sink. The logger writes to
-    // the raw stdout stream (not the patchable console API), so spy the sink
-    // directly rather than reassigning console.log.
+    // Spy on the internal sink because console.log is intentionally bypassed.
     vi.spyOn(logger as any, "_writeToConsole").mockImplementation((...args: any[]) => {
       loggedMessages.push(args);
     });

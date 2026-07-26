@@ -16,10 +16,7 @@ import {
   unlinkAsync,
 } from "../../utils/index.js";
 
-// Capture console.log at module load, before the console instrumentation patches
-// the global console. Internal diagnostics route through this reference so they
-// bypass console log collection; otherwise exporting a collected console record
-// emits diag output that is itself collected, creating a self-telemetry loop.
+// Capture the unpatched sink to prevent recursive diagnostic collection.
 // eslint-disable-next-line no-console
 const originalConsoleLog: (...args: any[]) => void = console.log.bind(console);
 
@@ -150,12 +147,6 @@ export class DiagFileConsoleLogger implements DiagLogger {
     }
   }
 
-  /**
-   * Writes internal diagnostics through the console reference captured before the
-   * console instrumentation patched the global console, keeping diagnostics out of
-   * console log collection and avoiding a self-telemetry loop with the exporter's
-   * own diagnostic logging.
-   */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   private _writeToConsole(...args: any[]): void {
     originalConsoleLog(...args);
@@ -229,7 +220,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
     try {
       await confirmDirExists(this._tempDir);
     } catch (err: any) {
-      this._writeToConsole(this._TAG, `Failed to create directory for log file: ${err && err.message}`);
+      this._writeToConsole(
+        this._TAG,
+        `Failed to create directory for log file: ${err && err.message}`,
+      );
       return;
     }
     try {

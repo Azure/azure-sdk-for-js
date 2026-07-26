@@ -54,10 +54,7 @@ export class LogHandler {
     return this._instrumentations;
   }
 
-  /**
-   * Returns the console instrumentation, which patches the global `console` and
-   * must be disabled explicitly to restore the original methods.
-   */
+  /** Returns the console instrumentation for explicit lifecycle management. */
   public getConsoleInstrumentation(): Instrumentation | undefined {
     return this._consoleInstrumentation;
   }
@@ -66,7 +63,6 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations(): void {
-    // "NONE" collects no logs, so no log instrumentation is registered.
     if (isLogCollectionDisabled()) {
       return;
     }
@@ -91,9 +87,7 @@ export class LogHandler {
       );
     }
     if (this._config.instrumentationOptions.console?.enabled) {
-      // Construct disabled; enabling via the constructor patches console before
-      // field initializers run, wiping the saved originals so disable() can no
-      // longer restore it. The SDK enables it during registration.
+      // Defer patching until registration so construction preserves the original methods.
       const consoleInstrumentation = new ConsoleInstrumentation({
         ...this._config.instrumentationOptions.console,
         enabled: false,

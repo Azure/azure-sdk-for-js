@@ -47,10 +47,7 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
-// The ConsoleInstrumentation patches the global console. It must be disabled on
-// shutdown/re-init to restore console, since NodeSDK.shutdown() does not disable
-// instrumentations. Only the console instrumentation is tracked here; module
-// instrumentations are left to the SDK.
+// Track the global console patch because NodeSDK does not disable instrumentations.
 let consoleInstrumentation: Instrumentation | undefined;
 
 /**
@@ -79,8 +76,7 @@ function sendAttachWarning(): void {
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
-  // When log collection is disabled the log instrumentations are not registered,
-  // so Statsbeat must not report them as enabled.
+  // Omit disabled log instrumentations from Statsbeat.
   const logInstrumentationsEnabled = !isLogCollectionDisabled();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
@@ -116,7 +112,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   metrics.disable();
   trace.disable();
   logs.disable();
-  // Restore the console patch from a previous initialization before re-instrumenting.
+  // Restore any console patch from the previous initialization.
   consoleInstrumentation?.disable();
   consoleInstrumentation = undefined;
 
@@ -191,8 +187,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  // NodeSDK.shutdown() does not disable instrumentations, so restore the global
-  // console patch explicitly.
+  // NodeSDK.shutdown() does not restore the global console.
   consoleInstrumentation?.disable();
   consoleInstrumentation = undefined;
   return sdk?.shutdown();

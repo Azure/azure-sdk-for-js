@@ -272,7 +272,6 @@ describe("LogHandler", () => {
         enabled: true,
       };
       const logHandler = new LogHandler(config, metricHandler);
-      // "NONE" registers no log instrumentations.
       assert.strictEqual(
         logHandler.getInstrumentations().length,
         0,
@@ -323,9 +322,7 @@ describe("LogHandler", () => {
       const consoleInstrumentation = logHandler.getInstrumentations()[0];
       consoleInstrumentation.enable();
       try {
-        // WARN (13) is below the configured ERROR (17) threshold -> dropped.
         console.warn("console-warn-filtered");
-        // ERROR (17) is at the threshold -> collected.
         console.error("console-error-collected");
         await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
         const emitted = exportStub.mock.calls.flatMap((call) => call[0]);

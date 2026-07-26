@@ -103,8 +103,7 @@ class StatsbeatConfiguration {
       return { option: entry[0], value: entry[1] };
     });
 
-    // Map each enabled instrumentation option to its bit via the explicit
-    // name -> bit map, so bits are independent of the options object's key order.
+    // Map enabled option names to their assigned bits.
     for (let i = 0; i < instrumentationArray.length; i++) {
       if (instrumentationArray[i].value) {
         const instrumentationBit = StatsbeatInstrumentationsMap.get(instrumentationArray[i].option);

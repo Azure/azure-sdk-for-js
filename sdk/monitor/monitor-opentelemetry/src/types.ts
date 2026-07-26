@@ -295,10 +295,7 @@ export const StatsbeatInstrumentationMap = new Map<string, number>([
 ]);
 
 /**
- * Maps each Statsbeat instrumentation option name (the keys of
- * {@link StatsbeatInstrumentations}) to its {@link StatsbeatInstrumentation} bit.
- * Keyed by option/config name, unlike {@link StatsbeatInstrumentationMap}, which
- * is keyed by OpenTelemetry package name.
+ * Maps Statsbeat instrumentation option names to their assigned bits.
  * @internal
  */
 export const StatsbeatInstrumentationsMap = new Map<string, number>([

@@ -427,8 +427,7 @@ describe("Main functions", () => {
   });
 
   it("should preserve seeded community instrumentation bits (including bits above 2**32) across initialization", async () => {
-    // Seed CUCUMBER (256) and AMQPLIB (2**35, beyond 32-bit range) as a prior
-    // initialization would, then verify both survive the round trip.
+    // Preserve seeded flags below and above the 32-bit range.
     const env = <{ [id: string]: string }>{};
     env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
       instrumentation: StatsbeatInstrumentation.CUCUMBER + StatsbeatInstrumentation.AMQPLIB,
