@@ -169,6 +169,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/discovery/arm-discovery/samples/v1/javascript/workspacesListByResourceGroupSample.js
 [workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/discovery/arm-discovery/samples/v1/javascript/workspacesListBySubscriptionSample.js
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/discovery/arm-discovery/samples/v1/javascript/workspacesUpdateSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-discovery
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/discovery/arm-discovery/README.md

@@ -340,7 +340,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-discovery"
   },
   "imports": {
     "#platform/*": {
