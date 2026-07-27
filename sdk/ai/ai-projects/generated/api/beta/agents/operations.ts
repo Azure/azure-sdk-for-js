@@ -7,6 +7,8 @@ import {
   OptimizationJob,
   optimizationJobSerializer,
   optimizationJobDeserializer,
+  OptimizationJobResult,
+  optimizationJobResultDeserializer,
   _AgentsPagedResultOptimizationJobListItem,
   _agentsPagedResultOptimizationJobListItemDeserializer,
   OptimizationJobListItem,
@@ -15,6 +17,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -29,6 +32,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteOptimizationJobSend(
   context: Client,
@@ -290,8 +294,8 @@ export function _createOptimizationJobSend(
 
 export async function _createOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
-  const expectedStatuses = ["201"];
+): Promise<OptimizationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -301,15 +305,27 @@ export async function _createOptimizationJobDeserialize(
     throw error;
   }
 
-  return optimizationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return optimizationJobResultDeserializer(result.body.result);
 }
 
 /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
-export async function createOptimizationJob(
+export function createOptimizationJob(
   context: Client,
   job: OptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
-  const result = await _createOptimizationJobSend(context, job, options);
-  return _createOptimizationJobDeserialize(result);
+): PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult> {
+  return getLongRunningPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createOptimizationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
 }
