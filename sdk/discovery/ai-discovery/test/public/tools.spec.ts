@@ -1,0 +1,110 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * Tests for Tools operations (WorkspaceClient).
+ *
+ * Mirrors the Python suite (test_tools.py) in the SAME order. vitest runs `it`
+ * blocks top-to-bottom within this file.
+ */
+
+import type { Recorder } from "@azure-tools/test-recorder";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
+import type { WorkspaceClient } from "../../src/index.js";
+import {
+  captureOperationId,
+  createRecorder,
+  createWorkspaceClient,
+  testEnv,
+} from "./utils/recordedClient.js";
+
+describe("Tools operations (WorkspaceClient)", () => {
+  let recorder: Recorder;
+  let client: WorkspaceClient;
+  const projectName = testEnv("AZURE_DISCOVERY_PROJECT_NAME");
+  const toolId = testEnv("TOOL_ID");
+  const nodePoolId = testEnv("NODE_POOL_ID");
+
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    client = await createWorkspaceClient(recorder);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("run starts a tool run (LRO) that completes with a result", async () => {
+    const poller = client.tools.run(projectName, toolId, [nodePoolId], {
+      command: 'echo "hello world"',
+    });
+    const result = await poller.pollUntilDone();
+    assert.isDefined(result);
+  });
+
+  it("getRunStatus returns the status of a completed tool run", async () => {
+    const capture = captureOperationId();
+    const poller = client.tools.run(projectName, toolId, [nodePoolId], {
+      command: 'echo "status test"',
+      onResponse: capture.onResponse,
+    });
+    await poller.pollUntilDone();
+    const operationId = capture.operationId();
+
+    const status = await client.tools.getRunStatus(projectName, operationId);
+    assert.isDefined(status);
+    assert.isDefined(status.status);
+    assert.property(status, "result");
+  });
+
+  it("getRunStatus honors the logCount parameter", async () => {
+    const capture = captureOperationId();
+    const poller = client.tools.run(projectName, toolId, [nodePoolId], {
+      command: 'echo "log count test"',
+      onResponse: capture.onResponse,
+    });
+    await poller.pollUntilDone();
+    const operationId = capture.operationId();
+
+    const status = await client.tools.getRunStatus(projectName, operationId, { logCount: 10 });
+    assert.isDefined(status);
+    assert.isDefined(status.status);
+    assert.property(status, "result");
+  });
+
+  it("cancelRunLro cancels an in-flight tool run (LRO)", async () => {
+    const capture = captureOperationId();
+    const poller = client.tools.run(projectName, toolId, [nodePoolId], {
+      command: 'echo "cancel test" && sleep 300',
+      onResponse: capture.onResponse,
+    });
+    await poller.submitted();
+    const operationId = capture.operationId();
+
+    const cancelPoller = client.tools.cancelRunLro(projectName, operationId);
+    // A cancel LRO reaches terminal "canceled" (success path here) or "succeeded"
+    // if the run finished first. core-lro rejects on a non-success terminal state
+    // (a RestError, or a plain "Operation was canceled" error), so tolerate any
+    // rejection as long as the poller reached a terminal state.
+    try {
+      await cancelPoller.pollUntilDone();
+    } catch (error) {
+      if (!cancelPoller.isDone) {
+        throw error;
+      }
+    }
+    assert.isTrue(cancelPoller.isDone);
+    assert.include(["canceled", "succeeded"], cancelPoller.operationState?.status);
+  });
+
+  it("getOperations lists tool operations in a project", async () => {
+    const operations = await client.tools.getOperations(projectName);
+    assert.isDefined(operations);
+    assert.isArray(operations.value);
+  });
+
+  it("getComputeUsage returns compute usage for a project", async () => {
+    const usage = await client.tools.getComputeUsage(projectName);
+    assert.isDefined(usage);
+  });
+});
