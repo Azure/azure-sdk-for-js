@@ -1,5 +1,12 @@
 # Release History
 
+## 2.3.2 (Unreleased)
+
+### Bugs Fixed
+
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
+- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
 ## 2.3.1 (2026-07-09)
 
 ### Other Changes
