@@ -98,8 +98,8 @@ export async function buildPackage(
   const { name } = await getNpmPackageInfo(relativePackageDirectoryToSdkRoot);
   let buildStatus = `succeeded`;
   await ensurePnpmInstalled();
-  logger.info(`Start to pnpm install.`);
-  await runCommand(`pnpm`, ["install"], runCommandOptions, false);
+  logger.info(`Start to pnpm install --no-frozen-lockfile.`);
+  await runCommand(`pnpm`, ["install", "--no-frozen-lockfile"], runCommandOptions, false);
   logger.info(`Pnpm install successfully.`);
 
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
