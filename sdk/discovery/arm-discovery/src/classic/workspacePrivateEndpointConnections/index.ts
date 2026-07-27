@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/workspacePrivateEndpointConnections/operations.js";
-import {
+import type {
   WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/workspacePrivateEndpointConnections/options.js";
-import { WorkspacePrivateEndpointConnection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { WorkspacePrivateEndpointConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspacePrivateEndpointConnections operations. */
 export interface WorkspacePrivateEndpointConnectionsOperations {

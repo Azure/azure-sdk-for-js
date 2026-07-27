@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySupercomputer,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/nodePools/operations.js";
-import {
+import type {
   NodePoolsListBySupercomputerOptionalParams,
   NodePoolsDeleteOptionalParams,
   NodePoolsUpdateOptionalParams,
   NodePoolsCreateOrUpdateOptionalParams,
   NodePoolsGetOptionalParams,
 } from "../../api/nodePools/options.js";
-import { NodePool, NodePoolUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { NodePool, NodePoolUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodePools operations. */
 export interface NodePoolsOperations {

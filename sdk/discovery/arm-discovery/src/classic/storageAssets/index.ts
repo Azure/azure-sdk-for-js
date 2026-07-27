@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByStorageContainer,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageAssets/operations.js";
-import {
+import type {
   StorageAssetsListByStorageContainerOptionalParams,
   StorageAssetsDeleteOptionalParams,
   StorageAssetsUpdateOptionalParams,
   StorageAssetsCreateOrUpdateOptionalParams,
   StorageAssetsGetOptionalParams,
 } from "../../api/storageAssets/options.js";
-import { StorageAsset, StorageAssetUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StorageAsset, StorageAssetUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageAssets operations. */
 export interface StorageAssetsOperations {

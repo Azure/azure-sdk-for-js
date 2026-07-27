@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByBookshelf,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/bookshelfPrivateEndpointConnections/operations.js";
-import {
+import type {
   BookshelfPrivateEndpointConnectionsListByBookshelfOptionalParams,
   BookshelfPrivateEndpointConnectionsDeleteOptionalParams,
   BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   BookshelfPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/bookshelfPrivateEndpointConnections/options.js";
-import { BookshelfPrivateEndpointConnection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { BookshelfPrivateEndpointConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BookshelfPrivateEndpointConnections operations. */
 export interface BookshelfPrivateEndpointConnectionsOperations {

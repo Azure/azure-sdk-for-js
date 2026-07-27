@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/tools/operations.js";
-import {
+import type {
   ToolsListBySubscriptionOptionalParams,
   ToolsListByResourceGroupOptionalParams,
   ToolsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   ToolsCreateOrUpdateOptionalParams,
   ToolsGetOptionalParams,
 } from "../../api/tools/options.js";
-import { Tool, ToolUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Tool, ToolUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Tools operations. */
 export interface ToolsOperations {

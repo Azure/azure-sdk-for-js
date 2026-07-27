@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext as Client } from "../index.js";
+import type { DiscoveryContext as Client } from "../index.js";
+import type { NodePool, NodePoolUpdate, _NodePoolListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  NodePool,
   nodePoolSerializer,
   nodePoolDeserializer,
-  NodePoolUpdate,
   nodePoolUpdateSerializer,
-  _NodePoolListResult,
   _nodePoolListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   NodePoolsListBySupercomputerOptionalParams,
   NodePoolsDeleteOptionalParams,
   NodePoolsUpdateOptionalParams,
   NodePoolsCreateOrUpdateOptionalParams,
   NodePoolsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySupercomputerSend(
   context: Client,

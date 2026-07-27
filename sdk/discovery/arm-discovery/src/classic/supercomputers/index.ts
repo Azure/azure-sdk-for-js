@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/supercomputers/operations.js";
-import {
+import type {
   SupercomputersListBySubscriptionOptionalParams,
   SupercomputersListByResourceGroupOptionalParams,
   SupercomputersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   SupercomputersCreateOrUpdateOptionalParams,
   SupercomputersGetOptionalParams,
 } from "../../api/supercomputers/options.js";
-import { Supercomputer, SupercomputerUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Supercomputer, SupercomputerUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Supercomputers operations. */
 export interface SupercomputersOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageContainers/operations.js";
-import {
+import type {
   StorageContainersListBySubscriptionOptionalParams,
   StorageContainersListByResourceGroupOptionalParams,
   StorageContainersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersGetOptionalParams,
 } from "../../api/storageContainers/options.js";
-import { StorageContainer, StorageContainerUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StorageContainer, StorageContainerUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageContainers operations. */
 export interface StorageContainersOperations {

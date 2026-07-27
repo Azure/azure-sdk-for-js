@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import { listByBookshelf, get } from "../../api/bookshelfPrivateLinkResources/operations.js";
-import {
+import type {
   BookshelfPrivateLinkResourcesListByBookshelfOptionalParams,
   BookshelfPrivateLinkResourcesGetOptionalParams,
 } from "../../api/bookshelfPrivateLinkResources/options.js";
-import { BookshelfPrivateLinkResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { BookshelfPrivateLinkResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BookshelfPrivateLinkResources operations. */
 export interface BookshelfPrivateLinkResourcesOperations {

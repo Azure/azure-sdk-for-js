@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { DiscoveryContext as Client } from "../index.js";
+import type {
   BookshelfPrivateEndpointConnection,
-  bookshelfPrivateEndpointConnectionSerializer,
-  bookshelfPrivateEndpointConnectionDeserializer,
   _BookshelfPrivateEndpointConnectionListResult,
-  _bookshelfPrivateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  bookshelfPrivateEndpointConnectionSerializer,
+  bookshelfPrivateEndpointConnectionDeserializer,
+  _bookshelfPrivateEndpointConnectionListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   BookshelfPrivateEndpointConnectionsListByBookshelfOptionalParams,
   BookshelfPrivateEndpointConnectionsDeleteOptionalParams,
   BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   BookshelfPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByBookshelfSend(
   context: Client,

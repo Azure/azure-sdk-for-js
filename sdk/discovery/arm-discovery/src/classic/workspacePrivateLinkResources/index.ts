@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import { listByWorkspace, get } from "../../api/workspacePrivateLinkResources/operations.js";
-import {
+import type {
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesGetOptionalParams,
 } from "../../api/workspacePrivateLinkResources/options.js";
-import { WorkspacePrivateLinkResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { WorkspacePrivateLinkResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspacePrivateLinkResources operations. */
 export interface WorkspacePrivateLinkResourcesOperations {

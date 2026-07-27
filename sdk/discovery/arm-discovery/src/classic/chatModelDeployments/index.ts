@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiscoveryContext } from "../../api/discoveryContext.js";
+import type { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/chatModelDeployments/operations.js";
-import {
+import type {
   ChatModelDeploymentsListByWorkspaceOptionalParams,
   ChatModelDeploymentsDeleteOptionalParams,
   ChatModelDeploymentsUpdateOptionalParams,
   ChatModelDeploymentsCreateOrUpdateOptionalParams,
   ChatModelDeploymentsGetOptionalParams,
 } from "../../api/chatModelDeployments/options.js";
-import { ChatModelDeployment, ChatModelDeploymentUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ChatModelDeployment, ChatModelDeploymentUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ChatModelDeployments operations. */
 export interface ChatModelDeploymentsOperations {
