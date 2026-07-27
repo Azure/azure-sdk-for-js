@@ -4,16 +4,19 @@
 import { AIProjectContext as Client } from "../../index.js";
 import type {
   DataGenerationJob,
+  DataGenerationJobResult,
   _AgentsPagedResultDataGenerationJob,
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   dataGenerationJobSerializer,
   dataGenerationJobDeserializer,
+  dataGenerationJobResultDeserializer,
   _agentsPagedResultDataGenerationJobDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -24,6 +27,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -155,8 +159,8 @@ export function _createGenerationJobSend(
 
 export async function _createGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
-  const expectedStatuses = ["201"];
+): Promise<DataGenerationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -166,17 +170,29 @@ export async function _createGenerationJobDeserialize(
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return dataGenerationJobResultDeserializer(result.body.result);
 }
 
 /** Submits a new data generation job for asynchronous execution. */
-export async function createGenerationJob(
+export function createGenerationJob(
   context: Client,
   job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
-  const result = await _createGenerationJobSend(context, job, options);
-  return _createGenerationJobDeserialize(result);
+): PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult> {
+  return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
 }
 
 export function _listGenerationJobsSend(

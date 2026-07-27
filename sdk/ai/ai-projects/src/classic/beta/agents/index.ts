@@ -16,8 +16,13 @@ import type {
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
 } from "../../../api/beta/agents/options.js";
-import type { OptimizationJob, OptimizationJobListItem } from "../../../models/models.js";
+import type {
+  OptimizationJob,
+  OptimizationJobResult,
+  OptimizationJobListItem,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
@@ -44,7 +49,7 @@ export interface BetaAgentsOperations {
   createOptimizationJob: (
     job: OptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
-  ) => Promise<OptimizationJob>;
+  ) => PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {
