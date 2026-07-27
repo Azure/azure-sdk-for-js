@@ -22154,9 +22154,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
-      '@types/pako':
-        specifier: ^2.0.0
-        version: 2.0.4
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.10(playwright@1.62.0)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
@@ -37786,9 +37783,6 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha1-VuLMJsOXwDj6sOOpF6EtXFkJ6QE=}
 
-  '@types/pako@2.0.4':
-    resolution: {integrity: sha1-w1de+BJeF2w0X6DnswHB20EXDBU=}
-
   '@types/pg-pool@2.0.7':
     resolution: {integrity: sha1-wXlFp0Ry2aO+r45m1apvyTgyhzQ=}
 
@@ -44570,8 +44564,6 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/normalize-package-data@2.4.4': {}
-
-  '@types/pako@2.0.4': {}
 
   '@types/pg-pool@2.0.7':
     dependencies:
