@@ -21,6 +21,7 @@ import {
 } from "@opentelemetry/sdk-trace-node";
 import { startSpan, runInSpanContext } from "../../../../src/tracing/tracingClient.js";
 import { traceAgentCreate } from "../../../../src/tracing/agentTracing.js";
+import type { Agent } from "../../../../src/models/models.js";
 
 describe("span parenting - startSpan and runInSpanContext", () => {
   let provider: NodeTracerProvider;
@@ -143,13 +144,20 @@ describe("span parenting - startSpan and runInSpanContext", () => {
   });
 
   it("traceAgentCreate activates span context so child spans are parented", async () => {
-    const fakeAgent = {
-      object: "agent" as const,
+    const fakeAgent: Agent = {
+      object: "agent",
       id: "agent-123",
       name: "test-agent",
-      state: "active",
+      state: "enabled",
       versions: {
-        latest: { object: "agent.version" as const, id: "v1", version: 1, model: "gpt-4" },
+        latest: {
+          object: "agent.version",
+          id: "v1",
+          name: "test-agent",
+          version: "1",
+          created_at: new Date("2026-01-01"),
+          definition: { kind: "prompt", model: "gpt-4" },
+        },
       },
     };
 
@@ -160,19 +168,17 @@ describe("span parenting - startSpan and runInSpanContext", () => {
     };
 
     await traceAgentCreate("test-agent", "https://example.com", tracingConfig, async () => {
-      // Create a child span inside the operation — it should be parented
-      // under the traceAgentCreate span via the activated context.
-      // This verifies that traceAgentCreate uses runInSpanContext to make
-      // the operation span the active parent before invoking the operation.
+      // Simulate async work (e.g. network I/O) before creating a child span.
+      // This verifies context propagation across async boundaries.
+      await Promise.resolve();
+      // Create a child span — it should be parented under the traceAgentCreate
+      // wrapper span via the activated context.
       const { span: childSpan } = startSpan("child-http-call");
       childSpan.end();
-      // Simulate async work (the actual HTTP call)
-      await Promise.resolve();
-      return fakeAgent as any;
+      return fakeAgent;
     });
 
     const spans = exporter.getFinishedSpans();
-    // Should have at least 2 spans: the wrapper span and the child span
     assert.isAtLeast(spans.length, 2, "expected at least 2 finished spans");
 
     const wrapperSpan = spans.find((s) => s.name.includes("test-agent"));
@@ -193,6 +199,49 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       childSpan!.spanContext().traceId,
       wrapperSpan!.spanContext().traceId,
       "child and wrapper spans should share the same traceId",
+    );
+  });
+
+  it("traceAgentCreate sets error status and ends span on rejection", async () => {
+    const tracingConfig = {
+      enabled: true,
+      contentRecording: false,
+      traceContextPropagation: true,
+    };
+
+    const expectedError = new Error("network failure");
+
+    let caughtError: unknown;
+    try {
+      await traceAgentCreate("failing-agent", "https://example.com", tracingConfig, async () => {
+        throw expectedError;
+      });
+    } catch (err) {
+      caughtError = err;
+    }
+
+    // The original error should be preserved
+    assert.equal(caughtError, expectedError, "should rethrow the original error");
+
+    const spans = exporter.getFinishedSpans();
+    assert.isAtLeast(spans.length, 1, "span should still be exported on error");
+
+    const errorSpan = spans.find((s) => s.name.includes("failing-agent"));
+    assert.isDefined(errorSpan, "error span should exist");
+
+    // Span should have ERROR status (code 2)
+    assert.equal(errorSpan!.status.code, 2, "span should have ERROR status");
+    assert.equal(
+      errorSpan!.status.message,
+      "Error",
+      "span status message should be the error name",
+    );
+
+    // Span should have error.type attribute
+    assert.equal(
+      errorSpan!.attributes["error.type"],
+      "Error",
+      "span should have error.type attribute",
     );
   });
 });
