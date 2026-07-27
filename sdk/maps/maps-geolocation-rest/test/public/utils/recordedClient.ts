@@ -3,7 +3,7 @@
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env.js";
+import "#platform/test/public/utils/env";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { MapsGeolocationClient } from "../../../src/index.js";
 import MapsGeolocation from "../../../src/index.js";
