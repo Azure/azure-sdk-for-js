@@ -56,6 +56,8 @@ export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOpt
 
 /** Optional parameters. */
 export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V2Preview";
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
