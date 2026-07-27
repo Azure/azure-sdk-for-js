@@ -132,7 +132,7 @@ In the Copilot Chat panel, use the `@` prefix to summon an agent by name:
   explore the codebase to answer questions.
 - You can ask an agent to review specific files, a git diff, or the entire
   branch.
-- Agents follow the detailed guidance and references in `.github/prompts/`.
+- Agents follow the detailed guidance in `.github/prompts/` and `.github/instructions/reviewer/`.
 - Agents respect the same scoping rules as in CI: they ignore `src/generated/`,
   `snippets.spec.ts`, formatting issues, and domains outside their expertise.
 

@@ -1,26 +1,38 @@
 # Dependency Management
 
-The Azure SDK for JS client libraries include a host of dependencies, both internal and external. In general, our policy allows for some flexibility in dependencies and we generally pin to a [caret] version - allowing for patches, security fixes, and any non-breaking changes in our dependency ranges.
+The Azure SDK for JS client libraries use semver ranges for many dependencies,
+typically caret ranges, while the monorepo itself is managed with `pnpm` and a
+shared `pnpm-workspace.yaml` catalog.
 
-There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our SemVer policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix.
-
-In this document we'll outline a few options available to you when a transitive dependency must be updated.
-
-> **SDK authors:** for the policy on taking a _new_ third-party runtime
+> **SDK authors:** for the policy on taking a new third-party runtime
 > dependency in a shipped library, see
-> [Adding a new third-party runtime dependency](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
+> [Adding a new third-party runtime dependency](./steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
 
-## Example scenario
+## Inside this repository
 
-Let's assume that a vulnerability has been found in [node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
+When changing dependencies in `azure-sdk-for-js` itself:
 
-The outputs below assume you're using `npm v8.1.2` with a lockfile, but we will provide instructions for Yarn as well.
+- use `pnpm`, not `npm install`
+- prefer existing catalog entries in `pnpm-workspace.yaml`
+- run `pnpm install` after editing `package.json`
+- commit the resulting `pnpm-lock.yaml` changes
 
-### Identifying the dependency tree
+For repo-specific contributor guidance, see:
 
-First, let's see how `node-fetch` is pulled into our dependency tree.
+- [CONTRIBUTING.md](../CONTRIBUTING.md#installing-and-managing-dependencies)
+- [resolve-pnpm-lock-merge-conflict.md](./resolve-pnpm-lock-merge-conflict.md)
 
-```
+## Example scenario: customer app needs a transitive dependency update
+
+The rest of this document is about **applications that consume Azure SDK
+packages**, not about modifying this monorepo.
+
+Assume a vulnerability has been found in `node-fetch` 2.6.6 and your app depends
+on `@azure/keyvault-keys`.
+
+### Identify the dependency tree
+
+```text
 > npm ls node-fetch
 
 keyvault@1.0.0 /home/user/my-app
@@ -29,72 +41,31 @@ keyvault@1.0.0 /home/user/my-app
     └── node-fetch@2.6.6
 ```
 
-> If you are using Yarn you can use `yarn why node-fetch` with similar results.
+If you use Yarn, `yarn why node-fetch` provides similar information.
 
-It looks like `node-fetch`, a dependency of `@azure/core-http@2.2.3` is being pulled in _transitively_ via `@azure/keyvault-keys@4.3.0`.
+### Use `npm audit fix`
 
-Because I use a lockfile, running `npm install` again will not help me here. But `npm` provides a few utilities that can.
+If the issue came from `npm audit`, start there:
 
-### Using `npm audit fix`
-
-First, it's possible that you were alerted to a security vulnerability thanks to `npm audit`. In this case, the simplest solution might be to run `npm audit fix`. Let's see what that looks like:
-
-```
+```text
 > npm audit fix
-
-changed 1 package, and audited 51 packages in 421ms
-
-2 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
-keyvault main % npm ls node-fetch
-keyvault@1.0.0 /home/user/my-app
-└─┬ @azure/keyvault-keys@4.3.0
-  └─┬ @azure/core-http@2.2.3
-    └── node-fetch@2.6.7
 ```
 
-As you can see node-fetch has been updated to 2.6.7, without having to wait for a new version of `@azure/core-http`.
+This can update the transitive dependency in your application lockfile without
+waiting for a new Azure SDK release, when the semver ranges already allow it.
 
-For more information on `npm audit` please refer to the [npm-audit documentation][npm-audit].
+### Use `npm update`
 
-> If you are using Yarn you can use `yarn npm audit` with similar results.
+For non-security updates in an application, you can also try:
 
-### Using `npm update`
-
-Not all updates are due to security vulnerabilities. Sometimes you just want to update a transitive dependency without deleting your lockfile. In that case, `npm update node-fetch` can help. Let's see what that looks like:
-
-```
+```text
 > npm update node-fetch
-
-changed 1 package, and audited 51 packages in 320ms
-
-2 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
-keyvault main % npm ls node-fetch
-keyvault@1.0.0 /home/user/my-app
-└─┬ @azure/keyvault-keys@4.3.0
-  └─┬ @azure/core-http@2.2.3
-    └── node-fetch@2.6.7
 ```
 
-Awesome!
+In older npm versions, you may need `--depth`.
 
-> If you are using Yarn you can use `yarn up node-fetch` with similar results.
+## Need more help?
 
-> Note: In some previous versions of `npm`, `npm update` would only update _top-level_ dependencies. If you're using npm 6.x for example you can provide the `--depth` argument to achieve similar results.
-
-For more information on `npm update` please refer to the [npm-update documentation][npm-update].
-
-### I read this guide and still have no idea what to do
-
-Feel free to [file an issue][file-an-issue] and start a discussion, we're here to help and will try to do so to the best of our abilities!
+If you're unsure how to proceed, [file an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose).
 
 [caret]: https://docs.npmjs.com/cli/v6/using-npm/semver#caret-ranges-123-025-004
-[node-fetch]: https://www.npmjs.com/package/node-fetch
-[npm-audit]: https://docs.npmjs.com/cli/v8/commands/npm-audit
-[npm-update]: https://docs.npmjs.com/cli/v8/commands/npm-update
-[file-an-issue]: https://github.com/Azure/azure-sdk-for-js/issues/new/choose

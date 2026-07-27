@@ -4,12 +4,12 @@ In this document, we describe how to address common linting issues for a package
 
 # Azure SDK eslint plugin
 
-Our custom linting rules and recommended configurations is hosted in the `@azure/eslint-plugin-azure-sdk` package. You MUST build it first before linting any SDK packages.
+Our custom linting rules and recommended configurations are hosted in the `@azure/eslint-plugin-azure-sdk` workspace package. Run `pnpm install` first. If you need to build the plugin explicitly, use:
 
 - `pnpm install`
 - `pnpm turbo build --filter=@azure/eslint-plugin-azure-sdk... --token 1`
 
-It also gets built as a dependency of any SDK packages.
+In normal package workflows, Turbo will build the plugin automatically when it is a dependency.
 
 # Linting a package
 

@@ -2,7 +2,7 @@
 
 This document shows the customers of the JavaScript/TypeScript management libraries on how to migrate their code to use the next-generation libraries.
 
-**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start for next generation](../documentation/next-generation-quickstart.md).**
 
 ## Current status
 
@@ -44,7 +44,7 @@ import { ClientSecretCredential } from "@azure/identity";
 const credentials = new ClientSecretCredential(tenantId, clientId, clientSecret);
 ```
 
-Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about `@azure/identity` and [migration guide from @azure/ms-rest-nodeauth to @azure/identity](https://github.com/Azure/ms-rest-nodeauth/blob/master/migrate-to-identity-v2.md) on how to migrate from `@azure/ms-rest-nodeauth`.  
+Please refer to [@azure/identity](https://www.npmjs.com/package/@azure/identity) for more details about `@azure/identity`.  
 
 ## Callbacks
 
@@ -268,7 +268,7 @@ const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
   parameter
 );
 console.log(`The current status? ${poller.getPollState().state"}`)
-const result = await poller.pollUntilFinished().then((response) => {
+const result = await poller.pollUntilDone().then((response) => {
   console.log(response);
 });
       </pre>

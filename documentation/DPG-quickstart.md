@@ -13,13 +13,13 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 ## Prerequisites
 
-- [LTS versions of Node.js](https://nodejs.org/en/about/releases/)
+- Node.js 22 or newer (the repo currently requires `>=22`; see `package.json`)
 - Install pnpm with the [pnpm installation instructions](https://pnpm.io/installation).
 - Install tsp-client dependencies with `npm --prefix eng/common/tsp-client ci`
 
 # Set up your development environment
 
-Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the `azure-sdk-for-js` repository.
+Follow the [setup guide](../CONTRIBUTING.md#prerequisites) for environment prerequisites in the `azure-sdk-for-js` repository.
 
 # Identify your project's service and package name
 
@@ -94,10 +94,10 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
     ---  
     **NOTE**
-    The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
+    The version of typespec-ts is configured in [emitter-package.json](../eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](../eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
 
     --- 
 
 # After SDK generation
 
-The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generation guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md) to check the code.
+The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generation guide](./steps-after-generations.md) to validate and finish the package.

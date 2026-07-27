@@ -6,12 +6,12 @@ This doc shows some common problems and resolution in CI.
 
 ![image](./images/broken-links.png)
 
-Add the broken links into [eng/ignore-links.txt](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/ignore-links.txt) file to bypass this verification or you could update the broken links to valid ones, see [example PR here](https://github.com/Azure/azure-sdk-for-js/pull/23429/commits/1a7b74c4bdad27e423a355a4c7f3dde4ac3c83bc).
+Fix broken links where possible. If a link must remain temporarily broken, add it to [`eng/ignore-links.txt`](../eng/ignore-links.txt) to suppress the repository link-check until the target is fixed.
 
 
 # Check spelling (cspell)
 
-For new service the error usually happens, fix spelling in code or in markdown at file [.vscode/cspell.json](https://github.com/Azure/azure-sdk-for-js/blob/main/.vscode/cspell.json). See an example in [devcenter PR](https://github.com/chrissmiller/azure-sdk-for-js/commit/ef18dccae59e98185e3854f8b087230b65735744).
+For new service the error usually happens, fix spelling in code or in markdown at file [.vscode/cspell.json](../.vscode/cspell.json). See an example in [devcenter PR](https://github.com/chrissmiller/azure-sdk-for-js/commit/ef18dccae59e98185e3854f8b087230b65735744).
 
 # Push failure\
 

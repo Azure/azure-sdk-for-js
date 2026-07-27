@@ -3,8 +3,8 @@
 In this document, we will give a brief introduction on how to use the JavaScript SDK for new users.
 
 1. Prepare your environment.  
-    NodeJS: can be installed from https://nodejs.org/en/download/  
-    typescript: install it with `npm install -g typescript`.
+    Node.js 22 or newer can be installed from https://nodejs.org/en/download/.  
+    TypeScript can be added to your test project with `npm install --save-dev typescript`.
 
 1. Create a empty folder and `cd` this folder.
 
@@ -16,7 +16,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Initialize a new node project. 
 
     ```
-    npm init
+    npm init -y
     ```
 
     This step will create a `package.json` file in current folder.
@@ -43,7 +43,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
         import { DefaultAzureCredential } from "@azure/identity";
         import{ TargetManagementClient } from "@azure/arm-target";
 
-        const subscriptionId = process.env.SUBSCRIPTION_ID || '';
+        const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || "";
         const credentials=new DefaultAzureCredential();
 
         async function test() {
@@ -61,15 +61,15 @@ In this document, we will give a brief introduction on how to use the JavaScript
     Eg:
 
     ```ts
-    const client = new ComputeManagementClient(credentials, subscriptionID);
+    const client = new ComputeManagementClient(credentials, subscriptionId);
     const result= await client.galleries.beginCreateOrUpdateAndWait(resourceGroupName, galleryName, gallery);
-    const result= await client.galleryImages.begincreateOrUpdateAndWait(resourceGroupName, galleryName, galleryImageName, galleryImage);
+    const result = await client.galleryImages.beginCreateOrUpdateAndWait(resourceGroupName, galleryName, galleryImageName, galleryImage);
     ```
     
 1. Install all the dependencies
 
    ```
-   npm install // need to make sure package.json exists and has contained at step 4.
+   npm install
    ```
 
 1. Compile the ts file.

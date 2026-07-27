@@ -65,4 +65,4 @@ Suppressing warnings in a file is convenient for fake credential files, but stri
 [credscan_doc]: https://aka.ms/credscan
 [credscan_output]: https://dev.azure.com/azure-sdk/internal/_build/results?buildId=1326164&view=logs&j=3b141548-98d7-5be1-7ef8-eeb08ca02972&t=7989ab4d-bdd3-5239-37e1-e3681bbc7025&l=49
 [devops_doc]: https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/413/Credential-Scan-Step-in-Pipeline
-[suppression_file]: https://github.com/Azure/azure-sdk-for-js/blob/main/eng/CredScanSuppression.json
+[suppression_file]: ../eng/CredScanSuppression.json

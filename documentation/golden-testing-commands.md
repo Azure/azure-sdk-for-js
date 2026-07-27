@@ -1,15 +1,15 @@
 # Useful Commands while Testing your packages
 
-If you're not familiar with the recorder refer to [recorder-readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+If you're not familiar with the recorder refer to [recorder-readme](../sdk/test-utils/recorder/README.md).
 
-If you're looking to be onboarded to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
+If you're looking to be onboarded to the asset-sync workflow to push out the test recordings to `Azure/azure-sdk-assets` repository, refer to [asset-sync-workflow](../sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md).
 
 ## `pnpm` Commands
 
 | script name             | What does it do?                                                                                                |
 |:------------------------|:----------------------------------------------------------------------------------------------------------------|
 | `pnpm install`          | Updates dependencies                                                                                            |
-| `pnpm -F {./}... build` | Expected to be run from inside your package(`sdk/service-name/package-name`). Builds the whole dependency tree. |
+| `pnpm turbo build --filter=<package-name>... --token 1` | Run from the repo root. Builds the package and its local dependency tree. |
 |                         |                                                                                                                 |
 
 ## Commands - to run the tests inside the package directory
@@ -62,13 +62,13 @@ export default mergeConfig(
 ```ts
    it.only("test title...")
 ```
-Run the test command such as `pnpm unit-test:node` to run the test
+Run the matching package test command such as `pnpm test:node` to run the test
 
 [powershell]: https://github.com/PowerShell/PowerShell
 
 ## [Method 2] --testNamePattern
 ```bash
-pnpm integration-test:node -- --testNamePattern "simple"
+pnpm test:node -- --testNamePattern "simple"
 ```
 Reference - [Filtering Tests — Introduction to Testing JavaScript with Vitest](https://stevekinney.net/courses/testing/filtering-tests)
 
