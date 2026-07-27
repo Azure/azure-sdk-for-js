@@ -22124,8 +22124,8 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       pako:
-        specifier: ^2.1.0
-        version: 2.2.0
+        specifier: ^3.0.1
+        version: 3.0.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -40436,8 +40436,8 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha1-TxRxoBCCeob5TP2bByfjbSZ95QU=}
 
-  pako@2.2.0:
-    resolution: {integrity: sha1-JGudTIQajTCOSEwNA3hmUbFD5jo=}
+  pako@3.0.1:
+    resolution: {integrity: sha1-MVb4+objzCrlo2NpR1sU1PBWls4=}
 
   parent-module@1.0.1:
     resolution: {integrity: sha1-aR0nCeeMefrjoVZiJFLQB2LKqqI=}
@@ -47683,7 +47683,7 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
-  pako@2.2.0: {}
+  pako@3.0.1: {}
 
   parent-module@1.0.1:
     dependencies:
