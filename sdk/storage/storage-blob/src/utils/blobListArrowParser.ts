@@ -33,28 +33,25 @@ export async function parseBlobListArrowResponse(response: {
   readableStreamBody?: NodeJS.ReadableStream;
   blobBody?: Promise<Blob>;
 }): Promise<ParsedBlobListArrowSegment> {
-  const bytes = await readResponseBodyToBytes(response);
-  return parseBlobListArrowBytes(bytes);
+  // Load apache-arrow lazily so it is only pulled in when the Arrow format is requested.
+  const { tableFromIPC } = await import("apache-arrow");
+  // Node streams the body into apache-arrow so record batches are read incrementally;
+  // the browser reads the whole Blob.
+  const table = response.readableStreamBody
+    ? await tableFromIPC(response.readableStreamBody)
+    : tableFromIPC(await readResponseBodyToBytes(response));
+  return projectArrowTable(new ArrowTableReader(table));
 }
 
 /**
- * Parses an Apache Arrow IPC stream (as bytes) produced by the Blob List Blobs
- * Apache Arrow operation into blob items and prefixes.
+ * Reconstructs blob items and prefixes from a decoded Apache Arrow table.
  *
  * The Arrow data is columnar: each field (e.g. `Name`, `Content-Length`) is a
  * separate column. We reconstruct one {@link BlobItemInternal} row per row by reading
  * each column at that row index; the caller projects those to public models. The
  * continuation token travels in the schema metadata (a page-level value, not a column).
- *
- * @param bytes - The Apache Arrow IPC stream bytes.
  */
-async function parseBlobListArrowBytes(bytes: Uint8Array): Promise<ParsedBlobListArrowSegment> {
-  // Load apache-arrow lazily so the (sizable) dependency is only pulled in when a
-  // caller actually opts into the Apache Arrow response format. This keeps the
-  // default XML path and browser bundles lean.
-  const { tableFromIPC } = await import("apache-arrow");
-  const reader = new ArrowTableReader(tableFromIPC(bytes));
-
+function projectArrowTable(reader: ArrowTableReader): ParsedBlobListArrowSegment {
   const nextMarker = reader.metadata("NextMarker");
 
   const blobItems: BlobItemInternal[] = [];

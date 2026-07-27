@@ -10,14 +10,28 @@ import {
 } from "../utils/index.js";
 import type { PublicAccessType } from "../../src/index.js";
 import { getBlobServiceAccountAudience } from "../../src/index.js";
-import type { StorageSharedKeyCredential } from "@azure/storage-common";
-import type { BlobServiceClient } from "../../src/index.js";
-import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src/index.js";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { BlobServiceClient, BlobItem } from "../../src/index.js";
+import {
+  ContainerClient,
+  newPipeline,
+  ContainerSASPermissions,
+  StorageResponseFormat,
+} from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import { Readable } from "node:stream";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;
@@ -281,5 +295,96 @@ describe("ContainerClient Node.js only", () => {
     assert.isDefined(result.version);
     assert.isDefined(result.date);
     assert.isUndefined(result.blobPublicAccess);
+  });
+});
+
+describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () => {
+  // Exercise the Arrow list operations' XML fallback (used for non-Arrow accounts) by
+  // short-circuiting the pipeline with a synthetic application/xml response.
+  function containerClientReturningXml(xml: string): ContainerClient {
+    const account = "fakeaccount";
+    const credential = new StorageSharedKeyCredential(
+      account,
+      Buffer.from("fake-shared-key").toString("base64"),
+    );
+    const client = new ContainerClient(
+      `https://${account}.blob.core.windows.net/fakecontainer`,
+      credential,
+    );
+    const injector: PipelinePolicy = {
+      name: "xmlResponseInjector",
+      async sendRequest(request: PipelineRequest, _next: SendRequest): Promise<PipelineResponse> {
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders({ "content-type": "application/xml" }),
+          readableStreamBody: Readable.from([
+            Buffer.from(xml, "utf-8"),
+          ]) as unknown as NodeJS.ReadableStream,
+        };
+      },
+    };
+    const pipeline: Pipeline = (client as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    return client;
+  }
+
+  const flatXml =
+    `<?xml version="1.0" encoding="utf-8"?>` +
+    `<EnumerationResults ServiceEndpoint="https://fakeaccount.blob.core.windows.net/" ContainerName="fakecontainer">` +
+    `<Blobs>` +
+    `<Blob><Name>blobA</Name><Properties>` +
+    `<Last-Modified>Thu, 19 Oct 2023 03:01:29 GMT</Last-Modified><Etag>0x8DBD04FB1106DA9</Etag>` +
+    `<Content-Length>1024</Content-Length><Content-Type>text/plain</Content-Type><BlobType>BlockBlob</BlobType>` +
+    `</Properties></Blob>` +
+    `<Blob><Name>blobB</Name><Properties>` +
+    `<Last-Modified>Thu, 19 Oct 2023 03:01:29 GMT</Last-Modified><Etag>0x8DBD04FB1106DAA</Etag>` +
+    `<Content-Length>2048</Content-Length><Content-Type>application/octet-stream</Content-Type><BlobType>BlockBlob</BlobType>` +
+    `</Properties></Blob>` +
+    `</Blobs><NextMarker /></EnumerationResults>`;
+
+  it("listBlobsFlat parses and projects an XML fallback page", async () => {
+    const client = containerClientReturningXml(flatXml);
+    const items: BlobItem[] = [];
+    for await (const item of client.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Arrow,
+    })) {
+      items.push(item);
+    }
+    assert.equal(items.length, 2);
+    assert.equal(items[0].name, "blobA");
+    assert.equal(items[0].properties.contentLength, 1024);
+    assert.equal(items[0].properties.contentType, "text/plain");
+    assert.equal(items[0].properties.blobType, "BlockBlob");
+    assert.equal(items[1].name, "blobB");
+    assert.equal(items[1].properties.contentLength, 2048);
+  });
+
+  const hierarchyXml =
+    `<?xml version="1.0" encoding="utf-8"?>` +
+    `<EnumerationResults ServiceEndpoint="https://fakeaccount.blob.core.windows.net/" ContainerName="fakecontainer">` +
+    `<Delimiter>/</Delimiter><Blobs>` +
+    `<Blob><Name>rootblob</Name><Properties>` +
+    `<Last-Modified>Thu, 19 Oct 2023 03:01:29 GMT</Last-Modified><Etag>0x8DBD04FB1106DA9</Etag>` +
+    `<Content-Length>10</Content-Length><Content-Type>text/plain</Content-Type><BlobType>BlockBlob</BlobType>` +
+    `</Properties></Blob>` +
+    `<BlobPrefix><Name>folder1/</Name></BlobPrefix>` +
+    `</Blobs><NextMarker /></EnumerationResults>`;
+
+  it("listBlobsByHierarchy parses and projects an XML fallback page with prefixes", async () => {
+    const client = containerClientReturningXml(hierarchyXml);
+    const blobs: string[] = [];
+    const prefixes: string[] = [];
+    for await (const item of client.listBlobsByHierarchy("/", {
+      responseFormat: StorageResponseFormat.Arrow,
+    })) {
+      if (item.kind === "prefix") {
+        prefixes.push(item.name);
+      } else {
+        blobs.push(item.name);
+      }
+    }
+    assert.deepEqual(blobs, ["rootblob"]);
+    assert.deepEqual(prefixes, ["folder1/"]);
   });
 });
