@@ -330,6 +330,18 @@ describe("snippets", () => {
     console.log(`Feature flag ${result.name} is enabled: ${result.enabled}`);
   });
 
+  it("AddFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const result = await client.addFeatureFlag({
+      name: "MyFeatureFlag",
+      enabled: true,
+    });
+    console.log(`Feature flag ${result.name} is enabled: ${result.enabled}`);
+  });
+
   it("GetFeatureFlag", async () => {
     const endpoint = "https://example.azconfig.io";
     const credential = new DefaultAzureCredential();

@@ -18,6 +18,7 @@ import type {
   ListLabelsPage,
   PageSettings,
   SetFeatureFlagOptions,
+  AddFeatureFlagOptions,
   SettingLabel,
 } from "./models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -112,6 +113,56 @@ export class FeatureFlagClient {
             skipUrlEncoding: true,
           },
         });
+      },
+    );
+  }
+
+  /**
+   * Adds a feature flag through the dedicated feature flag endpoint, failing if the
+   * feature flag already exists.
+   *
+   * Example usage:
+   * ```ts snippet:AddFeatureFlag
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { FeatureFlagClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new FeatureFlagClient(endpoint, credential);
+   *
+   * const result = await client.addFeatureFlag({
+   *   name: "MyFeatureFlag",
+   *   enabled: true,
+   * });
+   * console.log(`Feature flag ${result.name} is enabled: ${result.enabled}`);
+   * ```
+   * @param featureFlag - The feature flag to add. Its `name` and `label` identify the resource.
+   * @param options - Optional parameters for the request.
+   */
+  addFeatureFlag(featureFlag: FeatureFlag, options: AddFeatureFlagOptions = {}): Promise<FeatureFlag> {
+    return tracingClient.withSpan(
+      "FeatureFlagClient.addFeatureFlag",
+      options,
+      async (updatedOptions) => {
+        try {
+          return await this.client.featureFlagClient.putFeatureFlag(featureFlag.name, {
+            ...updatedOptions,
+            entity: featureFlag,
+            label: featureFlag.label,
+            ifNoneMatch: "*",
+            requestOptions: {
+              ...updatedOptions.requestOptions,
+              skipUrlEncoding: true,
+            },
+          });
+        } catch (error) {
+          const err = error as RestError;
+          // Service does not return an error message. Raise a 412 error similar to addConfigurationSetting.
+          if (err.statusCode === 412) {
+            err.message = `Status 412: Feature flag was already present`;
+          }
+          throw err;
+        }
       },
     );
   }

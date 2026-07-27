@@ -503,6 +503,11 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
 export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
 
 /**
+ * Options used when adding a feature flag through the dedicated feature flag endpoint.
+ */
+export interface AddFeatureFlagOptions extends OperationOptions {}
+
+/**
  * Response from retrieving a feature flag through the dedicated feature flag endpoint.
  *
  * When a conditional request is made with `onlyIfChanged` and the feature flag has

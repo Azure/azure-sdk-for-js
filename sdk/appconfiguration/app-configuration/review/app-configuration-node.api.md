@@ -27,6 +27,10 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
+export interface AddFeatureFlagOptions extends OperationOptions {
+}
+
+// @public
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
@@ -174,6 +178,7 @@ export interface FeatureFlagAllocation {
 export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
+    addFeatureFlag(featureFlag: FeatureFlag, options?: AddFeatureFlagOptions): Promise<FeatureFlag>;
     deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
     getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;

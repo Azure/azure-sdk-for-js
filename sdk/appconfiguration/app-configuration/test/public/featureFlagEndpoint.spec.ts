@@ -48,6 +48,27 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     assert.equal(getResponse.description, "a simple feature flag");
   });
 
+  it("can add a feature flag and fails when it already exists", async () => {
+    const addResponse = await client.addFeatureFlag({
+      name: featureFlagName,
+      label,
+      enabled: true,
+      description: "an added feature flag",
+    });
+    assert.equal(addResponse.name, featureFlagName);
+    assert.equal(addResponse.label, label);
+    assert.equal(addResponse.enabled, true);
+
+    let threw = false;
+    try {
+      await client.addFeatureFlag({ name: featureFlagName, label, enabled: false });
+    } catch (error: any) {
+      threw = true;
+      assert.equal(error.statusCode, 412);
+    }
+    assert.equal(threw, true, "Expected adding an existing feature flag to throw a 412");
+  });
+
   it("can set and get a rich feature flag", async () => {
     const richFlag: FeatureFlag = {
       name: featureFlagName,
