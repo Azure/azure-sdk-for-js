@@ -4,17 +4,23 @@
 /**
  * Specifies the format the service should use to return list results.
  */
-export enum StorageResponseFormat {
+export const StorageResponseFormat = {
   /**
    * Default. Currently maps to {@link StorageResponseFormat.Xml}, but may be updated in future releases.
    */
-  Auto = 0,
+  Auto: "Auto",
   /**
    * Use XML to return list results.
    */
-  Xml = 1,
+  Xml: "Xml",
   /**
    * Use Apache Arrow to return list results.
    */
-  Arrow = 2,
-}
+  Arrow: "Arrow",
+} as const;
+
+/**
+ * Specifies the format the service should use to return list results.
+ */
+export type StorageResponseFormat =
+  (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];

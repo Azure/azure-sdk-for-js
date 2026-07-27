@@ -163,11 +163,14 @@ export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
 
 // @public
-export enum StorageResponseFormat {
-    Arrow = 2,
-    Auto = 0,
-    Xml = 1
-}
+export const StorageResponseFormat: {
+    readonly Auto: "Auto";
+    readonly Xml: "Xml";
+    readonly Arrow: "Arrow";
+};
+
+// @public
+export type StorageResponseFormat = (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];
 
 // @public
 export interface StorageRetryOptions {
