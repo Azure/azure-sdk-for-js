@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Commitment Tiers.
  *
  * @summary list Commitment Tiers.
- * x-ms-original-file: 2026-03-15-preview/ListCommitmentTiers.json
+ * x-ms-original-file: 2026-05-15-preview/ListCommitmentTiers.json
  */
 async function listCommitmentTiers(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the virtual machines under the specified subscription for the specified location.
  *
  * @summary gets all the virtual machines under the specified subscription for the specified location.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ListBySubscription_ByLocation.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ListBySubscription_ByLocation.json
  */
 async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpecifiedLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();

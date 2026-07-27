@@ -3277,10 +3277,7 @@ export interface ExpressRouteCircuitPeeringConfigOutput {
   advertisedCommunities?: Array<string>;
   /** The advertised public prefix state of the Peering resource. */
   readonly advertisedPublicPrefixesState?:
-    | "NotConfigured"
-    | "Configuring"
-    | "Configured"
-    | "ValidationNeeded";
+    "NotConfigured" | "Configuring" | "Configured" | "ValidationNeeded";
   /** The legacy mode of the peering. */
   legacyMode?: number;
   /** The CustomerASN of the peering. */
@@ -3441,10 +3438,7 @@ export interface ExpressRouteCircuitPropertiesFormatOutput {
   circuitProvisioningState?: string;
   /** The ServiceProviderProvisioningState state of the resource. */
   serviceProviderProvisioningState?:
-    | "NotProvisioned"
-    | "Provisioning"
-    | "Provisioned"
-    | "Deprovisioning";
+    "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
   /** The list of authorizations. */
   authorizations?: Array<ExpressRouteCircuitAuthorizationOutput>;
   /** The list of peerings. */
@@ -3617,10 +3611,7 @@ export interface ExpressRouteCrossConnectionPropertiesOutput {
   expressRouteCircuit?: ExpressRouteCircuitReferenceOutput;
   /** The provisioning state of the circuit in the connectivity provider system. */
   serviceProviderProvisioningState?:
-    | "NotProvisioned"
-    | "Provisioning"
-    | "Provisioned"
-    | "Deprovisioning";
+    "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
   /** Additional read only notes set by the connectivity provider. */
   serviceProviderNotes?: string;
   /** The provisioning state of the express route cross connection resource. */
@@ -6785,10 +6776,7 @@ export interface VirtualNetworkPeeringPropertiesFormatOutput {
   peeringState?: "Initiated" | "Connected" | "Disconnected";
   /** The peering sync status of the virtual network peering. */
   peeringSyncLevel?:
-    | "FullyInSync"
-    | "RemoteNotInSync"
-    | "LocalNotInSync"
-    | "LocalAndRemoteNotInSync";
+    "FullyInSync" | "RemoteNotInSync" | "LocalNotInSync" | "LocalAndRemoteNotInSync";
   /** The provisioning state of the virtual network peering resource. */
   readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** If we need to verify the provisioning state of the remote gateway. */
@@ -7132,15 +7120,7 @@ export interface IpsecPolicyOutput {
     | "DHGroup24";
   /** The Pfs Group used in IKE Phase 2 for new child SA. */
   pfsGroup:
-    | "None"
-    | "PFS1"
-    | "PFS2"
-    | "PFS2048"
-    | "ECP256"
-    | "ECP384"
-    | "PFS24"
-    | "PFS14"
-    | "PFSMM";
+    "None" | "PFS1" | "PFS2" | "PFS2048" | "ECP256" | "ECP384" | "PFS24" | "PFS14" | "PFSMM";
 }
 
 /** Radius Server Settings. */
@@ -7462,15 +7442,7 @@ export interface VpnClientIPsecParametersOutput {
     | "DHGroup24";
   /** The Pfs Group used in IKE Phase 2 for new child SA. */
   pfsGroup:
-    | "None"
-    | "PFS1"
-    | "PFS2"
-    | "PFS2048"
-    | "ECP256"
-    | "ECP384"
-    | "PFS24"
-    | "PFS14"
-    | "PFSMM";
+    "None" | "PFS1" | "PFS2" | "PFS2048" | "ECP256" | "ECP384" | "PFS24" | "PFS14" | "PFSMM";
 }
 
 /** A common class for general resource information. */
@@ -8885,12 +8857,7 @@ export interface WebApplicationFirewallPolicyPropertiesFormatOutput {
   readonly provisioningState?: "Succeeded" | "Updating" | "Deleting" | "Failed";
   /** Resource status of the policy. */
   readonly resourceState?:
-    | "Creating"
-    | "Enabling"
-    | "Enabled"
-    | "Disabling"
-    | "Disabled"
-    | "Deleting";
+    "Creating" | "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Deleting";
   /** Describes the managedRules structure. */
   managedRules: ManagedRulesDefinitionOutput;
   /** A collection of references to application gateway http listeners. */
@@ -9319,16 +9286,13 @@ export interface PatchRouteFilterOutput extends SubResourceOutput {
 
 /** Properties of the rule collection. */
 export type FirewallPolicyRuleCollectionOutput =
-  | FirewallPolicyNatRuleCollectionOutput
-  | FirewallPolicyFilterRuleCollectionOutput;
+  FirewallPolicyNatRuleCollectionOutput | FirewallPolicyFilterRuleCollectionOutput;
 /** Network base admin rule. */
 export type ActiveBaseSecurityAdminRuleOutput =
-  | ActiveSecurityAdminRuleOutput
-  | ActiveDefaultSecurityAdminRuleOutput;
+  ActiveSecurityAdminRuleOutput | ActiveDefaultSecurityAdminRuleOutput;
 /** Network base admin rule. */
 export type EffectiveBaseSecurityAdminRuleOutput =
-  | EffectiveSecurityAdminRuleOutput
-  | EffectiveDefaultSecurityAdminRuleOutput;
+  EffectiveSecurityAdminRuleOutput | EffectiveDefaultSecurityAdminRuleOutput;
 /** Network base admin rule. */
 export type BaseAdminRuleOutput = AdminRuleOutput | DefaultAdminRuleOutput;
 /** Properties of a rule. */

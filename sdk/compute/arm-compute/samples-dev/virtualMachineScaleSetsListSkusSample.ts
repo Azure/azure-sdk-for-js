@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetListSkusMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetListSkusMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetListSkusMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

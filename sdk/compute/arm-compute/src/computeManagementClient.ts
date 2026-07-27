@@ -52,6 +52,8 @@ import type { GallerySharingProfileOperations } from "./classic/gallerySharingPr
 import { _getGallerySharingProfileOperations } from "./classic/gallerySharingProfile/index.js";
 import type { ImagesOperations } from "./classic/images/index.js";
 import { _getImagesOperations } from "./classic/images/index.js";
+import type { InterconnectBlocksOperations } from "./classic/interconnectBlocks/index.js";
+import { _getInterconnectBlocksOperations } from "./classic/interconnectBlocks/index.js";
 import type { LogAnalyticsOperations } from "./classic/logAnalytics/index.js";
 import { _getLogAnalyticsOperations } from "./classic/logAnalytics/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -185,6 +187,7 @@ export class ComputeManagementClient {
       this._client,
     );
     this.virtualMachineRunCommands = _getVirtualMachineRunCommandsOperations(this._client);
+    this.interconnectBlocks = _getInterconnectBlocksOperations(this._client);
     this.capacityReservations = _getCapacityReservationsOperations(this._client);
     this.capacityReservationGroups = _getCapacityReservationGroupsOperations(this._client);
     this.restorePoints = _getRestorePointsOperations(this._client);
@@ -275,6 +278,8 @@ export class ComputeManagementClient {
   public readonly virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommandsOperations;
   /** The operation groups for virtualMachineRunCommands */
   public readonly virtualMachineRunCommands: VirtualMachineRunCommandsOperations;
+  /** The operation groups for interconnectBlocks */
+  public readonly interconnectBlocks: InterconnectBlocksOperations;
   /** The operation groups for capacityReservations */
   public readonly capacityReservations: CapacityReservationsOperations;
   /** The operation groups for capacityReservationGroups */

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
  */
 async function createAScaleSetWithEphemeralOsDisksUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function createAScaleSetWithEphemeralOsDisksUsingPlacementProperty(): Prom
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAndFullCachingEnabled.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAndFullCachingEnabled.json
  */
 async function createAScaleSetWithEphemeralOsDisksUsingPlacementPropertyAndEnableFullCachingSetToTrue(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +136,7 @@ async function createAScaleSetWithEphemeralOsDisksUsingPlacementPropertyAndEnabl
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
  */
 async function createAScaleSetWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -198,7 +198,7 @@ async function createAScaleSetWithEphemeralOsDiskProvisioningInNvmeDiskUsingPlac
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -255,7 +255,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage(): Pr
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
  */
 async function createAScaleSetFromACustomImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -312,7 +312,7 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
  */
 async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -369,7 +369,7 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
  */
 async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -421,7 +421,7 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
  */
 async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -497,7 +497,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
  */
 async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -571,7 +571,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
  */
 async function createAScaleSetWithNetworkInterfacesWithPublicIpAddressDnsSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -659,7 +659,7 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIpAddressDnsSetting
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
  */
 async function createAPlatformImageScaleSetWithUnmanagedOsDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -726,7 +726,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOsDisks(): Promise<void>
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
  */
 async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -787,7 +787,7 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
  */
 async function createAScaleSetWithApplicationProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -865,7 +865,7 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
  */
 async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -934,7 +934,80 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticZoneRebalancingPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticSkuMigrationPolicy.json
+ */
+async function createAScaleSetWithAutomaticSKUMigrationPolicy(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSets.createOrUpdate(
+    "myResourceGroup",
+    "{vmss-name}",
+    {
+      sku: { capacity: 10, name: "Mix" },
+      location: "westus",
+      singlePlacementGroup: false,
+      virtualMachineProfile: {
+        storageProfile: {
+          imageReference: {
+            sku: "2016-Datacenter",
+            publisher: "MicrosoftWindowsServer",
+            version: "latest",
+            offer: "WindowsServer",
+          },
+          osDisk: {
+            caching: "ReadWrite",
+            managedDisk: { storageAccountType: "Standard_LRS" },
+            createOption: "FromImage",
+          },
+        },
+        osProfile: {
+          computerNamePrefix: "{vmss-name}",
+          adminUsername: "{your-username}",
+          adminPassword: "{your-password}",
+        },
+        networkProfile: {
+          networkInterfaceConfigurations: [
+            {
+              name: "{vmss-name}",
+              primary: true,
+              enableIPForwarding: true,
+              ipConfigurations: [
+                {
+                  name: "{vmss-name}",
+                  subnet: {
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        priority: "Spot",
+        evictionPolicy: "Deallocate",
+        billingProfile: { maxPrice: -1 },
+      },
+      orchestrationMode: "Flexible",
+      priorityMixPolicy: { baseRegularPriorityCount: 4, regularPriorityPercentageAboveBase: 50 },
+      skuProfile: {
+        vmSizes: [
+          { name: "Standard_D8s_v5" },
+          { name: "Standard_E16s_v5" },
+          { name: "Standard_D2s_v5" },
+        ],
+        allocationStrategy: "CapacityOptimized",
+        automaticSkuMigrationPolicy: { enabled: true },
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a VM scale set.
+ *
+ * @summary create or update a VM scale set.
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticZoneRebalancingPolicy.json
  */
 async function createAScaleSetWithAutomaticZoneRebalancingEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1001,7 +1074,7 @@ async function createAScaleSetWithAutomaticZoneRebalancingEnabled(): Promise<voi
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
  */
 async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1066,7 +1139,7 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
  */
 async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1140,7 +1213,7 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
  */
 async function createAScaleSetWithBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1206,7 +1279,7 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1271,7 +1344,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
  */
 async function createAScaleSetWithEphemeralOsDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1333,7 +1406,7 @@ async function createAScaleSetWithEphemeralOsDisks(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
  */
 async function createAScaleSetWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1404,7 +1477,7 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
  */
 async function createAScaleSetWithDiskEncryptionSetResourceInOsDiskAndDataDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1480,7 +1553,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOsDiskAndDataDisk()
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
  */
 async function createAScaleSetWithEmptyDataDisksOnEachVm(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1545,7 +1618,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVm(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
  */
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1607,7 +1680,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
  */
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1686,7 +1759,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
  */
 async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1765,7 +1838,7 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExternalHealthPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExternalHealthPolicy.json
  */
 async function createAScaleSetWithExternalHealthPolicyEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1834,7 +1907,7 @@ async function createAScaleSetWithExternalHealthPolicyEnabled(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithHighSpeedInterconnectPlacement.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithHighSpeedInterconnectPlacement.json
  */
 async function createAVirtualMachineScaleSetWithHighSpeedInterconnectPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1901,7 +1974,85 @@ async function createAVirtualMachineScaleSetWithHighSpeedInterconnectPlacement()
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithLifecycleHooksProfile.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithInterconnectBlock.json
+ */
+async function createOrUpdateAScaleSetWithInterconnectBlock(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscription-id}";
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSets.createOrUpdate(
+    "myResourceGroup",
+    "{vmss-name}",
+    {
+      sku: { tier: "Standard", capacity: 3, name: "Standard_ND128isr_GB300_v6" },
+      location: "westus",
+      overprovision: true,
+      highSpeedInterconnectPlacement: "Trunk",
+      virtualMachineProfile: {
+        storageProfile: {
+          imageReference: {
+            publisher: "microsoft-dsvm",
+            offer: "ubuntu-hpc",
+            sku: "2404-gb",
+            version: "latest",
+          },
+          osDisk: {
+            caching: "ReadWrite",
+            managedDisk: { storageAccountType: "Premium_LRS" },
+            createOption: "FromImage",
+          },
+        },
+        osProfile: {
+          computerNamePrefix: "{vmss-name}",
+          adminUsername: "{your-username}",
+          adminPassword: "{your-password}",
+          linuxConfiguration: { disablePasswordAuthentication: false },
+        },
+        networkProfile: {
+          interconnectGroupProfile: {
+            interconnectGroup: {
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/interconnectGroups/myInterconnectGroup",
+            },
+            subgroups: [
+              {
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/interconnectGroups/myInterconnectGroup/subgroups/subgroup0",
+              },
+            ],
+          },
+          networkInterfaceConfigurations: [
+            {
+              name: "{vmss-name}",
+              primary: true,
+              enableIPForwarding: true,
+              ipConfigurations: [
+                {
+                  name: "{vmss-name}",
+                  subnet: {
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        interconnectBlockProfile: {
+          interconnectBlock: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/interconnectBlocks/myInterconnectBlock",
+          },
+        },
+      },
+      upgradePolicy: { mode: "Manual" },
+      zones: ["1"],
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a VM scale set.
+ *
+ * @summary create or update a VM scale set.
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithLifecycleHooksProfile.json
  */
 async function createAVirtualMachineScaleSetWithLifecycleHooksProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1968,7 +2119,7 @@ async function createAVirtualMachineScaleSetWithLifecycleHooksProfile(): Promise
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
  */
 async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2029,7 +2180,7 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithMaxInstancePercentPerZonePolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithMaxInstancePercentPerZonePolicy.json
  */
 async function createAScaleSetWithMaxInstancePercentPerZonePolicyEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2092,7 +2243,7 @@ async function createAScaleSetWithMaxInstancePercentPerZonePolicyEnabled(): Prom
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithMaxZoneCount.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithMaxZoneCount.json
  */
 async function createAZonesAutoScaleSetWithMaxZoneCount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2154,7 +2305,7 @@ async function createAZonesAutoScaleSetWithMaxZoneCount(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
  */
 async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2217,7 +2368,7 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOperationRecoverySettings.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOperationRecoverySettings.json
  */
 async function createAScaleSetWithOperationRecoverySettingsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2284,7 +2435,7 @@ async function createAScaleSetWithOperationRecoverySettingsEnabled(): Promise<vo
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
  */
 async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2344,7 +2495,7 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPlacement.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPlacement.json
  */
 async function createAScaleSetWithPlacementPolicyAuto(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2405,7 +2556,7 @@ async function createAScaleSetWithPlacementPolicyAuto(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
  */
 async function createAScaleSetWithPremiumStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2465,7 +2616,7 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
  */
 async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2529,7 +2680,7 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
  */
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2614,7 +2765,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
  */
 async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2684,7 +2835,7 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
  */
 async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2745,7 +2896,7 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
  */
 async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2806,7 +2957,7 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
  */
 async function createAScaleSetWithScaleInPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2867,7 +3018,7 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
  */
 async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2929,7 +3080,7 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -2996,7 +3147,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTPMSecurityEncryptionType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3063,7 +3214,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTPM
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
  */
 async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3125,7 +3276,7 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile.json
  */
 async function createAScaleSetWithSkuProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3197,7 +3348,7 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile_Prioritized.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile_Prioritized.json
  */
 async function createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3269,7 +3420,7 @@ async function createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy(): 
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
  */
 async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3333,7 +3484,7 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
  */
 async function createAScaleSetWithSshAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3404,7 +3555,7 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithStorageFaultDomainAlignment.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithStorageFaultDomainAlignment.json
  */
 async function createAScaleSetContainingDisksWithStorageFaultDomainAlignment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3471,7 +3622,7 @@ async function createAScaleSetContainingDisksWithStorageFaultDomainAlignment(): 
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
  */
 async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3534,7 +3685,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
  */
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTPM(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3598,7 +3749,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTPM(): Promise<voi
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
  */
 async function createAScaleSetWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3659,7 +3810,7 @@ async function createAScaleSetWithUserData(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
  */
 async function createAScaleSetWithVmSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3721,7 +3872,7 @@ async function createAScaleSetWithVmSizeProperties(): Promise<void> {
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
  */
 async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3787,7 +3938,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
  * This sample demonstrates how to create or update a VM scale set.
  *
  * @summary create or update a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithZonalPlatformFaultDomainAlignMode.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithZonalPlatformFaultDomainAlignMode.json
  */
 async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -3864,6 +4015,7 @@ async function main(): Promise<void> {
   await createAScaleSetWithAMarketplaceImagePlan();
   await createAScaleSetWithApplicationProfile();
   await createAScaleSetWithAutomaticRepairsEnabled();
+  await createAScaleSetWithAutomaticSKUMigrationPolicy();
   await createAScaleSetWithAutomaticZoneRebalancingEnabled();
   await createAScaleSetWithAnAzureApplicationGateway();
   await createAScaleSetWithAnAzureLoadBalancer();
@@ -3878,6 +4030,7 @@ async function main(): Promise<void> {
   await createAScaleSetWithExtensionTimeBudget();
   await createAScaleSetWithExternalHealthPolicyEnabled();
   await createAVirtualMachineScaleSetWithHighSpeedInterconnectPlacement();
+  await createOrUpdateAScaleSetWithInterconnectBlock();
   await createAVirtualMachineScaleSetWithLifecycleHooksProfile();
   await createAScaleSetWithManagedBootDiagnostics();
   await createAScaleSetWithMaxInstancePercentPerZonePolicyEnabled();

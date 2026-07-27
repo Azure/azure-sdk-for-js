@@ -6,8 +6,6 @@ import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleEr
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "@azure/cosmos";
-import { v4 } from "uuid";
-const uuid = v4;
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -69,7 +67,7 @@ async function run(): Promise<void> {
 
   // Create 20 items with state set to "closed"
   for (let index = 0; index < 20; index++) {
-    await container.items.create({ id: uuid(), state: "closed" });
+    await container.items.create({ id: crypto.randomUUID(), state: "closed" });
   }
 
   logStep("Created stored procedure");

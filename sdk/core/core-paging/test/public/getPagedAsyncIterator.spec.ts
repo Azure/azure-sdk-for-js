@@ -216,8 +216,8 @@ describe("getPagedAsyncIterator", function () {
 
   describe("Strong typing experience", function () {
     type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false;
-    function assertNotAny<T extends IsAny<T> extends true ? never : any>(_: T): void {}
-    function assertAny<T extends IsAny<T> extends false ? never : any>(_: T): void {}
+    function assertNotAny<T extends (IsAny<T> extends true ? never : any)>(_: T): void {}
+    function assertAny<T extends (IsAny<T> extends false ? never : any)>(_: T): void {}
 
     const totalElementsCount = 100;
     const collection = Array.from(Array(totalElementsCount), (_, i) => i + 1);

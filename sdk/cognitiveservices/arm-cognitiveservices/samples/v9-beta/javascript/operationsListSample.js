@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the available Cognitive Services account operations.
  *
  * @summary lists all the available Cognitive Services account operations.
- * x-ms-original-file: 2026-03-15-preview/GetOperations.json
+ * x-ms-original-file: 2026-05-15-preview/GetOperations.json
  */
 async function getOperations() {
   const credential = new DefaultAzureCredential();

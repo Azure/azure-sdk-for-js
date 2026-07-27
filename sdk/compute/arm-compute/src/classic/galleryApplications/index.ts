@@ -34,11 +34,6 @@ export interface GalleryApplicationsOperations {
     options?: GalleryApplicationsListByGalleryOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryApplication>;
   /** Delete a gallery Application. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,

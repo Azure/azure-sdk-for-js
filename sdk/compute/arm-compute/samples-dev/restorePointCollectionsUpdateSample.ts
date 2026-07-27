@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update the restore point collection.
  *
  * @summary the operation to update the restore point collection.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_Update_MaximumSet_Gen.json
  */
 async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to the operation to update the restore point collection.
  *
  * @summary the operation to update the restore point collection.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified replication.
  *
  * @summary gets the properties of the specified replication.
- * x-ms-original-file: 2026-01-01-preview/ReplicationGet.json
+ * x-ms-original-file: 2026-03-01-preview/ReplicationGet.json
  */
 async function replicationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

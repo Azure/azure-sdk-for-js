@@ -7,6 +7,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "../constants.js";
+import type { GenAITracingOptions } from "../tracing/configuration.js";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -21,6 +22,12 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownApiVersions} that the service accepts. */
   apiVersion?: KnownApiVersions;
+  /**
+   * Options for configuring GenAI tracing for this client instance.
+   * When provided, GenAI tracing is enabled for all supported operations performed through this client.
+   * When omitted, no GenAI spans or metrics are emitted.
+   */
+  tracingOptions?: GenAITracingOptions;
 }
 
 export function createAIProject(

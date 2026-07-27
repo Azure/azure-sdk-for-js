@@ -162,8 +162,7 @@ export function thresholdCustomAlertRuleDeserializer(item: any): ThresholdCustom
 
 /** Alias for ThresholdCustomAlertRuleUnion */
 export type ThresholdCustomAlertRuleUnion =
-  | TimeWindowCustomAlertRuleUnion
-  | ThresholdCustomAlertRule;
+  TimeWindowCustomAlertRuleUnion | ThresholdCustomAlertRule;
 
 export function thresholdCustomAlertRuleUnionSerializer(item: ThresholdCustomAlertRuleUnion): any {
   switch (item.ruleType) {
@@ -1228,9 +1227,7 @@ export function customAlertRuleDeserializer(item: any): CustomAlertRule {
 
 /** Alias for CustomAlertRuleUnion */
 export type CustomAlertRuleUnion =
-  | ThresholdCustomAlertRuleUnion
-  | ListCustomAlertRuleUnion
-  | CustomAlertRule;
+  ThresholdCustomAlertRuleUnion | ListCustomAlertRuleUnion | CustomAlertRule;
 
 export function customAlertRuleUnionSerializer(item: CustomAlertRuleUnion): any {
   switch (item.ruleType) {
@@ -1334,9 +1331,7 @@ export function listCustomAlertRuleDeserializer(item: any): ListCustomAlertRule 
 
 /** Alias for ListCustomAlertRuleUnion */
 export type ListCustomAlertRuleUnion =
-  | AllowlistCustomAlertRuleUnion
-  | DenylistCustomAlertRule
-  | ListCustomAlertRule;
+  AllowlistCustomAlertRuleUnion | DenylistCustomAlertRule | ListCustomAlertRule;
 
 export function listCustomAlertRuleUnionSerializer(item: ListCustomAlertRuleUnion): any {
   switch (item.ruleType) {

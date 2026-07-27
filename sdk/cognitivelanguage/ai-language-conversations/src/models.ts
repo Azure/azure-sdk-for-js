@@ -6,9 +6,7 @@ export type AnalyzeConversationTaskUnion = ConversationalTask;
 export type AnalyzeConversationTaskResultUnion = ConversationalTaskResult;
 export type ConversationUnion = TextConversation | TranscriptConversation;
 export type AnalysisParametersUnion =
-  | LuisParameters
-  | ConversationParameters
-  | QuestionAnsweringParameters;
+  LuisParameters | ConversationParameters | QuestionAnsweringParameters;
 export type BasePredictionUnion = ConversationPrediction | OrchestrationPrediction;
 export type BaseResolutionUnion =
   | AgeResolution
@@ -33,11 +31,9 @@ export type TargetIntentResultUnion =
   | LuisTargetIntentResult
   | QuestionAnsweringTargetIntentResult;
 export type AnalyzeConversationLROTaskUnion =
-  | AnalyzeConversationPIITask
-  | AnalyzeConversationSummarizationTask;
+  AnalyzeConversationPIITask | AnalyzeConversationSummarizationTask;
 export type AnalyzeConversationJobResultUnion =
-  | AnalyzeConversationPIIResult
-  | AnalyzeConversationSummarizationResult;
+  AnalyzeConversationPIIResult | AnalyzeConversationSummarizationResult;
 
 /** The base class of a conversation input task. */
 export interface AnalyzeConversationTask {
@@ -1219,8 +1215,7 @@ export enum KnownAnalyzeConversationResultsKind {
  * **ConversationalSummarizationResults**
  */
 export type AnalyzeConversationResultsKind =
-  | "conversationalPIIResults"
-  | "conversationalSummarizationResults";
+  "conversationalPIIResults" | "conversationalSummarizationResults";
 
 /** Known values of {@link TaskState} that the service accepts. */
 export enum KnownTaskState {

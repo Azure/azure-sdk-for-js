@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Agent Pool. */
 export interface AgentPool extends ProxyResource {
   /** Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention. */
@@ -167,7 +167,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "linuxOSConfig",
       "enableEncryptionAtHost",
       "enableUltraSSD",
-      "enableFIPS",
+      "enableFips",
       "gpuInstanceProfile",
       "creationData",
       "capacityReservationGroupID",
@@ -1371,17 +1371,30 @@ export function virtualMachinesProfileDeserializer(item: any): VirtualMachinesPr
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
+  /**
+   * Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range.
+   * Each profile targets a specific VM SKU and is evaluated independently.
+   * Scaling decisions across profiles are governed by the cluster autoscaler expander,
+   * configurable via `ManagedCluster.properties.autoScalerProfile.expander`.
+   */
+  autoscale?: AutoScaleProfile[];
 }
 
 export function scaleProfileSerializer(item: ScaleProfile): any {
   return {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArraySerializer(item["manual"]),
+    autoscale: !item["autoscale"]
+      ? item["autoscale"]
+      : autoScaleProfileArraySerializer(item["autoscale"]),
   };
 }
 
 export function scaleProfileDeserializer(item: any): ScaleProfile {
   return {
     manual: !item["manual"] ? item["manual"] : manualScaleProfileArrayDeserializer(item["manual"]),
+    autoscale: !item["autoscale"]
+      ? item["autoscale"]
+      : autoScaleProfileArrayDeserializer(item["autoscale"]),
   };
 }
 
@@ -1413,6 +1426,40 @@ export function manualScaleProfileDeserializer(item: any): ManualScaleProfile {
   return {
     size: item["size"],
     count: item["count"],
+  };
+}
+
+export function autoScaleProfileArraySerializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileSerializer(item);
+  });
+}
+
+export function autoScaleProfileArrayDeserializer(result: Array<AutoScaleProfile>): any[] {
+  return result.map((item) => {
+    return autoScaleProfileDeserializer(item);
+  });
+}
+
+/** Specifications on auto-scaling. */
+export interface AutoScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** The minimum number of nodes of the specified sizes. */
+  minCount?: number;
+  /** The maximum number of nodes of the specified sizes. */
+  maxCount?: number;
+}
+
+export function autoScaleProfileSerializer(item: AutoScaleProfile): any {
+  return { size: item["size"], minCount: item["minCount"], maxCount: item["maxCount"] };
+}
+
+export function autoScaleProfileDeserializer(item: any): AutoScaleProfile {
+  return {
+    size: item["size"],
+    minCount: item["minCount"],
+    maxCount: item["maxCount"],
   };
 }
 
@@ -2183,6 +2230,8 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
+  schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Contains read-only information about the Managed Cluster. */
@@ -2206,7 +2255,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "oidcIssuerProfile",
       "nodeResourceGroup",
       "nodeResourceGroupProfile",
-      "enableRBAC",
+      "enableRbac",
       "supportPlan",
       "networkProfile",
       "aadProfile",
@@ -2230,6 +2279,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "nodeProvisioningProfile",
       "bootstrapProfile",
       "aiToolchainOperatorProfile",
+      "schedulerProfile",
       "hostedSystemProfile",
       "status",
     ])
@@ -2363,6 +2413,8 @@ export interface ManagedClusterProperties {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
+  schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
   /** Contains read-only information about the Managed Cluster. */
@@ -2461,6 +2513,9 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileSerializer(item["schedulerProfile"]),
     hostedSystemProfile: !item["hostedSystemProfile"]
       ? item["hostedSystemProfile"]
       : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
@@ -2570,6 +2625,9 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileDeserializer(item["schedulerProfile"]),
     hostedSystemProfile: !item["hostedSystemProfile"]
       ? item["hostedSystemProfile"]
       : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),
@@ -4635,6 +4693,8 @@ export interface ManagedClusterSecurityProfileDefender {
   logAnalyticsWorkspaceResourceId?: string;
   /** Microsoft Defender threat detection for Cloud settings for the security profile. */
   securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+  /** Microsoft Defender settings for security gating. This validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
+  securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating;
 }
 
 export function managedClusterSecurityProfileDefenderSerializer(
@@ -4647,6 +4707,9 @@ export function managedClusterSecurityProfileDefenderSerializer(
       : managedClusterSecurityProfileDefenderSecurityMonitoringSerializer(
           item["securityMonitoring"],
         ),
+    securityGating: !item["securityGating"]
+      ? item["securityGating"]
+      : managedClusterSecurityProfileDefenderSecurityGatingSerializer(item["securityGating"]),
   };
 }
 
@@ -4660,6 +4723,9 @@ export function managedClusterSecurityProfileDefenderDeserializer(
       : managedClusterSecurityProfileDefenderSecurityMonitoringDeserializer(
           item["securityMonitoring"],
         ),
+    securityGating: !item["securityGating"]
+      ? item["securityGating"]
+      : managedClusterSecurityProfileDefenderSecurityGatingDeserializer(item["securityGating"]),
   };
 }
 
@@ -4680,6 +4746,90 @@ export function managedClusterSecurityProfileDefenderSecurityMonitoringDeseriali
 ): ManagedClusterSecurityProfileDefenderSecurityMonitoring {
   return {
     enabled: item["enabled"],
+  };
+}
+
+/** Microsoft Defender settings for security gating. This validates container image eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. */
+export interface ManagedClusterSecurityProfileDefenderSecurityGating {
+  /** Whether to enable Defender security gating. When enabled, the gating feature scans container images and audits or blocks deployment of images that do not meet security standards according to configured security rules. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
+  enabled?: boolean;
+  /** List of identities that the admission controller uses to pull security artifacts from registries. These are the same identities used by the cluster to pull container images. For more information on configuring this identity, see https://learn.microsoft.com/en-us/azure/defender-for-cloud/gated-deployment-infrastructure-as-code. */
+  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity[];
+  /** In use only while registry access is granted by secret rather than managed identity. Sets whether to grant the Defender gating agent access to cluster secrets for pulling images from registries. If secret access is denied and the registry requires pull secrets, the add-on will not perform image validation. Default value is false. */
+  allowSecretAccess?: boolean;
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingSerializer(
+  item: ManagedClusterSecurityProfileDefenderSecurityGating,
+): any {
+  return {
+    enabled: item["enabled"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentityArraySerializer(
+          item["identities"],
+        ),
+    allowSecretAccess: item["allowSecretAccess"],
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileDefenderSecurityGating {
+  return {
+    enabled: item["enabled"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentityArrayDeserializer(
+          item["identities"],
+        ),
+    allowSecretAccess: item["allowSecretAccess"],
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityArraySerializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentity>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentitySerializer(item);
+  });
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityArrayDeserializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentity>,
+): any[] {
+  return result.map((item) => {
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentityDeserializer(item);
+  });
+}
+
+/** Identity mapping used by Defender security gating for registry access. */
+export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
+  /** The container registry for which the identity will be used; the identity specified here should have a federated identity credential attached to it. */
+  azureContainerRegistry?: string;
+  /** The identity object used to access the registry */
+  identity?: UserAssignedIdentity;
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitySerializer(
+  item: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity,
+): any {
+  return {
+    azureContainerRegistry: item["azureContainerRegistry"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentitySerializer(item["identity"]),
+  };
+}
+
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeserializer(
+  item: any,
+): ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
+  return {
+    azureContainerRegistry: item["azureContainerRegistry"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : userAssignedIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -5842,6 +5992,62 @@ export function managedClusterAIToolchainOperatorProfileDeserializer(
     enabled: item["enabled"],
   };
 }
+
+/** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
+export interface SchedulerProfile {
+  /** Profile with settings related to upstream variant of kube-scheduler (https://github.com/kubernetes/kubernetes/tree/master/pkg/scheduler). */
+  upstream?: SchedulerInstanceProfile;
+}
+
+export function schedulerProfileSerializer(item: SchedulerProfile): any {
+  return {
+    upstream: !item["upstream"]
+      ? item["upstream"]
+      : schedulerInstanceProfileSerializer(item["upstream"]),
+  };
+}
+
+export function schedulerProfileDeserializer(item: any): SchedulerProfile {
+  return {
+    upstream: !item["upstream"]
+      ? item["upstream"]
+      : schedulerInstanceProfileDeserializer(item["upstream"]),
+  };
+}
+
+/** Profile with settings related to a specific instance of an AKS-managed scheduler. */
+export interface SchedulerInstanceProfile {
+  /** The configuration mode to be used by the AKS-managed scheduler. */
+  schedulerConfigMode?: SchedulerConfigMode;
+}
+
+export function schedulerInstanceProfileSerializer(item: SchedulerInstanceProfile): any {
+  return { schedulerConfigMode: item["schedulerConfigMode"] };
+}
+
+export function schedulerInstanceProfileDeserializer(item: any): SchedulerInstanceProfile {
+  return {
+    schedulerConfigMode: item["schedulerConfigMode"],
+  };
+}
+
+/** The config customization mode for this scheduler instance. */
+export enum KnownSchedulerConfigMode {
+  /** No config customization. Use default configuration. */
+  Default = "Default",
+  /** Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms/aks/scheduler-crd for details. */
+  ManagedByCRD = "ManagedByCRD",
+}
+
+/**
+ * The config customization mode for this scheduler instance. \
+ * {@link KnownSchedulerConfigMode} can be used interchangeably with SchedulerConfigMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: No config customization. Use default configuration. \
+ * **ManagedByCRD**: Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms\/aks\/scheduler-crd for details.
+ */
+export type SchedulerConfigMode = string;
 
 /** Settings for hosted system addons. */
 export interface ManagedClusterHostedSystemProfile {
@@ -8405,6 +8611,8 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -8714,6 +8922,9 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileSerializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileSerializer(item["schedulerProfile"]),
     hostedSystemProfile: !item["hostedSystemProfile"]
       ? item["hostedSystemProfile"]
       : managedClusterHostedSystemProfileSerializer(item["hostedSystemProfile"]),
@@ -8823,6 +9034,9 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     aiToolchainOperatorProfile: !item["aiToolchainOperatorProfile"]
       ? item["aiToolchainOperatorProfile"]
       : managedClusterAIToolchainOperatorProfileDeserializer(item["aiToolchainOperatorProfile"]),
+    schedulerProfile: !item["schedulerProfile"]
+      ? item["schedulerProfile"]
+      : schedulerProfileDeserializer(item["schedulerProfile"]),
     hostedSystemProfile: !item["hostedSystemProfile"]
       ? item["hostedSystemProfile"]
       : managedClusterHostedSystemProfileDeserializer(item["hostedSystemProfile"]),

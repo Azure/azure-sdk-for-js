@@ -234,12 +234,7 @@ export function triggerStatusDeserializer(item: any): TriggerStatus {
 
 /** Provisioning state of the resource */
 export type ProvisioningState =
-  | "Creating"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Deleting"
-  | "Canceled";
+  "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting" | "Canceled";
 
 /** Properties of SourceImage kind of trigger */
 export interface SourceImageTriggerProperties extends TriggerProperties {
@@ -1691,9 +1686,7 @@ export function distributeVersionerDeserializer(item: any): DistributeVersioner 
 
 /** Alias for DistributeVersionerUnion */
 export type DistributeVersionerUnion =
-  | DistributeVersionerLatest
-  | DistributeVersionerSource
-  | DistributeVersioner;
+  DistributeVersionerLatest | DistributeVersionerSource | DistributeVersioner;
 
 export function distributeVersionerUnionSerializer(item: DistributeVersionerUnion): any {
   switch (item.scheme) {
@@ -1946,20 +1939,10 @@ export function imageTemplateLastRunStatusDeserializer(item: any): ImageTemplate
 
 /** State of the last run */
 export type RunState =
-  | "Running"
-  | "Canceling"
-  | "Succeeded"
-  | "PartiallySucceeded"
-  | "Failed"
-  | "Canceled";
+  "Running" | "Canceling" | "Succeeded" | "PartiallySucceeded" | "Failed" | "Canceled";
 /** Sub-state of the last run */
 export type RunSubState =
-  | "Queued"
-  | "Building"
-  | "Customizing"
-  | "Optimizing"
-  | "Validating"
-  | "Distributing";
+  "Queued" | "Building" | "Customizing" | "Optimizing" | "Validating" | "Distributing";
 
 /** Describes the virtual machines used to build and validate images */
 export interface ImageTemplateVmProfile {

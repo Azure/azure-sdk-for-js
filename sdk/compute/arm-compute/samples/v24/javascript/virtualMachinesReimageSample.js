@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage.
  *
  * @summary reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Reimage.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Reimage.json
  */
 async function reimageAVirtualMachine() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function reimageAVirtualMachine() {
  * This sample demonstrates how to reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage.
  *
  * @summary reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Reimage_NonEphemeralVMs.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Reimage_NonEphemeralVMs.json
  */
 async function reimageANonEphemeralVirtualMachine() {
   const credential = new DefaultAzureCredential();

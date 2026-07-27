@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to execute listWithProperties
  *
  * @summary execute listWithProperties
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImages_ListWithProperties_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImages_ListWithProperties_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListWithPropertiesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function virtualMachineImagesListWithPropertiesMaximumSet(): Promise<void>
  * This sample demonstrates how to execute listWithProperties
  *
  * @summary execute listWithProperties
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImages_ListWithProperties_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImages_ListWithProperties_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListWithPropertiesMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

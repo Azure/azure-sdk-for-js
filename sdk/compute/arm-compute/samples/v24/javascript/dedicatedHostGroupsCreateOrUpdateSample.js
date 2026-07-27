@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
  *
  * @summary create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHostGroup() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createOrUpdateADedicatedHostGroup() {
  * This sample demonstrates how to create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
  *
  * @summary create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
  */
 async function createOrUpdateADedicatedHostGroupWithUltraSSDSupport() {
   const credential = new DefaultAzureCredential();

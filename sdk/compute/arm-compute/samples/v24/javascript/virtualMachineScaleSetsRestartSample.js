@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restarts one or more virtual machines in a VM scale set.
  *
  * @summary restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRestartMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function virtualMachineScaleSetRestartMaximumSetGen() {
  * This sample demonstrates how to restarts one or more virtual machines in a VM scale set.
  *
  * @summary restarts one or more virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRestartMinimumSetGen() {
   const credential = new DefaultAzureCredential();

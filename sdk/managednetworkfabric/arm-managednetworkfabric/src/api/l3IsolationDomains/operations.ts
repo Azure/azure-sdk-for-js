@@ -4,9 +4,9 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
+  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
-  CommonPostActionResponseForDeviceUpdate,
   L3IsolationDomain,
   L3IsolationDomainPatch,
   _L3IsolationDomainsListResult,
@@ -14,9 +14,9 @@ import type {
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
+  updateAdministrativeStateResponseDeserializer,
   commonPostActionResponseForStateUpdateDeserializer,
   validateConfigurationResponseDeserializer,
-  commonPostActionResponseForDeviceUpdateDeserializer,
   l3IsolationDomainSerializer,
   l3IsolationDomainDeserializer,
   l3IsolationDomainPatchSerializer,
@@ -53,7 +53,7 @@ export function _commitConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,10 +68,12 @@ export function _commitConfigurationSend(
 export async function _commitConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -89,13 +91,13 @@ export function commitConfiguration(
   OperationState<CommonPostActionResponseForStateUpdate>,
   CommonPostActionResponseForStateUpdate
 > {
-  return getLongRunningPoller(context, _commitConfigurationDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _commitConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _commitConfigurationSend(context, resourceGroupName, l3IsolationDomainName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<
     OperationState<CommonPostActionResponseForStateUpdate>,
     CommonPostActionResponseForStateUpdate
@@ -114,7 +116,7 @@ export function _validateConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,10 +131,12 @@ export function _validateConfigurationSend(
 export async function _validateConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ValidateConfigurationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -147,13 +151,13 @@ export function validateConfiguration(
   l3IsolationDomainName: string,
   options: L3IsolationDomainsValidateConfigurationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse> {
-  return getLongRunningPoller(context, _validateConfigurationDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _validateConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _validateConfigurationSend(context, resourceGroupName, l3IsolationDomainName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -170,7 +174,7 @@ export function _updateAdministrativeStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,19 +190,21 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForDeviceUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
-/** Enables racks for this Isolation Domain. */
+/** Updates the administrative state of the L3 Isolation Domain resource. */
 export function updateAdministrativeState(
   context: Client,
   resourceGroupName: string,
@@ -206,13 +212,13 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: L3IsolationDomainsUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForDeviceUpdate>,
-  CommonPostActionResponseForDeviceUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -225,11 +231,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -241,7 +247,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,7 +265,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,11 +285,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -295,7 +299,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,7 +317,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -332,11 +338,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -352,7 +354,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -365,7 +367,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -374,11 +378,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -391,7 +390,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, l3IsolationDomainName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -408,7 +407,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -428,7 +427,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -450,7 +451,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, l3IsolationDomainName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>;
 }
 
@@ -467,7 +468,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -487,7 +488,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -509,7 +512,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, l3IsolationDomainName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>;
 }
 
@@ -525,7 +528,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -541,7 +544,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<L3
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

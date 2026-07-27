@@ -1,33 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets all incident relations.
- *
- * @summary Gets all incident relations.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/relations/GetAllIncidentRelations.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets all relations for a given incident.
+ *
+ * @summary gets all relations for a given incident.
+ * x-ms-original-file: 2025-07-01-preview/incidents/relations/GetAllIncidentRelations.json
+ */
 async function getAllIncidentRelations(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const incidentId = "afbd324f-6c48-459c-8710-8d1e1cd03812";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.incidentRelations.list(
-    resourceGroupName,
-    workspaceName,
-    incidentId,
+    "myRg",
+    "myWorkspace",
+    "afbd324f-6c48-459c-8710-8d1e1cd03812",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

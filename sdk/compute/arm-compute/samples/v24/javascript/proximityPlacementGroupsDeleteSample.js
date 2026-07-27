@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a proximity placement group.
  *
  * @summary delete a proximity placement group.
- * x-ms-original-file: 2025-11-01/proximityPlacementGroupExamples/ProximityPlacementGroup_Delete.json
+ * x-ms-original-file: 2026-03-01/proximityPlacementGroupExamples/ProximityPlacementGroup_Delete.json
  */
 async function deleteAProximityPlacementGroup() {
   const credential = new DefaultAzureCredential();

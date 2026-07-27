@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of restore point collections in a resource group.
  *
  * @summary gets the list of restore point collections in a resource group.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_ListByResourceGroup.json
  */
 async function getsTheListOfRestorePointCollectionsInAResourceGroup() {
   const credential = new DefaultAzureCredential();

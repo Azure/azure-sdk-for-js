@@ -145,6 +145,7 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 - [Creating and updating keys with attributes](#creating-and-updating-keys-with-attributes).
 - [Deleting a key](#deleting-a-key).
 - [Iterating lists of keys](#iterating-lists-of-keys).
+- [Secure wrap and unwrap (Managed HSM)](#secure-wrap-and-unwrap-managed-hsm).
 
 ### Creating a key
 
@@ -490,6 +491,55 @@ for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
 }
 ```
 
+### Secure wrap and unwrap (Managed HSM)
+
+The secure wrap and unwrap operations allow callers to wrap a 256-bit AES key
+generated inside a Trusted Execution Environment (TEE) using a key encryption
+key stored in Managed HSM, and to unwrap that key back inside an attested TEE.
+Attestation is performed via the Microsoft Azure Attestation service (MAA).
+
+The wrap operation generates the symmetric key inside the TEE — the caller
+never has access to the unwrapped key material directly:
+
+```ts snippet:ReadmeSampleSecureWrapKey
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.managedhsm.azure.net`;
+
+const client = new KeyClient(url, credential);
+
+const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
+```
+
+The unwrap operation requires an attestation token issued by an MAA instance
+trusted by the Managed HSM:
+
+```ts snippet:ReadmeSampleSecureUnwrapKey
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.managedhsm.azure.net`;
+
+const client = new KeyClient(url, credential);
+
+const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+const unwrapped = await client.secureUnwrapKey(
+  "myKey",
+  wrapped.algorithm,
+  wrapped.result,
+  "<attestation-target>",
+);
+console.log(unwrapped.keyID, unwrapped.algorithm, unwrapped.result);
+```
+
 ## Cryptography
 
 This library also offers a set of cryptographic utilities available through
@@ -748,8 +798,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [Key Vault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript)
-- [Key Vault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
+- [Key Vault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript)
+- [Key Vault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/typescript)
 - [Key Vault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing

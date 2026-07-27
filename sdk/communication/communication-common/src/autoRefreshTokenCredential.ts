@@ -14,45 +14,68 @@ import { parseToken } from "./tokenParser.js";
  */
 export interface CommunicationTokenRefreshOptions {
   /**
-   * Callback function that returns a string JWT token acquired from the Communication Identity API.
+   * Callback that returns a token acquired from the Communication Identity API.
    * The returned token must be valid (expiration date must be in the future).
+   *
+   * Return a `string` to have the expiry read from the JWT, or an `AccessToken`
+   * to supply the expiry explicitly (required for encrypted access tokens that
+   * cannot be decoded).
    */
-  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
+  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
 
   /**
-   * Optional token to initialize.
+   * Optional token to initialize. May be a `string` or an `AccessToken` carrying
+   * an explicit expiry.
    */
-  token?: string;
+  token?: string | AccessToken;
 
   /**
    * Indicates whether the token should be proactively renewed prior to expiry or only renew on demand.
    * By default false.
    */
   refreshProactively?: boolean;
+
+  /**
+   * Lifetime, in seconds, assumed for a returned token that cannot be decoded and
+   * carries no explicit expiry (e.g. an encrypted access token). Defaults to 600 (10 minutes).
+   *
+   * Set this to your tokens' real lifetime. It is not capped: a value larger than the token's
+   * actual lifetime means the credential refreshes later than it should and the service will
+   * reject the expired token. To avoid guessing, prefer returning an `AccessToken` with an
+   * explicit `expiresOnTimestamp` (e.g. derived from the token response's `expires_in`).
+   */
+  undecodableTokenExpiryIntervalInSeconds?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
+// Must stay in step with `defaultUndecodableTokenExpiryIntervalInSeconds` (600s) in tokenParser.ts —
+// an opaque token's fallback expiry is expected to land in this expiring-soon window.
 const defaultExpiringSoonInterval = minutesToMs(10);
 const defaultRefreshAfterLifetimePercentage = 0.5;
 
 export class AutoRefreshTokenCredential implements TokenCredential {
-  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string>;
+  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
   private readonly refreshProactively: boolean;
   private readonly expiringSoonIntervalInMs: number = defaultExpiringSoonInterval;
   private readonly refreshAfterLifetimePercentage = defaultRefreshAfterLifetimePercentage;
+  private readonly undecodableTokenExpiryIntervalInSeconds: number | undefined;
 
   private currentToken: AccessToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
-  private activeTokenFetching: Promise<string> | null = null;
+  private activeTokenFetching: Promise<string | AccessToken> | null = null;
   private activeTokenUpdating: Promise<void> | null = null;
   private disposed = false;
 
   constructor(refreshArgs: CommunicationTokenRefreshOptions) {
-    const { tokenRefresher, token, refreshProactively } = refreshArgs;
+    const { tokenRefresher, token, refreshProactively, undecodableTokenExpiryIntervalInSeconds } =
+      refreshArgs;
 
     this.refresh = tokenRefresher;
-    this.currentToken = token ? parseToken(token) : expiredToken;
+    this.undecodableTokenExpiryIntervalInSeconds = undecodableTokenExpiryIntervalInSeconds;
+    this.currentToken = token
+      ? parseToken(token, this.undecodableTokenExpiryIntervalInSeconds)
+      : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
 
     if (this.refreshProactively) {
@@ -78,12 +101,15 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     this.activeTokenFetching = null;
     this.activeTokenUpdating = null;
     this.currentToken = expiredToken;
-    if (this.activeTimeout) {
+    if (this.activeTimeout !== undefined) {
       clearTimeout(this.activeTimeout);
     }
   }
 
   private async updateTokenAndReschedule(abortSignal?: AbortSignalLike): Promise<void> {
+    if (this.disposed) {
+      return;
+    }
     if (this.activeTokenUpdating) {
       return this.activeTokenUpdating;
     }
@@ -113,7 +139,10 @@ export class AutoRefreshTokenCredential implements TokenCredential {
       if (!this.activeTokenFetching) {
         this.activeTokenFetching = this.refresh(abortSignal);
       }
-      return parseToken(await this.activeTokenFetching);
+      return parseToken(
+        await this.activeTokenFetching,
+        this.undecodableTokenExpiryIntervalInSeconds,
+      );
     } finally {
       this.activeTokenFetching = null;
     }

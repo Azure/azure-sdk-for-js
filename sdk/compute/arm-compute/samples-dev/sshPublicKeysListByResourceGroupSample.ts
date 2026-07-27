@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function sshPublicKeyListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function sshPublicKeyListByResourceGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function sshPublicKeyListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary the operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function copyARestorePointToADifferentRegion() {
  * This sample demonstrates how to the operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary the operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePoint_Create.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint() {
   const credential = new DefaultAzureCredential();

@@ -1,14 +1,32 @@
 # Release History
 
-## 1.18.2 (Unreleased)
+## 1.19.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Bugs Fixed
 
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
 ### Other Changes
+
+- Fixed Statsbeat instrumentation encoding so adding an instrumentation no longer shifts the reported bits of others, and flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). Updated the bundled contrib instrumentations and resource detector to their latest versions. [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+
+## 1.18.2 (2026-07-01)
+
+### Bugs Fixed
+
+- Fixed missing Azure SDK dependency spans (Service Bus, Event Grid, Storage, etc.) when running as an ESM application on Node.js 22+ — most notably in Azure Functions, where the `--import @azure/monitor-opentelemetry/loader` flag cannot be configured. The distro now wires the Azure SDK instrumenter into `@azure/core-tracing` directly, so Azure SDK tracing works in ESM even when the OpenTelemetry module hooks never fire.
+- Fixed Azure SDK spans being silently dropped when any Azure SDK package is imported before `useAzureMonitor()`. The fix eagerly installs the `@azure/core-tracing` OpenTelemetry bridge after SDK initialization, handling the case where the RITM hook could not intercept an already-loaded `@azure/core-tracing`.
+- Fixed a CPU-saturating deactivate/reactivate loop in Live Metrics that occurred when live-endpoint posts failed while subscribed.
+- Hardened Live Metrics (QuickPulse) redirect handling so a `x-ms-qps-service-endpoint-redirect-v2` header is only followed when the target host matches the configured endpoint or a known Azure Monitor ingestion domain. This prevents an attacker-controlled redirect from causing the bearer auth token (and telemetry body) to be sent to an untrusted host.
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.43.
 
 ## 1.18.1 (2026-05-29)
 

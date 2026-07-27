@@ -26,9 +26,9 @@ import type {
 } from "../../api/routePolicies/options.js";
 import type {
   UpdateAdministrativeState,
+  UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
-  CommonPostActionResponseForDeviceUpdate,
   RoutePolicy,
   RoutePolicyPatch,
 } from "../../models/models.js";
@@ -92,8 +92,8 @@ export interface RoutePoliciesOperations {
     body: UpdateAdministrativeState,
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -103,8 +103,8 @@ export interface RoutePoliciesOperations {
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForDeviceUpdate>,
-      CommonPostActionResponseForDeviceUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -113,7 +113,7 @@ export interface RoutePoliciesOperations {
     routePolicyName: string,
     body: UpdateAdministrativeState,
     options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForDeviceUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Implements RoutePolicies list by subscription GET method. */
   listBySubscription: (
     options?: RoutePoliciesListBySubscriptionOptionalParams,
@@ -124,11 +124,6 @@ export interface RoutePoliciesOperations {
     options?: RoutePoliciesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<RoutePolicy>;
   /** Implements Route Policy DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     routePolicyName: string,

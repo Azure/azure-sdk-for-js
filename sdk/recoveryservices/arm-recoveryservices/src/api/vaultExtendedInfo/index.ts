@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export { update, createOrUpdate, get } from "./operations.js";
-export {
-  type VaultExtendedInfoUpdateOptionalParams,
-  type VaultExtendedInfoCreateOrUpdateOptionalParams,
-  type VaultExtendedInfoGetOptionalParams,
+export type {
+  VaultExtendedInfoUpdateOptionalParams,
+  VaultExtendedInfoCreateOrUpdateOptionalParams,
+  VaultExtendedInfoGetOptionalParams,
 } from "./options.js";

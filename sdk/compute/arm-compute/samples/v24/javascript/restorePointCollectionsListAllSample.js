@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections.
  *
  * @summary gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_ListBySubscription.json
  */
 async function getsTheListOfRestorePointCollectionsInASubscription() {
   const credential = new DefaultAzureCredential();

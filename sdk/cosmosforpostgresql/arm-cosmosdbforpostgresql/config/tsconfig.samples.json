@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-cosmosdbforpostgresql": [
-        "../dist/esm"
-      ]
+      "@azure/arm-cosmosdbforpostgresql": ["../dist/esm"]
     }
   }
 }

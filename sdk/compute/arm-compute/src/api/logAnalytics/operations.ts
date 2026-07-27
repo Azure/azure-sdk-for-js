@@ -34,7 +34,7 @@ export function _exportThrottledRequestsSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,10 +51,12 @@ export function _exportThrottledRequestsSend(
 export async function _exportThrottledRequestsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogAnalyticsOperationResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -69,12 +71,12 @@ export function exportThrottledRequests(
   parameters: ThrottledRequestsInput,
   options: LogAnalyticsExportThrottledRequestsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult> {
-  return getLongRunningPoller(context, _exportThrottledRequestsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _exportThrottledRequestsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _exportThrottledRequestsSend(context, location, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
 }
 
@@ -89,7 +91,7 @@ export function _exportRequestRateByIntervalSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,10 +108,12 @@ export function _exportRequestRateByIntervalSend(
 export async function _exportRequestRateByIntervalDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LogAnalyticsOperationResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -127,14 +131,14 @@ export function exportRequestRateByInterval(
   return getLongRunningPoller(
     context,
     _exportRequestRateByIntervalDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
         _exportRequestRateByIntervalSend(context, location, parameters, options),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-03-01",
     },
   ) as PollerLike<OperationState<LogAnalyticsOperationResult>, LogAnalyticsOperationResult>;
 }

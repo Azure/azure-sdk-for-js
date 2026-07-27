@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual machine image.
  *
  * @summary gets a virtual machine image.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImageGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function virtualMachineImageGetMaximumSetGen() {
  * This sample demonstrates how to gets a virtual machine image.
  *
  * @summary gets a virtual machine image.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImageGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();

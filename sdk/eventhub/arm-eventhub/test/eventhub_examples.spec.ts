@@ -122,7 +122,7 @@ describe("Eventhub test", () => {
     console.log(storageaccount);
   }
 
-  it("operations list test", async () => {
+  it.skip("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);

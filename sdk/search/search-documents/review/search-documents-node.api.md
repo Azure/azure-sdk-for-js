@@ -6,10 +6,11 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import type { RestError } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -1371,6 +1372,8 @@ export interface InputFieldMappingEntry {
     source?: string;
     sourceContext?: string;
 }
+
+export { isRestError }
 
 // @public
 export interface KeepTokenFilter extends BaseTokenFilter {
@@ -3464,6 +3467,8 @@ export interface ResourceCounter {
     quota?: number;
     usage: number;
 }
+
+export { RestError }
 
 // @public
 export interface ResyncIndexerOptions extends OperationOptions {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all availability sets in a subscription.
  *
  * @summary lists all availability sets in a subscription.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_ListBySubscription.json
  */
 async function listAvailabilitySetsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

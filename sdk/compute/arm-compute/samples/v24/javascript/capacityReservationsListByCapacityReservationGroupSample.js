@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
  *
  * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/BlockCapacityReservation_ListByReservationGroup.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservation_ListByReservationGroup.json
  */
 async function listBlockCapacityReservationsInReservationGroup() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listBlockCapacityReservationsInReservationGroup() {
  * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
  *
  * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
  */
 async function listCapacityReservationsInReservationGroup() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function listCapacityReservationsInReservationGroup() {
  * This sample demonstrates how to lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
  *
  * @summary lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/TargetedCapacityReservation_ListByReservationGroup.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservation_ListByReservationGroup.json
  */
 async function listCapacityReservationsInTargetedReservationGroup() {
   const credential = new DefaultAzureCredential();

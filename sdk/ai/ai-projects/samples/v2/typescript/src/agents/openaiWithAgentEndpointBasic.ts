@@ -45,7 +45,6 @@ export async function main(): Promise<void> {
       ],
     } as HostedAgentDefinition,
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );
@@ -71,7 +70,7 @@ export async function main(): Promise<void> {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(agentName, versionIndicator);
+  const session = await project.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   try {
@@ -95,7 +94,7 @@ export async function main(): Promise<void> {
     // ── Cleanup ─────────────────────────────────────────────────────────
     console.log("\nCleaning up resources...");
 
-    await project.beta.agents.deleteSession(agentName, session.agent_session_id);
+    await project.agents.deleteSession(agentName, session.agent_session_id);
     console.log(`Session with id: ${session.agent_session_id} deleted.`);
 
     await project.agents.deleteVersion(agentName, agent.version);

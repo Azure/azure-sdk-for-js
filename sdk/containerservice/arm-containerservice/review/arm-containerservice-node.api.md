@@ -315,6 +315,13 @@ export interface AgentPoolWindowsProfile {
 export type ArtifactSource = string;
 
 // @public
+export interface AutoScaleProfile {
+    maxCount?: number;
+    minCount?: number;
+    size?: string;
+}
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -1079,6 +1086,12 @@ export enum KnownScaleSetPriority {
 }
 
 // @public
+export enum KnownSchedulerConfigMode {
+    Default = "Default",
+    ManagedByCRD = "ManagedByCRD"
+}
+
+// @public
 export enum KnownServiceMeshMode {
     Disabled = "Disabled",
     Istio = "Istio"
@@ -1134,7 +1147,8 @@ export enum KnownVersions {
     V20260101 = "2026-01-01",
     V20260201 = "2026-02-01",
     V20260301 = "2026-03-01",
-    V20260401 = "2026-04-01"
+    V20260401 = "2026-04-01",
+    V20260501 = "2026-05-01"
 }
 
 // @public
@@ -1383,6 +1397,7 @@ export interface ManagedCluster extends TrackedResource {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly resourceUID?: string;
+    schedulerProfile?: SchedulerProfile;
     securityProfile?: ManagedClusterSecurityProfile;
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1769,6 +1784,7 @@ export interface ManagedClusterProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly resourceUID?: string;
+    schedulerProfile?: SchedulerProfile;
     securityProfile?: ManagedClusterSecurityProfile;
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1834,7 +1850,21 @@ export interface ManagedClusterSecurityProfile {
 // @public
 export interface ManagedClusterSecurityProfileDefender {
     logAnalyticsWorkspaceResourceId?: string;
+    securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating;
     securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileDefenderSecurityGating {
+    allowSecretAccess?: boolean;
+    enabled?: boolean;
+    identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity[];
+}
+
+// @public
+export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
+    azureContainerRegistry?: string;
+    identity?: UserAssignedIdentity;
 }
 
 // @public
@@ -1986,7 +2016,7 @@ export interface ManagedClustersOperations {
     delete: (resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams) => Promise<ManagedCluster>;
     getAccessProfile: (resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams) => Promise<ManagedClusterAccessProfile>;
-    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult | undefined>;
+    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult | void>;
     getMeshRevisionProfile: (location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams) => Promise<MeshRevisionProfile>;
     getMeshUpgradeProfile: (resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams) => Promise<MeshUpgradeProfile>;
     getUpgradeProfile: (resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams) => Promise<ManagedClusterUpgradeProfile>;
@@ -2521,6 +2551,7 @@ export type ScaleDownMode = string;
 
 // @public
 export interface ScaleProfile {
+    autoscale?: AutoScaleProfile[];
     manual?: ManualScaleProfile[];
 }
 
@@ -2536,6 +2567,19 @@ export interface Schedule {
     daily?: DailySchedule;
     relativeMonthly?: RelativeMonthlySchedule;
     weekly?: WeeklySchedule;
+}
+
+// @public
+export type SchedulerConfigMode = string;
+
+// @public
+export interface SchedulerInstanceProfile {
+    schedulerConfigMode?: SchedulerConfigMode;
+}
+
+// @public
+export interface SchedulerProfile {
+    upstream?: SchedulerInstanceProfile;
 }
 
 // @public

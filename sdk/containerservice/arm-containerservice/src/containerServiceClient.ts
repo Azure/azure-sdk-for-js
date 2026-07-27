@@ -60,14 +60,7 @@ export class ContainerServiceClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerService(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerService(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.trustedAccessRoles = _getTrustedAccessRolesOperations(this._client);
     this.resolvePrivateLinkServiceId = _getResolvePrivateLinkServiceIdOperations(this._client);

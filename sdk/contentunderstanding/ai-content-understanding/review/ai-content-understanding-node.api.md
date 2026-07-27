@@ -6,11 +6,13 @@
 
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorModel } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -536,6 +538,8 @@ export interface IntegerField extends ContentField {
     value?: number;
 }
 
+export { isRestError }
+
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
@@ -608,6 +612,8 @@ export type ProcessingLocation = "geography" | "dataZone" | "global";
 export interface RecordMergePatchUpdate {
     additionalProperties?: Record<string, string>;
 }
+
+export { RestError }
 
 // @public
 export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" | "sectionHeading" | "footnote" | "formulaBlock";

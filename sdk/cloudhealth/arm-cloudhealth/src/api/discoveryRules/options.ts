@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DiscoveryRulesListByHealthModelOptionalParams extends OperationOptions {
@@ -10,10 +10,16 @@ export interface DiscoveryRulesListByHealthModelOptionalParams extends Operation
 }
 
 /** Optional parameters. */
-export interface DiscoveryRulesDeleteOptionalParams extends OperationOptions {}
+export interface DiscoveryRulesDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
-export interface DiscoveryRulesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface DiscoveryRulesCreateOrUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface DiscoveryRulesGetOptionalParams extends OperationOptions {}

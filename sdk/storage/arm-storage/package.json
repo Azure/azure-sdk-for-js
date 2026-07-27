@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-storage",
-  "version": "20.1.0",
+  "version": "20.1.1",
   "description": "A generated SDK for StorageManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

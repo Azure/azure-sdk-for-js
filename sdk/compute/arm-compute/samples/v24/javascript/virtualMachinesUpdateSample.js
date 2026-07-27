@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update a virtual machine.
  *
  * @summary the operation to update a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
  */
 async function updateAVMByDetachingDataDisk() {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function updateAVMByDetachingDataDisk() {
  * This sample demonstrates how to the operation to update a virtual machine.
  *
  * @summary the operation to update a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
  */
 async function updateAVMByForceDetachingDataDisk() {
   const credential = new DefaultAzureCredential();

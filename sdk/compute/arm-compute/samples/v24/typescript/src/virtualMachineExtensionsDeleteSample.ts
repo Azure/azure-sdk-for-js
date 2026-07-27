@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete the extension.
  *
  * @summary the operation to delete the extension.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to the operation to delete the extension.
  *
  * @summary the operation to delete the extension.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

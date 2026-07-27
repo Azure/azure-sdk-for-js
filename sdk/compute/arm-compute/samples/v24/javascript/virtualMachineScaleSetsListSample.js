@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all VM scale sets under a resource group.
  *
  * @summary gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetListMaximumSetGen() {
  * This sample demonstrates how to gets a list of all VM scale sets under a resource group.
  *
  * @summary gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

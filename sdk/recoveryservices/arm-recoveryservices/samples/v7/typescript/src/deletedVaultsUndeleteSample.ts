@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to start undelete of a deleted vault.
  *
  * @summary start undelete of a deleted vault.
- * x-ms-original-file: 2025-08-01/DeletedVaults_Undelete.json
+ * x-ms-original-file: 2026-05-01/DeletedVaults_Undelete.json
  */
 async function undeleteADeletedVault(): Promise<void> {
   const credential = new DefaultAzureCredential();

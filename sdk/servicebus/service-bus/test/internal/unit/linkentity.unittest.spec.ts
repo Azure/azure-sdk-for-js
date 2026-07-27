@@ -485,6 +485,140 @@ describe("LinkEntity unit tests", () => {
     }
   });
 
+  describe("token renewal (issue #38467)", () => {
+    it("retries a failed token renewal with backoff instead of stopping", async () => {
+      await linkEntity.initLink({});
+      // Drop the renewal timer armed by init so it cannot fire during the test.
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+
+      linkEntity["_negotiateClaim"] = async () => {
+        throw new Error("simulated token renewal failure");
+      };
+
+      // Drive a single renewal attempt. Before the fix the renewal chain stopped
+      // after a failure; now it must increment the retry counter and re-arm.
+      await linkEntity["_renewToken"]();
+      assert.equal(
+        linkEntity["_tokenRenewalRetryCount"],
+        1,
+        "the retry counter should increment after a failed renewal",
+      );
+      assert.exists(
+        linkEntity["_tokenRenewalTimer"],
+        "the renewal timer should be re-armed after a failed renewal (issue #38467)",
+      );
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+
+      // A second failure keeps backing off rather than stopping.
+      await linkEntity["_renewToken"]();
+      assert.equal(
+        linkEntity["_tokenRenewalRetryCount"],
+        2,
+        "the retry counter should keep incrementing across consecutive failures",
+      );
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+    });
+
+    it("resets the retry backoff after a successful renewal", async () => {
+      await linkEntity.initLink({});
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+
+      let shouldFail = true;
+      linkEntity["_negotiateClaim"] = async (props: any) => {
+        if (shouldFail) {
+          throw new Error("simulated token renewal failure");
+        }
+        // Mimic the real success path, which re-arms the renewal timer.
+        if (props?.setTokenRenewal) {
+          linkEntity["_ensureTokenRenewal"]();
+        }
+      };
+
+      // First renewal fails -> retry counter is now 1.
+      await linkEntity["_renewToken"]();
+      assert.equal(linkEntity["_tokenRenewalRetryCount"], 1);
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+
+      // A subsequent successful renewal resets the retry counter.
+      shouldFail = false;
+      await linkEntity["_renewToken"]();
+      assert.equal(
+        linkEntity["_tokenRenewalRetryCount"],
+        0,
+        "the retry counter should reset after a successful renewal",
+      );
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+    });
+
+    it("backs off exponentially and caps the retry delay", async () => {
+      await linkEntity.initLink({});
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+      linkEntity["_negotiateClaim"] = async () => {
+        throw new Error("simulated token renewal failure");
+      };
+
+      // Capture the delay the failed renewal re-arms with, then let the real
+      // implementation run so the backoff state advances.
+      const delays: number[] = [];
+      const ensureTokenRenewal = linkEntity["_ensureTokenRenewal"].bind(linkEntity);
+      linkEntity["_ensureTokenRenewal"] = (nextRenewalTimeoutInMs?: number): void => {
+        if (nextRenewalTimeoutInMs !== undefined) {
+          delays.push(nextRenewalTimeoutInMs);
+        }
+        ensureTokenRenewal(nextRenewalTimeoutInMs);
+      };
+
+      for (let i = 0; i < 7; i++) {
+        await linkEntity["_renewToken"]();
+      }
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+
+      // Base 3000 ms doubling each attempt, capped at 60000 ms.
+      assert.deepEqual(delays.slice(0, 6), [3000, 6000, 12000, 24000, 48000, 60000]);
+      assert.equal(delays[6], 60000, "the retry delay should stay capped at the maximum");
+    });
+
+    it("resets the retry counter when the link is permanently closed", async () => {
+      await linkEntity.initLink({});
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+      linkEntity["_negotiateClaim"] = async () => {
+        throw new Error("simulated token renewal failure");
+      };
+
+      await linkEntity["_renewToken"]();
+      assert.equal(linkEntity["_tokenRenewalRetryCount"], 1);
+
+      await linkEntity.close();
+      assert.equal(
+        linkEntity["_tokenRenewalRetryCount"],
+        0,
+        "closing the link should reset the retry counter",
+      );
+      assert.notExists(
+        linkEntity["_tokenRenewalTimer"],
+        "closing the link should clear the renewal timer",
+      );
+    });
+
+    it("does not re-arm renewal after the link is permanently closed", async () => {
+      await linkEntity.initLink({});
+      clearTimeout(linkEntity["_tokenRenewalTimer"] as NodeJS.Timeout);
+      linkEntity["_tokenRenewalTimer"] = undefined;
+      linkEntity["_negotiateClaim"] = async () => {
+        throw new Error("simulated token renewal failure");
+      };
+
+      // Mimic a renewal still in flight when close() set the permanent-close flag.
+      linkEntity["_wasClosedPermanently"] = true;
+      await linkEntity["_renewToken"]();
+
+      assert.notExists(
+        linkEntity["_tokenRenewalTimer"],
+        "a renewal completing after permanent close must not re-arm the timer (issue #38467)",
+      );
+    });
+  });
+
   function assertLinkEntityOpen(): void {
     assert.isTrue(linkEntity.isOpen(), "link should be open");
     assert.exists(linkEntity["_tokenRenewalTimer"], "the tokenrenewal timer should have been set");

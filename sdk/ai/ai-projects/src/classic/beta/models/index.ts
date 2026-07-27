@@ -36,14 +36,14 @@ export type { BetaModelsCreateFromSourceOptions as BetaModelsCreateOptions };
 
 /** Interface representing a BetaModels operations. */
 export interface BetaModelsOperations {
-  /** Get credentials for a model version asset. */
+  /** Retrieves temporary credentials for accessing the storage backing the specified model version. */
   getCredentials: (
     name: string,
     version: string,
     credentialRequest: ModelCredentialRequest,
     options?: BetaModelsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
-  /** Start or retrieve a pending upload for a model version. */
+  /** Initiates a new pending upload or retrieves an existing one for the specified model version. */
   pendingUpload: (
     name: string,
     version: string,
@@ -60,7 +60,7 @@ export interface BetaModelsOperations {
   /** Update an existing ModelVersion with the given version id */
   update: (
     name: string,
-    body: UpdateModelVersionRequest,
+    modelVersionUpdate: UpdateModelVersionRequest,
     version: string,
     options?: BetaModelsUpdateOptionalParams,
   ) => Promise<ModelVersion>;
@@ -70,7 +70,7 @@ export interface BetaModelsOperations {
     version: string,
     options?: BetaModelsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Get the specific version of the ModelVersion. The service returns 404 Not Found error if the ModelVersion does not exist. */
+  /** Retrieves the specified model version, returning 404 if it does not exist. */
   get: (
     name: string,
     version: string,
@@ -107,10 +107,10 @@ function _getBetaModels(context: AIProjectContext) {
     ) => createFromSource(context, name, version, source, options),
     update: (
       name: string,
-      body: UpdateModelVersionRequest,
+      modelVersionUpdate: UpdateModelVersionRequest,
       version: string,
       options?: BetaModelsUpdateOptionalParams,
-    ) => update(context, name, body, version, options),
+    ) => update(context, name, modelVersionUpdate, version, options),
     delete: (name: string, version: string, options?: BetaModelsDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: BetaModelsGetOptionalParams) =>

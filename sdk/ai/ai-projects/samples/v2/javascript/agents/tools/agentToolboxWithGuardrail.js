@@ -24,7 +24,7 @@ async function main() {
   const openAIClient = project.getOpenAIClient();
 
   console.log("Creating toolbox with guardrail (RAI policy)...");
-  const toolboxVersion = await project.beta.toolboxes.createVersion(
+  const toolboxVersion = await project.toolboxes.createVersion(
     "my-toolbox",
     [{ type: "web_search" }],
     {
@@ -52,7 +52,6 @@ async function main() {
         server_label: "my-toolbox",
         server_url: toolboxMcpUrl,
         authorization: token,
-        headers: { "Foundry-Features": "Toolboxes=V1Preview" },
         require_approval: "never",
       },
     ],
@@ -83,7 +82,7 @@ async function main() {
 
   console.log("\nCleaning up resources...");
   await project.agents.deleteVersion(agent.name, agent.version);
-  await project.beta.toolboxes.deleteVersion("my-toolbox", toolboxVersion.version);
+  await project.toolboxes.deleteVersion("my-toolbox", toolboxVersion.version);
   console.log("Agent and toolbox deleted");
 }
 

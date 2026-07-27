@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import {
   listSkusForScaling,
   list,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/redisEnterprise/operations.js";
-import {
+import type {
   RedisEnterpriseListSkusForScalingOptionalParams,
   RedisEnterpriseListOptionalParams,
   RedisEnterpriseListByResourceGroupOptionalParams,
@@ -20,10 +20,11 @@ import {
   RedisEnterpriseCreateOptionalParams,
   RedisEnterpriseGetOptionalParams,
 } from "../../api/redisEnterprise/options.js";
-import { Cluster, ClusterUpdate, SkuDetailsList } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Cluster, ClusterUpdate, SkuDetailsList } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RedisEnterprise operations. */
 export interface RedisEnterpriseOperations {

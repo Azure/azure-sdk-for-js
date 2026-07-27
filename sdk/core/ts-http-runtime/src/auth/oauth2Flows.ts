@@ -61,7 +61,4 @@ export interface PasswordFlow {
 
 /** Union type of all supported OAuth2 flows */
 export type OAuth2Flow =
-  | AuthorizationCodeFlow
-  | ClientCredentialsFlow
-  | ImplicitFlow
-  | PasswordFlow;
+  AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow;

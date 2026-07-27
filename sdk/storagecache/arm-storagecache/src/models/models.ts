@@ -1419,10 +1419,7 @@ export function cacheIdentityDeserializer(item: any): CacheIdentity {
 
 /** The type of identity used for the cache */
 export type CacheIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userAssignedIdentitiesValueRecordSerializer(
   item: Record<string, UserAssignedIdentitiesValue>,
@@ -2316,13 +2313,7 @@ export function amlFilesystemPropertiesMaintenanceWindowDeserializer(
 
 /** Day of the week on which the maintenance window will occur. */
 export type MaintenanceDayOfWeekType =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 /** Hydration and archive settings and status */
 export interface AmlFilesystemPropertiesHsm {

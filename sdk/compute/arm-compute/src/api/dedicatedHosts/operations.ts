@@ -48,7 +48,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,9 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -83,7 +85,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -101,7 +103,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +116,9 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -136,7 +140,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +158,7 @@ export function _listAvailableSizesSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +176,9 @@ export async function _listAvailableSizesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -193,7 +199,7 @@ export function listAvailableSizes(
     () => _listAvailableSizesSend(context, resourceGroupName, hostGroupName, hostName, options),
     _listAvailableSizesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -209,7 +215,7 @@ export function _listByHostGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +233,9 @@ export async function _listByHostGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -247,7 +255,7 @@ export function listByHostGroup(
     () => _listByHostGroupSend(context, resourceGroupName, hostGroupName, options),
     _listByHostGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -265,7 +273,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,7 +286,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -287,11 +297,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a dedicated host. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -305,7 +310,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hostGroupName, hostName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -324,7 +329,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,7 +347,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -365,7 +372,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -384,7 +391,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -404,7 +411,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -427,7 +436,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, hostGroupName, hostName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<DedicatedHost>, DedicatedHost>;
 }
 
@@ -445,7 +454,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       hostGroupName: hostGroupName,
       hostName: hostName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -462,7 +471,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

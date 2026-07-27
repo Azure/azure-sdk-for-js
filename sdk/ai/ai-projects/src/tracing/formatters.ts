@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isContentRecordingEnabled } from "./configuration.js";
-
 /**
  * Formats input messages from a responses.create() body for span attributes.
  * When content recording is disabled, content fields are omitted.
  */
-export function formatInputMessages(body: Record<string, unknown>): string | undefined {
+export function formatInputMessages(
+  body: Record<string, unknown>,
+  contentRecording: boolean = false,
+): string | undefined {
   if (!body) return undefined;
-  const contentEnabled = isContentRecordingEnabled();
+  const contentEnabled = contentRecording;
 
   const messages: Array<Record<string, unknown>> = [];
 
@@ -83,9 +84,12 @@ export function formatInputMessages(body: Record<string, unknown>): string | und
  * Formats output messages from a responses.create() result for span attributes.
  * When content recording is disabled, only IDs and types are included.
  */
-export function formatOutputMessages(response: Record<string, unknown>): string | undefined {
+export function formatOutputMessages(
+  response: Record<string, unknown>,
+  contentRecording: boolean = false,
+): string | undefined {
   if (!response) return undefined;
-  const contentEnabled = isContentRecordingEnabled();
+  const contentEnabled = contentRecording;
 
   const output = response.output;
   if (!Array.isArray(output)) return undefined;

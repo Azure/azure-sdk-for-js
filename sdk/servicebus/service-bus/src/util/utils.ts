@@ -514,11 +514,7 @@ export type EntityStatus =
  * Possible values for `availabilityStatus` of the Service Bus messaging entities.
  */
 export type EntityAvailabilityStatus =
-  | "Available"
-  | "Limited"
-  | "Renaming"
-  | "Restoring"
-  | "Unknown";
+  "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
 
 /**
  * @internal

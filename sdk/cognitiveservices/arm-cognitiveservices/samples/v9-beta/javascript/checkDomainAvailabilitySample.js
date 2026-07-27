@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check whether a domain is available.
  *
  * @summary check whether a domain is available.
- * x-ms-original-file: 2026-03-15-preview/CheckDomainAvailability.json
+ * x-ms-original-file: 2026-05-15-preview/CheckDomainAvailability.json
  */
 async function checkSKUAvailability() {
   const credential = new DefaultAzureCredential();

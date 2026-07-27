@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a credential set from a container registry.
  *
  * @summary deletes a credential set from a container registry.
- * x-ms-original-file: 2026-01-01-preview/CredentialSetDelete.json
+ * x-ms-original-file: 2026-03-01-preview/CredentialSetDelete.json
  */
 async function credentialSetDelete() {
   const credential = new DefaultAzureCredential();

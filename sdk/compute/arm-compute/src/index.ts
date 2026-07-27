@@ -131,6 +131,7 @@ export type {
   NetworkInterfaceAuxiliaryMode,
   NetworkInterfaceAuxiliarySku,
   NetworkApiVersion,
+  InterconnectGroupProfile,
   SecurityProfile,
   UefiSettings,
   SecurityTypes,
@@ -152,6 +153,7 @@ export type {
   TerminateNotificationProfile,
   OSImageNotificationProfile,
   CapacityReservationProfile,
+  InterconnectBlockProfile,
   ApplicationProfile,
   VMGalleryApplication,
   VirtualMachineScaleSetHardwareProfile,
@@ -180,6 +182,7 @@ export type {
   SkuProfile,
   SkuProfileVMSize,
   AllocationStrategy,
+  AutomaticSkuMigrationPolicy,
   HighSpeedInterconnectPlacement,
   LifecycleHooksProfile,
   LifecycleHook,
@@ -290,6 +293,7 @@ export type {
   AvailablePatchSummary,
   PatchOperationStatus,
   LastPatchInstallationSummary,
+  InterconnectInstanceView,
   ResiliencyProfile,
   ZoneMovement,
   VirtualMachineExtension,
@@ -389,6 +393,10 @@ export type {
   CapacityReservationProperties,
   ScheduleProfile,
   CapacityReservationUpdate,
+  InterconnectBlock,
+  InterconnectBlockProperties,
+  InterconnectBlockInstanceView,
+  InterconnectBlockUpdate,
   VirtualMachineRunCommand,
   VirtualMachineRunCommandProperties,
   VirtualMachineRunCommandScriptSource,
@@ -451,6 +459,7 @@ export type {
   ExpandTypesForGetCapacityReservationGroups,
   ResourceIdOptionsForGetCapacityReservationGroups,
   CapacityReservationInstanceViewTypes,
+  InterconnectBlockExpandTypes,
 } from "./models/compute/index.js";
 export {
   KnownRepairAction,
@@ -534,6 +543,7 @@ export {
   KnownExpandTypesForGetCapacityReservationGroups,
   KnownResourceIdOptionsForGetCapacityReservationGroups,
   KnownCapacityReservationInstanceViewTypes,
+  KnownInterconnectBlockExpandTypes,
 } from "./models/compute/index.js";
 export type {
   Disk,
@@ -983,6 +993,14 @@ export type {
   ImagesGetOptionalParams,
 } from "./api/images/index.js";
 export type {
+  InterconnectBlocksListBySubscriptionOptionalParams,
+  InterconnectBlocksListByResourceGroupOptionalParams,
+  InterconnectBlocksDeleteOptionalParams,
+  InterconnectBlocksUpdateOptionalParams,
+  InterconnectBlocksCreateOrUpdateOptionalParams,
+  InterconnectBlocksGetOptionalParams,
+} from "./api/interconnectBlocks/index.js";
+export type {
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
 } from "./api/logAnalytics/index.js";
@@ -1213,6 +1231,7 @@ export type {
   GalleryScriptVersionsOperations,
   GallerySharingProfileOperations,
   ImagesOperations,
+  InterconnectBlocksOperations,
   LogAnalyticsOperations,
   OperationsOperations,
   ProximityPlacementGroupsOperations,
@@ -1244,3 +1263,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

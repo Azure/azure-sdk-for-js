@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a managed cluster.
  *
  * @summary deletes a managed cluster.
- * x-ms-original-file: 2026-04-01/ManagedClustersDelete.json
+ * x-ms-original-file: 2026-05-01/ManagedClustersDelete.json
  */
 async function deleteManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list capabilityHost.
  *
  * @summary list capabilityHost.
- * x-ms-original-file: 2026-03-15-preview/ProjectCapabilityHost/list.json
+ * x-ms-original-file: 2026-05-15-preview/ProjectCapabilityHost/list.json
  */
 async function listProjectCapabilityHosts() {
   const credential = new DefaultAzureCredential();

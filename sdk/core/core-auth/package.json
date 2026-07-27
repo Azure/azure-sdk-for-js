@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.10.2",
+  "version": "1.11.0",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "type": "module",
@@ -51,7 +51,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-auth/README.md",
   "sideEffects": false,

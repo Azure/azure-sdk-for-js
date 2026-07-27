@@ -4,15 +4,142 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AadConfiguration {
     adminGroupObjectIds: string[];
+}
+
+// @public
+export interface AccessBridge extends TrackedResource {
+    readonly detailedStatus?: AccessBridgeDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly endpoints?: AccessBridgeEndpoint[];
+    readonly etag?: string;
+    extendedLocation: ExtendedLocation;
+    ipv4ConnectedPrefix?: string;
+    ipv6ConnectedPrefix?: string;
+    networkId: string;
+    readonly protocol?: TransportProtocol;
+    readonly provisioningState?: AccessBridgeProvisioningState;
+    securityRules?: AccessBridgeSecurityRule[];
+}
+
+// @public
+export type AccessBridgeAllowedName = string;
+
+// @public
+export type AccessBridgeDetailedStatus = string;
+
+// @public
+export interface AccessBridgeEndpoint {
+    readonly fqdn?: string;
+    readonly ipv4Address?: string;
+    readonly ipv6Address?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface AccessBridgePatchParameters {
+    properties?: AccessBridgePatchProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AccessBridgePatchProperties {
+    securityRules?: AccessBridgeSecurityRule[];
+}
+
+// @public
+export interface AccessBridgeProperties {
+    readonly detailedStatus?: AccessBridgeDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly endpoints?: AccessBridgeEndpoint[];
+    ipv4ConnectedPrefix?: string;
+    ipv6ConnectedPrefix?: string;
+    networkId: string;
+    readonly protocol?: TransportProtocol;
+    readonly provisioningState?: AccessBridgeProvisioningState;
+    securityRules?: AccessBridgeSecurityRule[];
+}
+
+// @public
+export type AccessBridgeProvisioningState = string;
+
+// @public
+export interface AccessBridgesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessBridgesDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessBridgeSecurityRule {
+    description?: string;
+    direction: SecurityRuleDirection;
+    ipv4Addresses?: string[];
+    ipv6Addresses?: string[];
+    port: string;
+}
+
+// @public
+export interface AccessBridgesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessBridgesListByResourceGroupOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface AccessBridgesListBySubscriptionOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface AccessBridgesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, accessBridge: AccessBridge, options?: AccessBridgesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessBridge>, AccessBridge>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, accessBridge: AccessBridge, options?: AccessBridgesCreateOrUpdateOptionalParams) => Promise<AccessBridge>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AccessBridge>, AccessBridge>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesUpdateOptionalParams) => Promise<AccessBridge>;
+    createOrUpdate: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, accessBridge: AccessBridge, options?: AccessBridgesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AccessBridge>, AccessBridge>;
+    delete: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesGetOptionalParams) => Promise<AccessBridge>;
+    listByResourceGroup: (resourceGroupName: string, options?: AccessBridgesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AccessBridge>;
+    listBySubscription: (options?: AccessBridgesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AccessBridge>;
+    update: (resourceGroupName: string, accessBridgeName: AccessBridgeAllowedName, options?: AccessBridgesUpdateOptionalParams) => PollerLike<OperationState<AccessBridge>, AccessBridge>;
+}
+
+// @public
+export interface AccessBridgesUpdateOptionalParams extends OperationOptions {
+    accessBridgeUpdateParameters?: AccessBridgePatchParameters;
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -68,6 +195,7 @@ export interface AgentPool extends TrackedResource {
     readonly detailedStatus?: AgentPoolDetailedStatus;
     readonly detailedStatusMessage?: string;
     readonly etag?: string;
+    // (undocumented)
     extendedLocation?: ExtendedLocation;
     readonly kubernetesVersion?: string;
     labels?: KubernetesLabel[];
@@ -79,27 +207,7 @@ export interface AgentPool extends TrackedResource {
 }
 
 // @public
-export interface AgentPoolConfiguration {
-    administratorConfiguration?: AdministratorConfiguration;
-    agentOptions?: AgentOptions;
-    attachedNetworkConfiguration?: AttachedNetworkConfiguration;
-    availabilityZones?: string[];
-    count: number;
-    labels?: KubernetesLabel[];
-    mode: AgentPoolMode;
-    taints?: KubernetesLabel[];
-    upgradeSettings?: AgentPoolUpgradeSettings;
-    vmSkuName: string;
-}
-
-// @public
 export type AgentPoolDetailedStatus = string;
-
-// @public
-export interface AgentPoolList {
-    nextLink?: string;
-    value?: AgentPool[];
-}
 
 // @public
 export type AgentPoolMode = string;
@@ -108,99 +216,90 @@ export type AgentPoolMode = string;
 export interface AgentPoolPatchParameters {
     administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
     count?: number;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     upgradeSettings?: AgentPoolUpgradeSettings;
+}
+
+// @public
+export interface AgentPoolPatchProperties {
+    administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
+    count?: number;
+    upgradeSettings?: AgentPoolUpgradeSettings;
+}
+
+// @public
+export interface AgentPoolProperties {
+    administratorConfiguration?: AdministratorConfiguration;
+    agentOptions?: AgentOptions;
+    attachedNetworkConfiguration?: AttachedNetworkConfiguration;
+    availabilityZones?: string[];
+    count: number;
+    readonly detailedStatus?: AgentPoolDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly kubernetesVersion?: string;
+    labels?: KubernetesLabel[];
+    mode: AgentPoolMode;
+    readonly provisioningState?: AgentPoolProvisioningState;
+    taints?: KubernetesLabel[];
+    upgradeSettings?: AgentPoolUpgradeSettings;
+    vmSkuName: string;
 }
 
 // @public
 export type AgentPoolProvisioningState = string;
 
 // @public
-export interface AgentPools {
-    beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams): Promise<AgentPoolsUpdateResponse>;
-    get(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
-    listByKubernetesCluster(resourceGroupName: string, kubernetesClusterName: string, options?: AgentPoolsListByKubernetesClusterOptionalParams): PagedAsyncIterableIterator<AgentPool>;
-}
-
-// @public
-export interface AgentPoolsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AgentPoolsCreateOrUpdateResponse = AgentPool;
-
-// @public
-export interface AgentPoolsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AgentPoolsDeleteResponse = OperationStatusResult;
-
-// @public
-export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentPoolsGetResponse = AgentPool;
-
-// @public
-export interface AgentPoolsListByKubernetesClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AgentPoolsListByKubernetesClusterNextResponse = AgentPoolList;
-
-// @public
-export interface AgentPoolsListByKubernetesClusterOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsListByKubernetesClusterOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type AgentPoolsListByKubernetesClusterResponse = AgentPoolList;
-
-// @public
-export interface AgentPoolsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface AgentPoolsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AgentPool>, AgentPool>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams) => Promise<AgentPool>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AgentPool>, AgentPool>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams) => Promise<AgentPool>;
+    createOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
+    delete: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams) => Promise<AgentPool>;
+    listByKubernetesCluster: (resourceGroupName: string, kubernetesClusterName: string, options?: AgentPoolsListByKubernetesClusterOptionalParams) => PagedAsyncIterableIterator<AgentPool>;
+    update: (resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
 // @public
-export interface AgentPoolsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AgentPoolsUpdateOptionalParams extends OperationOptions {
     agentPoolUpdateParameters?: AgentPoolPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AgentPoolsUpdateResponse = AgentPool;
 
 // @public
 export interface AgentPoolUpgradeSettings {
@@ -232,11 +331,23 @@ export interface AvailableUpgrade {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BareMetalMachine extends TrackedResource {
     readonly actionStates?: ActionState[];
     readonly associatedResourceIds?: string[];
     bmcConnectionString: string;
     bmcCredentials: AdministrativeCredentials;
+    readonly bmcIpv4Address?: string;
+    readonly bmcIpv6Address?: string;
     bmcMacAddress: string;
     bootMacAddress: string;
     readonly caCertificate?: CertificateInfo;
@@ -256,6 +367,7 @@ export interface BareMetalMachine extends TrackedResource {
     machineName: string;
     readonly machineRoles?: string[];
     machineSkuId: string;
+    readonly monitoringConfigurationStatus?: BareMetalMachineMonitoringConfigurationStatus;
     readonly oamIpv4Address?: string;
     readonly oamIpv6Address?: string;
     readonly osImage?: string;
@@ -328,18 +440,17 @@ export interface BareMetalMachineKeySet extends TrackedResource {
 export type BareMetalMachineKeySetDetailedStatus = string;
 
 // @public
-export interface BareMetalMachineKeySetList {
-    nextLink?: string;
-    value?: BareMetalMachineKeySet[];
-}
-
-// @public
 export interface BareMetalMachineKeySetPatchParameters {
     expiration?: Date;
     jumpHostsAllowed?: string[];
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+    userList?: KeySetUser[];
+}
+
+// @public
+export interface BareMetalMachineKeySetPatchProperties {
+    expiration?: Date;
+    jumpHostsAllowed?: string[];
     userList?: KeySetUser[];
 }
 
@@ -347,108 +458,101 @@ export interface BareMetalMachineKeySetPatchParameters {
 export type BareMetalMachineKeySetPrivilegeLevel = string;
 
 // @public
+export interface BareMetalMachineKeySetProperties {
+    azureGroupId: string;
+    readonly detailedStatus?: BareMetalMachineKeySetDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    expiration: Date;
+    jumpHostsAllowed: string[];
+    readonly lastValidation?: Date;
+    osGroupName?: string;
+    privilegeLevel: BareMetalMachineKeySetPrivilegeLevel;
+    privilegeLevelName?: string;
+    readonly provisioningState?: BareMetalMachineKeySetProvisioningState;
+    userList: KeySetUser[];
+    readonly userListStatus?: KeySetUserStatus[];
+}
+
+// @public
 export type BareMetalMachineKeySetProvisioningState = string;
 
 // @public
-export interface BareMetalMachineKeySets {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsCreateOrUpdateResponse>, BareMetalMachineKeySetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams): Promise<BareMetalMachineKeySetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsDeleteResponse>, BareMetalMachineKeySetsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<BareMetalMachineKeySetsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsUpdateResponse>, BareMetalMachineKeySetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams): Promise<BareMetalMachineKeySetsUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsGetOptionalParams): Promise<BareMetalMachineKeySetsGetResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: BareMetalMachineKeySetsListByClusterOptionalParams): PagedAsyncIterableIterator<BareMetalMachineKeySet>;
-}
-
-// @public
-export interface BareMetalMachineKeySetsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface BareMetalMachineKeySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachineKeySetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachineKeySetsCreateOrUpdateResponse = BareMetalMachineKeySet;
-
-// @public
-export interface BareMetalMachineKeySetsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachineKeySetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachineKeySetsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachineKeySetsDeleteResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachineKeySetsGetOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachineKeySetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BareMetalMachineKeySetsGetResponse = BareMetalMachineKeySet;
-
-// @public
-export interface BareMetalMachineKeySetsListByClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BareMetalMachineKeySetsListByClusterNextResponse = BareMetalMachineKeySetList;
-
-// @public
-export interface BareMetalMachineKeySetsListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachineKeySetsListByClusterOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type BareMetalMachineKeySetsListByClusterResponse = BareMetalMachineKeySetList;
-
-// @public
-export interface BareMetalMachineKeySetsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface BareMetalMachineKeySetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BareMetalMachineKeySet>, BareMetalMachineKeySet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams) => Promise<BareMetalMachineKeySet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BareMetalMachineKeySet>, BareMetalMachineKeySet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams) => Promise<BareMetalMachineKeySet>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<BareMetalMachineKeySet>, BareMetalMachineKeySet>;
+    delete: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsGetOptionalParams) => Promise<BareMetalMachineKeySet>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: BareMetalMachineKeySetsListByClusterOptionalParams) => PagedAsyncIterableIterator<BareMetalMachineKeySet>;
+    update: (resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams) => PollerLike<OperationState<BareMetalMachineKeySet>, BareMetalMachineKeySet>;
 }
 
 // @public
-export interface BareMetalMachineKeySetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachineKeySetsUpdateOptionalParams extends OperationOptions {
     bareMetalMachineKeySetUpdateParameters?: BareMetalMachineKeySetPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type BareMetalMachineKeySetsUpdateResponse = BareMetalMachineKeySet;
 
 // @public
 export type BareMetalMachineKeySetUserSetupStatus = string;
 
 // @public
-export interface BareMetalMachineList {
-    nextLink?: string;
-    value?: BareMetalMachine[];
+export type BareMetalMachineMetricsConfigurationStatusLogLevel = string;
+
+// @public
+export type BareMetalMachineMetricsConfigurationStatusMetricsLevel = string;
+
+// @public
+export interface BareMetalMachineMonitoringConfigurationStatus {
+    logLevel?: BareMetalMachineMetricsConfigurationStatusLogLevel;
+    metricsLevel?: BareMetalMachineMetricsConfigurationStatusMetricsLevel;
 }
 
 // @public
 export interface BareMetalMachinePatchParameters {
     machineDetails?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface BareMetalMachinePatchProperties {
+    machineDetails?: string;
 }
 
 // @public
@@ -460,10 +564,59 @@ export interface BareMetalMachinePowerOffParameters {
 export type BareMetalMachinePowerState = string;
 
 // @public
+export interface BareMetalMachineProperties {
+    readonly actionStates?: ActionState[];
+    readonly associatedResourceIds?: string[];
+    bmcConnectionString: string;
+    bmcCredentials: AdministrativeCredentials;
+    readonly bmcIpv4Address?: string;
+    readonly bmcIpv6Address?: string;
+    bmcMacAddress: string;
+    bootMacAddress: string;
+    readonly caCertificate?: CertificateInfo;
+    readonly clusterId?: string;
+    readonly cordonStatus?: BareMetalMachineCordonStatus;
+    readonly detailedStatus?: BareMetalMachineDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly hardwareInventory?: HardwareInventory;
+    readonly hardwareValidationStatus?: HardwareValidationStatus;
+    readonly hybridAksClustersAssociatedIds?: string[];
+    readonly kubernetesNodeName?: string;
+    readonly kubernetesVersion?: string;
+    machineClusterVersion?: string;
+    machineDetails: string;
+    machineName: string;
+    readonly machineRoles?: string[];
+    machineSkuId: string;
+    readonly monitoringConfigurationStatus?: BareMetalMachineMonitoringConfigurationStatus;
+    readonly oamIpv4Address?: string;
+    readonly oamIpv6Address?: string;
+    readonly osImage?: string;
+    readonly powerState?: BareMetalMachinePowerState;
+    readonly provisioningState?: BareMetalMachineProvisioningState;
+    rackId: string;
+    rackSlot: number;
+    readonly readyState?: BareMetalMachineReadyState;
+    readonly runtimeProtectionStatus?: RuntimeProtectionStatus;
+    readonly secretRotationStatus?: SecretRotationStatus[];
+    serialNumber: string;
+    readonly serviceTag?: string;
+    readonly virtualMachinesAssociatedIds?: string[];
+}
+
+// @public
 export type BareMetalMachineProvisioningState = string;
 
 // @public
 export type BareMetalMachineReadyState = string;
+
+// @public
+export interface BareMetalMachineReimageParameters {
+    safeguardMode?: BareMetalMachineReimageSafeguardMode;
+}
+
+// @public
+export type BareMetalMachineReimageSafeguardMode = string;
 
 // @public
 export interface BareMetalMachineReplaceParameters {
@@ -502,288 +655,181 @@ export interface BareMetalMachineRunReadCommandsParameters {
 }
 
 // @public
-export interface BareMetalMachines {
-    beginCordon(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesCordonResponse>, BareMetalMachinesCordonResponse>>;
-    beginCordonAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams): Promise<BareMetalMachinesCordonResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesCreateOrUpdateResponse>, BareMetalMachinesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams): Promise<BareMetalMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesDeleteResponse>, BareMetalMachinesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<BareMetalMachinesDeleteResponse>;
-    beginPowerOff(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesPowerOffResponse>, BareMetalMachinesPowerOffResponse>>;
-    beginPowerOffAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams): Promise<BareMetalMachinesPowerOffResponse>;
-    beginReimage(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesReimageResponse>, BareMetalMachinesReimageResponse>>;
-    beginReimageAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams): Promise<BareMetalMachinesReimageResponse>;
-    beginReplace(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReplaceOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesReplaceResponse>, BareMetalMachinesReplaceResponse>>;
-    beginReplaceAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReplaceOptionalParams): Promise<BareMetalMachinesReplaceResponse>;
-    beginRestart(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRestartResponse>, BareMetalMachinesRestartResponse>>;
-    beginRestartAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesRestartOptionalParams): Promise<BareMetalMachinesRestartResponse>;
-    beginRunCommand(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunCommandResponse>, BareMetalMachinesRunCommandResponse>>;
-    beginRunCommandAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams): Promise<BareMetalMachinesRunCommandResponse>;
-    beginRunDataExtracts(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunDataExtractsResponse>, BareMetalMachinesRunDataExtractsResponse>>;
-    beginRunDataExtractsAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams): Promise<BareMetalMachinesRunDataExtractsResponse>;
-    beginRunDataExtractsRestricted(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunDataExtractsRestrictedResponse>, BareMetalMachinesRunDataExtractsRestrictedResponse>>;
-    beginRunDataExtractsRestrictedAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams): Promise<BareMetalMachinesRunDataExtractsRestrictedResponse>;
-    beginRunReadCommands(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesRunReadCommandsResponse>, BareMetalMachinesRunReadCommandsResponse>>;
-    beginRunReadCommandsAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams): Promise<BareMetalMachinesRunReadCommandsResponse>;
-    beginStart(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesStartResponse>, BareMetalMachinesStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams): Promise<BareMetalMachinesStartResponse>;
-    beginUncordon(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesUncordonResponse>, BareMetalMachinesUncordonResponse>>;
-    beginUncordonAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams): Promise<BareMetalMachinesUncordonResponse>;
-    beginUpdate(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesUpdateResponse>, BareMetalMachinesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams): Promise<BareMetalMachinesUpdateResponse>;
-    get(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesGetOptionalParams): Promise<BareMetalMachinesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: BareMetalMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BareMetalMachine>;
-    listBySubscription(options?: BareMetalMachinesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<BareMetalMachine>;
-}
-
-// @public
-export interface BareMetalMachinesCordonHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesCordonOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesCordonOptionalParams extends OperationOptions {
     bareMetalMachineCordonParameters?: BareMetalMachineCordonParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesCordonResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface BareMetalMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesCreateOrUpdateResponse = BareMetalMachine;
-
-// @public
-export interface BareMetalMachinesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type BareMetalMachinesGetResponse = BareMetalMachine;
 
 // @public
 export type BareMetalMachineSkipShutdown = string;
 
 // @public
-export interface BareMetalMachinesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BareMetalMachinesListByResourceGroupNextResponse = BareMetalMachineList;
-
-// @public
-export interface BareMetalMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type BareMetalMachinesListByResourceGroupResponse = BareMetalMachineList;
-
-// @public
-export interface BareMetalMachinesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BareMetalMachinesListBySubscriptionNextResponse = BareMetalMachineList;
-
-// @public
-export interface BareMetalMachinesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type BareMetalMachinesListBySubscriptionResponse = BareMetalMachineList;
-
-// @public
-export interface BareMetalMachinesPowerOffHeaders {
-    location?: string;
+export interface BareMetalMachinesOperations {
+    // @deprecated (undocumented)
+    beginCordon: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginCordonAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BareMetalMachine>, BareMetalMachine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams) => Promise<BareMetalMachine>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginPowerOff: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginPowerOffAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginReimage: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginReimageAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginReplace: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginReplaceAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReplaceOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesRestartOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesRestartOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRunCommand: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRunCommandAndWait: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRunDataExtracts: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRunDataExtractsAndWait: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRunDataExtractsRestricted: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRunDataExtractsRestrictedAndWait: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRunReadCommands: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRunReadCommandsAndWait: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUncordon: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginUncordonAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BareMetalMachine>, BareMetalMachine>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams) => Promise<BareMetalMachine>;
+    cordon: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<BareMetalMachine>, BareMetalMachine>;
+    delete: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesGetOptionalParams) => Promise<BareMetalMachine>;
+    listByResourceGroup: (resourceGroupName: string, options?: BareMetalMachinesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BareMetalMachine>;
+    listBySubscription: (options?: BareMetalMachinesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BareMetalMachine>;
+    powerOff: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    reimage: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    replace: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReplaceOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    restart: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesRestartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    runCommand: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters, options?: BareMetalMachinesRunCommandOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    runDataExtracts: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    runDataExtractsRestricted: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunDataExtractsRestrictedParameters: BareMetalMachineRunDataExtractsParameters, options?: BareMetalMachinesRunDataExtractsRestrictedOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    runReadCommands: (resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters, options?: BareMetalMachinesRunReadCommandsOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    uncordon: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUncordonOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    update: (resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesUpdateOptionalParams) => PollerLike<OperationState<BareMetalMachine>, BareMetalMachine>;
 }
 
 // @public
-export interface BareMetalMachinesPowerOffOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesPowerOffOptionalParams extends OperationOptions {
     bareMetalMachinePowerOffParameters?: BareMetalMachinePowerOffParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesPowerOffResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesReimageHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesReimageOptionalParams extends OperationOptions {
+    body?: BareMetalMachineReimageParameters;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesReimageResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesReplaceHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesReplaceOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesReplaceOptionalParams extends OperationOptions {
     bareMetalMachineReplaceParameters?: BareMetalMachineReplaceParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesReplaceResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesRestartHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesRestartResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesRunCommandHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesRunCommandOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesRunCommandOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesRunCommandResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesRunDataExtractsHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesRunDataExtractsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesRunDataExtractsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesRunDataExtractsRestrictedHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesRunDataExtractsRestrictedOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesRunDataExtractsRestrictedResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesRunReadCommandsHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesRunReadCommandsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesRunReadCommandsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesRunReadCommandsResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesStartHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesStartResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesUncordonHeaders {
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesUncordonOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BareMetalMachinesUncordonOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BareMetalMachinesUncordonResponse = OperationStatusResult;
-
-// @public
-export interface BareMetalMachinesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface BareMetalMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BareMetalMachinesUpdateOptionalParams extends OperationOptions {
     bareMetalMachineUpdateParameters?: BareMetalMachinePatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type BareMetalMachinesUpdateResponse = BareMetalMachine;
 
 // @public
 export type BfdEnabled = string;
@@ -826,17 +872,15 @@ export interface BmcKeySet extends TrackedResource {
 export type BmcKeySetDetailedStatus = string;
 
 // @public
-export interface BmcKeySetList {
-    nextLink?: string;
-    value?: BmcKeySet[];
+export interface BmcKeySetPatchParameters {
+    expiration?: Date;
+    tags?: Record<string, string>;
+    userList?: KeySetUser[];
 }
 
 // @public
-export interface BmcKeySetPatchParameters {
+export interface BmcKeySetPatchProperties {
     expiration?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
     userList?: KeySetUser[];
 }
 
@@ -844,92 +888,73 @@ export interface BmcKeySetPatchParameters {
 export type BmcKeySetPrivilegeLevel = string;
 
 // @public
+export interface BmcKeySetProperties {
+    azureGroupId: string;
+    readonly detailedStatus?: BmcKeySetDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    expiration: Date;
+    readonly lastValidation?: Date;
+    privilegeLevel: BmcKeySetPrivilegeLevel;
+    readonly provisioningState?: BmcKeySetProvisioningState;
+    userList: KeySetUser[];
+    readonly userListStatus?: KeySetUserStatus[];
+}
+
+// @public
 export type BmcKeySetProvisioningState = string;
 
 // @public
-export interface BmcKeySets {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsCreateOrUpdateResponse>, BmcKeySetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams): Promise<BmcKeySetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsDeleteResponse>, BmcKeySetsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<BmcKeySetsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsUpdateResponse>, BmcKeySetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams): Promise<BmcKeySetsUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsGetOptionalParams): Promise<BmcKeySetsGetResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: BmcKeySetsListByClusterOptionalParams): PagedAsyncIterableIterator<BmcKeySet>;
-}
-
-// @public
-export interface BmcKeySetsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface BmcKeySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BmcKeySetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BmcKeySetsCreateOrUpdateResponse = BmcKeySet;
-
-// @public
-export interface BmcKeySetsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface BmcKeySetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface BmcKeySetsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type BmcKeySetsDeleteResponse = OperationStatusResult;
-
-// @public
-export interface BmcKeySetsGetOptionalParams extends coreClient.OperationOptions {
+export interface BmcKeySetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BmcKeySetsGetResponse = BmcKeySet;
-
-// @public
-export interface BmcKeySetsListByClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BmcKeySetsListByClusterNextResponse = BmcKeySetList;
-
-// @public
-export interface BmcKeySetsListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface BmcKeySetsListByClusterOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type BmcKeySetsListByClusterResponse = BmcKeySetList;
-
-// @public
-export interface BmcKeySetsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface BmcKeySetsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BmcKeySet>, BmcKeySet>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams) => Promise<BmcKeySet>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BmcKeySet>, BmcKeySet>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams) => Promise<BmcKeySet>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<BmcKeySet>, BmcKeySet>;
+    delete: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsGetOptionalParams) => Promise<BmcKeySet>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: BmcKeySetsListByClusterOptionalParams) => PagedAsyncIterableIterator<BmcKeySet>;
+    update: (resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams) => PollerLike<OperationState<BmcKeySet>, BmcKeySet>;
 }
 
 // @public
-export interface BmcKeySetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BmcKeySetsUpdateOptionalParams extends OperationOptions {
     bmcKeySetUpdateParameters?: BmcKeySetPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type BmcKeySetsUpdateResponse = BmcKeySet;
 
 // @public
 export type BootstrapProtocol = string;
@@ -966,107 +991,91 @@ export type CloudServicesNetworkDetailedStatus = string;
 export type CloudServicesNetworkEnableDefaultEgressEndpoints = string;
 
 // @public
-export interface CloudServicesNetworkList {
-    nextLink?: string;
-    value?: CloudServicesNetwork[];
-}
-
-// @public
 export interface CloudServicesNetworkPatchParameters {
     additionalEgressEndpoints?: EgressEndpoint[];
     enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints;
     storageOptions?: CloudServicesNetworkStorageOptionsPatch;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CloudServicesNetworkPatchProperties {
+    additionalEgressEndpoints?: EgressEndpoint[];
+    enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints;
+    storageOptions?: CloudServicesNetworkStorageOptionsPatch;
+}
+
+// @public
+export interface CloudServicesNetworkProperties {
+    additionalEgressEndpoints?: EgressEndpoint[];
+    readonly associatedResourceIds?: string[];
+    readonly clusterId?: string;
+    readonly detailedStatus?: CloudServicesNetworkDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints;
+    readonly enabledEgressEndpoints?: EgressEndpoint[];
+    readonly hybridAksClustersAssociatedIds?: string[];
+    readonly interfaceName?: string;
+    readonly provisioningState?: CloudServicesNetworkProvisioningState;
+    storageOptions?: CloudServicesNetworkStorageOptions;
+    readonly storageStatus?: CloudServicesNetworkStorageStatus;
+    readonly virtualMachinesAssociatedIds?: string[];
 }
 
 // @public
 export type CloudServicesNetworkProvisioningState = string;
 
 // @public
-export interface CloudServicesNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksCreateOrUpdateResponse>, CloudServicesNetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams): Promise<CloudServicesNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksDeleteResponse>, CloudServicesNetworksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<CloudServicesNetworksDeleteResponse>;
-    beginUpdate(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksUpdateResponse>, CloudServicesNetworksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams): Promise<CloudServicesNetworksUpdateResponse>;
-    get(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksGetOptionalParams): Promise<CloudServicesNetworksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: CloudServicesNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CloudServicesNetwork>;
-    listBySubscription(options?: CloudServicesNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CloudServicesNetwork>;
-}
-
-// @public
-export interface CloudServicesNetworksCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface CloudServicesNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudServicesNetworksCreateOrUpdateResponse = CloudServicesNetwork;
-
-// @public
-export interface CloudServicesNetworksDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface CloudServicesNetworksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudServicesNetworksDeleteResponse = OperationStatusResult;
-
-// @public
-export interface CloudServicesNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudServicesNetworksGetResponse = CloudServicesNetwork;
-
-// @public
-export interface CloudServicesNetworksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesNetworksListByResourceGroupNextResponse = CloudServicesNetworkList;
-
-// @public
-export interface CloudServicesNetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type CloudServicesNetworksListByResourceGroupResponse = CloudServicesNetworkList;
-
-// @public
-export interface CloudServicesNetworksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudServicesNetworksListBySubscriptionNextResponse = CloudServicesNetworkList;
-
-// @public
-export interface CloudServicesNetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type CloudServicesNetworksListBySubscriptionResponse = CloudServicesNetworkList;
+export interface CloudServicesNetworksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams) => Promise<CloudServicesNetwork>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams) => Promise<CloudServicesNetwork>;
+    createOrUpdate: (resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>;
+    delete: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksGetOptionalParams) => Promise<CloudServicesNetwork>;
+    listByResourceGroup: (resourceGroupName: string, options?: CloudServicesNetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudServicesNetwork>;
+    listBySubscription: (options?: CloudServicesNetworksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudServicesNetwork>;
+    update: (resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams) => PollerLike<OperationState<CloudServicesNetwork>, CloudServicesNetwork>;
+}
 
 // @public
 export type CloudServicesNetworkStorageMode = string;
@@ -1098,22 +1107,12 @@ export interface CloudServicesNetworkStorageStatus {
 export type CloudServicesNetworkStorageStatusStatus = string;
 
 // @public
-export interface CloudServicesNetworksUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface CloudServicesNetworksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CloudServicesNetworksUpdateOptionalParams extends OperationOptions {
     cloudServicesNetworkUpdateParameters?: CloudServicesNetworkPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type CloudServicesNetworksUpdateResponse = CloudServicesNetwork;
 
 // @public
 export interface Cluster extends TrackedResource {
@@ -1140,6 +1139,9 @@ export interface Cluster extends TrackedResource {
     extendedLocation: ExtendedLocation;
     readonly hybridAksExtendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    kind?: DeploymentType;
+    readonly lastSuccessfulVersionUpdateTime?: Date;
+    readonly managedCredentials?: string[];
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly manualActionCount?: number;
     networkFabricId: string;
@@ -1190,7 +1192,11 @@ export type ClusterContinueUpdateVersionMachineGroupTargetingMode = string;
 // @public
 export interface ClusterContinueUpdateVersionParameters {
     machineGroupTargetingMode?: ClusterContinueUpdateVersionMachineGroupTargetingMode;
+    safeguardMode?: ClusterContinueUpdateVersionSafeguardMode;
 }
+
+// @public
+export type ClusterContinueUpdateVersionSafeguardMode = string;
 
 // @public
 export interface ClusterDeployParameters {
@@ -1201,9 +1207,12 @@ export interface ClusterDeployParameters {
 export type ClusterDetailedStatus = string;
 
 // @public
-export interface ClusterList {
-    nextLink?: string;
-    value?: Cluster[];
+export type ClusterInspectAdditionalAction = string;
+
+// @public
+export interface ClusterInspectParameters {
+    additionalActions?: ClusterInspectAdditionalAction[];
+    filterDevices?: FilterDevices;
 }
 
 // @public
@@ -1216,9 +1225,11 @@ export interface ClusterManager extends TrackedResource {
     readonly etag?: string;
     fabricControllerId: string;
     identity?: ManagedServiceIdentity;
+    kind?: DeploymentType;
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly managerExtendedLocation?: ExtendedLocation;
     readonly provisioningState?: ClusterManagerProvisioningState;
+    readonly relayConfiguration?: ClusterManagerRelayConfiguration;
     vmSize?: string;
 }
 
@@ -1229,114 +1240,106 @@ export type ClusterManagerConnectionStatus = string;
 export type ClusterManagerDetailedStatus = string;
 
 // @public
-export interface ClusterManagerList {
-    nextLink?: string;
-    value?: ClusterManager[];
+export interface ClusterManagerPatchParameters {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface ClusterManagerPatchParameters {
-    identity?: ManagedServiceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface ClusterManagerProperties {
+    analyticsWorkspaceId?: string;
+    availabilityZones?: string[];
+    readonly clusterVersions?: ClusterAvailableVersion[];
+    readonly detailedStatus?: ClusterManagerDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    fabricControllerId: string;
+    managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+    readonly managerExtendedLocation?: ExtendedLocation;
+    readonly provisioningState?: ClusterManagerProvisioningState;
+    readonly relayConfiguration?: ClusterManagerRelayConfiguration;
+    vmSize?: string;
 }
 
 // @public
 export type ClusterManagerProvisioningState = string;
 
 // @public
-export interface ClusterManagers {
-    beginCreateOrUpdate(resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClusterManagersCreateOrUpdateResponse>, ClusterManagersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams): Promise<ClusterManagersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClusterManagersDeleteResponse>, ClusterManagersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<ClusterManagersDeleteResponse>;
-    get(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersGetOptionalParams): Promise<ClusterManagersGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ClusterManagersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterManager>;
-    listBySubscription(options?: ClusterManagersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterManager>;
-    update(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersUpdateOptionalParams): Promise<ClusterManagersUpdateResponse>;
+export interface ClusterManagerRelayConfiguration {
+    relayNamespaceId?: string;
 }
 
 // @public
-export interface ClusterManagersCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ClusterManagersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClusterManagersCreateOrUpdateResponse = ClusterManager;
-
-// @public
-export interface ClusterManagersDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClusterManagersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClusterManagersDeleteResponse = OperationStatusResult;
-
-// @public
-export interface ClusterManagersGetOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClusterManagersGetResponse = ClusterManager;
-
-// @public
-export interface ClusterManagersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClusterManagersListByResourceGroupNextResponse = ClusterManagerList;
-
-// @public
-export interface ClusterManagersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type ClusterManagersListByResourceGroupResponse = ClusterManagerList;
-
-// @public
-export interface ClusterManagersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClusterManagersListBySubscriptionNextResponse = ClusterManagerList;
-
-// @public
-export interface ClusterManagersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type ClusterManagersListBySubscriptionResponse = ClusterManagerList;
+export interface ClusterManagersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ClusterManager>, ClusterManager>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams) => Promise<ClusterManager>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdateRelayPrivateEndpointConnection: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginUpdateRelayPrivateEndpointConnectionAndWait: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams) => Promise<OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ClusterManager>, ClusterManager>;
+    delete: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersGetOptionalParams) => Promise<ClusterManager>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClusterManagersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ClusterManager>;
+    listBySubscription: (options?: ClusterManagersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ClusterManager>;
+    update: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersUpdateOptionalParams) => Promise<ClusterManager>;
+    updateRelayPrivateEndpointConnection: (resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+}
 
 // @public
-export interface ClusterManagersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ClusterManagersUpdateOptionalParams extends OperationOptions {
     clusterManagerUpdateParameters?: ClusterManagerPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
 }
 
 // @public
-export type ClusterManagersUpdateResponse = ClusterManager;
+export interface ClusterManagersUpdateRelayPrivateEndpointConnectionOptionalParams extends OperationOptions {
+    clusterManagerUpdateRelayPrivateEndpointConnectionParameters?: ClusterManagerUpdateRelayPrivateEndpointConnectionParameters;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterManagerUpdateRelayPrivateEndpointConnectionParameters {
+    connectionState: RelayPrivateEndpointConnectionState;
+    description?: string;
+    privateEndpointResourceId: string;
+}
 
 // @public
 export interface ClusterMetricsConfiguration extends TrackedResource {
@@ -1354,18 +1357,26 @@ export interface ClusterMetricsConfiguration extends TrackedResource {
 export type ClusterMetricsConfigurationDetailedStatus = string;
 
 // @public
-export interface ClusterMetricsConfigurationList {
-    nextLink?: string;
-    value?: ClusterMetricsConfiguration[];
-}
-
-// @public
 export interface ClusterMetricsConfigurationPatchParameters {
     collectionInterval?: number;
     enabledMetrics?: string[];
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ClusterMetricsConfigurationPatchProperties {
+    collectionInterval?: number;
+    enabledMetrics?: string[];
+}
+
+// @public
+export interface ClusterMetricsConfigurationProperties {
+    collectionInterval: number;
+    readonly detailedStatus?: ClusterMetricsConfigurationDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly disabledMetrics?: string[];
+    enabledMetrics?: string[];
+    readonly provisioningState?: ClusterMetricsConfigurationProvisioningState;
 }
 
 // @public
@@ -1384,35 +1395,70 @@ export interface ClusterPatchParameters {
     runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
     secretArchive?: ClusterSecretArchive;
     secretArchiveSettings?: SecretArchiveSettings;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     updateStrategy?: ClusterUpdateStrategy;
     vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
+}
+
+// @public
+export interface ClusterPatchProperties {
+    aggregatorOrSingleRackDefinition?: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
+    clusterLocation?: string;
+    clusterServicePrincipal?: ServicePrincipalInformation;
+    commandOutputSettings?: CommandOutputSettings;
+    computeDeploymentThreshold?: ValidationThreshold;
+    computeRackDefinitions?: RackDefinition[];
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
+    updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
+}
+
+// @public
+export interface ClusterProperties {
+    readonly actionStates?: ActionState[];
+    aggregatorOrSingleRackDefinition: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
+    analyticsWorkspaceId?: string;
+    readonly availableUpgradeVersions?: ClusterAvailableUpgradeVersion[];
+    readonly clusterCapacity?: ClusterCapacity;
+    readonly clusterConnectionStatus?: ClusterConnectionStatus;
+    readonly clusterExtendedLocation?: ExtendedLocation;
+    clusterLocation?: string;
+    readonly clusterManagerConnectionStatus?: ClusterManagerConnectionStatus;
+    readonly clusterManagerId?: string;
+    clusterServicePrincipal?: ServicePrincipalInformation;
+    clusterType: ClusterType;
+    clusterVersion: string;
+    commandOutputSettings?: CommandOutputSettings;
+    computeDeploymentThreshold?: ValidationThreshold;
+    computeRackDefinitions?: RackDefinition[];
+    readonly detailedStatus?: ClusterDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly hybridAksExtendedLocation?: ExtendedLocation;
+    readonly lastSuccessfulVersionUpdateTime?: Date;
+    readonly managedCredentials?: string[];
+    managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+    readonly manualActionCount?: number;
+    networkFabricId: string;
+    readonly provisioningState?: ClusterProvisioningState;
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
+    readonly supportExpiryDate?: string;
+    updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
+    readonly workloadResourceIds?: string[];
 }
 
 // @public
 export type ClusterProvisioningState = string;
 
 // @public
-export interface Clusters {
-    beginContinueUpdateVersion(resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersContinueUpdateVersionResponse>, ClustersContinueUpdateVersionResponse>>;
-    beginContinueUpdateVersionAndWait(resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams): Promise<ClustersContinueUpdateVersionResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDeleteResponse>, ClustersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<ClustersDeleteResponse>;
-    beginDeploy(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDeployResponse>, ClustersDeployResponse>>;
-    beginDeployAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<ClustersDeployResponse>;
-    beginScanRuntime(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<SimplePollerLike<OperationState<ClustersScanRuntimeResponse>, ClustersScanRuntimeResponse>>;
-    beginScanRuntimeAndWait(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<ClustersScanRuntimeResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
-    beginUpdateVersion(resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateVersionResponse>, ClustersUpdateVersionResponse>>;
-    beginUpdateVersionAndWait(resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams): Promise<ClustersUpdateVersionResponse>;
-    get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
-    listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
+export interface ClusterRotateCredentialParameters {
+    credentials: string[];
 }
 
 // @public
@@ -1424,65 +1470,29 @@ export interface ClusterScanRuntimeParameters {
 export type ClusterScanRuntimeParametersScanActivity = string;
 
 // @public
-export interface ClustersContinueUpdateVersionHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClustersContinueUpdateVersionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersContinueUpdateVersionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersContinueUpdateVersionResponse = OperationStatusResult;
-
-// @public
-export interface ClustersCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersCreateOrUpdateResponse = Cluster;
-
-// @public
-export interface ClustersDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ClustersDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersDeleteResponse = OperationStatusResult;
-
-// @public
-export interface ClustersDeployHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClustersDeployOptionalParams extends coreClient.OperationOptions {
+export interface ClustersDeployOptionalParams extends OperationOptions {
     clusterDeployParameters?: ClusterDeployParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ClustersDeployResponse = OperationStatusResult;
 
 // @public
 export interface ClusterSecretArchive {
@@ -1494,90 +1504,102 @@ export interface ClusterSecretArchive {
 export type ClusterSecretArchiveEnabled = string;
 
 // @public
-export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ClustersGetResponse = Cluster;
-
-// @public
-export interface ClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClustersListByResourceGroupNextResponse = ClusterList;
-
-// @public
-export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type ClustersListByResourceGroupResponse = ClusterList;
-
-// @public
-export interface ClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ClustersListBySubscriptionNextResponse = ClusterList;
-
-// @public
-export interface ClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type ClustersListBySubscriptionResponse = ClusterList;
-
-// @public
-export interface ClustersScanRuntimeHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClustersScanRuntimeOptionalParams extends coreClient.OperationOptions {
-    clusterScanRuntimeParameters?: ClusterScanRuntimeParameters;
-    resumeFrom?: string;
+export interface ClustersInspectOptionalParams extends OperationOptions {
+    clusterInspectParameters?: ClusterInspectParameters;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersScanRuntimeResponse = OperationStatusResult;
-
-// @public
-export interface ClustersUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface ClustersListByResourceGroupOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
-export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ClustersListBySubscriptionOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface ClustersOperations {
+    // @deprecated (undocumented)
+    beginContinueUpdateVersion: (resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginContinueUpdateVersionAndWait: (resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginDeploy: (resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeployAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginInspect: (resourceGroupName: string, clusterName: string, options?: ClustersInspectOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginInspectAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersInspectOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRotateCredential: (resourceGroupName: string, clusterName: string, body: ClusterRotateCredentialParameters, options?: ClustersRotateCredentialOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRotateCredentialAndWait: (resourceGroupName: string, clusterName: string, body: ClusterRotateCredentialParameters, options?: ClustersRotateCredentialOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginScanRuntime: (resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginScanRuntimeAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams) => Promise<Cluster>;
+    // @deprecated (undocumented)
+    beginUpdateVersion: (resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginUpdateVersionAndWait: (resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams) => Promise<OperationStatusResult>;
+    continueUpdateVersion: (resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    deploy: (resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    inspect: (resourceGroupName: string, clusterName: string, options?: ClustersInspectOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    listByResourceGroup: (resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    listBySubscription: (options?: ClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+    rotateCredential: (resourceGroupName: string, clusterName: string, body: ClusterRotateCredentialParameters, options?: ClustersRotateCredentialOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    scanRuntime: (resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    update: (resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    updateVersion: (resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+}
+
+// @public
+export interface ClustersRotateCredentialOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersScanRuntimeOptionalParams extends OperationOptions {
+    clusterScanRuntimeParameters?: ClusterScanRuntimeParameters;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersUpdateOptionalParams extends OperationOptions {
     clusterUpdateParameters?: ClusterPatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ClustersUpdateResponse = Cluster;
-
-// @public
-export interface ClustersUpdateVersionHeaders {
-    location?: string;
-}
-
-// @public
-export interface ClustersUpdateVersionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ClustersUpdateVersionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 // @public
 export type ClusterType = string;
@@ -1596,8 +1618,12 @@ export type ClusterUpdateStrategyType = string;
 
 // @public
 export interface ClusterUpdateVersionParameters {
+    safeguardMode?: ClusterUpdateVersionSafeguardMode;
     targetClusterVersion: string;
 }
+
+// @public
+export type ClusterUpdateVersionSafeguardMode = string;
 
 // @public
 export interface CommandOutputOverride {
@@ -1638,108 +1664,92 @@ export type ConsoleDetailedStatus = string;
 export type ConsoleEnabled = string;
 
 // @public
-export interface ConsoleList {
-    nextLink?: string;
-    value?: Console_2[];
-}
-
-// @public
 export interface ConsolePatchParameters {
     enabled?: ConsoleEnabled;
     expiration?: Date;
     sshPublicKey?: SshPublicKey;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ConsolePatchProperties {
+    enabled?: ConsoleEnabled;
+    expiration?: Date;
+    sshPublicKey?: SshPublicKey;
+}
+
+// @public
+export interface ConsoleProperties {
+    readonly detailedStatus?: ConsoleDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    enabled: ConsoleEnabled;
+    expiration?: Date;
+    readonly privateLinkServiceId?: string;
+    readonly provisioningState?: ConsoleProvisioningState;
+    sshPublicKey: SshPublicKey;
+    readonly virtualMachineAccessId?: string;
 }
 
 // @public
 export type ConsoleProvisioningState = string;
 
 // @public
-export interface Consoles {
-    beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesCreateOrUpdateResponse>, ConsolesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams): Promise<ConsolesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesDeleteResponse>, ConsolesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<ConsolesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesUpdateResponse>, ConsolesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams): Promise<ConsolesUpdateResponse>;
-    get(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesGetOptionalParams): Promise<ConsolesGetResponse>;
-    listByVirtualMachine(resourceGroupName: string, virtualMachineName: string, options?: ConsolesListByVirtualMachineOptionalParams): PagedAsyncIterableIterator<Console_2>;
-}
-
-// @public
-export interface ConsolesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ConsolesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConsolesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConsolesCreateOrUpdateResponse = Console_2;
-
-// @public
-export interface ConsolesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface ConsolesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConsolesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConsolesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface ConsolesGetOptionalParams extends coreClient.OperationOptions {
+export interface ConsolesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConsolesGetResponse = Console_2;
-
-// @public
-export interface ConsolesListByVirtualMachineNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConsolesListByVirtualMachineNextResponse = ConsoleList;
-
-// @public
-export interface ConsolesListByVirtualMachineOptionalParams extends coreClient.OperationOptions {
+export interface ConsolesListByVirtualMachineOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type ConsolesListByVirtualMachineResponse = ConsoleList;
-
-// @public
-export interface ConsolesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface ConsolesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Console_2>, Console_2>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams) => Promise<Console_2>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Console_2>, Console_2>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams) => Promise<Console_2>;
+    createOrUpdate: (resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Console_2>, Console_2>;
+    delete: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesGetOptionalParams) => Promise<Console_2>;
+    listByVirtualMachine: (resourceGroupName: string, virtualMachineName: string, options?: ConsolesListByVirtualMachineOptionalParams) => PagedAsyncIterableIterator<Console_2>;
+    update: (resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams) => PollerLike<OperationState<Console_2>, Console_2>;
 }
 
 // @public
-export interface ConsolesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConsolesUpdateOptionalParams extends OperationOptions {
     consoleUpdateParameters?: ConsolePatchParameters;
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConsolesUpdateResponse = Console_2;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type ControlImpact = string;
@@ -1765,6 +1775,9 @@ export type CreatedByType = string;
 export type DefaultGateway = string;
 
 // @public
+export type DeploymentType = string;
+
+// @public
 export type DeviceConnectionType = string;
 
 // @public
@@ -1784,7 +1797,7 @@ export interface EndpointDependency {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1805,8 +1818,11 @@ export interface ErrorResponse {
 // @public
 export interface ExtendedLocation {
     name: string;
-    type: string;
+    type: ExtendedLocationType;
 }
+
+// @public
+export type ExtendedLocationType = string;
 
 // @public
 export type FabricPeeringEnabled = string;
@@ -1823,7 +1839,10 @@ export interface FeatureStatus {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface FilterDevices {
+    bareMetalMachineNames?: string[];
+    rackNames?: string[];
+}
 
 // @public
 export interface HardwareInventory {
@@ -1907,6 +1926,29 @@ export interface KeySetUserStatus {
     readonly azureUserName?: string;
     readonly status?: BareMetalMachineKeySetUserSetupStatus;
     readonly statusMessage?: string;
+}
+
+// @public
+export enum KnownAccessBridgeAllowedName {
+    Bastion = "Bastion",
+    PrivateVault = "PrivateVault",
+    StorageDashboard = "StorageDashboard"
+}
+
+// @public
+export enum KnownAccessBridgeDetailedStatus {
+    Degraded = "Degraded",
+    Failed = "Failed",
+    Running = "Running"
+}
+
+// @public
+export enum KnownAccessBridgeProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2017,6 +2059,18 @@ export enum KnownBareMetalMachineKeySetUserSetupStatus {
 }
 
 // @public
+export enum KnownBareMetalMachineMetricsConfigurationStatusLogLevel {
+    Default = "Default",
+    Nexus = "Nexus"
+}
+
+// @public
+export enum KnownBareMetalMachineMetricsConfigurationStatusMetricsLevel {
+    Default = "Default",
+    Nexus = "Nexus"
+}
+
+// @public
 export enum KnownBareMetalMachinePowerState {
     Off = "Off",
     On = "On"
@@ -2035,6 +2089,12 @@ export enum KnownBareMetalMachineProvisioningState {
 export enum KnownBareMetalMachineReadyState {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownBareMetalMachineReimageSafeguardMode {
+    All = "All",
+    None = "None"
 }
 
 // @public
@@ -2127,7 +2187,10 @@ export enum KnownCloudServicesNetworkStorageMode {
 export enum KnownCloudServicesNetworkStorageStatusStatus {
     Available = "Available",
     ExpandingVolume = "ExpandingVolume",
-    ExpansionFailed = "ExpansionFailed"
+    ExpansionFailed = "ExpansionFailed",
+    Initializing = "Initializing",
+    None = "None",
+    Repairing = "Repairing"
 }
 
 // @public
@@ -2144,6 +2207,12 @@ export enum KnownClusterContinueUpdateVersionMachineGroupTargetingMode {
 }
 
 // @public
+export enum KnownClusterContinueUpdateVersionSafeguardMode {
+    All = "All",
+    None = "None"
+}
+
+// @public
 export enum KnownClusterDetailedStatus {
     Degraded = "Degraded",
     Deleting = "Deleting",
@@ -2154,6 +2223,11 @@ export enum KnownClusterDetailedStatus {
     Running = "Running",
     UpdatePaused = "UpdatePaused",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownClusterInspectAdditionalAction {
+    ResetHardware = "ResetHardware"
 }
 
 // @public
@@ -2233,11 +2307,18 @@ export enum KnownClusterUpdateStrategyType {
 }
 
 // @public
+export enum KnownClusterUpdateVersionSafeguardMode {
+    All = "All",
+    None = "None"
+}
+
+// @public
 export enum KnownCommandOutputType {
     BareMetalMachineRunCommand = "BareMetalMachineRunCommand",
     BareMetalMachineRunDataExtracts = "BareMetalMachineRunDataExtracts",
     BareMetalMachineRunDataExtractsRestricted = "BareMetalMachineRunDataExtractsRestricted",
     BareMetalMachineRunReadCommands = "BareMetalMachineRunReadCommands",
+    ClusterSupportAdministrativeActions = "ClusterSupportAdministrativeActions",
     StorageRunReadCommands = "StorageRunReadCommands"
 }
 
@@ -2283,6 +2364,12 @@ export enum KnownDefaultGateway {
 }
 
 // @public
+export enum KnownDeploymentType {
+    AzureLocal = "AzureLocal",
+    Nexus = "Nexus"
+}
+
+// @public
 export enum KnownDeviceConnectionType {
     PCI = "PCI"
 }
@@ -2291,6 +2378,12 @@ export enum KnownDeviceConnectionType {
 export enum KnownDiskType {
     HDD = "HDD",
     SSD = "SSD"
+}
+
+// @public
+export enum KnownExtendedLocationType {
+    CustomLocation = "CustomLocation",
+    EdgeZone = "EdgeZone"
 }
 
 // @public
@@ -2415,6 +2508,14 @@ export enum KnownKubernetesPluginType {
 }
 
 // @public
+export enum KnownKubernetesVersionProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownL2NetworkDetailedStatus {
     Available = "Available",
     Error = "Error",
@@ -2523,6 +2624,12 @@ export enum KnownRackSkuType {
 }
 
 // @public
+export enum KnownRelayPrivateEndpointConnectionState {
+    Approved = "Approved",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownRelayType {
     Platform = "Platform",
     Public = "Public"
@@ -2542,12 +2649,36 @@ export enum KnownRemoteVendorManagementStatus {
 }
 
 // @public
+export enum KnownRuntimeProtectionAgentHealthStatus {
+    Healthy = "Healthy",
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownRuntimeProtectionAgentLicenseStatus {
+    Licensed = "Licensed",
+    Unlicensed = "Unlicensed"
+}
+
+// @public
+export enum KnownRuntimeProtectionDefinitionUpdateMode {
+    Automatic = "Automatic",
+    None = "None"
+}
+
+// @public
 export enum KnownRuntimeProtectionEnforcementLevel {
     Audit = "Audit",
     Disabled = "Disabled",
     OnDemand = "OnDemand",
     Passive = "Passive",
     RealTime = "RealTime"
+}
+
+// @public
+export enum KnownSecurityRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -2573,12 +2704,30 @@ export enum KnownStorageApplianceDetailedStatus {
 }
 
 // @public
+export enum KnownStorageApplianceMetricsConfigurationStatusLogLevel {
+    Default = "Default",
+    Nexus = "Nexus"
+}
+
+// @public
+export enum KnownStorageApplianceMetricsConfigurationStatusMetricsLevel {
+    Default = "Default",
+    Nexus = "Nexus"
+}
+
+// @public
 export enum KnownStorageApplianceProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownTransportProtocol {
+    TCP = "TCP",
+    UDP = "UDP"
 }
 
 // @public
@@ -2607,6 +2756,13 @@ export enum KnownValidationThresholdGrouping {
 export enum KnownValidationThresholdType {
     CountSuccess = "CountSuccess",
     PercentSuccess = "PercentSuccess"
+}
+
+// @public
+export enum KnownVersions {
+    V20250901 = "2025-09-01",
+    V20260101Preview = "2026-01-01-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -2760,17 +2916,25 @@ export type KubernetesClusterFeatureAvailabilityLifecycle = string;
 export type KubernetesClusterFeatureDetailedStatus = string;
 
 // @public
-export interface KubernetesClusterFeatureList {
-    nextLink?: string;
-    value?: KubernetesClusterFeature[];
+export interface KubernetesClusterFeaturePatchParameters {
+    options?: StringKeyValuePair[];
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface KubernetesClusterFeaturePatchParameters {
+export interface KubernetesClusterFeaturePatchProperties {
     options?: StringKeyValuePair[];
-    tags?: {
-        [propertyName: string]: string;
-    };
+}
+
+// @public
+export interface KubernetesClusterFeatureProperties {
+    readonly availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle;
+    readonly detailedStatus?: KubernetesClusterFeatureDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    options?: StringKeyValuePair[];
+    readonly provisioningState?: KubernetesClusterFeatureProvisioningState;
+    readonly required?: KubernetesClusterFeatureRequired;
+    readonly version?: string;
 }
 
 // @public
@@ -2780,94 +2944,56 @@ export type KubernetesClusterFeatureProvisioningState = string;
 export type KubernetesClusterFeatureRequired = string;
 
 // @public
-export interface KubernetesClusterFeatures {
-    beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesCreateOrUpdateResponse>, KubernetesClusterFeaturesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams): Promise<KubernetesClusterFeaturesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesDeleteResponse>, KubernetesClusterFeaturesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams): Promise<KubernetesClusterFeaturesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesUpdateResponse>, KubernetesClusterFeaturesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams): Promise<KubernetesClusterFeaturesUpdateResponse>;
-    get(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesGetOptionalParams): Promise<KubernetesClusterFeaturesGetResponse>;
-    listByKubernetesCluster(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams): PagedAsyncIterableIterator<KubernetesClusterFeature>;
-}
-
-// @public
-export interface KubernetesClusterFeaturesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubernetesClusterFeaturesCreateOrUpdateResponse = KubernetesClusterFeature;
-
-// @public
-export interface KubernetesClusterFeaturesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface KubernetesClusterFeaturesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClusterFeaturesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubernetesClusterFeaturesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface KubernetesClusterFeaturesGetOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClusterFeaturesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type KubernetesClusterFeaturesGetResponse = KubernetesClusterFeature;
-
-// @public
-export interface KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KubernetesClusterFeaturesListByKubernetesClusterNextResponse = KubernetesClusterFeatureList;
-
-// @public
-export interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type KubernetesClusterFeaturesListByKubernetesClusterResponse = KubernetesClusterFeatureList;
-
-// @public
-export interface KubernetesClusterFeaturesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface KubernetesClusterFeaturesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesClusterFeature>, KubernetesClusterFeature>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams) => Promise<KubernetesClusterFeature>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesClusterFeature>, KubernetesClusterFeature>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams) => Promise<KubernetesClusterFeature>;
+    createOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams) => PollerLike<OperationState<KubernetesClusterFeature>, KubernetesClusterFeature>;
+    delete: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesGetOptionalParams) => Promise<KubernetesClusterFeature>;
+    listByKubernetesCluster: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams) => PagedAsyncIterableIterator<KubernetesClusterFeature>;
+    update: (resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams) => PollerLike<OperationState<KubernetesClusterFeature>, KubernetesClusterFeature>;
 }
 
 // @public
-export interface KubernetesClusterFeaturesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClusterFeaturesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     kubernetesClusterFeatureUpdateParameters?: KubernetesClusterFeaturePatchParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
-}
-
-// @public
-export type KubernetesClusterFeaturesUpdateResponse = KubernetesClusterFeature;
-
-// @public
-export interface KubernetesClusterList {
-    nextLink?: string;
-    value?: KubernetesCluster[];
 }
 
 // @public
@@ -2900,9 +3026,35 @@ export interface KubernetesClusterPatchParameters {
     administratorConfiguration?: AdministratorConfigurationPatch;
     controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
     kubernetesVersion?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface KubernetesClusterPatchProperties {
+    administratorConfiguration?: AdministratorConfigurationPatch;
+    controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
+    kubernetesVersion?: string;
+}
+
+// @public
+export interface KubernetesClusterProperties {
+    aadConfiguration?: AadConfiguration;
+    administratorConfiguration?: AdministratorConfiguration;
+    readonly attachedNetworkIds?: string[];
+    readonly availableUpgrades?: AvailableUpgrade[];
+    readonly clusterId?: string;
+    readonly connectedClusterId?: string;
+    readonly controlPlaneKubernetesVersion?: string;
+    controlPlaneNodeConfiguration: ControlPlaneNodeConfiguration;
+    readonly detailedStatus?: KubernetesClusterDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly featureStatuses?: FeatureStatus[];
+    initialAgentPoolConfigurations: InitialAgentPoolConfiguration[];
+    kubernetesVersion: string;
+    managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+    networkConfiguration: NetworkConfiguration;
+    readonly nodes?: KubernetesClusterNode[];
+    readonly provisioningState?: KubernetesClusterProvisioningState;
 }
 
 // @public
@@ -2914,122 +3066,74 @@ export interface KubernetesClusterRestartNodeParameters {
 }
 
 // @public
-export interface KubernetesClusters {
-    beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersCreateOrUpdateResponse>, KubernetesClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams): Promise<KubernetesClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersDeleteResponse>, KubernetesClustersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<KubernetesClustersDeleteResponse>;
-    beginRestartNode(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersRestartNodeResponse>, KubernetesClustersRestartNodeResponse>>;
-    beginRestartNodeAndWait(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams): Promise<KubernetesClustersRestartNodeResponse>;
-    beginUpdate(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersUpdateResponse>, KubernetesClustersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams): Promise<KubernetesClustersUpdateResponse>;
-    get(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersGetOptionalParams): Promise<KubernetesClustersGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: KubernetesClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<KubernetesCluster>;
-    listBySubscription(options?: KubernetesClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<KubernetesCluster>;
-}
-
-// @public
-export interface KubernetesClustersCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface KubernetesClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubernetesClustersCreateOrUpdateResponse = KubernetesCluster;
-
-// @public
-export interface KubernetesClustersDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface KubernetesClustersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubernetesClustersDeleteResponse = OperationStatusResult;
-
-// @public
-export interface KubernetesClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type KubernetesClustersGetResponse = KubernetesCluster;
-
-// @public
-export interface KubernetesClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KubernetesClustersListByResourceGroupNextResponse = KubernetesClusterList;
-
-// @public
-export interface KubernetesClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type KubernetesClustersListByResourceGroupResponse = KubernetesClusterList;
-
-// @public
-export interface KubernetesClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KubernetesClustersListBySubscriptionNextResponse = KubernetesClusterList;
-
-// @public
-export interface KubernetesClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type KubernetesClustersListBySubscriptionResponse = KubernetesClusterList;
-
-// @public
-export interface KubernetesClustersRestartNodeHeaders {
-    location?: string;
+export interface KubernetesClustersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesCluster>, KubernetesCluster>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams) => Promise<KubernetesCluster>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRestartNode: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRestartNodeAndWait: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesCluster>, KubernetesCluster>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams) => Promise<KubernetesCluster>;
+    createOrUpdate: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<KubernetesCluster>, KubernetesCluster>;
+    delete: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersGetOptionalParams) => Promise<KubernetesCluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: KubernetesClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<KubernetesCluster>;
+    listBySubscription: (options?: KubernetesClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<KubernetesCluster>;
+    restartNode: (resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    update: (resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams) => PollerLike<OperationState<KubernetesCluster>, KubernetesCluster>;
 }
 
 // @public
-export interface KubernetesClustersRestartNodeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface KubernetesClustersRestartNodeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
-
-// @public
-export interface KubernetesClustersUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface KubernetesClustersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface KubernetesClustersUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     kubernetesClusterUpdateParameters?: KubernetesClusterPatchParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type KubernetesClustersUpdateResponse = KubernetesCluster;
 
 // @public
 export interface KubernetesLabel {
@@ -3045,6 +3149,94 @@ export type KubernetesNodeRole = string;
 
 // @public
 export type KubernetesPluginType = string;
+
+// @public
+export interface KubernetesVersion extends TrackedResource {
+    readonly etag?: string;
+    extendedLocation: ExtendedLocation;
+    readonly provisioningState?: KubernetesVersionProvisioningState;
+    readonly values?: KubernetesVersionValue[];
+}
+
+// @public
+export interface KubernetesVersionPatchParameters {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface KubernetesVersionProperties {
+    readonly provisioningState?: KubernetesVersionProvisioningState;
+    readonly values?: KubernetesVersionValue[];
+}
+
+// @public
+export type KubernetesVersionProvisioningState = string;
+
+// @public
+export interface KubernetesVersionsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface KubernetesVersionsDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface KubernetesVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface KubernetesVersionsListByResourceGroupOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface KubernetesVersionsListBySubscriptionOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export interface KubernetesVersionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, kubernetesVersionName: string, kubernetesVersionParameters: KubernetesVersion, options?: KubernetesVersionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesVersion>, KubernetesVersion>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, kubernetesVersionName: string, kubernetesVersionParameters: KubernetesVersion, options?: KubernetesVersionsCreateOrUpdateOptionalParams) => Promise<KubernetesVersion>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubernetesVersion>, KubernetesVersion>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsUpdateOptionalParams) => Promise<KubernetesVersion>;
+    createOrUpdate: (resourceGroupName: string, kubernetesVersionName: string, kubernetesVersionParameters: KubernetesVersion, options?: KubernetesVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<KubernetesVersion>, KubernetesVersion>;
+    delete: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsGetOptionalParams) => Promise<KubernetesVersion>;
+    listByResourceGroup: (resourceGroupName: string, options?: KubernetesVersionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<KubernetesVersion>;
+    listBySubscription: (options?: KubernetesVersionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<KubernetesVersion>;
+    update: (resourceGroupName: string, kubernetesVersionName: string, options?: KubernetesVersionsUpdateOptionalParams) => PollerLike<OperationState<KubernetesVersion>, KubernetesVersion>;
+}
+
+// @public
+export interface KubernetesVersionsUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    kubernetesVersionPatchParameters?: KubernetesVersionPatchParameters;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface KubernetesVersionValue {
+    readonly description?: string;
+    readonly version?: string;
+}
 
 // @public
 export interface L2Network extends TrackedResource {
@@ -3072,113 +3264,81 @@ export interface L2NetworkAttachmentConfiguration {
 export type L2NetworkDetailedStatus = string;
 
 // @public
-export interface L2NetworkList {
-    nextLink?: string;
-    value?: L2Network[];
+export interface L2NetworkPatchParameters {
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface L2NetworkPatchParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface L2NetworkProperties {
+    readonly associatedResourceIds?: string[];
+    readonly clusterId?: string;
+    readonly detailedStatus?: L2NetworkDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly hybridAksClustersAssociatedIds?: string[];
+    hybridAksPluginType?: HybridAksPluginType;
+    interfaceName?: string;
+    l2IsolationDomainId: string;
+    readonly provisioningState?: L2NetworkProvisioningState;
+    readonly virtualMachinesAssociatedIds?: string[];
 }
 
 // @public
 export type L2NetworkProvisioningState = string;
 
 // @public
-export interface L2Networks {
-    beginCreateOrUpdate(resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<L2NetworksCreateOrUpdateResponse>, L2NetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams): Promise<L2NetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<L2NetworksDeleteResponse>, L2NetworksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<L2NetworksDeleteResponse>;
-    get(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksGetOptionalParams): Promise<L2NetworksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: L2NetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<L2Network>;
-    listBySubscription(options?: L2NetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<L2Network>;
-    update(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksUpdateOptionalParams): Promise<L2NetworksUpdateResponse>;
-}
-
-// @public
-export interface L2NetworksCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface L2NetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type L2NetworksCreateOrUpdateResponse = L2Network;
-
-// @public
-export interface L2NetworksDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface L2NetworksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type L2NetworksDeleteResponse = OperationStatusResult;
-
-// @public
-export interface L2NetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type L2NetworksGetResponse = L2Network;
-
-// @public
-export interface L2NetworksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type L2NetworksListByResourceGroupNextResponse = L2NetworkList;
-
-// @public
-export interface L2NetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type L2NetworksListByResourceGroupResponse = L2NetworkList;
-
-// @public
-export interface L2NetworksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type L2NetworksListBySubscriptionNextResponse = L2NetworkList;
-
-// @public
-export interface L2NetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type L2NetworksListBySubscriptionResponse = L2NetworkList;
+export interface L2NetworksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<L2Network>, L2Network>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams) => Promise<L2Network>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams) => Promise<OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<L2Network>, L2Network>;
+    delete: (resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, l2NetworkName: string, options?: L2NetworksGetOptionalParams) => Promise<L2Network>;
+    listByResourceGroup: (resourceGroupName: string, options?: L2NetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<L2Network>;
+    listBySubscription: (options?: L2NetworksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L2Network>;
+    update: (resourceGroupName: string, l2NetworkName: string, options?: L2NetworksUpdateOptionalParams) => Promise<L2Network>;
+}
 
 // @public
-export interface L2NetworksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface L2NetworksUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     l2NetworkUpdateParameters?: L2NetworkPatchParameters;
 }
-
-// @public
-export type L2NetworksUpdateResponse = L2Network;
 
 // @public
 export interface L2ServiceLoadBalancerConfiguration {
@@ -3220,113 +3380,86 @@ export type L3NetworkConfigurationIpamEnabled = string;
 export type L3NetworkDetailedStatus = string;
 
 // @public
-export interface L3NetworkList {
-    nextLink?: string;
-    value?: L3Network[];
+export interface L3NetworkPatchParameters {
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface L3NetworkPatchParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface L3NetworkProperties {
+    readonly associatedResourceIds?: string[];
+    readonly clusterId?: string;
+    readonly detailedStatus?: L3NetworkDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly hybridAksClustersAssociatedIds?: string[];
+    hybridAksIpamEnabled?: HybridAksIpamEnabled;
+    hybridAksPluginType?: HybridAksPluginType;
+    interfaceName?: string;
+    ipAllocationType?: IpAllocationType;
+    ipv4ConnectedPrefix?: string;
+    ipv6ConnectedPrefix?: string;
+    l3IsolationDomainId: string;
+    readonly provisioningState?: L3NetworkProvisioningState;
+    readonly virtualMachinesAssociatedIds?: string[];
+    vlan: number;
 }
 
 // @public
 export type L3NetworkProvisioningState = string;
 
 // @public
-export interface L3Networks {
-    beginCreateOrUpdate(resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<L3NetworksCreateOrUpdateResponse>, L3NetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams): Promise<L3NetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<L3NetworksDeleteResponse>, L3NetworksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<L3NetworksDeleteResponse>;
-    get(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksGetOptionalParams): Promise<L3NetworksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: L3NetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<L3Network>;
-    listBySubscription(options?: L3NetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<L3Network>;
-    update(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksUpdateOptionalParams): Promise<L3NetworksUpdateResponse>;
-}
-
-// @public
-export interface L3NetworksCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface L3NetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type L3NetworksCreateOrUpdateResponse = L3Network;
-
-// @public
-export interface L3NetworksDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface L3NetworksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type L3NetworksDeleteResponse = OperationStatusResult;
-
-// @public
-export interface L3NetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type L3NetworksGetResponse = L3Network;
-
-// @public
-export interface L3NetworksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type L3NetworksListByResourceGroupNextResponse = L3NetworkList;
-
-// @public
-export interface L3NetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type L3NetworksListByResourceGroupResponse = L3NetworkList;
-
-// @public
-export interface L3NetworksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type L3NetworksListBySubscriptionNextResponse = L3NetworkList;
-
-// @public
-export interface L3NetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type L3NetworksListBySubscriptionResponse = L3NetworkList;
+export interface L3NetworksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<L3Network>, L3Network>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams) => Promise<L3Network>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams) => Promise<OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<L3Network>, L3Network>;
+    delete: (resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, l3NetworkName: string, options?: L3NetworksGetOptionalParams) => Promise<L3Network>;
+    listByResourceGroup: (resourceGroupName: string, options?: L3NetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<L3Network>;
+    listBySubscription: (options?: L3NetworksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L3Network>;
+    update: (resourceGroupName: string, l3NetworkName: string, options?: L3NetworksUpdateOptionalParams) => Promise<L3Network>;
+}
 
 // @public
-export interface L3NetworksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface L3NetworksUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     l3NetworkUpdateParameters?: L3NetworkPatchParameters;
 }
-
-// @public
-export type L3NetworksUpdateResponse = L3Network;
 
 // @public
 export interface LldpNeighbor {
@@ -3345,6 +3478,21 @@ export interface MachineDisk {
 
 // @public
 export type MachineSkuDiskConnectionType = string;
+
+// @public
+export interface MachineSkuProperties {
+    readonly bootstrapProtocol?: BootstrapProtocol;
+    readonly cpuCores?: number;
+    readonly cpuSockets?: number;
+    readonly disks?: MachineDisk[];
+    readonly generation?: string;
+    readonly hardwareVersion?: string;
+    readonly memoryCapacityGB?: number;
+    readonly model?: string;
+    readonly networkInterfaces?: NetworkInterface[];
+    readonly totalThreads?: number;
+    readonly vendor?: string;
+}
 
 // @public
 export interface MachineSkuSlot {
@@ -3373,9 +3521,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -3385,89 +3531,57 @@ export type ManagedServiceIdentitySelectorType = string;
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface MetricsConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsCreateOrUpdateResponse>, MetricsConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams): Promise<MetricsConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsDeleteResponse>, MetricsConfigurationsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<MetricsConfigurationsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsUpdateResponse>, MetricsConfigurationsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams): Promise<MetricsConfigurationsUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsGetOptionalParams): Promise<MetricsConfigurationsGetResponse>;
-    listByCluster(resourceGroupName: string, clusterName: string, options?: MetricsConfigurationsListByClusterOptionalParams): PagedAsyncIterableIterator<ClusterMetricsConfiguration>;
-}
-
-// @public
-export interface MetricsConfigurationsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface MetricsConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MetricsConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MetricsConfigurationsCreateOrUpdateResponse = ClusterMetricsConfiguration;
-
-// @public
-export interface MetricsConfigurationsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface MetricsConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface MetricsConfigurationsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MetricsConfigurationsDeleteResponse = OperationStatusResult;
-
-// @public
-export interface MetricsConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface MetricsConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MetricsConfigurationsGetResponse = ClusterMetricsConfiguration;
-
-// @public
-export interface MetricsConfigurationsListByClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MetricsConfigurationsListByClusterNextResponse = ClusterMetricsConfigurationList;
-
-// @public
-export interface MetricsConfigurationsListByClusterOptionalParams extends coreClient.OperationOptions {
+export interface MetricsConfigurationsListByClusterOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type MetricsConfigurationsListByClusterResponse = ClusterMetricsConfigurationList;
-
-// @public
-export interface MetricsConfigurationsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface MetricsConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ClusterMetricsConfiguration>, ClusterMetricsConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams) => Promise<ClusterMetricsConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ClusterMetricsConfiguration>, ClusterMetricsConfiguration>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams) => Promise<ClusterMetricsConfiguration>;
+    createOrUpdate: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ClusterMetricsConfiguration>, ClusterMetricsConfiguration>;
+    delete: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsGetOptionalParams) => Promise<ClusterMetricsConfiguration>;
+    listByCluster: (resourceGroupName: string, clusterName: string, options?: MetricsConfigurationsListByClusterOptionalParams) => PagedAsyncIterableIterator<ClusterMetricsConfiguration>;
+    update: (resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams) => PollerLike<OperationState<ClusterMetricsConfiguration>, ClusterMetricsConfiguration>;
 }
 
 // @public
-export interface MetricsConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MetricsConfigurationsUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     metricsConfigurationUpdateParameters?: ClusterMetricsConfigurationPatchParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type MetricsConfigurationsUpdateResponse = ClusterMetricsConfiguration;
 
 // @public
 export interface NetworkAttachment {
@@ -3481,61 +3595,37 @@ export interface NetworkAttachment {
 }
 
 // @public (undocumented)
-export class NetworkCloud extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkCloudOptionalParams);
-    // (undocumented)
-    agentPools: AgentPools;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    bareMetalMachineKeySets: BareMetalMachineKeySets;
-    // (undocumented)
-    bareMetalMachines: BareMetalMachines;
-    // (undocumented)
-    bmcKeySets: BmcKeySets;
-    // (undocumented)
-    cloudServicesNetworks: CloudServicesNetworks;
-    // (undocumented)
-    clusterManagers: ClusterManagers;
-    // (undocumented)
-    clusters: Clusters;
-    // (undocumented)
-    consoles: Consoles;
-    // (undocumented)
-    kubernetesClusterFeatures: KubernetesClusterFeatures;
-    // (undocumented)
-    kubernetesClusters: KubernetesClusters;
-    // (undocumented)
-    l2Networks: L2Networks;
-    // (undocumented)
-    l3Networks: L3Networks;
-    // (undocumented)
-    metricsConfigurations: MetricsConfigurations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    racks: Racks;
-    // (undocumented)
-    rackSkus: RackSkus;
-    // (undocumented)
-    storageAppliances: StorageAppliances;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    trunkedNetworks: TrunkedNetworks;
-    // (undocumented)
-    virtualMachines: VirtualMachines;
-    // (undocumented)
-    volumes: Volumes;
+export class NetworkCloud {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: NetworkCloudOptionalParams);
+    readonly accessBridges: AccessBridgesOperations;
+    readonly agentPools: AgentPoolsOperations;
+    readonly bareMetalMachineKeySets: BareMetalMachineKeySetsOperations;
+    readonly bareMetalMachines: BareMetalMachinesOperations;
+    readonly bmcKeySets: BmcKeySetsOperations;
+    readonly cloudServicesNetworks: CloudServicesNetworksOperations;
+    readonly clusterManagers: ClusterManagersOperations;
+    readonly clusters: ClustersOperations;
+    readonly consoles: ConsolesOperations;
+    readonly kubernetesClusterFeatures: KubernetesClusterFeaturesOperations;
+    readonly kubernetesClusters: KubernetesClustersOperations;
+    readonly kubernetesVersions: KubernetesVersionsOperations;
+    readonly l2Networks: L2NetworksOperations;
+    readonly l3Networks: L3NetworksOperations;
+    readonly metricsConfigurations: MetricsConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly racks: RacksOperations;
+    readonly rackSkus: RackSkusOperations;
+    readonly storageAppliances: StorageAppliancesOperations;
+    readonly trunkedNetworks: TrunkedNetworksOperations;
+    readonly virtualMachines: VirtualMachinesOperations;
+    readonly volumes: VolumesOperations;
 }
 
 // @public
-export interface NetworkCloudOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface NetworkCloudOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -3591,29 +3681,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OperationStatusResult {
@@ -3633,6 +3707,14 @@ export interface OperationStatusResult {
 }
 
 // @public
+export interface OperationStatusResultProperties {
+    readonly exitCode?: string;
+    readonly outputHead?: string;
+    readonly resultRef?: string;
+    readonly resultUrl?: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -3647,6 +3729,22 @@ export type OsDiskCreateOption = string;
 
 // @public
 export type OsDiskDeleteOption = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Rack extends TrackedResource {
@@ -3677,79 +3775,50 @@ export interface RackDefinition {
 export type RackDetailedStatus = string;
 
 // @public
-export interface RackList {
-    nextLink?: string;
-    value?: Rack[];
-}
-
-// @public
 export interface RackPatchParameters {
     rackLocation?: string;
     rackSerialNumber?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface RackProperties {
+    availabilityZone: string;
+    readonly clusterId?: string;
+    readonly detailedStatus?: RackDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly provisioningState?: RackProvisioningState;
+    rackLocation: string;
+    rackSerialNumber: string;
+    rackSkuId: string;
 }
 
 // @public
 export type RackProvisioningState = string;
 
 // @public
-export interface Racks {
-    beginCreateOrUpdate(resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RacksCreateOrUpdateResponse>, RacksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams): Promise<RacksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<RacksDeleteResponse>;
-    beginUpdate(resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RacksUpdateResponse>, RacksUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams): Promise<RacksUpdateResponse>;
-    get(resourceGroupName: string, rackName: string, options?: RacksGetOptionalParams): Promise<RacksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: RacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Rack>;
-    listBySubscription(options?: RacksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Rack>;
-}
-
-// @public
-export interface RacksCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface RacksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RacksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RacksCreateOrUpdateResponse = Rack;
-
-// @public
-export interface RacksDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface RacksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RacksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RacksDeleteResponse = OperationStatusResult;
-
-// @public
-export interface RacksGetOptionalParams extends coreClient.OperationOptions {
+export interface RacksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RacksGetResponse = Rack;
-
-// @public
-export interface RackSku extends Resource {
+export interface RackSku extends ProxyResource {
     readonly computeMachines?: MachineSkuSlot[];
     readonly controllerMachines?: MachineSkuSlot[];
+    readonly deploymentType?: DeploymentType;
     readonly description?: string;
     readonly maxClusterSlots?: number;
     readonly provisioningState?: RackSkuProvisioningState;
@@ -3759,93 +3828,88 @@ export interface RackSku extends Resource {
 }
 
 // @public
-export interface RackSkuList {
-    nextLink?: string;
-    value?: RackSku[];
+export interface RackSkuProperties {
+    readonly computeMachines?: MachineSkuSlot[];
+    readonly controllerMachines?: MachineSkuSlot[];
+    readonly deploymentType?: DeploymentType;
+    readonly description?: string;
+    readonly maxClusterSlots?: number;
+    readonly provisioningState?: RackSkuProvisioningState;
+    readonly rackType?: RackSkuType;
+    readonly storageAppliances?: StorageApplianceSkuSlot[];
+    readonly supportedRackSkuIds?: string[];
 }
 
 // @public
 export type RackSkuProvisioningState = string;
 
 // @public
-export interface RackSkus {
-    get(rackSkuName: string, options?: RackSkusGetOptionalParams): Promise<RackSkusGetResponse>;
-    listBySubscription(options?: RackSkusListBySubscriptionOptionalParams): PagedAsyncIterableIterator<RackSku>;
+export interface RackSkusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RackSkusGetOptionalParams extends coreClient.OperationOptions {
+export interface RackSkusListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RackSkusGetResponse = RackSku;
-
-// @public
-export interface RackSkusListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface RackSkusOperations {
+    get: (rackSkuName: string, options?: RackSkusGetOptionalParams) => Promise<RackSku>;
+    listBySubscription: (options?: RackSkusListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<RackSku>;
 }
-
-// @public
-export type RackSkusListBySubscriptionNextResponse = RackSkuList;
-
-// @public
-export interface RackSkusListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RackSkusListBySubscriptionResponse = RackSkuList;
 
 // @public
 export type RackSkuType = string;
 
 // @public
-export interface RacksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RacksListByResourceGroupNextResponse = RackList;
-
-// @public
-export interface RacksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface RacksListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type RacksListByResourceGroupResponse = RackList;
-
-// @public
-export interface RacksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RacksListBySubscriptionNextResponse = RackList;
-
-// @public
-export interface RacksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface RacksListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type RacksListBySubscriptionResponse = RackList;
-
-// @public
-export interface RacksUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface RacksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Rack>, Rack>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams) => Promise<Rack>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Rack>, Rack>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams) => Promise<Rack>;
+    createOrUpdate: (resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams) => PollerLike<OperationState<Rack>, Rack>;
+    delete: (resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, rackName: string, options?: RacksGetOptionalParams) => Promise<Rack>;
+    listByResourceGroup: (resourceGroupName: string, options?: RacksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Rack>;
+    listBySubscription: (options?: RacksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Rack>;
+    update: (resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams) => PollerLike<OperationState<Rack>, Rack>;
 }
 
 // @public
-export interface RacksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RacksPatchProperties {
+    rackLocation?: string;
+    rackSerialNumber?: string;
+}
+
+// @public
+export interface RacksUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     rackUpdateParameters?: RackPatchParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RacksUpdateResponse = Rack;
+export type RelayPrivateEndpointConnectionState = string;
 
 // @public
 export type RelayType = string;
@@ -3865,17 +3929,42 @@ export interface Resource {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetworkCloud, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RuntimeProtectionAgentHealthStatus = string;
+
+// @public
+export type RuntimeProtectionAgentLicenseStatus = string;
+
+// @public
 export interface RuntimeProtectionConfiguration {
+    definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
     enforcementLevel?: RuntimeProtectionEnforcementLevel;
 }
+
+// @public
+export type RuntimeProtectionDefinitionUpdateMode = string;
 
 // @public
 export type RuntimeProtectionEnforcementLevel = string;
 
 // @public
 export interface RuntimeProtectionStatus {
+    readonly agentHealthStatus?: RuntimeProtectionAgentHealthStatus;
+    readonly agentHealthStatusIssues?: string[];
+    readonly agentLicenseStatus?: RuntimeProtectionAgentLicenseStatus;
     readonly definitionsLastUpdated?: Date;
     readonly definitionsVersion?: string;
+    readonly definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
+    readonly enforcementLevel?: RuntimeProtectionEnforcementLevel;
     readonly scanCompletedTime?: Date;
     readonly scanScheduledTime?: Date;
     readonly scanStartedTime?: Date;
@@ -3905,6 +3994,9 @@ export interface SecretRotationStatus {
 }
 
 // @public
+export type SecurityRuleDirection = string;
+
+// @public
 export interface ServiceLoadBalancerBgpPeer {
     bfdEnabled?: BfdEnabled;
     bgpMultiHop?: BgpMultiHop;
@@ -3924,6 +4016,28 @@ export interface ServicePrincipalInformation {
     password: string;
     principalId: string;
     tenantId: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -3956,10 +4070,12 @@ export interface StorageAppliance extends TrackedResource {
     readonly detailedStatus?: StorageApplianceDetailedStatus;
     readonly detailedStatusMessage?: string;
     readonly etag?: string;
+    readonly expansionShelves?: StorageApplianceExpansionShelf[];
     extendedLocation: ExtendedLocation;
     readonly managementIpv4Address?: string;
     readonly manufacturer?: string;
     readonly model?: string;
+    readonly monitoringConfigurationStatus?: StorageApplianceMonitoringConfigurationStatus;
     readonly provisioningState?: StorageApplianceProvisioningState;
     rackId: string;
     rackSlot: number;
@@ -3994,17 +4110,57 @@ export interface StorageApplianceEnableRemoteVendorManagementParameters {
 }
 
 // @public
-export interface StorageApplianceList {
-    nextLink?: string;
-    value?: StorageAppliance[];
+export interface StorageApplianceExpansionShelf {
+    model?: string;
+    version?: string;
+}
+
+// @public
+export type StorageApplianceMetricsConfigurationStatusLogLevel = string;
+
+// @public
+export type StorageApplianceMetricsConfigurationStatusMetricsLevel = string;
+
+// @public
+export interface StorageApplianceMonitoringConfigurationStatus {
+    logLevel?: StorageApplianceMetricsConfigurationStatusLogLevel;
+    metricsLevel?: StorageApplianceMetricsConfigurationStatusMetricsLevel;
 }
 
 // @public
 export interface StorageAppliancePatchParameters {
     serialNumber?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface StorageAppliancePatchProperties {
+    serialNumber?: string;
+}
+
+// @public
+export interface StorageApplianceProperties {
+    administratorCredentials: AdministrativeCredentials;
+    readonly caCertificate?: CertificateInfo;
+    readonly capacity?: number;
+    readonly capacityUsed?: number;
+    readonly clusterId?: string;
+    readonly detailedStatus?: StorageApplianceDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly expansionShelves?: StorageApplianceExpansionShelf[];
+    readonly managementIpv4Address?: string;
+    readonly manufacturer?: string;
+    readonly model?: string;
+    readonly monitoringConfigurationStatus?: StorageApplianceMonitoringConfigurationStatus;
+    readonly provisioningState?: StorageApplianceProvisioningState;
+    rackId: string;
+    rackSlot: number;
+    readonly remoteVendorManagementFeature?: RemoteVendorManagementFeature;
+    readonly remoteVendorManagementStatus?: RemoteVendorManagementStatus;
+    readonly secretRotationStatus?: SecretRotationStatus[];
+    serialNumber: string;
+    storageApplianceSkuId: string;
+    readonly version?: string;
 }
 
 // @public
@@ -4017,91 +4173,39 @@ export interface StorageApplianceRunReadCommandsParameters {
 }
 
 // @public
-export interface StorageAppliances {
-    beginCreateOrUpdate(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesCreateOrUpdateResponse>, StorageAppliancesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<StorageAppliancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesDeleteResponse>, StorageAppliancesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<StorageAppliancesDeleteResponse>;
-    beginDisableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesDisableRemoteVendorManagementResponse>, StorageAppliancesDisableRemoteVendorManagementResponse>>;
-    beginDisableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesDisableRemoteVendorManagementResponse>;
-    beginEnableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesEnableRemoteVendorManagementResponse>, StorageAppliancesEnableRemoteVendorManagementResponse>>;
-    beginEnableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesEnableRemoteVendorManagementResponse>;
-    beginRunReadCommands(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesRunReadCommandsResponse>, StorageAppliancesRunReadCommandsResponse>>;
-    beginRunReadCommandsAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams): Promise<StorageAppliancesRunReadCommandsResponse>;
-    beginUpdate(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesUpdateResponse>, StorageAppliancesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams): Promise<StorageAppliancesUpdateResponse>;
-    get(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesGetOptionalParams): Promise<StorageAppliancesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: StorageAppliancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageAppliance>;
-    listBySubscription(options?: StorageAppliancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageAppliance>;
-}
-
-// @public
-export interface StorageAppliancesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface StorageAppliancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageAppliancesCreateOrUpdateResponse = StorageAppliance;
-
-// @public
-export interface StorageAppliancesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface StorageAppliancesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageAppliancesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface StorageAppliancesDisableRemoteVendorManagementHeaders {
-    location?: string;
-}
-
-// @public
-export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
-
-// @public
-export interface StorageAppliancesEnableRemoteVendorManagementHeaders {
-    location?: string;
-}
-
-// @public
-export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams extends OperationOptions {
     storageApplianceEnableRemoteVendorManagementParameters?: StorageApplianceEnableRemoteVendorManagementParameters;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
-
-// @public
-export interface StorageAppliancesGetOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageAppliancesGetResponse = StorageAppliance;
+export interface StorageApplianceSkuProperties {
+    readonly capacityGB?: number;
+    readonly model?: string;
+}
 
 // @public
 export interface StorageApplianceSkuSlot {
@@ -4111,68 +4215,66 @@ export interface StorageApplianceSkuSlot {
 }
 
 // @public
-export interface StorageAppliancesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageAppliancesListByResourceGroupNextResponse = StorageApplianceList;
-
-// @public
-export interface StorageAppliancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type StorageAppliancesListByResourceGroupResponse = StorageApplianceList;
-
-// @public
-export interface StorageAppliancesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageAppliancesListBySubscriptionNextResponse = StorageApplianceList;
-
-// @public
-export interface StorageAppliancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type StorageAppliancesListBySubscriptionResponse = StorageApplianceList;
-
-// @public
-export interface StorageAppliancesRunReadCommandsHeaders {
-    location?: string;
+export interface StorageAppliancesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageAppliance>, StorageAppliance>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams) => Promise<StorageAppliance>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginDisableRemoteVendorManagement: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDisableRemoteVendorManagementAndWait: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginEnableRemoteVendorManagement: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginEnableRemoteVendorManagementAndWait: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRunReadCommands: (resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRunReadCommandsAndWait: (resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageAppliance>, StorageAppliance>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams) => Promise<StorageAppliance>;
+    createOrUpdate: (resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<StorageAppliance>, StorageAppliance>;
+    delete: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    disableRemoteVendorManagement: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    enableRemoteVendorManagement: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesGetOptionalParams) => Promise<StorageAppliance>;
+    listByResourceGroup: (resourceGroupName: string, options?: StorageAppliancesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageAppliance>;
+    listBySubscription: (options?: StorageAppliancesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageAppliance>;
+    runReadCommands: (resourceGroupName: string, storageApplianceName: string, storageApplianceRunReadCommandsParameters: StorageApplianceRunReadCommandsParameters, options?: StorageAppliancesRunReadCommandsOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    update: (resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesUpdateOptionalParams) => PollerLike<OperationState<StorageAppliance>, StorageAppliance>;
 }
 
 // @public
-export interface StorageAppliancesRunReadCommandsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageAppliancesRunReadCommandsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageAppliancesRunReadCommandsResponse = OperationStatusResult;
-
-// @public
-export interface StorageAppliancesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface StorageAppliancesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface StorageAppliancesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     storageApplianceUpdateParameters?: StorageAppliancePatchParameters;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type StorageAppliancesUpdateResponse = StorageAppliance;
 
 // @public
 export interface StorageProfile {
@@ -4197,19 +4299,13 @@ export interface SystemData {
 }
 
 // @public
-export interface TagsParameter {
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface TrackedResource extends Resource {
-    location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
+export type TransportProtocol = string;
 
 // @public
 export interface TrunkedNetwork extends TrackedResource {
@@ -4238,113 +4334,82 @@ export interface TrunkedNetworkAttachmentConfiguration {
 export type TrunkedNetworkDetailedStatus = string;
 
 // @public
-export interface TrunkedNetworkList {
-    nextLink?: string;
-    value?: TrunkedNetwork[];
+export interface TrunkedNetworkPatchParameters {
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface TrunkedNetworkPatchParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface TrunkedNetworkProperties {
+    readonly associatedResourceIds?: string[];
+    readonly clusterId?: string;
+    readonly detailedStatus?: TrunkedNetworkDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly hybridAksClustersAssociatedIds?: string[];
+    hybridAksPluginType?: HybridAksPluginType;
+    interfaceName?: string;
+    isolationDomainIds: string[];
+    readonly provisioningState?: TrunkedNetworkProvisioningState;
+    readonly virtualMachinesAssociatedIds?: string[];
+    vlans: number[];
 }
 
 // @public
 export type TrunkedNetworkProvisioningState = string;
 
 // @public
-export interface TrunkedNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrunkedNetworksCreateOrUpdateResponse>, TrunkedNetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams): Promise<TrunkedNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TrunkedNetworksDeleteResponse>, TrunkedNetworksDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<TrunkedNetworksDeleteResponse>;
-    get(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksGetOptionalParams): Promise<TrunkedNetworksGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: TrunkedNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TrunkedNetwork>;
-    listBySubscription(options?: TrunkedNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<TrunkedNetwork>;
-    update(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksUpdateOptionalParams): Promise<TrunkedNetworksUpdateResponse>;
-}
-
-// @public
-export interface TrunkedNetworksCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface TrunkedNetworksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TrunkedNetworksCreateOrUpdateResponse = TrunkedNetwork;
-
-// @public
-export interface TrunkedNetworksDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface TrunkedNetworksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TrunkedNetworksDeleteResponse = OperationStatusResult;
-
-// @public
-export interface TrunkedNetworksGetOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TrunkedNetworksGetResponse = TrunkedNetwork;
-
-// @public
-export interface TrunkedNetworksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrunkedNetworksListByResourceGroupNextResponse = TrunkedNetworkList;
-
-// @public
-export interface TrunkedNetworksListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type TrunkedNetworksListByResourceGroupResponse = TrunkedNetworkList;
-
-// @public
-export interface TrunkedNetworksListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrunkedNetworksListBySubscriptionNextResponse = TrunkedNetworkList;
-
-// @public
-export interface TrunkedNetworksListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type TrunkedNetworksListBySubscriptionResponse = TrunkedNetworkList;
+export interface TrunkedNetworksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<TrunkedNetwork>, TrunkedNetwork>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams) => Promise<TrunkedNetwork>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams) => Promise<OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<TrunkedNetwork>, TrunkedNetwork>;
+    delete: (resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksGetOptionalParams) => Promise<TrunkedNetwork>;
+    listByResourceGroup: (resourceGroupName: string, options?: TrunkedNetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<TrunkedNetwork>;
+    listBySubscription: (options?: TrunkedNetworksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<TrunkedNetwork>;
+    update: (resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksUpdateOptionalParams) => Promise<TrunkedNetwork>;
+}
 
 // @public
-export interface TrunkedNetworksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TrunkedNetworksUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     trunkedNetworkUpdateParameters?: TrunkedNetworkPatchParameters;
 }
-
-// @public
-export type TrunkedNetworksUpdateResponse = TrunkedNetwork;
 
 // @public
 export interface UserAssignedIdentity {
@@ -4421,17 +4486,14 @@ export type VirtualMachineIPAllocationMethod = string;
 export type VirtualMachineIsolateEmulatorThread = string;
 
 // @public
-export interface VirtualMachineList {
-    nextLink?: string;
-    value?: VirtualMachine[];
+export interface VirtualMachinePatchParameters {
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+    vmImageRepositoryCredentials?: ImageRepositoryCredentials;
 }
 
 // @public
-export interface VirtualMachinePatchParameters {
-    identity?: ManagedServiceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface VirtualMachinePatchProperties {
     vmImageRepositoryCredentials?: ImageRepositoryCredentials;
 }
 
@@ -4458,194 +4520,153 @@ export interface VirtualMachinePowerOffParameters {
 export type VirtualMachinePowerState = string;
 
 // @public
+export interface VirtualMachineProperties {
+    adminUsername: string;
+    readonly availabilityZone?: string;
+    readonly bareMetalMachineId?: string;
+    bootMethod?: VirtualMachineBootMethod;
+    cloudServicesNetworkAttachment: NetworkAttachment;
+    readonly clusterId?: string;
+    consoleExtendedLocation?: ExtendedLocation;
+    cpuCores: number;
+    readonly detailedStatus?: VirtualMachineDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    isolateEmulatorThread?: VirtualMachineIsolateEmulatorThread;
+    memorySizeGB: number;
+    networkAttachments?: NetworkAttachment[];
+    networkData?: string;
+    networkDataContent?: string;
+    placementHints?: VirtualMachinePlacementHint[];
+    readonly powerState?: VirtualMachinePowerState;
+    readonly provisioningState?: VirtualMachineProvisioningState;
+    sshPublicKeys?: SshPublicKey[];
+    storageProfile: StorageProfile;
+    userData?: string;
+    userDataContent?: string;
+    virtioInterface?: VirtualMachineVirtioInterfaceType;
+    vmDeviceModel?: VirtualMachineDeviceModelType;
+    vmImage: string;
+    vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+    readonly volumes?: string[];
+}
+
+// @public
 export type VirtualMachineProvisioningState = string;
 
 // @public
-export interface VirtualMachines {
-    beginAssignRelay(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssignRelayResponse>, VirtualMachinesAssignRelayResponse>>;
-    beginAssignRelayAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams): Promise<VirtualMachinesAssignRelayResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesDeleteResponse>, VirtualMachinesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<VirtualMachinesDeleteResponse>;
-    beginPowerOff(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesPowerOffResponse>, VirtualMachinesPowerOffResponse>>;
-    beginPowerOffAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<VirtualMachinesPowerOffResponse>;
-    beginReimage(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesReimageResponse>, VirtualMachinesReimageResponse>>;
-    beginReimageAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<VirtualMachinesReimageResponse>;
-    beginRestart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesRestartResponse>, VirtualMachinesRestartResponse>>;
-    beginRestartAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams): Promise<VirtualMachinesRestartResponse>;
-    beginStart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesStartResponse>, VirtualMachinesStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<VirtualMachinesStartResponse>;
-    beginUpdate(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesUpdateOptionalParams): Promise<VirtualMachinesUpdateResponse>;
-    get(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: VirtualMachinesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
-    listBySubscription(options?: VirtualMachinesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
-}
-
-// @public
-export interface VirtualMachinesAssignRelayHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesAssignRelayOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesAssignRelayOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     virtualMachineAssignRelayParameters?: VirtualMachineAssignRelayParameters;
 }
 
 // @public
-export type VirtualMachinesAssignRelayResponse = OperationStatusResult;
-
-// @public
 export type VirtualMachineSchedulingExecution = string;
 
 // @public
-export interface VirtualMachinesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VirtualMachinesGetResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListByResourceGroupNextResponse = VirtualMachineList;
-
-// @public
-export interface VirtualMachinesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type VirtualMachinesListByResourceGroupResponse = VirtualMachineList;
-
-// @public
-export interface VirtualMachinesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachinesListBySubscriptionNextResponse = VirtualMachineList;
-
-// @public
-export interface VirtualMachinesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type VirtualMachinesListBySubscriptionResponse = VirtualMachineList;
-
-// @public
-export interface VirtualMachinesPowerOffHeaders {
-    location?: string;
+export interface VirtualMachinesOperations {
+    assignRelay: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginAssignRelay: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginAssignRelayAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesAssignRelayOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachine>, VirtualMachine>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => Promise<VirtualMachine>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginPowerOff: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginPowerOffAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginReimage: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginReimageAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginRestart: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginRestartAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams) => Promise<OperationStatusResult>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<VirtualMachine>, VirtualMachine>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesUpdateOptionalParams) => Promise<VirtualMachine>;
+    createOrUpdate: (resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
+    delete: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesGetOptionalParams) => Promise<VirtualMachine>;
+    listByResourceGroup: (resourceGroupName: string, options?: VirtualMachinesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    listBySubscription: (options?: VirtualMachinesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<VirtualMachine>;
+    powerOff: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    reimage: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    restart: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesRestartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    update: (resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesUpdateOptionalParams) => PollerLike<OperationState<VirtualMachine>, VirtualMachine>;
 }
 
 // @public
-export interface VirtualMachinesPowerOffOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesPowerOffOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
     virtualMachinePowerOffParameters?: VirtualMachinePowerOffParameters;
 }
 
 // @public
-export type VirtualMachinesPowerOffResponse = OperationStatusResult;
-
-// @public
-export interface VirtualMachinesReimageHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesReimageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesReimageResponse = OperationStatusResult;
-
-// @public
-export interface VirtualMachinesRestartHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesRestartResponse = OperationStatusResult;
-
-// @public
-export interface VirtualMachinesStartHeaders {
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface VirtualMachinesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachinesStartResponse = OperationStatusResult;
-
-// @public
-export interface VirtualMachinesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VirtualMachinesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
     virtualMachineUpdateParameters?: VirtualMachinePatchParameters;
 }
-
-// @public
-export type VirtualMachinesUpdateResponse = VirtualMachine;
 
 // @public
 export type VirtualMachineVirtioInterfaceType = string;
@@ -4653,6 +4674,7 @@ export type VirtualMachineVirtioInterfaceType = string;
 // @public
 export interface Volume extends TrackedResource {
     readonly allocatedSizeMiB?: number;
+    readonly assignedStorageApplianceId?: string;
     readonly attachedTo?: string[];
     readonly detailedStatus?: VolumeDetailedStatus;
     readonly detailedStatusMessage?: string;
@@ -4668,113 +4690,80 @@ export interface Volume extends TrackedResource {
 export type VolumeDetailedStatus = string;
 
 // @public
-export interface VolumeList {
-    nextLink?: string;
-    value?: Volume[];
+export interface VolumePatchParameters {
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface VolumePatchParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface VolumeProperties {
+    readonly allocatedSizeMiB?: number;
+    readonly assignedStorageApplianceId?: string;
+    readonly attachedTo?: string[];
+    readonly detailedStatus?: VolumeDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    readonly provisioningState?: VolumeProvisioningState;
+    readonly serialNumber?: string;
+    sizeMiB: number;
+    storageApplianceId?: string;
 }
 
 // @public
 export type VolumeProvisioningState = string;
 
 // @public
-export interface Volumes {
-    beginCreateOrUpdate(resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateOrUpdateResponse>, VolumesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<VolumesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VolumesDeleteResponse>, VolumesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<VolumesDeleteResponse>;
-    get(resourceGroupName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: VolumesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Volume>;
-    listBySubscription(options?: VolumesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Volume>;
-    update(resourceGroupName: string, volumeName: string, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
-}
-
-// @public
-export interface VolumesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface VolumesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VolumesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumesCreateOrUpdateResponse = Volume;
-
-// @public
-export interface VolumesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface VolumesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VolumesDeleteResponse = OperationStatusResult;
-
-// @public
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
+export interface VolumesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type VolumesGetResponse = Volume;
-
-// @public
-export interface VolumesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VolumesListByResourceGroupNextResponse = VolumeList;
-
-// @public
-export interface VolumesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface VolumesListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type VolumesListByResourceGroupResponse = VolumeList;
-
-// @public
-export interface VolumesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VolumesListBySubscriptionNextResponse = VolumeList;
-
-// @public
-export interface VolumesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface VolumesListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
     top?: number;
 }
 
 // @public
-export type VolumesListBySubscriptionResponse = VolumeList;
+export interface VolumesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Volume>, Volume>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams) => Promise<Volume>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<OperationStatusResult>, OperationStatusResult>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => Promise<OperationStatusResult>;
+    createOrUpdate: (resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Volume>, Volume>;
+    delete: (resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    get: (resourceGroupName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
+    listByResourceGroup: (resourceGroupName: string, options?: VolumesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Volume>;
+    listBySubscription: (options?: VolumesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Volume>;
+    update: (resourceGroupName: string, volumeName: string, options?: VolumesUpdateOptionalParams) => Promise<Volume>;
+}
 
 // @public
-export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface VolumesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
     volumeUpdateParameters?: VolumePatchParameters;
 }
-
-// @public
-export type VolumesUpdateResponse = Volume;
 
 // @public
 export interface VulnerabilityScanningSettings {

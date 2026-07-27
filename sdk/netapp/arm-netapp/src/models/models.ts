@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -781,7 +781,10 @@ export interface VolumeProperties {
   readonly encrypted?: boolean;
   /** Application specific placement rules for the particular volume */
   placementRules?: PlacementKeyValuePairs[];
-  /** Flag indicating whether subvolume operations are enabled on the volume */
+  /**
+   * Flag indicating whether subvolume operations are enabled on the volume
+   * Deprecated. Subvolume operations and this flag will be removed in a future API version.
+   */
   enableSubvolumes?: EnableSubvolumes;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
   readonly provisionedAvailabilityZone?: string | null;
@@ -791,6 +794,8 @@ export interface VolumeProperties {
   readonly originatingResourceId?: string | null;
   /** Space shared by short term clone volume with parent volume in bytes. */
   readonly inheritedSizeInBytes?: number | null;
+  /** Specifies whether the volume operates in Breakthrough Mode. */
+  breakthroughMode?: BreakthroughMode;
 }
 
 export function volumePropertiesSerializer(item: VolumeProperties): any {
@@ -845,6 +850,7 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
       : placementKeyValuePairsArraySerializer(item["placementRules"]),
     enableSubvolumes: item["enableSubvolumes"],
     isLargeVolume: item["isLargeVolume"],
+    breakthroughMode: item["breakthroughMode"],
   };
 }
 
@@ -925,6 +931,7 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     isLargeVolume: item["isLargeVolume"],
     originatingResourceId: item["originatingResourceId"],
     inheritedSizeInBytes: item["inheritedSizeInBytes"],
+    breakthroughMode: item["breakthroughMode"],
   };
 }
 
@@ -1734,7 +1741,10 @@ export enum KnownAvsDataStore {
  */
 export type AvsDataStore = string;
 
-/** Flag indicating whether subvolume operations are enabled on the volume */
+/**
+ * Flag indicating whether subvolume operations are enabled on the volume
+ * Deprecated. This type will be removed in a future API version.
+ */
 export enum KnownEnableSubvolumes {
   /** subvolumes are enabled */
   Enabled = "Enabled",
@@ -1743,7 +1753,8 @@ export enum KnownEnableSubvolumes {
 }
 
 /**
- * Flag indicating whether subvolume operations are enabled on the volume \
+ * Flag indicating whether subvolume operations are enabled on the volume
+ * Deprecated. This type will be removed in a future API version. \
  * {@link KnownEnableSubvolumes} can be used interchangeably with EnableSubvolumes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -1751,6 +1762,30 @@ export enum KnownEnableSubvolumes {
  * **Disabled**: subvolumes are not enabled
  */
 export type EnableSubvolumes = string;
+
+/**
+ * Specifies whether the volume operates in Breakthrough Mode. When set to 'Enabled', the volume runs on the resources configured for this mode,
+ * delivering improved performance and higher throughput. If set to 'Disabled' or omitted, the volume uses the basic configuration. This feature
+ * is available only in regions where it’s been configured and first-time users must finish onboarding prior to using Breakthrough Mode.
+ */
+export enum KnownBreakthroughMode {
+  /** The volume runs on the resources configured for Breakthrough mode which ensures consistent high performance and a higher throughput. */
+  Enabled = "Enabled",
+  /** The volume uses configuration that provides basic performance and throughput. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Specifies whether the volume operates in Breakthrough Mode. When set to 'Enabled', the volume runs on the resources configured for this mode,
+ * delivering improved performance and higher throughput. If set to 'Disabled' or omitted, the volume uses the basic configuration. This feature
+ * is available only in regions where it’s been configured and first-time users must finish onboarding prior to using Breakthrough Mode. \
+ * {@link KnownBreakthroughMode} can be used interchangeably with BreakthroughMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The volume runs on the resources configured for Breakthrough mode which ensures consistent high performance and a higher throughput. \
+ * **Disabled**: The volume uses configuration that provides basic performance and throughput.
+ */
+export type BreakthroughMode = string;
 
 /** List of volume group resources */
 export interface _VolumeGroupList {
@@ -4321,6 +4356,8 @@ export interface CacheProperties {
   globalFileLocking?: GlobalFileLockingState;
   /** Flag indicating whether writeback is enabled for the cache. */
   writeBack?: EnableWriteBackState;
+  /** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+  readonly fileAccessLogs?: CacheFileAccessLogs;
 }
 
 export function cachePropertiesSerializer(item: CacheProperties): any {
@@ -4391,6 +4428,7 @@ export function cachePropertiesDeserializer(item: any): CacheProperties {
     cifsChangeNotifications: item["cifsChangeNotifications"],
     globalFileLocking: item["globalFileLocking"],
     writeBack: item["writeBack"],
+    fileAccessLogs: item["fileAccessLogs"],
   };
 }
 
@@ -4936,6 +4974,24 @@ export enum KnownEnableWriteBackState {
  * **Enabled**: Writeback cache is enabled
  */
 export type EnableWriteBackState = string;
+
+/** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+export enum KnownCacheFileAccessLogs {
+  /** fileAccessLogs are enabled */
+  Enabled = "Enabled",
+  /** fileAccessLogs are not enabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. \
+ * {@link KnownCacheFileAccessLogs} can be used interchangeably with CacheFileAccessLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: fileAccessLogs are enabled \
+ * **Disabled**: fileAccessLogs are not enabled
+ */
+export type CacheFileAccessLogs = string;
 
 /** The type used for update operations of the Cache. */
 export interface CacheUpdate {
@@ -6070,7 +6126,10 @@ export function backupRestoreFilesSerializer(item: BackupRestoreFiles): any {
   };
 }
 
-/** Subvolume Information properties */
+/**
+ * Subvolume Information properties
+ * Deprecated. This resource type will be removed in a future API version.
+ */
 export interface SubvolumeInfo extends ProxyResource {
   /** Subvolume Properties */
   properties?: SubvolumeProperties;
@@ -6589,4 +6648,10 @@ export enum KnownVersions {
   V20251201 = "2025-12-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
 }

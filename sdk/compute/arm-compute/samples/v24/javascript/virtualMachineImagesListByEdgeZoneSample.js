@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all virtual machine image versions for the specified edge zone
  *
  * @summary gets a list of all virtual machine image versions for the specified edge zone
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
  * This sample demonstrates how to gets a list of all virtual machine image versions for the specified edge zone
  *
  * @summary gets a list of all virtual machine image versions for the specified edge zone
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,15 @@
 # Release History
 
+## 7.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.0.0-beta.2 (2026-06-08)
 Compared with version 6.3.0
 

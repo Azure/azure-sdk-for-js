@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-04-01"
+    "Microsoft.ContainerService": "2026-05-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -25,6 +25,7 @@
       "@azure/arm-containerservice!VirtualMachinesProfile:interface": "Microsoft.ContainerService.VirtualMachinesProfile",
       "@azure/arm-containerservice!ScaleProfile:interface": "Microsoft.ContainerService.ScaleProfile",
       "@azure/arm-containerservice!ManualScaleProfile:interface": "Microsoft.ContainerService.ManualScaleProfile",
+      "@azure/arm-containerservice!AutoScaleProfile:interface": "Microsoft.ContainerService.AutoScaleProfile",
       "@azure/arm-containerservice!VirtualMachineNodes:interface": "Microsoft.ContainerService.VirtualMachineNodes",
       "@azure/arm-containerservice!AgentPoolStatus:interface": "Microsoft.ContainerService.AgentPoolStatus",
       "@azure/arm-containerservice!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
@@ -90,6 +91,8 @@
       "@azure/arm-containerservice!ManagedClusterSecurityProfile:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfile",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefender:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefender",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityMonitoring:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityMonitoring",
+      "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGating:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGating",
+      "@azure/arm-containerservice!ManagedClusterSecurityProfileDefenderSecurityGatingIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileDefenderSecurityGatingIdentity",
       "@azure/arm-containerservice!AzureKeyVaultKms:interface": "Microsoft.ContainerService.AzureKeyVaultKms",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileWorkloadIdentity:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileWorkloadIdentity",
       "@azure/arm-containerservice!ManagedClusterSecurityProfileImageCleaner:interface": "Microsoft.ContainerService.ManagedClusterSecurityProfileImageCleaner",
@@ -125,6 +128,8 @@
       "@azure/arm-containerservice!ManagedClusterNodeProvisioningProfile:interface": "Microsoft.ContainerService.ManagedClusterNodeProvisioningProfile",
       "@azure/arm-containerservice!ManagedClusterBootstrapProfile:interface": "Microsoft.ContainerService.ManagedClusterBootstrapProfile",
       "@azure/arm-containerservice!ManagedClusterAIToolchainOperatorProfile:interface": "Microsoft.ContainerService.ManagedClusterAIToolchainOperatorProfile",
+      "@azure/arm-containerservice!SchedulerProfile:interface": "Microsoft.ContainerService.SchedulerProfile",
+      "@azure/arm-containerservice!SchedulerInstanceProfile:interface": "Microsoft.ContainerService.SchedulerInstanceProfile",
       "@azure/arm-containerservice!ManagedClusterHostedSystemProfile:interface": "Microsoft.ContainerService.ManagedClusterHostedSystemProfile",
       "@azure/arm-containerservice!ManagedClusterStatus:interface": "Microsoft.ContainerService.ManagedClusterStatus",
       "@azure/arm-containerservice!ManagedClusterSKU:interface": "Microsoft.ContainerService.ManagedClusterSKU",
@@ -263,6 +268,7 @@
       "@azure/arm-containerservice!KnownNodeProvisioningMode:enum": "Microsoft.ContainerService.NodeProvisioningMode",
       "@azure/arm-containerservice!KnownNodeProvisioningDefaultNodePools:enum": "Microsoft.ContainerService.NodeProvisioningDefaultNodePools",
       "@azure/arm-containerservice!KnownArtifactSource:enum": "Microsoft.ContainerService.ArtifactSource",
+      "@azure/arm-containerservice!KnownSchedulerConfigMode:enum": "Microsoft.ContainerService.SchedulerConfigMode",
       "@azure/arm-containerservice!KnownManagedClusterSKUName:enum": "Microsoft.ContainerService.ManagedClusterSKUName",
       "@azure/arm-containerservice!KnownManagedClusterSKUTier:enum": "Microsoft.ContainerService.ManagedClusterSKUTier",
       "@azure/arm-containerservice!KnownExtendedLocationTypes:enum": "Microsoft.ContainerService.ExtendedLocationTypes",

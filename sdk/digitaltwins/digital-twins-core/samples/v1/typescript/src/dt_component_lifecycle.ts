@@ -17,19 +17,18 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { v4 } from "uuid";
 import { inspect } from "node:util";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main(): Promise<void> {
-  const modelId = `dtmi:model_${v4()
+  const modelId = `dtmi:model_${crypto.randomUUID()
     .split("-")
     .join("")};1`;
-  const componentId = `dtmi:component_${v4()
+  const componentId = `dtmi:component_${crypto.randomUUID()
     .split("-")
     .join("")};1`;
-  const digitalTwinId = `digitalTwin-${v4()}`;
+  const digitalTwinId = `digitalTwin-${crypto.randomUUID()}`;
 
   const temporaryComponent = {
     "@id": componentId,

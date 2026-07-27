@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Agent Application.
  *
  * @summary delete Agent Application.
- * x-ms-original-file: 2026-03-15-preview/AgentApplication/delete.json
+ * x-ms-original-file: 2026-05-15-preview/AgentApplication/delete.json
  */
 async function deleteAccountAgentApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

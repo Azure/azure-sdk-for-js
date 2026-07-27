@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Organization resource
  *
  * @summary delete Organization resource
- * x-ms-original-file: 2025-08-18-preview/Organization_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_Delete_MaximumSet_Gen.json
  */
 async function organizationDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function organizationDeleteMaximumSet() {
  * This sample demonstrates how to delete Organization resource
  *
  * @summary delete Organization resource
- * x-ms-original-file: 2025-08-18-preview/Organization_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_Delete_MinimumSet_Gen.json
  */
 async function organizationDeleteMinimumSet() {
   const credential = new DefaultAzureCredential();

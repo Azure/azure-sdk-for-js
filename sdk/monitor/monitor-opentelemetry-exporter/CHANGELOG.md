@@ -1,16 +1,29 @@
 # Release History
 
-## 1.0.0-beta.43 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.44 (Unreleased)
 
 ### Bugs Fixed
 
-- Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
+- Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
 
 ### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
+- Raised the minimum `@opentelemetry/api` version from `^1.9.0` to `^1.9.1`. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+## 1.0.0-beta.43 (2026-07-01)
+
+### Breaking Changes
+
+- Renamed customer SDK Stats attribute keys to camelCase: `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
+
+### Bugs Fixed
+
+- Throttle startup replay of persisted telemetry with a randomized startup delay and jittered inter-batch spacing to avoid a fleet-wide thundering herd against the ingestion endpoint.
+- Fixed customer SDK Stats not counting telemetry that was dropped while saving to disk.
+- Clamp the server-controlled `Retry-After` header to a maximum of 24 hours, preventing a malformed value from overflowing `setTimeout` or stalling offline retries.
+- Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
 
 ## 1.0.0-beta.42 (2026-05-29)
 

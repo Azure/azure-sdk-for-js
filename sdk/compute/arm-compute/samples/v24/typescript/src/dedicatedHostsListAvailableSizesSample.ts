@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE: The dedicated host sizes provided can be used to only scale up the existing dedicated host.
  *
  * @summary lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE: The dedicated host sizes provided can be used to only scale up the existing dedicated host.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_ListAvailableSizes.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_ListAvailableSizes.json
  */
 async function getAvailableDedicatedHostSizes(): Promise<void> {
   const credential = new DefaultAzureCredential();

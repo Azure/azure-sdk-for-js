@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about an SSH public key.
  *
  * @summary retrieves information about an SSH public key.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_Get.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_Get.json
  */
 async function getAnSshPublicKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

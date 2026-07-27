@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified scope map.
  *
  * @summary gets the properties of the specified scope map.
- * x-ms-original-file: 2026-01-01-preview/ScopeMapGet.json
+ * x-ms-original-file: 2026-03-01-preview/ScopeMapGet.json
  */
 async function scopeMapGet() {
   const credential = new DefaultAzureCredential();

@@ -9,8 +9,6 @@ import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
   WebPubSubClientOptions,
-  OnGroupStreamArgs,
-  GroupStreamHandler,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
@@ -67,30 +65,30 @@ async function main(): Promise<void> {
     console.log(`Stream receiver disconnected: ${e.message}`);
   });
 
-  const groupStreamFactory = (stream: OnGroupStreamArgs): GroupStreamHandler => {
-    const receivedParts: string[] = [];
-
-    return {
-      onMessage: (args) => {
-        receivedParts.push(formatStreamPart(args.data));
-
+  const groupStreamSubscription = streamReceiver.onGroupStream(
+    async (stream) => {
+      const receivedParts: string[] = [];
+      try {
+        for await (const message of stream) {
+          receivedParts.push(formatStreamPart(message.data));
+          console.log(
+            `[stream:${stream.groupName}/${stream.streamId}] seq=${message.stream.streamSequenceId} ${formatPayload(message.data)}`,
+          );
+        }
         console.log(
-          `[stream:${stream.group}/${stream.streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
+          `[stream:${stream.groupName}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
         );
-      },
-      onComplete: () => {
+      } catch (err) {
+        const error = err as { name?: string; message?: string };
         console.log(
-          `[stream:${stream.group}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
+          `[stream:${stream.groupName}/${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
         );
-      },
-      onError: (args) => {
-        console.log(
-          `[stream:${stream.group}/${stream.streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
-        );
-      },
-    };
-  };
-  streamReceiver.onGroupStream(groupStreamFactory);
+      }
+    },
+    { handleFromStart: true },
+  );
+  // Options are scoped to this subscription; their effects (idle
+  // timeout, handleFromStart gate) apply independently to each observed stream.
 
   await client.start();
   await streamReceiver.start();
@@ -113,30 +111,24 @@ async function main(): Promise<void> {
     fireAndForget: true,
   });
 
-  const firstStream = await client.streamToGroup(groupName, {
-    noEcho: true,
-    streamId: "sample-stream-1",
-  });
-  const secondStream = await client.streamToGroup(groupName, {
-    noEcho: true,
-    streamId: "sample-stream-2",
-  });
-  for (const publisher of [firstStream, secondStream]) {
-    publisher.onError((error) => {
+  const firstStream = await client.openGroupStream(groupName, { noEcho: true });
+  const secondStream = await client.openGroupStream(groupName, { noEcho: true });
+  for (const stream of [firstStream, secondStream]) {
+    stream.onError((error) => {
       console.log(
-        `[publisher:${publisher.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+        `[stream:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
       );
     });
   }
-  await firstStream.publish("first stream part 1; ", "text");
-  await secondStream.publish("second stream part 1; ", "text");
-  await firstStream.publish("first stream part 2", "text");
-  await secondStream.publish("second stream part 2", "text");
-  await secondStream.complete();
-  await firstStream.complete();
+  await firstStream.write("first stream part 1; ", "text");
+  await secondStream.write("second stream part 1; ", "text");
+  await firstStream.write("first stream part 2", "text");
+  await secondStream.write("second stream part 2", "text");
+  await secondStream.end();
+  await firstStream.end();
 
   await delay(1000);
-  streamReceiver.offGroupStream(groupStreamFactory);
+  await groupStreamSubscription.close();
   streamReceiver.stop();
   client.stop();
   console.log("Client stopped");

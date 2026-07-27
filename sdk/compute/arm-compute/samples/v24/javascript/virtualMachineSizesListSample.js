@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
  *
  * @summary this API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
- * x-ms-original-file: 2025-11-01/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
  */
 async function virtualMachineSizesListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineSizesListMaximumSetGen() {
  * This sample demonstrates how to this API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
  *
  * @summary this API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
- * x-ms-original-file: 2025-11-01/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
  */
 async function virtualMachineSizesListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

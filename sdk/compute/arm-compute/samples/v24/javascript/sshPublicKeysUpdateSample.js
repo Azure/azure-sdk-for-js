@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a new SSH public key resource.
  *
  * @summary updates a new SSH public key resource.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_Update_MaximumSet_Gen.json
  */
 async function sshPublicKeyUpdateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function sshPublicKeyUpdateMaximumSetGen() {
  * This sample demonstrates how to updates a new SSH public key resource.
  *
  * @summary updates a new SSH public key resource.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_Update_MinimumSet_Gen.json
  */
 async function sshPublicKeyUpdateMinimumSetGen() {
   const credential = new DefaultAzureCredential();

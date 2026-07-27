@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a replication for a container registry with the specified parameters.
  *
  * @summary creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/ReplicationCreate.json
+ * x-ms-original-file: 2026-03-01-preview/ReplicationCreate.json
  */
 async function replicationCreate() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function replicationCreate() {
  * This sample demonstrates how to creates a replication for a container registry with the specified parameters.
  *
  * @summary creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/ReplicationCreateZoneRedundant.json
+ * x-ms-original-file: 2026-03-01-preview/ReplicationCreateZoneRedundant.json
  */
 async function replicationCreateZoneRedundant() {
   const credential = new DefaultAzureCredential();

@@ -10,10 +10,12 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -3842,6 +3844,8 @@ export interface IoTHubDeviceAuthenticationOutput {
     readonly secondaryDeviceConnectionString?: string;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: ApplicationDataList200Response | ApplicationDataListDefaultResponse): response is ApplicationDataListDefaultResponse;
 
@@ -7520,6 +7524,8 @@ export interface ProductDetailsOutput {
     product?: string;
     rate?: string;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

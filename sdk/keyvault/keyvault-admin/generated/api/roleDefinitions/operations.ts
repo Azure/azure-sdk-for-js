@@ -38,7 +38,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Authorization/roleDefinitions{?api%2Dversion,%24filter}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -59,7 +59,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -78,7 +80,11 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -93,7 +99,7 @@ export function _getSend(
     {
       scope: scope,
       roleDefinitionName: roleDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +117,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -142,7 +150,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       roleDefinitionName: roleDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,7 +172,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -195,7 +205,7 @@ export function _$deleteSend(
     {
       scope: scope,
       roleDefinitionName: roleDefinitionName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +223,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }

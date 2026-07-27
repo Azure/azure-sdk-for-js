@@ -1,12 +1,20 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-resourcegraph client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-resourcegraph in some common scenarios.
 
-| **File Name**                                       | **Description**                                                                                                                                                                                                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [operationsListSample.ts][operationslistsample]     | Lists all of the available REST API operations. x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/OperationsList.json                                                        |
-| [resourcesHistorySample.ts][resourceshistorysample] | List all snapshots of a resource for a given time interval. x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryMgsGet.json                                    |
-| [resourcesSample.ts][resourcessample]               | Queries the resources managed by Azure Resource Manager for scopes specified in the request. x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesPropertiesQuery.json |
+| **File Name**                                                               | **Description**                                                                                                                                      |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [graphQueryCreateOrUpdateSample.ts][graphquerycreateorupdatesample]         | create a new graph query. x-ms-original-file: 2024-04-01/GraphQueryAdd.json                                                                          |
+| [graphQueryDeleteSample.ts][graphquerydeletesample]                         | delete a graph query. x-ms-original-file: 2024-04-01/GraphQueryDelete.json                                                                           |
+| [graphQueryGetSample.ts][graphquerygetsample]                               | get a single graph query by its resourceName. x-ms-original-file: 2024-04-01/GraphQueryGet.json                                                      |
+| [graphQueryListBySubscriptionSample.ts][graphquerylistbysubscriptionsample] | get all graph queries defined within a specified subscription. x-ms-original-file: 2024-04-01/GraphQueryList.json                                    |
+| [graphQueryListSample.ts][graphquerylistsample]                             | get all graph queries defined within a specified subscription and resource group. x-ms-original-file: 2024-04-01/GraphQueryList1.json                |
+| [graphQueryUpdateSample.ts][graphqueryupdatesample]                         | updates a graph query that has already been added. x-ms-original-file: 2024-04-01/GraphQueryUpdate.json                                              |
+| [operationsListSample.ts][operationslistsample]                             | list the operations for the provider x-ms-original-file: 2024-04-01/OperationsList.json                                                              |
+| [resourceChangeDetailsSample.ts][resourcechangedetailssample]               | get resource change details. x-ms-original-file: 2020-09-01-preview/ResourceChangeDetails.json                                                       |
+| [resourceChangesSample.ts][resourcechangessample]                           | list changes to a resource for a given time interval. x-ms-original-file: 2020-09-01-preview/ResourceChanges.json                                    |
+| [resourcesHistorySample.ts][resourceshistorysample]                         | list all snapshots of a resource for a given time interval. x-ms-original-file: 2021-06-01-preview/ResourcesHistoryGet.json                          |
+| [resourcesSample.ts][resourcessample]                                       | queries the resources managed by Azure Resource Manager for scopes specified in the request. x-ms-original-file: 2024-04-01/ResourcesBasicQuery.json |
 
 ## Prerequisites
 
@@ -45,20 +53,28 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/operationsListSample.js
+node dist/graphQueryCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/operationsListSample.js
+node dist/graphQueryCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[graphquerycreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryCreateOrUpdateSample.ts
+[graphquerydeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryDeleteSample.ts
+[graphquerygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryGetSample.ts
+[graphquerylistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryListBySubscriptionSample.ts
+[graphquerylistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryListSample.ts
+[graphqueryupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/graphQueryUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/operationsListSample.ts
+[resourcechangedetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/resourceChangeDetailsSample.ts
+[resourcechangessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/resourceChangesSample.ts
 [resourceshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/resourcesHistorySample.ts
 [resourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/typescript/src/resourcesSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcegraph?view=azure-node-preview

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an availability set.
  *
  * @summary update an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
  */
 async function availabilitySetUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function availabilitySetUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to update an availability set.
  *
  * @summary update an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
  */
 async function availabilitySetUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

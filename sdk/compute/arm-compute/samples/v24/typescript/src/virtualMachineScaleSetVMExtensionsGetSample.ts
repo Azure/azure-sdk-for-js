@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the VMSS VM extension.
  *
  * @summary the operation to get the VMSS VM extension.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Get.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Get.json
  */
 async function getVirtualMachineScaleSetVMExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

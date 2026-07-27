@@ -16,6 +16,7 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  TrustedHostSubscription,
   SharedLimit,
   SharedLimitProperties,
   LimitName,
@@ -26,6 +27,13 @@ export type {
   OperationStatusResult,
   VmFamily,
   VmFamilyProperties,
+  SharedLimitCap,
+  SharedLimitCapProperties,
+  SetMemberCapOverridesRequest,
+  MemberCap,
+  SetMemberCapOverridesResult,
+  MemberCapOverride,
+  MemberCapOverrideProperties,
 } from "./models.js";
 export {
   KnownOrigin,

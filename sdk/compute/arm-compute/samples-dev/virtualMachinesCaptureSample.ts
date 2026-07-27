@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
  */
 async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
  * @summary captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Capture_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Capture_MinimumSet_Gen.json
  */
 async function virtualMachineCaptureMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

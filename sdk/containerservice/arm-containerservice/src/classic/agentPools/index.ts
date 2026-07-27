@@ -175,7 +175,6 @@ export interface AgentPoolsOperations {
     options?: AgentPoolsGetOptionalParams,
   ) => Promise<AgentPool>;
 }
-
 function _getAgentPools(context: ContainerServiceContext) {
   return {
     getUpgradeProfile: (
@@ -381,7 +380,6 @@ function _getAgentPools(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, agentPoolName, options),
   };
 }
-
 export function _getAgentPoolsOperations(context: ContainerServiceContext): AgentPoolsOperations {
   return {
     ..._getAgentPools(context),

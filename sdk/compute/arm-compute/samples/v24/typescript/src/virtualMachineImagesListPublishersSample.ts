@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location.
  *
  * @summary gets a list of virtual machine image publishers for the specified Azure location.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImageListPublishersMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

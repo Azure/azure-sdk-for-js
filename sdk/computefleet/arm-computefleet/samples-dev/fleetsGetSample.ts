@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Fleet
  *
  * @summary get a Fleet
- * x-ms-original-file: 2026-04-01-preview/Fleets_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Fleets_Get_MaximumSet_Gen.json
  */
 async function fleetsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

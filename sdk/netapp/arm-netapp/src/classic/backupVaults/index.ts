@@ -29,11 +29,6 @@ export interface BackupVaultsOperations {
     options?: BackupVaultsListByNetAppAccountOptionalParams,
   ) => PagedAsyncIterableIterator<BackupVault>;
   /** Delete the specified Backup Vault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -64,7 +59,6 @@ export interface BackupVaultsOperations {
     options?: BackupVaultsGetOptionalParams,
   ) => Promise<BackupVault>;
 }
-
 function _getBackupVaults(context: NetAppManagementContext) {
   return {
     listByNetAppAccount: (
@@ -100,7 +94,6 @@ function _getBackupVaults(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, backupVaultName, options),
   };
 }
-
 export function _getBackupVaultsOperations(
   context: NetAppManagementContext,
 ): BackupVaultsOperations {

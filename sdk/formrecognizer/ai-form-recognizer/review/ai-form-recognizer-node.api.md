@@ -6,11 +6,13 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -666,6 +668,8 @@ export interface InnerError {
     message?: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownDocumentBarcodeKind {
     Aztec = "Aztec",
@@ -872,6 +876,8 @@ export interface ResourceDetails {
     customDocumentModels: CustomDocumentModelsDetails;
     customNeuralDocumentModelBuilds: QuotaDetails;
 }
+
+export { RestError }
 
 // @public
 export type SelectionMarkState = string;

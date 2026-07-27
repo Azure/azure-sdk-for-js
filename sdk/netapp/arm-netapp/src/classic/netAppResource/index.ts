@@ -68,7 +68,6 @@ export interface NetAppResourceOperations {
     options?: NetAppResourceCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckAvailabilityResponse>;
 }
-
 function _getNetAppResource(context: NetAppManagementContext) {
   return {
     updateNetworkSiblingSet: (
@@ -100,7 +99,6 @@ function _getNetAppResource(context: NetAppManagementContext) {
     ) => checkNameAvailability(context, location, body, options),
   };
 }
-
 export function _getNetAppResourceOperations(
   context: NetAppManagementContext,
 ): NetAppResourceOperations {

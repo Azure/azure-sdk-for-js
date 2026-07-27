@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes virtual machines in a VM scale set.
  *
  * @summary deletes virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
  * This sample demonstrates how to deletes virtual machines in a VM scale set.
  *
  * @summary deletes virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetDeleteInstancesMinimumSetGen() {
   const credential = new DefaultAzureCredential();

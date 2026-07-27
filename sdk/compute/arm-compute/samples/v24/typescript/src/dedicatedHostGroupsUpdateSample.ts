@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an dedicated host group.
  *
  * @summary update an dedicated host group.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function dedicatedHostGroupUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to update an dedicated host group.
  *
  * @summary update an dedicated host group.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

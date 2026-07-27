@@ -7,6 +7,11 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export interface AbortGroupStreamOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface AckMessage extends WebPubSubMessageBase {
     ackId: number;
     error?: AckMessageError;
@@ -24,6 +29,12 @@ export interface AckMessageError {
 export interface CancelInvocationMessage extends WebPubSubMessageBase {
     invocationId: string;
     readonly kind: "cancelInvocation";
+}
+
+// @public
+export interface ClearGroupStateOptions {
+    abortSignal?: AbortSignalLike;
+    ackId?: number;
 }
 
 // @public
@@ -92,9 +103,8 @@ export type DownstreamMessageType =
 | "groupStateUpdate";
 
 // @public
-export interface EndStreamOptions {
+export interface EndGroupStreamOptions {
     abortSignal?: AbortSignalLike;
-    error?: StreamEndError;
 }
 
 // @public
@@ -114,9 +124,20 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export type GroupState = Record<string, string>;
+
+// @public
 export interface GroupStateItem {
     connectionId: string;
     state?: Record<string, string>;
+    updatedAt: number;
+    userId?: string;
+}
+
+// @public
+export interface GroupStateRecord {
+    connectionId: string;
+    state?: GroupState;
     updatedAt: number;
     userId?: string;
 }
@@ -136,16 +157,41 @@ export interface GroupStateUpdateMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface GroupStreamHandler {
-    onComplete?: (args: OnGroupStreamEndArgs) => void;
-    onError?: (args: OnGroupStreamEndArgs) => void;
-    onMessage?: (args: OnGroupStreamDataArgs) => void;
+export interface GroupStream extends AsyncIterable<GroupStreamMessage> {
+    readonly abortSignal: AbortSignal;
+    readonly groupName: string;
+    readonly streamId: string;
 }
 
 // @public
-export interface GroupStreamOptions {
-    handleFromStart?: boolean;
-    ttlInMs?: number;
+export interface GroupStreamMessage {
+    readonly data: JSONTypes | ArrayBuffer;
+    readonly dataType: WebPubSubDataType;
+    readonly fromUserId: string;
+    readonly groupName: string;
+    readonly sequenceId?: number;
+    readonly stream: StreamInfo;
+}
+
+// @public
+export interface GroupStreamSubscription {
+    [Symbol.asyncDispose](): Promise<void>;
+    close(): Promise<void>;
+    readonly isActive: boolean;
+}
+
+// @public
+export interface GroupStreamWriteOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface GroupStreamWriter {
+    abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void>;
+    end(options?: EndGroupStreamOptions): Promise<void>;
+    onError(listener: (error: StreamDataError) => void): () => void;
+    readonly streamId: string;
+    write(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: GroupStreamWriteOptions): Promise<void>;
 }
 
 // @public
@@ -247,26 +293,15 @@ export interface OnGroupDataMessageArgs {
 }
 
 // @public
-export interface OnGroupStreamArgs {
-    readonly group: string;
-    readonly streamId: string;
+export interface OnGroupStatesChangedArgs {
+    group: string;
 }
 
 // @public
-export interface OnGroupStreamDataArgs {
-    data: JSONTypes | ArrayBuffer;
-    dataType: WebPubSubDataType;
-    fromUserId: string;
-    group: string;
-    sequenceId?: number;
-    stream: StreamInfo;
-}
-
-// @public
-export interface OnGroupStreamEndArgs {
-    error?: StreamDataError;
-    group: string;
-    streamId: string;
+export interface OnGroupStreamOptions {
+    groupNames?: string[];
+    handleFromStart?: boolean;
+    idleTimeoutInMs?: number;
 }
 
 // @public
@@ -282,6 +317,13 @@ export interface OnServerDataMessageArgs {
 
 // @public
 export interface OnStoppedArgs {
+}
+
+// @public
+export interface OpenGroupStreamOptions {
+    idleTimeoutInMs?: number;
+    noEcho?: boolean;
+    streamId?: string;
 }
 
 // @public
@@ -328,16 +370,6 @@ export interface SendMessageErrorOptions {
 }
 
 // @public
-export interface SendStreamDataOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export interface SendStreamKeepaliveOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export interface SendToGroupMessage extends WebPubSubMessageBase {
     ackId?: number;
     data?: JSONTypes | ArrayBuffer;
@@ -379,13 +411,19 @@ export interface SetGroupStateMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export interface SetGroupStateOptions {
+    abortSignal?: AbortSignalLike;
+    ackId?: number;
+}
+
+// @public
 export interface StartOptions {
     abortSignal?: AbortSignalLike;
 }
 
 // @public
 export interface StartStreamOptions {
-    idleTimeoutMs?: number;
+    idleTimeoutInMs?: number;
     streamId: string;
 }
 
@@ -453,22 +491,6 @@ export interface StreamNackMessage extends WebPubSubMessageBase {
 }
 
 // @public
-export interface StreamPublisher {
-    complete(options?: EndStreamOptions): Promise<void>;
-    keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
-    onError(listener: (error: StreamDataError) => void): () => void;
-    publish(content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
-    readonly streamId: string;
-}
-
-// @public
-export interface StreamToGroupOptions {
-    idleTimeoutMs?: number;
-    noEcho?: boolean;
-    streamId?: string;
-}
-
-// @public
 export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
     ackId?: number;
     group: string;
@@ -476,10 +498,22 @@ export interface SubscribeGroupStateMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export interface SubscribeGroupStatesOptions {
+    abortSignal?: AbortSignalLike;
+    ackId?: number;
+}
+
+// @public
 export interface UnsubscribeGroupStateMessage extends WebPubSubMessageBase {
     ackId?: number;
     group: string;
     readonly kind: "unsubscribeGroupState";
+}
+
+// @public
+export interface UnsubscribeGroupStatesOptions {
+    abortSignal?: AbortSignalLike;
+    ackId?: number;
 }
 
 // @public
@@ -541,28 +575,35 @@ export type UpstreamMessageType =
 export class WebPubSubClient {
     constructor(clientAccessUrl: string, options?: WebPubSubClientOptions);
     constructor(credential: WebPubSubClientCredential, options?: WebPubSubClientOptions);
+    clearGroupState(groupName: string, options?: ClearGroupStateOptions): Promise<WebPubSubResult>;
+    getGroupState(groupName: string): GroupState | undefined;
     invokeEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: InvokeEventOptions): Promise<InvokeEventResult>;
     joinGroup(groupName: string, options?: JoinGroupOptions): Promise<WebPubSubResult>;
     leaveGroup(groupName: string, options?: LeaveGroupOptions): Promise<WebPubSubResult>;
+    listGroupStates(groupName: string): readonly GroupStateRecord[];
     off(event: "connected", listener: (e: OnConnectedArgs) => void): void;
     off(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     off(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     off(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     off(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     off(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void;
+    off(event: "group-states-changed", listener: (e: OnGroupStatesChangedArgs) => void): void;
     on(event: "connected", listener: (e: OnConnectedArgs) => void): void;
     on(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     on(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void;
+    on(event: "group-states-changed", listener: (e: OnGroupStatesChangedArgs) => void): void;
+    onGroupStream(callback: (stream: GroupStream) => void | Promise<void>, options?: OnGroupStreamOptions): GroupStreamSubscription;
+    openGroupStream(groupName: string, options?: OpenGroupStreamOptions): Promise<GroupStreamWriter>;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
+    setGroupState(groupName: string, state: GroupState, options?: SetGroupStateOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    streamToGroup(groupName: string, options?: StreamToGroupOptions): Promise<StreamPublisher>;
+    subscribeGroupStates(groupName: string, options?: SubscribeGroupStatesOptions): Promise<WebPubSubResult>;
+    unsubscribeGroupStates(groupName: string, options?: UnsubscribeGroupStatesOptions): Promise<WebPubSubResult>;
 }
 
 // @public
@@ -574,7 +615,6 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
-    groupStreamOptions?: GroupStreamOptions;
     keepAliveIntervalInMs?: number;
     keepAliveTimeoutInMs?: number;
     messageRetryOptions?: WebPubSubRetryOptions;

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available run commands for a subscription in a location.
  *
  * @summary lists all available run commands for a subscription in a location.
- * x-ms-original-file: 2025-11-01/runCommandExamples/RunCommand_List.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/RunCommand_List.json
  */
 async function virtualMachineRunCommandList(): Promise<void> {
   const credential = new DefaultAzureCredential();

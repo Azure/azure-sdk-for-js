@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified custom topic associated with the subscription.
  *
  * @summary deletes the specified custom topic associated with the subscription.
- * x-ms-original-file: 2026-03-15-preview/DeleteRaiExternalSafetyProvider.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteRaiExternalSafetyProvider.json
  */
 async function deleteRaiTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();

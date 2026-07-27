@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<voi
  * This sample demonstrates how to lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

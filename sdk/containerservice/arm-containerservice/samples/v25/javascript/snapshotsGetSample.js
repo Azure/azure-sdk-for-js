@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a snapshot.
  *
  * @summary gets a snapshot.
- * x-ms-original-file: 2026-04-01/SnapshotsGet.json
+ * x-ms-original-file: 2026-05-01/SnapshotsGet.json
  */
 async function getSnapshot() {
   const credential = new DefaultAzureCredential();

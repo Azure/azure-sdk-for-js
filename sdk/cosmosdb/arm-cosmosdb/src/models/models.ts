@@ -94,10 +94,6 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(_item: ErrorDetail): any {
-  return {};
-}
-
 export function errorDetailDeserializer(item: any): ErrorDetail {
   return {
     code: item["code"],
@@ -108,12 +104,6 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
-}
-
-export function errorDetailArraySerializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailSerializer(item);
-  });
 }
 
 export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
@@ -144,11 +134,11 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** An Azure Cosmos DB database account. */
-export interface DatabaseAccountGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface DatabaseAccountGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   /** Indicates the type of database account. This can only be set at database account creation. */
@@ -217,18 +207,10 @@ export interface DatabaseAccountGetResults extends Resource {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** The object that represents the migration state for the CapacityMode of the Cosmos DB account. */
-  capacityModeChangeTransitionState?: CapacityModeChangeTransitionState;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** The object that represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -247,12 +229,8 @@ export interface DatabaseAccountGetResults extends Resource {
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
-  /** Total dedicated throughput (RU/s) for database account. Represents the sum of all manual provisioned throughput and all autoscale max RU/s across all shared throughput databases and dedicated throughput containers in the account for 1 region. READ ONLY. */
-  throughputPoolDedicatedRUs?: number;
-  /** When this account is part of a fleetspace with throughput pooling enabled, this is the maximum additional throughput (RU/s) that can be consumed from the pool, summed across all shared throughput databases and dedicated throughput containers in the account for 1 region.  READ ONLY. */
-  throughputPoolMaxConsumableRUs?: number;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountGetResultsDeserializer(item: any): DatabaseAccountGetResults {
@@ -266,10 +244,10 @@ export function databaseAccountGetResultsDeserializer(item: any): DatabaseAccoun
     ...(!item["properties"]
       ? item["properties"]
       : _databaseAccountGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -343,18 +321,10 @@ export interface DatabaseAccountGetProperties {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** The object that represents the migration state for the CapacityMode of the Cosmos DB account. */
-  capacityModeChangeTransitionState?: CapacityModeChangeTransitionState;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** The object that represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -373,12 +343,8 @@ export interface DatabaseAccountGetProperties {
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
-  /** Total dedicated throughput (RU/s) for database account. Represents the sum of all manual provisioned throughput and all autoscale max RU/s across all shared throughput databases and dedicated throughput containers in the account for 1 region. READ ONLY. */
-  throughputPoolDedicatedRUs?: number;
-  /** When this account is part of a fleetspace with throughput pooling enabled, this is the maximum additional throughput (RU/s) that can be consumed from the pool, summed across all shared throughput databases and dedicated throughput containers in the account for 1 region.  READ ONLY. */
-  throughputPoolMaxConsumableRUs?: number;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountGetPropertiesDeserializer(item: any): DatabaseAccountGetProperties {
@@ -445,16 +411,8 @@ export function databaseAccountGetPropertiesDeserializer(item: any): DatabaseAcc
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsDeserializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     capacity: !item["capacity"] ? item["capacity"] : capacityDeserializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    capacityModeChangeTransitionState: !item["capacityModeChangeTransitionState"]
-      ? item["capacityModeChangeTransitionState"]
-      : capacityModeChangeTransitionStateDeserializer(item["capacityModeChangeTransitionState"]),
-    enableMaterializedViews: item["enableMaterializedViews"],
     keysMetadata: !item["keysMetadata"]
       ? item["keysMetadata"]
       : databaseAccountKeysMetadataDeserializer(item["keysMetadata"]),
@@ -466,9 +424,7 @@ export function databaseAccountGetPropertiesDeserializer(item: any): DatabaseAcc
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
-    throughputPoolDedicatedRUs: item["throughputPoolDedicatedRUs"],
-    throughputPoolMaxConsumableRUs: item["throughputPoolMaxConsumableRUs"],
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -528,11 +484,7 @@ export function consistencyPolicyDeserializer(item: any): ConsistencyPolicy {
 
 /** The default consistency level and configuration settings of the Cosmos DB account. */
 export type DefaultConsistencyLevel =
-  | "Eventual"
-  | "Session"
-  | "BoundedStaleness"
-  | "Strong"
-  | "ConsistentPrefix";
+  "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
 
 export function capabilityArraySerializer(result: Array<Capability>): any[] {
   return result.map((item) => {
@@ -1165,9 +1117,7 @@ export function backupPolicyDeserializer(item: any): BackupPolicy {
 
 /** Alias for BackupPolicyUnion */
 export type BackupPolicyUnion =
-  | PeriodicModeBackupPolicy
-  | ContinuousModeBackupPolicy
-  | BackupPolicy;
+  PeriodicModeBackupPolicy | ContinuousModeBackupPolicy | BackupPolicy;
 
 export function backupPolicyUnionSerializer(item: BackupPolicyUnion): any {
   switch (item.type) {
@@ -1457,25 +1407,6 @@ export function corsPolicyDeserializer(item: any): CorsPolicy {
 /** Indicates what services are allowed to bypass firewall checks. */
 export type NetworkAclBypass = "None" | "AzureServices";
 
-/** Indicates what diagnostic log settings are to be enabled. */
-export interface DiagnosticLogSettings {
-  /** Describe the level of detail with which queries are to be logged. */
-  enableFullTextQuery?: EnableFullTextQuery;
-}
-
-export function diagnosticLogSettingsSerializer(item: DiagnosticLogSettings): any {
-  return { enableFullTextQuery: item["enableFullTextQuery"] };
-}
-
-export function diagnosticLogSettingsDeserializer(item: any): DiagnosticLogSettings {
-  return {
-    enableFullTextQuery: item["enableFullTextQuery"],
-  };
-}
-
-/** Describe the level of detail with which queries are to be logged. */
-export type EnableFullTextQuery = "None" | "True" | "False";
-
 /** The object that represents all properties related to capacity enforcement on an account. */
 export interface Capacity {
   /** The total throughput limit imposed on the account. A totalThroughputLimit of 2000 imposes a strict limit of max throughput that can be provisioned on that account to be 2000. A totalThroughputLimit of -1 indicates no limits on provisioning of throughput. */
@@ -1491,91 +1422,6 @@ export function capacityDeserializer(item: any): Capacity {
     totalThroughputLimit: item["totalThroughputLimit"],
   };
 }
-
-/** Indicates the capacity mode of the account. */
-export enum KnownCapacityMode {
-  /** None */
-  None = "None",
-  /** Provisioned */
-  Provisioned = "Provisioned",
-  /** Serverless */
-  Serverless = "Serverless",
-}
-
-/**
- * Indicates the capacity mode of the account. \
- * {@link KnownCapacityMode} can be used interchangeably with CapacityMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Provisioned** \
- * **Serverless**
- */
-export type CapacityMode = string;
-
-/** The transition state information related capacity mode change with update request. */
-export interface CapacityModeChangeTransitionState {
-  /** The transition status of capacity mode. */
-  capacityModeTransitionStatus?: CapacityModeTransitionStatus;
-  /** Indicates the current capacity mode of the account. */
-  currentCapacityMode?: CapacityMode;
-  /** Indicates the previous capacity mode of the account before successful transition. */
-  previousCapacityMode?: CapacityMode;
-  /** Begin time in UTC of the capacity mode change. */
-  readonly capacityModeTransitionBeginTimestamp?: Date;
-  /** End time in UTC of the capacity mode change. */
-  readonly capacityModeTransitionEndTimestamp?: Date;
-  /** End time in UTC of the last successful capacity mode change. */
-  readonly capacityModeLastSuccessfulTransitionEndTimestamp?: Date;
-}
-
-export function capacityModeChangeTransitionStateDeserializer(
-  item: any,
-): CapacityModeChangeTransitionState {
-  return {
-    capacityModeTransitionStatus: item["capacityModeTransitionStatus"],
-    currentCapacityMode: item["currentCapacityMode"],
-    previousCapacityMode: item["previousCapacityMode"],
-    capacityModeTransitionBeginTimestamp: !item["capacityModeTransitionBeginTimestamp"]
-      ? item["capacityModeTransitionBeginTimestamp"]
-      : new Date(item["capacityModeTransitionBeginTimestamp"]),
-    capacityModeTransitionEndTimestamp: !item["capacityModeTransitionEndTimestamp"]
-      ? item["capacityModeTransitionEndTimestamp"]
-      : new Date(item["capacityModeTransitionEndTimestamp"]),
-    capacityModeLastSuccessfulTransitionEndTimestamp: !item[
-      "capacityModeLastSuccessfulTransitionEndTimestamp"
-    ]
-      ? item["capacityModeLastSuccessfulTransitionEndTimestamp"]
-      : new Date(item["capacityModeLastSuccessfulTransitionEndTimestamp"]),
-  };
-}
-
-/** The transition status of capacity mode. */
-export enum KnownCapacityModeTransitionStatus {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Initialized */
-  Initialized = "Initialized",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Completed */
-  Completed = "Completed",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * The transition status of capacity mode. \
- * {@link KnownCapacityModeTransitionStatus} can be used interchangeably with CapacityModeTransitionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Initialized** \
- * **InProgress** \
- * **Completed** \
- * **Failed**
- */
-export type CapacityModeTransitionStatus = string;
 
 /** The metadata related to each access key for the given Cosmos DB database account. */
 export interface DatabaseAccountKeysMetadata {
@@ -1700,10 +1546,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
 
 /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned" | "None";
 
 export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordSerializer(
   item: Record<
@@ -1964,18 +1807,12 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** Parameters to indicate the information about the restore. */
   restoreParameters?: RestoreParameters;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -1992,8 +1829,8 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountCreateUpdateParametersSerializer(
@@ -2060,18 +1897,12 @@ export interface DatabaseAccountCreateUpdateProperties {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** Parameters to indicate the information about the restore. */
   restoreParameters?: RestoreParameters;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -2088,8 +1919,8 @@ export interface DatabaseAccountCreateUpdateProperties {
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountCreateUpdatePropertiesSerializer(
@@ -2136,16 +1967,11 @@ export function databaseAccountCreateUpdatePropertiesSerializer(
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsSerializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     restoreParameters: !item["restoreParameters"]
       ? item["restoreParameters"]
       : restoreParametersSerializer(item["restoreParameters"]),
     capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    enableMaterializedViews: item["enableMaterializedViews"],
     enablePartitionMerge: item["enablePartitionMerge"],
     enableBurstCapacity: item["enableBurstCapacity"],
     minimalTlsVersion: item["minimalTlsVersion"],
@@ -2153,7 +1979,7 @@ export function databaseAccountCreateUpdatePropertiesSerializer(
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -2180,21 +2006,6 @@ export function armResourcePropertiesSerializer(item: ARMResourceProperties): an
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
-  };
-}
-
-export function armResourcePropertiesDeserializer(item: any): ARMResourceProperties {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -2250,16 +2061,10 @@ export interface DatabaseAccountUpdateParameters {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -2276,8 +2081,8 @@ export interface DatabaseAccountUpdateParameters {
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountUpdateParametersSerializer(
@@ -2312,11 +2117,8 @@ export function databaseAccountUpdateParametersSerializer(
       "cors",
       "networkAclBypass",
       "networkAclBypassResourceIds",
-      "diagnosticLogSettings",
       "disableLocalAuth",
       "capacity",
-      "capacityMode",
-      "enableMaterializedViews",
       "enablePartitionMerge",
       "enableBurstCapacity",
       "minimalTlsVersion",
@@ -2324,7 +2126,7 @@ export function databaseAccountUpdateParametersSerializer(
       "enablePriorityBasedExecution",
       "defaultPriorityLevel",
       "enablePerRegionPerPartitionAutoscale",
-      "enableAllVersionsAndDeletesChangeFeed",
+      "enforceHierarchicalPartitionKeyIdLastLevel",
     ])
       ? undefined
       : _databaseAccountUpdateParametersPropertiesSerializer(item),
@@ -2377,16 +2179,10 @@ export interface DatabaseAccountUpdateProperties {
   networkAclBypass?: NetworkAclBypass;
   /** An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account. */
   networkAclBypassResourceIds?: string[];
-  /** The Object representing the different Diagnostic log settings for the Cosmos DB Account. */
-  diagnosticLogSettings?: DiagnosticLogSettings;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
   /** The object that represents all properties related to capacity enforcement on an account. */
   capacity?: Capacity;
-  /** Indicates the capacityMode of the Cosmos DB account. */
-  capacityMode?: CapacityMode;
-  /** Flag to indicate whether to enable MaterializedViews on the Cosmos DB account */
-  enableMaterializedViews?: boolean;
   /** This property is ignored during the update operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
   readonly keysMetadata?: DatabaseAccountKeysMetadata;
   /** Flag to indicate enabling/disabling of Partition Merge feature on the account */
@@ -2403,8 +2199,8 @@ export interface DatabaseAccountUpdateProperties {
   defaultPriorityLevel?: DefaultPriorityLevel;
   /** Flag to indicate enabling/disabling of Per-Region Per-partition autoscale Preview feature on the account */
   enablePerRegionPerPartitionAutoscale?: boolean;
-  /** Flag to indicate if All Versions and Deletes Change feed feature is enabled on the account */
-  enableAllVersionsAndDeletesChangeFeed?: boolean;
+  /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
+  enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
 }
 
 export function databaseAccountUpdatePropertiesSerializer(
@@ -2449,13 +2245,8 @@ export function databaseAccountUpdatePropertiesSerializer(
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsSerializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    enableMaterializedViews: item["enableMaterializedViews"],
     enablePartitionMerge: item["enablePartitionMerge"],
     enableBurstCapacity: item["enableBurstCapacity"],
     minimalTlsVersion: item["minimalTlsVersion"],
@@ -2463,7 +2254,7 @@ export function databaseAccountUpdatePropertiesSerializer(
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -2964,1165 +2755,12 @@ export enum KnownPrimaryAggregationType {
  */
 export type PrimaryAggregationType = string;
 
-/** A Cosmos DB Copy Job */
-export interface CopyJobGetResults extends ProxyResource {
-  /** The properties of a Copy Job */
-  properties: CopyJobProperties;
-}
-
-export function copyJobGetResultsSerializer(item: CopyJobGetResults): any {
-  return { properties: copyJobPropertiesSerializer(item["properties"]) };
-}
-
-export function copyJobGetResultsDeserializer(item: any): CopyJobGetResults {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: copyJobPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The properties of a Copy Job */
-export interface CopyJobProperties {
-  /** Job Properties */
-  jobProperties: BaseCopyJobPropertiesUnion;
-  /** Job Status */
-  readonly status?: CopyJobStatus;
-  /** Processed Count */
-  readonly processedCount?: number;
-  /** Total Count */
-  readonly totalCount?: number;
-  /** Last Updated Time (ISO-8601 format) */
-  readonly lastUpdatedUtcTime?: Date;
-  /** Worker count */
-  workerCount?: number;
-  /** Error response for Faulted job */
-  readonly error?: ErrorResponse;
-  /** Total Duration of Job */
-  readonly duration?: string;
-  /** Mode of job execution */
-  mode?: CopyJobMode;
-}
-
-export function copyJobPropertiesSerializer(item: CopyJobProperties): any {
-  return {
-    jobProperties: baseCopyJobPropertiesUnionSerializer(item["jobProperties"]),
-    workerCount: item["workerCount"],
-    mode: item["mode"],
-  };
-}
-
-export function copyJobPropertiesDeserializer(item: any): CopyJobProperties {
-  return {
-    jobProperties: baseCopyJobPropertiesUnionDeserializer(item["jobProperties"]),
-    status: item["status"],
-    processedCount: item["processedCount"],
-    totalCount: item["totalCount"],
-    lastUpdatedUtcTime: !item["lastUpdatedUtcTime"]
-      ? item["lastUpdatedUtcTime"]
-      : new Date(item["lastUpdatedUtcTime"]),
-    workerCount: item["workerCount"],
-    error: !item["error"] ? item["error"] : errorResponseDeserializer(item["error"]),
-    duration: item["duration"],
-    mode: item["mode"],
-  };
-}
-
-/** Base copy job properties */
-export interface BaseCopyJobProperties {
-  /** Copy Job Type */
-  /** The discriminator possible values: CassandraRUToCassandraRU, AzureBlobStorageToCassandraRU, CassandraRUToAzureBlobStorage, MongoRUToMongoRU, MongoRUToMongoVCore, NoSqlRUToNoSqlRU */
-  jobType: CopyJobType;
-}
-
-export function baseCopyJobPropertiesSerializer(item: BaseCopyJobProperties): any {
-  return { jobType: item["jobType"] };
-}
-
-export function baseCopyJobPropertiesDeserializer(item: any): BaseCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-  };
-}
-
-/** Alias for BaseCopyJobPropertiesUnion */
-export type BaseCopyJobPropertiesUnion =
-  | CassandraRUToCassandraRUCopyJobProperties
-  | BlobToCassandraRUCopyJobProperties
-  | CassandraRUToBlobCopyJobProperties
-  | MongoRUToMongoRUCopyJobProperties
-  | MongoRUToMongoVCoreCopyJobProperties
-  | NoSqlRUToNoSqlRUCopyJobProperties
-  | BaseCopyJobProperties;
-
-export function baseCopyJobPropertiesUnionSerializer(item: BaseCopyJobPropertiesUnion): any {
-  switch (item.jobType) {
-    case "CassandraRUToCassandraRU":
-      return cassandraRUToCassandraRUCopyJobPropertiesSerializer(
-        item as CassandraRUToCassandraRUCopyJobProperties,
-      );
-
-    case "AzureBlobStorageToCassandraRU":
-      return blobToCassandraRUCopyJobPropertiesSerializer(
-        item as BlobToCassandraRUCopyJobProperties,
-      );
-
-    case "CassandraRUToAzureBlobStorage":
-      return cassandraRUToBlobCopyJobPropertiesSerializer(
-        item as CassandraRUToBlobCopyJobProperties,
-      );
-
-    case "MongoRUToMongoRU":
-      return mongoRUToMongoRUCopyJobPropertiesSerializer(item as MongoRUToMongoRUCopyJobProperties);
-
-    case "MongoRUToMongoVCore":
-      return mongoRUToMongoVCoreCopyJobPropertiesSerializer(
-        item as MongoRUToMongoVCoreCopyJobProperties,
-      );
-
-    case "NoSqlRUToNoSqlRU":
-      return noSqlRUToNoSqlRUCopyJobPropertiesSerializer(item as NoSqlRUToNoSqlRUCopyJobProperties);
-
-    default:
-      return baseCopyJobPropertiesSerializer(item);
-  }
-}
-
-export function baseCopyJobPropertiesUnionDeserializer(item: any): BaseCopyJobPropertiesUnion {
-  switch (item["jobType"]) {
-    case "CassandraRUToCassandraRU":
-      return cassandraRUToCassandraRUCopyJobPropertiesDeserializer(
-        item as CassandraRUToCassandraRUCopyJobProperties,
-      );
-
-    case "AzureBlobStorageToCassandraRU":
-      return blobToCassandraRUCopyJobPropertiesDeserializer(
-        item as BlobToCassandraRUCopyJobProperties,
-      );
-
-    case "CassandraRUToAzureBlobStorage":
-      return cassandraRUToBlobCopyJobPropertiesDeserializer(
-        item as CassandraRUToBlobCopyJobProperties,
-      );
-
-    case "MongoRUToMongoRU":
-      return mongoRUToMongoRUCopyJobPropertiesDeserializer(
-        item as MongoRUToMongoRUCopyJobProperties,
-      );
-
-    case "MongoRUToMongoVCore":
-      return mongoRUToMongoVCoreCopyJobPropertiesDeserializer(
-        item as MongoRUToMongoVCoreCopyJobProperties,
-      );
-
-    case "NoSqlRUToNoSqlRU":
-      return noSqlRUToNoSqlRUCopyJobPropertiesDeserializer(
-        item as NoSqlRUToNoSqlRUCopyJobProperties,
-      );
-
-    default:
-      return baseCopyJobPropertiesDeserializer(item);
-  }
-}
-
-/** Copy Job Type */
-export enum KnownCopyJobType {
-  /** CassandraRUToCassandraRU */
-  CassandraRUToCassandraRU = "CassandraRUToCassandraRU",
-  /** CassandraRUToAzureBlobStorage */
-  CassandraRUToAzureBlobStorage = "CassandraRUToAzureBlobStorage",
-  /** AzureBlobStorageToCassandraRU */
-  AzureBlobStorageToCassandraRU = "AzureBlobStorageToCassandraRU",
-  /** MongoRUToMongoRU */
-  MongoRUToMongoRU = "MongoRUToMongoRU",
-  /** MongoRUToMongoVCore */
-  MongoRUToMongoVCore = "MongoRUToMongoVCore",
-  /** NoSqlRUToNoSqlRU */
-  NoSqlRUToNoSqlRU = "NoSqlRUToNoSqlRU",
-}
-
-/**
- * Copy Job Type \
- * {@link KnownCopyJobType} can be used interchangeably with CopyJobType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CassandraRUToCassandraRU** \
- * **CassandraRUToAzureBlobStorage** \
- * **AzureBlobStorageToCassandraRU** \
- * **MongoRUToMongoRU** \
- * **MongoRUToMongoVCore** \
- * **NoSqlRUToNoSqlRU**
- */
-export type CopyJobType = string;
-
-/** Source Cassandra to Destination Cassandra copy job properties */
-export interface CassandraRUToCassandraRUCopyJobProperties extends BaseCopyJobProperties {
-  /** Source Cassandra DataStore details */
-  sourceDetails?: CosmosDBSourceSinkDetails;
-  /** Destination Cassandra DataStore details */
-  destinationDetails?: CosmosDBSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: CassandraRUToCassandraRUCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "CassandraRUToCassandraRU";
-}
-
-export function cassandraRUToCassandraRUCopyJobPropertiesSerializer(
-  item: CassandraRUToCassandraRUCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: cassandraRUToCassandraRUCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function cassandraRUToCassandraRUCopyJobPropertiesDeserializer(
-  item: any,
-): CassandraRUToCassandraRUCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: cassandraRUToCassandraRUCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-/** A CosmosDB data source/sink details */
-export interface CosmosDBSourceSinkDetails {
-  /** Name of remote account in case of cross-account data transfer. */
-  remoteAccountName?: string;
-}
-
-export function cosmosDBSourceSinkDetailsSerializer(item: CosmosDBSourceSinkDetails): any {
-  return { remoteAccountName: item["remoteAccountName"] };
-}
-
-export function cosmosDBSourceSinkDetailsDeserializer(item: any): CosmosDBSourceSinkDetails {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-  };
-}
-
-export function cassandraRUToCassandraRUCopyJobTaskArraySerializer(
-  result: Array<CassandraRUToCassandraRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return cassandraRUToCassandraRUCopyJobTaskSerializer(item);
-  });
-}
-
-export function cassandraRUToCassandraRUCopyJobTaskArrayDeserializer(
-  result: Array<CassandraRUToCassandraRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return cassandraRUToCassandraRUCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface CassandraRUToCassandraRUCopyJobTask */
-export interface CassandraRUToCassandraRUCopyJobTask extends BaseCopyJobTask {
-  /** Source Cassandra table */
-  source: CosmosDBCassandraTable;
-  /** Destination Cassandra table */
-  destination: CosmosDBCassandraTable;
-}
-
-export function cassandraRUToCassandraRUCopyJobTaskSerializer(
-  item: CassandraRUToCassandraRUCopyJobTask,
-): any {
-  return {
-    source: cosmosDBCassandraTableSerializer(item["source"]),
-    destination: cosmosDBCassandraTableSerializer(item["destination"]),
-  };
-}
-
-export function cassandraRUToCassandraRUCopyJobTaskDeserializer(
-  item: any,
-): CassandraRUToCassandraRUCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: cosmosDBCassandraTableDeserializer(item["source"]),
-    destination: cosmosDBCassandraTableDeserializer(item["destination"]),
-  };
-}
-
-/** A CosmosDB Cassandra table */
-export interface CosmosDBCassandraTable {
-  /** Azure Cosmos DB for Apache Cassandra keyspace. */
-  keyspaceName: string;
-  /** Azure Cosmos DB for Apache Cassandra table. */
-  tableName: string;
-}
-
-export function cosmosDBCassandraTableSerializer(item: CosmosDBCassandraTable): any {
-  return { keyspaceName: item["keyspaceName"], tableName: item["tableName"] };
-}
-
-export function cosmosDBCassandraTableDeserializer(item: any): CosmosDBCassandraTable {
-  return {
-    keyspaceName: item["keyspaceName"],
-    tableName: item["tableName"],
-  };
-}
-
-/** Source Azure Blob Storage to Destination Cassandra copy job properties */
-export interface BlobToCassandraRUCopyJobProperties extends BaseCopyJobProperties {
-  /** Azure Storage container DataStore details */
-  sourceDetails: AzureBlobSourceSinkDetails;
-  /** Destination Cassandra DataStore details */
-  destinationDetails?: CosmosDBSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: BlobToCassandraRUCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "AzureBlobStorageToCassandraRU";
-}
-
-export function blobToCassandraRUCopyJobPropertiesSerializer(
-  item: BlobToCassandraRUCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: azureBlobSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: blobToCassandraRUCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function blobToCassandraRUCopyJobPropertiesDeserializer(
-  item: any,
-): BlobToCassandraRUCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: azureBlobSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: blobToCassandraRUCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-/** An Azure Blob Storage data source/sink */
-export interface AzureBlobSourceSinkDetails {
-  /** Azure Blob container endpoint. */
-  endpointUrl: string;
-}
-
-export function azureBlobSourceSinkDetailsSerializer(item: AzureBlobSourceSinkDetails): any {
-  return { endpointUrl: item["endpointUrl"] };
-}
-
-export function azureBlobSourceSinkDetailsDeserializer(item: any): AzureBlobSourceSinkDetails {
-  return {
-    endpointUrl: item["endpointUrl"],
-  };
-}
-
-export function blobToCassandraRUCopyJobTaskArraySerializer(
-  result: Array<BlobToCassandraRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return blobToCassandraRUCopyJobTaskSerializer(item);
-  });
-}
-
-export function blobToCassandraRUCopyJobTaskArrayDeserializer(
-  result: Array<BlobToCassandraRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return blobToCassandraRUCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface BlobToCassandraRUCopyJobTask */
-export interface BlobToCassandraRUCopyJobTask extends BaseCopyJobTask {
-  /** Source Azure Blob container */
-  source: AzureBlobContainer;
-  /** Destination Cassandra table */
-  destination: CosmosDBCassandraTable;
-}
-
-export function blobToCassandraRUCopyJobTaskSerializer(item: BlobToCassandraRUCopyJobTask): any {
-  return {
-    source: azureBlobContainerSerializer(item["source"]),
-    destination: cosmosDBCassandraTableSerializer(item["destination"]),
-  };
-}
-
-export function blobToCassandraRUCopyJobTaskDeserializer(item: any): BlobToCassandraRUCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: azureBlobContainerDeserializer(item["source"]),
-    destination: cosmosDBCassandraTableDeserializer(item["destination"]),
-  };
-}
-
-/** An Azure Blob container */
-export interface AzureBlobContainer {
-  /** Azure Blob container. */
-  containerName: string;
-}
-
-export function azureBlobContainerSerializer(item: AzureBlobContainer): any {
-  return { containerName: item["containerName"] };
-}
-
-export function azureBlobContainerDeserializer(item: any): AzureBlobContainer {
-  return {
-    containerName: item["containerName"],
-  };
-}
-
-/** Source Cassandra to Destination Azure Blob Storage copy job properties */
-export interface CassandraRUToBlobCopyJobProperties extends BaseCopyJobProperties {
-  /** Source Cassandra DataStore details */
-  sourceDetails?: CosmosDBSourceSinkDetails;
-  /** Destination Cassandra DataStore details */
-  destinationDetails: AzureBlobSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: CassandraRUToBlobCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "CassandraRUToAzureBlobStorage";
-}
-
-export function cassandraRUToBlobCopyJobPropertiesSerializer(
-  item: CassandraRUToBlobCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: azureBlobSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: cassandraRUToBlobCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function cassandraRUToBlobCopyJobPropertiesDeserializer(
-  item: any,
-): CassandraRUToBlobCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: azureBlobSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: cassandraRUToBlobCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-export function cassandraRUToBlobCopyJobTaskArraySerializer(
-  result: Array<CassandraRUToBlobCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return cassandraRUToBlobCopyJobTaskSerializer(item);
-  });
-}
-
-export function cassandraRUToBlobCopyJobTaskArrayDeserializer(
-  result: Array<CassandraRUToBlobCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return cassandraRUToBlobCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface CassandraRUToBlobCopyJobTask */
-export interface CassandraRUToBlobCopyJobTask extends BaseCopyJobTask {
-  /** Source Cassandra table */
-  source: CosmosDBCassandraTable;
-  /** Destination Azure Blob container */
-  destination: AzureBlobContainer;
-}
-
-export function cassandraRUToBlobCopyJobTaskSerializer(item: CassandraRUToBlobCopyJobTask): any {
-  return {
-    source: cosmosDBCassandraTableSerializer(item["source"]),
-    destination: azureBlobContainerSerializer(item["destination"]),
-  };
-}
-
-export function cassandraRUToBlobCopyJobTaskDeserializer(item: any): CassandraRUToBlobCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: cosmosDBCassandraTableDeserializer(item["source"]),
-    destination: azureBlobContainerDeserializer(item["destination"]),
-  };
-}
-
-/** Source Mongo to Destination Mongo copy job properties */
-export interface MongoRUToMongoRUCopyJobProperties extends BaseCopyJobProperties {
-  /** Source Mongo DataStore details */
-  sourceDetails?: CosmosDBSourceSinkDetails;
-  /** Destination Mongo DataStore details */
-  destinationDetails?: CosmosDBSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: MongoRUToMongoRUCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "MongoRUToMongoRU";
-}
-
-export function mongoRUToMongoRUCopyJobPropertiesSerializer(
-  item: MongoRUToMongoRUCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: mongoRUToMongoRUCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function mongoRUToMongoRUCopyJobPropertiesDeserializer(
-  item: any,
-): MongoRUToMongoRUCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: mongoRUToMongoRUCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-export function mongoRUToMongoRUCopyJobTaskArraySerializer(
-  result: Array<MongoRUToMongoRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return mongoRUToMongoRUCopyJobTaskSerializer(item);
-  });
-}
-
-export function mongoRUToMongoRUCopyJobTaskArrayDeserializer(
-  result: Array<MongoRUToMongoRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return mongoRUToMongoRUCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface MongoRUToMongoRUCopyJobTask */
-export interface MongoRUToMongoRUCopyJobTask extends BaseCopyJobTask {
-  /** Source Mongo (RU) collection */
-  source: CosmosDBMongoCollection;
-  /** Destination Mongo (RU) collection */
-  destination: CosmosDBMongoCollection;
-}
-
-export function mongoRUToMongoRUCopyJobTaskSerializer(item: MongoRUToMongoRUCopyJobTask): any {
-  return {
-    source: cosmosDBMongoCollectionSerializer(item["source"]),
-    destination: cosmosDBMongoCollectionSerializer(item["destination"]),
-  };
-}
-
-export function mongoRUToMongoRUCopyJobTaskDeserializer(item: any): MongoRUToMongoRUCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: cosmosDBMongoCollectionDeserializer(item["source"]),
-    destination: cosmosDBMongoCollectionDeserializer(item["destination"]),
-  };
-}
-
-/** A CosmosDB Mongo collection */
-export interface CosmosDBMongoCollection {
-  /** Azure Cosmos DB for MongoDB (RU) database. */
-  databaseName: string;
-  /** Azure Cosmos DB for MongoDB (RU) collection. */
-  collectionName: string;
-}
-
-export function cosmosDBMongoCollectionSerializer(item: CosmosDBMongoCollection): any {
-  return { databaseName: item["databaseName"], collectionName: item["collectionName"] };
-}
-
-export function cosmosDBMongoCollectionDeserializer(item: any): CosmosDBMongoCollection {
-  return {
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-  };
-}
-
-/** Source Mongo to Destination Mongo vCore copy job properties */
-export interface MongoRUToMongoVCoreCopyJobProperties extends BaseCopyJobProperties {
-  /** Source Mongo (RU) DataStore details */
-  sourceDetails?: CosmosDBSourceSinkDetails;
-  /** Destination Mongo (vCore) DataStore details */
-  destinationDetails: MongoVCoreSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: MongoRUToMongoVCoreCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "MongoRUToMongoVCore";
-}
-
-export function mongoRUToMongoVCoreCopyJobPropertiesSerializer(
-  item: MongoRUToMongoVCoreCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: mongoVCoreSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: mongoRUToMongoVCoreCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function mongoRUToMongoVCoreCopyJobPropertiesDeserializer(
-  item: any,
-): MongoRUToMongoVCoreCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: mongoVCoreSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: mongoRUToMongoVCoreCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-/** A CosmosDB Mongo vCore data source/sink details */
-export interface MongoVCoreSourceSinkDetails {
-  hostName?: string;
-  /** URI of Azure KeyVault secret containing connection string. */
-  connectionStringKeyVaultUri?: string;
-}
-
-export function mongoVCoreSourceSinkDetailsSerializer(item: MongoVCoreSourceSinkDetails): any {
-  return {
-    hostName: item["hostName"],
-    connectionStringKeyVaultUri: item["connectionStringKeyVaultUri"],
-  };
-}
-
-export function mongoVCoreSourceSinkDetailsDeserializer(item: any): MongoVCoreSourceSinkDetails {
-  return {
-    hostName: item["hostName"],
-    connectionStringKeyVaultUri: item["connectionStringKeyVaultUri"],
-  };
-}
-
-export function mongoRUToMongoVCoreCopyJobTaskArraySerializer(
-  result: Array<MongoRUToMongoVCoreCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return mongoRUToMongoVCoreCopyJobTaskSerializer(item);
-  });
-}
-
-export function mongoRUToMongoVCoreCopyJobTaskArrayDeserializer(
-  result: Array<MongoRUToMongoVCoreCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return mongoRUToMongoVCoreCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface MongoRUToMongoVCoreCopyJobTask */
-export interface MongoRUToMongoVCoreCopyJobTask extends BaseCopyJobTask {
-  /** Source Mongo (RU) collection */
-  source: CosmosDBMongoCollection;
-  /** Destination Mongo (vCore) collection */
-  destination: CosmosDBMongoVCoreCollection;
-}
-
-export function mongoRUToMongoVCoreCopyJobTaskSerializer(
-  item: MongoRUToMongoVCoreCopyJobTask,
-): any {
-  return {
-    source: cosmosDBMongoCollectionSerializer(item["source"]),
-    destination: cosmosDBMongoVCoreCollectionSerializer(item["destination"]),
-  };
-}
-
-export function mongoRUToMongoVCoreCopyJobTaskDeserializer(
-  item: any,
-): MongoRUToMongoVCoreCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: cosmosDBMongoCollectionDeserializer(item["source"]),
-    destination: cosmosDBMongoVCoreCollectionDeserializer(item["destination"]),
-  };
-}
-
-/** A CosmosDB Mongo vCore collection */
-export interface CosmosDBMongoVCoreCollection {
-  /** Azure Cosmos DB for MongoDB (vCore) database. */
-  databaseName: string;
-  /** Azure Cosmos DB for MongoDB (vCore) collection. */
-  collectionName: string;
-}
-
-export function cosmosDBMongoVCoreCollectionSerializer(item: CosmosDBMongoVCoreCollection): any {
-  return { databaseName: item["databaseName"], collectionName: item["collectionName"] };
-}
-
-export function cosmosDBMongoVCoreCollectionDeserializer(item: any): CosmosDBMongoVCoreCollection {
-  return {
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-  };
-}
-
-/** Source SQL to Destination SQL copy job properties */
-export interface NoSqlRUToNoSqlRUCopyJobProperties extends BaseCopyJobProperties {
-  /** Source SQL DataStore details */
-  sourceDetails?: CosmosDBSourceSinkDetails;
-  /** Destination SQL DataStore details */
-  destinationDetails?: CosmosDBSourceSinkDetails;
-  /** Copy Job tasks. */
-  tasks: NoSqlRUToNoSqlRUCopyJobTask[];
-  /** Copy Job Type */
-  jobType: "NoSqlRUToNoSqlRU";
-}
-
-export function noSqlRUToNoSqlRUCopyJobPropertiesSerializer(
-  item: NoSqlRUToNoSqlRUCopyJobProperties,
-): any {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsSerializer(item["destinationDetails"]),
-    tasks: noSqlRUToNoSqlRUCopyJobTaskArraySerializer(item["tasks"]),
-  };
-}
-
-export function noSqlRUToNoSqlRUCopyJobPropertiesDeserializer(
-  item: any,
-): NoSqlRUToNoSqlRUCopyJobProperties {
-  return {
-    jobType: item["jobType"],
-    sourceDetails: !item["sourceDetails"]
-      ? item["sourceDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["sourceDetails"]),
-    destinationDetails: !item["destinationDetails"]
-      ? item["destinationDetails"]
-      : cosmosDBSourceSinkDetailsDeserializer(item["destinationDetails"]),
-    tasks: noSqlRUToNoSqlRUCopyJobTaskArrayDeserializer(item["tasks"]),
-  };
-}
-
-export function noSqlRUToNoSqlRUCopyJobTaskArraySerializer(
-  result: Array<NoSqlRUToNoSqlRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return noSqlRUToNoSqlRUCopyJobTaskSerializer(item);
-  });
-}
-
-export function noSqlRUToNoSqlRUCopyJobTaskArrayDeserializer(
-  result: Array<NoSqlRUToNoSqlRUCopyJobTask>,
-): any[] {
-  return result.map((item) => {
-    return noSqlRUToNoSqlRUCopyJobTaskDeserializer(item);
-  });
-}
-
-/** model interface NoSqlRUToNoSqlRUCopyJobTask */
-export interface NoSqlRUToNoSqlRUCopyJobTask extends BaseCopyJobTask {
-  /** Source SQL container */
-  source: CosmosDBNoSqlContainer;
-  /** Destination SQL container */
-  destination: CosmosDBNoSqlContainer;
-}
-
-export function noSqlRUToNoSqlRUCopyJobTaskSerializer(item: NoSqlRUToNoSqlRUCopyJobTask): any {
-  return {
-    source: cosmosDBNoSqlContainerSerializer(item["source"]),
-    destination: cosmosDBNoSqlContainerSerializer(item["destination"]),
-  };
-}
-
-export function noSqlRUToNoSqlRUCopyJobTaskDeserializer(item: any): NoSqlRUToNoSqlRUCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-    source: cosmosDBNoSqlContainerDeserializer(item["source"]),
-    destination: cosmosDBNoSqlContainerDeserializer(item["destination"]),
-  };
-}
-
-/** A CosmosDB NoSQL container */
-export interface CosmosDBNoSqlContainer {
-  /** Azure Cosmos DB for NoSQL database. */
-  databaseName: string;
-  /** Azure Cosmos DB for NoSQL container. */
-  containerName: string;
-}
-
-export function cosmosDBNoSqlContainerSerializer(item: CosmosDBNoSqlContainer): any {
-  return { databaseName: item["databaseName"], containerName: item["containerName"] };
-}
-
-export function cosmosDBNoSqlContainerDeserializer(item: any): CosmosDBNoSqlContainer {
-  return {
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-  };
-}
-
-/** Job Status */
-export enum KnownCopyJobStatus {
-  /** Pending */
-  Pending = "Pending",
-  /** Partitioning */
-  Partitioning = "Partitioning",
-  /** Running */
-  Running = "Running",
-  /** Paused */
-  Paused = "Paused",
-  /** Completed */
-  Completed = "Completed",
-  /** Faulted */
-  Faulted = "Faulted",
-  /** Cancelled */
-  Cancelled = "Cancelled",
-}
-
-/**
- * Job Status \
- * {@link KnownCopyJobStatus} can be used interchangeably with CopyJobStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Partitioning** \
- * **Running** \
- * **Paused** \
- * **Completed** \
- * **Faulted** \
- * **Cancelled**
- */
-export type CopyJobStatus = string;
-
-/** Mode of job execution */
-export enum KnownCopyJobMode {
-  /** Offline */
-  Offline = "Offline",
-  /** Online */
-  Online = "Online",
-}
-
-/**
- * Mode of job execution \
- * {@link KnownCopyJobMode} can be used interchangeably with CopyJobMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offline** \
- * **Online**
- */
-export type CopyJobMode = string;
-
-/** The properties of a Copy Job Task */
-export interface BaseCopyJobTask {
-  /** Task level Total Count. */
-  readonly totalCount?: number;
-  /** Task level Processed Count. */
-  readonly processedCount?: number;
-}
-
-export function baseCopyJobTaskSerializer(_item: BaseCopyJobTask): any {
-  return {};
-}
-
-export function baseCopyJobTaskDeserializer(item: any): BaseCopyJobTask {
-  return {
-    totalCount: item["totalCount"],
-    processedCount: item["processedCount"],
-  };
-}
-
-/** An error response from the service. */
-export interface CloudError {
-  /** Error Response. */
-  error?: CosmosDBErrorResult;
-}
-
-export function cloudErrorDeserializer(item: any): CloudError {
-  return {
-    error: !item["error"] ? item["error"] : cosmosDBErrorResultDeserializer(item["error"]),
-  };
-}
-
-/** Error Response. */
-export interface CosmosDBErrorResult {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-export function cosmosDBErrorResultDeserializer(item: any): CosmosDBErrorResult {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** The List operation response, that contains the Copy Jobs and their properties. */
-export interface _CopyJobFeedResults {
-  /** The CopyJobGetResults items on this page */
-  value: CopyJobGetResults[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _copyJobFeedResultsDeserializer(item: any): _CopyJobFeedResults {
-  return {
-    value: copyJobGetResultsArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function copyJobGetResultsArraySerializer(result: Array<CopyJobGetResults>): any[] {
-  return result.map((item) => {
-    return copyJobGetResultsSerializer(item);
-  });
-}
-
-export function copyJobGetResultsArrayDeserializer(result: Array<CopyJobGetResults>): any[] {
-  return result.map((item) => {
-    return copyJobGetResultsDeserializer(item);
-  });
-}
-
-/** An Azure Cosmos DB Graph resource. */
-export interface GraphResourceGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location?: string;
-  /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
-  resource?: GraphResourceGetPropertiesResource;
-  options?: GraphResourceGetPropertiesOptions;
-}
-
-export function graphResourceGetResultsDeserializer(item: any): GraphResourceGetResults {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _graphResourceGetResultsPropertiesDeserializer(item["properties"])),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** The properties of an Azure Cosmos DB SQL database */
-export interface GraphResourceGetProperties {
-  resource?: GraphResourceGetPropertiesResource;
-  options?: GraphResourceGetPropertiesOptions;
-}
-
-export function graphResourceGetPropertiesDeserializer(item: any): GraphResourceGetProperties {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : graphResourceGetPropertiesResourceDeserializer(item["resource"]),
-    options: !item["options"]
-      ? item["options"]
-      : graphResourceGetPropertiesOptionsDeserializer(item["options"]),
-  };
-}
-
-/** model interface GraphResourceGetPropertiesResource */
-export interface GraphResourceGetPropertiesResource extends GraphResource {}
-
-export function graphResourceGetPropertiesResourceDeserializer(
-  item: any,
-): GraphResourceGetPropertiesResource {
-  return {
-    id: item["id"],
-  };
-}
-
-/** model interface GraphResourceGetPropertiesOptions */
-export interface GraphResourceGetPropertiesOptions extends OptionsResource {}
-
-export function graphResourceGetPropertiesOptionsDeserializer(
-  item: any,
-): GraphResourceGetPropertiesOptions {
-  return {
-    throughput: item["throughput"],
-    autoscaleSettings: !item["autoscaleSettings"]
-      ? item["autoscaleSettings"]
-      : autoscaleSettingsDeserializer(item["autoscaleSettings"]),
-  };
-}
-
-/** Cosmos DB Graph resource object */
-export interface GraphResource {
-  /** Name of the Cosmos DB Graph */
-  id: string;
-}
-
-export function graphResourceSerializer(item: GraphResource): any {
-  return { id: item["id"] };
-}
-
-export function graphResourceDeserializer(item: any): GraphResource {
-  return {
-    id: item["id"],
-  };
-}
-
-/** Cosmos DB options resource object */
-export interface OptionsResource {
-  /** Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when retrieving offer details. */
-  throughput?: number;
-  /** Specifies the Autoscale settings. */
-  autoscaleSettings?: AutoscaleSettings;
-}
-
-export function optionsResourceDeserializer(item: any): OptionsResource {
-  return {
-    throughput: item["throughput"],
-    autoscaleSettings: !item["autoscaleSettings"]
-      ? item["autoscaleSettings"]
-      : autoscaleSettingsDeserializer(item["autoscaleSettings"]),
-  };
-}
-
-/** model interface AutoscaleSettings */
-export interface AutoscaleSettings {
-  /** Represents maximum throughput, the resource can scale up to. */
-  maxThroughput?: number;
-}
-
-export function autoscaleSettingsSerializer(item: AutoscaleSettings): any {
-  return { maxThroughput: item["maxThroughput"] };
-}
-
-export function autoscaleSettingsDeserializer(item: any): AutoscaleSettings {
-  return {
-    maxThroughput: item["maxThroughput"],
-  };
-}
-
-/** Parameters to create and update Cosmos DB Graph resource. */
-export interface GraphResourceCreateUpdateParameters extends ARMResourceProperties {
-  /** The standard JSON format of a Graph resource */
-  resource: GraphResource;
-  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
-}
-
-export function graphResourceCreateUpdateParametersSerializer(
-  item: GraphResourceCreateUpdateParameters,
-): any {
-  return {
-    location: item["location"],
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    properties: _graphResourceCreateUpdateParametersPropertiesSerializer(item),
-  };
-}
-
-/** Properties to create and update Azure Cosmos DB Graph resource. */
-export interface GraphResourceCreateUpdateProperties {
-  /** The standard JSON format of a Graph resource */
-  resource: GraphResource;
-  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
-}
-
-export function graphResourceCreateUpdatePropertiesSerializer(
-  item: GraphResourceCreateUpdateProperties,
-): any {
-  return {
-    resource: graphResourceSerializer(item["resource"]),
-    options: !item["options"] ? item["options"] : createUpdateOptionsSerializer(item["options"]),
-  };
-}
-
-/** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
-export interface CreateUpdateOptions {
-  /** Request Units per second. For example, "throughput": 10000. */
-  throughput?: number;
-  /** Specifies the Autoscale settings. Note: Either throughput or autoscaleSettings is required, but not both. */
-  autoscaleSettings?: AutoscaleSettings;
-}
-
-export function createUpdateOptionsSerializer(item: CreateUpdateOptions): any {
-  return {
-    throughput: item["throughput"],
-    autoscaleSettings: !item["autoscaleSettings"]
-      ? item["autoscaleSettings"]
-      : autoscaleSettingsSerializer(item["autoscaleSettings"]),
-  };
-}
-
-/** The List operation response, that contains the Graph resource and their properties. */
-export interface _GraphResourcesListResult {
-  /** List of Graph resource and their properties. */
-  readonly value?: GraphResourceGetResults[];
-  nextLink?: string;
-}
-
-export function _graphResourcesListResultDeserializer(item: any): _GraphResourcesListResult {
-  return {
-    value: !item["value"] ? item["value"] : graphResourceGetResultsArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function graphResourceGetResultsArrayDeserializer(
-  result: Array<GraphResourceGetResults>,
-): any[] {
-  return result.map((item) => {
-    return graphResourceGetResultsDeserializer(item);
-  });
-}
-
 /** An Azure Cosmos DB SQL database. */
-export interface SqlDatabaseGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface SqlDatabaseGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: SqlDatabaseGetPropertiesResource;
@@ -4140,10 +2778,10 @@ export function sqlDatabaseGetResultsDeserializer(item: any): SqlDatabaseGetResu
     ...(!item["properties"]
       ? item["properties"]
       : _sqlDatabaseGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -4265,6 +2903,39 @@ export function resourceRestoreParametersDeserializer(item: any): ResourceRestor
   };
 }
 
+/** Cosmos DB options resource object */
+export interface OptionsResource {
+  /** Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when retrieving offer details. */
+  throughput?: number;
+  /** Specifies the Autoscale settings. */
+  autoscaleSettings?: AutoscaleSettings;
+}
+
+export function optionsResourceDeserializer(item: any): OptionsResource {
+  return {
+    throughput: item["throughput"],
+    autoscaleSettings: !item["autoscaleSettings"]
+      ? item["autoscaleSettings"]
+      : autoscaleSettingsDeserializer(item["autoscaleSettings"]),
+  };
+}
+
+/** model interface AutoscaleSettings */
+export interface AutoscaleSettings {
+  /** Represents maximum throughput, the resource can scale up to. */
+  maxThroughput?: number;
+}
+
+export function autoscaleSettingsSerializer(item: AutoscaleSettings): any {
+  return { maxThroughput: item["maxThroughput"] };
+}
+
+export function autoscaleSettingsDeserializer(item: any): AutoscaleSettings {
+  return {
+    maxThroughput: item["maxThroughput"],
+  };
+}
+
 /** Parameters to create and update Cosmos DB SQL database. */
 export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
   /** The standard JSON format of a SQL database */
@@ -4303,6 +2974,23 @@ export function sqlDatabaseCreateUpdatePropertiesSerializer(
   };
 }
 
+/** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
+export interface CreateUpdateOptions {
+  /** Request Units per second. For example, "throughput": 10000. */
+  throughput?: number;
+  /** Specifies the Autoscale settings. Note: Either throughput or autoscaleSettings is required, but not both. */
+  autoscaleSettings?: AutoscaleSettings;
+}
+
+export function createUpdateOptionsSerializer(item: CreateUpdateOptions): any {
+  return {
+    throughput: item["throughput"],
+    autoscaleSettings: !item["autoscaleSettings"]
+      ? item["autoscaleSettings"]
+      : autoscaleSettingsSerializer(item["autoscaleSettings"]),
+  };
+}
+
 /** The List operation response, that contains the SQL databases and their properties. */
 export interface _SqlDatabaseListResult {
   /** List of SQL databases and their properties. */
@@ -4325,63 +3013,12 @@ export function sqlDatabaseGetResultsArrayDeserializer(
   });
 }
 
-/** The properties of an Azure Cosmos DB merge operations */
-export interface MergeParameters {
-  /** Specifies whether the operation is a real merge operation or a simulation. */
-  isDryRun?: boolean;
-}
-
-export function mergeParametersSerializer(item: MergeParameters): any {
-  return { isDryRun: item["isDryRun"] };
-}
-
-/** List of physical partitions and their properties returned by a merge operation. */
-export interface PhysicalPartitionStorageInfoCollection {
-  /** List of physical partitions and their properties. */
-  readonly physicalPartitionStorageInfoCollection?: PhysicalPartitionStorageInfo[];
-}
-
-export function physicalPartitionStorageInfoCollectionDeserializer(
-  item: any,
-): PhysicalPartitionStorageInfoCollection {
-  return {
-    physicalPartitionStorageInfoCollection: !item["physicalPartitionStorageInfoCollection"]
-      ? item["physicalPartitionStorageInfoCollection"]
-      : physicalPartitionStorageInfoArrayDeserializer(
-          item["physicalPartitionStorageInfoCollection"],
-        ),
-  };
-}
-
-export function physicalPartitionStorageInfoArrayDeserializer(
-  result: Array<PhysicalPartitionStorageInfo>,
-): any[] {
-  return result.map((item) => {
-    return physicalPartitionStorageInfoDeserializer(item);
-  });
-}
-
-/** The storage of a physical partition */
-export interface PhysicalPartitionStorageInfo {
-  /** The unique identifier of the partition. */
-  readonly id?: string;
-  /** The storage in KB for the physical partition. */
-  readonly storageInKB?: number;
-}
-
-export function physicalPartitionStorageInfoDeserializer(item: any): PhysicalPartitionStorageInfo {
-  return {
-    id: item["id"],
-    storageInKB: item["storageInKB"],
-  };
-}
-
 /** An Azure Cosmos DB resource throughput. */
-export interface ThroughputSettingsGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface ThroughputSettingsGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: ThroughputSettingsGetPropertiesResource;
@@ -4398,10 +3035,10 @@ export function throughputSettingsGetResultsDeserializer(item: any): ThroughputS
     ...(!item["properties"]
       ? item["properties"]
       : _throughputSettingsGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -4445,9 +3082,6 @@ export function throughputSettingsGetPropertiesResourceDeserializer(
     offerReplacePending: item["offerReplacePending"],
     instantMaximumThroughput: item["instantMaximumThroughput"],
     softAllowedMaximumThroughput: item["softAllowedMaximumThroughput"],
-    throughputBuckets: !item["throughputBuckets"]
-      ? item["throughputBuckets"]
-      : throughputBucketResourceArrayDeserializer(item["throughputBuckets"]),
     rid: item["_rid"],
     ts: item["_ts"],
     etag: item["_etag"],
@@ -4468,8 +3102,6 @@ export interface ThroughputSettingsResource {
   readonly instantMaximumThroughput?: string;
   /** The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified */
   readonly softAllowedMaximumThroughput?: string;
-  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
-  throughputBuckets?: ThroughputBucketResource[];
 }
 
 export function throughputSettingsResourceSerializer(item: ThroughputSettingsResource): any {
@@ -4478,9 +3110,6 @@ export function throughputSettingsResourceSerializer(item: ThroughputSettingsRes
     autoscaleSettings: !item["autoscaleSettings"]
       ? item["autoscaleSettings"]
       : autoscaleSettingsResourceSerializer(item["autoscaleSettings"]),
-    throughputBuckets: !item["throughputBuckets"]
-      ? item["throughputBuckets"]
-      : throughputBucketResourceArraySerializer(item["throughputBuckets"]),
   };
 }
 
@@ -4494,9 +3123,6 @@ export function throughputSettingsResourceDeserializer(item: any): ThroughputSet
     offerReplacePending: item["offerReplacePending"],
     instantMaximumThroughput: item["instantMaximumThroughput"],
     softAllowedMaximumThroughput: item["softAllowedMaximumThroughput"],
-    throughputBuckets: !item["throughputBuckets"]
-      ? item["throughputBuckets"]
-      : throughputBucketResourceArrayDeserializer(item["throughputBuckets"]),
   };
 }
 
@@ -4570,48 +3196,6 @@ export function throughputPolicyResourceDeserializer(item: any): ThroughputPolic
   };
 }
 
-export function throughputBucketResourceArraySerializer(
-  result: Array<ThroughputBucketResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputBucketResourceSerializer(item);
-  });
-}
-
-export function throughputBucketResourceArrayDeserializer(
-  result: Array<ThroughputBucketResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputBucketResourceDeserializer(item);
-  });
-}
-
-/** Cosmos DB throughput bucket object */
-export interface ThroughputBucketResource {
-  /** Represents the throughput bucket id */
-  id: number;
-  /** Represents maximum percentage throughput that can be used by the bucket */
-  maxThroughputPercentage: number;
-  /** Indicates whether this is the default throughput bucket */
-  isDefaultBucket?: boolean;
-}
-
-export function throughputBucketResourceSerializer(item: ThroughputBucketResource): any {
-  return {
-    id: item["id"],
-    maxThroughputPercentage: item["maxThroughputPercentage"],
-    isDefaultBucket: item["isDefaultBucket"],
-  };
-}
-
-export function throughputBucketResourceDeserializer(item: any): ThroughputBucketResource {
-  return {
-    id: item["id"],
-    maxThroughputPercentage: item["maxThroughputPercentage"],
-    isDefaultBucket: item["isDefaultBucket"],
-  };
-}
-
 /** Parameters to update Cosmos DB resource throughput. */
 export interface ThroughputSettingsUpdateParameters extends ARMResourceProperties {
   /** The standard JSON format of a resource throughput */
@@ -4643,257 +3227,32 @@ export function throughputSettingsUpdatePropertiesSerializer(
   return { resource: throughputSettingsResourceSerializer(item["resource"]) };
 }
 
-/** Cosmos DB retrieve throughput parameters object */
-export interface RetrieveThroughputParameters extends ARMResourceProperties {
-  /** The standard JSON format of a resource throughput */
-  resource: RetrieveThroughputPropertiesResource;
+/** An error response from the service. */
+export interface CloudError {
+  /** Error Response. */
+  error?: CosmosDBErrorResult;
 }
 
-export function retrieveThroughputParametersSerializer(item: RetrieveThroughputParameters): any {
+export function cloudErrorDeserializer(item: any): CloudError {
   return {
-    location: item["location"],
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    properties: _retrieveThroughputParametersPropertiesSerializer(item),
+    error: !item["error"] ? item["error"] : cosmosDBErrorResultDeserializer(item["error"]),
   };
 }
 
-/** Properties to retrieve throughput for Azure Cosmos DB resource. */
-export interface RetrieveThroughputProperties {
-  /** The standard JSON format of a resource throughput */
-  resource: RetrieveThroughputPropertiesResource;
+/** Error Response. */
+export interface CosmosDBErrorResult {
+  /** Error code. */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
 }
 
-export function retrieveThroughputPropertiesSerializer(item: RetrieveThroughputProperties): any {
-  return { resource: retrieveThroughputPropertiesResourceSerializer(item["resource"]) };
-}
-
-/** Resource to retrieve throughput information for Cosmos DB resource */
-export interface RetrieveThroughputPropertiesResource {
-  /** Array of PhysicalPartitionId objects. */
-  physicalPartitionIds: PhysicalPartitionId[];
-}
-
-export function retrieveThroughputPropertiesResourceSerializer(
-  item: RetrieveThroughputPropertiesResource,
-): any {
-  return { physicalPartitionIds: physicalPartitionIdArraySerializer(item["physicalPartitionIds"]) };
-}
-
-export function physicalPartitionIdArraySerializer(result: Array<PhysicalPartitionId>): any[] {
-  return result.map((item) => {
-    return physicalPartitionIdSerializer(item);
-  });
-}
-
-/** PhysicalPartitionId object */
-export interface PhysicalPartitionId {
-  /** Id of a physical partition */
-  id: string;
-}
-
-export function physicalPartitionIdSerializer(item: PhysicalPartitionId): any {
-  return { id: item["id"] };
-}
-
-/** An Azure Cosmos DB PhysicalPartitionThroughputInfoResult object. */
-export interface PhysicalPartitionThroughputInfoResult extends ARMResourceProperties {
-  /** properties of physical partition throughput info */
-  resource?: PhysicalPartitionThroughputInfoResultPropertiesResource;
-}
-
-export function physicalPartitionThroughputInfoResultDeserializer(
-  item: any,
-): PhysicalPartitionThroughputInfoResult {
+export function cosmosDBErrorResultDeserializer(item: any): CosmosDBErrorResult {
   return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _physicalPartitionThroughputInfoResultPropertiesDeserializer(item["properties"])),
+    code: item["code"],
+    message: item["message"],
   };
 }
-
-/** The properties of an Azure Cosmos DB PhysicalPartitionThroughputInfoResult object */
-export interface PhysicalPartitionThroughputInfoResultProperties {
-  /** properties of physical partition throughput info */
-  resource?: PhysicalPartitionThroughputInfoResultPropertiesResource;
-}
-
-export function physicalPartitionThroughputInfoResultPropertiesDeserializer(
-  item: any,
-): PhysicalPartitionThroughputInfoResultProperties {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : physicalPartitionThroughputInfoResultPropertiesResourceDeserializer(item["resource"]),
-  };
-}
-
-/** properties of physical partition throughput info */
-export interface PhysicalPartitionThroughputInfoResultPropertiesResource extends PhysicalPartitionThroughputInfoProperties {}
-
-export function physicalPartitionThroughputInfoResultPropertiesResourceDeserializer(
-  item: any,
-): PhysicalPartitionThroughputInfoResultPropertiesResource {
-  return {
-    physicalPartitionThroughputInfo: !item["physicalPartitionThroughputInfo"]
-      ? item["physicalPartitionThroughputInfo"]
-      : physicalPartitionThroughputInfoResourceArrayDeserializer(
-          item["physicalPartitionThroughputInfo"],
-        ),
-  };
-}
-
-/** The properties of an Azure Cosmos DB PhysicalPartitionThroughputInfoProperties object */
-export interface PhysicalPartitionThroughputInfoProperties {
-  /** Array of physical partition throughput info objects */
-  physicalPartitionThroughputInfo?: PhysicalPartitionThroughputInfoResource[];
-}
-
-export function physicalPartitionThroughputInfoPropertiesDeserializer(
-  item: any,
-): PhysicalPartitionThroughputInfoProperties {
-  return {
-    physicalPartitionThroughputInfo: !item["physicalPartitionThroughputInfo"]
-      ? item["physicalPartitionThroughputInfo"]
-      : physicalPartitionThroughputInfoResourceArrayDeserializer(
-          item["physicalPartitionThroughputInfo"],
-        ),
-  };
-}
-
-export function physicalPartitionThroughputInfoResourceArraySerializer(
-  result: Array<PhysicalPartitionThroughputInfoResource>,
-): any[] {
-  return result.map((item) => {
-    return physicalPartitionThroughputInfoResourceSerializer(item);
-  });
-}
-
-export function physicalPartitionThroughputInfoResourceArrayDeserializer(
-  result: Array<PhysicalPartitionThroughputInfoResource>,
-): any[] {
-  return result.map((item) => {
-    return physicalPartitionThroughputInfoResourceDeserializer(item);
-  });
-}
-
-/** PhysicalPartitionThroughputInfo object */
-export interface PhysicalPartitionThroughputInfoResource {
-  /** Id of a physical partition */
-  id: string;
-  /** Throughput of a physical partition */
-  throughput?: number;
-  /** Target throughput of a physical partition */
-  targetThroughput?: number;
-}
-
-export function physicalPartitionThroughputInfoResourceSerializer(
-  item: PhysicalPartitionThroughputInfoResource,
-): any {
-  return {
-    id: item["id"],
-    throughput: item["throughput"],
-    targetThroughput: item["targetThroughput"],
-  };
-}
-
-export function physicalPartitionThroughputInfoResourceDeserializer(
-  item: any,
-): PhysicalPartitionThroughputInfoResource {
-  return {
-    id: item["id"],
-    throughput: item["throughput"],
-    targetThroughput: item["targetThroughput"],
-  };
-}
-
-/** Cosmos DB redistribute throughput parameters object */
-export interface RedistributeThroughputParameters extends ARMResourceProperties {
-  /** The standard JSON format of a resource throughput */
-  resource: RedistributeThroughputPropertiesResource;
-}
-
-export function redistributeThroughputParametersSerializer(
-  item: RedistributeThroughputParameters,
-): any {
-  return {
-    location: item["location"],
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    properties: _redistributeThroughputParametersPropertiesSerializer(item),
-  };
-}
-
-/** Properties to redistribute throughput for Azure Cosmos DB resource. */
-export interface RedistributeThroughputProperties {
-  /** The standard JSON format of a resource throughput */
-  resource: RedistributeThroughputPropertiesResource;
-}
-
-export function redistributeThroughputPropertiesSerializer(
-  item: RedistributeThroughputProperties,
-): any {
-  return { resource: redistributeThroughputPropertiesResourceSerializer(item["resource"]) };
-}
-
-/** Resource to redistribute throughput for Azure Cosmos DB resource */
-export interface RedistributeThroughputPropertiesResource {
-  /** ThroughputPolicy to apply for throughput redistribution */
-  throughputPolicy: ThroughputPolicyType;
-  /** Array of PhysicalPartitionThroughputInfoResource objects. */
-  targetPhysicalPartitionThroughputInfo: PhysicalPartitionThroughputInfoResource[];
-  /** Array of PhysicalPartitionThroughputInfoResource objects. */
-  sourcePhysicalPartitionThroughputInfo: PhysicalPartitionThroughputInfoResource[];
-}
-
-export function redistributeThroughputPropertiesResourceSerializer(
-  item: RedistributeThroughputPropertiesResource,
-): any {
-  return {
-    throughputPolicy: item["throughputPolicy"],
-    targetPhysicalPartitionThroughputInfo: physicalPartitionThroughputInfoResourceArraySerializer(
-      item["targetPhysicalPartitionThroughputInfo"],
-    ),
-    sourcePhysicalPartitionThroughputInfo: physicalPartitionThroughputInfoResourceArraySerializer(
-      item["sourcePhysicalPartitionThroughputInfo"],
-    ),
-  };
-}
-
-/** ThroughputPolicy to apply for throughput redistribution */
-export enum KnownThroughputPolicyType {
-  /** none */
-  None = "none",
-  /** equal */
-  Equal = "equal",
-  /** custom */
-  Custom = "custom",
-}
-
-/**
- * ThroughputPolicy to apply for throughput redistribution \
- * {@link KnownThroughputPolicyType} can be used interchangeably with ThroughputPolicyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none** \
- * **equal** \
- * **custom**
- */
-export type ThroughputPolicyType = string;
 
 /** Client Encryption Key. */
 export interface ClientEncryptionKeyGetResults extends ProxyResource {
@@ -5082,11 +3441,11 @@ export function clientEncryptionKeyGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB container. */
-export interface SqlContainerGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface SqlContainerGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: SqlContainerGetPropertiesResource;
@@ -5104,10 +3463,10 @@ export function sqlContainerGetResultsDeserializer(item: any): SqlContainerGetRe
     ...(!item["properties"]
       ? item["properties"]
       : _sqlContainerGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -5167,15 +3526,6 @@ export function sqlContainerGetPropertiesResourceDeserializer(
       ? item["restoreParameters"]
       : resourceRestoreParametersDeserializer(item["restoreParameters"]),
     createMode: item["createMode"],
-    materializedViewDefinition: !item["materializedViewDefinition"]
-      ? item["materializedViewDefinition"]
-      : materializedViewDefinitionDeserializer(item["materializedViewDefinition"]),
-    materializedViews: !item["materializedViews"]
-      ? item["materializedViews"]
-      : materializedViewDetailsArrayDeserializer(item["materializedViews"]),
-    materializedViewsProperties: !item["materializedViewsProperties"]
-      ? item["materializedViewsProperties"]
-      : materializedViewsPropertiesDeserializer(item["materializedViewsProperties"]),
     computedProperties: !item["computedProperties"]
       ? item["computedProperties"]
       : computedPropertyArrayDeserializer(item["computedProperties"]),
@@ -5185,9 +3535,6 @@ export function sqlContainerGetPropertiesResourceDeserializer(
     fullTextPolicy: !item["fullTextPolicy"]
       ? item["fullTextPolicy"]
       : fullTextPolicyDeserializer(item["fullTextPolicy"]),
-    dataMaskingPolicy: !item["dataMaskingPolicy"]
-      ? item["dataMaskingPolicy"]
-      : dataMaskingPolicyDeserializer(item["dataMaskingPolicy"]),
     rid: item["_rid"],
     ts: item["_ts"],
     etag: item["_etag"],
@@ -5230,20 +3577,12 @@ export interface SqlContainerResource {
   restoreParameters?: ResourceRestoreParameters;
   /** Enum to indicate the mode of account creation. */
   createMode?: CreateMode;
-  /** The configuration for defining Materialized Views. This must be specified only for creating a Materialized View container. */
-  materializedViewDefinition?: MaterializedViewDefinition;
-  /** Materialized Views defined on the container. */
-  materializedViews?: MaterializedViewDetails[];
-  /** Materialized Views Properties defined for source container. */
-  materializedViewsProperties?: MaterializedViewsProperties;
   /** List of computed properties */
   computedProperties?: ComputedProperty[];
   /** The vector embedding policy for the container. */
   vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
   /** The FullText policy for the container. */
   fullTextPolicy?: FullTextPolicy;
-  /** The Data Masking policy for the container. */
-  dataMaskingPolicy?: DataMaskingPolicy;
 }
 
 export function sqlContainerResourceSerializer(item: SqlContainerResource): any {
@@ -5270,15 +3609,6 @@ export function sqlContainerResourceSerializer(item: SqlContainerResource): any 
       ? item["restoreParameters"]
       : resourceRestoreParametersSerializer(item["restoreParameters"]),
     createMode: item["createMode"],
-    materializedViewDefinition: !item["materializedViewDefinition"]
-      ? item["materializedViewDefinition"]
-      : materializedViewDefinitionSerializer(item["materializedViewDefinition"]),
-    materializedViews: !item["materializedViews"]
-      ? item["materializedViews"]
-      : materializedViewDetailsArraySerializer(item["materializedViews"]),
-    materializedViewsProperties: !item["materializedViewsProperties"]
-      ? item["materializedViewsProperties"]
-      : materializedViewsPropertiesSerializer(item["materializedViewsProperties"]),
     computedProperties: !item["computedProperties"]
       ? item["computedProperties"]
       : computedPropertyArraySerializer(item["computedProperties"]),
@@ -5288,9 +3618,6 @@ export function sqlContainerResourceSerializer(item: SqlContainerResource): any 
     fullTextPolicy: !item["fullTextPolicy"]
       ? item["fullTextPolicy"]
       : fullTextPolicySerializer(item["fullTextPolicy"]),
-    dataMaskingPolicy: !item["dataMaskingPolicy"]
-      ? item["dataMaskingPolicy"]
-      : dataMaskingPolicySerializer(item["dataMaskingPolicy"]),
   };
 }
 
@@ -5318,15 +3645,6 @@ export function sqlContainerResourceDeserializer(item: any): SqlContainerResourc
       ? item["restoreParameters"]
       : resourceRestoreParametersDeserializer(item["restoreParameters"]),
     createMode: item["createMode"],
-    materializedViewDefinition: !item["materializedViewDefinition"]
-      ? item["materializedViewDefinition"]
-      : materializedViewDefinitionDeserializer(item["materializedViewDefinition"]),
-    materializedViews: !item["materializedViews"]
-      ? item["materializedViews"]
-      : materializedViewDetailsArrayDeserializer(item["materializedViews"]),
-    materializedViewsProperties: !item["materializedViewsProperties"]
-      ? item["materializedViewsProperties"]
-      : materializedViewsPropertiesDeserializer(item["materializedViewsProperties"]),
     computedProperties: !item["computedProperties"]
       ? item["computedProperties"]
       : computedPropertyArrayDeserializer(item["computedProperties"]),
@@ -5336,9 +3654,6 @@ export function sqlContainerResourceDeserializer(item: any): SqlContainerResourc
     fullTextPolicy: !item["fullTextPolicy"]
       ? item["fullTextPolicy"]
       : fullTextPolicyDeserializer(item["fullTextPolicy"]),
-    dataMaskingPolicy: !item["dataMaskingPolicy"]
-      ? item["dataMaskingPolicy"]
-      : dataMaskingPolicyDeserializer(item["dataMaskingPolicy"]),
   };
 }
 
@@ -6040,86 +4355,6 @@ export function clientEncryptionIncludedPathDeserializer(item: any): ClientEncry
   };
 }
 
-/** Materialized View definition for the container. */
-export interface MaterializedViewDefinition {
-  /** An unique identifier for the source collection. This is a system generated property. */
-  readonly sourceCollectionRid?: string;
-  /** The name of the source container on which the Materialized View will be created. */
-  sourceCollectionId: string;
-  /** The definition should be an SQL query which would be used to fetch data from the source container to populate into the Materialized View container. */
-  definition: string;
-  /** Throughput bucket assigned for the materialized view operations on target container. */
-  throughputBucketForBuild?: number;
-}
-
-export function materializedViewDefinitionSerializer(item: MaterializedViewDefinition): any {
-  return {
-    sourceCollectionId: item["sourceCollectionId"],
-    definition: item["definition"],
-    throughputBucketForBuild: item["throughputBucketForBuild"],
-  };
-}
-
-export function materializedViewDefinitionDeserializer(item: any): MaterializedViewDefinition {
-  return {
-    sourceCollectionRid: item["sourceCollectionRid"],
-    sourceCollectionId: item["sourceCollectionId"],
-    definition: item["definition"],
-    throughputBucketForBuild: item["throughputBucketForBuild"],
-  };
-}
-
-export function materializedViewDetailsArraySerializer(
-  result: Array<MaterializedViewDetails>,
-): any[] {
-  return result.map((item) => {
-    return materializedViewDetailsSerializer(item);
-  });
-}
-
-export function materializedViewDetailsArrayDeserializer(
-  result: Array<MaterializedViewDetails>,
-): any[] {
-  return result.map((item) => {
-    return materializedViewDetailsDeserializer(item);
-  });
-}
-
-/** MaterializedViewDetails, contains Id & _rid fields of materialized view. */
-export interface MaterializedViewDetails {
-  /** Id field of Materialized container. */
-  id?: string;
-  /** _rid field of Materialized container. */
-  rid?: string;
-}
-
-export function materializedViewDetailsSerializer(item: MaterializedViewDetails): any {
-  return { id: item["id"], _rid: item["rid"] };
-}
-
-export function materializedViewDetailsDeserializer(item: any): MaterializedViewDetails {
-  return {
-    id: item["id"],
-    rid: item["_rid"],
-  };
-}
-
-/** Materialized Views Properties for the source container. */
-export interface MaterializedViewsProperties {
-  /** Throughput bucket assigned for the materialized view operations on source container. */
-  throughputBucketForBuild?: number;
-}
-
-export function materializedViewsPropertiesSerializer(item: MaterializedViewsProperties): any {
-  return { throughputBucketForBuild: item["throughputBucketForBuild"] };
-}
-
-export function materializedViewsPropertiesDeserializer(item: any): MaterializedViewsProperties {
-  return {
-    throughputBucketForBuild: item["throughputBucketForBuild"],
-  };
-}
-
 export function computedPropertyArraySerializer(result: Array<ComputedProperty>): any[] {
   return result.map((item) => {
     return computedPropertySerializer(item);
@@ -6317,126 +4552,6 @@ export function fullTextPathDeserializer(item: any): FullTextPath {
   };
 }
 
-/** Data masking policy for the container. */
-export interface DataMaskingPolicy {
-  /** List of JSON paths to include in the masking policy. */
-  includedPaths?: DataMaskingPolicyIncludedPathsItem[];
-  /** List of JSON paths to exclude from masking. */
-  excludedPaths?: DataMaskingPolicyExcludedPathsItem[];
-  /** Flag indicating whether the data masking policy is enabled. */
-  isPolicyEnabled?: boolean;
-}
-
-export function dataMaskingPolicySerializer(item: DataMaskingPolicy): any {
-  return {
-    includedPaths: !item["includedPaths"]
-      ? item["includedPaths"]
-      : dataMaskingPolicyIncludedPathsItemArraySerializer(item["includedPaths"]),
-    excludedPaths: !item["excludedPaths"]
-      ? item["excludedPaths"]
-      : dataMaskingPolicyExcludedPathsItemArraySerializer(item["excludedPaths"]),
-    isPolicyEnabled: item["isPolicyEnabled"],
-  };
-}
-
-export function dataMaskingPolicyDeserializer(item: any): DataMaskingPolicy {
-  return {
-    includedPaths: !item["includedPaths"]
-      ? item["includedPaths"]
-      : dataMaskingPolicyIncludedPathsItemArrayDeserializer(item["includedPaths"]),
-    excludedPaths: !item["excludedPaths"]
-      ? item["excludedPaths"]
-      : dataMaskingPolicyExcludedPathsItemArrayDeserializer(item["excludedPaths"]),
-    isPolicyEnabled: item["isPolicyEnabled"],
-  };
-}
-
-export function dataMaskingPolicyIncludedPathsItemArraySerializer(
-  result: Array<DataMaskingPolicyIncludedPathsItem>,
-): any[] {
-  return result.map((item) => {
-    return dataMaskingPolicyIncludedPathsItemSerializer(item);
-  });
-}
-
-export function dataMaskingPolicyIncludedPathsItemArrayDeserializer(
-  result: Array<DataMaskingPolicyIncludedPathsItem>,
-): any[] {
-  return result.map((item) => {
-    return dataMaskingPolicyIncludedPathsItemDeserializer(item);
-  });
-}
-
-/** JSON path to include in the masking policy. */
-export interface DataMaskingPolicyIncludedPathsItem {
-  /** The JSON path to apply masking (e.g. "/contact/phones"). */
-  path: string;
-  /** Masking strategy to apply (e.g. "MaskSubstring"). */
-  strategy?: string;
-  /** Start position for substring masking (when applicable). */
-  startPosition?: number;
-  /** Length of substring to mask (when applicable). */
-  length?: number;
-}
-
-export function dataMaskingPolicyIncludedPathsItemSerializer(
-  item: DataMaskingPolicyIncludedPathsItem,
-): any {
-  return {
-    path: item["path"],
-    strategy: item["strategy"],
-    startPosition: item["startPosition"],
-    length: item["length"],
-  };
-}
-
-export function dataMaskingPolicyIncludedPathsItemDeserializer(
-  item: any,
-): DataMaskingPolicyIncludedPathsItem {
-  return {
-    path: item["path"],
-    strategy: item["strategy"],
-    startPosition: item["startPosition"],
-    length: item["length"],
-  };
-}
-
-export function dataMaskingPolicyExcludedPathsItemArraySerializer(
-  result: Array<DataMaskingPolicyExcludedPathsItem>,
-): any[] {
-  return result.map((item) => {
-    return dataMaskingPolicyExcludedPathsItemSerializer(item);
-  });
-}
-
-export function dataMaskingPolicyExcludedPathsItemArrayDeserializer(
-  result: Array<DataMaskingPolicyExcludedPathsItem>,
-): any[] {
-  return result.map((item) => {
-    return dataMaskingPolicyExcludedPathsItemDeserializer(item);
-  });
-}
-
-/** JSON path to exclude from masking. */
-export interface DataMaskingPolicyExcludedPathsItem {
-  /** The JSON path to exclude from masking (e.g. "/id"). */
-  path: string;
-}
-
-export function dataMaskingPolicyExcludedPathsItemSerializer(
-  item: DataMaskingPolicyExcludedPathsItem,
-): any {
-  return { path: item["path"] };
-}
-
-export function dataMaskingPolicyExcludedPathsItemDeserializer(
-  item: any,
-): DataMaskingPolicyExcludedPathsItem {
-  return {
-    path: item["path"],
-  };
-}
-
 /** Parameters to create and update Cosmos DB container. */
 export interface SqlContainerCreateUpdateParameters extends ARMResourceProperties {
   /** The standard JSON format of a container */
@@ -6536,11 +4651,11 @@ export function continuousBackupInformationDeserializer(item: any): ContinuousBa
 }
 
 /** An Azure Cosmos DB storedProcedure. */
-export interface SqlStoredProcedureGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface SqlStoredProcedureGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: SqlStoredProcedureGetPropertiesResource;
@@ -6557,10 +4672,10 @@ export function sqlStoredProcedureGetResultsDeserializer(item: any): SqlStoredPr
     ...(!item["properties"]
       ? item["properties"]
       : _sqlStoredProcedureGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -6688,11 +4803,11 @@ export function sqlStoredProcedureGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB userDefinedFunction. */
-export interface SqlUserDefinedFunctionGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface SqlUserDefinedFunctionGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: SqlUserDefinedFunctionGetPropertiesResource;
@@ -6711,10 +4826,10 @@ export function sqlUserDefinedFunctionGetResultsDeserializer(
     ...(!item["properties"]
       ? item["properties"]
       : _sqlUserDefinedFunctionGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -6846,11 +4961,11 @@ export function sqlUserDefinedFunctionGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB trigger. */
-export interface SqlTriggerGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface SqlTriggerGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: SqlTriggerGetPropertiesResource;
@@ -6867,10 +4982,10 @@ export function sqlTriggerGetResultsDeserializer(item: any): SqlTriggerGetResult
     ...(!item["properties"]
       ? item["properties"]
       : _sqlTriggerGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -7313,11 +5428,11 @@ export function sqlRoleAssignmentGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB MongoDB database. */
-export interface MongoDBDatabaseGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface MongoDBDatabaseGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: MongoDBDatabaseGetPropertiesResource;
@@ -7335,10 +5450,10 @@ export function mongoDBDatabaseGetResultsDeserializer(item: any): MongoDBDatabas
     ...(!item["properties"]
       ? item["properties"]
       : _mongoDBDatabaseGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -7494,11 +5609,11 @@ export function mongoDBDatabaseGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB MongoDB collection. */
-export interface MongoDBCollectionGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface MongoDBCollectionGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: MongoDBCollectionGetPropertiesResource;
@@ -7516,10 +5631,10 @@ export function mongoDBCollectionGetResultsDeserializer(item: any): MongoDBColle
     ...(!item["properties"]
       ? item["properties"]
       : _mongoDBCollectionGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -8125,11 +6240,11 @@ export function mongoUserDefinitionGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB Table. */
-export interface TableGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface TableGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: TableGetPropertiesResource;
@@ -8147,10 +6262,10 @@ export function tableGetResultsDeserializer(item: any): TableGetResults {
     ...(!item["properties"]
       ? item["properties"]
       : _tableGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -8519,11 +6634,11 @@ export function tableRoleAssignmentResourceArrayDeserializer(
 }
 
 /** An Azure Cosmos DB Cassandra keyspace. */
-export interface CassandraKeyspaceGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface CassandraKeyspaceGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: CassandraKeyspaceGetPropertiesResource;
@@ -8541,10 +6656,10 @@ export function cassandraKeyspaceGetResultsDeserializer(item: any): CassandraKey
     ...(!item["properties"]
       ? item["properties"]
       : _cassandraKeyspaceGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -8684,11 +6799,11 @@ export function cassandraKeyspaceGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB Cassandra table. */
-export interface CassandraTableGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface CassandraTableGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: CassandraTableGetPropertiesResource;
@@ -8706,10 +6821,10 @@ export function cassandraTableGetResultsDeserializer(item: any): CassandraTableG
     ...(!item["properties"]
       ? item["properties"]
       : _cassandraTableGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -8989,171 +7104,6 @@ export function cassandraTableGetResultsArrayDeserializer(
   });
 }
 
-/** An Azure Cosmos DB Cassandra view. */
-export interface CassandraViewGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location?: string;
-  /** Identity for the resource. */
-  identity?: ManagedServiceIdentity;
-  resource?: CassandraViewGetPropertiesResource;
-  options?: CassandraViewGetPropertiesOptions;
-}
-
-export function cassandraViewGetResultsDeserializer(item: any): CassandraViewGetResults {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _cassandraViewGetResultsPropertiesDeserializer(item["properties"])),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** The properties of an Azure Cosmos DB Cassandra view */
-export interface CassandraViewGetProperties {
-  resource?: CassandraViewGetPropertiesResource;
-  options?: CassandraViewGetPropertiesOptions;
-}
-
-export function cassandraViewGetPropertiesDeserializer(item: any): CassandraViewGetProperties {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : cassandraViewGetPropertiesResourceDeserializer(item["resource"]),
-    options: !item["options"]
-      ? item["options"]
-      : cassandraViewGetPropertiesOptionsDeserializer(item["options"]),
-  };
-}
-
-/** model interface CassandraViewGetPropertiesResource */
-export interface CassandraViewGetPropertiesResource extends CassandraViewResource {
-  /** A system generated property. A unique identifier. */
-  readonly rid?: string;
-  /** A system generated property that denotes the last updated timestamp of the resource. */
-  readonly ts?: number;
-  /** A system generated property representing the resource etag required for optimistic concurrency control. */
-  readonly etag?: string;
-}
-
-export function cassandraViewGetPropertiesResourceDeserializer(
-  item: any,
-): CassandraViewGetPropertiesResource {
-  return {
-    id: item["id"],
-    viewDefinition: item["viewDefinition"],
-    rid: item["_rid"],
-    ts: item["_ts"],
-    etag: item["_etag"],
-  };
-}
-
-/** model interface CassandraViewGetPropertiesOptions */
-export interface CassandraViewGetPropertiesOptions extends OptionsResource {}
-
-export function cassandraViewGetPropertiesOptionsDeserializer(
-  item: any,
-): CassandraViewGetPropertiesOptions {
-  return {
-    throughput: item["throughput"],
-    autoscaleSettings: !item["autoscaleSettings"]
-      ? item["autoscaleSettings"]
-      : autoscaleSettingsDeserializer(item["autoscaleSettings"]),
-  };
-}
-
-/** Cosmos DB Cassandra view resource object */
-export interface CassandraViewResource {
-  /** Name of the Cosmos DB Cassandra view */
-  id: string;
-  /** View Definition of the Cosmos DB Cassandra view */
-  viewDefinition: string;
-}
-
-export function cassandraViewResourceSerializer(item: CassandraViewResource): any {
-  return { id: item["id"], viewDefinition: item["viewDefinition"] };
-}
-
-export function cassandraViewResourceDeserializer(item: any): CassandraViewResource {
-  return {
-    id: item["id"],
-    viewDefinition: item["viewDefinition"],
-  };
-}
-
-/** Parameters to create and update Cosmos DB Cassandra view. */
-export interface CassandraViewCreateUpdateParameters extends ARMResourceProperties {
-  /** The standard JSON format of a Cassandra view */
-  resource: CassandraViewResource;
-  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
-}
-
-export function cassandraViewCreateUpdateParametersSerializer(
-  item: CassandraViewCreateUpdateParameters,
-): any {
-  return {
-    location: item["location"],
-    tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    properties: _cassandraViewCreateUpdateParametersPropertiesSerializer(item),
-  };
-}
-
-/** Properties to create and update Azure Cosmos DB Cassandra view. */
-export interface CassandraViewCreateUpdateProperties {
-  /** The standard JSON format of a Cassandra view */
-  resource: CassandraViewResource;
-  /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
-  options?: CreateUpdateOptions;
-}
-
-export function cassandraViewCreateUpdatePropertiesSerializer(
-  item: CassandraViewCreateUpdateProperties,
-): any {
-  return {
-    resource: cassandraViewResourceSerializer(item["resource"]),
-    options: !item["options"] ? item["options"] : createUpdateOptionsSerializer(item["options"]),
-  };
-}
-
-/** The List operation response, that contains the Cassandra views and their properties. */
-export interface _CassandraViewListResult {
-  /** List of Cassandra views and their properties. */
-  readonly value?: CassandraViewGetResults[];
-  nextLink?: string;
-}
-
-export function _cassandraViewListResultDeserializer(item: any): _CassandraViewListResult {
-  return {
-    value: !item["value"] ? item["value"] : cassandraViewGetResultsArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function cassandraViewGetResultsArrayDeserializer(
-  result: Array<CassandraViewGetResults>,
-): any[] {
-  return result.map((item) => {
-    return cassandraViewGetResultsDeserializer(item);
-  });
-}
-
 /** Parameters to create and update an Azure Cosmos DB Cassandra Role Definition. */
 export interface CassandraRoleDefinitionResource extends ProxyResource {
   /** The path id for the Role Definition. */
@@ -9388,11 +7338,11 @@ export function cassandraRoleAssignmentResourceArrayDeserializer(
 }
 
 /** An Azure Cosmos DB Gremlin database. */
-export interface GremlinDatabaseGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface GremlinDatabaseGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: GremlinDatabaseGetPropertiesResource;
@@ -9410,10 +7360,10 @@ export function gremlinDatabaseGetResultsDeserializer(item: any): GremlinDatabas
     ...(!item["properties"]
       ? item["properties"]
       : _gremlinDatabaseGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -9569,11 +7519,11 @@ export function gremlinDatabaseGetResultsArrayDeserializer(
 }
 
 /** An Azure Cosmos DB Gremlin graph. */
-export interface GremlinGraphGetResults extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface GremlinGraphGetResults extends ProxyResource {
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
   resource?: GremlinGraphGetPropertiesResource;
@@ -9591,10 +7541,10 @@ export function gremlinGraphGetResultsDeserializer(item: any): GremlinGraphGetRe
     ...(!item["properties"]
       ? item["properties"]
       : _gremlinGraphGetResultsPropertiesDeserializer(item["properties"])),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -10030,1236 +7980,6 @@ export function gremlinRoleAssignmentResourceArrayDeserializer(
   });
 }
 
-/** A Cosmos DB Data Transfer Job */
-export interface DataTransferJobGetResults extends ProxyResource {
-  /** Job Name */
-  readonly jobName?: string;
-  /** Source DataStore details */
-  source?: DataTransferDataSourceSinkUnion;
-  /** Destination DataStore details */
-  destination?: DataTransferDataSourceSinkUnion;
-  /** Job Status */
-  readonly status?: string;
-  /** Processed Count. */
-  readonly processedCount?: number;
-  /** Total Count. */
-  readonly totalCount?: number;
-  /** Last Updated Time (ISO-8601 format). */
-  readonly lastUpdatedUtcTime?: Date;
-  /** Worker count */
-  workerCount?: number;
-  /** Error response for Faulted job */
-  readonly error?: CosmosDBErrorResult;
-  /** Total Duration of Job */
-  readonly duration?: string;
-  /** Mode of job execution */
-  mode?: DataTransferJobMode;
-}
-
-export function dataTransferJobGetResultsDeserializer(item: any): DataTransferJobGetResults {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _dataTransferJobGetResultsPropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** The properties of a DataTransfer Job */
-export interface DataTransferJobProperties {
-  /** Job Name */
-  readonly jobName?: string;
-  /** Source DataStore details */
-  source: DataTransferDataSourceSinkUnion;
-  /** Destination DataStore details */
-  destination: DataTransferDataSourceSinkUnion;
-  /** Job Status */
-  readonly status?: string;
-  /** Processed Count. */
-  readonly processedCount?: number;
-  /** Total Count. */
-  readonly totalCount?: number;
-  /** Last Updated Time (ISO-8601 format). */
-  readonly lastUpdatedUtcTime?: Date;
-  /** Worker count */
-  workerCount?: number;
-  /** Error response for Faulted job */
-  readonly error?: CosmosDBErrorResult;
-  /** Total Duration of Job */
-  readonly duration?: string;
-  /** Mode of job execution */
-  mode?: DataTransferJobMode;
-}
-
-export function dataTransferJobPropertiesSerializer(item: DataTransferJobProperties): any {
-  return {
-    source: dataTransferDataSourceSinkUnionSerializer(item["source"]),
-    destination: dataTransferDataSourceSinkUnionSerializer(item["destination"]),
-    workerCount: item["workerCount"],
-    mode: item["mode"],
-  };
-}
-
-export function dataTransferJobPropertiesDeserializer(item: any): DataTransferJobProperties {
-  return {
-    jobName: item["jobName"],
-    source: dataTransferDataSourceSinkUnionDeserializer(item["source"]),
-    destination: dataTransferDataSourceSinkUnionDeserializer(item["destination"]),
-    status: item["status"],
-    processedCount: item["processedCount"],
-    totalCount: item["totalCount"],
-    lastUpdatedUtcTime: !item["lastUpdatedUtcTime"]
-      ? item["lastUpdatedUtcTime"]
-      : new Date(item["lastUpdatedUtcTime"]),
-    workerCount: item["workerCount"],
-    error: !item["error"] ? item["error"] : cosmosDBErrorResultDeserializer(item["error"]),
-    duration: item["duration"],
-    mode: item["mode"],
-  };
-}
-
-/** Base class for all DataTransfer source/sink */
-export interface DataTransferDataSourceSink {
-  component: DataTransferComponent;
-}
-
-export function dataTransferDataSourceSinkSerializer(item: DataTransferDataSourceSink): any {
-  return { component: item["component"] };
-}
-
-export function dataTransferDataSourceSinkDeserializer(item: any): DataTransferDataSourceSink {
-  return {
-    component: item["component"],
-  };
-}
-
-/** Alias for DataTransferDataSourceSinkUnion */
-export type DataTransferDataSourceSinkUnion =
-  | BaseCosmosDataTransferDataSourceSinkUnion
-  | CosmosMongoVCoreDataTransferDataSourceSink
-  | AzureBlobDataTransferDataSourceSink
-  | DataTransferDataSourceSink;
-
-export function dataTransferDataSourceSinkUnionSerializer(
-  item: DataTransferDataSourceSinkUnion,
-): any {
-  switch (item.component) {
-    case "BaseCosmosDataTransferDataSourceSink":
-    case "CosmosDBCassandra":
-    case "CosmosDBMongo":
-    case "CosmosDBSql":
-      return baseCosmosDataTransferDataSourceSinkUnionSerializer(
-        item as BaseCosmosDataTransferDataSourceSinkUnion,
-      );
-
-    case "CosmosDBMongoVCore":
-      return cosmosMongoVCoreDataTransferDataSourceSinkSerializer(
-        item as CosmosMongoVCoreDataTransferDataSourceSink,
-      );
-
-    case "AzureBlobStorage":
-      return azureBlobDataTransferDataSourceSinkSerializer(
-        item as AzureBlobDataTransferDataSourceSink,
-      );
-
-    default:
-      return dataTransferDataSourceSinkSerializer(item);
-  }
-}
-
-export function dataTransferDataSourceSinkUnionDeserializer(
-  item: any,
-): DataTransferDataSourceSinkUnion {
-  switch (item["component"]) {
-    case "BaseCosmosDataTransferDataSourceSink":
-    case "CosmosDBCassandra":
-    case "CosmosDBMongo":
-    case "CosmosDBSql":
-      return baseCosmosDataTransferDataSourceSinkUnionDeserializer(
-        item as BaseCosmosDataTransferDataSourceSinkUnion,
-      );
-
-    case "CosmosDBMongoVCore":
-      return cosmosMongoVCoreDataTransferDataSourceSinkDeserializer(
-        item as CosmosMongoVCoreDataTransferDataSourceSink,
-      );
-
-    case "AzureBlobStorage":
-      return azureBlobDataTransferDataSourceSinkDeserializer(
-        item as AzureBlobDataTransferDataSourceSink,
-      );
-
-    default:
-      return dataTransferDataSourceSinkDeserializer(item);
-  }
-}
-
-/** Known values of {@link DataTransferComponent} that the service accepts. */
-export enum KnownDataTransferComponent {
-  /** CosmosDBCassandra */
-  CosmosDBCassandra = "CosmosDBCassandra",
-  /** CosmosDBMongo */
-  CosmosDBMongo = "CosmosDBMongo",
-  /** CosmosDBMongoVCore */
-  CosmosDBMongoVCore = "CosmosDBMongoVCore",
-  /** CosmosDBSql */
-  CosmosDBSql = "CosmosDBSql",
-  /** AzureBlobStorage */
-  AzureBlobStorage = "AzureBlobStorage",
-  /** BaseCosmosDataTransferDataSourceSink */
-  BaseCosmosDataTransferDataSourceSink = "BaseCosmosDataTransferDataSourceSink",
-}
-
-/** Type of DataTransferComponent */
-export type DataTransferComponent = string;
-
-/** A base CosmosDB data source/sink */
-export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
-  remoteAccountName?: string;
-  component:
-    | "BaseCosmosDataTransferDataSourceSink"
-    | "CosmosDBCassandra"
-    | "CosmosDBMongo"
-    | "CosmosDBSql";
-}
-
-export function baseCosmosDataTransferDataSourceSinkSerializer(
-  item: BaseCosmosDataTransferDataSourceSink,
-): any {
-  return { component: item["component"], remoteAccountName: item["remoteAccountName"] };
-}
-
-export function baseCosmosDataTransferDataSourceSinkDeserializer(
-  item: any,
-): BaseCosmosDataTransferDataSourceSink {
-  return {
-    component: item["component"],
-    remoteAccountName: item["remoteAccountName"],
-  };
-}
-
-/** Alias for BaseCosmosDataTransferDataSourceSinkUnion */
-export type BaseCosmosDataTransferDataSourceSinkUnion =
-  | CosmosCassandraDataTransferDataSourceSink
-  | CosmosMongoDataTransferDataSourceSink
-  | CosmosSqlDataTransferDataSourceSink
-  | BaseCosmosDataTransferDataSourceSink;
-
-export function baseCosmosDataTransferDataSourceSinkUnionSerializer(
-  item: BaseCosmosDataTransferDataSourceSinkUnion,
-): any {
-  switch (item.component) {
-    case "CosmosDBCassandra":
-      return cosmosCassandraDataTransferDataSourceSinkSerializer(
-        item as CosmosCassandraDataTransferDataSourceSink,
-      );
-
-    case "CosmosDBMongo":
-      return cosmosMongoDataTransferDataSourceSinkSerializer(
-        item as CosmosMongoDataTransferDataSourceSink,
-      );
-
-    case "CosmosDBSql":
-      return cosmosSqlDataTransferDataSourceSinkSerializer(
-        item as CosmosSqlDataTransferDataSourceSink,
-      );
-
-    default:
-      return baseCosmosDataTransferDataSourceSinkSerializer(item);
-  }
-}
-
-export function baseCosmosDataTransferDataSourceSinkUnionDeserializer(
-  item: any,
-): BaseCosmosDataTransferDataSourceSinkUnion {
-  switch (item["component"]) {
-    case "CosmosDBCassandra":
-      return cosmosCassandraDataTransferDataSourceSinkDeserializer(
-        item as CosmosCassandraDataTransferDataSourceSink,
-      );
-
-    case "CosmosDBMongo":
-      return cosmosMongoDataTransferDataSourceSinkDeserializer(
-        item as CosmosMongoDataTransferDataSourceSink,
-      );
-
-    case "CosmosDBSql":
-      return cosmosSqlDataTransferDataSourceSinkDeserializer(
-        item as CosmosSqlDataTransferDataSourceSink,
-      );
-
-    default:
-      return baseCosmosDataTransferDataSourceSinkDeserializer(item);
-  }
-}
-
-/** A CosmosDB Cassandra API data source/sink */
-export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-  keyspaceName: string;
-  tableName: string;
-  component: "CosmosDBCassandra";
-}
-
-export function cosmosCassandraDataTransferDataSourceSinkSerializer(
-  item: CosmosCassandraDataTransferDataSourceSink,
-): any {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    keyspaceName: item["keyspaceName"],
-    tableName: item["tableName"],
-  };
-}
-
-export function cosmosCassandraDataTransferDataSourceSinkDeserializer(
-  item: any,
-): CosmosCassandraDataTransferDataSourceSink {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    keyspaceName: item["keyspaceName"],
-    tableName: item["tableName"],
-  };
-}
-
-/** A CosmosDB Mongo API data source/sink */
-export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-  databaseName: string;
-  collectionName: string;
-  component: "CosmosDBMongo";
-}
-
-export function cosmosMongoDataTransferDataSourceSinkSerializer(
-  item: CosmosMongoDataTransferDataSourceSink,
-): any {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-  };
-}
-
-export function cosmosMongoDataTransferDataSourceSinkDeserializer(
-  item: any,
-): CosmosMongoDataTransferDataSourceSink {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-  };
-}
-
-/** A CosmosDB No Sql API data source/sink */
-export interface CosmosSqlDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-  databaseName: string;
-  containerName: string;
-  component: "CosmosDBSql";
-}
-
-export function cosmosSqlDataTransferDataSourceSinkSerializer(
-  item: CosmosSqlDataTransferDataSourceSink,
-): any {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-  };
-}
-
-export function cosmosSqlDataTransferDataSourceSinkDeserializer(
-  item: any,
-): CosmosSqlDataTransferDataSourceSink {
-  return {
-    remoteAccountName: item["remoteAccountName"],
-    component: item["component"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-  };
-}
-
-/** A CosmosDB Mongo vCore API data source/sink */
-export interface CosmosMongoVCoreDataTransferDataSourceSink extends DataTransferDataSourceSink {
-  databaseName: string;
-  collectionName: string;
-  hostName?: string;
-  connectionStringKeyVaultUri?: string;
-  component: "CosmosDBMongoVCore";
-}
-
-export function cosmosMongoVCoreDataTransferDataSourceSinkSerializer(
-  item: CosmosMongoVCoreDataTransferDataSourceSink,
-): any {
-  return {
-    component: item["component"],
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-    hostName: item["hostName"],
-    connectionStringKeyVaultUri: item["connectionStringKeyVaultUri"],
-  };
-}
-
-export function cosmosMongoVCoreDataTransferDataSourceSinkDeserializer(
-  item: any,
-): CosmosMongoVCoreDataTransferDataSourceSink {
-  return {
-    component: item["component"],
-    databaseName: item["databaseName"],
-    collectionName: item["collectionName"],
-    hostName: item["hostName"],
-    connectionStringKeyVaultUri: item["connectionStringKeyVaultUri"],
-  };
-}
-
-/** An Azure Blob Storage data source/sink */
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
-  containerName: string;
-  endpointUrl?: string;
-  component: "AzureBlobStorage";
-}
-
-export function azureBlobDataTransferDataSourceSinkSerializer(
-  item: AzureBlobDataTransferDataSourceSink,
-): any {
-  return {
-    component: item["component"],
-    containerName: item["containerName"],
-    endpointUrl: item["endpointUrl"],
-  };
-}
-
-export function azureBlobDataTransferDataSourceSinkDeserializer(
-  item: any,
-): AzureBlobDataTransferDataSourceSink {
-  return {
-    component: item["component"],
-    containerName: item["containerName"],
-    endpointUrl: item["endpointUrl"],
-  };
-}
-
-/** Mode of job execution */
-export enum KnownDataTransferJobMode {
-  /** Offline */
-  Offline = "Offline",
-  /** Online */
-  Online = "Online",
-}
-
-/**
- * Mode of job execution \
- * {@link KnownDataTransferJobMode} can be used interchangeably with DataTransferJobMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Offline** \
- * **Online**
- */
-export type DataTransferJobMode = string;
-
-/** Parameters to create Data Transfer Job */
-export interface CreateJobRequest extends ARMProxyResource {
-  /** Data Transfer Create Job Properties */
-  properties: DataTransferJobProperties;
-}
-
-export function createJobRequestSerializer(item: CreateJobRequest): any {
-  return { properties: dataTransferJobPropertiesSerializer(item["properties"]) };
-}
-
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export interface ARMProxyResource {
-  /** The unique resource identifier of the database account. */
-  readonly id?: string;
-  /** The name of the database account. */
-  readonly name?: string;
-  /** The type of Azure resource. */
-  readonly type?: string;
-}
-
-export function armProxyResourceSerializer(_item: ARMProxyResource): any {
-  return {};
-}
-
-/** The List operation response, that contains the Data Transfer jobs and their properties. */
-export interface _DataTransferJobFeedResults {
-  /** The DataTransferJobGetResults items on this page */
-  value: DataTransferJobGetResults[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _dataTransferJobFeedResultsDeserializer(item: any): _DataTransferJobFeedResults {
-  return {
-    value: dataTransferJobGetResultsArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function dataTransferJobGetResultsArrayDeserializer(
-  result: Array<DataTransferJobGetResults>,
-): any[] {
-  return result.map((item) => {
-    return dataTransferJobGetResultsDeserializer(item);
-  });
-}
-
-/** Representation of a Garnet cache cluster. */
-export interface GarnetClusterResource extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: GarnetClusterResourceProperties;
-  /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
-}
-
-export function garnetClusterResourceSerializer(item: GarnetClusterResource): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : garnetClusterResourcePropertiesSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedCassandraManagedServiceIdentitySerializer(item["identity"]),
-  };
-}
-
-export function garnetClusterResourceDeserializer(item: any): GarnetClusterResource {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : garnetClusterResourcePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedCassandraManagedServiceIdentityDeserializer(item["identity"]),
-  };
-}
-
-/** Properties of a Garnet cache cluster. */
-export interface GarnetClusterResourceProperties {
-  /** The provisioning state of the resource. */
-  readonly provisioningState?: GarnetCacheProvisioningState;
-  /** Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>' */
-  subnetId?: string;
-  /** Endpoints for clients to connect to the cluster. */
-  readonly endPoints?: GarnetClusterResourcePropertiesEndPointsItem[];
-  /** Number of copies of data maintained by the cluster. */
-  replicationFactor?: number;
-  /** Number of nodes. */
-  nodeCount?: number;
-  /** Virtual Machine SKU used for clusters. Default value is Standard_DS14_v2. */
-  nodeSku?: string;
-  /** If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the garnet cluster virtual machines. */
-  availabilityZone?: boolean;
-  /** Allocation state of the cluster and data center resources. Active implies the virtual machines of the cluster are allocated, deallocated implies virtual machines and resources are deallocated. */
-  allocationState?: AllocationState;
-  /** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
-  clusterType?: ClusterType;
-  /** Error related to resource provisioning. */
-  provisionError?: ErrorDetail;
-  /** Extensions to be added or updated on cluster. */
-  extensions?: string[];
-}
-
-export function garnetClusterResourcePropertiesSerializer(
-  item: GarnetClusterResourceProperties,
-): any {
-  return {
-    subnetId: item["subnetId"],
-    replicationFactor: item["replicationFactor"],
-    nodeCount: item["nodeCount"],
-    nodeSku: item["nodeSku"],
-    availabilityZone: item["availabilityZone"],
-    allocationState: item["allocationState"],
-    clusterType: item["clusterType"],
-    provisionError: !item["provisionError"]
-      ? item["provisionError"]
-      : errorDetailSerializer(item["provisionError"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : item["extensions"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function garnetClusterResourcePropertiesDeserializer(
-  item: any,
-): GarnetClusterResourceProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    subnetId: item["subnetId"],
-    endPoints: !item["endPoints"]
-      ? item["endPoints"]
-      : garnetClusterResourcePropertiesEndPointsItemArrayDeserializer(item["endPoints"]),
-    replicationFactor: item["replicationFactor"],
-    nodeCount: item["nodeCount"],
-    nodeSku: item["nodeSku"],
-    availabilityZone: item["availabilityZone"],
-    allocationState: item["allocationState"],
-    clusterType: item["clusterType"],
-    provisionError: !item["provisionError"]
-      ? item["provisionError"]
-      : errorDetailDeserializer(item["provisionError"]),
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : item["extensions"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The status of the resource at the time the operation was called. */
-export enum KnownGarnetCacheProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The status of the resource at the time the operation was called. \
- * {@link KnownGarnetCacheProvisioningState} can be used interchangeably with GarnetCacheProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating**: Creating \
- * **Updating**: Updating \
- * **Deleting**: Deleting \
- * **Succeeded**: Succeeded \
- * **Failed**: Failed \
- * **Canceled**: Canceled
- */
-export type GarnetCacheProvisioningState = string;
-
-export function garnetClusterResourcePropertiesEndPointsItemArrayDeserializer(
-  result: Array<GarnetClusterResourcePropertiesEndPointsItem>,
-): any[] {
-  return result.map((item) => {
-    return garnetClusterResourcePropertiesEndPointsItemDeserializer(item);
-  });
-}
-
-/** Endpoint for clients to connect to the cluster. */
-export interface GarnetClusterResourcePropertiesEndPointsItem {
-  /** Ipv4 address of the endpoint. */
-  ipAddress?: string;
-  /** Port number. */
-  port?: number;
-}
-
-export function garnetClusterResourcePropertiesEndPointsItemDeserializer(
-  item: any,
-): GarnetClusterResourcePropertiesEndPointsItem {
-  return {
-    ipAddress: item["ipAddress"],
-    port: item["port"],
-  };
-}
-
-/** Allocation state of the cluster and data center resources. */
-export enum KnownAllocationState {
-  /** Active implies the virtual machines of the cluster are allocated. */
-  Active = "Active",
-  /** Deallocated implies virtual machines and resources are deallocated. */
-  Deallocated = "Deallocated",
-}
-
-/**
- * Allocation state of the cluster and data center resources. \
- * {@link KnownAllocationState} can be used interchangeably with AllocationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active**: Active implies the virtual machines of the cluster are allocated. \
- * **Deallocated**: Deallocated implies virtual machines and resources are deallocated.
- */
-export type AllocationState = string;
-
-/** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
-export enum KnownClusterType {
-  /** Production */
-  Production = "Production",
-  /** NonProduction */
-  NonProduction = "NonProduction",
-}
-
-/**
- * Type of the cluster. If set to Production, some operations might not be permitted on cluster. \
- * {@link KnownClusterType} can be used interchangeably with ClusterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Production** \
- * **NonProduction**
- */
-export type ClusterType = string;
-
-/** Identity for the resource. */
-export interface ManagedCassandraManagedServiceIdentity {
-  /** The object id of the identity resource. */
-  readonly principalId?: string;
-  /** The tenant id of the resource. */
-  readonly tenantId?: string;
-  /** The type of the resource. */
-  type?: ManagedCassandraResourceIdentityType;
-}
-
-export function managedCassandraManagedServiceIdentitySerializer(
-  item: ManagedCassandraManagedServiceIdentity,
-): any {
-  return { type: item["type"] };
-}
-
-export function managedCassandraManagedServiceIdentityDeserializer(
-  item: any,
-): ManagedCassandraManagedServiceIdentity {
-  return {
-    principalId: item["principalId"],
-    tenantId: item["tenantId"],
-    type: item["type"],
-  };
-}
-
-/** The type of the resource. */
-export enum KnownManagedCassandraResourceIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** None */
-  None = "None",
-}
-
-/**
- * The type of the resource. \
- * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **None**
- */
-export type ManagedCassandraResourceIdentityType = string;
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
-}
-
-export function trackedResourceDeserializer(item: any): TrackedResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-  };
-}
-
-/** Representation of a Garnet cache cluster for updates. */
-export interface GarnetClusterResourcePatch {
-  /** Properties of a Garnet cache cluster for updates. */
-  properties?: GarnetClusterResourcePatchProperties;
-}
-
-export function garnetClusterResourcePatchSerializer(item: GarnetClusterResourcePatch): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : garnetClusterResourcePatchPropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Properties of a Garnet cache cluster for updates. */
-export interface GarnetClusterResourcePatchProperties {
-  /** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
-  clusterType?: ClusterType;
-  /** Extensions to be added or updated on cluster. */
-  extensions?: string[];
-}
-
-export function garnetClusterResourcePatchPropertiesSerializer(
-  item: GarnetClusterResourcePatchProperties,
-): any {
-  return {
-    clusterType: item["clusterType"],
-    extensions: !item["extensions"]
-      ? item["extensions"]
-      : item["extensions"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** List of Garnet clusters. */
-export interface _ListGarnetClusters {
-  /** Container for the array of clusters. */
-  value?: GarnetClusterResource[];
-  /** The link used to get the next page of results. */
-  nextLink?: string;
-}
-
-export function _listGarnetClustersDeserializer(item: any): _ListGarnetClusters {
-  return {
-    value: !item["value"] ? item["value"] : garnetClusterResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function garnetClusterResourceArraySerializer(result: Array<GarnetClusterResource>): any[] {
-  return result.map((item) => {
-    return garnetClusterResourceSerializer(item);
-  });
-}
-
-export function garnetClusterResourceArrayDeserializer(
-  result: Array<GarnetClusterResource>,
-): any[] {
-  return result.map((item) => {
-    return garnetClusterResourceDeserializer(item);
-  });
-}
-
-/** Network security perimeter (NSP) configuration resource */
-export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-  /** Network security configuration properties. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
-}
-
-export function networkSecurityPerimeterConfigurationDeserializer(
-  item: any,
-): NetworkSecurityPerimeterConfiguration {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : networkSecurityPerimeterConfigurationPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Network security configuration properties. */
-export interface NetworkSecurityPerimeterConfigurationProperties {
-  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-  /** List of provisioning issues, if any */
-  readonly provisioningIssues?: ProvisioningIssue[];
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
-  resourceAssociation?: ResourceAssociation;
-  profile?: NetworkSecurityProfile;
-}
-
-export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
-  item: any,
-): NetworkSecurityPerimeterConfigurationProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    provisioningIssues: !item["provisioningIssues"]
-      ? item["provisioningIssues"]
-      : provisioningIssueArrayDeserializer(item["provisioningIssues"]),
-    networkSecurityPerimeter: !item["networkSecurityPerimeter"]
-      ? item["networkSecurityPerimeter"]
-      : networkSecurityPerimeterDeserializer(item["networkSecurityPerimeter"]),
-    resourceAssociation: !item["resourceAssociation"]
-      ? item["resourceAssociation"]
-      : resourceAssociationDeserializer(item["resourceAssociation"]),
-    profile: !item["profile"]
-      ? item["profile"]
-      : networkSecurityProfileDeserializer(item["profile"]),
-  };
-}
-
-/** Provisioning state of a network security perimeter configuration that is being created or updated. */
-export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * Provisioning state of a network security perimeter configuration that is being created or updated. \
- * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Accepted** \
- * **Failed** \
- * **Canceled**
- */
-export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
-
-export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIssue>): any[] {
-  return result.map((item) => {
-    return provisioningIssueDeserializer(item);
-  });
-}
-
-/** Describes a provisioning issue for a network security perimeter configuration */
-export interface ProvisioningIssue {
-  /** Name of the issue */
-  readonly name?: string;
-  readonly properties?: ProvisioningIssueProperties;
-}
-
-export function provisioningIssueDeserializer(item: any): ProvisioningIssue {
-  return {
-    name: item["name"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : provisioningIssuePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
-export interface ProvisioningIssueProperties {
-  /** Type of issue */
-  readonly issueType?: IssueType;
-  /** Severity of the issue. */
-  readonly severity?: Severity;
-  /** Description of the issue */
-  readonly description?: string;
-  /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
-  readonly suggestedResourceIds?: string[];
-  /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
-  readonly suggestedAccessRules?: AccessRule[];
-}
-
-export function provisioningIssuePropertiesDeserializer(item: any): ProvisioningIssueProperties {
-  return {
-    issueType: item["issueType"],
-    severity: item["severity"],
-    description: item["description"],
-    suggestedResourceIds: !item["suggestedResourceIds"]
-      ? item["suggestedResourceIds"]
-      : item["suggestedResourceIds"].map((p: any) => {
-          return p;
-        }),
-    suggestedAccessRules: !item["suggestedAccessRules"]
-      ? item["suggestedAccessRules"]
-      : accessRuleArrayDeserializer(item["suggestedAccessRules"]),
-  };
-}
-
-/** Type of issue */
-export enum KnownIssueType {
-  /** Unknown issue type */
-  Unknown = "Unknown",
-  /** An error occurred while applying the network security perimeter (NSP) configuration. */
-  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
-  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
-  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
-  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
-  MissingIdentityConfiguration = "MissingIdentityConfiguration",
-}
-
-/**
- * Type of issue \
- * {@link KnownIssueType} can be used interchangeably with IssueType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown**: Unknown issue type \
- * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
- * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
- * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
- */
-export type IssueType = string;
-
-/** Severity of the issue. */
-export enum KnownSeverity {
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error",
-}
-
-/**
- * Severity of the issue. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Warning** \
- * **Error**
- */
-export type Severity = string;
-
-export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
-  return result.map((item) => {
-    return accessRuleDeserializer(item);
-  });
-}
-
-/** Access rule in a network security perimeter configuration profile */
-export interface AccessRule {
-  /** Name of the access rule */
-  name?: string;
-  properties?: AccessRuleProperties;
-}
-
-export function accessRuleDeserializer(item: any): AccessRule {
-  return {
-    name: item["name"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : accessRulePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of Access Rule */
-export interface AccessRuleProperties {
-  direction?: AccessRuleDirection;
-  /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: string[];
-  /** Subscriptions for inbound rules */
-  subscriptions?: {
-    id?: string;
-  }[];
-  /** Network security perimeters for inbound rules */
-  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
-  /** Fully qualified domain names (FQDN) for outbound rules */
-  fullyQualifiedDomainNames?: string[];
-  /** Email addresses for outbound rules */
-  emailAddresses?: string[];
-  /** Phone numbers for outbound rules */
-  phoneNumbers?: string[];
-}
-
-export function accessRulePropertiesDeserializer(item: any): AccessRuleProperties {
-  return {
-    direction: item["direction"],
-    addressPrefixes: !item["addressPrefixes"]
-      ? item["addressPrefixes"]
-      : item["addressPrefixes"].map((p: any) => {
-          return p;
-        }),
-    subscriptions: !item["subscriptions"]
-      ? item["subscriptions"]
-      : _accessRulePropertiesSubscriptionArrayDeserializer(item["subscriptions"]),
-    networkSecurityPerimeters: !item["networkSecurityPerimeters"]
-      ? item["networkSecurityPerimeters"]
-      : networkSecurityPerimeterArrayDeserializer(item["networkSecurityPerimeters"]),
-    fullyQualifiedDomainNames: !item["fullyQualifiedDomainNames"]
-      ? item["fullyQualifiedDomainNames"]
-      : item["fullyQualifiedDomainNames"].map((p: any) => {
-          return p;
-        }),
-    emailAddresses: !item["emailAddresses"]
-      ? item["emailAddresses"]
-      : item["emailAddresses"].map((p: any) => {
-          return p;
-        }),
-    phoneNumbers: !item["phoneNumbers"]
-      ? item["phoneNumbers"]
-      : item["phoneNumbers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Direction of Access Rule */
-export enum KnownAccessRuleDirection {
-  /** Applies to inbound network traffic to the secured resources. */
-  Inbound = "Inbound",
-  /** Applies to outbound network traffic from the secured resources */
-  Outbound = "Outbound",
-}
-
-/**
- * Direction of Access Rule \
- * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Inbound**: Applies to inbound network traffic to the secured resources. \
- * **Outbound**: Applies to outbound network traffic from the secured resources
- */
-export type AccessRuleDirection = string;
-
-export function _accessRulePropertiesSubscriptionArrayDeserializer(
-  result: Array<_AccessRulePropertiesSubscription>,
-): any[] {
-  return result.map((item) => {
-    return _accessRulePropertiesSubscriptionDeserializer(item);
-  });
-}
-
-/** model interface _AccessRulePropertiesSubscription */
-export interface _AccessRulePropertiesSubscription {
-  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
-  id?: string;
-}
-
-export function _accessRulePropertiesSubscriptionDeserializer(
-  item: any,
-): _AccessRulePropertiesSubscription {
-  return {
-    id: item["id"],
-  };
-}
-
-export function networkSecurityPerimeterArrayDeserializer(
-  result: Array<NetworkSecurityPerimeter>,
-): any[] {
-  return result.map((item) => {
-    return networkSecurityPerimeterDeserializer(item);
-  });
-}
-
-/** Information about a network security perimeter (NSP) */
-export interface NetworkSecurityPerimeter {
-  /** Fully qualified Azure resource ID of the NSP resource */
-  id?: string;
-  /** Universal unique ID (UUID) of the network security perimeter */
-  perimeterGuid?: string;
-  /** Location of the network security perimeter */
-  location?: string;
-}
-
-export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurityPerimeter {
-  return {
-    id: item["id"],
-    perimeterGuid: item["perimeterGuid"],
-    location: item["location"],
-  };
-}
-
-/** Information about resource association */
-export interface ResourceAssociation {
-  /** Name of the resource association */
-  name?: string;
-  accessMode?: ResourceAssociationAccessMode;
-}
-
-export function resourceAssociationDeserializer(item: any): ResourceAssociation {
-  return {
-    name: item["name"],
-    accessMode: item["accessMode"],
-  };
-}
-
-/** Access mode of the resource association */
-export enum KnownResourceAssociationAccessMode {
-  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
-  Enforced = "Enforced",
-  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
-  Learning = "Learning",
-  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
-  Audit = "Audit",
-}
-
-/**
- * Access mode of the resource association \
- * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
- * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
- * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
- */
-export type ResourceAssociationAccessMode = string;
-
-/** Network security perimeter configuration profile */
-export interface NetworkSecurityProfile {
-  /** Name of the profile */
-  name?: string;
-  /** Current access rules version */
-  accessRulesVersion?: number;
-  /** List of Access Rules */
-  accessRules?: AccessRule[];
-  /** Current diagnostic settings version */
-  diagnosticSettingsVersion?: number;
-  /** List of log categories that are enabled */
-  enabledLogCategories?: string[];
-}
-
-export function networkSecurityProfileDeserializer(item: any): NetworkSecurityProfile {
-  return {
-    name: item["name"],
-    accessRulesVersion: item["accessRulesVersion"],
-    accessRules: !item["accessRules"]
-      ? item["accessRules"]
-      : accessRuleArrayDeserializer(item["accessRules"]),
-    diagnosticSettingsVersion: item["diagnosticSettingsVersion"],
-    enabledLogCategories: !item["enabledLogCategories"]
-      ? item["enabledLogCategories"]
-      : item["enabledLogCategories"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The response of a NetworkSecurityPerimeterConfiguration list operation. */
-export interface _NetworkSecurityPerimeterConfigurationListResult {
-  /** The NetworkSecurityPerimeterConfiguration items on this page */
-  value: NetworkSecurityPerimeterConfiguration[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _networkSecurityPerimeterConfigurationListResultDeserializer(
-  item: any,
-): _NetworkSecurityPerimeterConfigurationListResult {
-  return {
-    value: networkSecurityPerimeterConfigurationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function networkSecurityPerimeterConfigurationArrayDeserializer(
-  result: Array<NetworkSecurityPerimeterConfiguration>,
-): any[] {
-  return result.map((item) => {
-    return networkSecurityPerimeterConfigurationDeserializer(item);
-  });
-}
-
 /** A notebook workspace resource */
 export interface NotebookWorkspace extends ProxyResource {
   /** Specifies the endpoint of Notebook server. */
@@ -11312,6 +8032,20 @@ export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResourc
 export function notebookWorkspaceCreateUpdateParametersSerializer(
   _item: NotebookWorkspaceCreateUpdateParameters,
 ): any {
+  return {};
+}
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
+export interface ARMProxyResource {
+  /** The unique resource identifier of the database account. */
+  readonly id?: string;
+  /** The name of the database account. */
+  readonly name?: string;
+  /** The type of Azure resource. */
+  readonly type?: string;
+}
+
+export function armProxyResourceSerializer(_item: ARMProxyResource): any {
   return {};
 }
 
@@ -11441,105 +8175,6 @@ export function _privateLinkResourceListResultDeserializer(
 export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
-  });
-}
-
-/** A request object to enable/disable the chaos fault */
-export interface ChaosFaultResource extends ProxyResource {
-  /** Indicates whether what action to take for the Chaos Fault. */
-  action?: SupportedActions;
-  /** Region of the account where the Chaos Fault is to be enabled/disabled. */
-  region?: string;
-  /** Database name. */
-  databaseName?: string;
-  /** Container name. */
-  containerName?: string;
-  /** A provisioning state of the Chaos Fault. */
-  readonly provisioningState?: string;
-}
-
-export function chaosFaultResourceSerializer(item: ChaosFaultResource): any {
-  return {
-    properties: areAllPropsUndefined(item, ["action", "region", "databaseName", "containerName"])
-      ? undefined
-      : _chaosFaultResourcePropertiesSerializer(item),
-  };
-}
-
-export function chaosFaultResourceDeserializer(item: any): ChaosFaultResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _chaosFaultResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** A request object to enable/disable the chaos fault. */
-export interface ChaosFaultProperties {
-  /** Indicates whether what action to take for the Chaos Fault. */
-  action?: SupportedActions;
-  /** Region of the account where the Chaos Fault is to be enabled/disabled. */
-  region?: string;
-  /** Database name. */
-  databaseName?: string;
-  /** Container name. */
-  containerName?: string;
-  /** A provisioning state of the Chaos Fault. */
-  readonly provisioningState?: string;
-}
-
-export function chaosFaultPropertiesSerializer(item: ChaosFaultProperties): any {
-  return {
-    action: item["action"],
-    region: item["region"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-  };
-}
-
-export function chaosFaultPropertiesDeserializer(item: any): ChaosFaultProperties {
-  return {
-    action: item["action"],
-    region: item["region"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** Indicates whether what action to take for the Chaos Fault. */
-export type SupportedActions = "Enable" | "Disable";
-
-/** Chaos Fault List Response. */
-export interface _ChaosFaultListResponse {
-  /** The chaosFaultResource items on this page */
-  value: ChaosFaultResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _chaosFaultListResponseDeserializer(item: any): _ChaosFaultListResponse {
-  return {
-    value: chaosFaultResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function chaosFaultResourceArraySerializer(result: Array<ChaosFaultResource>): any[] {
-  return result.map((item) => {
-    return chaosFaultResourceSerializer(item);
-  });
-}
-
-export function chaosFaultResourceArrayDeserializer(result: Array<ChaosFaultResource>): any[] {
-  return result.map((item) => {
-    return chaosFaultResourceDeserializer(item);
   });
 }
 
@@ -11834,13 +8469,13 @@ export function locationGetResultArrayDeserializer(result: Array<LocationGetResu
 }
 
 /** Representation of a managed Cassandra cluster. */
-export interface ClusterResource extends Resource {
+export interface ClusterResource extends ProxyResource {
   /** Properties of a managed Cassandra cluster. */
   properties?: ClusterResourceProperties;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+  /** The location of the resource group to which the resource belongs. */
   location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
+  tags?: Record<string, string>;
   /** Identity for the resource. */
   identity?: ManagedCassandraManagedServiceIdentity;
 }
@@ -11850,8 +8485,8 @@ export function clusterResourceSerializer(item: ClusterResource): any {
     properties: !item["properties"]
       ? item["properties"]
       : clusterResourcePropertiesSerializer(item["properties"]),
-    tags: item["tags"],
     location: item["location"],
+    tags: item["tags"],
     identity: !item["identity"]
       ? item["identity"]
       : managedCassandraManagedServiceIdentitySerializer(item["identity"]),
@@ -11869,10 +8504,10 @@ export function clusterResourceDeserializer(item: any): ClusterResource {
     properties: !item["properties"]
       ? item["properties"]
       : clusterResourcePropertiesDeserializer(item["properties"]),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
       : managedCassandraManagedServiceIdentityDeserializer(item["identity"]),
@@ -11919,8 +8554,6 @@ export interface ClusterResourceProperties {
   deallocated?: boolean;
   /** Whether Cassandra audit logging is enabled */
   cassandraAuditLoggingEnabled?: boolean;
-  /** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
-  clusterType?: ClusterType;
   /** Error related to resource provisioning. */
   provisionError?: CassandraError;
   /** Extensions to be added or updated on cluster. */
@@ -11966,7 +8599,6 @@ export function clusterResourcePropertiesSerializer(item: ClusterResourcePropert
     hoursBetweenBackups: item["hoursBetweenBackups"],
     deallocated: item["deallocated"],
     cassandraAuditLoggingEnabled: item["cassandraAuditLoggingEnabled"],
-    clusterType: item["clusterType"],
     provisionError: !item["provisionError"]
       ? item["provisionError"]
       : cassandraErrorSerializer(item["provisionError"]),
@@ -12020,7 +8652,6 @@ export function clusterResourcePropertiesDeserializer(item: any): ClusterResourc
     hoursBetweenBackups: item["hoursBetweenBackups"],
     deallocated: item["deallocated"],
     cassandraAuditLoggingEnabled: item["cassandraAuditLoggingEnabled"],
-    clusterType: item["clusterType"],
     provisionError: !item["provisionError"]
       ? item["provisionError"]
       : cassandraErrorDeserializer(item["provisionError"]),
@@ -12273,6 +8904,50 @@ export enum KnownAzureConnectionType {
  */
 export type AzureConnectionType = string;
 
+/** Identity for the resource. */
+export interface ManagedCassandraManagedServiceIdentity {
+  /** The object id of the identity resource. */
+  readonly principalId?: string;
+  /** The tenant id of the resource. */
+  readonly tenantId?: string;
+  /** The type of the resource. */
+  type?: ManagedCassandraResourceIdentityType;
+}
+
+export function managedCassandraManagedServiceIdentitySerializer(
+  item: ManagedCassandraManagedServiceIdentity,
+): any {
+  return { type: item["type"] };
+}
+
+export function managedCassandraManagedServiceIdentityDeserializer(
+  item: any,
+): ManagedCassandraManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+  };
+}
+
+/** The type of the resource. */
+export enum KnownManagedCassandraResourceIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** None */
+  None = "None",
+}
+
+/**
+ * The type of the resource. \
+ * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type ManagedCassandraResourceIdentityType = string;
+
 /** List of managed Cassandra clusters. */
 export interface _ListClusters {
   /** Container for the array of clusters. */
@@ -12334,195 +9009,6 @@ export function commandOutputDeserializer(item: any): CommandOutput {
     commandOutput: item["commandOutput"],
   };
 }
-
-/** Specification of which command to run where */
-export interface CommandAsyncPostBody {
-  /** The command which should be run */
-  command: string;
-  /** The arguments for the command to be run */
-  arguments?: any;
-  /** IP address of the cassandra host to run the command on */
-  host: string;
-  /** If true, stops cassandra before executing the command and then start it again */
-  cassandraStopStart?: boolean;
-  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readWrite?: boolean;
-}
-
-export function commandAsyncPostBodySerializer(item: CommandAsyncPostBody): any {
-  return {
-    command: item["command"],
-    arguments: item["arguments"],
-    host: item["host"],
-    "cassandra-stop-start": item["cassandraStopStart"],
-    readWrite: item["readWrite"],
-  };
-}
-
-/** resource representing a command */
-export interface CommandPublicResource {
-  /** The command which should be run */
-  command?: string;
-  /** The unique id of command */
-  commandId?: string;
-  /** The arguments for the command to be run */
-  arguments?: any;
-  /** IP address of the cassandra host to run the command on */
-  host?: string;
-  /** Whether command has admin privileges */
-  isAdmin?: boolean;
-  /** If true, stops cassandra before executing the command and then start it again */
-  cassandraStopStart?: boolean;
-  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
-  readWrite?: boolean;
-  /** Result output of the command. */
-  result?: string;
-  /** Status of the command. */
-  status?: CommandStatus;
-  /** The name of the file where the result is written. */
-  outputFile?: string;
-}
-
-export function commandPublicResourceDeserializer(item: any): CommandPublicResource {
-  return {
-    command: item["command"],
-    commandId: item["commandId"],
-    arguments: item["arguments"],
-    host: item["host"],
-    isAdmin: item["isAdmin"],
-    cassandraStopStart: item["cassandraStopStart"],
-    readWrite: item["readWrite"],
-    result: item["result"],
-    status: item["status"],
-    outputFile: item["outputFile"],
-  };
-}
-
-/** Status of the command. */
-export enum KnownCommandStatus {
-  /** Done */
-  Done = "Done",
-  /** Running */
-  Running = "Running",
-  /** Enqueue */
-  Enqueue = "Enqueue",
-  /** Processing */
-  Processing = "Processing",
-  /** Finished */
-  Finished = "Finished",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Status of the command. \
- * {@link KnownCommandStatus} can be used interchangeably with CommandStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Done** \
- * **Running** \
- * **Enqueue** \
- * **Processing** \
- * **Finished** \
- * **Failed**
- */
-export type CommandStatus = string;
-
-/** List of commands for cluster. */
-export interface _ListCommands {
-  /** Container for array of commands. */
-  readonly value?: CommandPublicResource[];
-  nextLink?: string;
-}
-
-export function _listCommandsDeserializer(item: any): _ListCommands {
-  return {
-    value: !item["value"] ? item["value"] : commandPublicResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function commandPublicResourceArrayDeserializer(
-  result: Array<CommandPublicResource>,
-): any[] {
-  return result.map((item) => {
-    return commandPublicResourceDeserializer(item);
-  });
-}
-
-/** List of restorable backups for a Cassandra cluster. */
-export interface _ListBackups {
-  /** Container for array of backups. */
-  readonly value?: BackupResource[];
-  nextLink?: string;
-}
-
-export function _listBackupsDeserializer(item: any): _ListBackups {
-  return {
-    value: !item["value"] ? item["value"] : backupResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function backupResourceArrayDeserializer(result: Array<BackupResource>): any[] {
-  return result.map((item) => {
-    return backupResourceDeserializer(item);
-  });
-}
-
-/** A restorable backup of a Cassandra cluster. */
-export interface BackupResource {
-  /** The unique identifier of backup. */
-  backupId?: string;
-  /** The current state of the backup. */
-  backupState?: BackupState;
-  /** The time at which the backup process begins. */
-  backupStartTimestamp?: Date;
-  /** The time at which the backup process ends. */
-  backupStopTimestamp?: Date;
-  /** The time at which the backup will expire. */
-  backupExpiryTimestamp?: Date;
-}
-
-export function backupResourceDeserializer(item: any): BackupResource {
-  return {
-    backupId: item["backupId"],
-    backupState: item["backupState"],
-    backupStartTimestamp: !item["backupStartTimestamp"]
-      ? item["backupStartTimestamp"]
-      : new Date(item["backupStartTimestamp"]),
-    backupStopTimestamp: !item["backupStopTimestamp"]
-      ? item["backupStopTimestamp"]
-      : new Date(item["backupStopTimestamp"]),
-    backupExpiryTimestamp: !item["backupExpiryTimestamp"]
-      ? item["backupExpiryTimestamp"]
-      : new Date(item["backupExpiryTimestamp"]),
-  };
-}
-
-/** The current state of the backup. */
-export enum KnownBackupState {
-  /** Initiated */
-  Initiated = "Initiated",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * The current state of the backup. \
- * {@link KnownBackupState} can be used interchangeably with BackupState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Initiated** \
- * **InProgress** \
- * **Succeeded** \
- * **Failed**
- */
-export type BackupState = string;
 
 /** Properties of a managed Cassandra cluster public status. */
 export interface CassandraClusterPublicStatus {
@@ -13442,15 +9928,6 @@ export function restorableSqlContainerPropertiesResourceContainerDeserializer(
       ? item["restoreParameters"]
       : resourceRestoreParametersDeserializer(item["restoreParameters"]),
     createMode: item["createMode"],
-    materializedViewDefinition: !item["materializedViewDefinition"]
-      ? item["materializedViewDefinition"]
-      : materializedViewDefinitionDeserializer(item["materializedViewDefinition"]),
-    materializedViews: !item["materializedViews"]
-      ? item["materializedViews"]
-      : materializedViewDetailsArrayDeserializer(item["materializedViews"]),
-    materializedViewsProperties: !item["materializedViewsProperties"]
-      ? item["materializedViewsProperties"]
-      : materializedViewsPropertiesDeserializer(item["materializedViewsProperties"]),
     computedProperties: !item["computedProperties"]
       ? item["computedProperties"]
       : computedPropertyArrayDeserializer(item["computedProperties"]),
@@ -13460,9 +9937,6 @@ export function restorableSqlContainerPropertiesResourceContainerDeserializer(
     fullTextPolicy: !item["fullTextPolicy"]
       ? item["fullTextPolicy"]
       : fullTextPolicyDeserializer(item["fullTextPolicy"]),
-    dataMaskingPolicy: !item["dataMaskingPolicy"]
-      ? item["dataMaskingPolicy"]
-      : dataMaskingPolicyDeserializer(item["dataMaskingPolicy"]),
     rid: item["_rid"],
     ts: item["_ts"],
     etag: item["_etag"],
@@ -14764,209 +11238,6 @@ export function serviceResourceArrayDeserializer(result: Array<ServiceResource>)
   });
 }
 
-/** An Azure Cosmos DB Throughputpool. */
-export interface ThroughputPoolResource extends TrackedResource {
-  /** A provisioning state of the ThroughputPool. */
-  provisioningState?: Status;
-  /** Value for throughput to be shared among CosmosDB resources in the pool. */
-  maxThroughput?: number;
-}
-
-export function throughputPoolResourceSerializer(item: ThroughputPoolResource): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: areAllPropsUndefined(item, ["provisioningState", "maxThroughput"])
-      ? undefined
-      : _throughputPoolResourcePropertiesSerializer(item),
-  };
-}
-
-export function throughputPoolResourceDeserializer(item: any): ThroughputPoolResource {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _throughputPoolResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Properties to update Azure Cosmos DB throughput pool. */
-export interface ThroughputPoolProperties {
-  /** A provisioning state of the ThroughputPool. */
-  provisioningState?: Status;
-  /** Value for throughput to be shared among CosmosDB resources in the pool. */
-  maxThroughput?: number;
-}
-
-export function throughputPoolPropertiesSerializer(item: ThroughputPoolProperties): any {
-  return { provisioningState: item["provisioningState"], maxThroughput: item["maxThroughput"] };
-}
-
-export function throughputPoolPropertiesDeserializer(item: any): ThroughputPoolProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    maxThroughput: item["maxThroughput"],
-  };
-}
-
-/** Represents a throughput pool resource for updates. */
-export interface ThroughputPoolUpdate {
-  /** A provisioning state of the ThroughputPool. */
-  provisioningState?: Status;
-  /** Value for throughput to be shared among CosmosDB resources in the pool. */
-  maxThroughput?: number;
-}
-
-export function throughputPoolUpdateSerializer(item: ThroughputPoolUpdate): any {
-  return {
-    properties: areAllPropsUndefined(item, ["provisioningState", "maxThroughput"])
-      ? undefined
-      : _throughputPoolUpdatePropertiesSerializer(item),
-  };
-}
-
-/** The response of a ThroughputPoolResource list operation. */
-export interface _ThroughputPoolsListResult {
-  /** The ThroughputPoolResource items on this page */
-  value: ThroughputPoolResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _throughputPoolsListResultDeserializer(item: any): _ThroughputPoolsListResult {
-  return {
-    value: throughputPoolResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function throughputPoolResourceArraySerializer(
-  result: Array<ThroughputPoolResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputPoolResourceSerializer(item);
-  });
-}
-
-export function throughputPoolResourceArrayDeserializer(
-  result: Array<ThroughputPoolResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputPoolResourceDeserializer(item);
-  });
-}
-
-/** An Azure Cosmos DB Throughputpool Account */
-export interface ThroughputPoolAccountResource extends ProxyResource {
-  /** A provisioning state of the ThroughputPool Account. */
-  readonly provisioningState?: Status;
-  /** The resource identifier of global database account in the throughputPool. */
-  accountResourceIdentifier?: string;
-  /** The location of  global database account in the throughputPool. */
-  accountLocation?: string;
-  /** The instance id of global database account in the throughputPool. */
-  readonly accountInstanceId?: string;
-}
-
-export function throughputPoolAccountResourceSerializer(item: ThroughputPoolAccountResource): any {
-  return {
-    properties: areAllPropsUndefined(item, ["accountResourceIdentifier", "accountLocation"])
-      ? undefined
-      : _throughputPoolAccountResourcePropertiesSerializer(item),
-  };
-}
-
-export function throughputPoolAccountResourceDeserializer(
-  item: any,
-): ThroughputPoolAccountResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _throughputPoolAccountResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** An Azure Cosmos DB Global Database Account which is part of a Throughputpool. */
-export interface ThroughputPoolAccountProperties {
-  /** A provisioning state of the ThroughputPool Account. */
-  readonly provisioningState?: Status;
-  /** The resource identifier of global database account in the throughputPool. */
-  accountResourceIdentifier?: string;
-  /** The location of  global database account in the throughputPool. */
-  accountLocation?: string;
-  /** The instance id of global database account in the throughputPool. */
-  readonly accountInstanceId?: string;
-}
-
-export function throughputPoolAccountPropertiesSerializer(
-  item: ThroughputPoolAccountProperties,
-): any {
-  return {
-    accountResourceIdentifier: item["accountResourceIdentifier"],
-    accountLocation: item["accountLocation"],
-  };
-}
-
-export function throughputPoolAccountPropertiesDeserializer(
-  item: any,
-): ThroughputPoolAccountProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    accountResourceIdentifier: item["accountResourceIdentifier"],
-    accountLocation: item["accountLocation"],
-    accountInstanceId: item["accountInstanceId"],
-  };
-}
-
-/** The response of a ThroughputPoolAccountResource list operation. */
-export interface _ThroughputPoolAccountsListResult {
-  /** The ThroughputPoolAccountResource items on this page */
-  value: ThroughputPoolAccountResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _throughputPoolAccountsListResultDeserializer(
-  item: any,
-): _ThroughputPoolAccountsListResult {
-  return {
-    value: throughputPoolAccountResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function throughputPoolAccountResourceArraySerializer(
-  result: Array<ThroughputPoolAccountResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputPoolAccountResourceSerializer(item);
-  });
-}
-
-export function throughputPoolAccountResourceArrayDeserializer(
-  result: Array<ThroughputPoolAccountResource>,
-): any[] {
-  return result.map((item) => {
-    return throughputPoolAccountResourceDeserializer(item);
-  });
-}
-
 /** Parameters to create and update an Azure Cosmos DB MongoMI Role Definition. */
 export interface MongoMIRoleDefinitionResource extends ProxyResource {
   /** The path id for the Role Definition. */
@@ -15246,14 +11517,44 @@ export function fleetResourcePropertiesDeserializer(item: any): FleetResourcePro
   };
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
+
 /** Represents a fleet resource for updates. */
 export interface FleetResourceUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
   /** A provisioning state of the Fleet. */
   readonly provisioningState?: Status;
 }
 
 export function fleetResourceUpdateSerializer(item: FleetResourceUpdate): any {
   return {
+    tags: item["tags"],
     properties: areAllPropsUndefined(item, [])
       ? undefined
       : _fleetResourceUpdatePropertiesSerializer(item),
@@ -15284,112 +11585,6 @@ export function fleetResourceArraySerializer(result: Array<FleetResource>): any[
 export function fleetResourceArrayDeserializer(result: Array<FleetResource>): any[] {
   return result.map((item) => {
     return fleetResourceDeserializer(item);
-  });
-}
-
-/** An Azure Cosmos DB FleetAnalytics. */
-export interface FleetAnalyticsResource extends ProxyResource {
-  /** A provisioning state of the FleetAnalytics. */
-  readonly provisioningState?: Status;
-  /** The type of the fleet analytics resource. */
-  storageLocationType?: FleetAnalyticsPropertiesStorageLocationType;
-  /** The unique identifier of the fleet analytics resource. */
-  storageLocationUri?: string;
-}
-
-export function fleetAnalyticsResourceSerializer(item: FleetAnalyticsResource): any {
-  return {
-    properties: areAllPropsUndefined(item, ["storageLocationType", "storageLocationUri"])
-      ? undefined
-      : _fleetAnalyticsResourcePropertiesSerializer(item),
-  };
-}
-
-export function fleetAnalyticsResourceDeserializer(item: any): FleetAnalyticsResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _fleetAnalyticsResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** model interface FleetAnalyticsProperties */
-export interface FleetAnalyticsProperties {
-  /** A provisioning state of the FleetAnalytics. */
-  readonly provisioningState?: Status;
-  /** The type of the fleet analytics resource. */
-  storageLocationType?: FleetAnalyticsPropertiesStorageLocationType;
-  /** The unique identifier of the fleet analytics resource. */
-  storageLocationUri?: string;
-}
-
-export function fleetAnalyticsPropertiesSerializer(item: FleetAnalyticsProperties): any {
-  return {
-    storageLocationType: item["storageLocationType"],
-    storageLocationUri: item["storageLocationUri"],
-  };
-}
-
-export function fleetAnalyticsPropertiesDeserializer(item: any): FleetAnalyticsProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    storageLocationType: item["storageLocationType"],
-    storageLocationUri: item["storageLocationUri"],
-  };
-}
-
-/** The type of the fleet analytics resource. */
-export enum KnownFleetAnalyticsPropertiesStorageLocationType {
-  /** StorageAccount */
-  StorageAccount = "StorageAccount",
-  /** FabricLakehouse */
-  FabricLakehouse = "FabricLakehouse",
-}
-
-/**
- * The type of the fleet analytics resource. \
- * {@link KnownFleetAnalyticsPropertiesStorageLocationType} can be used interchangeably with FleetAnalyticsPropertiesStorageLocationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **StorageAccount** \
- * **FabricLakehouse**
- */
-export type FleetAnalyticsPropertiesStorageLocationType = string;
-
-/** The response of a FleetAnalyticsResource list operation. */
-export interface _FleetAnalyticsListResult {
-  /** The FleetAnalyticsResource items on this page */
-  value: FleetAnalyticsResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _fleetAnalyticsListResultDeserializer(item: any): _FleetAnalyticsListResult {
-  return {
-    value: fleetAnalyticsResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function fleetAnalyticsResourceArraySerializer(
-  result: Array<FleetAnalyticsResource>,
-): any[] {
-  return result.map((item) => {
-    return fleetAnalyticsResourceSerializer(item);
-  });
-}
-
-export function fleetAnalyticsResourceArrayDeserializer(
-  result: Array<FleetAnalyticsResource>,
-): any[] {
-  return result.map((item) => {
-    return fleetAnalyticsResourceDeserializer(item);
   });
 }
 
@@ -15719,8 +11914,8 @@ export function fleetspaceAccountResourceArrayDeserializer(
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-05-01-preview API version. */
-  V20251101Preview = "2025-11-01-preview",
+  /** The 2026-03-15 API version. */
+  V20260315 = "2026-03-15",
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
@@ -15819,16 +12014,8 @@ export function _databaseAccountGetResultsPropertiesDeserializer(item: any) {
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsDeserializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     capacity: !item["capacity"] ? item["capacity"] : capacityDeserializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    capacityModeChangeTransitionState: !item["capacityModeChangeTransitionState"]
-      ? item["capacityModeChangeTransitionState"]
-      : capacityModeChangeTransitionStateDeserializer(item["capacityModeChangeTransitionState"]),
-    enableMaterializedViews: item["enableMaterializedViews"],
     keysMetadata: !item["keysMetadata"]
       ? item["keysMetadata"]
       : databaseAccountKeysMetadataDeserializer(item["keysMetadata"]),
@@ -15840,9 +12027,7 @@ export function _databaseAccountGetResultsPropertiesDeserializer(item: any) {
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
-    throughputPoolDedicatedRUs: item["throughputPoolDedicatedRUs"],
-    throughputPoolMaxConsumableRUs: item["throughputPoolMaxConsumableRUs"],
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -15890,16 +12075,11 @@ export function _databaseAccountCreateUpdateParametersPropertiesSerializer(
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsSerializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     restoreParameters: !item["restoreParameters"]
       ? item["restoreParameters"]
       : restoreParametersSerializer(item["restoreParameters"]),
     capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    enableMaterializedViews: item["enableMaterializedViews"],
     enablePartitionMerge: item["enablePartitionMerge"],
     enableBurstCapacity: item["enableBurstCapacity"],
     minimalTlsVersion: item["minimalTlsVersion"],
@@ -15907,7 +12087,7 @@ export function _databaseAccountCreateUpdateParametersPropertiesSerializer(
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -15953,13 +12133,8 @@ export function _databaseAccountUpdateParametersPropertiesSerializer(
       : item["networkAclBypassResourceIds"].map((p: any) => {
           return p;
         }),
-    diagnosticLogSettings: !item["diagnosticLogSettings"]
-      ? item["diagnosticLogSettings"]
-      : diagnosticLogSettingsSerializer(item["diagnosticLogSettings"]),
     disableLocalAuth: item["disableLocalAuth"],
     capacity: !item["capacity"] ? item["capacity"] : capacitySerializer(item["capacity"]),
-    capacityMode: item["capacityMode"],
-    enableMaterializedViews: item["enableMaterializedViews"],
     enablePartitionMerge: item["enablePartitionMerge"],
     enableBurstCapacity: item["enableBurstCapacity"],
     minimalTlsVersion: item["minimalTlsVersion"],
@@ -15967,27 +12142,7 @@ export function _databaseAccountUpdateParametersPropertiesSerializer(
     enablePriorityBasedExecution: item["enablePriorityBasedExecution"],
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
-    enableAllVersionsAndDeletesChangeFeed: item["enableAllVersionsAndDeletesChangeFeed"],
-  };
-}
-
-export function _graphResourceGetResultsPropertiesDeserializer(item: any) {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : graphResourceGetPropertiesResourceDeserializer(item["resource"]),
-    options: !item["options"]
-      ? item["options"]
-      : graphResourceGetPropertiesOptionsDeserializer(item["options"]),
-  };
-}
-
-export function _graphResourceCreateUpdateParametersPropertiesSerializer(
-  item: GraphResourceCreateUpdateParameters,
-): any {
-  return {
-    resource: graphResourceSerializer(item["resource"]),
-    options: !item["options"] ? item["options"] : createUpdateOptionsSerializer(item["options"]),
+    enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
   };
 }
 
@@ -16023,26 +12178,6 @@ export function _throughputSettingsUpdateParametersPropertiesSerializer(
   item: ThroughputSettingsUpdateParameters,
 ): any {
   return { resource: throughputSettingsResourceSerializer(item["resource"]) };
-}
-
-export function _retrieveThroughputParametersPropertiesSerializer(
-  item: RetrieveThroughputParameters,
-): any {
-  return { resource: retrieveThroughputPropertiesResourceSerializer(item["resource"]) };
-}
-
-export function _physicalPartitionThroughputInfoResultPropertiesDeserializer(item: any) {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : physicalPartitionThroughputInfoResultPropertiesResourceDeserializer(item["resource"]),
-  };
-}
-
-export function _redistributeThroughputParametersPropertiesSerializer(
-  item: RedistributeThroughputParameters,
-): any {
-  return { resource: redistributeThroughputPropertiesResourceSerializer(item["resource"]) };
 }
 
 export function _clientEncryptionKeyGetResultsPropertiesDeserializer(item: any) {
@@ -16483,26 +12618,6 @@ export function _cassandraTableCreateUpdateParametersPropertiesSerializer(
   };
 }
 
-export function _cassandraViewGetResultsPropertiesDeserializer(item: any) {
-  return {
-    resource: !item["resource"]
-      ? item["resource"]
-      : cassandraViewGetPropertiesResourceDeserializer(item["resource"]),
-    options: !item["options"]
-      ? item["options"]
-      : cassandraViewGetPropertiesOptionsDeserializer(item["options"]),
-  };
-}
-
-export function _cassandraViewCreateUpdateParametersPropertiesSerializer(
-  item: CassandraViewCreateUpdateParameters,
-): any {
-  return {
-    resource: cassandraViewResourceSerializer(item["resource"]),
-    options: !item["options"] ? item["options"] : createUpdateOptionsSerializer(item["options"]),
-  };
-}
-
 export function _cassandraRoleDefinitionResourcePropertiesSerializer(
   item: CassandraRoleDefinitionResource,
 ): any {
@@ -16649,43 +12764,6 @@ export function _gremlinRoleAssignmentResourcePropertiesDeserializer(item: any) 
   };
 }
 
-export function _dataTransferJobGetResultsPropertiesSerializer(
-  item: DataTransferJobGetResults,
-): any {
-  return {
-    source: !item["source"]
-      ? item["source"]
-      : dataTransferDataSourceSinkUnionSerializer(item["source"]),
-    destination: !item["destination"]
-      ? item["destination"]
-      : dataTransferDataSourceSinkUnionSerializer(item["destination"]),
-    workerCount: item["workerCount"],
-    mode: item["mode"],
-  };
-}
-
-export function _dataTransferJobGetResultsPropertiesDeserializer(item: any) {
-  return {
-    jobName: item["jobName"],
-    source: !item["source"]
-      ? item["source"]
-      : dataTransferDataSourceSinkUnionDeserializer(item["source"]),
-    destination: !item["destination"]
-      ? item["destination"]
-      : dataTransferDataSourceSinkUnionDeserializer(item["destination"]),
-    status: item["status"],
-    processedCount: item["processedCount"],
-    totalCount: item["totalCount"],
-    lastUpdatedUtcTime: !item["lastUpdatedUtcTime"]
-      ? item["lastUpdatedUtcTime"]
-      : new Date(item["lastUpdatedUtcTime"]),
-    workerCount: item["workerCount"],
-    error: !item["error"] ? item["error"] : cosmosDBErrorResultDeserializer(item["error"]),
-    duration: item["duration"],
-    mode: item["mode"],
-  };
-}
-
 export function _notebookWorkspacePropertiesDeserializer(item: any) {
   return {
     notebookServerEndpoint: item["notebookServerEndpoint"],
@@ -16706,25 +12784,6 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
       : item["requiredZoneNames"].map((p: any) => {
           return p;
         }),
-  };
-}
-
-export function _chaosFaultResourcePropertiesSerializer(item: ChaosFaultResource): any {
-  return {
-    action: item["action"],
-    region: item["region"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-  };
-}
-
-export function _chaosFaultResourcePropertiesDeserializer(item: any) {
-  return {
-    action: item["action"],
-    region: item["region"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    provisioningState: item["provisioningState"],
   };
 }
 
@@ -16799,46 +12858,6 @@ export function _restorableTableGetResultPropertiesDeserializer(item: any) {
   };
 }
 
-export function _throughputPoolResourcePropertiesSerializer(item: ThroughputPoolResource): any {
-  return { provisioningState: item["provisioningState"], maxThroughput: item["maxThroughput"] };
-}
-
-export function _throughputPoolResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    maxThroughput: item["maxThroughput"],
-  };
-}
-
-export function _throughputPoolUpdatePropertiesSerializer(item: ThroughputPoolUpdate): any {
-  return { provisioningState: item["provisioningState"], maxThroughput: item["maxThroughput"] };
-}
-
-export function _throughputPoolUpdatePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    maxThroughput: item["maxThroughput"],
-  };
-}
-
-export function _throughputPoolAccountResourcePropertiesSerializer(
-  item: ThroughputPoolAccountResource,
-): any {
-  return {
-    accountResourceIdentifier: item["accountResourceIdentifier"],
-    accountLocation: item["accountLocation"],
-  };
-}
-
-export function _throughputPoolAccountResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    accountResourceIdentifier: item["accountResourceIdentifier"],
-    accountLocation: item["accountLocation"],
-    accountInstanceId: item["accountInstanceId"],
-  };
-}
-
 export function _mongoMIRoleDefinitionResourcePropertiesSerializer(
   item: MongoMIRoleDefinitionResource,
 ): any {
@@ -16909,21 +12928,6 @@ export function _fleetResourceUpdatePropertiesSerializer(_item: FleetResourceUpd
 export function _fleetResourceUpdatePropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
-  };
-}
-
-export function _fleetAnalyticsResourcePropertiesSerializer(item: FleetAnalyticsResource): any {
-  return {
-    storageLocationType: item["storageLocationType"],
-    storageLocationUri: item["storageLocationUri"],
-  };
-}
-
-export function _fleetAnalyticsResourcePropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    storageLocationType: item["storageLocationType"],
-    storageLocationUri: item["storageLocationUri"],
   };
 }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups.
  *
  * @summary lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_ListByResourceGroup.json
  */
 async function listCapacityReservationGroupsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,25 +7,51 @@ import {
   getSoftDeleteBSUWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
 import { ShareServiceClient, newPipeline } from "../../src/index.js";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it("IPv6 Test", async () => {
+    const accountName = "storageaccount";
+
+    let shareServiceURL = `https://${accountName}-ipv6.file.core.windows.net/`;
+    let shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-ipv6.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-dualstack.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-secondary.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName);
+
+    shareServiceURL = `https://${accountName}-something.file.core.windows.net/`;
+    shareServiceClient = new ShareServiceClient(shareServiceURL);
+    assert.deepEqual(shareServiceClient.accountName, accountName + "-something");
   });
 
   it("can be created with a url and a credential", async () => {
@@ -105,9 +131,7 @@ describe("FileServiceClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -259,9 +283,7 @@ describe("FileServiceClient Premium Node.js only", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getTokenBSUWithDefaultCredential(recorder, "PREMIUM_FILE_", "", {
         fileRequestIntent: "backup",

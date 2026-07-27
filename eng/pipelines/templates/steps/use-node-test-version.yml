@@ -2,6 +2,8 @@ parameters:
   NodeTestVersion: $(NodeTestVersion)
 
 steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  
   - template: use-node-version.yml
     parameters:
       NodeVersion: $(NodeTestVersion)

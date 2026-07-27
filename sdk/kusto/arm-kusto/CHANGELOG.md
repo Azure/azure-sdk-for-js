@@ -1,6 +1,6 @@
 # Release History
 
-## 8.2.2 (Unreleased)
+## 9.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,114 @@
 
 ### Other Changes
 
-## 8.2.1 (2025-08-22)
+## 9.0.0-beta.1 (2026-06-22)
+Compared with version 8.2.0
 
-### Other Changes
+### Features Added
+  - Added operation AttachedDatabaseConfigurationsOperations.createOrUpdate
+  - Added operation AttachedDatabaseConfigurationsOperations.delete
+  - Added operation ClusterPrincipalAssignmentsOperations.createOrUpdate
+  - Added operation ClusterPrincipalAssignmentsOperations.delete
+  - Added operation ClustersOperations.addCalloutPolicies
+  - Added operation ClustersOperations.addLanguageExtensions
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.detachFollowerDatabases
+  - Added operation ClustersOperations.diagnoseVirtualNetwork
+  - Added operation ClustersOperations.migrate
+  - Added operation ClustersOperations.removeCalloutPolicy
+  - Added operation ClustersOperations.removeLanguageExtensions
+  - Added operation ClustersOperations.start
+  - Added operation ClustersOperations.stop
+  - Added operation ClustersOperations.update
+  - Added operation DatabasePrincipalAssignmentsOperations.createOrUpdate
+  - Added operation DatabasePrincipalAssignmentsOperations.delete
+  - Added operation DatabasesOperations.createOrUpdate
+  - Added operation DatabasesOperations.delete
+  - Added operation DatabasesOperations.update
+  - Added operation DataConnectionsOperations.createOrUpdate
+  - Added operation DataConnectionsOperations.dataConnectionValidation
+  - Added operation DataConnectionsOperations.delete
+  - Added operation DataConnectionsOperations.update
+  - Added operation ManagedPrivateEndpointsOperations.createOrUpdate
+  - Added operation ManagedPrivateEndpointsOperations.delete
+  - Added operation ManagedPrivateEndpointsOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation SandboxCustomImagesOperations.createOrUpdate
+  - Added operation SandboxCustomImagesOperations.delete
+  - Added operation SandboxCustomImagesOperations.update
+  - Added operation ScriptsOperations.createOrUpdate
+  - Added operation ScriptsOperations.delete
+  - Added operation ScriptsOperations.update
+  - Class KustoManagementClient has a new constructor "constructor(credential: TokenCredential, options?: KustoManagementClientOptionalParams);"
+  - Added Interface AttachedDatabaseConfigurationProperties
+  - Added Interface ClusterPrincipalProperties
+  - Added Interface ClusterProperties
+  - Added Interface CosmosDbDataConnectionProperties
+  - Added Interface DatabaseOperationsInviteFollowerOptionalParams
+  - Added Interface DatabasePrincipalProperties
+  - Added Interface EventGridConnectionProperties
+  - Added Interface EventGridConnectionWithManagedIdentityProperties
+  - Added Interface EventGridDataConnectionWithManagedIdentity
+  - Added Interface EventHubConnectionProperties
+  - Added Interface EventHubConnectionWithManagedIdentityProperties
+  - Added Interface EventHubDataConnectionWithManagedIdentity
+  - Added Interface FollowerDatabaseProperties
+  - Added Interface IotHubConnectionProperties
+  - Added Interface ManagedPrivateEndpointProperties
+  - Added Interface OperationResultErrorProperties
+  - Added Interface OperationResultProperties
+  - Added Interface OutboundNetworkDependenciesEndpointProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ReadOnlyFollowingDatabaseProperties
+  - Added Interface ReadWriteDatabaseProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SandboxCustomImageProperties
+  - Added Interface ScriptProperties
+  - Added Interface SimplePollerLike
+  - Interface AttachedDatabaseConfiguration has a new optional parameter systemData
+  - Interface ClusterPrincipalAssignment has a new optional parameter systemData
+  - Interface ClusterUpdate has a new optional parameter systemData
+  - Interface CosmosDbDataConnection has a new optional parameter systemData
+  - Interface Database has a new optional parameter systemData
+  - Interface DatabasePrincipalAssignment has a new optional parameter systemData
+  - Interface DatabasePrincipalListResult has a new optional parameter nextLink
+  - Interface DataConnection has a new optional parameter systemData
+  - Interface EventGridDataConnection has a new optional parameter systemData
+  - Interface EventHubDataConnection has a new optional parameter systemData
+  - Interface IotHubDataConnection has a new optional parameter systemData
+  - Interface KeyVaultProperties has a new optional parameter federatedIdentityClientId
+  - Interface LanguageExtensionsList has a new optional parameter nextLink
+  - Interface OutboundNetworkDependenciesEndpoint has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface ReadOnlyFollowingDatabase has a new optional parameter systemData
+  - Interface ReadWriteDatabase has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface SandboxCustomImage has a new optional parameter systemData
+  - Interface Script has a new optional parameter managedIdentityResourceId
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+  - Enum KnownDataConnectionKind has a new value EventGridWithManagedIdentity
+  - Enum KnownDataConnectionKind has a new value EventHubWithManagedIdentity
+  - Enum KnownEventGridDataFormat has a new value Azmonstream
+  - Enum KnownEventHubDataFormat has a new value Azmonstream
+  - Enum KnownIotHubDataFormat has a new value Azmonstream
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
 
-  - Other fixes
+### Breaking Changes
+  - Operation OperationsResultsLocation.get has a new signature
+  - Removed Interface CalloutPoliciesList
+  - Removed Interface DatabaseInviteFollowerOptionalParams
+  - Removed Interface FollowerDatabaseListResultGet
+  - Removed Interface SkuDescriptionList
 
+    
 ## 8.2.0 (2025-01-24)
     
 ### Features Added
