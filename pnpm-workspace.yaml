@@ -83,3 +83,5 @@ allowBuilds:
   esbuild: false
   keytar: false
   protobufjs: false
+
+verifyDepsBeforeRun: error
