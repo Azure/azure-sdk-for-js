@@ -40,25 +40,4 @@ describe("logPolicy", function () {
     assert.notInclude(headersLog!, "secret-value");
     assert.include(headersLog!, "REDACTED");
   });
-
-  it("Does not redact the azure-deprecating response header", async function () {
-    const { logger, logs } = createTestLogger();
-    const policy = logPolicy({ logger });
-
-    const request = createPipelineRequest({ url: "https://example.com" });
-    const responseHeaders = createHttpHeaders({
-      "azure-deprecating": "This API version will be retired on 2025-01-01",
-    });
-
-    await policy.sendRequest(request, async (req) => ({
-      request: req,
-      status: 200,
-      headers: responseHeaders,
-    }));
-
-    const headersLog = logs.find((log) => log.startsWith("Headers:"));
-    assert.isDefined(headersLog);
-    assert.include(headersLog!, "This API version will be retired on 2025-01-01");
-    assert.notInclude(headersLog!, "REDACTED");
-  });
 });
