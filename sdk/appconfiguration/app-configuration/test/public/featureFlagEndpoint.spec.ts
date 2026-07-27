@@ -15,10 +15,7 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     client = createFeatureFlagClientForTests(recorder.configureClientOptions({}));
-    featureFlagName = recorder.variable(
-      "ff-name",
-      `ff-name-${Math.floor(Math.random() * 1000)}`,
-    );
+    featureFlagName = recorder.variable("ff-name", `ff-name-${Math.floor(Math.random() * 1000)}`);
   });
 
   afterEach(async () => {
@@ -111,14 +108,11 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     const getResponse = await client.getFeatureFlag(featureFlagName, { label });
     assert.equal(getResponse.name, featureFlagName);
     assert.equal(getResponse.conditions?.requirementType, "All");
-    assert.deepEqual(
-      getResponse.conditions?.filters?.map((f) => f.name).sort(),
-      ["Microsoft.Percentage", "Microsoft.TimeWindow"],
-    );
-    assert.deepEqual(
-      getResponse.variants?.map((v) => v.name).sort(),
-      ["Off", "On"],
-    );
+    assert.deepEqual(getResponse.conditions?.filters?.map((f) => f.name).sort(), [
+      "Microsoft.Percentage",
+      "Microsoft.TimeWindow",
+    ]);
+    assert.deepEqual(getResponse.variants?.map((v) => v.name).sort(), ["Off", "On"]);
     assert.equal(getResponse.allocation?.defaultWhenEnabled, "On");
     assert.equal(getResponse.allocation?.defaultWhenDisabled, "Off");
     assert.equal(getResponse.allocation?.percentile?.length, 2);

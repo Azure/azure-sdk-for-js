@@ -67,10 +67,7 @@ import {
   transformSnapshotResponse,
 } from "./internal/helpers.js";
 import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
-import type {
-  _KeyValueListResult,
-  _SnapshotListResult,
-} from "./generated/models/models.js";
+import type { _KeyValueListResult, _SnapshotListResult } from "./generated/models/models.js";
 import {
   _getKeyValuesSend,
   _getKeyValuesDeserialize,

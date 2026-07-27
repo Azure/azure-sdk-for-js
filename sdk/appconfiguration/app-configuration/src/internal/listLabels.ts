@@ -3,12 +3,7 @@
 
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
-import type {
-  ListLabelsOptions,
-  ListLabelsPage,
-  PageSettings,
-  SettingLabel,
-} from "../models.js";
+import type { ListLabelsOptions, ListLabelsPage, PageSettings, SettingLabel } from "../models.js";
 import type { AppConfigurationContext } from "../generated/api/appConfigurationContext.js";
 import type { _LabelListResult } from "../generated/models/models.js";
 import { _getLabelsDeserialize, _getLabelsSend } from "../generated/api/operations.js";

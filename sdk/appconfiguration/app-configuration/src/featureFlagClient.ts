@@ -93,7 +93,10 @@ export class FeatureFlagClient {
    * @param featureFlag - The feature flag to add or update. Its `name` and `label` identify the resource.
    * @param options - Optional parameters for the request.
    */
-  setFeatureFlag(featureFlag: FeatureFlag, options: SetFeatureFlagOptions = {}): Promise<FeatureFlag> {
+  setFeatureFlag(
+    featureFlag: FeatureFlag,
+    options: SetFeatureFlagOptions = {},
+  ): Promise<FeatureFlag> {
     return tracingClient.withSpan(
       "FeatureFlagClient.setFeatureFlag",
       options,
@@ -139,7 +142,10 @@ export class FeatureFlagClient {
    * @param featureFlag - The feature flag to add. Its `name` and `label` identify the resource.
    * @param options - Optional parameters for the request.
    */
-  addFeatureFlag(featureFlag: FeatureFlag, options: AddFeatureFlagOptions = {}): Promise<FeatureFlag> {
+  addFeatureFlag(
+    featureFlag: FeatureFlag,
+    options: AddFeatureFlagOptions = {},
+  ): Promise<FeatureFlag> {
     return tracingClient.withSpan(
       "FeatureFlagClient.addFeatureFlag",
       options,
@@ -185,7 +191,10 @@ export class FeatureFlagClient {
    * @param name - The name of the feature flag to retrieve.
    * @param options - Optional parameters for the request.
    */
-  getFeatureFlag(name: string, options: GetFeatureFlagOptions = {}): Promise<GetFeatureFlagResponse> {
+  getFeatureFlag(
+    name: string,
+    options: GetFeatureFlagOptions = {},
+  ): Promise<GetFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.getFeatureFlag",
       options,
@@ -289,8 +298,15 @@ export class FeatureFlagClient {
   listFeatureFlags(
     options: ListFeatureFlagsOptions = {},
   ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings> {
-    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, pageEtags, ...restOptions } =
-      options;
+    const {
+      nameFilter,
+      labelFilter,
+      tagsFilter,
+      acceptDateTime,
+      fields,
+      pageEtags,
+      ...restOptions
+    } = options;
     return listFeatureFlags(
       this._context,
       "FeatureFlagClient.listFeatureFlags",
