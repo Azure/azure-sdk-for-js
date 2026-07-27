@@ -31,10 +31,13 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 }
 
 // @public
+export type ArrowCellValue = string | number | bigint | boolean | null | ReadonlyMap<string, string>;
+
+// @public
 export interface ArrowTableLike {
     // (undocumented)
     getChild(columnName: string): {
-        get(rowIndex: number): unknown;
+        get(rowIndex: number): ArrowCellValue;
     } | null;
     // (undocumented)
     numRows: number;

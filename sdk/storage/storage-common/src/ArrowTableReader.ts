@@ -4,6 +4,19 @@
 import { stringToUint8Array } from "@azure/core-util";
 
 /**
+ * A single value read from an Apache Arrow table cell. Scalar columns yield a primitive or
+ * `null` (timestamps arrive as epoch-millisecond numbers, not `Date`s); map columns yield a
+ * string-keyed map.
+ */
+export type ArrowCellValue =
+  | string
+  | number
+  | bigint
+  | boolean
+  | null
+  | ReadonlyMap<string, string>;
+
+/**
  * Minimal structural view of a decoded Apache Arrow table. Using a structural type
  * lets this reader operate on the `apache-arrow` `Table` object without storage-common
  * taking a hard dependency on the (sizable) `apache-arrow` package.
@@ -11,7 +24,7 @@ import { stringToUint8Array } from "@azure/core-util";
 export interface ArrowTableLike {
   numRows: number;
   schema?: { metadata?: { get(key: string): string | null | undefined } | null } | null;
-  getChild(columnName: string): { get(rowIndex: number): unknown } | null;
+  getChild(columnName: string): { get(rowIndex: number): ArrowCellValue } | null;
 }
 
 /**
