@@ -35,6 +35,7 @@ const defaultAllowedHeaderNames = [
   "ms-cv",
   "return-client-request-id",
   "traceparent",
+  "azure-deprecating",
 
   "Access-Control-Allow-Credentials",
   "Access-Control-Allow-Headers",
