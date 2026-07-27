@@ -20,8 +20,8 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 import { startSpan, runInSpanContext } from "../../../../src/tracing/tracingClient.js";
-import { traceAgentCreate } from "../../../../src/tracing/agentTracing.js";
-import type { Agent } from "../../../../src/models/models.js";
+import { traceAgentCreate, traceAgentVersionCreate } from "../../../../src/tracing/agentTracing.js";
+import type { Agent, AgentVersion } from "../../../../src/models/models.js";
 
 describe("span parenting - startSpan and runInSpanContext", () => {
   let provider: NodeTracerProvider;
@@ -238,6 +238,82 @@ describe("span parenting - startSpan and runInSpanContext", () => {
     );
 
     // Span should have error.type attribute
+    assert.equal(
+      errorSpan!.attributes["error.type"],
+      "Error",
+      "span should have error.type attribute",
+    );
+  });
+
+  it("traceAgentVersionCreate activates span context so child spans are parented", async () => {
+    const fakeVersion: AgentVersion = {
+      object: "agent.version",
+      id: "v1",
+      name: "test-agent",
+      version: "1",
+      created_at: new Date("2026-01-01"),
+      definition: { kind: "prompt", model: "gpt-4" },
+    };
+
+    const tracingConfig = {
+      enabled: true,
+      contentRecording: false,
+      traceContextPropagation: true,
+    };
+
+    await traceAgentVersionCreate("test-agent", "https://example.com", tracingConfig, async () => {
+      await Promise.resolve();
+      const { span: childSpan } = startSpan("child-http-call");
+      childSpan.end();
+      return fakeVersion;
+    });
+
+    const spans = exporter.getFinishedSpans();
+    assert.isAtLeast(spans.length, 2, "expected at least 2 finished spans");
+
+    const wrapperSpan = spans.find((s) => s.name.includes("test-agent"));
+    const childSpan = spans.find((s) => s.name === "child-http-call");
+
+    assert.isDefined(wrapperSpan, "wrapper span should exist");
+    assert.isDefined(childSpan, "child span should exist");
+
+    assert.equal(
+      childSpan!.parentSpanContext?.spanId,
+      wrapperSpan!.spanContext().spanId,
+      "child span should be parented under the traceAgentVersionCreate wrapper span",
+    );
+  });
+
+  it("traceAgentVersionCreate sets error status and ends span on rejection", async () => {
+    const tracingConfig = {
+      enabled: true,
+      contentRecording: false,
+      traceContextPropagation: true,
+    };
+
+    const expectedError = new Error("network failure");
+
+    let caughtError: unknown;
+    try {
+      await traceAgentVersionCreate(
+        "failing-agent",
+        "https://example.com",
+        tracingConfig,
+        async () => {
+          throw expectedError;
+        },
+      );
+    } catch (err) {
+      caughtError = err;
+    }
+
+    assert.equal(caughtError, expectedError, "should rethrow the original error");
+
+    const spans = exporter.getFinishedSpans();
+    const errorSpan = spans.find((s) => s.name.includes("failing-agent"));
+    assert.isDefined(errorSpan, "error span should exist");
+
+    assert.equal(errorSpan!.status.code, 2, "span should have ERROR status");
     assert.equal(
       errorSpan!.attributes["error.type"],
       "Error",
