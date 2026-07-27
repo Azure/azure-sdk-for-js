@@ -135,7 +135,14 @@ export class LogsQueryClient {
       timespan: convertTimespanToInterval(timespan),
       workspaces: options?.additionalWorkspaces,
     };
-    return executeWithResourceId(this._client, resourceId, body, internalOptions);
+    // ARM resource IDs conventionally start with a leading slash. The request path
+    // template already supplies the separator between the endpoint and the resource
+    // ID, so a leading slash here would produce a malformed URL with a double slash
+    // (e.g. ".../v1//subscriptions/..."), which the service rejects with a misleading
+    // 403. Strip any leading slash so both "/subscriptions/..." and "subscriptions/..."
+    // resolve to the same, correct URL.
+    const normalizedResourceId = resourceId.replace(/^\/+/, "");
+    return executeWithResourceId(this._client, normalizedResourceId, body, internalOptions);
   }
 
   /**
