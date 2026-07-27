@@ -1471,7 +1471,11 @@ export class ContainerClient extends StorageClient {
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
-    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const containerPath = serviceUrl.pathname.replace(/\/+$/, "");
+    serviceUrl.pathname = containerPath.slice(0, containerPath.lastIndexOf("/") + 1);
+    serviceUrl.search = "";
+    serviceUrl.hash = "";
+    const serviceEndpoint = serviceUrl.toString();
     const internalResponse: ListBlobsFlatSegmentResponseInternal = {
       serviceEndpoint,
       containerName: this.containerName,
@@ -1599,7 +1603,11 @@ export class ContainerClient extends StorageClient {
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
     const serviceUrl = new URL(this.url);
-    const serviceEndpoint = `${serviceUrl.protocol}//${serviceUrl.host}/`;
+    const containerPath = serviceUrl.pathname.replace(/\/+$/, "");
+    serviceUrl.pathname = containerPath.slice(0, containerPath.lastIndexOf("/") + 1);
+    serviceUrl.search = "";
+    serviceUrl.hash = "";
+    const serviceEndpoint = serviceUrl.toString();
     const internalResponse: ListBlobsHierarchySegmentResponseInternal = {
       serviceEndpoint,
       containerName: this.containerName,
@@ -1741,6 +1749,14 @@ export class ContainerClient extends StorageClient {
   public listBlobsFlat(
     options: ContainerListBlobsOptions = {},
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse> {
+    if (
+      options.endBefore !== undefined &&
+      resolveResponseFormat(options.responseFormat) !== StorageResponseFormat.Arrow
+    ) {
+      throw new RangeError(
+        "The 'endBefore' option is only supported when 'responseFormat' is StorageResponseFormat.Arrow.",
+      );
+    }
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
@@ -1975,6 +1991,15 @@ export class ContainerClient extends StorageClient {
   > {
     if (delimiter === "") {
       throw new RangeError("delimiter should contain one or more characters");
+    }
+
+    if (
+      options.endBefore !== undefined &&
+      resolveResponseFormat(options.responseFormat) !== StorageResponseFormat.Arrow
+    ) {
+      throw new RangeError(
+        "The 'endBefore' option is only supported when 'responseFormat' is StorageResponseFormat.Arrow.",
+      );
     }
 
     const include: ListBlobsIncludeItem[] = [];

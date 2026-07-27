@@ -124,21 +124,21 @@ function toRecord(value: unknown): Record<string, string> | undefined {
   if (value === undefined || value === null) {
     return undefined;
   }
-  const result: Record<string, string> = {};
+  const entries: Array<[string, string]> = [];
   const asText = (v: unknown): string => (v === undefined || v === null ? "" : String(v));
   if (typeof (value as { [Symbol.iterator]?: unknown })[Symbol.iterator] === "function") {
     for (const entry of value as Iterable<unknown>) {
       if (Array.isArray(entry)) {
-        result[String(entry[0])] = asText(entry[1]);
+        entries.push([String(entry[0]), asText(entry[1])]);
       } else if (entry && typeof entry === "object" && "key" in entry) {
         const { key, value: entryValue } = entry as { key: unknown; value: unknown };
-        result[String(key)] = asText(entryValue);
+        entries.push([String(key), asText(entryValue)]);
       }
     }
   } else if (typeof value === "object") {
     for (const [key, entryValue] of Object.entries(value as Record<string, unknown>)) {
-      result[key] = asText(entryValue);
+      entries.push([key, asText(entryValue)]);
     }
   }
-  return result;
+  return Object.fromEntries(entries);
 }
