@@ -1,0 +1,42 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  ExecuteDeallocateContent,
+  ExecutionParameters,
+  RetryPolicy,
+  ResourceOperationType,
+  Resources,
+  DeallocateResourceOperationResponse,
+  ResourceOperation,
+  ResourceOperationDetails,
+  DeadlineType,
+  OperationState,
+  ResourceOperationError,
+  FallbackOperationInfo,
+  ExecuteHibernateContent,
+  HibernateResourceOperationResponse,
+  ExecuteStartContent,
+  StartResourceOperationResponse,
+  ExecuteDeleteContent,
+  DeleteResourceOperationResponse,
+  GetOperationStatusContent,
+  GetOperationStatusResponse,
+  CancelOperationsContent,
+  CancelOperationsResponse,
+} from "./models.js";
+export {
+  KnownOrigin,
+  KnownActionType,
+  KnownResourceOperationType,
+  KnownDeadlineType,
+  KnownOperationState,
+  KnownVersions,
+} from "./models.js";

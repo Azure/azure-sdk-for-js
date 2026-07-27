@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of Azure Arc PrivateLinkScopes within a resource group.
  *
  * @summary gets a list of Azure Arc PrivateLinkScopes within a resource group.
- * x-ms-original-file: 2025-09-16-preview/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json
+ * x-ms-original-file: 2026-06-16-preview/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json
  */
 async function privateLinkScopeListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

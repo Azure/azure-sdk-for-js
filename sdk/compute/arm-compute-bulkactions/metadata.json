@@ -1,0 +1,49 @@
+{
+  "apiVersions": {
+    "Microsoft.Compute": "2026-06-06"
+  },
+  "emitterVersion": "0.55.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Compute",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-compute-bulkactions!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-compute-bulkactions!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-compute-bulkactions!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-compute-bulkactions!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-compute-bulkactions!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-compute-bulkactions!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-compute-bulkactions!ExecuteDeallocateContent:interface": "Microsoft.Compute.ExecuteDeallocateRequest",
+      "@azure/arm-compute-bulkactions!ExecutionParameters:interface": "Microsoft.Compute.ExecutionParameters",
+      "@azure/arm-compute-bulkactions!RetryPolicy:interface": "Microsoft.Compute.RetryPolicy",
+      "@azure/arm-compute-bulkactions!Resources:interface": "Microsoft.Compute.Resources",
+      "@azure/arm-compute-bulkactions!DeallocateResourceOperationResponse:interface": "Microsoft.Compute.DeallocateResourceOperationResponse",
+      "@azure/arm-compute-bulkactions!ResourceOperation:interface": "Microsoft.Compute.ResourceOperation",
+      "@azure/arm-compute-bulkactions!ResourceOperationDetails:interface": "Microsoft.Compute.ResourceOperationDetails",
+      "@azure/arm-compute-bulkactions!ResourceOperationError:interface": "Microsoft.Compute.ResourceOperationError",
+      "@azure/arm-compute-bulkactions!FallbackOperationInfo:interface": "Microsoft.Compute.FallbackOperationInfo",
+      "@azure/arm-compute-bulkactions!ExecuteHibernateContent:interface": "Microsoft.Compute.ExecuteHibernateRequest",
+      "@azure/arm-compute-bulkactions!HibernateResourceOperationResponse:interface": "Microsoft.Compute.HibernateResourceOperationResponse",
+      "@azure/arm-compute-bulkactions!ExecuteStartContent:interface": "Microsoft.Compute.ExecuteStartRequest",
+      "@azure/arm-compute-bulkactions!StartResourceOperationResponse:interface": "Microsoft.Compute.StartResourceOperationResponse",
+      "@azure/arm-compute-bulkactions!ExecuteDeleteContent:interface": "Microsoft.Compute.ExecuteDeleteRequest",
+      "@azure/arm-compute-bulkactions!DeleteResourceOperationResponse:interface": "Microsoft.Compute.DeleteResourceOperationResponse",
+      "@azure/arm-compute-bulkactions!GetOperationStatusContent:interface": "Microsoft.Compute.GetOperationStatusRequest",
+      "@azure/arm-compute-bulkactions!GetOperationStatusResponse:interface": "Microsoft.Compute.GetOperationStatusResponse",
+      "@azure/arm-compute-bulkactions!CancelOperationsContent:interface": "Microsoft.Compute.CancelOperationsRequest",
+      "@azure/arm-compute-bulkactions!CancelOperationsResponse:interface": "Microsoft.Compute.CancelOperationsResponse",
+      "@azure/arm-compute-bulkactions!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-compute-bulkactions!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-compute-bulkactions!KnownResourceOperationType:enum": "Microsoft.Compute.ResourceOperationType",
+      "@azure/arm-compute-bulkactions!KnownDeadlineType:enum": "Microsoft.Compute.DeadlineType",
+      "@azure/arm-compute-bulkactions!KnownOperationState:enum": "Microsoft.Compute.OperationState",
+      "@azure/arm-compute-bulkactions!KnownVersions:enum": "Microsoft.Compute.Versions",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkCancelOperations:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkCancel",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkGetOperationsStatus:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkGetOperationsStatus",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkDeleteOperation:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkDelete",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkStartOperation:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkStart",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkHibernateOperation:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkHibernate",
+      "@azure/arm-compute-bulkactions!VirtualMachineBulkOperationsOperations#BulkDeallocateOperation:member": "Microsoft.Compute.VirtualMachineBulkOperations.bulkDeallocate",
+      "@azure/arm-compute-bulkactions!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
