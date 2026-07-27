@@ -1,0 +1,14 @@
+{
+  "name": "@azure-tools/agent-evals",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI agent evaluation framework for the Azure SDK for JS repo. Uses vally (https://microsoft.github.io/vally/) to regression-test agent behavior against AGENTS.md and .github/skills/* guidance.",
+  "scripts": {
+    "lint": "vally lint ../../.github/skills -e evals/",
+    "eval": "NODE_OPTIONS=--max-old-space-size=8192 vally eval --suite smoke",
+    "eval:all": "NODE_OPTIONS=--max-old-space-size=8192 vally eval"
+  },
+  "devDependencies": {
+    "@microsoft/vally-cli": "^0.5.0"
+  }
+}

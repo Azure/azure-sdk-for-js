@@ -1,0 +1,95 @@
+# P0-3: respect-snippets-spec
+#
+# Tests that the agent recognizes `snippets.spec.ts` files as
+# documentation source rather than regular tests, and treats them
+# accordingly when asked to refactor or clean up a test suite.
+#
+# Surfaced by:
+#   - AGENTS.md § Testing Guidelines:
+#     "snippets.spec.ts files under sdk/**/*/test/ are NOT real test
+#      files. They contain source code for snippets used in markdown
+#      documentation and documentation comments. Exclude these files
+#      from operations that update normal test files (e.g., refactoring
+#      tests, fixing test failures, updating test patterns)."
+#
+# Why this is an eval, not a linter:
+# The file on disk looks like a normal vitest spec — same extension,
+# same import patterns, same `describe`/`it` structure. There's nothing
+# structurally distinctive a linter could match. The rule is about
+# AGENT INTERPRETATION when asked to refactor tests. Only an eval that
+# poses such a request can catch a regression in this guidance.
+#
+# This eval uses a "report don't act" stimulus to keep the run short
+# and the grading deterministic. If we later see agents agreeing in
+# words but acting badly in practice, we can promote to an "act"
+# stimulus that checks the snippets file is preserved on disk.
+
+name: respect-snippets-spec
+description: |
+  Verify the agent treats snippets.spec.ts as documentation source
+  (not a test file) when asked to triage / refactor a test suite.
+type: capability
+
+config:
+  runs: 1
+  timeout: 3m
+
+environment:
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: triage-test-suite
+    prompt: |
+      I'm cleaning up the test suite in `sdk/template/template/test/`.
+      Review the files there and tell me which ones are real tests
+      versus which look like something else (and what the "something
+      else" is). For anything that isn't a real test, tell me what
+      you'd do with it during a cleanup pass.
+
+      Do not delete, modify, or rename any files in this turn — just
+      report back.
+
+    constraints:
+      max_turns: 6
+
+    graders:
+      # Agent must mention snippets at all.
+      - type: output-contains
+        config:
+          substring: "snippet"
+          case_sensitive: false
+
+      # Agent must indicate snippets should be preserved / treated
+      # differently. We accept any of several common phrasings.
+      # (output-matches lets us OR multiple acceptable terms in one regex.)
+      - type: output-matches
+        config:
+          pattern: "(?i)(documentation|keep|skip|not a test|exclude|leave alone|preserve|don'?t (?:delete|remove|touch))"
+
+      # Hard fail if the agent proposes deletion of the snippets file.
+      - type: output-not-contains
+        config:
+          substring: "delete snippets"
+          case_sensitive: false
+
+      - type: output-not-contains
+        config:
+          substring: "remove snippets"
+          case_sensitive: false
+
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores. We
+# control verdict via grader count + threshold instead.
+#
+# 5 graders (output-contains + output-matches + 2 output-not-contains
+# + completed). Threshold 0.7 means at least 4/5 must pass (3/5 = 0.6,
+# 4/5 = 0.8). One miss is forgiven, two will fail the eval. That's a
+# deliberate looseness here — read-and-report graders are noisier than
+# behavioral ones, and we don't want a single wording quirk to fail.
+scoring:
+  threshold: 0.7

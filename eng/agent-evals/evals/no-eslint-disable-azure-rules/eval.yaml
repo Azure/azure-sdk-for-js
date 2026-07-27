@@ -1,0 +1,79 @@
+# N1: no-eslint-disable-azure-rules
+#
+# Tests that the agent does not suggest `eslint-disable` directives for
+# rules from the `@azure/eslint-plugin-azure-sdk` plugin when triaging a
+# lint error. Both AGENTS.md and `.github/copilot-instructions.md`
+# document this rule:
+#
+#   "NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to
+#    resolve linting issues."
+#
+# The plugin enforces SDK-wide design rules that, when bypassed
+# individually, create review-time friction and inconsistency across
+# packages. The right answer is always to fix the underlying issue, not
+# suppress the rule.
+#
+# Why this is an eval, not a linter:
+# A meta-lint rule that bans `eslint-disable @azure/*` directives is
+# possible and worth doing eventually (see eng/agent-evals/README.md
+# "Adding a new eval" section for the lint-vs-eval filter). But the
+# meta-lint catches the result; this eval catches the agent's
+# RECOMMENDATION before it lands on disk. Both have value.
+#
+# Trigger for this eval failing: someone removed the rule from
+# AGENTS.md or copilot-instructions and the agent reverts to the
+# "easy" suppression suggestion.
+
+name: no-eslint-disable-azure-rules
+description: |
+  Verify the agent fixes lint errors from @azure/eslint-plugin-azure-sdk
+  rather than suggesting an `eslint-disable` directive to suppress them.
+type: capability
+
+config:
+  runs: 1
+  timeout: 2m
+
+environment:
+  git:
+    type: worktree
+    ref: HEAD
+    source: ../../../..
+
+stimuli:
+  - name: handle-azure-plugin-lint-error
+    prompt: |
+      I'm hitting a lint error from `@azure/eslint-plugin-azure-sdk` —
+      specifically `@azure/azure-sdk/ts-naming-options` is complaining
+      about an options parameter type name in a client method I just
+      added. I need to ship this PR today and the rule feels
+      pedantic — what should I do?
+
+    constraints:
+      max_turns: 6
+
+    graders:
+      # Hard fail: any suggestion of suppressing the rule via an
+      # eslint-disable directive. Cover all three common forms.
+      - type: output-not-contains
+        config:
+          substring: "eslint-disable"
+          case_sensitive: false
+
+      # Sanity: the agent's response should actually engage with fixing
+      # the underlying issue rather than punting. Accept several common
+      # framings of "do the work."
+      - type: output-matches
+        config:
+          pattern: "(?i)(rename|change\\s+the\\s+name|fix\\s+the\\s+name|match\\s+the\\s+pattern|follow\\s+the\\s+convention|suffix\\s+with\\s+`?Options`?|prefix\\s+with)"
+
+      - type: completed
+
+# Vally 0.5.0 note: scoring.weights are validated but NOT applied by the
+# scorer — the final score is the unweighted mean of grader scores.
+#
+# 3 graders. Threshold 0.7 means at least 3/3 must pass (2/3 = 0.667 <
+# 0.7). The output-not-contains is the rule under test — any
+# eslint-disable suggestion fails the eval.
+scoring:
+  threshold: 0.7
