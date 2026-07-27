@@ -8,25 +8,40 @@
  *
  * This test exercises the startSpan + runInSpanContext pattern to ensure
  * proper parent-child relationships in the span tree.
+ *
+ * Uses NodeTracerProvider (Node-only), so this file lives under test/public/node/.
  */
 
-import { describe, it, assert, afterAll, beforeAll } from "vitest";
+import { describe, it, assert, afterAll, beforeAll, beforeEach } from "vitest";
 import { trace, context } from "@opentelemetry/api";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { startSpan, runInSpanContext } from "../../../src/tracing/tracingClient.js";
-import { traceAgentCreate } from "../../../src/tracing/agentTracing.js";
+import {
+  NodeTracerProvider,
+  InMemorySpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
+import { startSpan, runInSpanContext } from "../../../../src/tracing/tracingClient.js";
+import { traceAgentCreate } from "../../../../src/tracing/agentTracing.js";
 
 describe("span parenting - startSpan and runInSpanContext", () => {
   let provider: NodeTracerProvider;
+  let exporter: InMemorySpanExporter;
 
   beforeAll(() => {
-    provider = new NodeTracerProvider();
+    exporter = new InMemorySpanExporter();
+    provider = new NodeTracerProvider({
+      spanProcessors: [new SimpleSpanProcessor(exporter)],
+    });
     provider.register();
+  });
+
+  beforeEach(() => {
+    exporter.reset();
   });
 
   afterAll(async () => {
     await provider.shutdown();
   });
+
   it("active span inside runInSpanContext is the operation span", () => {
     const { span: opSpan, ctx } = startSpan("test-operation");
     try {
@@ -127,9 +142,7 @@ describe("span parenting - startSpan and runInSpanContext", () => {
     }
   });
 
-  it("traceAgentCreate activates span context so async child spans are parented", async () => {
-    let capturedActiveSpanId: string | undefined;
-
+  it("traceAgentCreate activates span context so child spans are parented", async () => {
     const fakeAgent = {
       object: "agent" as const,
       id: "agent-123",
@@ -140,19 +153,46 @@ describe("span parenting - startSpan and runInSpanContext", () => {
       },
     };
 
-    const tracingConfig = { enabled: true, contentRecording: false };
+    const tracingConfig = {
+      enabled: true,
+      contentRecording: false,
+      traceContextPropagation: true,
+    };
 
     await traceAgentCreate("test-agent", "https://example.com", tracingConfig, async () => {
-      // Simulate async work; capture the active span inside the operation
+      // Create a child span inside the operation — it should be parented
+      // under the traceAgentCreate span via the activated context.
+      // This verifies that traceAgentCreate uses runInSpanContext to make
+      // the operation span the active parent before invoking the operation.
+      const { span: childSpan } = startSpan("child-http-call");
+      childSpan.end();
+      // Simulate async work (the actual HTTP call)
       await Promise.resolve();
-      const activeSpan = trace.getSpan(context.active());
-      capturedActiveSpanId = activeSpan?.spanContext().spanId;
       return fakeAgent as any;
     });
 
-    assert.isDefined(
-      capturedActiveSpanId,
-      "there should be an active span inside the async operation",
+    const spans = exporter.getFinishedSpans();
+    // Should have at least 2 spans: the wrapper span and the child span
+    assert.isAtLeast(spans.length, 2, "expected at least 2 finished spans");
+
+    const wrapperSpan = spans.find((s) => s.name.includes("test-agent"));
+    const childSpan = spans.find((s) => s.name === "child-http-call");
+
+    assert.isDefined(wrapperSpan, "wrapper span should exist");
+    assert.isDefined(childSpan, "child span should exist");
+
+    // The child span's parent should match the wrapper span's spanId
+    assert.equal(
+      childSpan!.parentSpanContext?.spanId,
+      wrapperSpan!.spanContext().spanId,
+      "child span should be parented under the traceAgentCreate wrapper span",
+    );
+
+    // Both spans should share the same traceId
+    assert.equal(
+      childSpan!.spanContext().traceId,
+      wrapperSpan!.spanContext().traceId,
+      "child and wrapper spans should share the same traceId",
     );
   });
 });
