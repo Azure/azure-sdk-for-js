@@ -10,6 +10,7 @@ export type { GenAITracingOptions } from "./tracing/configuration.js";
 export type {
   Agent,
   AgentState,
+  AgentStateSource,
   AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,

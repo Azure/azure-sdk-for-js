@@ -4,6 +4,7 @@
 export type {
   Agent,
   AgentState,
+  AgentStateSource,
   AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
