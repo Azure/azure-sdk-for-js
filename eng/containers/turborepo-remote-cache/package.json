@@ -34,7 +34,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.24.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
     "@vitest/coverage-istanbul": "^4.0.0",
     "eslint": "^9.9.0",
@@ -43,7 +43,7 @@
     "rimraf": "catalog:",
     "tsx": "^4.17.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "~8.60.0",
+    "typescript-eslint": "~8.65.0",
     "vitest": "^4.0.0"
   },
   "scripts": {

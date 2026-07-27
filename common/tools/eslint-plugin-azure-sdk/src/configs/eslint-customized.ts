@@ -30,6 +30,14 @@ const rules: Record<string, SharedConfig.RuleEntry> = {
   "no-redeclare": "off",
   "no-shadow": "off",
   "no-param-reassign": ["warn", { props: false }],
+  // ESLint v10 turned these three rules on by default in eslint:recommended.
+  // Downgrade them to "warn" so the v9 -> v10 upgrade does not break `lint`
+  // across the entire repo at once. They stay visible (matching the
+  // no-param-reassign precedent above) and can be promoted back to "error"
+  // once existing violations are cleaned up repo-wide.
+  "preserve-caught-error": "warn",
+  "no-useless-assignment": "warn",
+  "no-unassigned-vars": "warn",
 };
 
 export default {
