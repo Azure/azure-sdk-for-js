@@ -1,0 +1,12 @@
+{
+  "pr": 39394,
+  "package": "@azure/arm-hybridcompute",
+  "version": "5.0.0",
+  "apiVersion": "2026-07-15",
+  "outcome": "issues_found",
+  "reviewedAt": "2026-07-27",
+  "findings": [
+    {"file": "review/arm-hybridcompute-node.api.md", "line": 1659, "type": "tool", "description": "PagedAsyncIterableIterator and PageSettings defined in-package instead of re-exported from @azure/core-paging"},
+    {"file": "review/arm-hybridcompute-node.api.md", "line": 380, "type": "design", "description": "HybridComputeManagementClient has optional subscriptionId constructor overload"}
+  ]
+}
