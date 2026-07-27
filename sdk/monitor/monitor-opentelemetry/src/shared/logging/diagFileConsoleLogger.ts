@@ -255,7 +255,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       const backupPath = path.join(this._tempDir, `${new Date().getTime()}.${this._logFileName}`);
       await writeFileAsync(backupPath, buffer);
     } catch (err: any) {
-      this._writeToConsole("Failed to generate backup log file", err);
+      this._writeToConsole(this._TAG, "Failed to generate backup log file", err);
     } finally {
       // Store logs
       await writeFileAsync(this._fileFullPath, data);
