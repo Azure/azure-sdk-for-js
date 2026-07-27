@@ -19,6 +19,9 @@ catalogs:
       specifier: 1.2.0
       version: 1.2.0
   default:
+    '@eslint/js':
+      specifier: ^10.0.1
+      version: 10.0.1
     '@types/node':
       specifier: ^22.0.0
       version: 22.20.1
@@ -46,6 +49,9 @@ catalogs:
     typescript:
       specifier: ~6.0.2
       version: 6.0.3
+    typescript-eslint:
+      specifier: ~8.65.0
+      version: 8.65.0
   internal:
     '@azure/identity':
       specifier: 4.13.0
@@ -198,7 +204,7 @@ importers:
         version: 2.9.0
     devDependencies:
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1(eslint@10.8.0)
       '@types/express':
         specifier: ^5.0.1
@@ -240,7 +246,7 @@ importers:
         specifier: 'catalog:'
         version: 6.1.3
       typescript-eslint:
-        specifier: ~8.65.0
+        specifier: 'catalog:'
         version: 8.65.0(eslint@10.8.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
@@ -255,11 +261,8 @@ importers:
         specifier: ^3.2.0
         version: 3.3.6
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1(eslint@10.8.0)
-      '@types/eslint':
-        specifier: ^9.6.0
-        version: 9.6.1
       '@types/estree':
         specifier: ~1.0.0
         version: 1.0.9
@@ -294,15 +297,12 @@ importers:
         specifier: ~6.0.2
         version: 6.0.3
       typescript-eslint:
-        specifier: ~8.65.0
+        specifier: 'catalog:'
         version: 8.65.0(eslint@10.8.0)(typescript@6.0.3)
     devDependencies:
       '@microsoft/warp':
         specifier: workspace:^
         version: link:../warp
-      '@types/eslint-config-prettier':
-        specifier: 6.11.3
-        version: 6.11.3
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -353,7 +353,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1(eslint@10.8.0)
       '@types/node':
         specifier: 'catalog:'
@@ -371,7 +371,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
       typescript-eslint:
-        specifier: ~8.65.0
+        specifier: 'catalog:'
         version: 8.65.0(eslint@10.8.0)(typescript@6.0.3)
 
   common/tools/warp:
@@ -390,7 +390,7 @@ importers:
         version: 2.9.0
     devDependencies:
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1(eslint@10.8.0)
       '@types/node':
         specifier: 'catalog:'
@@ -408,7 +408,7 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       typescript-eslint:
-        specifier: ~8.65.0
+        specifier: 'catalog:'
         version: 8.65.0(eslint@10.8.0)(typescript@6.0.3)
       vitest:
         specifier: catalog:testing
@@ -439,7 +439,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1(eslint@9.39.5)
       '@types/node':
         specifier: ^22.0.0
@@ -466,7 +466,7 @@ importers:
         specifier: ~6.0.2
         version: 6.0.3
       typescript-eslint:
-        specifier: ~8.65.0
+        specifier: 'catalog:'
         version: 8.65.0(eslint@9.39.5)(typescript@6.0.3)
       vitest:
         specifier: ^4.0.0
@@ -37726,12 +37726,6 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha1-M0MRlx06BxIefrkbaEpgXn7qnL0=}
 
-  '@types/eslint-config-prettier@6.11.3':
-    resolution: {integrity: sha1-MZ9T7rWotQ5wL6CBqf45vwHfjB0=}
-
-  '@types/eslint@9.6.1':
-    resolution: {integrity: sha1-1Xla1zLOgXFfJ/ddqRMASlZ1FYQ=}
-
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha1-b2Nq+WL75hkbgwvWdrpZhpJrzOw=}
 
@@ -44563,13 +44557,6 @@ snapshots:
       '@types/ms': 2.1.0
 
   '@types/deep-eql@4.0.2': {}
-
-  '@types/eslint-config-prettier@6.11.3': {}
-
-  '@types/eslint@9.6.1':
-    dependencies:
-      '@types/estree': 1.0.9
-      '@types/json-schema': 7.0.15
 
   '@types/esrecurse@4.3.1': {}
 

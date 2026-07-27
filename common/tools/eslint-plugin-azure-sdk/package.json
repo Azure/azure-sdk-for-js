@@ -80,8 +80,7 @@
   },
   "dependencies": {
     "@eslint/compat": "^2.0.1",
-    "@eslint/js": "^10.0.1",
-    "@types/eslint": "^9.6.0",
+    "@eslint/js": "catalog:",
     "@types/estree": "~1.0.0",
     "@typescript-eslint/typescript-estree": "~8.65.0",
     "eslint-config-prettier": "^10.0.1",
@@ -89,11 +88,9 @@
     "js-yaml": "^4.1.1",
     "tslib": "^2.6.2",
     "typescript": "~6.0.2",
-    "typescript-eslint": "~8.65.0"
+    "typescript-eslint": "catalog:"
   },
   "devDependencies": {
-    "@types/eslint": "^9.6.0",
-    "@types/eslint-config-prettier": "6.11.3",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "~8.65.0",
