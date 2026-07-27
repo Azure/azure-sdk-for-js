@@ -9,12 +9,7 @@ import { stringToUint8Array } from "@azure/core-util";
  * string-keyed map.
  */
 export type ArrowCellValue =
-  | string
-  | number
-  | bigint
-  | boolean
-  | null
-  | ReadonlyMap<string, string>;
+  string | number | bigint | boolean | null | ReadonlyMap<string, string>;
 
 /**
  * Minimal structural view of a decoded Apache Arrow table. Using a structural type
