@@ -2,7 +2,7 @@ import { Changelog, ChangelogItem } from "./changelogGenerator.js";
 import {
   InlineDeclarationNameSetMessage,
   NodeContext,
-} from "typescript-codegen-breaking-change-detector";
+} from "../breaking-change-detector/index.js";
 
 export class RestLevelClientChangelogPostProcessor {
   private changelog: Changelog;
