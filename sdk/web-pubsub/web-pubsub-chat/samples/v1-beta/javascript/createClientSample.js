@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to create a WebPubSubChatServiceClient
@@ -11,7 +11,7 @@ import "dotenv/config";
  *
  * @summary create a chat service client.
  */
-async function createClientWithConnectionString(): Promise<void> {
+async function createClientWithConnectionString() {
   const connectionString = process.env.WPS_CHAT_CONNECTION_STRING || "";
   const hub = process.env.WPS_CHAT_HUB || "";
   const client = new WebPubSubChatServiceClient(connectionString, hub);
@@ -21,7 +21,7 @@ async function createClientWithConnectionString(): Promise<void> {
   }
 }
 
-async function createClientWithTokenCredential(): Promise<void> {
+async function createClientWithTokenCredential() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
   const credential = new DefaultAzureCredential();
   const hub = process.env.WPS_CHAT_HUB || "";
@@ -32,7 +32,7 @@ async function createClientWithTokenCredential(): Promise<void> {
   }
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createClientWithConnectionString();
   await createClientWithTokenCredential();
 }
