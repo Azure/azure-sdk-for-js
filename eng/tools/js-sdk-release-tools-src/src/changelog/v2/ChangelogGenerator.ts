@@ -161,7 +161,7 @@ export class ChangelogGenerator {
   constructor(
     private detectContext: DetectContext,
     private detectResult: DetectResult,
-  ) { }
+  ) {}
 
   // TODO: add enum support
   public generate(): ChangelogResult {

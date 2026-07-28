@@ -1,8 +1,5 @@
 import { Changelog, ChangelogItem } from "./changelogGenerator.js";
-import {
-  InlineDeclarationNameSetMessage,
-  NodeContext,
-} from "../breaking-change-detector/index.js";
+import { InlineDeclarationNameSetMessage, NodeContext } from "../breaking-change-detector/index.js";
 
 export class RestLevelClientChangelogPostProcessor {
   private changelog: Changelog;
