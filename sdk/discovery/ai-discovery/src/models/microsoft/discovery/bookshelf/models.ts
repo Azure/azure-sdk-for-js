@@ -59,6 +59,12 @@ export interface KnowledgeBase {
   copilotInstruction: string;
 }
 
+/** The writable properties supplied when creating or updating a {@link KnowledgeBase}. */
+export type KnowledgeBaseCreateOrUpdateContent = Pick<
+  KnowledgeBase,
+  "storageAssetReferences" | "tags" | "description" | "copilotInstruction"
+>;
+
 export function knowledgeBaseSerializer(item: KnowledgeBase): any {
   return {
     storageAssetReferences: !item["storageAssetReferences"]

@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import { WorkspaceContext } from "../../api/workspaceContext.js";
-import { Conversation } from "../../../models/microsoft/discovery/workspace/models.js";
-import { PagedConversation } from "../../../models/models.js";
+import {
+  Conversation,
+  ConversationCreateOrUpdateContent,
+} from "../../../models/microsoft/discovery/workspace/models.js";
+import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import { list, $delete, stableUpdate, create, get } from "../../api/conversations/operations.js";
 import {
   ConversationsListOptionalParams,
@@ -16,7 +19,7 @@ import {
 /** Interface representing a Conversations operations. */
 export interface ConversationsOperations {
   /** List Conversation resources */
-  list: (options?: ConversationsListOptionalParams) => Promise<PagedConversation>;
+  list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
   /** Deletes a Conversation. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -25,9 +28,9 @@ export interface ConversationsOperations {
    */
   delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
   /** Updates a Conversation. */
-  stableUpdate: (
+  update: (
     conversationName: string,
-    resource: Conversation,
+    resource: ConversationCreateOrUpdateContent,
     options?: ConversationsStableUpdateOptionalParams,
   ) => Promise<Conversation>;
   /** Creates a Conversation. */
@@ -46,11 +49,11 @@ function _getConversations(context: WorkspaceContext) {
     list: (options?: ConversationsListOptionalParams) => list(context, options),
     delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) =>
       $delete(context, conversationName, options),
-    stableUpdate: (
+    update: (
       conversationName: string,
-      resource: Conversation,
+      resource: ConversationCreateOrUpdateContent,
       options?: ConversationsStableUpdateOptionalParams,
-    ) => stableUpdate(context, conversationName, resource, options),
+    ) => stableUpdate(context, conversationName, resource as Conversation, options),
     create: (projectName: string, options?: ConversationsCreateOptionalParams) =>
       create(context, projectName, options),
     get: (conversationName: string, options?: ConversationsGetOptionalParams) =>

@@ -63,6 +63,9 @@ export interface KnowledgeBase {
 }
 
 // @public
+export type KnowledgeBaseCreateOrUpdateContent = Pick<KnowledgeBase, "storageAssetReferences" | "tags" | "description" | "copilotInstruction">;
+
+// @public
 export interface KnowledgeBaseIndexingOperationResponse extends KnowledgeBaseOperationResponse {
     indexingResult?: IndexingOperationResult;
     operationType: "Indexing";

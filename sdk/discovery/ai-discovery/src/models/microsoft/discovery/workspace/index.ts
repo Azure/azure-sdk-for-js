@@ -31,6 +31,9 @@ export type {
   ExecutionHistoryEntry,
   TaskResult,
   StartTaskRequest,
+  TaskCreateOrUpdateContent,
+  ConversationCreateOrUpdateContent,
+  InvestigationCreateOrUpdateContent,
 } from "./models.js";
 export {
   KnownInvestigationStatus,

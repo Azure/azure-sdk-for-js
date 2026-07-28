@@ -44,8 +44,8 @@ export interface ConversationsOperations {
     create: (projectName: string, options?: ConversationsCreateOptionalParams) => Promise<Conversation>;
     delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
     get: (conversationName: string, options?: ConversationsGetOptionalParams) => Promise<Conversation>;
-    list: (options?: ConversationsListOptionalParams) => Promise<PagedConversation>;
-    stableUpdate: (conversationName: string, resource: Conversation, options?: ConversationsStableUpdateOptionalParams) => Promise<Conversation>;
+    list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
+    update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsStableUpdateOptionalParams) => Promise<Conversation>;
 }
 
 // @public
@@ -90,16 +90,16 @@ export interface InvestigationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface InvestigationsOperations {
-    createOrReplace: (projectName: string, investigationName: string, resource: Investigation, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
+    createOrReplace: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
     delete: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (projectName: string, investigationName: string, options?: InvestigationsGetOptionalParams) => Promise<Investigation>;
     getDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
-    getDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => Promise<PagedWorkingMemoryEntry>;
+    getDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => PagedAsyncIterableIterator<WorkingMemoryEntry>;
     getOperationStatus: (projectName: string, investigationName: string, operationId: string, options?: InvestigationsGetOperationStatusOptionalParams) => Promise<InvestigationOperationStatus>;
-    list: (projectName: string, options?: InvestigationsListOptionalParams) => Promise<PagedInvestigation>;
+    list: (projectName: string, options?: InvestigationsListOptionalParams) => PagedAsyncIterableIterator<Investigation>;
     startDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStartDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     stopDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStopDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
-    update: (projectName: string, investigationName: string, resource: Investigation, options?: InvestigationsUpdateOptionalParams) => Promise<Investigation>;
+    update: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsUpdateOptionalParams) => Promise<Investigation>;
     updateDiscoveryEngine: (projectName: string, investigationName: string, body: DiscoveryEngineUpdate, options?: InvestigationsUpdateDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
 }
 
@@ -158,12 +158,12 @@ export interface TasksListOptionalParams extends OperationOptions {
 export interface TasksOperations {
     addComment: (projectName: string, investigationName: string, taskName: string, body: TaskComment, options?: TasksAddCommentOptionalParams) => Promise<Task>;
     addExecutionHistory: (projectName: string, investigationName: string, taskName: string, body: ExecutionHistoryEntry, options?: TasksAddExecutionHistoryOptionalParams) => Promise<Task>;
-    create: (projectName: string, investigationName: string, body: Task, options?: TasksCreateOptionalParams) => Promise<Task>;
+    create: (projectName: string, investigationName: string, body: TaskCreateOrUpdateContent, options?: TasksCreateOptionalParams) => Promise<Task>;
     delete: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
     get: (projectName: string, investigationName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
-    stableUpdate: (projectName: string, investigationName: string, taskName: string, resource: Task, options?: TasksStableUpdateOptionalParams) => Promise<Task>;
     start: (projectName: string, investigationName: string, taskName: string, options?: TasksStartOptionalParams) => Promise<Task>;
+    update: (projectName: string, investigationName: string, taskName: string, resource: TaskCreateOrUpdateContent, options?: TasksStableUpdateOptionalParams) => Promise<Task>;
 }
 
 // @public
@@ -198,9 +198,9 @@ export interface ToolsGetRunStatusOptionalParams extends OperationOptions {
 
 // @public
 export interface ToolsOperations {
-    cancelRunLro: (projectName: string, operationId: string, options?: ToolsCancelRunLroOptionalParams) => PollerLike<OperationState<RunResult>, RunResult>;
+    cancelRun: (projectName: string, operationId: string, options?: ToolsCancelRunLroOptionalParams) => PollerLike<OperationState<RunResult>, RunResult>;
     getComputeUsage: (projectName: string, options?: ToolsGetComputeUsageOptionalParams) => Promise<ComputeUsage>;
-    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => Promise<PagedOperation>;
+    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
     getRunStatus: (projectName: string, operationId: string, options?: ToolsGetRunStatusOptionalParams) => Promise<OperationStatusRunResultError>;
     run: (projectName: string, toolId: string, nodePoolIds: string[], options?: ToolsRunOptionalParams) => PollerLike<OperationState<RunResult>, RunResult>;
 }
@@ -219,7 +219,7 @@ export interface ToolsRunOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export class WorkspaceClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: WorkspaceClientOptionalParams);
     readonly conversations: ConversationsOperations;

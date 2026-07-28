@@ -4,14 +4,13 @@
 /**
  * Tests for Investigations operations (WorkspaceClient).
  *
- * Mirrors the Python suite (test_investigations.py) in the SAME order. The
- * first test seeds the investigation that the read tests depend on; vitest runs
- * `it` blocks top-to-bottom within this file, preserving that ordering.
+ * The first test seeds the investigation that the read tests depend on; vitest
+ * runs `it` blocks top-to-bottom within this file, preserving that ordering.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { Investigation, Task, WorkspaceClient } from "../../src/index.js";
+import type { WorkspaceClient } from "../../src/index.js";
 import {
   captureOperationId,
   createRecorder,
@@ -41,7 +40,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
       {
         description: "New investigation",
         displayName: "New Test",
-      } as Investigation,
+      },
     );
     assert.isDefined(investigation);
     assert.equal(investigation.description, "New investigation");
@@ -49,14 +48,14 @@ describe("Investigations operations (WorkspaceClient)", () => {
   });
 
   it("list returns investigations for the project", async () => {
-    const page = await client.investigations.list(projectName);
-    assert.isDefined(page.value);
-    assert.isAtLeast(page.value.length, 1);
-    for (const inv of page.value) {
+    let count = 0;
+    for await (const inv of client.investigations.list(projectName)) {
       assert.equal(inv.projectName, projectName);
       assert.isDefined(inv.status);
       assert.isDefined(inv.createdAt);
+      count++;
     }
+    assert.isAtLeast(count, 1);
   });
 
   it("get returns a specific investigation", async () => {
@@ -91,7 +90,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
     const task = await client.tasks.create(projectName, investigationName, {
       title: "test-task",
       description: "Task for engine start test",
-    } as Task);
+    });
     const engine = await client.investigations.startDiscoveryEngine(projectName, investigationName);
     await client.tasks.delete(projectName, investigationName, task.name);
     assert.isDefined(engine);
@@ -99,12 +98,12 @@ describe("Investigations operations (WorkspaceClient)", () => {
   });
 
   it("getDiscoveryEngineMemory returns working memory entries", async () => {
-    const memory = await client.investigations.getDiscoveryEngineMemory(
+    for await (const entry of client.investigations.getDiscoveryEngineMemory(
       projectName,
       investigationName,
-    );
-    assert.isDefined(memory);
-    assert.isDefined(memory.value);
+    )) {
+      assert.isDefined(entry);
+    }
   });
 
   it("stopDiscoveryEngine stops the discovery engine", async () => {
@@ -119,7 +118,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
       {
         description: "Updated via replace",
         displayName: "updated-new-test",
-      } as Investigation,
+      },
     );
     assert.isDefined(investigation);
     assert.equal(investigation.description, "Updated via replace");
@@ -130,7 +129,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
     const investigation = await client.investigations.update(projectName, investigationName, {
       description: "Updated description",
       displayName: "updated-test",
-    } as Investigation);
+    });
     assert.isDefined(investigation);
     assert.equal(investigation.description, "Updated description");
   });
@@ -140,7 +139,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
     await client.investigations.createOrReplace(projectName, opStatusName, {
       description: "Sacrificial investigation for getOperationStatus test",
       displayName: "Op Status Test",
-    } as Investigation);
+    });
 
     // Start the delete LRO without waiting and capture its operation id.
     const capture = captureOperationId();
@@ -164,7 +163,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
     await client.investigations.createOrReplace(projectName, deleteName, {
       description: "Sacrificial investigation for delete test",
       displayName: "Delete Status Test",
-    } as Investigation);
+    });
 
     const poller = client.investigations.delete(projectName, deleteName);
     await poller.pollUntilDone();

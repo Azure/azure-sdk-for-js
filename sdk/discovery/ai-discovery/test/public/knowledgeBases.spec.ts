@@ -4,8 +4,7 @@
 /**
  * Tests for KnowledgeBases operations (BookshelfClient) — GA surface.
  *
- * Mirrors the Python suite (test_knowledge_bases.py) in the SAME order, because
- * later tests depend on resources seeded by earlier ones. Within a single spec
+ * Later tests depend on resources seeded by earlier ones. Within a single spec
  * file vitest runs `it` blocks top-to-bottom, which preserves that ordering.
  *
  *   1. createOrUpdate (LRO)   — seeds KNOWLEDGE_BASE_NAME for the read tests
@@ -22,7 +21,11 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import { isRestError } from "@azure/core-rest-pipeline";
-import type { BookshelfClient, KnowledgeBase } from "../../src/index.js";
+import type {
+  BookshelfClient,
+  KnowledgeBase,
+  KnowledgeBaseCreateOrUpdateContent,
+} from "../../src/index.js";
 import {
   captureOperationId,
   createBookshelfClient,
@@ -32,7 +35,7 @@ import {
 
 const terminalStates = new Set(["succeeded", "failed", "canceled"]);
 
-function seedKnowledgeBase(): KnowledgeBase {
+function seedKnowledgeBase(): KnowledgeBaseCreateOrUpdateContent {
   return {
     description: testEnv("KNOWLEDGE_BASE_DESCRIPTION"),
     copilotInstruction: testEnv("KNOWLEDGE_BASE_COPILOT_INSTRUCTION"),
@@ -42,7 +45,7 @@ function seedKnowledgeBase(): KnowledgeBase {
         userAssignedIdentity: testEnv("USER_ASSIGNED_IDENTITY"),
       },
     ],
-  } as KnowledgeBase;
+  };
 }
 
 async function sleep(ms: number): Promise<void> {
@@ -167,8 +170,9 @@ describe("KnowledgeBases operations (BookshelfClient)", () => {
         const poller = client.knowledgeBases.search(kbName, {
           query: "What are common drug interactions?",
         });
-        await poller.pollUntilDone();
+        const searchResult = await poller.pollUntilDone();
         assert.equal(poller.operationState?.status, "succeeded");
+        assert.isDefined(searchResult.searchResult);
         searched = true;
         break;
       } catch (error) {
@@ -216,7 +220,7 @@ describe("KnowledgeBases operations (BookshelfClient)", () => {
             userAssignedIdentity: testEnv("USER_ASSIGNED_IDENTITY"),
           },
         ],
-      } as KnowledgeBase)
+      })
       .pollUntilDone();
 
     const poller = client.knowledgeBases.delete(sacrificialName);

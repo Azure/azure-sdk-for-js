@@ -3,7 +3,12 @@
 
 import { WorkspaceContext as Client } from "../index.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../../static-helpers/pagingHelpers.js";
+import {
   RunResult,
+  Operation,
   runResultDeserializer,
   inlineFileArraySerializer,
   inputDataMountArraySerializer,
@@ -112,13 +117,18 @@ export async function _getOperationsDeserialize(
   return pagedOperationDeserializer(result.body);
 }
 /** List tool runs. */
-export async function getOperations(
+export function getOperations(
   context: Client,
   projectName: string,
   options: ToolsGetOperationsOptionalParams = { requestOptions: {} },
-): Promise<PagedOperation> {
-  const result = await _getOperationsSend(context, projectName, options);
-  return _getOperationsDeserialize(result);
+): PagedAsyncIterableIterator<Operation> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getOperationsSend(context, projectName, options),
+    _getOperationsDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-06-01" },
+  );
 }
 
 export function _cancelRunLroSend(

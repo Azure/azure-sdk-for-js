@@ -4,6 +4,7 @@
 import { WorkspaceContext } from "../../api/workspaceContext.js";
 import {
   Task,
+  TaskCreateOrUpdateContent,
   TaskComment,
   ExecutionHistoryEntry,
 } from "../../../models/microsoft/discovery/workspace/models.js";
@@ -67,18 +68,18 @@ export interface TasksOperations {
     options?: TasksDeleteOptionalParams,
   ) => Promise<void>;
   /** Patch (partial update) a task (e.g. status, description, validation requirements, dependencies, result). */
-  stableUpdate: (
+  update: (
     projectName: string,
     investigationName: string,
     taskName: string,
-    resource: Task,
+    resource: TaskCreateOrUpdateContent,
     options?: TasksStableUpdateOptionalParams,
   ) => Promise<Task>;
   /** Create a new task. */
   create: (
     projectName: string,
     investigationName: string,
-    body: Task,
+    body: TaskCreateOrUpdateContent,
     options?: TasksCreateOptionalParams,
   ) => Promise<Task>;
   /** List tasks with optional OData filters. */
@@ -123,19 +124,19 @@ function _getTasks(context: WorkspaceContext) {
       taskName: string,
       options?: TasksDeleteOptionalParams,
     ) => $delete(context, projectName, investigationName, taskName, options),
-    stableUpdate: (
+    update: (
       projectName: string,
       investigationName: string,
       taskName: string,
-      resource: Task,
+      resource: TaskCreateOrUpdateContent,
       options?: TasksStableUpdateOptionalParams,
-    ) => stableUpdate(context, projectName, investigationName, taskName, resource, options),
+    ) => stableUpdate(context, projectName, investigationName, taskName, resource as Task, options),
     create: (
       projectName: string,
       investigationName: string,
-      body: Task,
+      body: TaskCreateOrUpdateContent,
       options?: TasksCreateOptionalParams,
-    ) => create(context, projectName, investigationName, body, options),
+    ) => create(context, projectName, investigationName, body as Task, options),
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) =>
       list(context, projectName, investigationName, options),
     get: (

@@ -93,6 +93,36 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 `BookshelfClient` provides access to Discovery bookshelf features: managing and querying knowledge bases. Explore the methods on this client to work with knowledge bases in a Discovery bookshelf.
 
+## Examples
+
+### List knowledge bases
+
+List the knowledge bases in a Discovery Bookshelf resource with `BookshelfClient`.
+
+```ts snippet:ReadmeSampleListKnowledgeBases
+import { BookshelfClient } from "@azure/ai-discovery";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new BookshelfClient("<bookshelf-endpoint>", new DefaultAzureCredential());
+for await (const knowledgeBase of client.knowledgeBases.list()) {
+  console.log(knowledgeBase.name);
+}
+```
+
+### List tasks in an investigation
+
+List the tasks that belong to an investigation with `WorkspaceClient`.
+
+```ts snippet:ReadmeSampleListTasks
+import { WorkspaceClient } from "@azure/ai-discovery";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WorkspaceClient("<workspace-endpoint>", new DefaultAzureCredential());
+for await (const task of client.tasks.list("<project-name>", "<investigation-name>")) {
+  console.log(task.name);
+}
+```
+
 ## Troubleshooting
 
 ### Logging

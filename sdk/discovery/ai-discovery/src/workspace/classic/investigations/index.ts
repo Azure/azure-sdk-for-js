@@ -4,11 +4,13 @@
 import { WorkspaceContext } from "../../api/workspaceContext.js";
 import {
   Investigation,
+  InvestigationCreateOrUpdateContent,
   InvestigationOperationStatus,
   DiscoveryEngine,
   DiscoveryEngineUpdate,
+  WorkingMemoryEntry,
 } from "../../../models/microsoft/discovery/workspace/models.js";
-import { PagedInvestigation, PagedWorkingMemoryEntry } from "../../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import {
   updateDiscoveryEngine,
   stopDiscoveryEngine,
@@ -63,7 +65,7 @@ export interface InvestigationsOperations {
     projectName: string,
     investigationName: string,
     options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams,
-  ) => Promise<PagedWorkingMemoryEntry>;
+  ) => PagedAsyncIterableIterator<WorkingMemoryEntry>;
   /** Get the discovery engine for an investigation. */
   getDiscoveryEngine: (
     projectName: string,
@@ -74,7 +76,7 @@ export interface InvestigationsOperations {
   list: (
     projectName: string,
     options?: InvestigationsListOptionalParams,
-  ) => Promise<PagedInvestigation>;
+  ) => PagedAsyncIterableIterator<Investigation>;
   /** Delete a Investigation. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -90,14 +92,14 @@ export interface InvestigationsOperations {
   update: (
     projectName: string,
     investigationName: string,
-    resource: Investigation,
+    resource: InvestigationCreateOrUpdateContent,
     options?: InvestigationsUpdateOptionalParams,
   ) => Promise<Investigation>;
   /** Creates an Investigation. */
   createOrReplace: (
     projectName: string,
     investigationName: string,
-    resource: Investigation,
+    resource: InvestigationCreateOrUpdateContent,
     options?: InvestigationsCreateOrReplaceOptionalParams,
   ) => Promise<Investigation>;
   /** Get the status of a long-running operation. */
@@ -152,15 +154,16 @@ function _getInvestigations(context: WorkspaceContext) {
     update: (
       projectName: string,
       investigationName: string,
-      resource: Investigation,
+      resource: InvestigationCreateOrUpdateContent,
       options?: InvestigationsUpdateOptionalParams,
-    ) => update(context, projectName, investigationName, resource, options),
+    ) => update(context, projectName, investigationName, resource as Investigation, options),
     createOrReplace: (
       projectName: string,
       investigationName: string,
-      resource: Investigation,
+      resource: InvestigationCreateOrUpdateContent,
       options?: InvestigationsCreateOrReplaceOptionalParams,
-    ) => createOrReplace(context, projectName, investigationName, resource, options),
+    ) =>
+      createOrReplace(context, projectName, investigationName, resource as Investigation, options),
     getOperationStatus: (
       projectName: string,
       investigationName: string,

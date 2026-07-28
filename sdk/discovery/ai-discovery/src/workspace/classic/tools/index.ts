@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 import { WorkspaceContext } from "../../api/workspaceContext.js";
-import { RunResult, ComputeUsage } from "../../../models/microsoft/discovery/workspace/models.js";
-import { OperationStatusRunResultError, PagedOperation } from "../../../models/models.js";
+import {
+  RunResult,
+  ComputeUsage,
+  Operation,
+} from "../../../models/microsoft/discovery/workspace/models.js";
+import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import { OperationStatusRunResultError } from "../../../models/models.js";
 import {
   getComputeUsage,
   getOperations,
@@ -31,9 +36,9 @@ export interface ToolsOperations {
   getOperations: (
     projectName: string,
     options?: ToolsGetOperationsOptionalParams,
-  ) => Promise<PagedOperation>;
+  ) => PagedAsyncIterableIterator<Operation>;
   /** Cancel an ongoing tool run. */
-  cancelRunLro: (
+  cancelRun: (
     projectName: string,
     operationId: string,
     options?: ToolsCancelRunLroOptionalParams,
@@ -58,7 +63,7 @@ function _getTools(context: WorkspaceContext) {
       getComputeUsage(context, projectName, options),
     getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) =>
       getOperations(context, projectName, options),
-    cancelRunLro: (
+    cancelRun: (
       projectName: string,
       operationId: string,
       options?: ToolsCancelRunLroOptionalParams,

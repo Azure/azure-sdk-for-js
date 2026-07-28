@@ -4,10 +4,9 @@
 /**
  * Tests for Conversations operations (WorkspaceClient).
  *
- * Mirrors the Python suite (test_conversations.py) in the SAME order. `create`
- * seeds a conversation whose server-assigned name later tests reuse; the shared
- * `createdConversationName` captures it. vitest runs `it` blocks top-to-bottom
- * within this file, preserving that ordering.
+ * `create` seeds a conversation whose server-assigned name later tests reuse;
+ * the shared `createdConversationName` captures it. vitest runs `it` blocks
+ * top-to-bottom within this file, preserving that ordering.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -37,25 +36,10 @@ describe("Conversations operations (WorkspaceClient)", () => {
   });
 
   it("create creates a conversation", async () => {
-    const conversation = await client.conversations
-      .create(projectName, {
-        displayName: "Test conversation",
-        investigationName: investigationPath(projectName, investigationName),
-      })
-      .catch((e: any) => {
-        // eslint-disable-next-line no-console
-        console.error(
-          "CREATE_ERR_BODY>>>" +
-            JSON.stringify({
-              status: e?.statusCode ?? e?.response?.status,
-              body: e?.response?.bodyAsText,
-              headers: e?.response?.headers?.toJSON?.() ?? e?.response?.headers,
-              mismatch: e?.response?.headers?.get?.("x-request-mismatch-error"),
-            }) +
-            "<<<",
-        );
-        throw e;
-      });
+    const conversation = await client.conversations.create(projectName, {
+      displayName: "Test conversation",
+      investigationName: investigationPath(projectName, investigationName),
+    });
     assert.isDefined(conversation);
     assert.equal(conversation.projectName, projectName);
     assert.isDefined(conversation.name);
@@ -64,18 +48,19 @@ describe("Conversations operations (WorkspaceClient)", () => {
   });
 
   it("list returns conversations including the one just created", async () => {
-    const page = await client.conversations.list({ projectName });
-    assert.isDefined(page.value);
-    assert.isAtLeast(page.value.length, 1);
     let found = false;
-    for (const conv of page.value) {
+    let count = 0;
+    for await (const conv of client.conversations.list({ projectName })) {
       assert.equal(conv.projectName, projectName);
       assert.isDefined(conv.createdAt);
       assert.isDefined(conv.investigationName);
+      count++;
       if (conv.name === createdConversationName) {
         found = true;
+        break;
       }
     }
+    assert.isAtLeast(count, 1);
     assert.isTrue(found, "conversation created in the create test should appear in list");
   });
 
@@ -92,9 +77,9 @@ describe("Conversations operations (WorkspaceClient)", () => {
   });
 
   it("stableUpdate patches a conversation (PATCH)", async () => {
-    const updated = await client.conversations.stableUpdate(createdConversationName, {
+    const updated = await client.conversations.update(createdConversationName, {
       displayName: "Updated conversation",
-    } as Conversation);
+    });
     assert.isDefined(updated);
     assert.equal(updated.displayName, "Updated conversation");
     assert.isDefined(updated.lastModifiedAt);

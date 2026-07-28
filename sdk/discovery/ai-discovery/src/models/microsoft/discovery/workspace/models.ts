@@ -1053,3 +1053,12 @@ export function startTaskRequestSerializer(item: StartTaskRequest): any {
     assignee: !item["assignee"] ? item["assignee"] : taskAssigneeSerializer(item["assignee"]),
   };
 }
+
+/** The writable properties supplied when creating or updating a {@link Task}. */
+export type TaskCreateOrUpdateContent = Omit<Task, "name">;
+
+/** The writable properties supplied when creating or updating a {@link Conversation}. */
+export type ConversationCreateOrUpdateContent = Omit<Conversation, "name">;
+
+/** The writable properties supplied when creating or updating an {@link Investigation}. */
+export type InvestigationCreateOrUpdateContent = Omit<Investigation, "name" | "projectName">;

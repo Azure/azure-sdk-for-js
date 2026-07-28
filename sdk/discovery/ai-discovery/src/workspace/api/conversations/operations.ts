@@ -3,6 +3,10 @@
 
 import { WorkspaceContext as Client } from "../index.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../../static-helpers/pagingHelpers.js";
+import {
   Conversation,
   conversationSerializer,
   conversationDeserializer,
@@ -59,12 +63,17 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<P
   return pagedConversationDeserializer(result.body);
 }
 /** List Conversation resources */
-export async function list(
+export function list(
   context: Client,
   options: ConversationsListOptionalParams = { requestOptions: {} },
-): Promise<PagedConversation> {
-  const result = await _listSend(context, options);
-  return _listDeserialize(result);
+): PagedAsyncIterableIterator<Conversation> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-06-01" },
+  );
 }
 
 export function _$deleteSend(

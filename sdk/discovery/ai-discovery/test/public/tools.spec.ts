@@ -4,8 +4,7 @@
 /**
  * Tests for Tools operations (WorkspaceClient).
  *
- * Mirrors the Python suite (test_tools.py) in the SAME order. vitest runs `it`
- * blocks top-to-bottom within this file.
+ * vitest runs `it` blocks top-to-bottom within this file.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -81,7 +80,7 @@ describe("Tools operations (WorkspaceClient)", () => {
     await poller.submitted();
     const operationId = capture.operationId();
 
-    const cancelPoller = client.tools.cancelRunLro(projectName, operationId);
+    const cancelPoller = client.tools.cancelRun(projectName, operationId);
     // A cancel LRO reaches terminal "canceled" (success path here) or "succeeded"
     // if the run finished first. core-lro rejects on a non-success terminal state
     // (a RestError, or a plain "Operation was canceled" error), so tolerate any
@@ -98,9 +97,9 @@ describe("Tools operations (WorkspaceClient)", () => {
   });
 
   it("getOperations lists tool operations in a project", async () => {
-    const operations = await client.tools.getOperations(projectName);
-    assert.isDefined(operations);
-    assert.isArray(operations.value);
+    for await (const op of client.tools.getOperations(projectName)) {
+      assert.isDefined(op);
+    }
   });
 
   it("getComputeUsage returns compute usage for a project", async () => {

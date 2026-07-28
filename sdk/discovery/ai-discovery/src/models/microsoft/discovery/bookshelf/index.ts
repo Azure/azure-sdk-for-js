@@ -18,6 +18,7 @@ export type {
   Citation,
   CitationType,
   SearchRequest,
+  KnowledgeBaseCreateOrUpdateContent,
 } from "./models.js";
 export {
   KnownIndexingStatus,

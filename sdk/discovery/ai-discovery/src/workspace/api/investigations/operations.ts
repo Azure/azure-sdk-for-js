@@ -3,7 +3,12 @@
 
 import { WorkspaceContext as Client } from "../index.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../../static-helpers/pagingHelpers.js";
+import {
   Investigation,
+  WorkingMemoryEntry,
   investigationSerializer,
   investigationDeserializer,
   InvestigationOperationStatus,
@@ -221,19 +226,19 @@ export async function _getDiscoveryEngineMemoryDeserialize(
   return pagedWorkingMemoryEntryDeserializer(result.body);
 }
 /** List discovery engine working memory entries for an investigation. */
-export async function getDiscoveryEngineMemory(
+export function getDiscoveryEngineMemory(
   context: Client,
   projectName: string,
   investigationName: string,
   options: InvestigationsGetDiscoveryEngineMemoryOptionalParams = { requestOptions: {} },
-): Promise<PagedWorkingMemoryEntry> {
-  const result = await _getDiscoveryEngineMemorySend(
+): PagedAsyncIterableIterator<WorkingMemoryEntry> {
+  return buildPagedAsyncIterator(
     context,
-    projectName,
-    investigationName,
-    options,
+    () => _getDiscoveryEngineMemorySend(context, projectName, investigationName, options),
+    _getDiscoveryEngineMemoryDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-06-01" },
   );
-  return _getDiscoveryEngineMemoryDeserialize(result);
 }
 
 export function _getDiscoveryEngineSend(
@@ -316,13 +321,18 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<P
   return pagedInvestigationDeserializer(result.body);
 }
 /** List Investigation resources */
-export async function list(
+export function list(
   context: Client,
   projectName: string,
   options: InvestigationsListOptionalParams = { requestOptions: {} },
-): Promise<PagedInvestigation> {
-  const result = await _listSend(context, projectName, options);
-  return _listDeserialize(result);
+): PagedAsyncIterableIterator<Investigation> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, projectName, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-06-01" },
+  );
 }
 
 export function _$deleteSend(

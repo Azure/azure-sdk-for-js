@@ -26,6 +26,9 @@ export interface Conversation {
 }
 
 // @public
+export type ConversationCreateOrUpdateContent = Omit<Conversation, "name">;
+
+// @public
 export interface DiscoveryEngine {
     configuration?: Record<string, any>;
     createdAt?: Date;
@@ -99,6 +102,9 @@ export interface Investigation {
     readonly status?: InvestigationStatus;
     tags?: Tag[];
 }
+
+// @public
+export type InvestigationCreateOrUpdateContent = Omit<Investigation, "name" | "projectName">;
 
 // @public
 export interface InvestigationOperationStatus {
@@ -272,6 +278,9 @@ export interface TaskComment {
     text: string;
     timestamp?: Date;
 }
+
+// @public
+export type TaskCreateOrUpdateContent = Omit<Task, "name">;
 
 // @public
 export type TaskPriority = string;

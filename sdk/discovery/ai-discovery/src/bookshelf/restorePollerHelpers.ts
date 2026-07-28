@@ -53,8 +53,11 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
     ResourceLocationConfig | undefined;
-  const { deserializer, expectedStatuses = [] } =
-    getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
+  const {
+    deserializer,
+    expectedStatuses = [],
+    lroStatusFromProvisioningState,
+  } = getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
   if (!deserializeHelper) {
     throw new Error(
@@ -73,6 +76,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       restoreFrom: serializedState,
       initialRequestUrl,
       apiVersion,
+      lroStatusFromProvisioningState,
     },
   );
 }
@@ -80,6 +84,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 interface DeserializationHelper {
   deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
+  lroStatusFromProvisioningState?: boolean;
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
@@ -102,6 +107,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /knowledgeBases/{knowledgeBaseName}": {
     deserializer: _createOrUpdateDeserialize,
     expectedStatuses: ["201", "200", "202"],
+    lroStatusFromProvisioningState: true,
   },
 };
 

@@ -37,6 +37,7 @@ export type {
   Citation,
   CitationType,
   SearchRequest,
+  KnowledgeBaseCreateOrUpdateContent,
 } from "./models/microsoft/discovery/bookshelf/index.js";
 export {
   KnownIndexingStatus,
@@ -75,6 +76,9 @@ export type {
   ExecutionHistoryEntry,
   TaskResult,
   StartTaskRequest,
+  TaskCreateOrUpdateContent,
+  ConversationCreateOrUpdateContent,
+  InvestigationCreateOrUpdateContent,
 } from "./models/microsoft/discovery/workspace/index.js";
 export {
   KnownInvestigationStatus,
@@ -133,7 +137,7 @@ export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { BookshelfClient } from "./bookshelf/bookshelfClient.js";
 export type { RestorePollerOptions as BookshelfClientRestorePollerOptions } from "./bookshelf/restorePollerHelpers.js";
-export { restorePoller as BookshelfClientrestorePoller } from "./bookshelf/restorePollerHelpers.js";
+export { restorePoller as BookshelfClientRestorePoller } from "./bookshelf/restorePollerHelpers.js";
 export type { BookshelfClientOptionalParams } from "./bookshelf/api/index.js";
 export type {
   KnowledgeBasesDeleteOptionalParams,

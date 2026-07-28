@@ -15,7 +15,7 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export class BookshelfClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: BookshelfClientOptionalParams);
     readonly knowledgeBases: KnowledgeBasesOperations;
@@ -63,12 +63,12 @@ export interface KnowledgeBasesListOptionalParams extends OperationOptions {
 // @public
 export interface KnowledgeBasesOperations {
     cancelIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesCancelIndexingOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBase, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<KnowledgeBase>, KnowledgeBase>;
+    createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBaseCreateOrUpdateContent, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<KnowledgeBase>, KnowledgeBase>;
     delete: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (knowledgeBaseName: string, options?: KnowledgeBasesGetOptionalParams) => Promise<KnowledgeBase>;
     getOperationStatus: (knowledgeBaseName: string, operationId: string, options?: KnowledgeBasesGetOperationStatusOptionalParams) => Promise<KnowledgeBaseOperationResponseUnion>;
     list: (options?: KnowledgeBasesListOptionalParams) => PagedAsyncIterableIterator<KnowledgeBase>;
-    search: (knowledgeBaseName: string, body: SearchRequest, options?: KnowledgeBasesSearchOptionalParams) => PollerLike<OperationState<void>, void>;
+    search: (knowledgeBaseName: string, body: SearchRequest, options?: KnowledgeBasesSearchOptionalParams) => PollerLike<OperationState<KnowledgeBaseSearchOperationResponse>, KnowledgeBaseSearchOperationResponse>;
     startIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesStartIndexingOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 

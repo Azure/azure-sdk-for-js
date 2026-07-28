@@ -24,6 +24,20 @@ describe("snippets", () => {
     const bookshelfClient = new BookshelfClient("<bookshelf-endpoint>", credential);
   });
 
+  it("ReadmeSampleListKnowledgeBases", async () => {
+    const client = new BookshelfClient("<bookshelf-endpoint>", new DefaultAzureCredential());
+    for await (const knowledgeBase of client.knowledgeBases.list()) {
+      console.log(knowledgeBase.name);
+    }
+  });
+
+  it("ReadmeSampleListTasks", async () => {
+    const client = new WorkspaceClient("<workspace-endpoint>", new DefaultAzureCredential());
+    for await (const task of client.tasks.list("<project-name>", "<investigation-name>")) {
+      console.log(task.name);
+    }
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

@@ -16,7 +16,7 @@ import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export class BookshelfClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: BookshelfClientOptionalParams);
     readonly knowledgeBases: KnowledgeBasesOperations;
@@ -28,7 +28,7 @@ export interface BookshelfClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export function BookshelfClientrestorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BookshelfClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: BookshelfClientRestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+export function BookshelfClientRestorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BookshelfClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: BookshelfClientRestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
 export interface BookshelfClientRestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -77,6 +77,9 @@ export interface Conversation {
 }
 
 // @public
+export type ConversationCreateOrUpdateContent = Omit<Conversation, "name">;
+
+// @public
 export interface ConversationsCreateOptionalParams extends OperationOptions {
     displayName?: string;
     investigationName?: string;
@@ -105,8 +108,8 @@ export interface ConversationsOperations {
     create: (projectName: string, options?: ConversationsCreateOptionalParams) => Promise<Conversation>;
     delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
     get: (conversationName: string, options?: ConversationsGetOptionalParams) => Promise<Conversation>;
-    list: (options?: ConversationsListOptionalParams) => Promise<PagedConversation>;
-    stableUpdate: (conversationName: string, resource: Conversation, options?: ConversationsStableUpdateOptionalParams) => Promise<Conversation>;
+    list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
+    update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsStableUpdateOptionalParams) => Promise<Conversation>;
 }
 
 // @public
@@ -210,6 +213,9 @@ export interface Investigation {
 }
 
 // @public
+export type InvestigationCreateOrUpdateContent = Omit<Investigation, "name" | "projectName">;
+
+// @public
 export interface InvestigationOperationStatus {
     error?: ErrorModel;
     id: string;
@@ -255,16 +261,16 @@ export interface InvestigationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface InvestigationsOperations {
-    createOrReplace: (projectName: string, investigationName: string, resource: Investigation, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
+    createOrReplace: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsCreateOrReplaceOptionalParams) => Promise<Investigation>;
     delete: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (projectName: string, investigationName: string, options?: InvestigationsGetOptionalParams) => Promise<Investigation>;
     getDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
-    getDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => Promise<PagedWorkingMemoryEntry>;
+    getDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => PagedAsyncIterableIterator<WorkingMemoryEntry>;
     getOperationStatus: (projectName: string, investigationName: string, operationId: string, options?: InvestigationsGetOperationStatusOptionalParams) => Promise<InvestigationOperationStatus>;
-    list: (projectName: string, options?: InvestigationsListOptionalParams) => Promise<PagedInvestigation>;
+    list: (projectName: string, options?: InvestigationsListOptionalParams) => PagedAsyncIterableIterator<Investigation>;
     startDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStartDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     stopDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStopDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
-    update: (projectName: string, investigationName: string, resource: Investigation, options?: InvestigationsUpdateOptionalParams) => Promise<Investigation>;
+    update: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsUpdateOptionalParams) => Promise<Investigation>;
     updateDiscoveryEngine: (projectName: string, investigationName: string, body: DiscoveryEngineUpdate, options?: InvestigationsUpdateDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
 }
 
@@ -311,6 +317,9 @@ export interface KnowledgeBase {
     storageAssetReferences?: StorageAssetReference[];
     tags?: Tag[];
 }
+
+// @public
+export type KnowledgeBaseCreateOrUpdateContent = Pick<KnowledgeBase, "storageAssetReferences" | "tags" | "description" | "copilotInstruction">;
 
 // @public
 export interface KnowledgeBaseIndexingOperationResponse extends KnowledgeBaseOperationResponse {
@@ -371,12 +380,12 @@ export interface KnowledgeBasesListOptionalParams extends OperationOptions {
 // @public
 export interface KnowledgeBasesOperations {
     cancelIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesCancelIndexingOptionalParams) => PollerLike<OperationState_2<void>, void>;
-    createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBase, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<KnowledgeBase>, KnowledgeBase>;
+    createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBaseCreateOrUpdateContent, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<KnowledgeBase>, KnowledgeBase>;
     delete: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (knowledgeBaseName: string, options?: KnowledgeBasesGetOptionalParams) => Promise<KnowledgeBase>;
     getOperationStatus: (knowledgeBaseName: string, operationId: string, options?: KnowledgeBasesGetOperationStatusOptionalParams) => Promise<KnowledgeBaseOperationResponseUnion>;
     list: (options?: KnowledgeBasesListOptionalParams) => PagedAsyncIterableIterator<KnowledgeBase>;
-    search: (knowledgeBaseName: string, body: SearchRequest, options?: KnowledgeBasesSearchOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    search: (knowledgeBaseName: string, body: SearchRequest, options?: KnowledgeBasesSearchOptionalParams) => PollerLike<OperationState_2<KnowledgeBaseSearchOperationResponse>, KnowledgeBaseSearchOperationResponse>;
     startIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesStartIndexingOptionalParams) => PollerLike<OperationState_2<void>, void>;
 }
 
@@ -711,6 +720,9 @@ export interface TaskComment {
 }
 
 // @public
+export type TaskCreateOrUpdateContent = Omit<Task, "name">;
+
+// @public
 export type TaskPriority = string;
 
 // @public
@@ -748,12 +760,12 @@ export interface TasksListOptionalParams extends OperationOptions {
 export interface TasksOperations {
     addComment: (projectName: string, investigationName: string, taskName: string, body: TaskComment, options?: TasksAddCommentOptionalParams) => Promise<Task>;
     addExecutionHistory: (projectName: string, investigationName: string, taskName: string, body: ExecutionHistoryEntry, options?: TasksAddExecutionHistoryOptionalParams) => Promise<Task>;
-    create: (projectName: string, investigationName: string, body: Task, options?: TasksCreateOptionalParams) => Promise<Task>;
+    create: (projectName: string, investigationName: string, body: TaskCreateOrUpdateContent, options?: TasksCreateOptionalParams) => Promise<Task>;
     delete: (projectName: string, investigationName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
     get: (projectName: string, investigationName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
-    stableUpdate: (projectName: string, investigationName: string, taskName: string, resource: Task, options?: TasksStableUpdateOptionalParams) => Promise<Task>;
     start: (projectName: string, investigationName: string, taskName: string, options?: TasksStartOptionalParams) => Promise<Task>;
+    update: (projectName: string, investigationName: string, taskName: string, resource: TaskCreateOrUpdateContent, options?: TasksStableUpdateOptionalParams) => Promise<Task>;
 }
 
 // @public
@@ -791,9 +803,9 @@ export interface ToolsGetRunStatusOptionalParams extends OperationOptions {
 
 // @public
 export interface ToolsOperations {
-    cancelRunLro: (projectName: string, operationId: string, options?: ToolsCancelRunLroOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
+    cancelRun: (projectName: string, operationId: string, options?: ToolsCancelRunLroOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
     getComputeUsage: (projectName: string, options?: ToolsGetComputeUsageOptionalParams) => Promise<ComputeUsage>;
-    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => Promise<PagedOperation>;
+    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
     getRunStatus: (projectName: string, operationId: string, options?: ToolsGetRunStatusOptionalParams) => Promise<OperationStatusRunResultError>;
     run: (projectName: string, toolId: string, nodePoolIds: string[], options?: ToolsRunOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
 }
@@ -822,7 +834,7 @@ export interface WorkingMemoryEntry {
 // @public
 export type WorkingMemoryEntryType = string;
 
-// @public (undocumented)
+// @public
 export class WorkspaceClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: WorkspaceClientOptionalParams);
     readonly conversations: ConversationsOperations;

@@ -4,10 +4,9 @@
 /**
  * Tests for Tasks operations (WorkspaceClient).
  *
- * Mirrors the Python suite (test_tasks.py) in the SAME order. Each test is
- * self-contained: it creates its own task and cleans it up, so ordering is not
- * strictly load-bearing here, but the definition order matches Python for
- * fidelity. vitest runs `it` blocks top-to-bottom within this file.
+ * Each test is self-contained: it creates its own task and cleans it up, so
+ * ordering is not strictly load-bearing here. vitest runs `it` blocks
+ * top-to-bottom within this file.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -100,15 +99,10 @@ describe("Tasks operations (WorkspaceClient)", () => {
   it("stableUpdate patches a task (PATCH)", async () => {
     const created = await createTask("task-for-update-test");
     try {
-      const updated = await client.tasks.stableUpdate(
-        projectName,
-        investigationName,
-        created.name,
-        {
-          title: "Updated sdk task title",
-          description: "Updated sdk task description",
-        } as Task,
-      );
+      const updated = await client.tasks.update(projectName, investigationName, created.name, {
+        title: "Updated sdk task title",
+        description: "Updated sdk task description",
+      } as Task);
       assert.isDefined(updated);
       assert.equal(updated.title, "Updated sdk task title");
       assert.equal(updated.description, "Updated sdk task description");
@@ -132,7 +126,7 @@ describe("Tasks operations (WorkspaceClient)", () => {
       })) {
         count++;
       }
-      assert.isAtLeast(count, 0);
+      assert.isAtLeast(count, 1);
     } finally {
       await deleteTaskQuiet(created.name);
     }

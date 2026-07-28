@@ -16,8 +16,7 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WorkspaceClient(endpoint, credential);
 
-  const conversations = await client.conversations.list();
-  for (const conversation of conversations.value) {
+  for await (const conversation of client.conversations.list()) {
     console.log(`Conversation: ${conversation.name}`);
   }
 }

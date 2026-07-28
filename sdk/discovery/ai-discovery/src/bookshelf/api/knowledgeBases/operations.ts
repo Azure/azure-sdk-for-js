@@ -10,6 +10,8 @@ import {
   KnowledgeBaseOperationResponseUnion,
   SearchRequest,
   searchRequestSerializer,
+  KnowledgeBaseSearchOperationResponse,
+  knowledgeBaseSearchOperationResponseDeserializer,
 } from "../../../models/microsoft/discovery/bookshelf/models.js";
 import { _PagedKnowledgeBase, _pagedKnowledgeBaseDeserializer } from "../../../models/models.js";
 import {
@@ -125,13 +127,15 @@ export function _searchSend(
   });
 }
 
-export async function _searchDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _searchDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeBaseSearchOperationResponse> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return;
+  return knowledgeBaseSearchOperationResponseDeserializer(result.body);
 }
 /** Search the knowledge base. */
 export function search(
@@ -139,14 +143,20 @@ export function search(
   knowledgeBaseName: string,
   body: SearchRequest,
   options: KnowledgeBasesSearchOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<
+  OperationState<KnowledgeBaseSearchOperationResponse>,
+  KnowledgeBaseSearchOperationResponse
+> {
   return getLongRunningPoller(context, _searchDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _searchSend(context, knowledgeBaseName, body, options),
     resourceLocationConfig: "operation-location",
     apiVersion: "2026-06-01",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<
+    OperationState<KnowledgeBaseSearchOperationResponse>,
+    KnowledgeBaseSearchOperationResponse
+  >;
 }
 
 export function _cancelIndexingSend(

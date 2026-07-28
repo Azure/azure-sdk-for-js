@@ -13,11 +13,9 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { BookshelfClient, WorkspaceClient } from "../../../src/index.js";
 
 /**
- * Sanitized values substituted for the real environment. These MUST match the
- * Python SDK's sanitized values (see ~/Workspace/SDK/env_sanitized and the
- * azure-ai-discovery Python tests' constants.py) so the two SDKs' recordings
- * are interchangeable. During recording the recorder replaces the real env
- * values (from ~/Workspace/SDK/env) with these; during playback it sets these.
+ * Sanitized values substituted for the real environment. During recording the
+ * recorder replaces the real environment values with these; during playback it
+ * sets these so the recorded requests/responses resolve.
  */
 const envSetupForPlayback: Record<string, string> = {
   AZURE_DISCOVERY_WORKSPACE_ENDPOINT: "https://test-wkspc.workspace.discovery.azure.com",
@@ -47,8 +45,8 @@ const envSetupForPlayback: Record<string, string> = {
     "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Discovery/workspaces/test-wkspc/projects/test-project",
 };
 
-// Sanitizers mirror the Python SDK's conftest.py so recordings are scrubbed
-// identically across languages.
+// Sanitizers scrub sensitive values (endpoints, GUIDs, credentials) from the
+// recorded requests and responses.
 const sanitizerOptions: SanitizerOptions = {
   generalSanitizers: [
     // Any GUID (subscription ids, request ids, etc.) -> zeroed GUID.
@@ -74,7 +72,7 @@ const sanitizerOptions: SanitizerOptions = {
     { key: "Authorization", value: "Bearer [REDACTED]" },
     { key: "x-ms-client-request-id", value: "00000000-0000-0000-0000-000000000000" },
     // The service returns a bogus Location: https://example.com for LROs; empty
-    // it so the poller falls back to operation-location (matches Python).
+    // it so the poller falls back to operation-location.
     { key: "Location", regex: true, target: "^https://example\\.com$", value: "" },
   ],
 };
@@ -82,11 +80,11 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions,
-  // Python removes the default "$..name" -> "Sanitized" body-key sanitizer
-  // (AZSDK3493) because it clobbers resource names; match that. Also remove
+  // Remove the default "$..name" -> "Sanitized" body-key sanitizer (AZSDK3493)
+  // because it clobbers resource names in request/response bodies. Also remove
   // AZSDK4001, which rewrites the endpoint subdomain to "Sanitized" on playback
   // requests and would break URI matching against the "test-wkspc"/"test-bkshlf"
-  // hosts baked into the (shared) recordings.
+  // hosts baked into the recordings.
   //
   // AZSDK2030 and AZSDK2003 are default header sanitizers that rewrite the
   // "operation-location" and "Location" header values to the literal
@@ -94,7 +92,7 @@ const recorderOptions: RecorderStartOptions = {
   // the real operation-location so the LRO poller follows example.com and fails.
   // Removing them keeps the real (host-sanitized to test-bkshlf/test-wkspc)
   // operation-location; our own headerSanitizer above empties the service's
-  // genuinely bogus Location: https://example.com, matching env_sanitized.
+  // genuinely bogus Location: https://example.com.
   removeCentralSanitizers: ["AZSDK3493", "AZSDK4001", "AZSDK2030", "AZSDK2003"],
 };
 
@@ -105,12 +103,12 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
-  // The recordings are shared with the Python SDK, whose request body/header
-  // serialization differs from JS. Match on method + URI only: ignore the body
-  // and the volatile/language-specific headers. `setMatcher` only takes effect
-  // in playback mode.
+  // Match requests on method, URI, and body. Only volatile or transport-level
+  // headers (auth, request ids, content negotiation, user-agent) are excluded,
+  // since they vary per run and don't identify the operation. `setMatcher` only
+  // takes effect in playback mode.
   await recorder.setMatcher("CustomDefaultMatcher", {
-    compareBodies: false,
+    compareBodies: true,
     excludedHeaders: [
       "Accept",
       "Accept-Encoding",
@@ -168,7 +166,7 @@ export function agentName(): string {
   return isPlaybackMode() ? "test-agent" : assertEnvironmentVariable("AGENT_NAME");
 }
 
-/** The full resource path for an investigation (mirrors Python's investigation_path). */
+/** The full resource path for an investigation. */
 export function investigationPath(projectName: string, investigationName: string): string {
   return `/projects/${projectName}/investigations/${investigationName}`;
 }
@@ -176,8 +174,7 @@ export function investigationPath(projectName: string, investigationName: string
 /**
  * Captures the server-assigned operation id from an LRO's `Operation-Location`
  * response header. The SDK does not expose the id directly on the poller, so we
- * read it from the initial response via the `onResponse` callback (the JS
- * analogue of Python reading `poller._polling_method._initial_response`).
+ * read it from the initial response via the `onResponse` callback.
  */
 export interface OperationIdCapture {
   onResponse: (rawResponse: { headers: { get(name: string): string | undefined } }) => void;

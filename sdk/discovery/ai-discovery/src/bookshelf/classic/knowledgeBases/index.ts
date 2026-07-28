@@ -4,8 +4,10 @@
 import { BookshelfContext } from "../../api/bookshelfContext.js";
 import {
   KnowledgeBase,
+  KnowledgeBaseCreateOrUpdateContent,
   KnowledgeBaseOperationResponseUnion,
   SearchRequest,
+  KnowledgeBaseSearchOperationResponse,
 } from "../../../models/microsoft/discovery/bookshelf/models.js";
 import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 import {
@@ -47,7 +49,10 @@ export interface KnowledgeBasesOperations {
     knowledgeBaseName: string,
     body: SearchRequest,
     options?: KnowledgeBasesSearchOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<KnowledgeBaseSearchOperationResponse>,
+    KnowledgeBaseSearchOperationResponse
+  >;
   /** Cancel indexing. */
   cancelIndexing: (
     knowledgeBaseName: string,
@@ -74,7 +79,7 @@ export interface KnowledgeBasesOperations {
   /** Creates or updates a KnowledgeBase. */
   createOrUpdate: (
     knowledgeBaseName: string,
-    resource: KnowledgeBase,
+    resource: KnowledgeBaseCreateOrUpdateContent,
     options?: KnowledgeBasesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<KnowledgeBase>, KnowledgeBase>;
 }
@@ -105,9 +110,9 @@ function _getKnowledgeBases(context: BookshelfContext) {
       get(context, knowledgeBaseName, options),
     createOrUpdate: (
       knowledgeBaseName: string,
-      resource: KnowledgeBase,
+      resource: KnowledgeBaseCreateOrUpdateContent,
       options?: KnowledgeBasesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, knowledgeBaseName, resource, options),
+    ) => createOrUpdate(context, knowledgeBaseName, resource as KnowledgeBase, options),
   };
 }
 export function _getKnowledgeBasesOperations(context: BookshelfContext): KnowledgeBasesOperations {

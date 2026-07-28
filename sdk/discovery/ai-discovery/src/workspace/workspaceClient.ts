@@ -17,11 +17,23 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { WorkspaceClientOptionalParams } from "./api/workspaceContext.js";
 
+/**
+ * Client for the Microsoft Discovery Workspace service. Exposes the workspace-scoped
+ * operation groups: `conversations`, `investigations`, `tasks`, and `tools`.
+ */
 export class WorkspaceClient {
   private _client: WorkspaceContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  /**
+   * Creates an instance of `WorkspaceClient`.
+   *
+   * @param endpointParam - The Discovery Workspace endpoint, for example
+   *   `https://<region>.workspace.discovery.microsoft.com`.
+   * @param credential - Credential used to authenticate requests to the service.
+   * @param options - Optional parameters for configuring the client.
+   */
   constructor(
     endpointParam: string,
     credential: TokenCredential,
