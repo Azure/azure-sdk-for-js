@@ -437,6 +437,52 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
   });
 
+  it("should not set a default accept header when noDefaultAcceptHeader is true", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.isFalse(request.headers.has("accept"));
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, { noDefaultAcceptHeader: true });
+  });
+
+  it("should keep custom accept option when noDefaultAcceptHeader is true", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "testContent");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      accept: "testContent",
+      noDefaultAcceptHeader: true,
+    });
+  });
+
+  it("should keep accept header when noDefaultAcceptHeader is true", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "testContent");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { accept: "testContent" },
+      noDefaultAcceptHeader: true,
+    });
+  });
+
+  it("should set a default accept header when noDefaultAcceptHeader is false", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "application/json");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, { noDefaultAcceptHeader: false });
+  });
+
   it("should set custom headers", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {

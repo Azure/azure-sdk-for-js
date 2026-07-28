@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -5101,12 +5101,18 @@ export interface VirtualMachine {
   readonly name: string;
   /** The compute RP resource id of the virtual machine. subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName} */
   readonly id: string;
-  /** Type of the virtual machine */
+  /** ARM resource type - virtual machine */
   readonly type?: string;
   /** This represents the operationStatus of the virtual machine in response to the last operation that was performed on it by Azure Fleet resource. */
   readonly operationStatus: VMOperationStatus;
   /** Error information when `operationStatus` is `Failed`. */
   readonly error?: ApiError;
+  /** The VM size of the virtual machine. */
+  readonly vmSize?: string;
+  /** The availability zone of the virtual machine. */
+  readonly zone?: string;
+  /** The priority of the virtual machine. */
+  readonly priority?: string;
 }
 
 export function virtualMachineDeserializer(item: any): VirtualMachine {
@@ -5116,6 +5122,9 @@ export function virtualMachineDeserializer(item: any): VirtualMachine {
     type: item["type"],
     operationStatus: item["operationStatus"],
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
+    vmSize: item["vmSize"],
+    zone: item["zone"],
+    priority: item["priority"],
   };
 }
 
@@ -5153,4 +5162,6 @@ export enum KnownVersions {
   V20241101 = "2024-11-01",
   /** Launch mode preview Api version. */
   V20260401Preview = "2026-04-01-preview",
+  /** Fleet Managed mode preview Api Version */
+  V20260601Preview = "2026-06-01-preview",
 }

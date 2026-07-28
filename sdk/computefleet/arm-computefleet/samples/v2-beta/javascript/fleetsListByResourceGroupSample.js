@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Fleet resources by resource group
  *
  * @summary list Fleet resources by resource group
- * x-ms-original-file: 2026-04-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function fleetsListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
