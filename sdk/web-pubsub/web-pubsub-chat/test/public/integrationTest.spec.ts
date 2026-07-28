@@ -84,6 +84,34 @@ describe("", () => {
         await client.deleteRole(roomRoleName);
       }
     });
+
+    it.skip("lists roles by page and resumes from a continuation token", async () => {
+      const firstRoleName = "user.pagination_test_role";
+      const secondRoleName = "room.pagination_test_role";
+
+      await client.createOrReplaceRole(firstRoleName, {
+        permissions: [ChatPermissions.UserCreateRoom],
+      });
+      await client.createOrReplaceRole(secondRoleName, {
+        permissions: [ChatPermissions.RoomPublishMessage],
+      });
+
+      try {
+        const firstPage = await client.listRoles({ maxpagesize: 1 }).byPage().next();
+        assert.lengthOf(firstPage.value!, 1);
+        assert.isDefined(firstPage.value!.continuationToken);
+
+        const secondPage = await client
+          .listRoles({ maxpagesize: 1 })
+          .byPage({ continuationToken: firstPage.value!.continuationToken })
+          .next();
+        assert.lengthOf(secondPage.value!, 1);
+        assert.notEqual(secondPage.value![0].name, firstPage.value![0].name);
+      } finally {
+        await client.deleteRole(firstRoleName);
+        await client.deleteRole(secondRoleName);
+      }
+    });
   });
 
   describe("rooms", () => {
@@ -121,6 +149,23 @@ describe("", () => {
         assert.isArray(messages);
       } finally {
         await client.deleteRoom(roomId);
+      }
+    });
+
+    it("returns empty message and member pages for a new room", async () => {
+      const emptyRoomId = recorder.variable("emptyPageRoomId", `empty-page-room-${Date.now()}`);
+      try {
+        const room = await client.createOrReplaceRoom(emptyRoomId, {
+          title: "Empty Page Test Room",
+        });
+
+        const messages = await client.listMessages(room.defaultConversation).byPage().next();
+        const members = await client.listRoomMembers(emptyRoomId).byPage().next();
+
+        assert.deepEqual(messages.value, []);
+        assert.deepEqual(members.value, []);
+      } finally {
+        await client.deleteRoom(emptyRoomId).catch(() => undefined);
       }
     });
 
