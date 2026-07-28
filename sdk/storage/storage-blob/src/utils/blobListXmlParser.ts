@@ -29,7 +29,7 @@ async function readResponseBodyToText(response: {
  * back to XML for an account that does not support Apache Arrow; parses the
  * already-received stream instead of issuing a second request.
  *
- * @param response - The raw stream response returned by the Apache Arrow list operation.
+ * @param response - The raw stream response from the list operation, with an XML body.
  */
 export async function deserializeListBlobFlatSegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
@@ -53,7 +53,7 @@ export async function deserializeListBlobFlatSegmentXml(response: {
  * Deserializes a List Blobs by hierarchy XML response body (see
  * {@link deserializeListBlobFlatSegmentXml}).
  *
- * @param response - The raw stream response returned by the Apache Arrow list operation.
+ * @param response - The raw stream response from the list operation, with an XML body.
  */
 export async function deserializeListBlobHierarchySegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
