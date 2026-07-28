@@ -1699,6 +1699,9 @@ sdk/containerservice/arm-containerservicepreparedimgspec/ @qiaozha @MaryGao @Jia
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########

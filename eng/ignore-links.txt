@@ -133,3 +133,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-containerservicepreparedim
 https://www.npmjs.com/package/@azure/arm-containerservicepreparedimgspec
 https://learn.microsoft.com/javascript/api/@azure/arm-enclave?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-enclave
+https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-compute-bulkactions

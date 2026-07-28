@@ -6547,9 +6547,15 @@ importers:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
@@ -8813,7 +8819,7 @@ importers:
         specifier: ^1.3.0
         version: link:../core-tracing
       '@typespec/ts-http-runtime':
-        specifier: ^0.3.0
+        specifier: ^0.3.8
         version: link:../ts-http-runtime
       tslib:
         specifier: ^2.6.2
@@ -16518,7 +16524,7 @@ importers:
         specifier: ^5.5.0
         version: 5.17.1
       '@azure/msal-node':
-        specifier: ^5.1.0
+        specifier: ^5.1.5
         version: 5.4.2
       open:
         specifier: ^11.0.0
@@ -22261,7 +22267,7 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       '@opentelemetry/api':
-        specifier: ^1.9.0
+        specifier: ^1.9.1
         version: 1.9.1
       '@opentelemetry/api-logs':
         specifier: ^0.220.0
@@ -22275,6 +22281,9 @@ importers:
       '@opentelemetry/instrumentation-bunyan':
         specifier: ^0.65.0
         version: 0.65.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/instrumentation-console':
+        specifier: ^0.2.0
+        version: 0.2.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/instrumentation-http':
         specifier: ^0.220.0
         version: 0.220.0(@opentelemetry/api@1.9.1)
@@ -22394,7 +22403,7 @@ importers:
         specifier: ^1.11.0
         version: link:../../core/core-util
       '@opentelemetry/api':
-        specifier: ^1.9.0
+        specifier: ^1.9.1
         version: 1.9.1
       '@opentelemetry/api-logs':
         specifier: ^0.220.0
@@ -36966,6 +36975,12 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
+  '@opentelemetry/instrumentation-console@0.2.0':
+    resolution: {integrity: sha1-VYCKYTScPoLYR85W5cwlBCSzkOc=}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': ^1.9.1
+
   '@opentelemetry/instrumentation-http@0.220.0':
     resolution: {integrity: sha1-zYbJvJr+MZIyKtPhaDWNz8CuhYQ=}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -43757,6 +43772,14 @@ snapshots:
       '@opentelemetry/instrumentation': 0.220.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/semantic-conventions': 1.43.0
       '@types/bunyan': 1.8.11
+    transitivePeerDependencies:
+      - supports-color
+
+  '@opentelemetry/instrumentation-console@0.2.0(@opentelemetry/api@1.9.1)':
+    dependencies:
+      '@opentelemetry/api': 1.9.1
+      '@opentelemetry/api-logs': 0.220.0
+      '@opentelemetry/instrumentation': 0.220.0(@opentelemetry/api@1.9.1)
     transitivePeerDependencies:
       - supports-color
 
