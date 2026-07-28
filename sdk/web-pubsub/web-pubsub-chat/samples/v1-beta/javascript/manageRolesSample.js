@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChatPermissions, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { ChatPermissions, WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to create, get, list, and delete chat roles.
  *
  * @summary manage chat roles.
  */
-async function manageRoles(): Promise<void> {
+async function manageRoles() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
   const credential = new DefaultAzureCredential();
   const hub = process.env.WPS_CHAT_HUB || "";
@@ -35,7 +35,7 @@ async function manageRoles(): Promise<void> {
   }
 }
 
-async function main(): Promise<void> {
+async function main() {
   await manageRoles();
 }
 
