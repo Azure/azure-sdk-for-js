@@ -34,16 +34,16 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@eslint/js": "catalog:",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
     "@vitest/coverage-istanbul": "^4.0.0",
-    "eslint": "catalog:",
+    "eslint": "^10.8.0",
     "pino-pretty": "^13.1.1",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
+    "prettier": "^3.9.1",
+    "rimraf": "^6.1.0",
     "tsx": "^4.17.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "catalog:",
+    "typescript-eslint": "~8.65.0",
     "vitest": "^4.0.0"
   },
   "scripts": {
