@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionConfig } from "@azure/core-amqp";
+import type { ConnectionConfig, RetryConfig } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
 import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
@@ -28,6 +29,7 @@ import type { ServiceBusSender } from "./sender.js";
 import { ServiceBusSenderImpl } from "./sender.js";
 import { entityPathMisMatchError } from "./util/errors.js";
 import { MessageSession } from "./session/messageSession.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
 import { ensureValidIdentifier } from "./util/utils.js";
@@ -489,7 +491,7 @@ export class ServiceBusClient {
   /**
    * Lists the IDs of sessions in a session-enabled queue.
    *
-   * By default, returns sessions with active messages in the entity.
+   * By default, returns sessions that have active messages or session state.
    * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
    * whose session state was updated after that time instead.
    *
@@ -504,7 +506,7 @@ export class ServiceBusClient {
   /**
    * Lists the IDs of sessions in a session-enabled subscription.
    *
-   * By default, returns sessions with active messages in the entity.
+   * By default, returns sessions that have active messages or session state.
    * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
    * whose session state was updated after that time instead.
    *
@@ -536,6 +538,8 @@ export class ServiceBusClient {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
     const managementClient = this._connectionContext.getManagementClient(entityPath);
+    const retryOptions = this._clientOptions.retryOptions ?? {};
+    const connectionId = this._connectionContext.connectionId;
     const pageSize = 100;
 
     // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
@@ -547,14 +551,34 @@ export class ServiceBusClient {
     const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
       firstPageLink: 0,
       getPage: async (pageLink, maxPageSize) => {
-        const top = maxPageSize ?? pageSize;
+        // A caller-supplied page size of 0 (or negative) is treated as unset: asking the
+        // service for zero sessions returns an empty page and silently ends the iterator.
+        const top = typeof maxPageSize === "number" && maxPageSize > 0 ? maxPageSize : pageSize;
         let page: string[];
         try {
-          page = await managementClient.listMessageSessions(
-            pageLink,
-            top,
-            lastUpdatedTime,
-            options,
+          // Wrap each page fetch in the retry policy and a tracing span, matching the other
+          // management operations in this client (e.g. getRules). A link detach mid-enumeration
+          // then recovers instead of throwing, and the caller's requestName / timeoutInMs are used.
+          page = await tracingClient.withSpan(
+            "ServiceBusClient.listMessageSessions",
+            options ?? {},
+            (updatedOptions) => {
+              const listMessageSessionsOperationPromise = async (): Promise<string[]> =>
+                managementClient.listMessageSessions(pageLink, top, lastUpdatedTime, {
+                  ...options,
+                  ...updatedOptions,
+                  requestName: "listMessageSessions",
+                  timeoutInMs: retryOptions.timeoutInMs,
+                });
+              const config: RetryConfig<string[]> = {
+                operation: listMessageSessionsOperationPromise,
+                connectionId,
+                operationType: RetryOperationType.management,
+                retryOptions,
+                abortSignal: updatedOptions?.abortSignal,
+              };
+              return retry<string[]>(config);
+            },
           );
         } catch (err: any) {
           // The service returns 204 NoContent (with com.microsoft:session-not-found)
