@@ -1,17 +1,19 @@
-import { getTsSourceFile } from '../../common/utils.js';
-import { ApiVersionType } from '../../common/types.js';
-import path, { basename } from 'node:path';
-import { FunctionDeclaration, SourceFile, SyntaxKind } from 'ts-morph';
-import { logger } from '../../utils/logger.js';
-import { glob } from 'glob';
-import { exists } from 'fs-extra';
-import { tryGetNpmView } from '../../common/npmUtils.js';
-import { getLatestStableVersion, isBetaVersion } from '../../utils/version.js';
-import fs from 'fs';
-import unixify from 'unixify';
+import { getTsSourceFile } from "../../common/utils.js";
+import { ApiVersionType } from "../../common/types.js";
+import path, { basename } from "node:path";
+import { FunctionDeclaration, SourceFile, SyntaxKind } from "ts-morph";
+import { logger } from "../../utils/logger.js";
+import { glob } from "glob";
+import { exists } from "fs-extra";
+import { tryGetNpmView } from "../../common/npmUtils.js";
+import { getLatestStableVersion, isBetaVersion } from "../../utils/version.js";
+import fs from "fs";
+import unixify from "unixify";
 
 function tryFindVersionInFunctionBody(func: FunctionDeclaration): string | undefined {
-  const apiVersionStatements = func.getStatements().filter((s) => s.getText().includes('options.apiVersion'));
+  const apiVersionStatements = func
+    .getStatements()
+    .filter((s) => s.getText().includes("options.apiVersion"));
   if (apiVersionStatements.length === 0) {
     return undefined;
   }
@@ -30,7 +32,10 @@ function getFunctionNameCaseInsensitive(sourceFile: SourceFile, functionName: st
   return matchingFunction?.getName() || functionName;
 }
 
-function tryFindFunctionWithApiVersion(clientPath: string, functionName: string): FunctionDeclaration | undefined {
+function tryFindFunctionWithApiVersion(
+  clientPath: string,
+  functionName: string,
+): FunctionDeclaration | undefined {
   const sourceFile = getTsSourceFile(clientPath);
   if (!sourceFile) return undefined;
 
@@ -48,25 +53,27 @@ const extractApiVersionFromText = (text: string): string | undefined => {
 };
 
 const tryFindApiVersionInRestClientV1 = (clientPath: string): string | undefined => {
-  const createClientFunction = tryFindFunctionWithApiVersion(clientPath, 'createClient');
+  const createClientFunction = tryFindFunctionWithApiVersion(clientPath, "createClient");
   if (!createClientFunction) return undefined;
   return tryFindVersionInFunctionBody(createClientFunction);
 };
 
 // new way in @autorest/typespec-ts emitter to set up api-version
 const tryFindApiVersionInRestClientV2 = (clientPath: string): string | undefined => {
-  const createClientFunction = tryFindFunctionWithApiVersion(clientPath, 'createClient');
+  const createClientFunction = tryFindFunctionWithApiVersion(clientPath, "createClient");
   if (!createClientFunction) return undefined;
   let apiVersion: string | undefined = undefined;
   const bindingParameters = createClientFunction
     .getParameters()
     .filter((p) => p.getNameNode().getKind() === SyntaxKind.ObjectBindingPattern);
   if (bindingParameters.length !== 1) return undefined;
-  const bindingPatterns = bindingParameters[0].getNameNode().asKind(SyntaxKind.ObjectBindingPattern);
+  const bindingPatterns = bindingParameters[0]
+    .getNameNode()
+    .asKind(SyntaxKind.ObjectBindingPattern);
   if (!bindingPatterns) return undefined;
   bindingPatterns
     .getElements()
-    .filter((e) => e.getName() === 'apiVersion')
+    .filter((e) => e.getName() === "apiVersion")
     .map((e) => {
       const text = e.getInitializer()?.getText();
       if (!text) return;
@@ -77,14 +84,16 @@ const tryFindApiVersionInRestClientV2 = (clientPath: string): string | undefined
 
 // another new way in @autorest/typespec-ts emitter to set up api-version
 const tryFindApiVersionInRestClientV3 = (clientPath: string): string | undefined => {
-  const suffix = basename(clientPath).replace('Context.ts', '');
+  const suffix = basename(clientPath).replace("Context.ts", "");
   const functionName = `create${suffix[0].toUpperCase()}${suffix.slice(1)}`;
   const createClientFunction = tryFindFunctionWithApiVersion(clientPath, functionName);
   if (!createClientFunction) return undefined;
   return tryFindVersionInFunctionBody(createClientFunction);
 };
 
-const findApiVersionsInOperations = (sourceFile: SourceFile | undefined): Array<string> | undefined => {
+const findApiVersionsInOperations = (
+  sourceFile: SourceFile | undefined,
+): Array<string> | undefined => {
   const interfaces = sourceFile?.getInterfaces();
   const interfacesWithApiVersion = interfaces?.filter((itf) => itf.getProperty('"api-version"'));
   const apiVersions = interfacesWithApiVersion?.map((itf) => {
@@ -111,12 +120,14 @@ export const tryFindApiVersionInRestClient = (clientPath: string): string | unde
 
 export const tryFindRestClientPath = async (
   packageRoot: string,
-  clientPattern: string
+  clientPattern: string,
 ): Promise<string | undefined> => {
   const pattern = unixify(path.join(packageRoot, clientPattern));
   const clientFiles = await glob(pattern);
   if (clientFiles.length !== 1) {
-    logger.warn(`Failed to find exactly one REST client in pattern '${pattern}', got '${clientFiles}'.`);
+    logger.warn(
+      `Failed to find exactly one REST client in pattern '${pattern}', got '${clientFiles}'.`,
+    );
     return undefined;
   }
   const filePath = clientFiles[0];
@@ -130,13 +141,13 @@ export const tryFindRestClientPath = async (
 export const getApiVersionTypeFromRestClient = async (
   packageRoot: string,
   clientPattern: string,
-  findRestClientPath: (packageRoot: string, clientPattern: string) => Promise<string | undefined>
+  findRestClientPath: (packageRoot: string, clientPattern: string) => Promise<string | undefined>,
 ): Promise<ApiVersionType> => {
   const clientPath = await findRestClientPath(packageRoot, clientPattern);
   if (!clientPath) return ApiVersionType.None;
   const apiVersion = tryFindApiVersionInRestClient(clientPath);
-  if (apiVersion && apiVersion.indexOf('-preview') >= 0) return ApiVersionType.Preview;
-  if (apiVersion && apiVersion.indexOf('-preview') < 0) return ApiVersionType.Stable;
+  if (apiVersion && apiVersion.indexOf("-preview") >= 0) return ApiVersionType.Preview;
+  if (apiVersion && apiVersion.indexOf("-preview") < 0) return ApiVersionType.Stable;
   return ApiVersionType.None;
 };
 
@@ -144,26 +155,30 @@ export const getApiVersionTypeFromOperations = (parametersPath: string): ApiVers
   const sourceFile = getTsSourceFile(parametersPath);
   const apiVersions = findApiVersionsInOperations(sourceFile);
   if (!apiVersions) return ApiVersionType.None;
-  const previewVersions = apiVersions.filter((v) => v.indexOf('-preview') >= 0);
+  const previewVersions = apiVersions.filter((v) => v.indexOf("-preview") >= 0);
   return previewVersions.length > 0 ? ApiVersionType.Preview : ApiVersionType.Stable;
 };
 
 export const getApiVersionTypeFromNpm = async (packageName: string): Promise<ApiVersionType> => {
-  logger.info('Fallback to get api version type from latest version in NPM');
+  logger.info("Fallback to get api version type from latest version in NPM");
   const npmViewResult = await tryGetNpmView(packageName);
   if (!npmViewResult) return ApiVersionType.Preview;
   const latestVersion = getLatestStableVersion(npmViewResult);
-  return latestVersion && !isBetaVersion(latestVersion) ? ApiVersionType.Stable : ApiVersionType.Preview;
+  return latestVersion && !isBetaVersion(latestVersion)
+    ? ApiVersionType.Stable
+    : ApiVersionType.Preview;
 };
 
-export const getApiVersionTypeFromMetadata = async (packageRoot: string): Promise<ApiVersionType> => {
-  const metadataPath = path.join(packageRoot, 'metadata.json');
+export const getApiVersionTypeFromMetadata = async (
+  packageRoot: string,
+): Promise<ApiVersionType> => {
+  const metadataPath = path.join(packageRoot, "metadata.json");
   if (!(await exists(metadataPath))) {
     return ApiVersionType.None;
   }
 
   try {
-    const metadataContent = fs.readFileSync(metadataPath, 'utf-8');
+    const metadataContent = fs.readFileSync(metadataPath, "utf-8");
     const metadata = JSON.parse(metadataContent);
 
     let apiVersion: string | undefined;
@@ -172,13 +187,15 @@ export const getApiVersionTypeFromMetadata = async (packageRoot: string): Promis
     if (
       metadata.apiVersions != null &&
       !Array.isArray(metadata.apiVersions) &&
-      typeof metadata.apiVersions === 'object'
+      typeof metadata.apiVersions === "object"
     ) {
-      const values = Object.values(metadata.apiVersions).filter((v): v is string => typeof v === 'string');
+      const values = Object.values(metadata.apiVersions).filter(
+        (v): v is string => typeof v === "string",
+      );
       if (values.length > 0) {
         // If any version is preview, use a preview version; otherwise use the first stable version
         // This ensures: any preview -> Preview, all stable -> Stable
-        apiVersion = values.find((v) => v.indexOf('-preview') >= 0) || values[0];
+        apiVersion = values.find((v) => v.indexOf("-preview") >= 0) || values[0];
       }
     } else {
       // Support old format: { "apiVersion": "version" }
@@ -186,12 +203,14 @@ export const getApiVersionTypeFromMetadata = async (packageRoot: string): Promis
     }
 
     if (!apiVersion) {
-      logger.warn(`metadata.json exists at ${metadataPath} but does not contain apiVersion or apiVersions field`);
+      logger.warn(
+        `metadata.json exists at ${metadataPath} but does not contain apiVersion or apiVersions field`,
+      );
       return ApiVersionType.None;
     }
 
     logger.info(`Found apiVersion "${apiVersion}" in metadata.json`);
-    return apiVersion.indexOf('-preview') >= 0 ? ApiVersionType.Preview : ApiVersionType.Stable;
+    return apiVersion.indexOf("-preview") >= 0 ? ApiVersionType.Preview : ApiVersionType.Stable;
   } catch (error) {
     logger.warn(`Failed to read or parse metadata.json at ${metadataPath}: ${error}`);
     return ApiVersionType.None;

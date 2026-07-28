@@ -14,13 +14,13 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
+  ArmErrorResponse,
+  ArmErrorDetail,
+  ErrorAdditionalInfo,
   PrivateLinkResourceProperties,
   Resource,
   SystemData,
   CreatedByType,
-  ArmErrorResponse,
-  ArmErrorDetail,
-  ErrorAdditionalInfo,
   PrivateLinkResourceListResult,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
@@ -64,14 +64,9 @@ export {
 export type {
   ActionGroupResource,
   ActionGroup,
-  EmailReceiver,
-  ReceiverStatus,
-  SmsReceiver,
   WebhookReceiver,
   ItsmReceiver,
-  AzureAppPushReceiver,
   AutomationRunbookReceiver,
-  VoiceReceiver,
   LogicAppReceiver,
   AzureFunctionReceiver,
   ArmRoleReceiver,
@@ -80,10 +75,8 @@ export type {
   IncidentServiceConnection,
   IncidentManagementService,
   ActionGroupPatchBody,
-  ActionGroupPatch,
   NotificationRequestBody,
   TestNotificationDetailsResponse,
-  Context,
   ActionDetail,
   EnableRequest,
 } from "./models/actionGroupsApi/index.js";
@@ -295,6 +288,16 @@ export {
   KnownKnownOtelTracesDirectDataSourceStreams,
 } from "./models/dataCollectionApi/index.js";
 export type {
+  MetricSettings,
+  LogSettings,
+  DiagnosticSettingsResource,
+  DiagnosticSettings,
+  DiagnosticSettingsCategoryResource,
+  DiagnosticSettingsCategory,
+  CategoryType,
+} from "./models/diagnosticsSettings/index.js";
+export { KnownCategoryType } from "./models/diagnosticsSettings/index.js";
+export type {
   LogProfileResource,
   LogProfileProperties,
   LogProfileResourcePatch,
@@ -426,12 +429,38 @@ export {
 export type {
   ServiceDiagnosticSettingsResource,
   ServiceDiagnosticSettings,
-  LogSettings,
   ServiceDiagnosticSettingsResourcePatch,
 } from "./models/serviceDiagnosticsSettingsApi/index.js";
 export type {
-  LocalizableString,
+  TenantNotificationRequestBody,
+  TenantActionGroupWebhookReceiver,
+  TenantActionGroupTestNotificationDetailsResponse,
+  TenantActionGroupActionDetail,
+  TenantActionGroupResource,
+  TenantActionGroup,
+  TenantActionGroupPatchBody,
+} from "./models/tenantActionGroups/index.js";
+export type {
+  VMInsightsOnboardingStatus,
+  VMInsightsOnboardingStatusProperties,
+  OnboardingStatus,
+  DataStatus,
+  DataContainer,
+  WorkspaceInfo,
+  WorkspaceInfoProperties,
+  ResponseWithError,
+  ErrorModel,
+} from "./models/vmInsightsOnboarding/index.js";
+export { KnownOnboardingStatus, KnownDataStatus } from "./models/vmInsightsOnboarding/index.js";
+export type {
+  EmailReceiver,
+  ReceiverStatus,
+  SmsReceiver,
+  AzureAppPushReceiver,
+  VoiceReceiver,
+  Context,
   ErrorResponse,
+  LocalizableString,
   ErrorContract,
   CommonErrorResponse,
   RetentionPolicy,
@@ -443,11 +472,15 @@ export type {
   ErrorDetail,
   ErrorDetailAdditionalInfoItem,
   ErrorResponseErrorAdditionalInfoItem,
+  ActionGroupPatch,
   ResultType,
 } from "./models/microsoft/common/index.js";
 export { KnownCriterionType } from "./models/microsoft/common/index.js";
-export type { MetricSettings } from "./models/microsoft/insightsCombinedClient/index.js";
-export type { MonitorClientOptionalParams } from "./api/index.js";
+export type {
+  MonitorClientOptionalParams,
+  GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams,
+  CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams,
+} from "./api/index.js";
 export type {
   ActionGroupsReconcileNSPOptionalParams,
   ActionGroupsListNSPOptionalParams,
@@ -511,6 +544,16 @@ export type {
   DataCollectionRulesCreateOptionalParams,
   DataCollectionRulesGetOptionalParams,
 } from "./api/dataCollectionRules/index.js";
+export type {
+  DiagnosticSettingsListOptionalParams,
+  DiagnosticSettingsDeleteOptionalParams,
+  DiagnosticSettingsCreateOrUpdateOptionalParams,
+  DiagnosticSettingsGetOptionalParams,
+} from "./api/diagnosticSettings/index.js";
+export type {
+  DiagnosticSettingsCategoryListOptionalParams,
+  DiagnosticSettingsCategoryGetOptionalParams,
+} from "./api/diagnosticSettingsCategory/index.js";
 export type { EventCategoriesListOptionalParams } from "./api/eventCategories/index.js";
 export type {
   LogProfilesListOptionalParams,
@@ -585,7 +628,15 @@ export type {
   ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
   ServiceDiagnosticSettingsGetOptionalParams,
 } from "./api/serviceDiagnosticSettings/index.js";
+export type {
+  TenantActionGroupsListByManagementGroupIdOptionalParams,
+  TenantActionGroupsDeleteOptionalParams,
+  TenantActionGroupsUpdateOptionalParams,
+  TenantActionGroupsCreateOrUpdateOptionalParams,
+  TenantActionGroupsGetOptionalParams,
+} from "./api/tenantActionGroups/index.js";
 export type { TenantActivityLogsListOptionalParams } from "./api/tenantActivityLogs/index.js";
+export type { vMInsightsGetOnboardingStatusOptionalParams } from "./api/vMInsights/index.js";
 export type {
   ActionGroupsOperations,
   ActivityLogAlertsOperations,
@@ -596,6 +647,8 @@ export type {
   DataCollectionEndpointsOperations,
   DataCollectionRuleAssociationsOperations,
   DataCollectionRulesOperations,
+  DiagnosticSettingsOperations,
+  DiagnosticSettingsCategoryOperations,
   EventCategoriesOperations,
   LogProfilesOperations,
   MetricAlertsOperations,
@@ -612,7 +665,9 @@ export type {
   ScheduledQueryRuleOperations,
   ScheduledQueryRulesOperations,
   ServiceDiagnosticSettingsOperations,
+  TenantActionGroupsOperations,
   TenantActivityLogsOperations,
+  vMInsightsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

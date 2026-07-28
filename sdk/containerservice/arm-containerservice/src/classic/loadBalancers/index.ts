@@ -65,7 +65,6 @@ export interface LoadBalancersOperations {
     options?: LoadBalancersGetOptionalParams,
   ) => Promise<LoadBalancer>;
 }
-
 function _getLoadBalancers(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -120,7 +119,6 @@ function _getLoadBalancers(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, loadBalancerName, options),
   };
 }
-
 export function _getLoadBalancersOperations(
   context: ContainerServiceContext,
 ): LoadBalancersOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the network security perimeter configurations for a private link scope.
  *
  * @summary lists the network security perimeter configurations for a private link scope.
- * x-ms-original-file: 2025-09-16-preview/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: 2026-06-16-preview/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationList.json
  */
 async function getsTheListOfNetworkSecurityPerimeterConfigurationsOfThePrivateLinkScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

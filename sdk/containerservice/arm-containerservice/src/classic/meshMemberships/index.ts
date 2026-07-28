@@ -81,7 +81,6 @@ export interface MeshMembershipsOperations {
     options?: MeshMembershipsGetOptionalParams,
   ) => Promise<MeshMembership>;
 }
-
 function _getMeshMemberships(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -170,7 +169,6 @@ function _getMeshMemberships(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, meshMembershipName, options),
   };
 }
-
 export function _getMeshMembershipsOperations(
   context: ContainerServiceContext,
 ): MeshMembershipsOperations {

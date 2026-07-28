@@ -118,7 +118,22 @@ export function isEnvVarTrue(envVarName: string): boolean {
 export enum RetriableRestErrorTypes {
   REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
   DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+  CONNECTION_TIMEOUT = "ETIMEDOUT",
+  SOCKET_TIMEOUT = "ESOCKETTIMEDOUT",
+  CONNECTION_REFUSED = "ECONNREFUSED",
+  CONNECTION_RESET = "ECONNRESET",
+  DNS_LOOKUP_FAILED = "ENOTFOUND",
+  FILE_NOT_FOUND = "ENOENT",
+  BROKEN_PIPE = "EPIPE",
 }
+
+/**
+ * The `name` an aborted/timed-out operation error carries. This value is fixed by the
+ * WHATWG `DOMException` contract and mirrored by `@azure/abort-controller` and the
+ * `@typespec/ts-http-runtime` transport (all set `error.name = "AbortError"`)
+ * @internal
+ */
+export const ABORT_ERROR_NAME = "AbortError";
 /**
  * Application Insights shim version.
  * @internal
@@ -265,3 +280,62 @@ export type QuickPulseType =
   | "RequestTelemetryDocument"
   | "DependencyTelemetryDocument"
   | "AvailabilityTelemetryDocument";
+
+/**
+ * OneSettings control-plane hostname.
+ *
+ * OneSettings is the Azure Monitor control plane that lets the ingestion team dynamically toggle
+ * SDK features (e.g. SDK stats) and swap ingestion endpoints at runtime.
+ * @internal
+ */
+export const ONE_SETTINGS_CNAME = "https://settings.sdk.monitor.azure.com";
+/**
+ * OneSettings configuration (e1) endpoint — returns the full settings payload.
+ * @internal
+ */
+export const ONE_SETTINGS_CONFIG_URL = ONE_SETTINGS_CNAME + "/AzMonSDKDynamicConfiguration";
+/**
+ * OneSettings change-detection (e2) endpoint — cheap ETag poll used to detect changes.
+ * @internal
+ */
+export const ONE_SETTINGS_CHANGE_URL = ONE_SETTINGS_CNAME + "/AzMonSDKDynamicConfigurationChanges";
+/**
+ * Default refresh interval between OneSettings polls, in milliseconds (1 hour).
+ * Milliseconds are used because JS timers (`setTimeout`) are millisecond-based.
+ * @internal
+ */
+export const ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS = 3600 * 1000;
+/**
+ * Maximum refresh interval between OneSettings polls, in milliseconds (24 hours).
+ * @internal
+ */
+export const ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;
+/**
+ * Base interval, in milliseconds, for exponential backoff after transient OneSettings errors.
+ * @internal
+ */
+export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
+/**
+ * OneSettings feature key that gates customer-facing SDK stats.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";
+/**
+ * Namespace targeting sent with OneSettings requests to select the Node.js configuration bucket.
+ * @internal
+ */
+export const ONE_SETTINGS_NODEJS_TARGETING: Readonly<Record<string, string>> = {
+  namespaces: "nodejs",
+};
+/**
+ * HTTP status codes for which a failed OneSettings request should be retried with backoff.
+ * @internal
+ */
+export const ONE_SETTINGS_RETRYABLE_STATUS_CODES: readonly number[] = [
+  408, // Request Timeout
+  429, // Too Many Requests
+  500, // Internal Server Error
+  502, // Bad Gateway
+  503, // Service Unavailable
+  504, // Gateway Timeout
+];

@@ -2,8 +2,14 @@
 // Licensed under the MIT License.
 
 export type {
-  LocalizableString,
+  EmailReceiver,
+  ReceiverStatus,
+  SmsReceiver,
+  AzureAppPushReceiver,
+  VoiceReceiver,
+  Context,
   ErrorResponse,
+  LocalizableString,
   ErrorContract,
   CommonErrorResponse,
   RetentionPolicy,
@@ -15,6 +21,7 @@ export type {
   ErrorDetail,
   ErrorDetailAdditionalInfoItem,
   ErrorResponseErrorAdditionalInfoItem,
+  ActionGroupPatch,
   ResultType,
 } from "./models.js";
 export { KnownCriterionType } from "./models.js";
