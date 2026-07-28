@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a private endpoint connection under a private access resource.
  *
  * @summary gets information about a private endpoint connection under a private access resource.
- * x-ms-original-file: 2026-05-01-preview/PrivateAccesses_GetAPrivateEndpointConnection.json
+ * x-ms-original-file: 2026-08-01-preview/PrivateAccesses_GetAPrivateEndpointConnection.json
  */
 async function getInformationAboutAPrivateEndpointConnectionUnderAPrivateAccessResource() {
   const credential = new DefaultAzureCredential();
