@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/azurelinux/base/nodejs:20.14 AS base
+FROM mcr.microsoft.com/azurelinux/base/nodejs:24.18 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
