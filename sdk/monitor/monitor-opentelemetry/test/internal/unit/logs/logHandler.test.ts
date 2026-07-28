@@ -15,6 +15,7 @@ import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
+import type { ConsoleInstrumentationConfig } from "@opentelemetry/instrumentation-console";
 import type { MockInstance } from "vitest";
 import {
   afterAll,
@@ -222,6 +223,121 @@ describe("LogHandler", () => {
           .logSeverity,
         SeverityNumber.ERROR,
       );
+    });
+
+    it("should add console instrumentation", () => {
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.isTrue(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-console",
+        "Console instrumentation not added",
+      );
+    });
+
+    it("should set console log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "WARN";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.WARN,
+      );
+    });
+
+    it("should not register log instrumentations when the logging level is NONE", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      config.instrumentationOptions.winston = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        logHandler.getInstrumentations().length,
+        0,
+        "No log instrumentations should be registered when the logging level is NONE",
+      );
+      assert.isUndefined(
+        logHandler.getConsoleInstrumentation(),
+        "Console instrumentation should not be created when the logging level is NONE",
+      );
+      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    });
+  });
+
+  describe("#console collection", () => {
+    it("emits a LogRecord for console output that reaches the exporter", async () => {
+      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      const consoleInstrumentation = logHandler.getInstrumentations()[0];
+      consoleInstrumentation.enable();
+      try {
+        console.error("console-error-message");
+        await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+        expect(exportStub).toHaveBeenCalled();
+        const emitted = exportStub.mock.calls.flatMap((call) => call[0]);
+        const record = emitted.find((r) => r.body === "console-error-message");
+        assert.isDefined(record, "Console LogRecord was not exported");
+        assert.strictEqual(record.severityNumber, SeverityNumber.ERROR);
+      } finally {
+        consoleInstrumentation.disable();
+      }
+    });
+
+    it("filters console output below the configured severity threshold", async () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "ERROR";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      const consoleInstrumentation = logHandler.getInstrumentations()[0];
+      consoleInstrumentation.enable();
+      try {
+        console.warn("console-warn-filtered");
+        console.error("console-error-collected");
+        await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+        const emitted = exportStub.mock.calls.flatMap((call) => call[0]);
+        assert.isUndefined(
+          emitted.find((r) => r.body === "console-warn-filtered"),
+          "Filtered console.warn should not be exported",
+        );
+        assert.isDefined(
+          emitted.find((r) => r.body === "console-error-collected"),
+          "console.error at the threshold should be exported",
+        );
+      } finally {
+        consoleInstrumentation.disable();
+        delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+      }
     });
   });
 });

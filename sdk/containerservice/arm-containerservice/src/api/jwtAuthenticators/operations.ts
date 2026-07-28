@@ -35,7 +35,7 @@ export function _listByManagedClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listByManagedClusterDeserialize(
 
   return _jwtAuthenticatorListResultDeserializer(result.body);
 }
-
 /** Gets a list of JWT authenticators in the specified managed cluster. */
 export function listByManagedCluster(
   context: Client,
@@ -78,7 +77,7 @@ export function listByManagedCluster(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-05-02-preview",
     },
   );
 }
@@ -97,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jwtAuthenticatorName: jwtAuthenticatorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a JWT authenticator and updates the managed cluster to apply the settings. */
 export function $delete(
   context: Client,
@@ -134,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, jwtAuthenticatorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-05-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +151,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jwtAuthenticatorName: jwtAuthenticatorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return jwtAuthenticatorDeserializer(result.body);
 }
-
 /** Creates or updates JWT authenticator in the managed cluster and updates the managed cluster to apply the settings. */
 export function createOrUpdate(
   context: Client,
@@ -205,7 +202,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-05-02-preview",
   }) as PollerLike<OperationState<JWTAuthenticator>, JWTAuthenticator>;
 }
 
@@ -223,7 +220,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jwtAuthenticatorName: jwtAuthenticatorName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,7 +245,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<JW
 
   return jwtAuthenticatorDeserializer(result.body);
 }
-
 /** Gets the specified JWT authenticator of a managed cluster. */
 export async function get(
   context: Client,

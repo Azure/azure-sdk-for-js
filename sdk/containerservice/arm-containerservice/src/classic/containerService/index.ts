@@ -15,7 +15,6 @@ export interface ContainerServiceOperations {
     options?: ContainerServiceListNodeImageVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<NodeImageVersion>;
 }
-
 function _getContainerService(context: ContainerServiceContext) {
   return {
     listNodeImageVersions: (
@@ -24,7 +23,6 @@ function _getContainerService(context: ContainerServiceContext) {
     ) => listNodeImageVersions(context, location, options),
   };
 }
-
 export function _getContainerServiceOperations(
   context: ContainerServiceContext,
 ): ContainerServiceOperations {

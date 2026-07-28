@@ -35,7 +35,6 @@ export interface OperationStatusResultOperations {
     options?: OperationStatusResultGetByAgentPoolOptionalParams,
   ) => Promise<OperationStatusResult>;
 }
-
 function _getOperationStatusResult(context: ContainerServiceContext) {
   return {
     get: (
@@ -59,7 +58,6 @@ function _getOperationStatusResult(context: ContainerServiceContext) {
       getByAgentPool(context, resourceGroupName, resourceName, agentPoolName, operationId, options),
   };
 }
-
 export function _getOperationStatusResultOperations(
   context: ContainerServiceContext,
 ): OperationStatusResultOperations {

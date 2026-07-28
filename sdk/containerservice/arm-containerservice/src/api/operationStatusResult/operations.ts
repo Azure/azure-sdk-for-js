@@ -33,7 +33,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _getDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
-
 /** Get the status of a specific operation in the specified managed cluster. */
 export async function get(
   context: Client,
@@ -85,7 +84,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +111,6 @@ export async function _listDeserialize(
 
   return _operationStatusResultListDeserializer(result.body);
 }
-
 /** Gets a list of operations in the specified managedCluster */
 export function list(
   context: Client,
@@ -128,7 +126,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-05-02-preview",
     },
   );
 }
@@ -149,7 +147,7 @@ export function _getByAgentPoolSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +174,6 @@ export async function _getByAgentPoolDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
-
 /** Get the status of a specific operation in the specified agent pool. */
 export async function getByAgentPool(
   context: Client,
