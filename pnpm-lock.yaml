@@ -16518,7 +16518,7 @@ importers:
         specifier: ^5.5.0
         version: 5.17.1
       '@azure/msal-node':
-        specifier: ^5.1.0
+        specifier: ^5.1.5
         version: 5.4.2
       open:
         specifier: ^11.0.0
