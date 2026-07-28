@@ -977,6 +977,10 @@ export async function readResponseBodyToBytes(response: {
   throw new RangeError("List Blobs response body is empty or unavailable.");
 }
 
+/**
+ * Reads a Node.js readable stream to completion, concatenating its chunks into a
+ * single byte array.
+ */
 function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
   return new Promise<Uint8Array>((resolve, reject) => {
     const chunks: Uint8Array[] = [];
