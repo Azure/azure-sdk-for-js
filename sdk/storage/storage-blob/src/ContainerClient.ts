@@ -396,9 +396,8 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   responseFormat?: StorageResponseFormat;
   /**
-   * Optional. Specifies a fully qualified path within the container, ending the listing
-   * when all results before it have been returned. Only supported when the response format
-   * is {@link StorageResponseFormat.Arrow}.
+   * Optional. Specifies the relative path within the container before which listing ends.
+   * Only supported when the response format is {@link StorageResponseFormat.Arrow}.
    */
   endBefore?: string;
 }
@@ -548,9 +547,8 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   responseFormat?: StorageResponseFormat;
   /**
-   * Optional. Specifies a fully qualified path within the container, ending the listing
-   * when all results before it have been returned. Only supported when the response format
-   * is {@link StorageResponseFormat.Arrow}.
+   * Optional. Specifies the relative path within the container before which listing ends.
+   * Only supported when the response format is {@link StorageResponseFormat.Arrow}.
    */
   endBefore?: string;
 }
@@ -684,8 +682,8 @@ function isApacheArrow(contentType: string | undefined): boolean {
  * operation's `_response` carries only headers/status. To honor the
  * `ContainerListBlob*SegmentResponse` contract (whose `_response.parsedBody` is
  * non-optional), the caller passes the segment it just parsed as `parsedBody`, which
- * mirrors what the XML path exposes. `bodyAsText` is set to `""` because a native
- * Apache Arrow body is binary and has no faithful text representation.
+ * mirrors what the XML path exposes. `bodyAsText` carries the decoded XML for the
+ * XML-fallback path, or `""` for a native Apache Arrow body (binary, no text form).
  */
 function withListSegmentResponseMetadata<T>(
   base: Omit<T, "clientRequestId" | "requestId" | "version" | "date" | "contentType" | "_response">,
@@ -698,6 +696,7 @@ function withListSegmentResponseMetadata<T>(
     _response: object;
   },
   parsedBody: unknown,
+  bodyAsText = "",
 ): T {
   return {
     ...base,
@@ -708,7 +707,7 @@ function withListSegmentResponseMetadata<T>(
     contentType: rawResponse.contentType,
     _response: {
       ...rawResponse._response,
-      bodyAsText: "",
+      bodyAsText,
       parsedBody,
     },
   } as T;
@@ -1455,7 +1454,8 @@ export class ContainerClient extends StorageClient {
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
+      const { parsed: internalResponse, bodyAsText } =
+        await deserializeListBlobFlatSegmentXml(rawResponse);
       return withListSegmentResponseMetadata<ContainerListBlobFlatSegmentResponse>(
         {
           ...internalResponse,
@@ -1466,6 +1466,7 @@ export class ContainerClient extends StorageClient {
         },
         rawResponse,
         ConvertInternalResponseOfListBlobFlat(internalResponse),
+        bodyAsText,
       );
     }
 
@@ -1586,7 +1587,8 @@ export class ContainerClient extends StorageClient {
     // is not Apache Arrow, parse the already-received XML stream in place instead of
     // issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
+      const { parsed: internalResponse, bodyAsText } =
+        await deserializeListBlobHierarchySegmentXml(rawResponse);
       return withListSegmentResponseMetadata<ContainerListBlobHierarchySegmentResponse>(
         {
           ...internalResponse,
@@ -1598,6 +1600,7 @@ export class ContainerClient extends StorageClient {
         },
         rawResponse,
         ConvertInternalResponseOfListBlobHierarchy(internalResponse),
+        bodyAsText,
       );
     }
 

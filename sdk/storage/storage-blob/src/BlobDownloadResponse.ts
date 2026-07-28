@@ -483,10 +483,9 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
-   * The tier of page blob on a premium storage account or tier of block blob on blob storage LRS
-   * accounts. For a list of allowed premium page blob tiers, see
-   * https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd. For blob storage
-   * LRS accounts, valid values are Hot/Cool/Archive.
+   * The access tier of the blob. Values include premium page-blob tiers and block-blob tiers
+   * such as Hot, Cool, Cold, Archive, and Smart. See
+   * https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers.
    *
    * @readonly
    */

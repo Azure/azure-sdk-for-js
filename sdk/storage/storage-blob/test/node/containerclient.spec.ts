@@ -360,6 +360,15 @@ describe("ContainerClient List Blobs XML fallback (Apache Arrow request)", () =>
     assert.equal(items[1].properties.contentLength, 2048);
   });
 
+  it("listBlobsFlat XML fallback preserves the decoded response body text", async () => {
+    const client = containerClientReturningXml(flatXml);
+    for await (const page of client
+      .listBlobsFlat({ responseFormat: StorageResponseFormat.Arrow })
+      .byPage()) {
+      assert.include(page._response.bodyAsText ?? "", "<Name>blobA</Name>");
+    }
+  });
+
   const hierarchyXml =
     `<?xml version="1.0" encoding="utf-8"?>` +
     `<EnumerationResults ServiceEndpoint="https://fakeaccount.blob.core.windows.net/" ContainerName="fakecontainer">` +

@@ -1853,3 +1853,45 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     }
   });
 });
+
+describe("ContainerClient List Blobs endBefore validation", () => {
+  // `endBefore` is only valid with the Apache Arrow response format; the client rejects
+  // it up front for the default and XML formats. No service call is made.
+  const client = new ContainerClient("https://fakeaccount.blob.core.windows.net/fakecontainer");
+
+  it("listBlobsFlat rejects endBefore with the default (XML) format", () => {
+    assert.throws(
+      () => client.listBlobsFlat({ endBefore: "ccc" }),
+      RangeError,
+      /StorageResponseFormat.Arrow/,
+    );
+  });
+
+  it("listBlobsFlat rejects endBefore with an explicit XML format", () => {
+    assert.throws(
+      () => client.listBlobsFlat({ endBefore: "ccc", responseFormat: StorageResponseFormat.Xml }),
+      RangeError,
+      /StorageResponseFormat.Arrow/,
+    );
+  });
+
+  it("listBlobsByHierarchy rejects endBefore with the default (XML) format", () => {
+    assert.throws(
+      () => client.listBlobsByHierarchy("/", { endBefore: "ccc" }),
+      RangeError,
+      /StorageResponseFormat.Arrow/,
+    );
+  });
+
+  it("listBlobsByHierarchy rejects endBefore with an explicit XML format", () => {
+    assert.throws(
+      () =>
+        client.listBlobsByHierarchy("/", {
+          endBefore: "ccc",
+          responseFormat: StorageResponseFormat.Xml,
+        }),
+      RangeError,
+      /StorageResponseFormat.Arrow/,
+    );
+  });
+});

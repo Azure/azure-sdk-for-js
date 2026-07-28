@@ -34,15 +34,19 @@ async function readResponseBodyToText(response: {
 export async function deserializeListBlobFlatSegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
   blobBody?: Promise<Blob>;
-}): Promise<ListBlobsFlatSegmentResponse> {
-  const parsed = (await parseXML(await readResponseBodyToText(response), {
+}): Promise<{ parsed: ListBlobsFlatSegmentResponse; bodyAsText: string }> {
+  const bodyAsText = await readResponseBodyToText(response);
+  const parsedXml = (await parseXML(bodyAsText, {
     includeRoot: true,
   })) as Record<string, unknown>;
-  return listBlobsXmlSerializer.deserialize(
-    Mappers.ListBlobsFlatSegmentResponse,
-    parsed.EnumerationResults ?? parsed,
-    "EnumerationResults",
-  ) as ListBlobsFlatSegmentResponse;
+  return {
+    parsed: listBlobsXmlSerializer.deserialize(
+      Mappers.ListBlobsFlatSegmentResponse,
+      parsedXml.EnumerationResults ?? parsedXml,
+      "EnumerationResults",
+    ) as ListBlobsFlatSegmentResponse,
+    bodyAsText,
+  };
 }
 
 /**
@@ -54,13 +58,17 @@ export async function deserializeListBlobFlatSegmentXml(response: {
 export async function deserializeListBlobHierarchySegmentXml(response: {
   readableStreamBody?: NodeJS.ReadableStream;
   blobBody?: Promise<Blob>;
-}): Promise<ListBlobsHierarchySegmentResponse> {
-  const parsed = (await parseXML(await readResponseBodyToText(response), {
+}): Promise<{ parsed: ListBlobsHierarchySegmentResponse; bodyAsText: string }> {
+  const bodyAsText = await readResponseBodyToText(response);
+  const parsedXml = (await parseXML(bodyAsText, {
     includeRoot: true,
   })) as Record<string, unknown>;
-  return listBlobsXmlSerializer.deserialize(
-    Mappers.ListBlobsHierarchySegmentResponse,
-    parsed.EnumerationResults ?? parsed,
-    "EnumerationResults",
-  ) as ListBlobsHierarchySegmentResponse;
+  return {
+    parsed: listBlobsXmlSerializer.deserialize(
+      Mappers.ListBlobsHierarchySegmentResponse,
+      parsedXml.EnumerationResults ?? parsedXml,
+      "EnumerationResults",
+    ) as ListBlobsHierarchySegmentResponse,
+    bodyAsText,
+  };
 }
