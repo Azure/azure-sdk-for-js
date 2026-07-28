@@ -24,9 +24,10 @@ export async function main(): Promise<void> {
   });
 
   console.log("Creating evaluator generation job...");
+  const displayName = `sample-evaluator-generation-job-${Date.now()}`;
   const generationPoller = project.beta.evaluators.createGenerationJob({
     inputs: {
-      evaluator_display_name: "sample-evaluator-generation-job",
+      evaluator_display_name: displayName,
       evaluator_name: "sample-generated-evaluator",
       model: deploymentName,
       sources: [
@@ -51,7 +52,7 @@ export async function main(): Promise<void> {
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
-    if (!jobId) {
+    if (job.inputs?.evaluator_display_name === displayName) {
       jobId = job.id;
     }
   }

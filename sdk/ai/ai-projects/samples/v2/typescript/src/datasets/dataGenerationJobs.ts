@@ -22,9 +22,10 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating data generation job...");
-  const generationJob = await project.beta.datasets.createGenerationJob({
+  const jobName = `sample-data-generation-job-${Date.now()}`;
+  const generationPoller = project.beta.datasets.createGenerationJob({
     inputs: {
-      name: "sample-data-generation-job",
+      name: jobName,
       scenario: "supervised_finetuning",
       sources: [
         {
@@ -43,28 +44,44 @@ export async function main(): Promise<void> {
       },
     },
   });
-  console.log(
-    `Data generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
-  );
 
-  const fetchedJob = await project.beta.datasets.getGenerationJob(generationJob.id!);
-  console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
+  // Creating a data generation job is a long-running operation. The job is queued as soon
+  // as the initial request is accepted, so look it up by listing to inspect it while it runs.
+  await generationPoller.submitted();
 
   console.log("Listing data generation jobs...");
+  let jobId: string | undefined;
   for await (const job of project.beta.datasets.listGenerationJobs({
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
+    if (job.inputs?.name === jobName) {
+      jobId = job.id;
+    }
   }
 
-  if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.datasets.cancelGenerationJob(generationJob.id!);
+  if (!jobId) {
+    console.log("No data generation job was found; nothing left to do.");
+    return;
+  }
+
+  const fetchedJob = await project.beta.datasets.getGenerationJob(jobId);
+  console.log(`Fetched data generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`);
+
+  if (fetchedJob.status === "queued" || fetchedJob.status === "in_progress") {
+    const cancelledJob = await project.beta.datasets.cancelGenerationJob(jobId);
     console.log(
       `Cancelled data generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
     );
+  } else {
+    // Await the poller instead of cancelling when you want the generated output.
+    const generationResult = await generationPoller.pollUntilDone();
+    console.log(
+      `Data generation job completed (${generationResult.generated_samples} sample(s) generated)`,
+    );
   }
 
-  await project.beta.datasets.deleteGenerationJob(generationJob.id!);
+  await project.beta.datasets.deleteGenerationJob(jobId);
   console.log("Data generation job deleted");
 }
 

@@ -24,9 +24,10 @@ async function main() {
   });
 
   console.log("Creating evaluator generation job...");
-  const generationJob = await project.beta.evaluators.createGenerationJob({
+  const displayName = `sample-evaluator-generation-job-${Date.now()}`;
+  const generationPoller = project.beta.evaluators.createGenerationJob({
     inputs: {
-      evaluator_display_name: "sample-evaluator-generation-job",
+      evaluator_display_name: displayName,
       evaluator_name: "sample-generated-evaluator",
       model: deploymentName,
       sources: [
@@ -39,31 +40,59 @@ async function main() {
       ],
     },
   });
-  console.log(
-    `Evaluator generation job created (id: ${generationJob.id}, status: ${generationJob.status})`,
-  );
 
-  const fetchedJob = await project.beta.evaluators.getGenerationJob(generationJob.id);
-  console.log(
-    `Fetched evaluator generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`,
-  );
-  console.log(`  Inputs: ${JSON.stringify(fetchedJob)}`);
+  // Creating an evaluator generation job is a long-running operation. The job is queued as
+  // soon as the initial request is accepted, so look it up by listing to inspect it while
+  // it runs.
+  await generationPoller.submitted();
 
   console.log("Listing evaluator generation jobs...");
+  let jobId;
   for await (const job of project.beta.evaluators.listGenerationJobs({
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
+    if (job.inputs?.evaluator_display_name === displayName) {
+      jobId = job.id;
+    }
   }
 
-  if (generationJob.status === "queued" || generationJob.status === "in_progress") {
-    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(generationJob.id);
+  if (!jobId) {
+    console.log("No evaluator generation job was found; nothing left to do.");
+    return;
+  }
+
+  const fetchedJob = await project.beta.evaluators.getGenerationJob(jobId);
+  console.log(
+    `Fetched evaluator generation job (id: ${fetchedJob.id}, status: ${fetchedJob.status})`,
+  );
+
+  if (fetchedJob.status === "queued" || fetchedJob.status === "in_progress") {
+    // Await the poller to get the generated evaluator version back.
+    const evaluatorVersion = await generationPoller.pollUntilDone();
+    console.log(
+      `Generated evaluator version (name: ${evaluatorVersion.name}, version: ${evaluatorVersion.version})`,
+    );
+    console.log(`  Produced by generation job: ${evaluatorVersion.generation_job_id}`);
+    for (const warningType of evaluatorVersion.warnings ?? []) {
+      console.log(`  Warning category: ${warningType}`);
+    }
+
+    // Detailed, non-fatal input-quality advisories are persisted on the paired job.
+    const completedJob = await project.beta.evaluators.getGenerationJob(jobId);
+    for (const advisory of completedJob.input_quality_warnings ?? []) {
+      console.log(
+        `  [${advisory.severity}] ${advisory.code} (${advisory.source}): ${advisory.message}`,
+      );
+    }
+  } else {
+    const cancelledJob = await project.beta.evaluators.cancelGenerationJob(jobId);
     console.log(
       `Cancelled evaluator generation job (id: ${cancelledJob.id}, status: ${cancelledJob.status})`,
     );
   }
 
-  await project.beta.evaluators.deleteGenerationJob(generationJob.id);
+  await project.beta.evaluators.deleteGenerationJob(jobId);
   console.log("Evaluator generation job deleted");
 }
 

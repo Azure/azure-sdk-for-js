@@ -22,9 +22,10 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
   console.log("Creating data generation job...");
+  const jobName = `sample-data-generation-job-${Date.now()}`;
   const generationPoller = project.beta.datasets.createGenerationJob({
     inputs: {
-      name: "sample-data-generation-job",
+      name: jobName,
       scenario: "supervised_finetuning",
       sources: [
         {
@@ -54,7 +55,7 @@ export async function main(): Promise<void> {
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
-    if (!jobId) {
+    if (job.inputs?.name === jobName) {
       jobId = job.id;
     }
   }
