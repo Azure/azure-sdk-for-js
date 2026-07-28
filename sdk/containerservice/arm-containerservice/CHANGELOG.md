@@ -1,6 +1,6 @@
 # Release History
 
-## 25.5.0-beta.1 (2026-07-26)
+## 25.5.0-beta.1 (2026-07-28)
 Compared with version 25.4.0
 
 ### Features Added
