@@ -17,7 +17,7 @@ import {
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
 } from "../../../src/types.js";
-import { getOsPrefix } from "../../../src/utils/common.js";
+import { getOsPrefix, hasNumberFlag } from "../../../src/utils/common.js";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
@@ -205,6 +205,48 @@ describe("Main functions", () => {
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
 
+  it("should restore console after shutdown when console instrumentation is enabled", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched while enabled");
+    await shutdownAzureMonitor();
+    assert.strictEqual(console.log, originalLog, "console.log should be restored after shutdown");
+  });
+
+  it("should not leak the console patch across re-initialization", async () => {
+    const originalLog = console.log;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    assert.notStrictEqual(
+      console.log,
+      originalLog,
+      "console.log should be patched after the first init",
+    );
+    useAzureMonitor(config);
+    assert.notStrictEqual(console.log, originalLog, "console.log should be patched after re-init");
+    await shutdownAzureMonitor();
+    assert.strictEqual(
+      console.log,
+      originalLog,
+      "console.log should be fully restored after shutdown following re-init",
+    );
+  });
+
   it("should add custom spanProcessors", () => {
     const processor: SpanProcessor = {
       forceFlush: () => {
@@ -325,6 +367,101 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
     assert.strictEqual(instrumentations, 31);
+  });
+
+  it("should record the Console instrumentation Statsbeat bit when console collection is enabled", async () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: {
+          enabled: true,
+        },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE instrumentation bit (128) not set",
+    );
+    assert.strictEqual(
+      StatsbeatInstrumentationMap.get("@opentelemetry/instrumentation-console"),
+      StatsbeatInstrumentation.CONSOLE,
+    );
+    await shutdownAzureMonitor();
+  });
+
+  it("should not report log instrumentations in Statsbeat when the logging level is NONE", async () => {
+    const env = <{ [id: string]: string }>{};
+    env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+        bunyan: { enabled: true },
+        winston: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.BUNYAN,
+      "BUNYAN should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.WINSTON,
+      "WINSTON should not be reported when the logging level is NONE",
+    );
+    await shutdownAzureMonitor();
+  });
+
+  it("should preserve seeded community instrumentation bits (including bits above 2**32) across initialization", async () => {
+    // Preserve seeded flags below and above the 32-bit range.
+    const env = <{ [id: string]: string }>{};
+    env.AZURE_MONITOR_STATSBEAT_FEATURES = JSON.stringify({
+      instrumentation: StatsbeatInstrumentation.CUCUMBER + StatsbeatInstrumentation.AMQPLIB,
+      feature: 0,
+    });
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CUCUMBER),
+      "Seeded CUCUMBER (256) bit should be preserved across initialization",
+    );
+    assert.notOk(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.DATALOADER),
+      "CUCUMBER must not be re-encoded as DATALOADER (512)",
+    );
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.AMQPLIB),
+      "Seeded AMQPLIB (2**35) bit should be preserved and not truncated by 32-bit ops",
+    );
+    assert.ok(
+      hasNumberFlag(instrumentations, StatsbeatInstrumentation.CONSOLE),
+      "CONSOLE (128) bit should be set",
+    );
+    await shutdownAzureMonitor();
   });
 
   it("should set shim feature in statsbeat if env var is populated", () => {

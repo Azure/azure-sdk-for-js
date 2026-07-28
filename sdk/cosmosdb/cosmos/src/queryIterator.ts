@@ -116,6 +116,7 @@ export class QueryIterator<T> {
   ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
+    await this.init(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
@@ -301,6 +302,8 @@ export class QueryIterator<T> {
   public reset(): void {
     this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
+    this.isInitialized = false;
+    this.initPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
@@ -441,7 +444,7 @@ export class QueryIterator<T> {
     }
   }
 
-  private initPromise: Promise<void>;
+  private initPromise: Promise<void> | undefined;
   /**
    * @internal
    */
@@ -455,10 +458,45 @@ export class QueryIterator<T> {
     return this.initPromise;
   }
   private async _init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
+    await this.forceQueryPlanExecutionContext(diagnosticNode);
+    this.isInitialized = true;
+  }
+
+  /**
+   * Forces the query-plan / pipelined path for item queries when `forceQueryPlan` or
+   * `enableQueryControl` is set. In query-control mode the continuation token is an SDK-internal
+   * composite token the gateway cannot parse, so it must never reach the optimistic
+   * {@link DefaultQueryExecutionContext} (which would forward it raw as `x-ms-continuation`).
+   *
+   * Partition-key-scoped queries (`options.partitionKey` set) are excluded unless `forceQueryPlan`
+   * explicitly overrides: the pipelined path routes by physical partition key range and does not
+   * send the logical partition-key header, so forcing it would return cross-partition results. Such
+   * single-partition queries also never emit the SDK-internal composite continuation token, so the
+   * resume issue this method guards against does not apply to them.
+   */
+  private shouldForceQueryPlan(): boolean {
+    if (this.resourceType !== ResourceType.item) {
+      return false;
+    }
+    // `forceQueryPlan` is an explicit advanced override — honor it even for partition-key queries.
+    if (this.options.forceQueryPlan === true) {
+      return true;
+    }
+    // Keep partition-key-scoped queries on the optimistic path so their logical partition-key
+    // scoping (and continuation token support) is preserved.
+    if (this.options.partitionKey !== undefined) {
+      return false;
+    }
+    return this.options.enableQueryControl === true;
+  }
+
+  /** Eagerly builds the pipelined execution context when {@link shouldForceQueryPlan} is true. */
+  private async forceQueryPlanExecutionContext(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<void> {
+    if (this.shouldForceQueryPlan()) {
       await this.createExecutionContext(diagnosticNode);
     }
-    this.isInitialized = true;
   }
 
   private handleSplitError(err: any): void {

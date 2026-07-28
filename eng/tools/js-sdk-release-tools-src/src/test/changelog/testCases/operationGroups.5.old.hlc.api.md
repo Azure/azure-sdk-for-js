@@ -5,15 +5,33 @@
 ```ts
 // @public
 export interface Organization {
-    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
-    beginCreateAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<OrganizationResource>;
-    get(resourceGroupName: string, organizationName: string, options?: OrganizationGetOptionalParams): Promise<OrganizationResource>;
-    update(resourceGroupName: string, organizationName: string, options?: OrganizationUpdateOptionalParams): Promise<OrganizationResource>;
+  beginCreate(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
+  beginCreateAndWait(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationCreateOptionalParams,
+  ): Promise<OrganizationResource>;
+  get(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationGetOptionalParams,
+  ): Promise<OrganizationResource>;
+  update(
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationUpdateOptionalParams,
+  ): Promise<OrganizationResource>;
 }
 
 // @public
 export interface OrganizationOperations {
-    list(options?: OrganizationOperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
+  list(
+    options?: OrganizationOperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<OperationResult>;
 }
 
 // (No @packageDocumentation comment for this package)

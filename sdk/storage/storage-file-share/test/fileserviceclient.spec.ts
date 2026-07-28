@@ -7,10 +7,10 @@ import {
   getSASConnectionStringFromEnvironment,
   getSoftDeleteBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShareItem, ShareRootSquash } from "../src/index.js";
 import { ShareServiceClient } from "../src/index.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
@@ -20,9 +20,7 @@ describe("FileServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -398,9 +396,7 @@ describe("FileServiceClient - soft delete", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
 
     try {
       serviceClient = getSoftDeleteBSU(recorder);
@@ -486,9 +482,7 @@ describe("FileServiceClient Premium", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
@@ -573,9 +567,7 @@ describe("FileServiceClient SMB", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {
@@ -608,9 +600,7 @@ describe("FileServiceClient NFS", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {

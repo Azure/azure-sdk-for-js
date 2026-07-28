@@ -80,7 +80,6 @@ export interface SubvolumesOperations {
     options?: SubvolumesGetOptionalParams,
   ) => Promise<SubvolumeInfo>;
 }
-
 function _getSubvolumes(context: NetAppManagementContext) {
   return {
     getMetadata: (
@@ -172,7 +171,6 @@ function _getSubvolumes(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, subvolumeName, options),
   };
 }
-
 export function _getSubvolumesOperations(context: NetAppManagementContext): SubvolumesOperations {
   return {
     ..._getSubvolumes(context),

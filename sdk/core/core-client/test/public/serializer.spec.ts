@@ -16,12 +16,13 @@ import type {
 } from "../../src/index.js";
 import { createSerializer } from "../../src/index.js";
 import { Mappers } from "../testMappers1.js";
+import { stringToUint8Array } from "@azure/core-util";
 
 const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
 function stringToByteArray(str: string): Uint8Array {
-  return new TextEncoder().encode(str);
+  return stringToUint8Array(str, "utf-8");
 }
 
 describe("Serializer", function () {

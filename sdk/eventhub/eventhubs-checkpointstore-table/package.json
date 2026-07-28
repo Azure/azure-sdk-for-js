@@ -65,7 +65,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@rollup/plugin-inject": "catalog:testing",
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.4",
     "@types/node": "catalog:",

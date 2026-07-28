@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "../index.js";
+import type { RecoveryServicesContext as Client } from "../index.js";
+import type { CertificateRequest, VaultCertificateResponse } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  CertificateRequest,
   certificateRequestSerializer,
-  VaultCertificateResponse,
   vaultCertificateResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { VaultCertificatesCreateOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { VaultCertificatesCreateOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createSend(
   context: Client,

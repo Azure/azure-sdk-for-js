@@ -1,14 +1,9 @@
 # Release History
 
-## 7.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 7.0.1 (2026-07-23)
 
 ### Bugs Fixed
-
-### Other Changes
+  - Fixed an issue where importing the package in a Node.js ESM environment threw a `SyntaxError` at module load time because type-only symbols were missing the `type` keyword when re-exported, so they were not removed from the emitted JavaScript. [#39367](https://github.com/Azure/azure-sdk-for-js/issues/39367)
 
 ## 7.0.0 (2026-03-20)
 

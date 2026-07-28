@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-import commandLineArgs from 'command-line-args';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { dirname, isAbsolute, join, resolve } from 'path';
+import commandLineArgs from "command-line-args";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { dirname, isAbsolute, join, resolve } from "path";
 import {
   generateChangelogAndBumpVersion,
   UpdateMode,
-} from './common/changelog/automaticGenerateChangeLogAndBumpVersion.js';
-import { logger } from './utils/logger.js';
+} from "./common/changelog/automaticGenerateChangeLogAndBumpVersion.js";
+import { logger } from "./utils/logger.js";
 
 /**
  * Walk up from the package path to locate the SDK repository root (the folder
@@ -17,7 +17,7 @@ function findSdkRepoRoot(startPath: string): string {
   let current = resolve(startPath);
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    if (existsSync(join(current, '.git'))) {
+    if (existsSync(join(current, ".git"))) {
       return current;
     }
     const parent = dirname(current);
@@ -37,7 +37,9 @@ function findSdkRepoRoot(startPath: string): string {
  * detect spec.
  */
 const writeSdkChangesReport = async (packageFolderPath: string, reportFile: string) => {
-  const absolutePackagePath = isAbsolute(packageFolderPath) ? packageFolderPath : resolve(packageFolderPath);
+  const absolutePackagePath = isAbsolute(packageFolderPath)
+    ? packageFolderPath
+    : resolve(packageFolderPath);
   const sdkRepoPath = findSdkRepoRoot(absolutePackagePath);
 
   const changelog = await generateChangelogAndBumpVersion(
@@ -45,11 +47,11 @@ const writeSdkChangesReport = async (packageFolderPath: string, reportFile: stri
     { apiVersion: undefined, sdkReleaseType: undefined },
     UpdateMode.ChangelogOnly,
     sdkRepoPath,
-    true
+    true,
   );
 
   const report = {
-    changes: changelog?.content ?? '',
+    changes: changelog?.content ?? "",
     hasBreakingChange: changelog?.hasBreakingChange ?? false,
   };
   const json = JSON.stringify(report, null, 2);
@@ -59,18 +61,18 @@ const writeSdkChangesReport = async (packageFolderPath: string, reportFile: stri
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir, { recursive: true });
   }
-  writeFileSync(outputPath, json, { encoding: 'utf-8' });
+  writeFileSync(outputPath, json, { encoding: "utf-8" });
   logger.info(`SDK changes report written to: ${outputPath}`);
 
   // Also emit to stdout for local/manual usage.
-  process.stdout.write(json + '\n');
+  process.stdout.write(json + "\n");
 };
 
 const changelogToolCli = async (
   packageFolderPath: string | undefined,
   apiVersion?: string,
   sdkReleaseType?: string,
-  reportFile?: string
+  reportFile?: string,
 ) => {
   if (!packageFolderPath) {
     logger.error(`Invalid package path '${packageFolderPath}'.`);
@@ -80,7 +82,7 @@ const changelogToolCli = async (
   // When --report-file is provided, run in report-only mode: compute the SDK
   // changes and write a JSON report without modifying CHANGELOG.md or the version.
   if (reportFile !== undefined) {
-    if (typeof reportFile !== 'string' || !reportFile.trim()) {
+    if (typeof reportFile !== "string" || !reportFile.trim()) {
       logger.error(`Invalid report file path '${reportFile}'.`);
       process.exit(1);
     }
@@ -95,11 +97,16 @@ const changelogToolCli = async (
 };
 
 const optionDefinitions = [
-  { name: 'packagePath', type: String, defaultOption: true },
-  { name: 'apiVersion', type: String },
-  { name: 'sdkReleaseType', type: String },
-  { name: 'report-file', type: String },
+  { name: "packagePath", type: String, defaultOption: true },
+  { name: "apiVersion", type: String },
+  { name: "sdkReleaseType", type: String },
+  { name: "report-file", type: String },
 ];
 const options = commandLineArgs(optionDefinitions);
 
-changelogToolCli(options.packagePath, options.apiVersion, options.sdkReleaseType, options['report-file']);
+changelogToolCli(
+  options.packagePath,
+  options.apiVersion,
+  options.sdkReleaseType,
+  options["report-file"],
+);

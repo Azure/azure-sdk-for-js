@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
   getAccountName,
   configureStorageClient,
   getBSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type {
   ShareServiceClient,
@@ -29,9 +28,7 @@ describe("ShareClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -258,9 +255,7 @@ describe("ShareClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getTokenBSUWithDefaultCredential(recorder, "", "", {
       fileRequestIntent: "backup",
     });

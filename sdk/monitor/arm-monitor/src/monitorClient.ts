@@ -3,6 +3,14 @@
 
 import type { MonitorContext, MonitorClientOptionalParams } from "./api/index.js";
 import { createMonitor } from "./api/index.js";
+import {
+  getTestNotificationsAtTenantActionGroupResourceLevel,
+  createNotificationsAtTenantActionGroupResourceLevel,
+} from "./api/operations.js";
+import type {
+  GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams,
+  CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams,
+} from "./api/options.js";
 import type { ActionGroupsOperations } from "./classic/actionGroups/index.js";
 import { _getActionGroupsOperations } from "./classic/actionGroups/index.js";
 import type { ActivityLogAlertsOperations } from "./classic/activityLogAlerts/index.js";
@@ -21,6 +29,10 @@ import type { DataCollectionRuleAssociationsOperations } from "./classic/dataCol
 import { _getDataCollectionRuleAssociationsOperations } from "./classic/dataCollectionRuleAssociations/index.js";
 import type { DataCollectionRulesOperations } from "./classic/dataCollectionRules/index.js";
 import { _getDataCollectionRulesOperations } from "./classic/dataCollectionRules/index.js";
+import type { DiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
+import { _getDiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
+import type { DiagnosticSettingsCategoryOperations } from "./classic/diagnosticSettingsCategory/index.js";
+import { _getDiagnosticSettingsCategoryOperations } from "./classic/diagnosticSettingsCategory/index.js";
 import type { EventCategoriesOperations } from "./classic/eventCategories/index.js";
 import { _getEventCategoriesOperations } from "./classic/eventCategories/index.js";
 import type { LogProfilesOperations } from "./classic/logProfiles/index.js";
@@ -53,9 +65,20 @@ import type { ScheduledQueryRulesOperations } from "./classic/scheduledQueryRule
 import { _getScheduledQueryRulesOperations } from "./classic/scheduledQueryRules/index.js";
 import type { ServiceDiagnosticSettingsOperations } from "./classic/serviceDiagnosticSettings/index.js";
 import { _getServiceDiagnosticSettingsOperations } from "./classic/serviceDiagnosticSettings/index.js";
+import type { TenantActionGroupsOperations } from "./classic/tenantActionGroups/index.js";
+import { _getTenantActionGroupsOperations } from "./classic/tenantActionGroups/index.js";
 import type { TenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
 import { _getTenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
+import type { vMInsightsOperations } from "./classic/vMInsights/index.js";
+import { _getvMInsightsOperations } from "./classic/vMInsights/index.js";
+import type {
+  TenantNotificationRequestBody,
+  TenantActionGroupTestNotificationDetailsResponse,
+} from "./models/tenantActionGroups/models.js";
+import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MonitorClientOptionalParams } from "./api/monitorContext.js";
@@ -94,6 +117,10 @@ export class MonitorClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.diagnosticSettingsCategory = _getDiagnosticSettingsCategoryOperations(this._client);
+    this.diagnosticSettings = _getDiagnosticSettingsOperations(this._client);
+    this.vMInsights = _getvMInsightsOperations(this._client);
+    this.tenantActionGroups = _getTenantActionGroupsOperations(this._client);
     this.actionGroups = _getActionGroupsOperations(this._client);
     this.baselines = _getBaselinesOperations(this._client);
     this.scheduledQueryRules = _getScheduledQueryRulesOperations(this._client);
@@ -126,6 +153,104 @@ export class MonitorClient {
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
   }
 
+  /** Get the test notifications by the notification id */
+  getTestNotificationsAtTenantActionGroupResourceLevel(
+    managementGroupId: string,
+    tenantActionGroupName: string,
+    notificationId: string,
+    xMsClientTenantId: string,
+    options: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
+      requestOptions: {},
+    },
+  ): Promise<TenantActionGroupTestNotificationDetailsResponse> {
+    return getTestNotificationsAtTenantActionGroupResourceLevel(
+      this._client,
+      managementGroupId,
+      tenantActionGroupName,
+      notificationId,
+      xMsClientTenantId,
+      options,
+    );
+  }
+
+  /** Send test notifications to a set of provided receivers */
+  createNotificationsAtTenantActionGroupResourceLevel(
+    managementGroupId: string,
+    tenantActionGroupName: string,
+    xMsClientTenantId: string,
+    notificationRequest: TenantNotificationRequestBody,
+    options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
+      requestOptions: {},
+    },
+  ): PollerLike<
+    OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+    TenantActionGroupTestNotificationDetailsResponse
+  > {
+    return createNotificationsAtTenantActionGroupResourceLevel(
+      this._client,
+      managementGroupId,
+      tenantActionGroupName,
+      xMsClientTenantId,
+      notificationRequest,
+      options,
+    );
+  }
+
+  /** @deprecated use createNotificationsAtTenantActionGroupResourceLevel instead */
+  async beginCreateNotificationsAtTenantActionGroupResourceLevel(
+    managementGroupId: string,
+    tenantActionGroupName: string,
+    xMsClientTenantId: string,
+    notificationRequest: TenantNotificationRequestBody,
+    options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
+      requestOptions: {},
+    },
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+      TenantActionGroupTestNotificationDetailsResponse
+    >
+  > {
+    const poller = createNotificationsAtTenantActionGroupResourceLevel(
+      this._client,
+      managementGroupId,
+      tenantActionGroupName,
+      xMsClientTenantId,
+      notificationRequest,
+      options,
+    );
+    await poller.submitted();
+    return getSimplePoller(poller);
+  }
+
+  /** @deprecated use createNotificationsAtTenantActionGroupResourceLevel instead */
+  async beginCreateNotificationsAtTenantActionGroupResourceLevelAndWait(
+    managementGroupId: string,
+    tenantActionGroupName: string,
+    xMsClientTenantId: string,
+    notificationRequest: TenantNotificationRequestBody,
+    options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
+      requestOptions: {},
+    },
+  ): Promise<TenantActionGroupTestNotificationDetailsResponse> {
+    return await createNotificationsAtTenantActionGroupResourceLevel(
+      this._client,
+      managementGroupId,
+      tenantActionGroupName,
+      xMsClientTenantId,
+      notificationRequest,
+      options,
+    );
+  }
+
+  /** The operation groups for diagnosticSettingsCategory */
+  public readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
+  /** The operation groups for diagnosticSettings */
+  public readonly diagnosticSettings: DiagnosticSettingsOperations;
+  /** The operation groups for vMInsights */
+  public readonly vMInsights: vMInsightsOperations;
+  /** The operation groups for tenantActionGroups */
+  public readonly tenantActionGroups: TenantActionGroupsOperations;
   /** The operation groups for actionGroups */
   public readonly actionGroups: ActionGroupsOperations;
   /** The operation groups for baselines */

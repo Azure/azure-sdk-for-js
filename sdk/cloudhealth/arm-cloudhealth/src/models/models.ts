@@ -644,6 +644,8 @@ export enum KnownRefreshInterval {
   PT5M = "PT5M",
   /** Ten Minutes */
   PT10M = "PT10M",
+  /** Fifteen Minutes */
+  PT15M = "PT15M",
   /** Thirty Minutes */
   PT30M = "PT30M",
   /** One Hour */
@@ -660,6 +662,7 @@ export enum KnownRefreshInterval {
  * **PT1M**: One Minute \
  * **PT5M**: Five Minutes \
  * **PT10M**: Ten Minutes \
+ * **PT15M**: Fifteen Minutes \
  * **PT30M**: Thirty Minutes \
  * **PT1H**: One Hour \
  * **PT2H**: Two Hours
@@ -697,17 +700,28 @@ export interface ThresholdRuleV2 {
   /** Operator how to compare the signal value with the threshold */
   operator: SignalOperator;
   /** Threshold value */
-  threshold: number;
+  threshold?: number;
+  /** Sensitivity level for dynamic threshold detection. Only applicable when operator is Dynamic. */
+  sensitivity?: DynamicThresholdSensitivity;
+  /** ISO 8601 duration for the historical look-back window used by dynamic threshold computation. Only applicable when operator is Dynamic. */
+  lookBackWindow?: LookBackWindow;
 }
 
 export function thresholdRuleV2Serializer(item: ThresholdRuleV2): any {
-  return { operator: item["operator"], threshold: item["threshold"] };
+  return {
+    operator: item["operator"],
+    threshold: item["threshold"],
+    sensitivity: item["sensitivity"],
+    lookBackWindow: item["lookBackWindow"],
+  };
 }
 
 export function thresholdRuleV2Deserializer(item: any): ThresholdRuleV2 {
   return {
     operator: item["operator"],
     threshold: item["threshold"],
+    sensitivity: item["sensitivity"],
+    lookBackWindow: item["lookBackWindow"],
   };
 }
 
@@ -725,6 +739,8 @@ export enum KnownSignalOperator {
   Equal = "Equal",
   /** Not equal to */
   NotEqual = "NotEqual",
+  /** Dynamic threshold — uses deviation from a ML-computed baseline to determine health state transitions. Only valid for the unhealthy threshold rule. Requires `sensitivity` and `lookBackWindow` on the rule; `threshold` is ignored. */
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -737,9 +753,55 @@ export enum KnownSignalOperator {
  * **LessThanOrEqual**: Less than or equal to \
  * **GreaterThanOrEqual**: Greater than or equal to \
  * **Equal**: Equal to \
- * **NotEqual**: Not equal to
+ * **NotEqual**: Not equal to \
+ * **Dynamic**: Dynamic threshold — uses deviation from a ML-computed baseline to determine health state transitions. Only valid for the unhealthy threshold rule. Requires `sensitivity` and `lookBackWindow` on the rule; `threshold` is ignored.
  */
 export type SignalOperator = string;
+
+/** Sensitivity level for dynamic threshold detection */
+export enum KnownDynamicThresholdSensitivity {
+  /** Low sensitivity — fewer anomalies detected, wider threshold band */
+  Low = "Low",
+  /** Medium sensitivity — balanced detection */
+  Medium = "Medium",
+  /** High sensitivity — more anomalies detected, tighter threshold band */
+  High = "High",
+}
+
+/**
+ * Sensitivity level for dynamic threshold detection \
+ * {@link KnownDynamicThresholdSensitivity} can be used interchangeably with DynamicThresholdSensitivity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low**: Low sensitivity — fewer anomalies detected, wider threshold band \
+ * **Medium**: Medium sensitivity — balanced detection \
+ * **High**: High sensitivity — more anomalies detected, tighter threshold band
+ */
+export type DynamicThresholdSensitivity = string;
+
+/** Allowed look-back window durations for dynamic threshold computation */
+export enum KnownLookBackWindow {
+  /** Five minutes */
+  PT5M = "PT5M",
+  /** Fifteen minutes */
+  PT15M = "PT15M",
+  /** Thirty minutes */
+  PT30M = "PT30M",
+  /** One hour */
+  PT1H = "PT1H",
+}
+
+/**
+ * Allowed look-back window durations for dynamic threshold computation \
+ * {@link KnownLookBackWindow} can be used interchangeably with LookBackWindow,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PT5M**: Five minutes \
+ * **PT15M**: Fifteen minutes \
+ * **PT30M**: Thirty minutes \
+ * **PT1H**: One hour
+ */
+export type LookBackWindow = string;
 
 /** Azure Resource Metric Signal Definition properties */
 export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
@@ -753,8 +815,6 @@ export interface ResourceMetricSignalDefinitionProperties extends SignalDefiniti
   timeGrain: string;
   /** Type of aggregation to apply to the metric */
   aggregationType: MetricAggregationType;
-  /** Optional: Dimension to split by */
-  dimension?: string;
   /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
   dimensionFilter?: string;
 }
@@ -773,7 +833,6 @@ export function resourceMetricSignalDefinitionPropertiesSerializer(
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
   };
 }
@@ -795,7 +854,6 @@ export function resourceMetricSignalDefinitionPropertiesDeserializer(
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
   };
 }
@@ -1340,6 +1398,8 @@ export interface AzureResourceSignals {
   azureResourceKind?: string;
   /** Signals assigned to this group. */
   signals?: AzureResourceSignal[];
+  /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
+  resourceHealth?: AzureResourceHealthSignal;
 }
 
 export function azureResourceSignalsSerializer(item: AzureResourceSignals): any {
@@ -1350,6 +1410,9 @@ export function azureResourceSignalsSerializer(item: AzureResourceSignals): any 
     signals: !item["signals"]
       ? item["signals"]
       : azureResourceSignalArraySerializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalSerializer(item["resourceHealth"]),
   };
 }
 
@@ -1361,6 +1424,9 @@ export function azureResourceSignalsDeserializer(item: any): AzureResourceSignal
     signals: !item["signals"]
       ? item["signals"]
       : azureResourceSignalArrayDeserializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalDeserializer(item["resourceHealth"]),
   };
 }
 
@@ -1388,8 +1454,6 @@ export interface AzureResourceSignal extends SignalInstanceProperties {
   timeGrain?: string;
   /** Type of aggregation to apply to the metric */
   aggregationType?: MetricAggregationType;
-  /** Optional: Dimension to split by */
-  dimension?: string;
   /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
   dimensionFilter?: string;
   /** Display name */
@@ -1411,7 +1475,6 @@ export function azureResourceSignalSerializer(item: AzureResourceSignal): any {
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
     displayName: item["displayName"],
     refreshInterval: item["refreshInterval"],
@@ -1432,7 +1495,6 @@ export function azureResourceSignalDeserializer(item: any): AzureResourceSignal 
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
     displayName: item["displayName"],
     refreshInterval: item["refreshInterval"],
@@ -1442,6 +1504,205 @@ export function azureResourceSignalDeserializer(item: any): AzureResourceSignal 
       : evaluationRuleDeserializer(item["evaluationRules"]),
   };
 }
+
+/** Azure resource health signal configuration */
+export interface AzureResourceHealthSignal {
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health. Defaults to Enabled. */
+  enabled?: ResourceHealthAvailabilityStateSignalBehavior;
+  /** The unique name of the Azure resource health signal. System assigned. */
+  readonly signalName?: string;
+  /** Current status of the Azure resource health signal. */
+  readonly status?: AzureResourceHealthSignalStatus;
+}
+
+export function azureResourceHealthSignalSerializer(item: AzureResourceHealthSignal): any {
+  return { enabled: item["enabled"] };
+}
+
+export function azureResourceHealthSignalDeserializer(item: any): AzureResourceHealthSignal {
+  return {
+    enabled: item["enabled"],
+    signalName: item["signalName"],
+    status: !item["status"]
+      ? item["status"]
+      : azureResourceHealthSignalStatusDeserializer(item["status"]),
+  };
+}
+
+/** Resource health availability state signal behavior */
+export enum KnownResourceHealthAvailabilityStateSignalBehavior {
+  /** Automatically add resource health availability state signal */
+  Enabled = "Enabled",
+  /** Do not automatically add resource health availability state signal */
+  Disabled = "Disabled",
+}
+
+/**
+ * Resource health availability state signal behavior \
+ * {@link KnownResourceHealthAvailabilityStateSignalBehavior} can be used interchangeably with ResourceHealthAvailabilityStateSignalBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Automatically add resource health availability state signal \
+ * **Disabled**: Do not automatically add resource health availability state signal
+ */
+export type ResourceHealthAvailabilityStateSignalBehavior = string;
+
+/** Status of an Azure Resource Health signal, including availability information reported by Azure Resource Health. */
+export interface AzureResourceHealthSignalStatus {
+  /** Health state of this signal */
+  readonly healthState?: HealthState;
+  /** Reported value of the signal */
+  readonly value?: number;
+  /** Timestamp when the value was reported */
+  readonly reportedAt?: Date;
+  /** Error message if the signal status cannot be retrieved */
+  readonly error?: string;
+  /** Additional context as provided by the submitter */
+  additionalContext?: string;
+  /** Availability state of the Azure resource as reported by Azure Resource Health. */
+  readonly availabilityState?: ResourceHealthAvailabilityState;
+  /** Whether the status changing event was planned or unplanned. */
+  readonly category?: ResourceHealthCategory;
+  /** Detailed status of the Azure resource as reported by Azure Resource Health. */
+  readonly detailedStatus?: string;
+  /** Human-readable summary of the current availability state from Azure Resource Health. */
+  readonly summary?: string;
+  /** Reason type for the current availability state (e.g. 'Unplanned', 'Planned', 'UserInitiated'). */
+  readonly reasonType?: ResourceHealthReasonType;
+  /** Whether the current availability state is 'Persistent' or 'Transient'. */
+  readonly reasonChronicity?: ResourceHealthReasonChronicity;
+  /** Timestamp when Azure Resource Health observed the current availability state. */
+  readonly availabilityReportedTime?: Date;
+}
+
+export function azureResourceHealthSignalStatusDeserializer(
+  item: any,
+): AzureResourceHealthSignalStatus {
+  return {
+    healthState: item["healthState"],
+    value: item["value"],
+    reportedAt: !item["reportedAt"] ? item["reportedAt"] : new Date(item["reportedAt"]),
+    error: item["error"],
+    additionalContext: item["additionalContext"],
+    availabilityState: item["availabilityState"],
+    category: item["category"],
+    detailedStatus: item["detailedStatus"],
+    summary: item["summary"],
+    reasonType: item["reasonType"],
+    reasonChronicity: item["reasonChronicity"],
+    availabilityReportedTime: !item["availabilityReportedTime"]
+      ? item["availabilityReportedTime"]
+      : new Date(item["availabilityReportedTime"]),
+  };
+}
+
+/** Health state of an entity */
+export enum KnownHealthState {
+  /** Healthy status */
+  Healthy = "Healthy",
+  /** Degraded status */
+  Degraded = "Degraded",
+  /** Unhealthy status */
+  Unhealthy = "Unhealthy",
+  /** Unknown status */
+  Unknown = "Unknown",
+  /** Deleted status */
+  Deleted = "Deleted",
+}
+
+/**
+ * Health state of an entity \
+ * {@link KnownHealthState} can be used interchangeably with HealthState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy**: Healthy status \
+ * **Degraded**: Degraded status \
+ * **Unhealthy**: Unhealthy status \
+ * **Unknown**: Unknown status \
+ * **Deleted**: Deleted status
+ */
+export type HealthState = string;
+
+/** Availability state of an Azure resource as reported by Azure Resource Health. */
+export enum KnownResourceHealthAvailabilityState {
+  /** The resource is available. */
+  Available = "Available",
+  /** The resource is unavailable. */
+  Unavailable = "Unavailable",
+  /** The resource is degraded. */
+  Degraded = "Degraded",
+  /** The resource availability state is unknown. */
+  Unknown = "Unknown",
+}
+
+/**
+ * Availability state of an Azure resource as reported by Azure Resource Health. \
+ * {@link KnownResourceHealthAvailabilityState} can be used interchangeably with ResourceHealthAvailabilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The resource is available. \
+ * **Unavailable**: The resource is unavailable. \
+ * **Degraded**: The resource is degraded. \
+ * **Unknown**: The resource availability state is unknown.
+ */
+export type ResourceHealthAvailabilityState = string;
+
+/** Whether an Azure Resource Health status changing event was planned or unplanned. */
+export enum KnownResourceHealthCategory {
+  /** The event was planned. */
+  Planned = "Planned",
+  /** The event was unplanned. */
+  Unplanned = "Unplanned",
+}
+
+/**
+ * Whether an Azure Resource Health status changing event was planned or unplanned. \
+ * {@link KnownResourceHealthCategory} can be used interchangeably with ResourceHealthCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Planned**: The event was planned. \
+ * **Unplanned**: The event was unplanned.
+ */
+export type ResourceHealthCategory = string;
+
+/** Reason type for the current Azure Resource Health availability state. */
+export enum KnownResourceHealthReasonType {
+  /** Unplanned reason. */
+  Unplanned = "Unplanned",
+  /** Planned reason. */
+  Planned = "Planned",
+  /** User-initiated reason. */
+  UserInitiated = "UserInitiated",
+}
+
+/**
+ * Reason type for the current Azure Resource Health availability state. \
+ * {@link KnownResourceHealthReasonType} can be used interchangeably with ResourceHealthReasonType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unplanned**: Unplanned reason. \
+ * **Planned**: Planned reason. \
+ * **UserInitiated**: User-initiated reason.
+ */
+export type ResourceHealthReasonType = string;
+
+/** Whether the current Azure Resource Health availability state is persistent or transient. */
+export enum KnownResourceHealthReasonChronicity {
+  /** Persistent state. */
+  Persistent = "Persistent",
+  /** Transient state. */
+  Transient = "Transient",
+}
+
+/**
+ * Whether the current Azure Resource Health availability state is persistent or transient. \
+ * {@link KnownResourceHealthReasonChronicity} can be used interchangeably with ResourceHealthReasonChronicity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Persistent**: Persistent state. \
+ * **Transient**: Transient state.
+ */
+export type ResourceHealthReasonChronicity = string;
 
 /** A grouping of Log Analytics workspace signals. */
 export interface LogAnalyticsSignals {
@@ -1748,33 +2009,6 @@ export function externalSignalDeserializer(item: any): ExternalSignal {
   };
 }
 
-/** Health state of an entity */
-export enum KnownHealthState {
-  /** Healthy status */
-  Healthy = "Healthy",
-  /** Degraded status */
-  Degraded = "Degraded",
-  /** Unhealthy status */
-  Unhealthy = "Unhealthy",
-  /** Unknown status */
-  Unknown = "Unknown",
-  /** Deleted status */
-  Deleted = "Deleted",
-}
-
-/**
- * Health state of an entity \
- * {@link KnownHealthState} can be used interchangeably with HealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy**: Healthy status \
- * **Degraded**: Degraded status \
- * **Unhealthy**: Unhealthy status \
- * **Unknown**: Unknown status \
- * **Deleted**: Deleted status
- */
-export type HealthState = string;
-
 /** Alert configuration for an entity */
 export interface EntityAlerts {
   /** Alert to be triggered on state change to unhealthy */
@@ -1949,6 +2183,8 @@ export interface SignalStatus {
   readonly reportedAt?: Date;
   /** Error message if the signal status cannot be retrieved */
   readonly error?: string;
+  /** Additional context as provided by the submitter */
+  additionalContext?: string;
 }
 
 export function signalStatusDeserializer(item: any): SignalStatus {
@@ -1957,6 +2193,7 @@ export function signalStatusDeserializer(item: any): SignalStatus {
     value: item["value"],
     reportedAt: !item["reportedAt"] ? item["reportedAt"] : new Date(item["reportedAt"]),
     error: item["error"],
+    additionalContext: item["additionalContext"],
   };
 }
 
@@ -1993,12 +2230,18 @@ export interface EntityHistoryRequest {
   startAt?: Date;
   /** End time for the history query. Defaults to now if not specified. */
   endAt?: Date;
+  /** Maximum number of health state transitions to return per page. Defaults to 1000. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
 }
 
 export function entityHistoryRequestSerializer(item: EntityHistoryRequest): any {
   return {
     startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
     endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
   };
 }
 
@@ -2008,12 +2251,15 @@ export interface EntityHistoryResponse {
   entityName: string;
   /** List of health state transitions */
   history: HealthStateTransition[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
 }
 
 export function entityHistoryResponseDeserializer(item: any): EntityHistoryResponse {
   return {
     entityName: item["entityName"],
     history: healthStateTransitionArrayDeserializer(item["history"]),
+    nextMarker: item["nextMarker"],
   };
 }
 
@@ -2054,6 +2300,10 @@ export interface SignalHistoryRequest {
   startAt?: Date;
   /** End time for the history query. Defaults to now if not specified. */
   endAt?: Date;
+  /** Maximum number of data points to return per page. Defaults to 1000. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
 }
 
 export function signalHistoryRequestSerializer(item: SignalHistoryRequest): any {
@@ -2061,6 +2311,8 @@ export function signalHistoryRequestSerializer(item: SignalHistoryRequest): any 
     signalName: item["signalName"],
     startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
     endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
   };
 }
 
@@ -2072,6 +2324,8 @@ export interface SignalHistoryResponse {
   signalName: string;
   /** Signal history data points */
   history: SignalHistoryDataPoint[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
 }
 
 export function signalHistoryResponseDeserializer(item: any): SignalHistoryResponse {
@@ -2079,6 +2333,7 @@ export function signalHistoryResponseDeserializer(item: any): SignalHistoryRespo
     entityName: item["entityName"],
     signalName: item["signalName"],
     history: signalHistoryDataPointArrayDeserializer(item["history"]),
+    nextMarker: item["nextMarker"],
   };
 }
 
@@ -2154,6 +2409,146 @@ export function healthReportEvaluationRuleSerializer(item: HealthReportEvaluatio
       ? item["degradedRule"]
       : thresholdRuleV2Serializer(item["degradedRule"]),
     unhealthyRule: thresholdRuleV2Serializer(item["unhealthyRule"]),
+  };
+}
+
+/** Request body for adding a data annotation. */
+export interface AddDataAnnotationRequest {
+  /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
+  annotationDetails: Record<string, string>;
+  /** Optional description of the annotation */
+  description?: string;
+}
+
+export function addDataAnnotationRequestSerializer(item: AddDataAnnotationRequest): any {
+  return { annotationDetails: item["annotationDetails"], description: item["description"] };
+}
+
+/** A single data annotation on an entity */
+export interface DataAnnotation {
+  /** Auto-assigned identifier for the annotation */
+  readonly annotationId?: string;
+  /** Timestamp when the annotation was created */
+  readonly createdAt?: Date;
+  /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
+  annotationDetails: Record<string, string>;
+  /** Optional description of the annotation */
+  description?: string;
+}
+
+export function dataAnnotationDeserializer(item: any): DataAnnotation {
+  return {
+    annotationId: item["annotationId"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    annotationDetails: Object.fromEntries(
+      Object.entries(item["annotationDetails"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    description: item["description"],
+  };
+}
+
+/** Request body for querying data annotations */
+export interface GetDataAnnotationsRequest {
+  /** Start of UTC time range. Defaults to 24 hours ago if not specified. */
+  startAt?: Date;
+  /** End of UTC time range. Defaults to now if not specified. */
+  endAt?: Date;
+  /** Maximum number of annotations to return per page. Defaults to 100. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
+}
+
+export function getDataAnnotationsRequestSerializer(item: GetDataAnnotationsRequest): any {
+  return {
+    startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
+    endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
+  };
+}
+
+/** Response containing data annotations for an entity */
+export interface GetDataAnnotationsResponse {
+  /** Name of the entity */
+  entityName: string;
+  /** List of data annotations */
+  annotations: DataAnnotation[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
+}
+
+export function getDataAnnotationsResponseDeserializer(item: any): GetDataAnnotationsResponse {
+  return {
+    entityName: item["entityName"],
+    annotations: dataAnnotationArrayDeserializer(item["annotations"]),
+    nextMarker: item["nextMarker"],
+  };
+}
+
+export function dataAnnotationArrayDeserializer(result: Array<DataAnnotation>): any[] {
+  return result.map((item) => {
+    return dataAnnotationDeserializer(item);
+  });
+}
+
+/** Response from `getSignalRecommendations` containing two independent suggestion streams for the Azure resource type represented by the target Entity. `recommendedSignals` lists signals broadly recommended to be enabled by default; `recommendedConfigurations` lists additional metrics that are not broadly applicable but, if a caller chooses to monitor one of them, ship with suggested starting-point thresholds. The two arrays are independent — items are not paired by index, and callers should treat them as two separate suggestion streams. */
+export interface GetSignalRecommendationsResponse {
+  /** Signals that are broadly recommended to be enabled by default for health models monitoring an Entity of this resource type. Each entry is a complete signal configuration (metric, aggregation, thresholds) ready to be added to a health model. Independent of `recommendedConfigurations` — not paired by index. */
+  recommendedSignals: SignalConfiguration[];
+  /** Additional signal configurations for metrics that are not broadly applicable to every health model for an Entity of this resource type, but if a caller chooses to monitor one of these metrics, the provided thresholds are suggested as a starting point. Independent of `recommendedSignals` — not paired by index. */
+  recommendedConfigurations: SignalConfiguration[];
+}
+
+export function getSignalRecommendationsResponseDeserializer(
+  item: any,
+): GetSignalRecommendationsResponse {
+  return {
+    recommendedSignals: signalConfigurationArrayDeserializer(item["recommendedSignals"]),
+    recommendedConfigurations: signalConfigurationArrayDeserializer(
+      item["recommendedConfigurations"],
+    ),
+  };
+}
+
+export function signalConfigurationArrayDeserializer(result: Array<SignalConfiguration>): any[] {
+  return result.map((item) => {
+    return signalConfigurationDeserializer(item);
+  });
+}
+
+/** A signal configuration for an Azure resource type */
+export interface SignalConfiguration {
+  /** Unique identifier of the recommended signal configuration. */
+  signalId: string;
+  /** Metric namespace (e.g. 'microsoft.compute/virtualmachines'). */
+  metricNamespace?: string;
+  /** Name of the metric (e.g. 'Percentage CPU'). */
+  metricName?: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType?: MetricAggregationType;
+  /** Unit of the metric (e.g. Percent, Bytes, Count). */
+  unit?: string;
+  /** Time range of the metric. ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string;
+  /** Evaluation rules with recommended thresholds. */
+  evaluationRules?: EvaluationRule;
+}
+
+export function signalConfigurationDeserializer(item: any): SignalConfiguration {
+  return {
+    signalId: item["signalId"],
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    aggregationType: item["aggregationType"],
+    unit: item["unit"],
+    timeGrain: item["timeGrain"],
+    dimensionFilter: item["dimensionFilter"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
   };
 }
 
@@ -2284,6 +2679,8 @@ export interface DiscoveryRuleProperties {
   addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
   /** Specification of the discovery rule defining how entities are discovered. */
   specification: DiscoveryRuleSpecificationUnion;
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
+  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
   /** Error details if the last discovery operation failed. */
   readonly error?: DiscoveryError;
   /** Name of the entity which represents the discovery rule. Note: It might take a few minutes after creating the discovery rule until the entity is created. */
@@ -2298,6 +2695,7 @@ export function discoveryRulePropertiesDeserializer(item: any): DiscoveryRulePro
     discoverRelationships: item["discoverRelationships"],
     addRecommendedSignals: item["addRecommendedSignals"],
     specification: discoveryRuleSpecificationUnionDeserializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
     error: !item["error"] ? item["error"] : discoveryErrorDeserializer(item["error"]),
     entityName: item["entityName"],
   };
@@ -2508,6 +2906,8 @@ export interface DiscoveryRulePropertiesCreate {
   addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
   /** Specification of the discovery rule defining how entities are discovered. */
   specification: DiscoveryRuleSpecificationUnion;
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`. */
+  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
 }
 
 export function discoveryRulePropertiesCreateSerializer(item: DiscoveryRulePropertiesCreate): any {
@@ -2517,6 +2917,7 @@ export function discoveryRulePropertiesCreateSerializer(item: DiscoveryRulePrope
     discoverRelationships: item["discoverRelationships"],
     addRecommendedSignals: item["addRecommendedSignals"],
     specification: discoveryRuleSpecificationUnionSerializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
   };
 }
 
@@ -2547,4 +2948,6 @@ export enum KnownVersions {
   V20250501Preview = "2025-05-01-preview",
   /** 2026-01-01-preview */
   V20260101Preview = "2026-01-01-preview",
+  /** 2026-05-01-preview */
+  V20260501Preview = "2026-05-01-preview",
 }

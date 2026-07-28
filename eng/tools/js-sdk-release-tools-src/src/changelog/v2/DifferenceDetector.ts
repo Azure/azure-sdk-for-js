@@ -12,16 +12,23 @@ import {
   patchEnum,
   isPropertyMethod,
   patchRoutes,
-} from 'typescript-codegen-breaking-change-detector';
-import { SDKType } from '../../common/types.js';
-import { join } from 'path';
-import { FunctionDeclaration, ModuleKind, Project, ScriptTarget, SourceFile, SyntaxKind } from 'ts-morph';
-import { logger } from '../../utils/logger.js';
+} from "typescript-codegen-breaking-change-detector";
+import { SDKType } from "../../common/types.js";
+import { join } from "path";
+import {
+  FunctionDeclaration,
+  ModuleKind,
+  Project,
+  ScriptTarget,
+  SourceFile,
+  SyntaxKind,
+} from "ts-morph";
+import { logger } from "../../utils/logger.js";
 // Use the `ts` that ts-morph is built against, NOT the standalone `typescript` package.
 // The nodes inspected below come from ts-morph, and a hoisted/mismatched standalone
 // `typescript` (e.g. an old transitive copy) has different `SyntaxKind` numeric values,
 // which silently breaks `ts.SyntaxKind`/`ts.isIdentifier` checks against ts-morph nodes.
-import { ts } from 'ts-morph';
+import { ts } from "ts-morph";
 
 const { JsxEmit } = ts;
 
@@ -54,9 +61,11 @@ export class DifferenceDetector {
 
   constructor(
     private baselineApiViewOptions: ApiViewOptions,
-    private currentApiViewOptions: ApiViewOptions
+    private currentApiViewOptions: ApiViewOptions,
   ) {
-    this.tempFolder = join('~/.tmp-breaking-change-detect-' + Math.random().toString(36).substring(7));
+    this.tempFolder = join(
+      "~/.tmp-breaking-change-detect-" + Math.random().toString(36).substring(7),
+    );
   }
 
   public getDetectContext(): DetectContext {
@@ -101,10 +110,12 @@ export class DifferenceDetector {
     // Handle generic interfaces - filter to only Added/Removed changes
     this.result?.interfaces.forEach((v, k) => {
       if (this.hasTypeParameters(k, SyntaxKind.InterfaceDeclaration)) {
-        logger.warn(`Generic interface '${k}' breaking change detection is limited to Added/Removed changes only.`);
+        logger.warn(
+          `Generic interface '${k}' breaking change detection is limited to Added/Removed changes only.`,
+        );
         // For generic interfaces, only keep Added/Removed diff pairs
         const filteredDiffPairs = v.filter(
-          (pair) => pair.reasons === DiffReasons.Added || pair.reasons === DiffReasons.Removed
+          (pair) => pair.reasons === DiffReasons.Added || pair.reasons === DiffReasons.Removed,
         );
         this.result?.interfaces.set(k, filteredDiffPairs);
       }
@@ -113,40 +124,40 @@ export class DifferenceDetector {
     if (this.currentApiViewOptions.sdkType !== SDKType.RestLevelClient) return;
 
     // use Routes specific detection
-    this.result?.interfaces.delete('Routes');
+    this.result?.interfaces.delete("Routes");
     const routesDiffPairs = patchRoutes(this.context!);
-    this.result?.interfaces.set('Routes', routesDiffPairs);
+    this.result?.interfaces.set("Routes", routesDiffPairs);
   }
 
   private shouldIgnoreInterfaceBreakingChange(v: DiffPair[], k: string): boolean {
     // TODO: Create a new PR to ignore all 'any' cases for breaking change detection
 
-    if (k.endsWith('NextOptionalParams')) {
+    if (k.endsWith("NextOptionalParams")) {
       // Ignore NextOptionalParams as they are not breaking changes
       return true;
     }
 
-    if (k.endsWith('Result') && v.some((pair) => pair.reasons === DiffReasons.Removed)) {
+    if (k.endsWith("Result") && v.some((pair) => pair.reasons === DiffReasons.Removed)) {
       return true;
     }
 
-    if (k.endsWith('Headers') && v.some((pair) => pair.reasons === DiffReasons.Removed)) {
+    if (k.endsWith("Headers") && v.some((pair) => pair.reasons === DiffReasons.Removed)) {
       return true;
     }
     return false;
   }
 
   private shouldIgnoreTypeAliasBreakingChange(v: DiffPair[], k: string): boolean {
-    return k.endsWith('Response') && v.some((pair) => pair.reasons === DiffReasons.Removed);
+    return k.endsWith("Response") && v.some((pair) => pair.reasons === DiffReasons.Removed);
   }
 
   private shouldIgnoreFunctionBreakingChange(v: DiffPair[], k: string): boolean {
-    return k === 'getContinuationToken' && v.some((pair) => pair.reasons === DiffReasons.Removed);
+    return k === "getContinuationToken" && v.some((pair) => pair.reasons === DiffReasons.Removed);
   }
 
   private hasIgnoreTargetNames(v: DiffPair[]): boolean {
     // Check if any pair has a target name that should be ignored only when removed
-    const ignoreTargets = ['resumeFrom', '$host', 'endpoint'];
+    const ignoreTargets = ["resumeFrom", "$host", "endpoint"];
     return v.some((pair) => {
       const name = pair.target?.name || pair.source?.name;
       return name && ignoreTargets.includes(name) && pair.reasons === DiffReasons.Removed;
@@ -156,7 +167,7 @@ export class DifferenceDetector {
   // Returns only the diff pairs that are NOT for ignored target names.
   // This allows real breaking changes in the same class to still be detected.
   private filterIgnoreTargetNames(v: DiffPair[]): DiffPair[] {
-    const ignoreTargets = ['resumeFrom', '$host', 'endpoint'];
+    const ignoreTargets = ["resumeFrom", "$host", "endpoint"];
     return v.filter((pair) => {
       const name = pair.target?.name || pair.source?.name;
       return !(name && ignoreTargets.includes(name) && pair.reasons === DiffReasons.Removed);
@@ -188,13 +199,17 @@ export class DifferenceDetector {
     //      Primitives (string, number, …) and library/external types (TokenCredential, etc.)
     //      are skipped to avoid polluting knownNames with built-in members like
     //      `length`, `toString`, `getToken`, which could hide real breaking changes.
-    const checker = currentClass.getSourceFile().getProject().getProgram().compilerObject.getTypeChecker();
+    const checker = currentClass
+      .getSourceFile()
+      .getProject()
+      .getProgram()
+      .compilerObject.getTypeChecker();
     const projectFileNames = new Set(
       currentClass
         .getSourceFile()
         .getProject()
         .getSourceFiles()
-        .map((sf) => sf.compilerNode.fileName)
+        .map((sf) => sf.compilerNode.fileName),
     );
     for (const rawMember of (currentClass.compilerNode as ts.ClassDeclaration).members) {
       if (rawMember.kind !== ts.SyntaxKind.Constructor) continue;
@@ -219,7 +234,8 @@ export class DifferenceDetector {
     if (knownNames.size === 0) return v;
 
     return v.filter((pair) => {
-      if (pair.location !== DiffLocation.Property || (pair.reasons & DiffReasons.Removed) === 0) return true;
+      if (pair.location !== DiffLocation.Property || (pair.reasons & DiffReasons.Removed) === 0)
+        return true;
       const name = pair.target?.name;
       return !name || !knownNames.has(name);
     });
@@ -230,7 +246,11 @@ export class DifferenceDetector {
   // Primitives (string, number, boolean, …) have no symbol; external library types
   // (TokenCredential, PagedAsyncIterableIterator, …) are declared in node_modules or
   // lib.d.ts — none of those match the project file set, so they are excluded.
-  private isProjectLocalType(type: ts.Type, checker: ts.TypeChecker, projectFileNames: Set<string>): boolean {
+  private isProjectLocalType(
+    type: ts.Type,
+    checker: ts.TypeChecker,
+    projectFileNames: Set<string>,
+  ): boolean {
     // Union types: treat as a local option-bag if ALL non-undefined constituent types are local.
     // This handles the common pattern `XxxOptionalParams | undefined`.
     if (type.isUnion()) {
@@ -249,11 +269,14 @@ export class DifferenceDetector {
   // Appends 'Operations' only if the resulting name exists in the target Modular interface set;
   // otherwise keeps the original name unchanged.
   private getOperationsGroupName(name: string, targetInterfaceNames: Set<string>): string {
-    const nameWithOps = name + 'Operations';
+    const nameWithOps = name + "Operations";
     return targetInterfaceNames.has(nameWithOps) ? nameWithOps : name;
   }
 
-  private convertHighLevelClientToModularClientCode(code: string, targetInterfaceNames: Set<string>): string {
+  private convertHighLevelClientToModularClientCode(
+    code: string,
+    targetInterfaceNames: Set<string>,
+  ): string {
     const project = new Project({
       compilerOptions: {
         jsx: JsxEmit.Preserve,
@@ -261,13 +284,13 @@ export class DifferenceDetector {
         module: ModuleKind.CommonJS,
         strict: true,
         esModuleInterop: true,
-        lib: ['es2015', 'es2017', 'esnext'],
+        lib: ["es2015", "es2017", "esnext"],
         experimentalDecorators: true,
-        rootDir: '.',
+        rootDir: ".",
       },
     });
-    const sourceFile = project.createSourceFile('index.ts', code, { overwrite: true });
-    const outputFile = project.createSourceFile('output.ts', '', { overwrite: true });
+    const sourceFile = project.createSourceFile("index.ts", code, { overwrite: true });
+    const outputFile = project.createSourceFile("output.ts", "", { overwrite: true });
 
     for (const statement of sourceFile.getStatements()) {
       if (statement.getKind() !== SyntaxKind.InterfaceDeclaration) {
@@ -277,7 +300,8 @@ export class DifferenceDetector {
 
       const iface = statement.asKindOrThrow(SyntaxKind.InterfaceDeclaration);
       const members = iface.getMembers();
-      const isOperationsGroup = members.length > 0 && members.every((m) => isPropertyMethod(m.getSymbolOrThrow()));
+      const isOperationsGroup =
+        members.length > 0 && members.every((m) => isPropertyMethod(m.getSymbolOrThrow()));
 
       if (!isOperationsGroup) {
         outputFile.addStatements(statement.getText().trim());
@@ -297,7 +321,7 @@ export class DifferenceDetector {
           const returnType = methodSig.getReturnTypeNodeOrThrow().getText();
           return {
             name: methodSig.getName(),
-            type: `(${params.map((p) => `${p.name}: ${p.type}`).join(', ')}) => ${returnType}`,
+            type: `(${params.map((p) => `${p.name}: ${p.type}`).join(", ")}) => ${returnType}`,
           };
         });
 
@@ -313,15 +337,17 @@ export class DifferenceDetector {
     if (baselineSdkType === currentSdkType) return;
     if (baselineSdkType !== SDKType.HighLevelClient || currentSdkType !== SDKType.ModularClient) {
       logger.error(
-        `Failed to preprocess baseline SDK type '${baselineSdkType}' and current SDK type '${currentSdkType}' for difference detection. Only ${SDKType.HighLevelClient} to ${SDKType.ModularClient} is supported.`
+        `Failed to preprocess baseline SDK type '${baselineSdkType}' and current SDK type '${currentSdkType}' for difference detection. Only ${SDKType.HighLevelClient} to ${SDKType.ModularClient} is supported.`,
       );
       return;
     }
 
-    const targetInterfaceNames = new Set(this.context!.current.getInterfaces().map((i) => i.getName()));
+    const targetInterfaceNames = new Set(
+      this.context!.current.getInterfaces().map((i) => i.getName()),
+    );
     const highLevelCodeInModularWay = this.convertHighLevelClientToModularClientCode(
       this.context?.baseline.getFullText()!,
-      targetInterfaceNames
+      targetInterfaceNames,
     );
     const generateApiView = (code: string) => {
       return `
@@ -336,7 +362,7 @@ export class DifferenceDetector {
       { apiView: baselineApiView },
       { apiView: currentApiView },
       this.tempFolder,
-      true
+      true,
     );
   }
 
@@ -345,7 +371,7 @@ export class DifferenceDetector {
       { path: this.baselineApiViewOptions.path, apiView: this.baselineApiViewOptions.apiView },
       { path: this.currentApiViewOptions.path, apiView: this.currentApiViewOptions.apiView },
       this.tempFolder,
-      true
+      true,
     );
   }
 
@@ -354,7 +380,10 @@ export class DifferenceDetector {
       const arr = arrays.filter((a) => a !== undefined).map((a) => a!);
       return [...new Set(arr)];
     };
-    const namesFromBoth = [...getDeclarationFn(this.context!.baseline), ...getDeclarationFn(this.context!.current)];
+    const namesFromBoth = [
+      ...getDeclarationFn(this.context!.baseline),
+      ...getDeclarationFn(this.context!.current),
+    ];
     return uniquefy(namesFromBoth);
   }
 
@@ -393,10 +422,18 @@ export class DifferenceDetector {
   }
 
   private async detectCore(): Promise<void> {
-    const interfaceNames = this.getUniqueDeclarationNames((s) => s.getInterfaces().map((i) => i.getName()));
-    const classNames = this.getUniqueDeclarationNames((s) => s.getClasses().map((i) => i.getName()!));
-    const typeAliasNames = this.getUniqueDeclarationNames((s) => s.getTypeAliases().map((i) => i.getName()));
-    const functionNames = this.getUniqueDeclarationNames((s) => this.getFunctions(s).map((d) => d.getName()!));
+    const interfaceNames = this.getUniqueDeclarationNames((s) =>
+      s.getInterfaces().map((i) => i.getName()),
+    );
+    const classNames = this.getUniqueDeclarationNames((s) =>
+      s.getClasses().map((i) => i.getName()!),
+    );
+    const typeAliasNames = this.getUniqueDeclarationNames((s) =>
+      s.getTypeAliases().map((i) => i.getName()),
+    );
+    const functionNames = this.getUniqueDeclarationNames((s) =>
+      this.getFunctions(s).map((d) => d.getName()!),
+    );
     const enumNames = this.getUniqueDeclarationNames((s) => s.getEnums().map((i) => i.getName()));
 
     // TODO: be careful about input models and output models
