@@ -17,7 +17,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
 const https = require("node:https");
 const path = require("node:path");
-const { fileURLToPath } = require("node:url");
 const endpoint =
   process.env["DOCUMENT_TRANSLATION_ENDPOINT"] ||
   "https://<translator-instance>.cognitiveservices.azure.com";
@@ -74,8 +73,7 @@ async function main() {
   const result = await poller.pollUntilDone();
   console.log(`Translation completed with status: ${result.status}`);
 
-  const currentFile = fileURLToPath(import.meta.url);
-  const currentDir = path.dirname(currentFile);
+  const currentDir = process.cwd();
 
   for await (const blob of targetContainerClient.listBlobsFlat()) {
     const translatedBlobClient = targetContainerClient.getBlobClient(blob.name);

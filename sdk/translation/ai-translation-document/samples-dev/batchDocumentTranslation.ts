@@ -17,7 +17,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { BlobServiceClient } from "@azure/storage-blob";
 import https from "node:https";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import type { Readable } from "node:stream";
 
 const endpoint =
@@ -76,8 +75,7 @@ export async function main(): Promise<void> {
   const result = await poller.pollUntilDone();
   console.log(`Translation completed with status: ${result.status}`);
 
-  const currentFile = fileURLToPath(import.meta.url);
-  const currentDir = path.dirname(currentFile);
+  const currentDir = process.cwd();
 
   for await (const blob of targetContainerClient.listBlobsFlat()) {
     const translatedBlobClient = targetContainerClient.getBlobClient(blob.name);
