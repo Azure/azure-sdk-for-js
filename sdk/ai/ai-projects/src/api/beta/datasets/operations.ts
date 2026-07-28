@@ -192,6 +192,10 @@ export function createGenerationJob(
     getInitialResponse: () => _createGenerationJobSend(context, job, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "DataGenerationJobs=V1Preview",
+    },
   }) as PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
 }
 

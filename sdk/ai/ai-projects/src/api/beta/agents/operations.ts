@@ -305,5 +305,9 @@ export function createOptimizationJob(
     getInitialResponse: () => _createOptimizationJobSend(context, job, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "AgentsOptimization=V2Preview",
+    },
   }) as PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
 }
