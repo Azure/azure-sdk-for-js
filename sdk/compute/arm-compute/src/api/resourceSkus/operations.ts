@@ -49,7 +49,6 @@ export async function _listDeserialize(
 
   return _resourceSkusResultDeserializer(result.body);
 }
-
 /** Gets the list of Microsoft.Compute SKUs available for your Subscription. */
 export function list(
   context: Client,

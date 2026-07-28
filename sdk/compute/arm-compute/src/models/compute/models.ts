@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
   ApiError,
@@ -29,12 +35,6 @@ import {
 import type { TrackedResource, ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends TrackedResource {
   /** The virtual machine scale set sku. */
@@ -5499,7 +5499,7 @@ export function upgradeOperationHistoryStatusDeserializer(
 }
 
 /** Code indicating the current status of the upgrade. */
-export type UpgradeState = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type UpgradeState = "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 
 /** Information about the number of virtual machine instances in each upgrade state. */
 export interface RollingUpgradeProgressInfo {
@@ -13095,7 +13095,8 @@ export function rollingUpgradeRunningStatusDeserializer(item: any): RollingUpgra
 }
 
 /** Code indicating the current status of the upgrade. */
-export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type RollingUpgradeStatusCode =
+  "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 /** The last action performed on the rolling upgrade. */
 export type RollingUpgradeActionType = "Start" | "Cancel";
 

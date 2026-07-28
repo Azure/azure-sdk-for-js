@@ -18,7 +18,6 @@ export interface SoftDeletedResourceOperations {
     options?: SoftDeletedResourceListByArtifactNameOptionalParams,
   ) => PagedAsyncIterableIterator<GallerySoftDeletedResource>;
 }
-
 function _getSoftDeletedResource(context: ComputeManagementContext) {
   return {
     listByArtifactName: (
@@ -38,7 +37,6 @@ function _getSoftDeletedResource(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getSoftDeletedResourceOperations(
   context: ComputeManagementContext,
 ): SoftDeletedResourceOperations {
