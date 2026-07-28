@@ -56,6 +56,7 @@ export interface Agent {
     name: string;
     object: "agent";
     readonly state: AgentState;
+    readonly state_source?: AgentStateSource;
     versions: {
         latest: AgentVersion;
     };
@@ -365,6 +366,9 @@ export interface AgentsStopSessionOptionalParams extends OperationOptions {
 
 // @public
 export type AgentState = "enabled" | "disabled";
+
+// @public
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
