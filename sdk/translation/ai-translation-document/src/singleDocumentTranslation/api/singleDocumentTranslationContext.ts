@@ -29,7 +29,7 @@ export function createSingleDocumentTranslation(
 ): SingleDocumentTranslationContext {
   const endpointUrl = options.endpoint ?? `${endpointParam}/translator`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-document/1.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
