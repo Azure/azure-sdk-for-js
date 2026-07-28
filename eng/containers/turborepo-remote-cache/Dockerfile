@@ -19,11 +19,11 @@ ENV NPM_CONFIG_USERCONFIG=/app/.npmrc
 RUN npm install -g pnpm
 
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --ignore-scripts
 
 FROM base AS build
 COPY . ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --ignore-scripts
 RUN pnpm run build
 
 FROM base
