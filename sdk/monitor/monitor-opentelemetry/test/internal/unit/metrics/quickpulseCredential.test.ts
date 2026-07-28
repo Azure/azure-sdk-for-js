@@ -4,13 +4,13 @@
 import { ManagedIdentityCredential } from "@azure/identity";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import { getAuthenticationCredential } from "../../../../src/metrics/quickpulse/credentialUtils.js";
+import { getAuthenticationCredentialFromEnv } from "../../../../src/metrics/quickpulse/credentialUtils.js";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 
 const AUTH_STRING_ENV_VAR = "APPLICATIONINSIGHTS_AUTHENTICATION_STRING";
 
-describe("#getAuthenticationCredential", () => {
+describe("#getAuthenticationCredentialFromEnv", () => {
   let originalAuthString: string | undefined;
 
   beforeEach(() => {
@@ -28,42 +28,32 @@ describe("#getAuthenticationCredential", () => {
 
   it("resolves a ManagedIdentityCredential with clientId from the auth-string env var", () => {
     process.env[AUTH_STRING_ENV_VAR] = "Authorization=AAD;ClientId=test-client-id";
-    const credential = getAuthenticationCredential();
+    const credential = getAuthenticationCredentialFromEnv();
     assert.instanceOf(credential, ManagedIdentityCredential);
     assert.strictEqual((credential as unknown as { clientId?: string }).clientId, "test-client-id");
   });
 
   it("resolves a ManagedIdentityCredential without clientId when only AAD is specified", () => {
     process.env[AUTH_STRING_ENV_VAR] = "Authorization=AAD";
-    const credential = getAuthenticationCredential();
+    const credential = getAuthenticationCredentialFromEnv();
     assert.instanceOf(credential, ManagedIdentityCredential);
     assert.isUndefined((credential as unknown as { clientId?: string }).clientId);
   });
 
-  it("gives an explicit credential precedence over the env var", () => {
-    process.env[AUTH_STRING_ENV_VAR] = "Authorization=AAD;ClientId=test-client-id";
-    const explicit: TokenCredential = {
-      getToken: (): Promise<AccessToken> =>
-        Promise.resolve({ token: "fake", expiresOnTimestamp: 9999999999 }),
-    };
-    const credential = getAuthenticationCredential(explicit);
-    assert.strictEqual(credential, explicit);
-  });
-
-  it("returns undefined without an explicit credential or env var", () => {
-    const credential = getAuthenticationCredential();
+  it("returns undefined without the env var", () => {
+    const credential = getAuthenticationCredentialFromEnv();
     assert.isUndefined(credential);
   });
 
   it("returns undefined when the env var does not request AAD authorization", () => {
     process.env[AUTH_STRING_ENV_VAR] = "Authorization=Basic;ClientId=test-client-id";
-    const credential = getAuthenticationCredential();
+    const credential = getAuthenticationCredentialFromEnv();
     assert.isUndefined(credential);
   });
 
   it("returns undefined when the env var is malformed", () => {
     process.env[AUTH_STRING_ENV_VAR] = "not-a-valid-auth-string";
-    const credential = getAuthenticationCredential();
+    const credential = getAuthenticationCredentialFromEnv();
     assert.isUndefined(credential);
   });
 });
@@ -102,5 +92,21 @@ describe("#LiveMetrics credential resolution", () => {
       (pingCredential as unknown as { clientId?: string }).clientId,
       "test-client-id",
     );
+  });
+
+  it("gives an explicit credential precedence over the auth-string env var", () => {
+    process.env[AUTH_STRING_ENV_VAR] = "Authorization=AAD;ClientId=test-client-id";
+    const explicit: TokenCredential = {
+      getToken: (): Promise<AccessToken> =>
+        Promise.resolve({ token: "fake", expiresOnTimestamp: 9999999999 }),
+    };
+    const config = new InternalConfig();
+    config.azureMonitorExporterOptions.connectionString =
+      "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
+    config.azureMonitorExporterOptions.credential = explicit;
+    autoCollect = new LiveMetrics(config);
+
+    assert.strictEqual(autoCollect["pingSender"]["credential"], explicit);
+    assert.strictEqual(autoCollect["quickpulseExporter"].getSender()["credential"], explicit);
   });
 });

@@ -41,7 +41,7 @@ import { QuickpulseMetricExporter } from "./export/exporter.js";
 import { QuickpulseSender } from "./export/sender.js";
 import { ConnectionStringParser } from "../../utils/connectionStringParser.js";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types.js";
-import { getAuthenticationCredential } from "./credentialUtils.js";
+import { getAuthenticationCredentialFromEnv } from "./credentialUtils.js";
 import type {
   QuickpulseExporterOptions,
   RequestData,
@@ -172,9 +172,8 @@ export class LiveMetrics {
       this.config.azureMonitorExporterOptions.connectionString ||
         process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
-    const credential = getAuthenticationCredential(
-      this.config.azureMonitorExporterOptions.credential,
-    );
+    const credential =
+      this.config.azureMonitorExporterOptions.credential ?? getAuthenticationCredentialFromEnv();
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",

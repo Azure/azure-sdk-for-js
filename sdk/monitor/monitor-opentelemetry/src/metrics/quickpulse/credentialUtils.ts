@@ -1,30 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from "@azure/core-auth";
 import { ManagedIdentityCredential } from "@azure/identity";
 import { APPLICATIONINSIGHTS_AUTHENTICATION_STRING } from "../../types.js";
 import { Logger } from "../../shared/logging/logger.js";
 
 /**
- * Resolves the Azure Active Directory (AAD) credential used by Live Metrics.
+ * Resolves an Azure Active Directory (AAD) credential from the
+ * `APPLICATIONINSIGHTS_AUTHENTICATION_STRING` environment variable (the App Service /
+ * Functions convention) which has the form `Authorization=AAD;ClientId=<client-id>`.
+ * A `ManagedIdentityCredential` is created using the supplied `ClientId` when present.
  *
- * When an explicit credential is supplied it is returned as-is. Otherwise the
- * credential is resolved from the `APPLICATIONINSIGHTS_AUTHENTICATION_STRING`
- * environment variable (the App Service / Functions AAD convention) which has
- * the form `Authorization=AAD;ClientId=<client-id>`. If that variable is absent,
- * malformed, or does not request AAD authorization, `undefined` is returned.
+ * Returns `undefined` when the variable is absent, malformed, or does not request AAD
+ * authorization. This is intended as a fallback for callers that were not given an
+ * explicit credential.
  *
- * @param credential - Explicitly supplied token credential, if any.
- * @returns The resolved token credential, or `undefined` when none applies.
+ * @returns A `ManagedIdentityCredential`, or `undefined` when none applies.
  * @internal
  */
-export function getAuthenticationCredential(
-  credential?: TokenCredential,
-): TokenCredential | undefined {
-  if (credential) {
-    return credential;
-  }
+export function getAuthenticationCredentialFromEnv(): ManagedIdentityCredential | undefined {
   const authString = process.env[APPLICATIONINSIGHTS_AUTHENTICATION_STRING];
   if (!authString) {
     return undefined;
