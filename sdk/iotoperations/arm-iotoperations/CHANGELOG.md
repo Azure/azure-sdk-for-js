@@ -10,6 +10,7 @@
   - Added Type Alias HighPriorityMessagesBackpressureHandling
   - Added Enum KnownHighPriorityMessagesBackpressureHandling
   - Enum KnownVersions has a new value V20260701
+  - Added `RestError` and `isRestError` re-exports from `@azure/core-rest-pipeline`
 
 ## 2.0.0 (2026-04-16)
 
