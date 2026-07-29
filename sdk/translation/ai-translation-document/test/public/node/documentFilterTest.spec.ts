@@ -150,7 +150,7 @@ describe("DocumentFilter tests", () => {
       orderBy: orderByList,
     })) {
       const createdDateTime = new Date(documentStatus.createdAt);
-      assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);
+      assert.isTrue(createdDateTime.getTime() <= timestamp.getTime());
     }
   });
 
