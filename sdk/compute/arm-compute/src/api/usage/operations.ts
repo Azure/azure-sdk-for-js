@@ -47,7 +47,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _listUsagesResultDeserializer(result.body);
 }
-
 /** Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription. */
 export function list(
   context: Client,

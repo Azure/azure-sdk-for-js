@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Live Metrics (QuickPulse) now honors the `APPLICATIONINSIGHTS_AUTHENTICATION_STRING` environment variable for Azure Active Directory (AAD) authentication as a fallback when no explicit credential is supplied. [#39445](https://github.com/Azure/azure-sdk-for-js/pull/39445)
 - Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ### Bugs Fixed

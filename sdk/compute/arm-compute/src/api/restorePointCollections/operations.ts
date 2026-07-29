@@ -65,7 +65,6 @@ export async function _listAllDeserialize(
 
   return _restorePointCollectionListResultDeserializer(result.body);
 }
-
 /** Gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections. */
 export function listAll(
   context: Client,
@@ -117,7 +116,6 @@ export async function _listDeserialize(
 
   return _restorePointCollectionListResultDeserializer(result.body);
 }
-
 /** Gets the list of restore point collections in a resource group. */
 export function list(
   context: Client,
@@ -167,7 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the restore point collection. This operation will also delete all the contained restore points. */
 export function $delete(
   context: Client,
@@ -227,7 +224,6 @@ export async function _updateDeserialize(
 
   return restorePointCollectionDeserializer(result.body);
 }
-
 /** The operation to update the restore point collection. */
 export async function update(
   context: Client,
@@ -288,7 +284,6 @@ export async function _createOrUpdateDeserialize(
 
   return restorePointCollectionDeserializer(result.body);
 }
-
 /** The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified. */
 export async function createOrUpdate(
   context: Client,
@@ -347,7 +342,6 @@ export async function _getDeserialize(
 
   return restorePointCollectionDeserializer(result.body);
 }
-
 /** The operation to get the restore point collection. */
 export async function get(
   context: Client,
