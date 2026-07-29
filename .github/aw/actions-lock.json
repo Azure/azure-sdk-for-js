@@ -30,15 +30,15 @@
       "version": "v7.0.1",
       "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
     },
-    "github/gh-aw-actions/setup-cli@v0.82.13": {
+    "github/gh-aw-actions/setup-cli@v0.83.1": {
       "repo": "github/gh-aw-actions/setup-cli",
-      "version": "v0.82.13",
-      "sha": "1e19954cdee363cdb1dd74874bfe7ac4b7d819df"
+      "version": "v0.83.1",
+      "sha": "598bade62fe1591518c081cd854cb931a2e8547f"
     },
-    "github/gh-aw-actions/setup@v0.82.13": {
+    "github/gh-aw-actions/setup@v0.83.1": {
       "repo": "github/gh-aw-actions/setup",
-      "version": "v0.82.13",
-      "sha": "1e19954cdee363cdb1dd74874bfe7ac4b7d819df"
+      "version": "v0.83.1",
+      "sha": "598bade62fe1591518c081cd854cb931a2e8547f"
     }
   }
 }

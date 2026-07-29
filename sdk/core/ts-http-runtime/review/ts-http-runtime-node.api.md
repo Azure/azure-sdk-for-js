@@ -114,6 +114,7 @@ export type ClientOptions = PipelineOptions & {
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
     pipeline?: Pipeline;
+    internal?: InternalClientOptions;
 };
 
 // @public
@@ -224,6 +225,11 @@ export interface ImplicitFlow {
     kind: "implicit";
     refreshUrl?: string;
     scopes?: string[];
+}
+
+// @public
+export interface InternalClientOptions {
+    noDefaultAcceptHeader?: boolean;
 }
 
 // @public

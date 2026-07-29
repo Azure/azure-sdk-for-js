@@ -81,7 +81,6 @@ export interface FleetsOperations {
     options?: FleetsGetOptionalParams,
   ) => Promise<Fleet>;
 }
-
 function _getFleets(context: AzureFleetContext) {
   return {
     listVirtualMachines: (
@@ -118,7 +117,6 @@ function _getFleets(context: AzureFleetContext) {
       get(context, resourceGroupName, fleetName, options),
   };
 }
-
 export function _getFleetsOperations(context: AzureFleetContext): FleetsOperations {
   return {
     ..._getFleets(context),

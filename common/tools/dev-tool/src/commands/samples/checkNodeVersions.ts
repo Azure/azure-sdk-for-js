@@ -172,7 +172,7 @@ async function createDockerContextDirectory(
   }
   const envFileName = path.basename(envPath);
   await cp(samplesPath, path.join(dockerContextDirectory, "samples"), { recursive: true });
-  let artifactURL: string | undefined = undefined;
+  let artifactURL: string | undefined;
   try {
     await access(artifactPath);
     const artifactName = path.basename(artifactPath);

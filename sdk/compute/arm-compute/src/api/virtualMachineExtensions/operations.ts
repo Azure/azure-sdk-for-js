@@ -67,7 +67,6 @@ export async function _listDeserialize(
 
   return virtualMachineExtensionsListResultDeserializer(result.body);
 }
-
 /** The operation to get all extensions of a Virtual Machine. */
 export async function list(
   context: Client,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the extension. */
 export function $delete(
   context: Client,
@@ -178,7 +176,6 @@ export async function _updateDeserialize(
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to update the extension. */
 export function update(
   context: Client,
@@ -249,7 +246,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to create or update the extension. */
 export function createOrUpdate(
   context: Client,
@@ -318,7 +314,6 @@ export async function _getDeserialize(
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to get the extension. */
 export async function get(
   context: Client,
