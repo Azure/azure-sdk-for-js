@@ -29,7 +29,7 @@
     "turbo": "^2.8.9"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13"
   },
   "packageManager": "pnpm@11.9.0"
 }

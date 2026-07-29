@@ -100,7 +100,6 @@ export interface GalleriesOperations {
     options?: GalleriesGetOptionalParams,
   ) => Promise<Gallery>;
 }
-
 function _getGalleries(context: ComputeManagementContext) {
   return {
     list: (options?: GalleriesListOptionalParams) => list(context, options),
@@ -181,7 +180,6 @@ function _getGalleries(context: ComputeManagementContext) {
       get(context, resourceGroupName, galleryName, options),
   };
 }
-
 export function _getGalleriesOperations(context: ComputeManagementContext): GalleriesOperations {
   return {
     ..._getGalleries(context),

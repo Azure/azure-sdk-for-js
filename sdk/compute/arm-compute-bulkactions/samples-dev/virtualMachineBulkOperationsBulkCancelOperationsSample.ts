@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  *
  * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkCancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCancel_MaximumSet_Gen.json
  */
-async function virtualMachineBulkOperationsBulkCancelGeneratedByMaximumSetRule(): Promise<void> {
+async function virtualMachineBulkOperationsBulkCancelExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkCancelOperations(
-    "myResourceGroup",
-    "eastus2euap",
-    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
+    "rgBulkactions",
+    "useast2euap",
+    { operationIds: ["af449548-8e1a-4079-874e-2caa4ff783cc"] },
   );
   console.log(result);
 }
@@ -26,23 +26,23 @@ async function virtualMachineBulkOperationsBulkCancelGeneratedByMaximumSetRule()
  * This sample demonstrates how to bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  *
  * @summary bulkCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkCancel_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkCancel_MinimumSet_Gen.json
  */
-async function virtualMachineBulkOperationsBulkCancelGeneratedByMinimumSetRule(): Promise<void> {
+async function virtualMachineBulkOperationsBulkCancelExampleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkCancelOperations(
-    "myResourceGroup",
-    "eastus2euap",
-    { operationIds: ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"] },
+    "rgBulkactions",
+    "useast2euap",
+    { operationIds: ["af449548-8e1a-4079-874e-2caa4ff783cc"] },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await virtualMachineBulkOperationsBulkCancelGeneratedByMaximumSetRule();
-  await virtualMachineBulkOperationsBulkCancelGeneratedByMinimumSetRule();
+  await virtualMachineBulkOperationsBulkCancelExample();
+  await virtualMachineBulkOperationsBulkCancelExampleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

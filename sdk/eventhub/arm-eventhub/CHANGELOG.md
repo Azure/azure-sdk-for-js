@@ -1,11 +1,8 @@
 # Release History
 
-## 6.0.0-beta.2 (2026-07-22)
-Compared with version 5.2.0
+## 6.0.0 (2026-07-27)
 
 ### Features Added
-  - Added operation group FabricShortcutsOperations
-  - Added operation group UpgradePreferencesOperationsOperations
   - Added operation ClustersOperations.createOrUpdate
   - Added operation ClustersOperations.delete
   - Added operation ClustersOperations.update
@@ -31,20 +28,9 @@ Compared with version 5.2.0
   - Added Interface DestinationProperties
   - Added Interface EHNamespaceProperties
   - Added Interface EventhubProperties
-  - Added Interface ExceptionWindow
-  - Added Interface FabricShortcut
-  - Added Interface FabricShortcutConfiguration
-  - Added Interface FabricShortcutProperties
-  - Added Interface FabricShortcutsApproveOptionalParams
-  - Added Interface FabricShortcutsCreateOrUpdateOptionalParams
-  - Added Interface FabricShortcutsDeleteOptionalParams
-  - Added Interface FabricShortcutsGetOptionalParams
-  - Added Interface FabricShortcutsListByEventHubOptionalParams
-  - Added Interface FabricShortcutsRejectOptionalParams
   - Added Interface FailOver
   - Added Interface FailOverProperties
   - Added Interface GeoDataReplicationProperties
-  - Added Interface MaintenanceWindow
   - Added Interface MessageTimestampDescription
   - Added Interface NamespaceReplicaLocation
   - Added Interface NamespacesFailoverOptionalParams
@@ -60,16 +46,10 @@ Compared with version 5.2.0
   - Added Interface RestorePollerOptions
   - Added Interface SchemaGroupProperties
   - Added Interface SimplePollerLike
-  - Added Interface UpgradePreferences
-  - Added Interface UpgradePreferencesOperationsCreateOrUpdateOptionalParams
-  - Added Interface UpgradePreferencesOperationsGetOptionalParams
-  - Added Interface UpgradePreferencesOperationsUpgradeNowOptionalParams
-  - Added Interface UpgradePreferencesProperties
-  - Added Interface UpgradeStatus
   - Interface Cluster has a new optional parameter platformCapabilities
   - Interface Cluster has a new optional parameter zoneRedundant
   - Interface EHNamespace has a new optional parameter geoDataReplication
-  - Interface EHNamespace has a new optional parameter ipAddressType
+  - Interface EHNamespace has a new optional parameter ipV6Enabled
   - Interface EHNamespace has a new optional parameter platformCapabilities
   - Interface Eventhub has a new optional parameter identifier
   - Interface Eventhub has a new optional parameter messageTimestampDescription
@@ -78,18 +58,12 @@ Compared with version 5.2.0
   - Interface Resource has a new optional parameter systemData
   - Interface RetentionDescription has a new optional parameter minCompactionLagTimeInMinutes
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias ExceptionWindowAction
-  - Added Type Alias FabricShortcutStatus
-  - Added Type Alias FabricShortcutType
   - Added Type Alias GeoDRRoleType
-  - Added Type Alias IpAddressType
   - Added Type Alias KeyType
   - Added Type Alias Mode
   - Added Type Alias TimestampType
-  - Added Type Alias UpgradePreferenceDayOfWeek
   - Added Enum AzureClouds
   - Added Enum KnownGeoDRRoleType
-  - Added Enum KnownIpAddressType
   - Added Enum KnownMode
   - Added Enum KnownTimestampType
   - Added Enum KnownVersions
@@ -101,8 +75,6 @@ Compared with version 5.2.0
 ### Breaking Changes
   - Operation ApplicationGroupOperations.createOrUpdateApplicationGroup has a new signature
   - Operation ApplicationGroupOperations.get has a new signature
-  - Operation Configuration.patch has a new signature
-  - Operation Namespaces.update has a new signature
   - Operation NetworkSecurityPerimeterConfigurations.beginCreateOrUpdateAndWait has a new signature
   - Removed Interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
   - Removed Interface ApplicationGroupDeleteOptionalParams

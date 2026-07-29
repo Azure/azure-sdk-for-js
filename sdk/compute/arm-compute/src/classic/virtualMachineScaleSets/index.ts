@@ -454,7 +454,6 @@ export interface VirtualMachineScaleSetsOperations {
     options?: VirtualMachineScaleSetsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSet>;
 }
-
 function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
   return {
     listByLocation: (
@@ -930,7 +929,6 @@ function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, vmScaleSetName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetsOperations {
