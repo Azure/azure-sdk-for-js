@@ -78,14 +78,7 @@ export class SearchIndexerClient {
     credential: KeyCredential | TokenCredential,
     options: SearchIndexerClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSearchIndexer(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSearchIndexer(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 

@@ -66,7 +66,7 @@ export function _resetSkillsSend(
     "/skillsets('{skillsetName}')/search.resetskills{?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,14 +94,15 @@ export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Reset an existing skillset in a search service. */
 export async function resetSkills(
   context: Client,
@@ -121,7 +122,7 @@ export function _createSkillsetSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,14 +152,15 @@ export async function _createSkillsetDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
-
 /** Creates a new skillset in a search service. */
 export async function createSkillset(
   context: Client,
@@ -174,10 +176,13 @@ export function _getSkillsetsSend(
   options: GetSkillsetsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skillsets{?api%2Dversion,%24select}",
+    "/skillsets{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,14 +210,15 @@ export async function _getSkillsetsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return listSkillsetsResultDeserializer(result.body);
 }
-
 /** List all skillsets in a search service. */
 export async function getSkillsets(
   context: Client,
@@ -231,7 +237,7 @@ export function _getSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,14 +265,15 @@ export async function _getSkillsetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
-
 /** Retrieves a skillset in a search service. */
 export async function getSkillset(
   context: Client,
@@ -286,7 +293,7 @@ export function _deleteSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,14 +321,15 @@ export async function _deleteSkillsetDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a skillset in a search service. */
 export async function deleteSkillset(
   context: Client,
@@ -342,7 +350,7 @@ export function _createOrUpdateSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -377,14 +385,15 @@ export async function _createOrUpdateSkillsetDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerSkillsetDeserializer(result.body);
 }
-
 /** Creates a new skillset in a search service or updates the skillset if it already exists. */
 export async function createOrUpdateSkillset(
   context: Client,
@@ -405,7 +414,7 @@ export function _getIndexerStatusSend(
     "/indexers('{indexerName}')/search.status{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,14 +442,15 @@ export async function _getIndexerStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerStatusDeserializer(result.body);
 }
-
 /** Returns the current status and execution history of an indexer. */
 export async function getIndexerStatus(
   context: Client,
@@ -459,7 +469,7 @@ export function _createIndexerSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -489,14 +499,15 @@ export async function _createIndexerDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDeserializer(result.body);
 }
-
 /** Creates a new indexer. */
 export async function createIndexer(
   context: Client,
@@ -512,10 +523,13 @@ export function _getIndexersSend(
   options: GetIndexersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexers{?api%2Dversion,%24select}",
+    "/indexers{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -543,14 +557,15 @@ export async function _getIndexersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return listIndexersResultDeserializer(result.body);
 }
-
 /** Lists all indexers available for a search service. */
 export async function getIndexers(
   context: Client,
@@ -569,7 +584,7 @@ export function _getIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -597,14 +612,15 @@ export async function _getIndexerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDeserializer(result.body);
 }
-
 /** Retrieves an indexer definition. */
 export async function getIndexer(
   context: Client,
@@ -624,7 +640,7 @@ export function _deleteIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -652,14 +668,15 @@ export async function _deleteIndexerDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes an indexer. */
 export async function deleteIndexer(
   context: Client,
@@ -680,7 +697,7 @@ export function _createOrUpdateIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -715,14 +732,15 @@ export async function _createOrUpdateIndexerDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDeserializer(result.body);
 }
-
 /** Creates a new indexer or updates an indexer if it already exists. */
 export async function createOrUpdateIndexer(
   context: Client,
@@ -743,7 +761,7 @@ export function _runIndexerSend(
     "/indexers('{indexerName}')/search.run{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -769,14 +787,15 @@ export async function _runIndexerDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Runs an indexer on-demand. */
 export async function runIndexer(
   context: Client,
@@ -796,7 +815,7 @@ export function _resetDocumentsSend(
     "/indexers('{indexerName}')/search.resetdocs{?api%2Dversion,overwrite}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       overwrite: options?.overwrite,
     },
     {
@@ -817,9 +836,9 @@ export function _resetDocumentsSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["keysOrIds"]
-      ? options["keysOrIds"]
-      : documentKeysOrIdsSerializer(options["keysOrIds"]),
+    body: !options?.keysOrIds
+      ? options?.keysOrIds
+      : documentKeysOrIdsSerializer(options?.keysOrIds),
   });
 }
 
@@ -827,14 +846,15 @@ export async function _resetDocumentsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
 export async function resetDocuments(
   context: Client,
@@ -855,7 +875,7 @@ export function _resyncSend(
     "/indexers('{indexerName}')/search.resync{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -883,14 +903,15 @@ export async function _resyncDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Resync selective options from the datasource to be re-ingested by the indexer." */
 export async function resync(
   context: Client,
@@ -911,7 +932,7 @@ export function _resetIndexerSend(
     "/indexers('{indexerName}')/search.reset{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -937,14 +958,15 @@ export async function _resetIndexerDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Resets the change tracking state associated with an indexer. */
 export async function resetIndexer(
   context: Client,
@@ -963,7 +985,7 @@ export function _createDataSourceConnectionSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -993,14 +1015,15 @@ export async function _createDataSourceConnectionDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
-
 /** Creates a new datasource. */
 export async function createDataSourceConnection(
   context: Client,
@@ -1016,10 +1039,13 @@ export function _getDataSourceConnectionsSend(
   options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasources{?api%2Dversion,%24select}",
+    "/datasources{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24select": options?.select,
+      search: options?.search,
+      pageSize: options?.pageSize,
+      searchType: options?.searchType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1047,14 +1073,15 @@ export async function _getDataSourceConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return listDataSourcesResultDeserializer(result.body);
 }
-
 /** Lists all datasources available for a search service. */
 export async function getDataSourceConnections(
   context: Client,
@@ -1073,7 +1100,7 @@ export function _getDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1101,14 +1128,15 @@ export async function _getDataSourceConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
-
 /** Retrieves a datasource definition. */
 export async function getDataSourceConnection(
   context: Client,
@@ -1128,7 +1156,7 @@ export function _deleteDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1158,14 +1186,15 @@ export async function _deleteDataSourceConnectionDeserialize(
   const expectedStatuses = ["204", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a datasource. */
 export async function deleteDataSourceConnection(
   context: Client,
@@ -1186,7 +1215,7 @@ export function _createOrUpdateDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion,ignoreResetRequirements}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
     },
     {
@@ -1220,14 +1249,15 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return searchIndexerDataSourceConnectionDeserializer(result.body);
 }
-
 /** Creates a new datasource or updates a datasource if it already exists. */
 export async function createOrUpdateDataSourceConnection(
   context: Client,

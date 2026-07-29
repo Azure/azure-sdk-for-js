@@ -10,8 +10,8 @@ import {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { retrieve } from "./api/operations.js";
-import { RetrieveOptionalParams } from "./api/options.js";
+import { retrieveStream, retrieve } from "./api/operations.js";
+import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -28,15 +28,25 @@ export class KnowledgeBaseRetrievalClient {
     knowledgeBaseName: string,
     options: KnowledgeBaseRetrievalClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKnowledgeBaseRetrieval(endpointParam, credential, knowledgeBaseName, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKnowledgeBaseRetrieval(
+      endpointParam,
+      credential,
+      knowledgeBaseName,
+      options,
+    );
     this.pipeline = this._client.pipeline;
+  }
+
+  /**
+   * KnowledgeBase retrieves relevant data from backing stores, streaming progress and results as
+   * server-sent events on the same connection as they become available, instead of waiting for the
+   * full retrieval to complete.
+   */
+  retrieveStream(
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
+    options: RetrieveStreamOptionalParams = { requestOptions: {} },
+  ): Promise<Uint8Array> {
+    return retrieveStream(this._client, retrievalRequest, options);
   }
 
   /** KnowledgeBase retrieves relevant data from backing stores. */

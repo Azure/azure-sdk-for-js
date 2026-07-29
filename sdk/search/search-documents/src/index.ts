@@ -106,7 +106,7 @@ export {
   type RemoteSharePointKnowledgeSourceParams,
   type SearchIndexKnowledgeSourceParams,
   type WebKnowledgeSourceParams,
-  type WorkIQAttribution,
+  type KnowledgeBaseModelWebSummarizationActivityRecord,
   type WorkIQKnowledgeSourceParams,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
@@ -381,18 +381,13 @@ export {
   type McpServerSplitOutputParsing,
   type McpServerOutputParsingSplitParameters,
   type McpServerNoneOutputParsing,
-  type McpServerToolInclusionMode,
   KnownMcpServerAuthenticationKind,
   KnownMcpServerOutputParsingKind,
-  KnownMcpServerToolInclusionMode,
   type KnowledgeSourceFile,
   type WordDelimiterTokenFilter,
+  type ContentUnderstandingSkillChunkingMethod,
+  type SharePointConnectorAppRegistration,
 } from "./models/azure/search/documents/indexes/index.js";
-export type {
-  KnowledgeBaseModelWebSummarizationActivityRecord,
-  ContentUnderstandingSkillChunkingMethod,
-  SharePointConnectorAppRegistration,
-} from "./models/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export type {

@@ -1,14 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
+import { NodeReadableStream } from "./static-helpers/platform-types.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export { KnownVersions } from "./models/index.js";
+export type {
+  KnowledgeBaseRetrieveDefaults,
+  KnowledgeSourceNetworkAccessMode,
+  WorkIQKnowledgeSourceParameters,
+  EntraAppAuthentication,
+  FileKnowledgeSourceExtractionMode,
+  FileUploadMetadata,
+  ListingSearchType,
+} from "./models/index.js";
+export {
+  KnownKnowledgeSourceNetworkAccessMode,
+  KnownFileKnowledgeSourceExtractionMode,
+  KnownListingSearchType,
+  KnownVersions,
+} from "./models/index.js";
 export type {
   ErrorResponse,
   ErrorDetail,
@@ -247,9 +263,17 @@ export type {
   KnowledgeSource,
   KnowledgeSourceUnion,
   KnowledgeSourceKind,
+  KnowledgeSourceResultsProcessing,
   SearchIndexKnowledgeSource,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexFieldReference,
+  SearchIndexKnowledgeSourceQueryHints,
+  SearchIndexKnowledgeSourceFilterHint,
+  SearchIndexKnowledgeSourceBoost,
+  SearchIndexKnowledgeSourceBoostUnion,
+  SearchIndexKnowledgeSourceBoostKind,
+  SearchIndexKnowledgeSourceFieldValueBoost,
+  SearchIndexKnowledgeSourceMultiWordExpressionBoost,
   AzureBlobKnowledgeSource,
   AzureBlobKnowledgeSourceParameters,
   IndexingSchedule,
@@ -296,13 +320,13 @@ export type {
   TextSplitMode,
   SplitSkillLanguage,
   McpServerNoneOutputParsing,
-  McpServerToolInclusionMode,
   FabricDataAgentKnowledgeSource,
   FabricDataAgentKnowledgeSourceParameters,
   FabricOntologyKnowledgeSource,
   FabricOntologyKnowledgeSourceParameters,
   KnowledgeSourceSynchronizationStatus,
   KnowledgeSourceFile,
+  BlobIndexerParsingMode,
   SearchServiceStatistics,
   ServiceCounters,
   ResourceCounter,
@@ -329,7 +353,6 @@ export type {
   SearchIndexer,
   IndexingParameters,
   IndexingParametersConfiguration,
-  BlobIndexerParsingMode,
   MarkdownParsingSubmode,
   MarkdownHeaderDepth,
   BlobIndexerDataToExtract,
@@ -455,6 +478,8 @@ export {
   KnownSearchIndexPermissionFilterOption,
   KnownKnowledgeBaseModelKind,
   KnownKnowledgeSourceKind,
+  KnownKnowledgeSourceResultsProcessing,
+  KnownSearchIndexKnowledgeSourceBoostKind,
   KnownKnowledgeSourceIngestionPermissionOption,
   KnownKnowledgeSourceContentExtractionMode,
   KnownIndexedSharePointContainerName,
@@ -462,12 +487,11 @@ export {
   KnownMcpServerOutputParsingKind,
   KnownTextSplitMode,
   KnownSplitSkillLanguage,
-  KnownMcpServerToolInclusionMode,
   KnownKnowledgeSourceSynchronizationStatus,
+  KnownBlobIndexerParsingMode,
   KnownSearchIndexerDataSourceType,
   KnownIndexerPermissionOption,
   KnownIndexerResyncOption,
-  KnownBlobIndexerParsingMode,
   KnownMarkdownParsingSubmode,
   KnownMarkdownHeaderDepth,
   KnownBlobIndexerDataToExtract,
@@ -509,6 +533,7 @@ export type {
   KnowledgeRetrievalMinimalReasoningEffort,
   KnowledgeRetrievalLowReasoningEffort,
   KnowledgeRetrievalMediumReasoningEffort,
+  KnowledgeRetrievalAutoReasoningEffort,
   KnowledgeRetrievalOutputMode,
   KnowledgeSourceIngestionParameters,
   KnowledgeSourceVectorizer,
@@ -556,7 +581,9 @@ export type {
   KnowledgeBaseErrorAdditionalInfo,
   KnowledgeBaseSearchIndexActivityRecord,
   ImageServingStatistics,
+  ServedImage,
   KnowledgeBaseSearchIndexActivityArguments,
+  KnowledgeBaseQueryHintProcessing,
   KnowledgeBaseAzureBlobActivityRecord,
   KnowledgeBaseAzureBlobActivityArguments,
   KnowledgeBaseIndexedSharePointActivityRecord,
@@ -580,6 +607,7 @@ export type {
   KnowledgeBaseIndexedSqlActivityRecord,
   KnowledgeBaseIndexedSqlActivityArguments,
   KnowledgeBaseModelQueryPlanningActivityRecord,
+  KnowledgeBaseActivityRecordModel,
   KnowledgeBaseModelAnswerSynthesisActivityRecord,
   KnowledgeBaseModelWebSummarizationActivityRecord,
   KnowledgeBaseAgenticReasoningActivityRecord,
@@ -594,7 +622,6 @@ export type {
   KnowledgeBaseWebReference,
   KnowledgeBaseRemoteSharePointReference,
   KnowledgeBaseWorkIQReference,
-  WorkIQAttribution,
   KnowledgeBaseFabricDataAgentReference,
   KnowledgeBaseFabricOntologyReference,
   KnowledgeBaseMcpServerReference,
@@ -622,12 +649,16 @@ export type {
   SearchClientOptionalParams,
 } from "./search/api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { FileContents, NodeReadableStream };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { SearchIndexClient } from "./searchIndex/searchIndexClient.js";
 export type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  UploadKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -688,5 +719,6 @@ export type {
 export { KnowledgeBaseRetrievalClient } from "./knowledgeBaseRetrieval/knowledgeBaseRetrievalClient.js";
 export type {
   KnowledgeBaseRetrievalClientOptionalParams,
+  RetrieveStreamOptionalParams,
   RetrieveOptionalParams,
 } from "./knowledgeBaseRetrieval/api/index.js";

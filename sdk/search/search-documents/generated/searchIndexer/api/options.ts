@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { DocumentKeysOrIds } from "../../models/azure/search/documents/indexes/models.js";
+import { ListingSearchType } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -11,7 +12,6 @@ export interface ResetSkillsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateSkillsetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -19,17 +19,21 @@ export interface CreateSkillsetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSkillsetsOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSkillsetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -37,7 +41,6 @@ export interface GetSkillsetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteSkillsetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -49,7 +52,6 @@ export interface DeleteSkillsetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -65,7 +67,6 @@ export interface CreateOrUpdateSkillsetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetIndexerStatusOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -73,7 +74,6 @@ export interface GetIndexerStatusOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -81,17 +81,21 @@ export interface CreateIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetIndexersOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -99,7 +103,6 @@ export interface GetIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -111,7 +114,6 @@ export interface DeleteIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -127,7 +129,6 @@ export interface CreateOrUpdateIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface RunIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -135,7 +136,6 @@ export interface RunIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ResetDocumentsOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -147,7 +147,6 @@ export interface ResetDocumentsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ResyncOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -155,7 +154,6 @@ export interface ResyncOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ResetIndexerOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -163,7 +161,6 @@ export interface ResetIndexerOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateDataSourceConnectionOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -171,17 +168,21 @@ export interface CreateDataSourceConnectionOptionalParams extends OperationOptio
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetDataSourceConnectionOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -189,7 +190,6 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteDataSourceConnectionOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -201,7 +201,6 @@ export interface DeleteDataSourceConnectionOptionalParams extends OperationOptio
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateDataSourceConnectionOptionalParams extends OperationOptions {
   /** The Accept header. */

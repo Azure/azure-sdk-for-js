@@ -1,20 +1,88 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KnowledgeBaseRetrievalContext as Client } from "./index.js";
-import type {
-  KnowledgeBaseRetrievalRequest,
-  KnowledgeBaseRetrievalResponse,
-} from "../../models/azure/search/documents/knowledgeBases/models.js";
+import { KnowledgeBaseRetrievalContext as Client } from "./index.js";
 import {
+  KnowledgeBaseRetrievalRequest,
   knowledgeBaseRetrievalRequestSerializer,
+  KnowledgeBaseRetrievalResponse,
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
+import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { RetrieveOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _retrieveStreamSend(
+  context: Client,
+  retrievalRequest: KnowledgeBaseRetrievalRequest,
+  options: RetrieveStreamOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
+    {
+      knowledgeBaseName: context.knowledgeBaseName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "text/event-stream",
+      ...(options?.querySourceAuthorization !== undefined
+        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+        : {}),
+      ...(options?.queryWorkIQSourceAuthorization !== undefined
+        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
+        : {}),
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+    body: knowledgeBaseRetrievalRequestSerializer(retrievalRequest),
+  });
+}
+
+export async function _retrieveStreamDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Uint8Array> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return result.body;
+}
+/**
+ * KnowledgeBase retrieves relevant data from backing stores, streaming progress and results as
+ * server-sent events on the same connection as they become available, instead of waiting for the
+ * full retrieval to complete.
+ */
+export async function retrieveStream(
+  context: Client,
+  retrievalRequest: KnowledgeBaseRetrievalRequest,
+  options: RetrieveStreamOptionalParams = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const streamableMethod = _retrieveStreamSend(context, retrievalRequest, options);
+  const result = await getBinaryResponse(streamableMethod);
+  return _retrieveStreamDeserialize(result);
+}
 
 export function _retrieveSend(
   context: Client,
@@ -25,7 +93,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,6 +111,9 @@ export function _retrieveSend(
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
+      ...(options?.queryWorkIQSourceAuthorization !== undefined
+        ? { "x-ms-query-work-iq-source-authorization": options?.queryWorkIQSourceAuthorization }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -58,14 +129,15 @@ export async function _retrieveDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return knowledgeBaseRetrievalResponseDeserializer(result.body);
 }
-
 /** KnowledgeBase retrieves relevant data from backing stores. */
 export async function retrieve(
   context: Client,

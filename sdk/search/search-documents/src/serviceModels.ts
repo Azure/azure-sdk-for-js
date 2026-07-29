@@ -147,7 +147,7 @@ import type {
   FileKnowledgeSourceParameters,
   McpServerKnowledgeSourceParameters,
 } from "./models/azure/search/documents/indexes/index.js";
-import type { SharePointConnectorAppRegistration } from "./models/index.js";
+import type { SharePointConnectorAppRegistration } from "./models/azure/search/documents/indexes/index.js";
 import type {
   AssetStore,
   FreshnessPolicy,
