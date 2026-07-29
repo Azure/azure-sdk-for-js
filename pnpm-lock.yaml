@@ -422,9 +422,6 @@ importers:
       '@azure/storage-blob':
         specifier: ^12.27.0
         version: link:../../../sdk/storage/storage-blob
-      '@fastify/multipart':
-        specifier: ^10.1.0
-        version: 10.1.0
       '@hapi/boom':
         specifier: ^10.0.1
         version: 10.0.1
@@ -36396,12 +36393,6 @@ packages:
   '@fastify/ajv-compiler@4.0.5':
     resolution: {integrity: sha1-/bCIenr1GrqujBgp6AmdNPjd0wI=}
 
-  '@fastify/busboy@3.2.0':
-    resolution: {integrity: sha1-E+2CEvO5uml2EVKdFTR/hSgFjOo=}
-
-  '@fastify/deepmerge@3.2.1':
-    resolution: {integrity: sha1-D+VqTuPuyHRVYAZDn3vH1hbxDcE=}
-
   '@fastify/error@4.2.0':
     resolution: {integrity: sha1-1A9GunX1Qf3MTcJ2tzCLvI6ObXo=}
 
@@ -36413,9 +36404,6 @@ packages:
 
   '@fastify/merge-json-schemas@0.2.1':
     resolution: {integrity: sha1-OqMNLwyBqKxZlbbZTtTqosMFWCQ=}
-
-  '@fastify/multipart@10.1.0':
-    resolution: {integrity: sha1-78AQjrYKqExJLBw2eG9qn9jj/Mc=}
 
   '@fastify/proxy-addr@5.1.0':
     resolution: {integrity: sha1-9TYLXdg8fePUG0Fb5Kq4SuRKoQY=}
@@ -39064,9 +39052,6 @@ packages:
   fast-xml-parser@5.10.1:
     resolution: {integrity: sha1-GTE/fJOGxH+kod5SdUe3PtLPzt4=}
     hasBin: true
-
-  fastify-plugin@6.0.0:
-    resolution: {integrity: sha1-fNZZxqrV878HtMWSBUEjUaR9Ocg=}
 
   fastify@5.10.0:
     resolution: {integrity: sha1-PJSlJDklmmaInbrRTg/D1rG8k04=}
@@ -43116,10 +43101,6 @@ snapshots:
       ajv-formats: 3.0.1(ajv@8.20.0)
       fast-uri: 3.1.4
 
-  '@fastify/busboy@3.2.0': {}
-
-  '@fastify/deepmerge@3.2.1': {}
-
   '@fastify/error@4.2.0': {}
 
   '@fastify/fast-json-stringify-compiler@5.1.0':
@@ -43131,14 +43112,6 @@ snapshots:
   '@fastify/merge-json-schemas@0.2.1':
     dependencies:
       dequal: 2.0.3
-
-  '@fastify/multipart@10.1.0':
-    dependencies:
-      '@fastify/busboy': 3.2.0
-      '@fastify/deepmerge': 3.2.1
-      '@fastify/error': 4.2.0
-      fastify-plugin: 6.0.0
-      secure-json-parse: 4.1.0
 
   '@fastify/proxy-addr@5.1.0':
     dependencies:
@@ -46167,8 +46140,6 @@ snapshots:
       path-expression-matcher: 1.6.2
       strnum: 2.4.1
       xml-naming: 0.3.0
-
-  fastify-plugin@6.0.0: {}
 
   fastify@5.10.0:
     dependencies:
