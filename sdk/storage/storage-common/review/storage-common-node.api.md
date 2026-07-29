@@ -35,13 +35,10 @@ export type ArrowCellValue = string | number | bigint | boolean | null | Readonl
 
 // @public
 export interface ArrowTableLike {
-    // (undocumented)
     getChild(columnName: string): {
         get(rowIndex: number): ArrowCellValue;
     } | null;
-    // (undocumented)
     numRows: number;
-    // (undocumented)
     schema?: {
         metadata?: {
             get(key: string): string | null | undefined;

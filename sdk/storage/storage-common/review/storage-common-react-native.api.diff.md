@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class AnonymousCredential extends Credential {
      create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
-@@ -74,13 +74,14 @@
+@@ -71,13 +71,14 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -47,7 +47,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -100,28 +101,29 @@
+@@ -97,28 +98,29 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -85,7 +85,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -212,42 +214,35 @@
+@@ -209,42 +211,35 @@
  }
  
  // @public
@@ -139,7 +139,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -256,13 +251,8 @@
+@@ -253,13 +248,8 @@
      encodedContentLength: number;
  }>;
  
@@ -153,7 +153,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -275,10 +265,13 @@
+@@ -272,10 +262,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

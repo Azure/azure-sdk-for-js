@@ -17,8 +17,11 @@ export type ArrowCellValue =
  * taking a hard dependency on the (sizable) `apache-arrow` package.
  */
 export interface ArrowTableLike {
+  /** Number of rows in the decoded table. */
   numRows: number;
+  /** Optional schema whose metadata carries page-level values such as a continuation token. */
   schema?: { metadata?: { get(key: string): string | null | undefined } | null } | null;
+  /** Returns the column vector for `columnName`, or `null` when the column is absent. */
   getChild(columnName: string): { get(rowIndex: number): ArrowCellValue } | null;
 }
 
