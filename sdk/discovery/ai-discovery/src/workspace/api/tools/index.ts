@@ -5,7 +5,7 @@ export { getComputeUsage, getOperations, cancelRunLro, run, getRunStatus } from 
 export type {
   ToolsGetComputeUsageOptionalParams,
   ToolsGetOperationsOptionalParams,
-  ToolsCancelRunLroOptionalParams,
+  ToolsCancelRunOptionalParams,
   ToolsRunOptionalParams,
   ToolsGetRunStatusOptionalParams,
 } from "./options.js";

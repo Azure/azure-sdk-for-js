@@ -98,7 +98,7 @@ describe("Investigations operations (WorkspaceClient)", () => {
   });
 
   it("getDiscoveryEngineMemory returns working memory entries", async () => {
-    for await (const entry of client.investigations.getDiscoveryEngineMemory(
+    for await (const entry of client.investigations.listDiscoveryEngineMemory(
       projectName,
       investigationName,
     )) {

@@ -5,7 +5,7 @@ export { list, $delete, stableUpdate, create, get } from "./operations.js";
 export type {
   ConversationsListOptionalParams,
   ConversationsDeleteOptionalParams,
-  ConversationsStableUpdateOptionalParams,
+  ConversationsUpdateOptionalParams,
   ConversationsCreateOptionalParams,
   ConversationsGetOptionalParams,
 } from "./options.js";

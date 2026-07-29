@@ -203,7 +203,7 @@ export function _getDiscoveryEngineMemorySend(
       "api%2Dversion": "2026-06-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +300,7 @@ export function _listSend(
         : options?.createdSince.toISOString(),
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -29,7 +29,7 @@ import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   ToolsGetComputeUsageOptionalParams,
   ToolsGetOperationsOptionalParams,
-  ToolsCancelRunLroOptionalParams,
+  ToolsCancelRunOptionalParams,
   ToolsRunOptionalParams,
   ToolsGetRunStatusOptionalParams,
 } from "./options.js";
@@ -94,7 +94,7 @@ export function _getOperationsSend(
       "api%2Dversion": "2026-06-01",
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +135,7 @@ export function _cancelRunLroSend(
   context: Client,
   projectName: string,
   operationId: string,
-  options: ToolsCancelRunLroOptionalParams = { requestOptions: {} },
+  options: ToolsCancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/tools/projects/{projectName}/operations/{operationId}:cancel{?api%2Dversion}",
@@ -174,7 +174,7 @@ export function cancelRunLro(
   context: Client,
   projectName: string,
   operationId: string,
-  options: ToolsCancelRunLroOptionalParams = { requestOptions: {} },
+  options: ToolsCancelRunOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RunResult>, RunResult> {
   return getLongRunningPoller(context, _cancelRunLroDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -182,6 +182,7 @@ export function cancelRunLro(
     getInitialResponse: () => _cancelRunLroSend(context, projectName, operationId, options),
     resourceLocationConfig: "operation-location",
     apiVersion: "2026-06-01",
+    treatCanceledAsSucceeded: true,
   }) as PollerLike<OperationState<RunResult>, RunResult>;
 }
 

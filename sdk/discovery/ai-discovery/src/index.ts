@@ -93,7 +93,7 @@ export type { WorkspaceClientOptionalParams } from "./workspace/api/index.js";
 export type {
   ConversationsListOptionalParams,
   ConversationsDeleteOptionalParams,
-  ConversationsStableUpdateOptionalParams,
+  ConversationsUpdateOptionalParams,
   ConversationsCreateOptionalParams,
   ConversationsGetOptionalParams,
 } from "./workspace/api/conversations/index.js";
@@ -115,7 +115,7 @@ export type {
   TasksAddCommentOptionalParams,
   TasksStartOptionalParams,
   TasksDeleteOptionalParams,
-  TasksStableUpdateOptionalParams,
+  TasksUpdateOptionalParams,
   TasksCreateOptionalParams,
   TasksListOptionalParams,
   TasksGetOptionalParams,
@@ -123,7 +123,7 @@ export type {
 export type {
   ToolsGetComputeUsageOptionalParams,
   ToolsGetOperationsOptionalParams,
-  ToolsCancelRunLroOptionalParams,
+  ToolsCancelRunOptionalParams,
   ToolsRunOptionalParams,
   ToolsGetRunStatusOptionalParams,
 } from "./workspace/api/tools/index.js";

@@ -57,6 +57,13 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * the body-normalization approach shipped in `@azure/ai-projects`.
    */
   lroStatusFromProvisioningState?: boolean;
+  /**
+   * When true, a terminal `Canceled` LRO status is surfaced to core-lro as
+   * `Succeeded` so the poller resolves instead of rejecting. Used for cancel
+   * operations, where reaching `Canceled` is the successful outcome; genuine
+   * `Failed` terminal states are left intact and still reject.
+   */
+  treatCanceledAsSucceeded?: boolean;
 }
 export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
   client: Client,
@@ -64,7 +71,13 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
   expectedStatuses: string[],
   options: GetLongRunningPollerOptions<TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
-  const { restoreFrom, getInitialResponse, apiVersion, lroStatusFromProvisioningState } = options;
+  const {
+    restoreFrom,
+    getInitialResponse,
+    apiVersion,
+    lroStatusFromProvisioningState,
+    treatCanceledAsSucceeded,
+  } = options;
   if (!restoreFrom && !getInitialResponse) {
     throw new Error("Either restoreFrom or getInitialResponse must be specified");
   }
@@ -76,7 +89,12 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
         throw new Error("getInitialResponse is required when initializing a new poller");
       }
       initialResponse = await getInitialResponse();
-      return getLroResponse(initialResponse, expectedStatuses, lroStatusFromProvisioningState);
+      return getLroResponse(
+        initialResponse,
+        expectedStatuses,
+        lroStatusFromProvisioningState,
+        treatCanceledAsSucceeded,
+      );
     },
     sendPollRequest: async (
       path: string,
@@ -114,6 +132,7 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
         response as TResponse,
         expectedStatuses,
         lroStatusFromProvisioningState,
+        treatCanceledAsSucceeded,
       );
     },
   };
@@ -136,6 +155,7 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
   response: TResponse,
   expectedStatuses: string[],
   lroStatusFromProvisioningState?: boolean,
+  treatCanceledAsSucceeded?: boolean,
 ): OperationResponse<TResponse> {
   if (!expectedStatuses.includes(response.status)) {
     throw createRestError(response);
@@ -149,6 +169,17 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
     const provisioningState = rawBody?.["provisioningState"];
     if (typeof provisioningState === "string") {
       body = { ...rawBody, status: provisioningState } as TResponse["body"];
+    }
+  }
+
+  if (treatCanceledAsSucceeded) {
+    // For cancel operations, terminal `Canceled` is the successful outcome, but
+    // core-lro treats it as unsuccessful and rejects. Surface it as `Succeeded`
+    // so the poller resolves; `Failed` is left intact and still rejects.
+    const rawBody = body as Record<string, unknown> | undefined;
+    const status = rawBody?.["status"];
+    if (typeof status === "string" && status.toLowerCase() === "canceled") {
+      body = { ...rawBody, status: "Succeeded" } as TResponse["body"];
     }
   }
 

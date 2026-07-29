@@ -18,10 +18,10 @@ export interface ToolsGetOperationsOptionalParams extends OperationOptions {
   /** The number of result items to skip. */
   skip?: number;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 /** Optional parameters. */
-export interface ToolsCancelRunLroOptionalParams extends OperationOptions {
+export interface ToolsCancelRunOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

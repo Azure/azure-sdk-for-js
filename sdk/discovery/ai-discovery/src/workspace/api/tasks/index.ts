@@ -16,7 +16,7 @@ export type {
   TasksAddCommentOptionalParams,
   TasksStartOptionalParams,
   TasksDeleteOptionalParams,
-  TasksStableUpdateOptionalParams,
+  TasksUpdateOptionalParams,
   TasksCreateOptionalParams,
   TasksListOptionalParams,
   TasksGetOptionalParams,

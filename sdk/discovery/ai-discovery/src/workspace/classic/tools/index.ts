@@ -19,7 +19,7 @@ import {
 import {
   ToolsGetComputeUsageOptionalParams,
   ToolsGetOperationsOptionalParams,
-  ToolsCancelRunLroOptionalParams,
+  ToolsCancelRunOptionalParams,
   ToolsRunOptionalParams,
   ToolsGetRunStatusOptionalParams,
 } from "../../api/tools/options.js";
@@ -33,7 +33,7 @@ export interface ToolsOperations {
     options?: ToolsGetComputeUsageOptionalParams,
   ) => Promise<ComputeUsage>;
   /** List tool runs. */
-  getOperations: (
+  listOperations: (
     projectName: string,
     options?: ToolsGetOperationsOptionalParams,
   ) => PagedAsyncIterableIterator<Operation>;
@@ -41,7 +41,7 @@ export interface ToolsOperations {
   cancelRun: (
     projectName: string,
     operationId: string,
-    options?: ToolsCancelRunLroOptionalParams,
+    options?: ToolsCancelRunOptionalParams,
   ) => PollerLike<OperationState<RunResult>, RunResult>;
   /** Run the specified tool in the context of the specified project. */
   run: (
@@ -61,13 +61,10 @@ function _getTools(context: WorkspaceContext) {
   return {
     getComputeUsage: (projectName: string, options?: ToolsGetComputeUsageOptionalParams) =>
       getComputeUsage(context, projectName, options),
-    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) =>
+    listOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) =>
       getOperations(context, projectName, options),
-    cancelRun: (
-      projectName: string,
-      operationId: string,
-      options?: ToolsCancelRunLroOptionalParams,
-    ) => cancelRunLro(context, projectName, operationId, options),
+    cancelRun: (projectName: string, operationId: string, options?: ToolsCancelRunOptionalParams) =>
+      cancelRunLro(context, projectName, operationId, options),
     run: (
       projectName: string,
       toolId: string,

@@ -8,7 +8,7 @@ export type { WorkspaceContext, WorkspaceClientOptionalParams } from "./api/inde
 export type {
   ConversationsListOptionalParams,
   ConversationsDeleteOptionalParams,
-  ConversationsStableUpdateOptionalParams,
+  ConversationsUpdateOptionalParams,
   ConversationsCreateOptionalParams,
   ConversationsGetOptionalParams,
 } from "./api/conversations/index.js";
@@ -30,7 +30,7 @@ export type {
   TasksAddCommentOptionalParams,
   TasksStartOptionalParams,
   TasksDeleteOptionalParams,
-  TasksStableUpdateOptionalParams,
+  TasksUpdateOptionalParams,
   TasksCreateOptionalParams,
   TasksListOptionalParams,
   TasksGetOptionalParams,
@@ -38,7 +38,7 @@ export type {
 export type {
   ToolsGetComputeUsageOptionalParams,
   ToolsGetOperationsOptionalParams,
-  ToolsCancelRunLroOptionalParams,
+  ToolsCancelRunOptionalParams,
   ToolsRunOptionalParams,
   ToolsGetRunStatusOptionalParams,
 } from "./api/tools/index.js";

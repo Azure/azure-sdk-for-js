@@ -16,7 +16,7 @@ import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   ConversationsListOptionalParams,
   ConversationsDeleteOptionalParams,
-  ConversationsStableUpdateOptionalParams,
+  ConversationsUpdateOptionalParams,
   ConversationsCreateOptionalParams,
   ConversationsGetOptionalParams,
 } from "./options.js";
@@ -42,7 +42,7 @@ export function _listSend(
         : options?.createdSince.toISOString(),
       top: options?.top,
       skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +121,7 @@ export function _stableUpdateSend(
   context: Client,
   conversationName: string,
   resource: Conversation,
-  options: ConversationsStableUpdateOptionalParams = { requestOptions: {} },
+  options: ConversationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/conversations/{conversationName}{?api%2Dversion}",
@@ -156,7 +156,7 @@ export async function stableUpdate(
   context: Client,
   conversationName: string,
   resource: Conversation,
-  options: ConversationsStableUpdateOptionalParams = { requestOptions: {} },
+  options: ConversationsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Conversation> {
   const result = await _stableUpdateSend(context, conversationName, resource, options);
   return _stableUpdateDeserialize(result);

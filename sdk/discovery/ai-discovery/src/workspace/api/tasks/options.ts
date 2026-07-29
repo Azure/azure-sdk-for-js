@@ -16,7 +16,7 @@ export interface TasksStartOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface TasksDeleteOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface TasksStableUpdateOptionalParams extends OperationOptions {}
+export interface TasksUpdateOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface TasksCreateOptionalParams extends OperationOptions {}
 /** Optional parameters. */

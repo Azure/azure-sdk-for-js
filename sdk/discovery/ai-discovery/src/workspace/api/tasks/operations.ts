@@ -23,7 +23,7 @@ import {
   TasksAddCommentOptionalParams,
   TasksStartOptionalParams,
   TasksDeleteOptionalParams,
-  TasksStableUpdateOptionalParams,
+  TasksUpdateOptionalParams,
   TasksCreateOptionalParams,
   TasksListOptionalParams,
   TasksGetOptionalParams,
@@ -249,7 +249,7 @@ export function _stableUpdateSend(
   investigationName: string,
   taskName: string,
   resource: Task,
-  options: TasksStableUpdateOptionalParams = { requestOptions: {} },
+  options: TasksUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/projects/{projectName}/investigations/{investigationName}/tasks/{taskName}{?api%2Dversion}",
@@ -286,7 +286,7 @@ export async function stableUpdate(
   investigationName: string,
   taskName: string,
   resource: Task,
-  options: TasksStableUpdateOptionalParams = { requestOptions: {} },
+  options: TasksUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Task> {
   const result = await _stableUpdateSend(
     context,

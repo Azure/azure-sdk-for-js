@@ -24,7 +24,7 @@ import {
   TasksAddCommentOptionalParams,
   TasksStartOptionalParams,
   TasksDeleteOptionalParams,
-  TasksStableUpdateOptionalParams,
+  TasksUpdateOptionalParams,
   TasksCreateOptionalParams,
   TasksListOptionalParams,
   TasksGetOptionalParams,
@@ -73,7 +73,7 @@ export interface TasksOperations {
     investigationName: string,
     taskName: string,
     resource: TaskCreateOrUpdateContent,
-    options?: TasksStableUpdateOptionalParams,
+    options?: TasksUpdateOptionalParams,
   ) => Promise<Task>;
   /** Create a new task. */
   create: (
@@ -129,7 +129,7 @@ function _getTasks(context: WorkspaceContext) {
       investigationName: string,
       taskName: string,
       resource: TaskCreateOrUpdateContent,
-      options?: TasksStableUpdateOptionalParams,
+      options?: TasksUpdateOptionalParams,
     ) => stableUpdate(context, projectName, investigationName, taskName, resource as Task, options),
     create: (
       projectName: string,

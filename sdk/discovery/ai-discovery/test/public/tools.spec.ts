@@ -81,23 +81,16 @@ describe("Tools operations (WorkspaceClient)", () => {
     const operationId = capture.operationId();
 
     const cancelPoller = client.tools.cancelRun(projectName, operationId);
-    // A cancel LRO reaches terminal "canceled" (success path here) or "succeeded"
-    // if the run finished first. core-lro rejects on a non-success terminal state
-    // (a RestError, or a plain "Operation was canceled" error), so tolerate any
-    // rejection as long as the poller reached a terminal state.
-    try {
-      await cancelPoller.pollUntilDone();
-    } catch (error) {
-      if (!cancelPoller.isDone) {
-        throw error;
-      }
-    }
+    // A successful cancel drives the run to terminal "canceled", which the cancel
+    // poller surfaces as "succeeded" so pollUntilDone resolves; if the run finished
+    // first the status is already "succeeded".
+    await cancelPoller.pollUntilDone();
     assert.isTrue(cancelPoller.isDone);
-    assert.include(["canceled", "succeeded"], cancelPoller.operationState?.status);
+    assert.equal(cancelPoller.operationState?.status, "succeeded");
   });
 
   it("getOperations lists tool operations in a project", async () => {
-    for await (const op of client.tools.getOperations(projectName)) {
+    for await (const op of client.tools.listOperations(projectName)) {
       assert.isDefined(op);
     }
   });

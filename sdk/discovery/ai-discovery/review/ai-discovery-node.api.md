@@ -97,7 +97,7 @@ export interface ConversationsGetOptionalParams extends OperationOptions {
 export interface ConversationsListOptionalParams extends OperationOptions {
     createdSince?: Date;
     investigationName?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
     projectName?: string;
     skip?: number;
     top?: number;
@@ -109,11 +109,11 @@ export interface ConversationsOperations {
     delete: (conversationName: string, options?: ConversationsDeleteOptionalParams) => Promise<void>;
     get: (conversationName: string, options?: ConversationsGetOptionalParams) => Promise<Conversation>;
     list: (options?: ConversationsListOptionalParams) => PagedAsyncIterableIterator<Conversation>;
-    update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsStableUpdateOptionalParams) => Promise<Conversation>;
+    update: (conversationName: string, resource: ConversationCreateOrUpdateContent, options?: ConversationsUpdateOptionalParams) => Promise<Conversation>;
 }
 
 // @public
-export interface ConversationsStableUpdateOptionalParams extends OperationOptions {
+export interface ConversationsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -234,7 +234,7 @@ export interface InvestigationsDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface InvestigationsGetDiscoveryEngineMemoryOptionalParams extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     skip?: number;
     top?: number;
 }
@@ -254,7 +254,7 @@ export interface InvestigationsGetOptionalParams extends OperationOptions {
 // @public
 export interface InvestigationsListOptionalParams extends OperationOptions {
     createdSince?: Date;
-    maxpagesize?: number;
+    maxPageSize?: number;
     skip?: number;
     top?: number;
 }
@@ -265,9 +265,9 @@ export interface InvestigationsOperations {
     delete: (projectName: string, investigationName: string, options?: InvestigationsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     get: (projectName: string, investigationName: string, options?: InvestigationsGetOptionalParams) => Promise<Investigation>;
     getDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
-    getDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => PagedAsyncIterableIterator<WorkingMemoryEntry>;
     getOperationStatus: (projectName: string, investigationName: string, operationId: string, options?: InvestigationsGetOperationStatusOptionalParams) => Promise<InvestigationOperationStatus>;
     list: (projectName: string, options?: InvestigationsListOptionalParams) => PagedAsyncIterableIterator<Investigation>;
+    listDiscoveryEngineMemory: (projectName: string, investigationName: string, options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams) => PagedAsyncIterableIterator<WorkingMemoryEntry>;
     startDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStartDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     stopDiscoveryEngine: (projectName: string, investigationName: string, options?: InvestigationsStopDiscoveryEngineOptionalParams) => Promise<DiscoveryEngine>;
     update: (projectName: string, investigationName: string, resource: InvestigationCreateOrUpdateContent, options?: InvestigationsUpdateOptionalParams) => Promise<Investigation>;
@@ -765,11 +765,7 @@ export interface TasksOperations {
     get: (projectName: string, investigationName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<Task>;
     list: (projectName: string, investigationName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<Task>;
     start: (projectName: string, investigationName: string, taskName: string, options?: TasksStartOptionalParams) => Promise<Task>;
-    update: (projectName: string, investigationName: string, taskName: string, resource: TaskCreateOrUpdateContent, options?: TasksStableUpdateOptionalParams) => Promise<Task>;
-}
-
-// @public
-export interface TasksStableUpdateOptionalParams extends OperationOptions {
+    update: (projectName: string, investigationName: string, taskName: string, resource: TaskCreateOrUpdateContent, options?: TasksUpdateOptionalParams) => Promise<Task>;
 }
 
 // @public
@@ -781,7 +777,11 @@ export interface TasksStartOptionalParams extends OperationOptions {
 export type TaskStatus = string;
 
 // @public
-export interface ToolsCancelRunLroOptionalParams extends OperationOptions {
+export interface TasksUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ToolsCancelRunOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -791,7 +791,7 @@ export interface ToolsGetComputeUsageOptionalParams extends OperationOptions {
 
 // @public
 export interface ToolsGetOperationsOptionalParams extends OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     skip?: number;
     top?: number;
 }
@@ -803,10 +803,10 @@ export interface ToolsGetRunStatusOptionalParams extends OperationOptions {
 
 // @public
 export interface ToolsOperations {
-    cancelRun: (projectName: string, operationId: string, options?: ToolsCancelRunLroOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
+    cancelRun: (projectName: string, operationId: string, options?: ToolsCancelRunOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
     getComputeUsage: (projectName: string, options?: ToolsGetComputeUsageOptionalParams) => Promise<ComputeUsage>;
-    getOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
     getRunStatus: (projectName: string, operationId: string, options?: ToolsGetRunStatusOptionalParams) => Promise<OperationStatusRunResultError>;
+    listOperations: (projectName: string, options?: ToolsGetOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
     run: (projectName: string, toolId: string, nodePoolIds: string[], options?: ToolsRunOptionalParams) => PollerLike<OperationState_2<RunResult>, RunResult>;
 }
 

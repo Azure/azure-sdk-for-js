@@ -16,12 +16,12 @@ export interface ConversationsListOptionalParams extends OperationOptions {
   /** The number of result items to skip. */
   skip?: number;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 /** Optional parameters. */
 export interface ConversationsDeleteOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface ConversationsStableUpdateOptionalParams extends OperationOptions {}
+export interface ConversationsUpdateOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface ConversationsCreateOptionalParams extends OperationOptions {
   /** The Name of the associated Investigation */

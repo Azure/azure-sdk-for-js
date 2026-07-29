@@ -16,7 +16,7 @@ export interface InvestigationsGetDiscoveryEngineMemoryOptionalParams extends Op
   /** The number of result items to skip. */
   skip?: number;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 /** Optional parameters. */
 export interface InvestigationsGetDiscoveryEngineOptionalParams extends OperationOptions {}
@@ -29,7 +29,7 @@ export interface InvestigationsListOptionalParams extends OperationOptions {
   /** The number of result items to skip. */
   skip?: number;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 /** Optional parameters. */
 export interface InvestigationsDeleteOptionalParams extends OperationOptions {

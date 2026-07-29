@@ -11,7 +11,7 @@ import { list, $delete, stableUpdate, create, get } from "../../api/conversation
 import {
   ConversationsListOptionalParams,
   ConversationsDeleteOptionalParams,
-  ConversationsStableUpdateOptionalParams,
+  ConversationsUpdateOptionalParams,
   ConversationsCreateOptionalParams,
   ConversationsGetOptionalParams,
 } from "../../api/conversations/options.js";
@@ -31,7 +31,7 @@ export interface ConversationsOperations {
   update: (
     conversationName: string,
     resource: ConversationCreateOrUpdateContent,
-    options?: ConversationsStableUpdateOptionalParams,
+    options?: ConversationsUpdateOptionalParams,
   ) => Promise<Conversation>;
   /** Creates a Conversation. */
   create: (
@@ -52,7 +52,7 @@ function _getConversations(context: WorkspaceContext) {
     update: (
       conversationName: string,
       resource: ConversationCreateOrUpdateContent,
-      options?: ConversationsStableUpdateOptionalParams,
+      options?: ConversationsUpdateOptionalParams,
     ) => stableUpdate(context, conversationName, resource as Conversation, options),
     create: (projectName: string, options?: ConversationsCreateOptionalParams) =>
       create(context, projectName, options),

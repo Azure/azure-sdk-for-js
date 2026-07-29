@@ -61,7 +61,7 @@ export interface InvestigationsOperations {
     options?: InvestigationsStartDiscoveryEngineOptionalParams,
   ) => Promise<DiscoveryEngine>;
   /** List discovery engine working memory entries for an investigation. */
-  getDiscoveryEngineMemory: (
+  listDiscoveryEngineMemory: (
     projectName: string,
     investigationName: string,
     options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams,
@@ -134,7 +134,7 @@ function _getInvestigations(context: WorkspaceContext) {
       investigationName: string,
       options?: InvestigationsStartDiscoveryEngineOptionalParams,
     ) => startDiscoveryEngine(context, projectName, investigationName, options),
-    getDiscoveryEngineMemory: (
+    listDiscoveryEngineMemory: (
       projectName: string,
       investigationName: string,
       options?: InvestigationsGetDiscoveryEngineMemoryOptionalParams,
