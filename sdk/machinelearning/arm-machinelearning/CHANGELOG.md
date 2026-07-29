@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.2 (2026-07-23)
+## 4.0.0-beta.2 (2026-07-29)
 Compared with version 3.0.0
 
 ### Features Added
@@ -344,6 +344,8 @@ Compared with version 3.0.0
   - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter peStatus
   - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
   - Interface CustomModelJobOutput has a new optional parameter assetName
+  - Interface CustomModelJobOutput has a new optional parameter assetVersion
+  - Interface CustomModelJobOutput has a new optional parameter pathOnCompute
   - Interface CustomService has a new optional parameter additionalProperties
   - Interface CustomService has a new optional parameter kernel
   - Interface DatastoresListSecretsOptionalParams has a new optional parameter body
@@ -373,7 +375,11 @@ Compared with version 3.0.0
   - Interface ManagedNetworkSettings has a new optional parameter managedNetworkKind
   - Interface ManagedOnlineDeployment has a new optional parameter startupProbe
   - Interface MLFlowModelJobOutput has a new optional parameter assetName
+  - Interface MLFlowModelJobOutput has a new optional parameter assetVersion
+  - Interface MLFlowModelJobOutput has a new optional parameter pathOnCompute
   - Interface MLTableJobOutput has a new optional parameter assetName
+  - Interface MLTableJobOutput has a new optional parameter assetVersion
+  - Interface MLTableJobOutput has a new optional parameter pathOnCompute
   - Interface ModelVersionProperties has a new optional parameter datasets
   - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter error
   - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
@@ -409,8 +415,14 @@ Compared with version 3.0.0
   - Interface SparkJob has a new optional parameter parentJobName
   - Interface SweepJob has a new optional parameter parentJobName
   - Interface TritonModelJobOutput has a new optional parameter assetName
+  - Interface TritonModelJobOutput has a new optional parameter assetVersion
+  - Interface TritonModelJobOutput has a new optional parameter pathOnCompute
   - Interface UriFileJobOutput has a new optional parameter assetName
+  - Interface UriFileJobOutput has a new optional parameter assetVersion
+  - Interface UriFileJobOutput has a new optional parameter pathOnCompute
   - Interface UriFolderJobOutput has a new optional parameter assetName
+  - Interface UriFolderJobOutput has a new optional parameter assetVersion
+  - Interface UriFolderJobOutput has a new optional parameter pathOnCompute
   - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter error
   - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
   - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus

@@ -14062,8 +14062,12 @@ export type JobOutputType = string;
 export interface CustomModelJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14075,7 +14079,9 @@ export function customModelJobOutputSerializer(item: CustomModelJobOutput): any 
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14085,7 +14091,9 @@ export function customModelJobOutputDeserializer(item: any): CustomModelJobOutpu
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14115,8 +14123,12 @@ export type OutputDeliveryMode = string;
 export interface MLFlowModelJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14128,7 +14140,9 @@ export function mlFlowModelJobOutputSerializer(item: MLFlowModelJobOutput): any 
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14138,7 +14152,9 @@ export function mlFlowModelJobOutputDeserializer(item: any): MLFlowModelJobOutpu
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14147,8 +14163,12 @@ export function mlFlowModelJobOutputDeserializer(item: any): MLFlowModelJobOutpu
 export interface MLTableJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14160,7 +14180,9 @@ export function mlTableJobOutputSerializer(item: MLTableJobOutput): any {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14170,7 +14192,9 @@ export function mlTableJobOutputDeserializer(item: any): MLTableJobOutput {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14179,8 +14203,12 @@ export function mlTableJobOutputDeserializer(item: any): MLTableJobOutput {
 export interface TritonModelJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14192,7 +14220,9 @@ export function tritonModelJobOutputSerializer(item: TritonModelJobOutput): any 
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14202,7 +14232,9 @@ export function tritonModelJobOutputDeserializer(item: any): TritonModelJobOutpu
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14211,8 +14243,12 @@ export function tritonModelJobOutputDeserializer(item: any): TritonModelJobOutpu
 export interface UriFileJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14224,7 +14260,9 @@ export function uriFileJobOutputSerializer(item: UriFileJobOutput): any {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14234,7 +14272,9 @@ export function uriFileJobOutputDeserializer(item: any): UriFileJobOutput {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14243,8 +14283,12 @@ export function uriFileJobOutputDeserializer(item: any): UriFileJobOutput {
 export interface UriFolderJobOutput extends JobOutput {
   /** Output Asset Name. */
   assetName?: string;
+  /** Output Asset Version. */
+  assetVersion?: string;
   /** Output data delivery mode enums. */
   mode?: OutputDeliveryMode;
+  /** Output Asset Delivery Path. */
+  pathOnCompute?: string;
   /** Output Asset URI. */
   uri?: string;
   /** [Required] Specifies the type of job. */
@@ -14256,7 +14300,9 @@ export function uriFolderJobOutputSerializer(item: UriFolderJobOutput): any {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
@@ -14266,7 +14312,9 @@ export function uriFolderJobOutputDeserializer(item: any): UriFolderJobOutput {
     description: item["description"],
     jobOutputType: item["jobOutputType"],
     assetName: item["assetName"],
+    assetVersion: item["assetVersion"],
     mode: item["mode"],
+    pathOnCompute: item["pathOnCompute"],
     uri: item["uri"],
   };
 }
