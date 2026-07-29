@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -321,8 +321,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -458,8 +458,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -605,8 +605,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -810,8 +810,8 @@ export function bookshelfPrivateEndpointConnectionDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1559,10 +1559,22 @@ export interface ChatModelDeploymentProperties {
   modelFormat: string;
   /** Canonical provider model name available in the selected region. Verify supported values per region using the Model Catalog API. */
   modelName: string;
+  /** Provider-published version of the selected model. */
+  modelVersion?: string;
+  /** SKU tier used by this chat model deployment. */
+  skuName?: string;
+  /** Provisioned SKU capacity units for this chat model deployment. */
+  capacity?: number;
 }
 
 export function chatModelDeploymentPropertiesSerializer(item: ChatModelDeploymentProperties): any {
-  return { modelFormat: item["modelFormat"], modelName: item["modelName"] };
+  return {
+    modelFormat: item["modelFormat"],
+    modelName: item["modelName"],
+    modelVersion: item["modelVersion"],
+    skuName: item["skuName"],
+    capacity: item["capacity"],
+  };
 }
 
 export function chatModelDeploymentPropertiesDeserializer(
@@ -1572,6 +1584,9 @@ export function chatModelDeploymentPropertiesDeserializer(
     provisioningState: item["provisioningState"],
     modelFormat: item["modelFormat"],
     modelName: item["modelName"],
+    modelVersion: item["modelVersion"],
+    skuName: item["skuName"],
+    capacity: item["capacity"],
   };
 }
 
@@ -1707,6 +1722,12 @@ export interface NodePoolProperties {
   minNodeCount?: number;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
   scaleSetPriority?: ScaleSetPriority;
+  /** The size of the OS disk in GB. If not specified, the default is 120 GB. */
+  osDiskSizeGb?: number;
+  /** The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageCacheUpperThreshold. The default is 40% */
+  imageCacheLowerThreshold?: number;
+  /** The percent of disk usage after which image garbage collection is guaranteed to run. The default is 60% */
+  imageCacheUpperThreshold?: number;
 }
 
 export function nodePoolPropertiesSerializer(item: NodePoolProperties): any {
@@ -1716,6 +1737,9 @@ export function nodePoolPropertiesSerializer(item: NodePoolProperties): any {
     maxNodeCount: item["maxNodeCount"],
     minNodeCount: item["minNodeCount"],
     scaleSetPriority: item["scaleSetPriority"],
+    osDiskSizeGb: item["osDiskSizeGb"],
+    imageCacheLowerThreshold: item["imageCacheLowerThreshold"],
+    imageCacheUpperThreshold: item["imageCacheUpperThreshold"],
   };
 }
 
@@ -1727,6 +1751,9 @@ export function nodePoolPropertiesDeserializer(item: any): NodePoolProperties {
     maxNodeCount: item["maxNodeCount"],
     minNodeCount: item["minNodeCount"],
     scaleSetPriority: item["scaleSetPriority"],
+    osDiskSizeGb: item["osDiskSizeGb"],
+    imageCacheLowerThreshold: item["imageCacheLowerThreshold"],
+    imageCacheUpperThreshold: item["imageCacheUpperThreshold"],
   };
 }
 
@@ -1862,6 +1889,8 @@ export function nodePoolArrayDeserializer(result: Array<NodePool>): any[] {
 export interface Supercomputer extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: SupercomputerProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentity;
 }
 
 export function supercomputerSerializer(item: Supercomputer): any {
@@ -1871,6 +1900,9 @@ export function supercomputerSerializer(item: Supercomputer): any {
     properties: !item["properties"]
       ? item["properties"]
       : supercomputerPropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -1889,6 +1921,9 @@ export function supercomputerDeserializer(item: any): Supercomputer {
     properties: !item["properties"]
       ? item["properties"]
       : supercomputerPropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -2034,6 +2069,48 @@ export function supercomputerIdentitiesDeserializer(item: any): SupercomputerIde
         ),
   };
 }
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentitySerializer(item: SystemAssignedServiceIdentity): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityDeserializer(
+  item: any,
+): SystemAssignedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+  };
+}
+
+/** Type of managed service identity (either system assigned, or none). */
+export enum KnownSystemAssignedServiceIdentityType {
+  /** No managed system identity. */
+  None = "None",
+  /** System assigned managed system identity. */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Type of managed service identity (either system assigned, or none). \
+ * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed system identity. \
+ * **SystemAssigned**: System assigned managed system identity.
+ */
+export type SystemAssignedServiceIdentityType = string;
 
 /** Update model for Supercomputer PATCH operations */
 export interface SupercomputerUpdate {
@@ -2334,39 +2411,86 @@ export type StorageStoreType = string;
 export interface AzureStorageBlobStore extends StorageStore {
   /** Azure Storage Blob */
   kind: "AzureStorageBlob";
+  /** The protocol to use for mounting the storage store. */
+  mountProtocol?: BlobStorageMountProtocol;
   /** The associated Azure Storage Account ID. */
   storageAccountId: string;
 }
 
 export function azureStorageBlobStoreSerializer(item: AzureStorageBlobStore): any {
-  return { kind: item["kind"], storageAccountId: item["storageAccountId"] };
+  return {
+    kind: item["kind"],
+    mountProtocol: item["mountProtocol"],
+    storageAccountId: item["storageAccountId"],
+  };
 }
 
 export function azureStorageBlobStoreDeserializer(item: any): AzureStorageBlobStore {
   return {
     kind: item["kind"],
+    mountProtocol: item["mountProtocol"],
     storageAccountId: item["storageAccountId"],
   };
 }
+
+/** The protocol to use for mounting an Azure Storage Blob store. */
+export enum KnownBlobStorageMountProtocol {
+  /** NFS protocol. Version of NFS used may vary based on storage type */
+  NFS = "NFS",
+  /** Blobfuse in file cache mode. */
+  BlobfuseCaching = "BlobfuseCaching",
+}
+
+/**
+ * The protocol to use for mounting an Azure Storage Blob store. \
+ * {@link KnownBlobStorageMountProtocol} can be used interchangeably with BlobStorageMountProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NFS**: NFS protocol. Version of NFS used may vary based on storage type \
+ * **BlobfuseCaching**: Blobfuse in file cache mode.
+ */
+export type BlobStorageMountProtocol = string;
 
 /** The Azure NetApp Files properties. */
 export interface AzureNetAppFilesStore extends StorageStore {
   /** Azure NetApp Files */
   kind: "AzureNetAppFiles";
+  /** The protocol to use for mounting the storage store. */
+  mountProtocol?: NetAppMountProtocol;
   /** The associated Azure NetApp Files volume ID. */
   netAppVolumeId: string;
 }
 
 export function azureNetAppFilesStoreSerializer(item: AzureNetAppFilesStore): any {
-  return { kind: item["kind"], netAppVolumeId: item["netAppVolumeId"] };
+  return {
+    kind: item["kind"],
+    mountProtocol: item["mountProtocol"],
+    netAppVolumeId: item["netAppVolumeId"],
+  };
 }
 
 export function azureNetAppFilesStoreDeserializer(item: any): AzureNetAppFilesStore {
   return {
     kind: item["kind"],
+    mountProtocol: item["mountProtocol"],
     netAppVolumeId: item["netAppVolumeId"],
   };
 }
+
+/** The protocol to use for mounting an Azure NetApp Files store. */
+export enum KnownNetAppMountProtocol {
+  /** NFS protocol. Version of NFS used may vary based on storage type */
+  NFS = "NFS",
+}
+
+/**
+ * The protocol to use for mounting an Azure NetApp Files store. \
+ * {@link KnownNetAppMountProtocol} can be used interchangeably with NetAppMountProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NFS**: NFS protocol. Version of NFS used may vary based on storage type
+ */
+export type NetAppMountProtocol = string;
 
 /** Storage Container tracked resource */
 export interface StorageContainerUpdate {
@@ -2407,6 +2531,6 @@ export function storageContainerArrayDeserializer(result: Array<StorageContainer
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2026-02-01-preview */
-  V20260201Preview = "2026-02-01-preview",
+  /** 2026-06-01 */
+  V20260601 = "2026-06-01",
 }
