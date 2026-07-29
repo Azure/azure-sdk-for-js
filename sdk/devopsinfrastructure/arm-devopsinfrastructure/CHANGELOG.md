@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-07-23)
+## 2.0.0-beta.1 (2026-07-29)
 Compared with version 1.0.0
 
 ### Features Added
@@ -48,8 +48,6 @@ Compared with version 1.0.0
   - Added Enum KnownCheckNameAvailabilityReason
   - Added Enum KnownDevOpsInfrastructureResourceType
   - Added Enum KnownEphemeralType
-  - Enum KnownStorageAccountType has a new value StandardSsdlrs
-  - Enum KnownStorageAccountType has a new value StandardSsdzrs
   - Enum KnownVersions has a new value V20250121
   - Enum KnownVersions has a new value V20250920
   - Enum KnownVersions has a new value V20260417Preview
@@ -63,8 +61,6 @@ Compared with version 1.0.0
   - Operation PoolsOperations.listBySubscription has a new signature
   - Parameter subnetId of interface NetworkProfile is now optional
   - Parameter devCenterProjectResourceId of interface PoolProperties is now optional
-  - Enum KnownStorageAccountType no longer has value StandardSSDLRS
-  - Enum KnownStorageAccountType no longer has value StandardSSDZRS
   - Enum KnownVersions no longer has value "V2024-10-19"
 
     

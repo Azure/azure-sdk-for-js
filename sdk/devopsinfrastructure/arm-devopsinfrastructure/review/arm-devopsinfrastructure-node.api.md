@@ -348,8 +348,8 @@ export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSsdlrs = "StandardSSD_LRS",
-    StandardSsdzrs = "StandardSSD_ZRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS"
 }
 
 // @public

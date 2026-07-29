@@ -1309,11 +1309,11 @@ export enum KnownStorageAccountType {
   /** The data disk should use premium locally redundant storage. */
   PremiumLRS = "Premium_LRS",
   /** The data disk should use standard SSD locally redundant storage. */
-  StandardSsdlrs = "StandardSSD_LRS",
+  StandardSSDLRS = "StandardSSD_LRS",
   /** The data disk should use premium SSD zonal redundant storage. */
   PremiumZRS = "Premium_ZRS",
   /** The data disk should use standard SSD zonal redundant storage. */
-  StandardSsdzrs = "StandardSSD_ZRS",
+  StandardSSDZRS = "StandardSSD_ZRS",
 }
 
 /**
