@@ -33,7 +33,7 @@ export interface DocumentDebugInfo {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -487,7 +487,7 @@ export interface VectorizableImageBinaryQuery extends VectorQuery {
 // @public
 export interface VectorizableImageUrlQuery extends VectorQuery {
     kind: "imageUrl";
-    url: string;
+    url?: string;
 }
 
 // @public

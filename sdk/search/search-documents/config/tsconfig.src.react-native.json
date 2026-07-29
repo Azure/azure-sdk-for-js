@@ -1,5 +1,10 @@
 {
   "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["DOM", "ES2023"],
+    "skipLibCheck": true
+  },
   "include": [
     "../src/events.d.ts",
     "../src/index.ts",
@@ -14,6 +19,7 @@
     "../src/models/index.ts",
     "../src/models/azure/search/documents/index.ts",
     "../src/models/azure/search/documents/indexes/index.ts",
-    "../src/models/azure/search/documents/knowledgeBases/index.ts"
+    "../src/models/azure/search/documents/knowledgeBases/index.ts",
+    "../src/static-helpers/serialization/get-binary-response.ts"
   ]
 }

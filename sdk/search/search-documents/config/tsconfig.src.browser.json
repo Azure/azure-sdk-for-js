@@ -14,6 +14,7 @@
     "../src/models/index.ts",
     "../src/models/azure/search/documents/index.ts",
     "../src/models/azure/search/documents/indexes/index.ts",
-    "../src/models/azure/search/documents/knowledgeBases/index.ts"
+    "../src/models/azure/search/documents/knowledgeBases/index.ts",
+    "../src/static-helpers/serialization/get-binary-response.ts"
   ]
 }
