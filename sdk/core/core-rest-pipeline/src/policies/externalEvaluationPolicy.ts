@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { createPipelineRequest } from "../pipelineRequest.js";
 import { createHttpHeaders } from "../httpHeaders.js";
+import { logger } from "../log.js";
 
 export const externalEvaluationPolicyName = "externalEvaluationPolicy";
 

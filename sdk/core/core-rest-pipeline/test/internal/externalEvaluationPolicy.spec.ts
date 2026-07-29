@@ -9,7 +9,8 @@ import { externalEvaluationPolicy } from "../../src/policies/externalEvaluationP
 
 describe("externalEvaluationPolicy", function () {
   it("acquire a policy token and retry a matching challenge", async function () {
-    const url = "https://management.azure.com/subscriptions/subscription-id/resourceGroups/group/providers/Microsoft.Example/widgets/widget";
+    const url =
+      "https://management.azure.com/subscriptions/subscription-id/resourceGroups/group/providers/Microsoft.Example/widgets/widget";
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -39,7 +40,9 @@ describe("externalEvaluationPolicy", function () {
       .fn<SendRequest>()
       .mockResolvedValueOnce(challengeResponse)
       .mockImplementationOnce(async (acquireRequest) => {
-        expect(acquireRequest.url).toBe(url);
+        expect(acquireRequest.url).toBe(
+          "https://management.azure.com/subscriptions/subscription-id/providers/Microsoft.Authorization/policyTokens/default/acquirePolicyToken?api-version=2025-11-01",
+        );
         expect(acquireRequest.method).toBe("POST");
         expect(acquireRequest.headers.get("Authorization")).toBe("Bearer credential");
         expect(JSON.parse(acquireRequest.body as string)).toEqual({
