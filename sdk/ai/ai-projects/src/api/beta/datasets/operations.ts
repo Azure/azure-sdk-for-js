@@ -16,7 +16,8 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -27,7 +28,6 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -185,8 +185,10 @@ export function createGenerationJob(
   context: Client,
   job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult> {
-  return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+): JobPoller<DataGenerationJobResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` instead of the emitted `getLongRunningPoller`
+  // so `operationState.jobId` exposes the queued job id.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createGenerationJobSend(context, job, options),
@@ -196,7 +198,7 @@ export function createGenerationJob(
       ...options?.requestOptions?.headers,
       "foundry-features": "DataGenerationJobs=V1Preview",
     },
-  }) as PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
+  });
 }
 
 export function _listGenerationJobsSend(

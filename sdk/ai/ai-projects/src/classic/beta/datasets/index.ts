@@ -18,7 +18,7 @@ import type {
 } from "../../../api/beta/datasets/options.js";
 import type { DataGenerationJob, DataGenerationJobResult } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaDatasets operations. */
 export interface BetaDatasetsOperations {
@@ -36,7 +36,7 @@ export interface BetaDatasetsOperations {
   createGenerationJob: (
     job: DataGenerationJob,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
-  ) => PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
+  ) => JobPoller<DataGenerationJobResult>;
   /** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,

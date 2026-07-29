@@ -55,6 +55,77 @@ export interface GetLongRunningPollerOptions<TResponse> {
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
 }
+
+/**
+ * Operation state for a long-running operation that creates a job resource.
+ *
+ * CUSTOMIZATION: SDK-IMPROVEMENT: The emitted pollers resolve to the job's terminal
+ * `result` payload, which does not carry the job identifier. This state adds the id so
+ * callers can use the get/cancel/delete APIs without a list-and-match lookup.
+ */
+export interface JobOperationState<TResult> extends OperationState<TResult> {
+  /** Server-assigned id of the created job. Available once `submitted()` resolves. */
+  readonly jobId?: string;
+}
+
+/** A poller for a long-running operation that creates a job resource. */
+export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
+
+/**
+ * Builds a {@link JobPoller} that records the created job's id from the initial response.
+ */
+export function getJobPoller<TResponse extends PathUncheckedResponse, TResult = void>(
+  client: Client,
+  processResponseBody: (result: TResponse) => Promise<TResult>,
+  expectedStatuses: string[],
+  options: GetLongRunningPollerOptions<TResponse> & {
+    getInitialResponse: () => PromiseLike<TResponse>;
+  },
+): JobPoller<TResult> {
+  const { getInitialResponse } = options;
+  let jobId: string | undefined;
+
+  const poller = getLongRunningPoller(client, processResponseBody, expectedStatuses, {
+    ...options,
+    getInitialResponse: async () => {
+      const response = await getInitialResponse();
+      jobId = extractJobId(response);
+      return response;
+    },
+  }) as JobPoller<TResult>;
+
+  const baseDescriptor = Object.getOwnPropertyDescriptor(poller, "operationState");
+  Object.defineProperty(poller, "operationState", {
+    get(): JobOperationState<TResult> | undefined {
+      const baseState = baseDescriptor?.get?.call(poller) as OperationState<TResult> | undefined;
+      return baseState && { ...baseState, jobId };
+    },
+    enumerable: true,
+    configurable: false,
+  });
+
+  return poller;
+}
+
+/**
+ * Reads the created job's id from the initial response body, falling back to the last path
+ * segment of the `operation-location` header when the service replies with an empty body.
+ */
+function extractJobId(response: PathUncheckedResponse): string | undefined {
+  const id = (response.body as { id?: unknown } | undefined)?.id;
+  if (typeof id === "string" && id.length > 0) {
+    return id;
+  }
+
+  const operationLocation = response.headers["operation-location"];
+  if (!operationLocation) {
+    return undefined;
+  }
+
+  const path = operationLocation.split("?")[0].replace(/\/+$/, "");
+  return path.slice(path.lastIndexOf("/") + 1) || undefined;
+}
+
 export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
   client: Client,
   processResponseBody: (result: TResponse) => Promise<TResult>,
