@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-eventhub",
-  "version": "6.0.0",
+  "version": "7.0.0-beta.1",
   "description": "A generated SDK for EventHubManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -362,6 +362,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-eventhub"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview"
   }
 }
