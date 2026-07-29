@@ -93,6 +93,7 @@ import type {
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KeyUsageType,
+  PlatformManaged,
 } from "./models/models.js";
 import { KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels } from "./models/models.js";
 import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
@@ -190,6 +191,7 @@ export {
   type CertificateKeyCurveName,
   type KeyUsageType,
   type LifetimeAction,
+  type PlatformManaged,
   type ListPropertiesOfCertificatesOptions,
   type ListPropertiesOfCertificateVersionsOptions,
   type ListPropertiesOfIssuersOptions,
@@ -1534,3 +1536,4 @@ export class CertificateClient {
     return poller;
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

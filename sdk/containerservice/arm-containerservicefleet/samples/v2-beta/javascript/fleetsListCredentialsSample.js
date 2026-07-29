@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the user credentials of a Fleet.
  *
  * @summary lists the user credentials of a Fleet.
- * x-ms-original-file: 2026-02-01-preview/Fleets_ListCredentialsResult.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_ListCredentialsResult.json
  */
 async function listsTheUserCredentialsOfAFleet() {
   const credential = new DefaultAzureCredential();

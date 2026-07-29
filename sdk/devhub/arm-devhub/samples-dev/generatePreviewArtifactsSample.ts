@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Generate preview dockerfile and manifests.
- *
- * @summary Generate preview dockerfile and manifests.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GeneratePreviewArtifacts.json
- */
-
-import type { ArtifactGenerationProperties } from "@azure/arm-devhub";
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to generate preview dockerfile and manifests.
+ *
+ * @summary generate preview dockerfile and manifests.
+ * x-ms-original-file: 2025-03-01-preview/GeneratePreviewArtifacts.json
+ */
 async function artifactGenerationProperties(): Promise<void> {
-  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
-  const location = "location1";
-  const parameters: ArtifactGenerationProperties = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DeveloperHubServiceClient(credential, subscriptionId);
+  const result = await client.generatePreviewArtifacts("location1", {
     appName: "my-app",
     dockerfileGenerationMode: "enabled",
     dockerfileOutputDirectory: "./",
@@ -29,10 +27,7 @@ async function artifactGenerationProperties(): Promise<void> {
     manifestType: "kube",
     namespace: "my-namespace",
     port: "80",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new DeveloperHubServiceClient(credential, subscriptionId);
-  const result = await client.generatePreviewArtifacts(location, parameters);
+  });
   console.log(result);
 }
 

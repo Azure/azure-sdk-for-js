@@ -246,7 +246,7 @@ export async function assertThrowsAbortError(
 }
 
 /**
- * Assert 2 snapshots with name, retentionPeriod and filters are equal
+ * Assert 2 snapshots with name, retentionPeriod, filters and description are equal
  */
 export function assertEqualSnapshot(
   snapshot1: ConfigurationSnapshot,
@@ -262,5 +262,10 @@ export function assertEqualSnapshot(
     snapshot1.filters,
     snapshot2.filters,
     "Unexpected filters in result from getSnapshot().",
+  );
+  assert.equal(
+    snapshot1.description,
+    snapshot2.description,
+    "Unexpected description in result from getSnapshot().",
   );
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Storage DataShares in a Storage Account.
  *
  * @summary list all Storage DataShares in a Storage Account.
- * x-ms-original-file: 2025-08-01/StorageDataShareCRUD/StorageDataShares_ListByStorageAccount.json
+ * x-ms-original-file: 2026-04-01/StorageDataShareCRUD/StorageDataShares_ListByStorageAccount.json
  */
 async function listDataSharesByStorageAccount() {
   const credential = new DefaultAzureCredential();

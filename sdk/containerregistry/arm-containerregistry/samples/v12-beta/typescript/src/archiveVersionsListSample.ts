@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all archive versions for the specified container registry, repository type and archive name.
  *
  * @summary lists all archive versions for the specified container registry, repository type and archive name.
- * x-ms-original-file: 2026-01-01-preview/ArchiveVersionList.json
+ * x-ms-original-file: 2026-03-01-preview/ArchiveVersionList.json
  */
 async function archiveVersionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

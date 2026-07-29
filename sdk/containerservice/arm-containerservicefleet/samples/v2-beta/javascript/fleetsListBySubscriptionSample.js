@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists fleets in the specified subscription.
  *
  * @summary lists fleets in the specified subscription.
- * x-ms-original-file: 2026-02-01-preview/Fleets_ListBySub.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_ListBySub.json
  */
 async function listsTheFleetResourcesInASubscription() {
   const credential = new DefaultAzureCredential();

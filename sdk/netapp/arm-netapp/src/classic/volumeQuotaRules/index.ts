@@ -31,11 +31,6 @@ export interface VolumeQuotaRulesOperations {
     options?: VolumeQuotaRulesListByVolumeOptionalParams,
   ) => PagedAsyncIterableIterator<VolumeQuotaRule>;
   /** Delete quota rule */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -74,7 +69,6 @@ export interface VolumeQuotaRulesOperations {
     options?: VolumeQuotaRulesGetOptionalParams,
   ) => Promise<VolumeQuotaRule>;
 }
-
 function _getVolumeQuotaRules(context: NetAppManagementContext) {
   return {
     listByVolume: (
@@ -158,7 +152,6 @@ function _getVolumeQuotaRules(context: NetAppManagementContext) {
       ),
   };
 }
-
 export function _getVolumeQuotaRulesOperations(
   context: NetAppManagementContext,
 ): VolumeQuotaRulesOperations {

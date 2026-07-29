@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut.json
  */
 async function putFileServices() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function putFileServices() {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EnableSMBMultichannel.json
  */
 async function putFileServicesEnableSMBMultichannel() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function putFileServicesEnableSMBMultichannel() {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EnableSecureSmbFeatures.json
  */
 async function putFileServicesEnableSecureSmbFeatures() {
   const credential = new DefaultAzureCredential();
@@ -87,7 +87,7 @@ async function putFileServicesEnableSecureSmbFeatures() {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EncryptionInTransitRequired.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EncryptionInTransitRequired.json
  */
 async function putFileServicesEncryptionInTransitRequired() {
   const credential = new DefaultAzureCredential();

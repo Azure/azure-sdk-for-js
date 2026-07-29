@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an on demand backup of a server.
  *
  * @summary creates an on demand backup of a server.
- * x-ms-original-file: 2026-01-01-preview/BackupsAutomaticAndOnDemandCreate.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsAutomaticAndOnDemandCreate.json
  */
 async function createAnOnDemandBackupOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the current usage count and the limit for the resources of the location under the subscription.
  *
  * @summary gets the current usage count and the limit for the resources of the location under the subscription.
- * x-ms-original-file: 2025-08-01/StorageAccountListLocationUsage.json
+ * x-ms-original-file: 2026-04-01/StorageAccountListLocationUsage.json
  */
 async function usageList() {
   const credential = new DefaultAzureCredential();

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "@azure/arm-monitorslis client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitorslis",
   "dependencies": {
-    "@azure/arm-monitorslis": "next",
+    "@azure/arm-monitorslis": "beta",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },

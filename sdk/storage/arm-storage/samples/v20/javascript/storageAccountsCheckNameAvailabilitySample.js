@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks that the storage account name is valid and is not already in use.
  *
  * @summary checks that the storage account name is valid and is not already in use.
- * x-ms-original-file: 2025-08-01/StorageAccountCheckNameAvailability.json
+ * x-ms-original-file: 2026-04-01/StorageAccountCheckNameAvailability.json
  */
 async function storageAccountCheckNameAvailability() {
   const credential = new DefaultAzureCredential();

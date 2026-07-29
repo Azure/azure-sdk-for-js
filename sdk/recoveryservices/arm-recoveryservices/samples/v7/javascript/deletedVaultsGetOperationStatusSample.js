@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the operation status of a deleted vault.
  *
  * @summary get the operation status of a deleted vault.
- * x-ms-original-file: 2025-08-01/DeletedVaults_GetOperationStatus.json
+ * x-ms-original-file: 2026-05-01/DeletedVaults_GetOperationStatus.json
  */
 async function getsOperationStatusOnDeletedVault() {
   const credential = new DefaultAzureCredential();

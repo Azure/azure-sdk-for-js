@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new firewall rule or updates an existing firewall rule.
  *
  * @summary creates a new firewall rule or updates an existing firewall rule.
- * x-ms-original-file: 2026-01-01-preview/FirewallRulesCreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/FirewallRulesCreateOrUpdate.json
  */
 async function createANewFirewallRuleOrUpdateAnExistingFirewallRule() {
   const credential = new DefaultAzureCredential();

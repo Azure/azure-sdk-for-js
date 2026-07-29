@@ -42,11 +42,11 @@ const __dirname = path.dirname(__filename);
 // Construct the path
 const globalSetupPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-setup.js",
+  "../../src/core/global/playwright-service-global-setup.ts",
 );
 const globalTeardownPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-teardown.js",
+  "../../src/core/global/playwright-service-global-teardown.ts",
 );
 
 const samplePlaywrightConfigInput = {
@@ -382,6 +382,22 @@ describe("createAzurePlaywrightConfig", () => {
     expect((playwrightServiceEntra.default as any)._entraIdAccessToken._credential).to.equal(
       credential,
     );
+  });
+
+  it("should plumb sourceType from options into the wsEndpoint", async () => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
+    const { createAzurePlaywrightConfig: localGetServiceConfig } =
+      await import("../../src/core/playwrightService.js");
+
+    const config = localGetServiceConfig({}, { sourceType: "Others" });
+
+    const wsEndpoint = (config.use?.connectOptions as { wsEndpoint: string }).wsEndpoint;
+    expect(wsEndpoint).toContain("sourceType=Others");
+    expect(wsEndpoint).not.toContain("sourceType=PlaywrightWorkspacesTestRun");
+
+    // Reset singleton sourceType so subsequent tests see the default.
+    PlaywrightServiceConfig.instance.sourceType = "PlaywrightWorkspacesTestRun";
   });
 });
 

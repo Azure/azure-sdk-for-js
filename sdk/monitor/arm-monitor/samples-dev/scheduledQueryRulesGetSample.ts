@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve an scheduled query rule definition.
- *
- * @summary Retrieve an scheduled query rule definition.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/getScheduledQueryRule.json
- */
-
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve an scheduled query rule definition.
+ *
+ * @summary retrieve an scheduled query rule definition.
+ * x-ms-original-file: 2025-01-01-preview/getScheduledQueryRule.json
+ */
 async function getAScheduledQueryRuleForSingleResource(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
-  const ruleName = "perf";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.scheduledQueryRules.get(resourceGroupName, ruleName);
+  const result = await client.scheduledQueryRules.get("QueryResourceGroupName", "perf");
   console.log(result);
 }
 

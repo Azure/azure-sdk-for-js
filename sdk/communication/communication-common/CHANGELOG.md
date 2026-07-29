@@ -1,14 +1,32 @@
 # Release History
 
-## 2.4.2 (Unreleased)
+## 2.5.0 (Unreleased)
 
 ### Features Added
+
+- `AzureCommunicationTokenCredential` now supports encrypted/opaque access tokens that cannot be decoded (e.g. for enterprise Entra users):
+  - `tokenRefresher` may return an `AccessToken` (`{ token, expiresOnTimestamp }`) and the static constructor accepts an `AccessToken`, allowing the expiry to be supplied explicitly instead of decoded from the token. This is the recommended way to supply encrypted/opaque tokens.
+  - A token that cannot be decoded is now accepted as-is and assigned a fallback expiry, instead of throwing at construction as it did previously; only an empty token is rejected.
+  - Added `undecodableTokenExpiryIntervalInSeconds` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 600 seconds).
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fixed `dispose()` not always cancelling the scheduled proactive token refresh, which could trigger a token refresh after the credential was disposed.
+- A token that decodes successfully but has no `exp` claim no longer yields a `NaN` expiry; it now uses the fallback expiry.
+
 ### Other Changes
+
+## 2.4.2 (2026-06-02)
+
+### Features Added
+
+- Added support for the GCCH Teams Phone Extensibility Entra scope `https://auth.msft.communication.azure.us/TeamsExtension.ManageCalls`.
+
+### Bugs Fixed
+
+- Updated the `EntraTokenCredential` scope validation error message and fixed string interpolation in the error text.
 
 ## 2.4.0 (2025-06-04)
 

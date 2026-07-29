@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list SSH authorized keys and shared key of the local user.
  *
  * @summary list SSH authorized keys and shared key of the local user.
- * x-ms-original-file: 2025-08-01/LocalUserListKeys.json
+ * x-ms-original-file: 2026-04-01/LocalUserListKeys.json
  */
 async function listLocalUserKeys() {
   const credential = new DefaultAzureCredential();

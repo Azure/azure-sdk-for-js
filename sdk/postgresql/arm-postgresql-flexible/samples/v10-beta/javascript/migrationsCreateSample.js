@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreate.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreate.json
  */
 async function createAMigration() {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function createAMigration() {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateOtherSourceTypesValidateMigrate.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateOtherSourceTypesValidateMigrate.json
  */
 async function createAMigrationWithOtherSourceTypeForValidatingAndMigrating() {
   const credential = new DefaultAzureCredential();
@@ -84,7 +84,7 @@ async function createAMigrationWithOtherSourceTypeForValidatingAndMigrating() {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateValidateOnly.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateValidateOnly.json
  */
 async function createAMigrationForValidatingOnly() {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function createAMigrationForValidatingOnly() {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithFullyQualifiedDomainName.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithFullyQualifiedDomainName.json
  */
 async function createAMigrationWithFullyQualifiedDomainNamesForSourceAndTargetServers() {
   const credential = new DefaultAzureCredential();
@@ -158,7 +158,7 @@ async function createAMigrationWithFullyQualifiedDomainNamesForSourceAndTargetSe
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithOtherUsers.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithOtherUsers.json
  */
 async function createAMigrationSpecifyingUserNames() {
   const credential = new DefaultAzureCredential();
@@ -196,7 +196,7 @@ async function createAMigrationSpecifyingUserNames() {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithPrivateEndpointServers.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithPrivateEndpointServers.json
  */
 async function createAMigrationWithPrivateEndpoint() {
   const credential = new DefaultAzureCredential();
@@ -235,7 +235,7 @@ async function createAMigrationWithPrivateEndpoint() {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithRoles.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithRoles.json
  */
 async function createAMigrationWithRoles() {
   const credential = new DefaultAzureCredential();

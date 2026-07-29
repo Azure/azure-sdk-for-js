@@ -139,7 +139,7 @@ already depends on the current package.
 
 All packages must declare compatible Node.js engine requirements.
 New dependencies must not require a higher Node.js version than the
-monorepo's minimum (currently Node 20).
+monorepo's minimum (currently Node 22).
 
 ### 9. Package.json structure requirements
 

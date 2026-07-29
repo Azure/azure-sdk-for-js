@@ -160,6 +160,15 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 export function deleteKnowledgeSource(context: SearchIndexContext, name: string, options?: DeleteKnowledgeSourceOptionalParams): Promise<void>;
 
 // @public
+export function deleteKnowledgeSourceFile(context: SearchIndexContext, fileId: string, name: string, options?: DeleteKnowledgeSourceFileOptionalParams): Promise<void>;
+
+// @public
+export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
@@ -276,6 +285,9 @@ export function listIndexes(context: SearchIndexContext, options?: ListIndexesOp
 export interface ListIndexesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -285,7 +297,22 @@ export function listIndexesWithSelectedProperties(context: SearchIndexContext, o
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    count?: boolean;
     select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export function listIndexStatsSummary(context: SearchIndexContext, options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
+
+// @public
+export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+    count?: boolean;
+    skip?: number;
+    top?: number;
 }
 
 // @public
@@ -293,6 +320,15 @@ export function listKnowledgeBases(context: SearchIndexContext, options?: ListKn
 
 // @public
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
+}
+
+// @public
+export function listKnowledgeSourceFiles(context: SearchIndexContext, name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
+
+// @public
+export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
@@ -314,6 +350,15 @@ export interface SearchIndexClientOptionalParams extends ClientOptions {
 // @public (undocumented)
 export interface SearchIndexContext extends Client {
     apiVersion?: string;
+}
+
+// @public
+export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+
+// @public
+export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
+    clientRequestId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

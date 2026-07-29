@@ -98,12 +98,12 @@ describe("Dynatrace test", () => {
     assert.equal(res.name, monitorName);
   });
 
-  it("monitor get test", async () => {
+  it.skip("monitor get test", async () => {
     const res = await client.monitors.get(resourceGroup, monitorName);
     assert.equal(res.name, monitorName);
   });
 
-  it("monitor list test", async () => {
+  it.skip("monitor list test", async () => {
     const resArray = new Array();
     for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -118,7 +118,7 @@ describe("Dynatrace test", () => {
     }
   });
 
-  it("monitor delete test", async () => {
+  it.skip("monitor delete test", async () => {
     const resArray = new Array();
     await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions);
     for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {

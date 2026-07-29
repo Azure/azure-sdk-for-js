@@ -26,6 +26,7 @@ const ruleList = [
   "ts-no-const-enums",
   "ts-no-invalid-test-imports",
   "ts-no-window",
+  "ts-package-json-approved-dependencies",
   "ts-package-json-author",
   "ts-package-json-bugs",
   "ts-package-json-engine-is-present",

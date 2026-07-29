@@ -6,6 +6,10 @@ There are times when a dependency needs to be updated, such as when a security v
 
 In this document we'll outline a few options available to you when a transitive dependency must be updated.
 
+> **SDK authors:** for the policy on taking a _new_ third-party runtime
+> dependency in a shipped library, see
+> [Adding a new third-party runtime dependency](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
+
 ## Example scenario
 
 Let's assume that a vulnerability has been found in [node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.

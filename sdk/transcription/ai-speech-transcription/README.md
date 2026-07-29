@@ -138,6 +138,7 @@ You can customize transcription with options like:
 - [Improve accuracy with custom phrases](#improve-accuracy-with-custom-phrases)
 - [Transcribe with a known language](#transcribe-with-a-known-language)
 - [Use Enhanced Mode for highest accuracy](#use-enhanced-mode-for-highest-accuracy)
+- [Guide Enhanced Mode with a locale](#guide-enhanced-mode-with-a-locale)
 - [Translate with Enhanced Mode](#translate-with-enhanced-mode)
 - [Combine multiple options](#combine-multiple-options)
 
@@ -294,6 +295,8 @@ for (const phrase of result.phrases) {
 }
 ```
 
+> **Note**: `locales` applies to both Fast Transcription and Enhanced Mode. In Enhanced Mode the service runs in multi-lingual mode by default; when `locales` is specified, the service uses the first locale as a recognition hint to bias language recognition.
+
 ### Use Enhanced Mode for highest accuracy
 
 Enhanced Mode uses LLM-powered processing for the highest accuracy transcription:
@@ -321,6 +324,27 @@ const result = await client.transcribe(audioFile, {
 for (const phrase of result.phrases) {
   console.log(`[Speaker ${phrase.speaker}] ${phrase.text}`);
 }
+```
+
+### Guide Enhanced Mode with a locale
+
+Enhanced Mode runs in multi-lingual mode by default, so you don't need to specify the input language. To guide recognition toward a specific language, set `locales`; the service uses the first locale as a recognition hint:
+
+```ts snippet:EnhancedModeWithLocale
+import { TranscriptionClient } from "@azure/ai-speech-transcription";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
+
+const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
+const audioFile = readFileSync("path/to/audio.wav");
+const result = await client.transcribe(audioFile, {
+  enhancedMode: {
+    task: "transcribe",
+  },
+  // Guide recognition toward a specific language; the service uses the first locale as a hint
+  locales: ["en-US"],
+});
+console.log("Transcription:", result.combinedPhrases[0]?.text);
 ```
 
 ### Translate with Enhanced Mode

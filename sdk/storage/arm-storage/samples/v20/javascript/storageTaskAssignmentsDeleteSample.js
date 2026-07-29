@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the storage task assignment sub-resource
  *
  * @summary delete the storage task assignment sub-resource
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/DeleteStorageTaskAssignment.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/DeleteStorageTaskAssignment.json
  */
 async function deleteStorageTaskAssignment() {
   const credential = new DefaultAzureCredential();

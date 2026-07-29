@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-cosmosdb",
-  "version": "17.0.0-beta.3",
+  "version": "17.0.0",
   "description": "A generated SDK for CosmosDBManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -70,20 +70,6 @@
         "default": "./dist/commonjs/api/fleetspace/index.js"
       }
     },
-    "./api/fleetAnalytics": {
-      "browser": {
-        "types": "./dist/browser/api/fleetAnalytics/index.d.ts",
-        "default": "./dist/browser/api/fleetAnalytics/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/fleetAnalytics/index.d.ts",
-        "default": "./dist/esm/api/fleetAnalytics/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/fleetAnalytics/index.d.ts",
-        "default": "./dist/commonjs/api/fleetAnalytics/index.js"
-      }
-    },
     "./api/fleet": {
       "browser": {
         "types": "./dist/browser/api/fleet/index.d.ts",
@@ -110,62 +96,6 @@
       "require": {
         "types": "./dist/commonjs/api/mongoMIResources/index.d.ts",
         "default": "./dist/commonjs/api/mongoMIResources/index.js"
-      }
-    },
-    "./api/throughputPoolAccounts": {
-      "browser": {
-        "types": "./dist/browser/api/throughputPoolAccounts/index.d.ts",
-        "default": "./dist/browser/api/throughputPoolAccounts/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/throughputPoolAccounts/index.d.ts",
-        "default": "./dist/esm/api/throughputPoolAccounts/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/throughputPoolAccounts/index.d.ts",
-        "default": "./dist/commonjs/api/throughputPoolAccounts/index.js"
-      }
-    },
-    "./api/throughputPoolAccount": {
-      "browser": {
-        "types": "./dist/browser/api/throughputPoolAccount/index.d.ts",
-        "default": "./dist/browser/api/throughputPoolAccount/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/throughputPoolAccount/index.d.ts",
-        "default": "./dist/esm/api/throughputPoolAccount/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/throughputPoolAccount/index.d.ts",
-        "default": "./dist/commonjs/api/throughputPoolAccount/index.js"
-      }
-    },
-    "./api/throughputPools": {
-      "browser": {
-        "types": "./dist/browser/api/throughputPools/index.d.ts",
-        "default": "./dist/browser/api/throughputPools/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/throughputPools/index.d.ts",
-        "default": "./dist/esm/api/throughputPools/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/throughputPools/index.d.ts",
-        "default": "./dist/commonjs/api/throughputPools/index.js"
-      }
-    },
-    "./api/throughputPool": {
-      "browser": {
-        "types": "./dist/browser/api/throughputPool/index.d.ts",
-        "default": "./dist/browser/api/throughputPool/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/throughputPool/index.d.ts",
-        "default": "./dist/esm/api/throughputPool/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/throughputPool/index.d.ts",
-        "default": "./dist/commonjs/api/throughputPool/index.js"
       }
     },
     "./api/service": {
@@ -546,20 +476,6 @@
         "default": "./dist/commonjs/api/database/index.js"
       }
     },
-    "./api/chaosFault": {
-      "browser": {
-        "types": "./dist/browser/api/chaosFault/index.d.ts",
-        "default": "./dist/browser/api/chaosFault/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/chaosFault/index.d.ts",
-        "default": "./dist/esm/api/chaosFault/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/chaosFault/index.d.ts",
-        "default": "./dist/commonjs/api/chaosFault/index.js"
-      }
-    },
     "./api/privateLinkResources": {
       "browser": {
         "types": "./dist/browser/api/privateLinkResources/index.d.ts",
@@ -600,48 +516,6 @@
       "require": {
         "types": "./dist/commonjs/api/notebookWorkspaces/index.d.ts",
         "default": "./dist/commonjs/api/notebookWorkspaces/index.js"
-      }
-    },
-    "./api/networkSecurityPerimeterConfigurations": {
-      "browser": {
-        "types": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.d.ts",
-        "default": "./dist/browser/api/networkSecurityPerimeterConfigurations/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.d.ts",
-        "default": "./dist/esm/api/networkSecurityPerimeterConfigurations/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.d.ts",
-        "default": "./dist/commonjs/api/networkSecurityPerimeterConfigurations/index.js"
-      }
-    },
-    "./api/garnetClusters": {
-      "browser": {
-        "types": "./dist/browser/api/garnetClusters/index.d.ts",
-        "default": "./dist/browser/api/garnetClusters/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/garnetClusters/index.d.ts",
-        "default": "./dist/esm/api/garnetClusters/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/garnetClusters/index.d.ts",
-        "default": "./dist/commonjs/api/garnetClusters/index.js"
-      }
-    },
-    "./api/dataTransferJobs": {
-      "browser": {
-        "types": "./dist/browser/api/dataTransferJobs/index.d.ts",
-        "default": "./dist/browser/api/dataTransferJobs/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/dataTransferJobs/index.d.ts",
-        "default": "./dist/esm/api/dataTransferJobs/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/dataTransferJobs/index.d.ts",
-        "default": "./dist/commonjs/api/dataTransferJobs/index.js"
       }
     },
     "./api/gremlinResources": {
@@ -712,34 +586,6 @@
       "require": {
         "types": "./dist/commonjs/api/sqlResources/index.d.ts",
         "default": "./dist/commonjs/api/sqlResources/index.js"
-      }
-    },
-    "./api/graphResources": {
-      "browser": {
-        "types": "./dist/browser/api/graphResources/index.d.ts",
-        "default": "./dist/browser/api/graphResources/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/graphResources/index.d.ts",
-        "default": "./dist/esm/api/graphResources/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/graphResources/index.d.ts",
-        "default": "./dist/commonjs/api/graphResources/index.js"
-      }
-    },
-    "./api/copyJobs": {
-      "browser": {
-        "types": "./dist/browser/api/copyJobs/index.d.ts",
-        "default": "./dist/browser/api/copyJobs/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/copyJobs/index.d.ts",
-        "default": "./dist/esm/api/copyJobs/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/copyJobs/index.d.ts",
-        "default": "./dist/commonjs/api/copyJobs/index.js"
       }
     },
     "./api/databaseAccounts": {
@@ -872,10 +718,11 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdb"
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

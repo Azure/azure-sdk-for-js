@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AutoUpgradeProfile resources by Fleet
  *
  * @summary list AutoUpgradeProfile resources by Fleet
- * x-ms-original-file: 2026-02-01-preview/AutoUpgradeProfiles_ListByFleet.json
+ * x-ms-original-file: 2026-03-02-preview/AutoUpgradeProfiles_ListByFleet.json
  */
 async function listsTheAutoUpgradeProfileResourcesByFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();

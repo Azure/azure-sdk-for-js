@@ -1,0 +1,4 @@
+directory: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/EdgeOrder
+commit: 6ace746acb1d79c3da7700a767fa2de77883e952
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

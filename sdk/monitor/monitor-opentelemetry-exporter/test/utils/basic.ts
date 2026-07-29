@@ -472,7 +472,7 @@ export class LogBasicScenario implements Scenario {
     const exporter = new AzureMonitorLogExporter({
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
-    this._processor = new SimpleLogRecordProcessor(exporter);
+    this._processor = new SimpleLogRecordProcessor({ exporter });
 
     // In OpenTelemetry SDK v0.205.0, LoggerProvider uses 'processors' parameter
     this._provider = new LoggerProvider({

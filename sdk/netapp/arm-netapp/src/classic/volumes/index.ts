@@ -284,11 +284,6 @@ export interface VolumesOperations {
     options?: VolumesListOptionalParams,
   ) => PagedAsyncIterableIterator<Volume>;
   /** Delete the specified volume */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -323,7 +318,6 @@ export interface VolumesOperations {
     options?: VolumesGetOptionalParams,
   ) => Promise<Volume>;
 }
-
 function _getVolumes(context: NetAppManagementContext) {
   return {
     listQuotaReport: (
@@ -609,7 +603,6 @@ function _getVolumes(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, options),
   };
 }
-
 export function _getVolumesOperations(context: NetAppManagementContext): VolumesOperations {
   return {
     ..._getVolumes(context),

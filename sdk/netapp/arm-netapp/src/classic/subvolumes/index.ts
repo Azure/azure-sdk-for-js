@@ -42,11 +42,6 @@ export interface SubvolumesOperations {
     options?: SubvolumesListByVolumeOptionalParams,
   ) => PagedAsyncIterableIterator<SubvolumeInfo>;
   /** Delete subvolume */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -85,7 +80,6 @@ export interface SubvolumesOperations {
     options?: SubvolumesGetOptionalParams,
   ) => Promise<SubvolumeInfo>;
 }
-
 function _getSubvolumes(context: NetAppManagementContext) {
   return {
     getMetadata: (
@@ -177,7 +171,6 @@ function _getSubvolumes(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, subvolumeName, options),
   };
 }
-
 export function _getSubvolumesOperations(context: NetAppManagementContext): SubvolumesOperations {
   return {
     ..._getSubvolumes(context),

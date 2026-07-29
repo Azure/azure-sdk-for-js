@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   KeyCreateParameters,
-  KnownJsonWebKeyType,
   JsonWebKeyType,
-  KnownJsonWebKeyOperation,
   JsonWebKeyOperation,
   KeyAttributes,
-  KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
   KeyAttestation,
-  KnownJsonWebKeyCurveName,
+  ExternalKey,
   JsonWebKeyCurveName,
   KeyReleasePolicy,
   KeyBundle,
@@ -25,16 +22,17 @@ export {
   BackupKeyResult,
   KeyRestoreParameters,
   KeyOperationsParameters,
-  KnownJsonWebKeyEncryptionAlgorithm,
   JsonWebKeyEncryptionAlgorithm,
   KeyOperationResult,
   KeySignParameters,
-  KnownJsonWebKeySignatureAlgorithm,
   JsonWebKeySignatureAlgorithm,
   KeyVerifyParameters,
   KeyVerifyResult,
+  SecureKeyWrapOperationParameters,
+  JsonWebKeyWrapAlgorithm,
+  SecureKeyOperationResult,
+  SecureKeyUnWrapOperationParameters,
   KeyReleaseParameters,
-  KnownKeyEncryptionAlgorithm,
   KeyEncryptionAlgorithm,
   KeyReleaseResult,
   DeletedKeyItem,
@@ -46,5 +44,15 @@ export {
   KeyRotationPolicyAttributes,
   GetRandomBytesRequest,
   RandomBytes,
+} from "./models.js";
+export {
+  KnownJsonWebKeyType,
+  KnownJsonWebKeyOperation,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyCurveName,
+  KnownJsonWebKeyEncryptionAlgorithm,
+  KnownJsonWebKeySignatureAlgorithm,
+  KnownJsonWebKeyWrapAlgorithm,
+  KnownKeyEncryptionAlgorithm,
   KnownVersions,
 } from "./models.js";

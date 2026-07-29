@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Storage Connector.
  *
  * @summary delete a Storage Connector.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_Delete.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_Delete.json
  */
 async function deleteConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

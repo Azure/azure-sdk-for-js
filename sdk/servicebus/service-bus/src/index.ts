@@ -85,3 +85,4 @@ export type {
   TransferProgressEvent,
   WebResourceLike,
 } from "./util/compat/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

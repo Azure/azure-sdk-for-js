@@ -1,61 +1,61 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get a specific governance rule for the requested scope by ruleId
- *
- * @summary Get a specific governance rule for the requested scope by ruleId
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/GetManagementGroupGovernanceRule_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
-async function getAGovernanceRuleOverManagementGroupScope(): Promise<void> {
-  const scope = "providers/Microsoft.Management/managementGroups/contoso";
-  const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential);
-  const result = await client.governanceRules.get(scope, ruleId);
-  console.log(result);
-}
 
 /**
- * This sample demonstrates how to Get a specific governance rule for the requested scope by ruleId
+ * This sample demonstrates how to get a specific governance rule for the requested scope by ruleId
  *
- * @summary Get a specific governance rule for the requested scope by ruleId
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/GetSecurityConnectorGovernanceRule_example.json
- */
-async function getAGovernanceRuleOverSecurityConnectorScope(): Promise<void> {
-  const scope =
-    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/gcpResourceGroup/providers/Microsoft.Security/securityConnectors/gcpconnector";
-  const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential);
-  const result = await client.governanceRules.get(scope, ruleId);
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Get a specific governance rule for the requested scope by ruleId
- *
- * @summary Get a specific governance rule for the requested scope by ruleId
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/GetGovernanceRule_example.json
+ * @summary get a specific governance rule for the requested scope by ruleId
+ * x-ms-original-file: 2022-01-01-preview/GovernanceRules/GetGovernanceRule_example.json
  */
 async function getAGovernanceRuleOverSubscriptionScope(): Promise<void> {
-  const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
-  const result = await client.governanceRules.get(scope, ruleId);
+  const result = await client.governanceRules.get(
+    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+    "ad9a8e26-29d9-4829-bb30-e597a58cdbb8",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get a specific governance rule for the requested scope by ruleId
+ *
+ * @summary get a specific governance rule for the requested scope by ruleId
+ * x-ms-original-file: 2022-01-01-preview/GovernanceRules/GetManagementGroupGovernanceRule_example.json
+ */
+async function getAGovernanceRuleOverManagementGroupScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new SecurityCenter(credential);
+  const result = await client.governanceRules.get(
+    "providers/Microsoft.Management/managementGroups/contoso",
+    "ad9a8e26-29d9-4829-bb30-e597a58cdbb8",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get a specific governance rule for the requested scope by ruleId
+ *
+ * @summary get a specific governance rule for the requested scope by ruleId
+ * x-ms-original-file: 2022-01-01-preview/GovernanceRules/GetSecurityConnectorGovernanceRule_example.json
+ */
+async function getAGovernanceRuleOverSecurityConnectorScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new SecurityCenter(credential);
+  const result = await client.governanceRules.get(
+    "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/gcpResourceGroup/providers/Microsoft.Security/securityConnectors/gcpconnector",
+    "ad9a8e26-29d9-4829-bb30-e597a58cdbb8",
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
+  await getAGovernanceRuleOverSubscriptionScope();
   await getAGovernanceRuleOverManagementGroupScope();
   await getAGovernanceRuleOverSecurityConnectorScope();
-  await getAGovernanceRuleOverSubscriptionScope();
 }
 
 main().catch(console.error);

@@ -2155,10 +2155,7 @@ export interface VirtualMachineSoftwarePatchPropertiesOutput {
   readonly classifications?: Array<string>;
   /** Describes the reboot requirements of the patch. */
   readonly rebootBehavior?:
-    | "Unknown"
-    | "NeverReboots"
-    | "AlwaysRequiresReboot"
-    | "CanRequestReboot";
+    "Unknown" | "NeverReboots" | "AlwaysRequiresReboot" | "CanRequestReboot";
   /** The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs. */
   readonly activityId?: string;
   /** The UTC timestamp when the repository published this patch. */
@@ -2211,12 +2208,7 @@ export interface PatchInstallationDetailOutput {
   readonly classifications?: Array<string>;
   /** The state of the patch after the installation operation completed. */
   readonly installationState?:
-    | "Unknown"
-    | "Installed"
-    | "Failed"
-    | "Excluded"
-    | "NotSelected"
-    | "Pending";
+    "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
 }
 
 /** Describes a Virtual Machine Image. */
@@ -2970,13 +2962,7 @@ export interface VirtualMachineRunCommandScriptSourceOutput {
 export interface VirtualMachineRunCommandInstanceViewOutput {
   /** Script execution status. */
   executionState?:
-    | "Unknown"
-    | "Pending"
-    | "Running"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Canceled";
+    "Unknown" | "Pending" | "Running" | "Failed" | "Succeeded" | "TimedOut" | "Canceled";
   /** Communicate script configuration errors or execution messages. */
   executionMessage?: string;
   /** Exit code returned from script execution. */
@@ -3709,12 +3695,7 @@ export interface GalleryPropertiesOutput {
   identifier?: GalleryIdentifierOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfileOutput;
   /** Contains information about the soft deletion policy of the gallery. */
@@ -3821,12 +3802,7 @@ export interface GalleryImagePropertiesOutput {
   purchasePlan?: ImagePurchasePlanOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** A list of gallery image features. */
   features?: Array<GalleryImageFeatureOutput>;
   /** The architecture of the image. Applicable to OS disks only. */
@@ -3895,12 +3871,7 @@ export interface GalleryImageVersionPropertiesOutput {
   publishingProfile?: GalleryImageVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile: GalleryImageVersionStorageProfileOutput;
   /** This is the replication status of the gallery image version. */
@@ -3960,9 +3931,7 @@ export interface OSDiskImageEncryptionOutput extends DiskImageEncryptionOutput {
 export interface OSDiskImageSecurityProfileOutput {
   /** confidential VM encryption types */
   confidentialVMEncryptionType?:
-    | "EncryptedVMGuestStateOnlyWithPmk"
-    | "EncryptedWithPmk"
-    | "EncryptedWithCmk";
+    "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
   /** secure VM disk encryption set id */
   secureVMDiskEncryptionSetId?: string;
 }
@@ -4090,12 +4059,7 @@ export interface GalleryApplicationVersionPropertiesOutput {
   publishingProfile: GalleryApplicationVersionPublishingProfileOutput;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?:
-    | "Creating"
-    | "Updating"
-    | "Failed"
-    | "Succeeded"
-    | "Deleting"
-    | "Migrating";
+    "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
   /** This is the replication status of the gallery image version. */
   readonly replicationStatus?: ReplicationStatusOutput;
 }

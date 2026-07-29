@@ -2,18 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to create an AI agent with the ToolboxSearchPreviewTool and
- * the Azure AI Projects client. The agent can use toolbox search to discover tools configured
- * in the project.
+ * This sample demonstrates how to create an AI agent with tool_search and a deferred MCP tool.
+ * The agent uses tool search to discover deferred tools at runtime.
  *
- * @summary This sample demonstrates how to create an agent with the ToolboxSearchPreviewTool,
- * send a request that requires tool discovery, and clean up resources.
+ * @summary Create an agent with tool_search to dynamically discover deferred MCP tools.
  *
  * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, type MCPTool, type ToolSearchToolParam } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -23,7 +21,7 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = project.getOpenAIClient();
 
-  console.log("Creating agent with ToolboxSearchPreviewTool...");
+  console.log("Creating agent with tool_search and deferred MCP tool...");
   const agent = await project.agents.createVersion("MyToolboxSearchAgent", {
     kind: "prompt",
     model: deploymentName,
@@ -31,11 +29,15 @@ export async function main(): Promise<void> {
       "You are a helpful assistant. Use toolbox search when you need to discover tools available in this project.",
     tools: [
       {
-        type: "toolbox_search_preview",
-        name: "project-toolbox-search",
-        description:
-          "Search toolboxes configured in this project for tools that can help answer a user request.",
-      },
+        type: "mcp",
+        server_label: "api-specs",
+        server_url: "https://gitmcp.io/Azure/azure-rest-api-specs",
+        require_approval: "never",
+        defer_loading: true,
+      } as MCPTool,
+      {
+        type: "tool_search",
+      } as ToolSearchToolParam,
     ],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
@@ -48,7 +50,6 @@ export async function main(): Promise<void> {
     {
       body: {
         agent_reference: { name: agent.name, type: "agent_reference" },
-        tool_choice: "required",
       },
     },
   );

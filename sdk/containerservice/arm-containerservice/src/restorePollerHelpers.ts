@@ -5,6 +5,10 @@ import type { ContainerServiceClient } from "./containerServiceClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/alertConfigurations/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMeshMemberships,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMeshMemberships,
 } from "./api/meshMemberships/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeJwtAuthenticators,
@@ -25,6 +29,10 @@ import {
   _$deleteDeserialize as _$deleteDeserializeManagedNamespaces,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedNamespaces,
 } from "./api/managedNamespaces/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMaintenanceWindows,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMaintenanceWindows,
+} from "./api/maintenanceWindows/operations.js";
 import {
   _rebalanceLoadBalancersDeserialize,
   _runCommandDeserialize,
@@ -86,8 +94,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -118,10 +125,17 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    { deserializer: _$deleteDeserializeMeshMemberships, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    {
+      deserializer: _createOrUpdateDeserializeMeshMemberships,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":
     { deserializer: _$deleteDeserializeJwtAuthenticators, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":
@@ -162,13 +176,23 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeManagedNamespaces,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/maintenanceWindows/{maintenanceWindowName}":
+    {
+      deserializer: _$deleteDeserializeMaintenanceWindows,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/maintenanceWindows/{maintenanceWindowName}":
+    {
+      deserializer: _createOrUpdateDeserializeMaintenanceWindows,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers":
     {
       deserializer: _rebalanceLoadBalancersDeserialize,
       expectedStatuses: ["202", "204", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand":
-    { deserializer: _runCommandDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _runCommandDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start":
     { deserializer: _startDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop":

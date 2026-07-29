@@ -1,14 +1,511 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
+/** Details of network gateway record */
+export interface NetworkGatewayResource extends ProxyResource {
+  /** Network Gateway Properties */
+  properties?: NetworkGatewayProperties;
+}
+
+export function networkGatewayResourceSerializer(item: NetworkGatewayResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkGatewayPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function networkGatewayResourceDeserializer(item: any): NetworkGatewayResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : networkGatewayPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Network Gateway Properties */
+export interface NetworkGatewayProperties {
+  /** Display name of the network gateway */
+  networkGatewayName: string;
+  /** The cloud service provider region for the network gateway */
+  region: string;
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Provisioning state of the network gateway */
+  readonly provisioningState?: ProvisionState;
+  /** Additional properties for extensibility */
+  dictionary?: KeyValuePair[];
+}
+
+export function networkGatewayPropertiesSerializer(item: NetworkGatewayProperties): any {
+  return {
+    networkGatewayName: item["networkGatewayName"],
+    region: item["region"],
+    metadata: !item["metadata"] ? item["metadata"] : scMetadataEntitySerializer(item["metadata"]),
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArraySerializer(item["dictionary"]),
+  };
+}
+
+export function networkGatewayPropertiesDeserializer(item: any): NetworkGatewayProperties {
+  return {
+    networkGatewayName: item["networkGatewayName"],
+    region: item["region"],
+    metadata: !item["metadata"] ? item["metadata"] : scMetadataEntityDeserializer(item["metadata"]),
+    provisioningState: item["provisioningState"],
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArrayDeserializer(item["dictionary"]),
+  };
+}
+
+/** Metadata of the data record */
+export interface SCMetadataEntity {
+  /** Self lookup url */
+  self?: string;
+  /** Resource name of the record */
+  resourceName?: string;
+  /** Created Date Time */
+  createdTimestamp?: string;
+  /** Updated Date time */
+  updatedTimestamp?: string;
+  /** Deleted Date time */
+  deletedTimestamp?: string;
+}
+
+export function scMetadataEntitySerializer(item: SCMetadataEntity): any {
+  return {
+    self: item["self"],
+    resourceName: item["resourceName"],
+    createdTimestamp: item["createdTimestamp"],
+    updatedTimestamp: item["updatedTimestamp"],
+    deletedTimestamp: item["deletedTimestamp"],
+  };
+}
+
+export function scMetadataEntityDeserializer(item: any): SCMetadataEntity {
+  return {
+    self: item["self"],
+    resourceName: item["resourceName"],
+    createdTimestamp: item["createdTimestamp"],
+    updatedTimestamp: item["updatedTimestamp"],
+    deletedTimestamp: item["deletedTimestamp"],
+  };
+}
+
+/** Provision states for confluent RP */
+export enum KnownProvisionState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+}
+
+/**
+ * Provision states for confluent RP \
+ * {@link KnownProvisionState} can be used interchangeably with ProvisionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleted** \
+ * **NotSpecified**
+ */
+export type ProvisionState = string;
+
+export function keyValuePairArraySerializer(result: Array<KeyValuePair>): any[] {
+  return result.map((item) => {
+    return keyValuePairSerializer(item);
+  });
+}
+
+export function keyValuePairArrayDeserializer(result: Array<KeyValuePair>): any[] {
+  return result.map((item) => {
+    return keyValuePairDeserializer(item);
+  });
+}
+
+/** A key-value pair for extensibility. */
+export interface KeyValuePair {
+  /** The key. */
+  key: string;
+  /** The value. */
+  value: string;
+}
+
+export function keyValuePairSerializer(item: KeyValuePair): any {
+  return { key: item["key"], value: item["value"] };
+}
+
+export function keyValuePairDeserializer(item: any): KeyValuePair {
+  return {
+    key: item["key"],
+    value: item["value"],
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** The response of a NetworkGatewayResource list operation. */
+export interface _NetworkGatewayResourceListResult {
+  /** The NetworkGatewayResource items on this page */
+  value: NetworkGatewayResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _networkGatewayResourceListResultDeserializer(
+  item: any,
+): _NetworkGatewayResourceListResult {
+  return {
+    value: networkGatewayResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function networkGatewayResourceArraySerializer(
+  result: Array<NetworkGatewayResource>,
+): any[] {
+  return result.map((item) => {
+    return networkGatewayResourceSerializer(item);
+  });
+}
+
+export function networkGatewayResourceArrayDeserializer(
+  result: Array<NetworkGatewayResource>,
+): any[] {
+  return result.map((item) => {
+    return networkGatewayResourceDeserializer(item);
+  });
+}
+
+/** Details of access point record */
+export interface AccessPointResource extends ProxyResource {
+  /** Access Point Properties */
+  properties?: AccessPointProperties;
+}
+
+export function accessPointResourceSerializer(item: AccessPointResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : accessPointPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function accessPointResourceDeserializer(item: any): AccessPointResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : accessPointPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Access Point Properties */
+export interface AccessPointProperties {
+  /** Display name of the access point */
+  accessPointName: string;
+  /** The cloud service provider region for the access point */
+  region: string;
+  /** VNet injection target (LiftrBase standard model). Contains the virtual network resource ID and the delegated subnet resource ID. */
+  vnetInjection: VnetInjectionDetails;
+  /** IP ranges to route through your virtual network instead of Confluent's default path. Required for Kafka clients in peered VNets or on-premises networks (e.g., 10.0.0.0/8, 172.16.0.0/12). */
+  egressRoutes?: string[];
+  /** Metadata of the record */
+  metadata?: SCMetadataEntity;
+  /** Provisioning state of the access point */
+  readonly provisioningState?: ProvisionState;
+  /** Additional properties for extensibility */
+  dictionary?: KeyValuePair[];
+}
+
+export function accessPointPropertiesSerializer(item: AccessPointProperties): any {
+  return {
+    accessPointName: item["accessPointName"],
+    region: item["region"],
+    vnetInjection: vnetInjectionDetailsSerializer(item["vnetInjection"]),
+    egressRoutes: !item["egressRoutes"]
+      ? item["egressRoutes"]
+      : item["egressRoutes"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"] ? item["metadata"] : scMetadataEntitySerializer(item["metadata"]),
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArraySerializer(item["dictionary"]),
+  };
+}
+
+export function accessPointPropertiesDeserializer(item: any): AccessPointProperties {
+  return {
+    accessPointName: item["accessPointName"],
+    region: item["region"],
+    vnetInjection: vnetInjectionDetailsDeserializer(item["vnetInjection"]),
+    egressRoutes: !item["egressRoutes"]
+      ? item["egressRoutes"]
+      : item["egressRoutes"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"] ? item["metadata"] : scMetadataEntityDeserializer(item["metadata"]),
+    provisioningState: item["provisioningState"],
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArrayDeserializer(item["dictionary"]),
+  };
+}
+
+/** Details for VNet injection */
+export interface VnetInjectionDetails {
+  /** Resource ID of the virtual network */
+  virtualNetworkResourceId: string;
+  /** Resource ID of the subnet */
+  subnetResourceId: string;
+}
+
+export function vnetInjectionDetailsSerializer(item: VnetInjectionDetails): any {
+  return {
+    virtualNetworkResourceId: item["virtualNetworkResourceId"],
+    subnetResourceId: item["subnetResourceId"],
+  };
+}
+
+export function vnetInjectionDetailsDeserializer(item: any): VnetInjectionDetails {
+  return {
+    virtualNetworkResourceId: item["virtualNetworkResourceId"],
+    subnetResourceId: item["subnetResourceId"],
+  };
+}
+
+/** The response of a AccessPointResource list operation. */
+export interface _AccessPointResourceListResult {
+  /** The AccessPointResource items on this page */
+  value: AccessPointResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _accessPointResourceListResultDeserializer(
+  item: any,
+): _AccessPointResourceListResult {
+  return {
+    value: accessPointResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function accessPointResourceArraySerializer(result: Array<AccessPointResource>): any[] {
+  return result.map((item) => {
+    return accessPointResourceSerializer(item);
+  });
+}
+
+export function accessPointResourceArrayDeserializer(result: Array<AccessPointResource>): any[] {
+  return result.map((item) => {
+    return accessPointResourceDeserializer(item);
+  });
+}
+
 /** Result of GET request to list Confluent operations. */
 export interface _OperationListResult {
   /** List of Confluent operations supported by the Microsoft.Confluent provider. */
@@ -146,40 +643,6 @@ export function apiKeyPropertiesDeserializer(item: any): APIKeyProperties {
   return {
     metadata: !item["metadata"] ? item["metadata"] : scMetadataEntityDeserializer(item["metadata"]),
     spec: !item["spec"] ? item["spec"] : apiKeySpecEntityDeserializer(item["spec"]),
-  };
-}
-
-/** Metadata of the data record */
-export interface SCMetadataEntity {
-  /** Self lookup url */
-  self?: string;
-  /** Resource name of the record */
-  resourceName?: string;
-  /** Created Date Time */
-  createdTimestamp?: string;
-  /** Updated Date time */
-  updatedTimestamp?: string;
-  /** Deleted Date time */
-  deletedTimestamp?: string;
-}
-
-export function scMetadataEntitySerializer(item: SCMetadataEntity): any {
-  return {
-    self: item["self"],
-    resourceName: item["resourceName"],
-    createdTimestamp: item["createdTimestamp"],
-    updatedTimestamp: item["updatedTimestamp"],
-    deletedTimestamp: item["deletedTimestamp"],
-  };
-}
-
-export function scMetadataEntityDeserializer(item: any): SCMetadataEntity {
-  return {
-    self: item["self"],
-    resourceName: item["resourceName"],
-    createdTimestamp: item["createdTimestamp"],
-    updatedTimestamp: item["updatedTimestamp"],
-    deletedTimestamp: item["deletedTimestamp"],
   };
 }
 
@@ -341,45 +804,6 @@ export function organizationResourcePropertiesDeserializer(
       : linkOrganizationDeserializer(item["linkOrganization"]),
   };
 }
-
-/** Provision states for confluent RP */
-export enum KnownProvisionState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-}
-
-/**
- * Provision states for confluent RP \
- * {@link KnownProvisionState} can be used interchangeably with ProvisionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleted** \
- * **NotSpecified**
- */
-export type ProvisionState = string;
 
 /** Confluent Offer detail */
 export interface OfferDetail {
@@ -558,139 +982,6 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
-
 /** Organization Resource update */
 export interface OrganizationResourceUpdate {
   /** ARM resource tags */
@@ -819,6 +1110,61 @@ export function regionSpecEntityDeserializer(item: any): RegionSpecEntity {
   };
 }
 
+/** SaaS-related data properties */
+export interface SaaSData {
+  /** SaaS resource id */
+  saaSResourceId?: string;
+}
+
+export function saaSDataSerializer(item: SaaSData): any {
+  return { saaSResourceId: item["saaSResourceId"] };
+}
+
+/** Response of get latest linked SaaS resource operation */
+export interface LatestLinkedSaaSResponse {
+  /** SaaS resource id */
+  saaSResourceId?: string;
+  /** Flag indicating if the SaaS resource is hidden */
+  isHiddenSaaS?: boolean;
+}
+
+export function latestLinkedSaaSResponseDeserializer(item: any): LatestLinkedSaaSResponse {
+  return {
+    saaSResourceId: item["saaSResourceId"],
+    isHiddenSaaS: item["isHiddenSaaS"],
+  };
+}
+
+/** SaaS guid & PublisherId for Activate and Validate SaaS Resource */
+export interface ActivateSaaSParameterRequest {
+  /** SaaS guid for Activate and Validate SaaS Resource */
+  saasGuid: string;
+  /** Publisher Id for Confluent resource */
+  publisherId?: string;
+}
+
+export function activateSaaSParameterRequestSerializer(item: ActivateSaaSParameterRequest): any {
+  return { saasGuid: item["saasGuid"], publisherId: item["publisherId"] };
+}
+
+/** Marketplace SaaS resource details. */
+export interface SaaSResourceDetailsResponse extends Resource {
+  /** Id of the Marketplace SaaS Resource */
+  saasId?: string;
+}
+
+export function saaSResourceDetailsResponseDeserializer(item: any): SaaSResourceDetailsResponse {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    saasId: item["saasId"],
+  };
+}
+
 /** Details about environment name, metadata and environment id of an environment */
 export interface SCEnvironmentRecord extends ProxyResource {
   /** Type of environment */
@@ -912,24 +1258,6 @@ export enum KnownPackage {
  * **ADVANCED**
  */
 export type Package = string;
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
 
 /** Result of GET request to list Confluent operations. */
 export interface _GetEnvironmentsResponse {
@@ -1922,18 +2250,6 @@ export function accessRoleBindingNameListSuccessResponseDeserializer(
       : item["data"].map((p: any) => {
           return p;
         }),
-  };
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -3350,6 +3666,10 @@ export enum KnownVersions {
   V20250717Preview = "2025-07-17-preview",
   /** The 2025-08-18-preview API version. */
   V20250818Preview = "2025-08-18-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-06-02-preview API version. */
+  V20260602Preview = "2026-06-02-preview",
 }
 
 export function _apiKeyRecordPropertiesDeserializer(item: any) {

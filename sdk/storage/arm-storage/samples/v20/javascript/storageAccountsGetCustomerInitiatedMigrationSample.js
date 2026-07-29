@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the status of the ongoing migration for the specified storage account.
  *
  * @summary gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountGetMigrationFailed.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetMigrationFailed.json
  */
 async function storageAccountGetMigrationFailed() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function storageAccountGetMigrationFailed() {
  * This sample demonstrates how to gets the status of the ongoing migration for the specified storage account.
  *
  * @summary gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountGetMigrationInProgress.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetMigrationInProgress.json
  */
 async function storageAccountGetMigrationInProgress() {
   const credential = new DefaultAzureCredential();

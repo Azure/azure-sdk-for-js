@@ -43,8 +43,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
-  BlobClientOptions,
   BlobClientConfig,
+  ContainerClientOptions,
 } from "./models.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
@@ -649,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -668,14 +668,10 @@ export class ContainerClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: ContainerClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;

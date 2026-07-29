@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
  *
  * @summary update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
- * x-ms-original-file: 2025-08-01/StorageAccountPatchEncryptionScope.json
+ * x-ms-original-file: 2026-04-01/StorageAccountPatchEncryptionScope.json
  */
 async function storageAccountPatchEncryptionScope() {
   const credential = new DefaultAzureCredential();

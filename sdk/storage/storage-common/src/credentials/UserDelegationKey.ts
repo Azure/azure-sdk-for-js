@@ -32,7 +32,7 @@ export interface UserDelegationKey {
   /**
    * The delegated user tenant id in Azure AD. Return if DelegatedUserTenantId is specified.
    */
-  signedDelegatedUserTenantId: string | undefined;
+  signedDelegatedUserTenantId?: string;
   /**
    * The key as a base64 string.
    */

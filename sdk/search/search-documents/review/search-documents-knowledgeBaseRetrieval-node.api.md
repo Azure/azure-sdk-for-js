@@ -33,6 +33,7 @@ export interface KnowledgeBaseRetrievalContext extends Client {
 export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    querySourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

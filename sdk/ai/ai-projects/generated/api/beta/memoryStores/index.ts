@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 export {
+  deleteMemory,
+  listMemories,
+  getMemory,
+  updateMemory,
+  createMemory,
   deleteScope,
   getUpdateResult,
   updateMemories,
@@ -13,6 +18,11 @@ export {
   create,
 } from "./operations.js";
 export type {
+  BetaMemoryStoresDeleteMemoryOptionalParams,
+  BetaMemoryStoresListMemoriesOptionalParams,
+  BetaMemoryStoresGetMemoryOptionalParams,
+  BetaMemoryStoresUpdateMemoryOptionalParams,
+  BetaMemoryStoresCreateMemoryOptionalParams,
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,

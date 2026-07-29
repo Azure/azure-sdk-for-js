@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/BlobServicesPut.json
+ * x-ms-original-file: 2026-04-01/BlobServicesPut.json
  */
 async function putBlobServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function putBlobServices(): Promise<void> {
  * This sample demonstrates how to sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/BlobServicesPutAllowPermanentDelete.json
+ * x-ms-original-file: 2026-04-01/BlobServicesPutAllowPermanentDelete.json
  */
 async function blobServicesPutAllowPermanentDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function blobServicesPutAllowPermanentDelete(): Promise<void> {
  * This sample demonstrates how to sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/BlobServicesPutLastAccessTimeBasedTracking.json
+ * x-ms-original-file: 2026-04-01/BlobServicesPutLastAccessTimeBasedTracking.json
  */
 async function blobServicesPutLastAccessTimeBasedTracking(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2025-08-01/BlobContainersPut.json
+ * x-ms-original-file: 2026-04-01/BlobContainersPut.json
  */
 async function putContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function putContainers(): Promise<void> {
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2025-08-01/BlobContainersPutDefaultEncryptionScope.json
+ * x-ms-original-file: 2026-04-01/BlobContainersPutDefaultEncryptionScope.json
  */
 async function putContainerWithDefaultEncryptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function putContainerWithDefaultEncryptionScope(): Promise<void> {
  * This sample demonstrates how to creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
- * x-ms-original-file: 2025-08-01/BlobContainersPutObjectLevelWorm.json
+ * x-ms-original-file: 2026-04-01/BlobContainersPutObjectLevelWorm.json
  */
 async function putContainerWithObjectLevelWorm(): Promise<void> {
   const credential = new DefaultAzureCredential();

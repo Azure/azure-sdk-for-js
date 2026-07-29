@@ -514,7 +514,7 @@ describe("build (integration)", () => {
     // Must contain the directory component — NOT just "helper.ts"
     expect(helperMap.sources.some((s) => s.endsWith("helper.ts"))).toBe(true);
     // The path must reach back to src/ (relative from dist/commonjs/internal/)
-    expect(helperMap.sources.some((s) => s.includes("src/"))).toBe(true);
+    expect(helperMap.sources.some((s) => s.includes("src/") || s.includes("src\\"))).toBe(true);
 
     // Root-level file should also point to .ts
     const indexMap = await readSourceMap(path.join(tmpDir, "dist/commonjs/index.js.map"));

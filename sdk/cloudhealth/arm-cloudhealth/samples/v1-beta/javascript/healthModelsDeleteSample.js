@@ -8,13 +8,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a HealthModel
  *
  * @summary delete a HealthModel
- * x-ms-original-file: 2025-05-01-preview/HealthModels_Delete.json
+ * x-ms-original-file: 2026-05-01-preview/HealthModels_Delete.json
  */
 async function healthModelsDelete() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.healthModels.delete("rgopenapi", "model1");
+  await client.healthModels.delete("online-store-rg", "online-store");
 }
 
 async function main() {

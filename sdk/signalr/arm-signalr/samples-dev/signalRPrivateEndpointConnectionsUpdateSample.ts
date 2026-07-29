@@ -1,38 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the state of specified private endpoint connection
- *
- * @summary Update the state of specified private endpoint connection
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRPrivateEndpointConnections_Update.json
- */
-
-import type { PrivateEndpointConnection } from "@azure/arm-signalr";
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the state of specified private endpoint connection
+ *
+ * @summary update the state of specified private endpoint connection
+ * x-ms-original-file: 2025-01-01-preview/SignalRPrivateEndpointConnections_Update.json
+ */
 async function signalRPrivateEndpointConnectionsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["SIGNALR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const privateEndpointConnectionName = "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e";
-  const resourceGroupName = process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
-  const resourceName = "mySignalRService";
-  const parameters: PrivateEndpointConnection = {
-    privateEndpoint: {},
-    privateLinkServiceConnectionState: {
-      actionsRequired: "None",
-      status: "Approved",
-    },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new SignalRManagementClient(credential, subscriptionId);
   const result = await client.signalRPrivateEndpointConnections.update(
-    privateEndpointConnectionName,
-    resourceGroupName,
-    resourceName,
-    parameters,
+    "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+    "myResourceGroup",
+    "mySignalRService",
+    {
+      privateEndpoint: {},
+      privateLinkServiceConnectionState: { actionsRequired: "None", status: "Approved" },
+    },
   );
   console.log(result);
 }

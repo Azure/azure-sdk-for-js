@@ -122,6 +122,12 @@ export class StorageCRC64Calculator {
 }
 
 // @public
+export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;
+
+// @public
+export const storageRedirectRangeHeaderPolicyName = "storageRedirectRangeHeaderPolicy";
+
+// @public
 export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public
@@ -215,7 +221,7 @@ export interface StructuredMessageEncodingStreamOptions {
 
 // @public
 export interface UserDelegationKey {
-    signedDelegatedUserTenantId: string | undefined;
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

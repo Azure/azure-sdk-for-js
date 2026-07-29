@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, the only way is to delete the container after deleting all expired blobs inside the policy locked container.
  *
  * @summary aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, the only way is to delete the container after deleting all expired blobs inside the policy locked container.
- * x-ms-original-file: 2025-08-01/BlobContainersDeleteImmutabilityPolicy.json
+ * x-ms-original-file: 2026-04-01/BlobContainersDeleteImmutabilityPolicy.json
  */
 async function deleteImmutabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

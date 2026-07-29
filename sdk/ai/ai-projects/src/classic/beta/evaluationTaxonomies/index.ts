@@ -24,22 +24,22 @@ export interface BetaEvaluationTaxonomiesOperations {
   /** Update an evaluation taxonomy. */
   update: (
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Create an evaluation taxonomy. */
+  /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
   create: (
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
-  /** Delete an evaluation taxonomy by name. */
+  /** Removes the specified evaluation taxonomy from the project. */
   delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
-  /** List evaluation taxonomies */
+  /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
   list: (
     options?: BetaEvaluationTaxonomiesListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-  /** Get an evaluation run by name. */
+  /** Retrieves the specified evaluation taxonomy. */
   get: (
     name: string,
     options?: BetaEvaluationTaxonomiesGetOptionalParams,
@@ -50,14 +50,14 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
   return {
     update: (
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
-    ) => update(context, name, body, options),
+    ) => update(context, name, taxonomy, options),
     create: (
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
-    ) => create(context, name, body, options),
+    ) => create(context, name, taxonomy, options),
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) =>
       $delete(context, name, options),
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => list(context, options),

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the scope maps for the specified container registry.
  *
  * @summary lists all the scope maps for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ScopeMapList.json
+ * x-ms-original-file: 2026-03-01-preview/ScopeMapList.json
  */
 async function scopeMapList() {
   const credential = new DefaultAzureCredential();

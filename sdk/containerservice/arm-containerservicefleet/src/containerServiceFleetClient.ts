@@ -10,6 +10,8 @@ import type { AutoUpgradeProfileOperationsOperations } from "./classic/autoUpgra
 import { _getAutoUpgradeProfileOperationsOperations } from "./classic/autoUpgradeProfileOperations/index.js";
 import type { AutoUpgradeProfilesOperations } from "./classic/autoUpgradeProfiles/index.js";
 import { _getAutoUpgradeProfilesOperations } from "./classic/autoUpgradeProfiles/index.js";
+import type { ClusterMeshProfilesOperations } from "./classic/clusterMeshProfiles/index.js";
+import { _getClusterMeshProfilesOperations } from "./classic/clusterMeshProfiles/index.js";
 import type { FleetManagedNamespacesOperations } from "./classic/fleetManagedNamespaces/index.js";
 import { _getFleetManagedNamespacesOperations } from "./classic/fleetManagedNamespaces/index.js";
 import type { FleetMembersOperations } from "./classic/fleetMembers/index.js";
@@ -57,6 +59,7 @@ export class ContainerServiceFleetClient {
     this.fleetManagedNamespaces = _getFleetManagedNamespacesOperations(this._client);
     this.fleetMembers = _getFleetMembersOperations(this._client);
     this.fleets = _getFleetsOperations(this._client);
+    this.clusterMeshProfiles = _getClusterMeshProfilesOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
@@ -76,6 +79,8 @@ export class ContainerServiceFleetClient {
   public readonly fleetMembers: FleetMembersOperations;
   /** The operation groups for fleets */
   public readonly fleets: FleetsOperations;
+  /** The operation groups for clusterMeshProfiles */
+  public readonly clusterMeshProfiles: ClusterMeshProfilesOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

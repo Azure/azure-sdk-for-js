@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Fleet.
  *
  * @summary creates or updates a Fleet.
- * x-ms-original-file: 2026-02-01-preview/Fleets_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-02-preview/Fleets_CreateOrUpdate.json
  */
 async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,32 +4,38 @@ The AI Projects client library (in preview) is part of the Microsoft Foundry SDK
 resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
+
 * **Enhance Agents with specialized tools**:
-  * Agent Memory Search (Preview)
-  * Agent-to-Agent (A2A) (Preview)
-  * Azure AI Search
-  * Bing Custom Search (Preview)
-  * Bing Grounding
-  * Browser Automation (Preview)
-  * Code Interpreter
-  * Computer Use (Preview)
-  * File Search
-  * Function Tool
-  * Image Generation
-  * Microsoft Fabric (Preview)
-  * Model Context Protocol (MCP)
-  * OpenAPI
-  * Microsoft SharePoint (Preview)
-  * Web Search (Preview)
+  - Agent Memory Search (Preview)
+  - Agent-to-Agent (A2A) (Preview)
+  - Azure AI Search
+  - Bing Custom Search (Preview)
+  - Bing Grounding
+  - Browser Automation (Preview)
+  - Code Interpreter
+  - Computer Use (Preview)
+  - File Search
+  - Function Tool
+  - Image Generation
+  - Microsoft Fabric (Preview)
+  - Model Context Protocol (MCP)
+  - OpenAPI
+  - Microsoft SharePoint (Preview)
+  - Web Search (Preview)
+
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
+
 * **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
 * **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
 * **Manage toolboxes (preview)** for grouping tools into reusable collections, using the `.beta.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
+* **Manage routines (preview)** for scheduling and dispatching automated workflows, using the `.beta.routines` operations.
+* **Manage model versions (preview)** for creating, updating, and managing custom model versions, using the `.beta.models` operations.
 * **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
-`.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
+  `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
 * **Run Red Team scans (preview)** to identify risks associated with your generative AI application, using the `.beta.redTeams` operations.
 * **Fine tune** AI Models on your data.
+
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
@@ -69,8 +75,12 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Skills operations (preview)](#skills-operations-preview)
   - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
+  - [Experimental feature gate](#experimental-feature-gate)
+  - [Getting started with tracing](#getting-started-with-tracing)
   - [Installation](#installation)
   - [How to enable tracing](#how-to-enable-tracing)
+  - [Enabling content recording](#enabling-content-recording)
+  - [Enabling trace context propagation](#enabling-trace-context-propagation)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -133,7 +143,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -144,7 +154,6 @@ Your Microsoft Foundry project may have one or more AI models deployed. These co
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
 See the "responses" folder in the [package samples][samples] for additional samples, including streaming responses.
-
 
 ```ts snippet:openAI
 const openAIClient = project.getOpenAIClient();
@@ -415,7 +424,7 @@ Be direct and efficient. When you reach the search results page, read and descri
 console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 ```
 
-*After calling `responses.create()`, process the response in an interaction loop. Handle `computer_call` output items and provide screenshots as `computer_call_output` with `computer_screenshot` type to continue the interaction.*
+_After calling `responses.create()`, process the response in an interaction loop. Handle `computer_call` output items and provide screenshots as `computer_call_output` with `computer_screenshot` type to continue the interaction._
 
 See the full sample code in [agentComputerUse.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentComputerUse.ts).
 
@@ -458,13 +467,13 @@ const response = await openAIClient.responses.create(
 );
 ```
 
-*After calling `responses.create()`, check for `mcp_approval_request` items in the response output. Send back `McpApprovalResponse` with your approval decision to allow the agent to continue its work.*
+_After calling `responses.create()`, check for `mcp_approval_request` items in the response output. Send back `McpApprovalResponse` with your approval decision to allow the agent to continue its work._
 
 See the full sample code in [agentMcp.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcp.ts).
 
 **OpenAPI**
 
-Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-openapi)
+Call external APIs defined by OpenAPI specifications without additional client-side code. [OpenAI Documentation](https://developers.openai.com/api/docs/guides/tools)
 
 ```ts snippet:agent-openapi
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
@@ -526,11 +535,11 @@ const agent = await project.agents.createVersion("function-tool-agent", {
 console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 ```
 
-*After calling `responses.create()`, process `function_call` items from response output, execute your function logic with the provided arguments, and send back `FunctionCallOutput` with the results.*
+_After calling `responses.create()`, process `function_call` items from response output, execute your function logic with the provided arguments, and send back `FunctionCallOutput` with the results._
 
 See the full sample code in [agentFunctionTool.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFunctionTool.ts).
 
-* **Memory Search Tool (Preview)**
+- **Memory Search Tool (Preview)**
 
 The Memory Store Tool adds Memory to an Agent, allowing the Agent's AI model to search for past information related to the current user prompt.
 
@@ -645,6 +654,7 @@ See the full sample code in [agentBingGrounding.ts](https://github.com/Azure/azu
 **Bing Custom Search (Preview)**
 
 Use custom-configured Bing search instances for domain-specific or filtered web search results:
+
 ```ts snippet:agent-bing-custom-search
 const bingCustomSearchProjectConnectionId = process.env["BING_CUSTOM_SEARCH_CONNECTION_ID"] || "";
 const bingCustomSearchInstanceName = process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "";
@@ -861,7 +871,6 @@ For complete working examples of all tools, see the [samples-dev directory](http
 Evaluation in Azure AI Project client library provides quantitative, AI-assisted quality and safety metrics to asses performance and Evaluate LLM Models, GenAI Application and Agents. Metrics are defined as evaluators. Built-in or custom evaluators can provide comprehensive evaluation insights.
 
 The code below shows some evaluation operations. Full list of sample can be found under "evaluations" folder in the [package samples][samples]
-
 
 ```ts snippet:evaluations
 const openAIClient = project.getOpenAIClient();
@@ -1193,13 +1202,12 @@ The `.beta.agents` operations let you manage agent sessions and session files fo
 import { VersionRefIndicator } from "@azure/ai-projects";
 
 const agentName = "MyBetaAgent";
-const isolationKey = "sample-isolation-key";
 // Create a session for the agent
 const versionIndicator: VersionRefIndicator = {
   type: "version_ref",
   agent_version: "1.0",
 };
-const session = await project.beta.agents.createSession(agentName, isolationKey, versionIndicator);
+const session = await project.beta.agents.createSession(agentName, versionIndicator);
 console.log(`Session created: ${session.agent_session_id}`);
 // Upload a file to the session sandbox
 const filePath = "/sandbox/hello.txt";
@@ -1253,13 +1261,13 @@ const tools: ToolUnion[] = [
   } satisfies MCPTool,
 ];
 // Create a new toolbox version
-const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+const created = await project.toolboxes.createVersion(toolboxName, tools, {
   description: "Example toolbox created by the @azure/ai-projects sample.",
   metadata: { status: "created" },
 });
 console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
 // Retrieve the toolbox
-const fetched = await project.beta.toolboxes.get(toolboxName);
+const fetched = await project.toolboxes.get(toolboxName);
 console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
 ```
 
@@ -1267,33 +1275,169 @@ See the full sample code in [toolboxesCrud.ts](https://github.com/Azure/azure-sd
 
 ## Tracing
 
-**Note:** Tracing functionality is in preliminary preview and is subject to change. Spans, attributes, and events may be modified in future versions.
+### Experimental feature gate
 
-You can add an Application Insights Azure resource to your Microsoft Foundry project. See the Tracing tab in your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
+**Important:** GenAI tracing instrumentation is an experimental preview feature. Spans, attributes, and events may be modified in future versions. To use it, you must explicitly opt in by passing `tracingOptions` with `experimental: true` when constructing the `AIProjectClient`, or by setting the environment variable:
+
+```bash
+AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING=true
+```
+
+Only enable this feature after reviewing your requirements and understanding that the tracing behavior may change in future versions.
+
+### Getting started with tracing
+
+You can add an Application Insights Azure resource to your Microsoft Foundry project. If one was enabled, you can get the Application Insights connection string, configure your AI Projects client, and observe traces in Azure Monitor. Typically, you might want to start tracing before you create a client or Agent.
 
 ### Installation
 
+To send traces to Azure Monitor:
+
 ```bash
-npm install @azure/monitor-opentelemetry@^1.14.2 @opentelemetry/api@^1.9.0
+npm install @azure/monitor-opentelemetry @opentelemetry/api
+```
+
+To print traces to the console (useful for local development):
+
+```bash
+npm install @opentelemetry/sdk-trace-node @opentelemetry/api
 ```
 
 ### How to enable tracing
 
-Here is a code sample that shows how to enable Azure Monitor tracing:
+Tracing is enabled by passing `tracingOptions` to the `AIProjectClient` constructor. If `tracingOptions` is not provided, GenAI tracing is completely disabled and no GenAI spans or metrics are emitted. This setting controls only GenAI-specific tracing (semantic convention spans for model calls, agent operations, token usage, etc.). The tracing configuration applies to all operations performed through that specific client instance, including agent operations and any OpenAI client obtained via `project.getOpenAIClient()`. Different client instances can have independent tracing configurations.
 
-```ts snippet:tracing
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+```ts snippet:tracing_enable_disable
+import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
 
-const TELEMETRY_CONNECTION_STRING = process.env["TELEMETRY_CONNECTION_STRING"];
-const options: AzureMonitorOpenTelemetryOptions = {
-  azureMonitorExporterOptions: {
-    connectionString: TELEMETRY_CONNECTION_STRING,
-  },
-};
-useAzureMonitor(options);
+const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const credential = new DefaultAzureCredential();
+
+// Tracing enabled
+const project = new AIProjectClient(endpoint, credential, {
+  tracingOptions: { experimental: true },
+});
+
+// Tracing disabled (default — no tracingOptions passed)
+const projectNoTrace = new AIProjectClient(endpoint, credential);
+
+console.log(project, projectNoTrace);
 ```
 
-See the full sample code in [remoteTelemetry.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/telemetry/remoteTelemetry.ts).
+Passing `tracingOptions: {}` (an empty object) also enables tracing — in that case, all individual settings are resolved from their corresponding environment variables.
+
+The `tracingOptions` object accepts the following properties:
+
+| Option                    | Environment Variable                                    | Default | Description                                                                  |
+| ------------------------- | ------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `experimental`            | `AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING`               | `false` | Acknowledge the experimental nature of this feature (required to emit spans) |
+| `contentRecording`        | `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT`    | `false` | Capture prompt and completion content in traces                              |
+| `traceContextPropagation` | `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` | `true`  | Inject W3C trace context headers into requests                               |
+
+Each option is resolved using the following precedence order:
+
+1. **Explicit value** in `tracingOptions` (highest priority)
+2. **Environment variable** (checked when the option is omitted/undefined)
+3. **Default value** (used when neither is set or the environment variable cannot be read)
+
+> **Note:** Because all tracing features are currently experimental, `experimental: true` must also be set (either explicitly or via the environment variable) for any spans to be emitted.
+
+#### Azure Monitor tracing
+
+Here is a code sample that shows how to enable Azure Monitor tracing:
+
+```ts snippet:tracing_azure_monitor
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+// Configure Azure Monitor tracing (must be done before creating the client)
+const connectionString =
+  process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
+useAzureMonitor({
+  azureMonitorExporterOptions: { connectionString },
+  samplingRatio: 1,
+  tracesPerSecond: 0,
+});
+// Create client with tracing enabled (experimental)
+const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+    traceContextPropagation: true,
+  },
+});
+```
+
+You may also want to create a span for your scenario:
+
+```ts snippet:tracing_create_span
+import { trace, context } from "@opentelemetry/api";
+
+const tracer = trace.getTracer("MyScenario");
+const span = tracer.startSpan("myOperation");
+const ctx = trace.setSpan(context.active(), span);
+await context.with(ctx, async () => {
+  // Your agent operations here
+});
+span.end();
+```
+
+See the full sample code in [agentBasicWithAzureMonitorTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithAzureMonitorTracing.ts).
+
+#### Console tracing
+
+For local development, you can print traces to the console:
+
+```ts snippet:tracing_console
+import {
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} from "@opentelemetry/sdk-trace-node";
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// Set up OpenTelemetry with a console exporter (must be done before creating the client)
+const provider = new NodeTracerProvider({
+  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+});
+provider.register();
+// Create client with tracing enabled (experimental)
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+  tracingOptions: {
+    experimental: true,
+    contentRecording: false,
+    traceContextPropagation: true,
+  },
+});
+```
+
+See the full sample code in [agentBasicWithConsoleTracing.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithConsoleTracing.ts).
+
+### Enabling content recording
+
+Content recording controls whether message contents and tool call details (such as parameters and return values) are captured in traces. This data may include sensitive user information.
+
+To enable content recording, pass `contentRecording: true` in `tracingOptions` when constructing the client, or set the environment variable `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT` to `true`. Content recording defaults to `false`.
+
+### Enabling trace context propagation
+
+Trace context propagation allows client-side spans to be correlated with server-side spans from Azure OpenAI and other Azure services. When enabled, the SDK automatically injects W3C Trace Context headers (`traceparent` and `tracestate`) into HTTP requests made by OpenAI clients obtained via `project.getOpenAIClient()`.
+
+This ensures that all operations within a distributed trace share the same trace ID, providing end-to-end visibility across your application and Azure services in your observability backend.
+
+Trace context propagation is enabled by default. To disable it, pass `traceContextPropagation: false` in `tracingOptions` when constructing the client, or set the environment variable `AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION` to `false`.
+
+**Important security and privacy considerations:**
+
+- **Trace IDs**: When trace context propagation is enabled, trace IDs are sent to Azure OpenAI and other external services.
+- **Request correlation**: Trace IDs allow Azure services to correlate requests from the same session or user across multiple API calls, which may have privacy implications depending on your use case.
+
+Only enable trace context propagation after carefully reviewing your observability, privacy, and security requirements.
 
 ## Troubleshooting
 

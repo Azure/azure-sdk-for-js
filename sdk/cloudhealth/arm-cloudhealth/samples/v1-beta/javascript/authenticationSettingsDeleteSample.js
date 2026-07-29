@@ -8,17 +8,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a AuthenticationSetting
  *
  * @summary delete a AuthenticationSetting
- * x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_Delete.json
+ * x-ms-original-file: 2026-05-01-preview/AuthenticationSettings_Delete.json
  */
 async function authenticationSettingsDelete() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.authenticationSettings.delete(
-    "my-resource-group",
-    "my-health-model",
-    "my-auth-setting",
-  );
+  await client.authenticationSettings.delete("online-store-rg", "online-store", "default-auth");
 }
 
 async function main() {

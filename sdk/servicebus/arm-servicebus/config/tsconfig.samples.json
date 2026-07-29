@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-servicebus": [
-        "../dist/esm"
-      ]
+      "@azure/arm-servicebus": ["../dist/esm"]
     }
   }
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/QueueServicesPut.json
+ * x-ms-original-file: 2026-04-01/QueueServicesPut.json
  */
 async function queueServicesPut() {
   const credential = new DefaultAzureCredential();

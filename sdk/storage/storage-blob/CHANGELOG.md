@@ -1,6 +1,6 @@
 # Release History
 
-## 12.32.0-beta.2 (Unreleased)
+## 12.33.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,26 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.33.0 (2026-06-24)
+
+### Features Added
+
+- Includes all features released in 12.33.0-beta.1.
+
+## 12.32.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.32.0-beta.1.
+
+## 12.33.0-beta.1 (2026-04-29)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+- Added support for Blob Smart Tier.
+- Added support for Directory-level SAS and User Delegation SAS.
 
 ## 12.32.0-beta.1 (2026-03-05)
 

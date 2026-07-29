@@ -27,6 +27,7 @@ import type {
   AzureStandardVoice,
   AzurePersonalVoice,
   AzureAvatarVoiceSyncVoice,
+  AzureRealtimeNativeVoice,
   Voice,
   RequestSession,
 } from "../../src/models/index.js";
@@ -43,9 +44,13 @@ import {
   azurePersonalVoiceDeserializer,
   azureAvatarVoiceSyncVoiceSerializer,
   azureAvatarVoiceSyncVoiceDeserializer,
+  azureRealtimeNativeVoiceSerializer,
+  azureRealtimeNativeVoiceDeserializer,
   voiceSerializer,
   voiceDeserializer,
   requestSessionSerializer,
+  requestImageContentPartSerializer,
+  requestImageContentPartDeserializer,
   serverEventSessionAvatarSwitchToSpeakingDeserializer,
   serverEventSessionAvatarSwitchToIdleDeserializer,
   serverEventResponseVideoDeltaDeserializer,
@@ -54,6 +59,7 @@ import {
   KnownAvatarOutputProtocol,
   KnownOAIVoice,
   KnownAzureVoiceType,
+  KnownAzureRealtimeNativeVoiceName,
 } from "../../src/models/models.js";
 
 describe("Avatar and Voice Models - Serialization & Validation", () => {
@@ -844,6 +850,76 @@ describe("Avatar and Voice Models - Serialization & Validation", () => {
       expect(wire.type).toBe(KnownAzureVoiceType.AvatarVoiceSync);
       expect(wire.custom_lexicon_url).toBeUndefined();
       expect(wire.prefer_locales).toBeUndefined();
+    });
+  });
+
+  describe("AzureRealtimeNativeVoice (preview 2026-06-01)", () => {
+    it("serializes the preview native voice type", () => {
+      const voice: AzureRealtimeNativeVoice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Ava,
+      };
+
+      const wire = azureRealtimeNativeVoiceSerializer(voice);
+
+      expect(wire).toEqual({
+        type: "azure-realtime-native",
+        name: "ava",
+      });
+    });
+
+    it("round-trips through the Voice union serializer", () => {
+      const voice: Voice = {
+        type: "azure-realtime-native",
+        name: KnownAzureRealtimeNativeVoiceName.Xiaoxiao,
+      };
+
+      const wire = voiceSerializer(voice);
+      const result = voiceDeserializer(wire);
+
+      expect(result).toEqual({
+        type: "azure-realtime-native",
+        name: "xiaoxiao",
+      });
+    });
+
+    it("deserializes the dedicated native voice model", () => {
+      const result = azureRealtimeNativeVoiceDeserializer({
+        type: "azure-realtime-native",
+        name: "andrew",
+      });
+
+      expect(result.name).toBe(KnownAzureRealtimeNativeVoiceName.Andrew);
+    });
+  });
+
+  describe("RequestImageContentPart (preview 2026-06-01)", () => {
+    it("serializes imageUrl to image_url", () => {
+      const serialized = requestImageContentPartSerializer({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "high",
+      });
+
+      expect(serialized).toEqual({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "high",
+      });
+    });
+
+    it("deserializes image_url to imageUrl", () => {
+      const deserialized = requestImageContentPartDeserializer({
+        type: "input_image",
+        image_url: "https://example.com/image.png",
+        detail: "low",
+      });
+
+      expect(deserialized).toEqual({
+        type: "input_image",
+        imageUrl: "https://example.com/image.png",
+        detail: "low",
+      });
     });
   });
 

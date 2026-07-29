@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a scope map from a container registry.
  *
  * @summary deletes a scope map from a container registry.
- * x-ms-original-file: 2026-01-01-preview/ScopeMapDelete.json
+ * x-ms-original-file: 2026-03-01-preview/ScopeMapDelete.json
  */
 async function scopeMapDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,18 +4,50 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface AdditionalCapabilities {
+    hibernationEnabled?: boolean;
+    ultraSSDEnabled?: boolean;
+}
+
+// @public
+export interface AdditionalUnattendContent {
+    componentName?: "Microsoft-Windows-Shell-Setup";
+    content?: string;
+    passName?: "OobeSystem";
+    settingName?: SettingNames;
+}
+
+// @public
+export interface AllInstancesDown {
+    automaticallyApprove?: boolean;
+}
+
+// @public
+export type AllocationStrategy = string;
+
+// @public
+export interface ApiEntityReference {
+    id?: string;
+}
+
+// @public
+export interface ApplicationProfile {
+    galleryApplications?: VMGalleryApplication[];
+}
 
 // @public
 export enum AzureClouds {
@@ -26,6 +58,69 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BootDiagnostics {
+    enabled?: boolean;
+    storageUri?: string;
+}
+
+// @public
+export interface BulkActionVMExtension {
+    name: string;
+    properties: BulkActionVmExtensionProperties;
+}
+
+// @public
+export interface BulkActionVmExtensionProperties {
+    autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
+    forceUpdateTag?: string;
+    protectedSettings?: Record<string, any>;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+    provisionAfterExtensions?: string[];
+    publisher?: string;
+    settings?: Record<string, any>;
+    suppressFailures?: boolean;
+    type?: string;
+    typeHandlerVersion?: string;
+}
+
+// @public
+export interface BulkActionVMProperties {
+    additionalCapabilities?: AdditionalCapabilities;
+    applicationProfile?: ApplicationProfile;
+    capacityReservation?: CapacityReservationProfile;
+    diagnosticsProfile?: DiagnosticsProfile;
+    extensionsTimeBudget?: string;
+    hardwareProfile?: HardwareProfile;
+    licenseType?: string;
+    networkProfile?: NetworkProfile;
+    osProfile?: OSProfile;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
+    scheduledEventsProfile?: ScheduledEventsProfile;
+    securityProfile?: SecurityProfile;
+    storageProfile?: StorageProfile;
+    userData?: string;
+}
+
+// @public
+export interface BulkVMConfiguration {
+    computeApiVersion?: string;
+    extendedLocation?: ExtendedLocation;
+    identity?: VirtualMachineIdentity;
+    name?: string;
+    placement?: Placement;
+    plan?: Plan;
+    properties?: BulkActionVMProperties;
+    resourceGroupName?: string;
+    tags?: Record<string, string>;
+    vmExtensions?: BulkActionVMExtension[];
+    zones?: string[];
+}
+
+// @public
+export type CachingTypes = string;
 
 // @public
 export interface CancelOccurrenceRequest {
@@ -43,8 +138,14 @@ export interface CancelOperationsResponse {
     results: ResourceOperation[];
 }
 
+// @public
+export interface CapacityReservationProfile {
+    capacityReservationGroup?: SubResource;
+}
+
 // @public (undocumented)
 export class ComputeScheduleClient {
+    constructor(credential: TokenCredential, options?: ComputeScheduleClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeScheduleClientOptionalParams);
     readonly occurrenceExtension: OccurrenceExtensionOperations;
     readonly occurrences: OccurrencesOperations;
@@ -69,11 +170,36 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface CreateFlexResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
+
+// @public
 export interface CreateResourceOperationResponse {
     description: string;
     location: string;
     results?: ResourceOperation[];
     type: string;
+}
+
+// @public
+export interface DataDisk {
+    caching?: CachingTypes;
+    createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    detachOption?: DiskDetachOptionTypes;
+    diskSizeGB?: number;
+    image?: VirtualHardDisk;
+    lun: number;
+    managedDisk?: ManagedDiskParameters;
+    name?: string;
+    sourceResource?: ApiEntityReference;
+    toBeDetached?: boolean;
+    vhd?: VirtualHardDisk;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -94,11 +220,65 @@ export interface DelayRequest {
 }
 
 // @public
+export type DeleteOptions = string;
+
+// @public
 export interface DeleteResourceOperationResponse {
     description: string;
     location: string;
     results?: ResourceOperation[];
     type: string;
+}
+
+// @public
+export interface DiagnosticsProfile {
+    bootDiagnostics?: BootDiagnostics;
+}
+
+// @public
+export type DiffDiskOptions = string;
+
+// @public
+export type DiffDiskPlacement = string;
+
+// @public
+export interface DiffDiskSettings {
+    option?: DiffDiskOptions;
+    placement?: DiffDiskPlacement;
+}
+
+// @public
+export type DiskControllerTypes = string;
+
+// @public
+export type DiskCreateOptionTypes = string;
+
+// @public
+export type DiskDeleteOptionTypes = string;
+
+// @public
+export type DiskDetachOptionTypes = string;
+
+// @public
+export interface DiskEncryptionSetParameters extends SubResource {
+}
+
+// @public
+export interface DiskEncryptionSettings {
+    diskEncryptionKey?: KeyVaultSecretReference;
+    enabled?: boolean;
+    keyEncryptionKey?: KeyVaultKeyReference;
+}
+
+// @public
+export type DistributionStrategy = string;
+
+// @public
+export type DomainNameLabelScopeTypes = string;
+
+// @public
+export interface EncryptionIdentity {
+    userAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -122,8 +302,21 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface EventGridAndResourceGraph {
+    enable?: boolean;
+    scheduledEventsApiVersion?: string;
+}
+
+// @public
+export interface ExecuteCreateFlexRequest {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionFlexPayload;
+}
+
+// @public
 export interface ExecuteCreateRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionPayload;
 }
@@ -137,7 +330,7 @@ export interface ExecuteDeallocateRequest {
 
 // @public
 export interface ExecuteDeleteRequest {
-    correlationid?: string;
+    correlationId?: string;
     executionParameters: ExecutionParameters;
     forceDeletion?: boolean;
     resources: Resources;
@@ -164,7 +357,31 @@ export interface ExecutionParameters {
 }
 
 // @public
+export interface ExtendedLocation {
+    name: string;
+    type: ExtendedLocationType;
+}
+
+// @public
+export type ExtendedLocationType = string;
+
+// @public
 export interface ExtensionResource extends Resource {
+}
+
+// @public
+export interface FallbackOperationInfo {
+    error?: ResourceOperationError;
+    lastOpType: ResourceOperationType;
+    status: string;
+}
+
+// @public
+export interface FlexProperties {
+    osType: OsType;
+    priorityProfile: PriorityProfile;
+    vmSizeProfiles: VmSizeProfile[];
+    zoneAllocationPolicy?: ZoneAllocationPolicy;
 }
 
 // @public
@@ -189,6 +406,12 @@ export interface GetOperationStatusResponse {
 }
 
 // @public
+export interface HardwareProfile {
+    vmSize?: string;
+    vmSizeProperties?: VmSizeProperties;
+}
+
+// @public
 export interface HibernateResourceOperationResponse {
     description: string;
     location: string;
@@ -197,8 +420,53 @@ export interface HibernateResourceOperationResponse {
 }
 
 // @public
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: Modes;
+}
+
+// @public
+export interface ImageReference extends SubResource {
+    communityGalleryImageId?: string;
+    offer?: string;
+    publisher?: string;
+    sharedGalleryImageId?: string;
+    sku?: string;
+    version?: string;
+}
+
+// @public
+export type IPVersions = string;
+
+// @public
+export interface KeyVaultKeyReference {
+    keyUrl: string;
+    sourceVault: SubResource;
+}
+
+// @public
+export interface KeyVaultSecretReference {
+    secretUrl: string;
+    sourceVault: SubResource;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAllocationStrategy {
+    CapacityOptimized = "CapacityOptimized",
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
+}
+
+// @public
+export enum KnownCachingTypes {
+    None = "None",
+    ReadOnly = "ReadOnly",
+    ReadWrite = "ReadWrite"
 }
 
 // @public
@@ -217,8 +485,113 @@ export enum KnownDeadlineType {
 }
 
 // @public
+export enum KnownDeleteOptions {
+    Delete = "Delete",
+    Detach = "Detach"
+}
+
+// @public
+export enum KnownDiffDiskOptions {
+    Local = "Local"
+}
+
+// @public
+export enum KnownDiffDiskPlacement {
+    CacheDisk = "CacheDisk",
+    NvmeDisk = "NvmeDisk",
+    ResourceDisk = "ResourceDisk"
+}
+
+// @public
+export enum KnownDiskControllerTypes {
+    NVMe = "NVMe",
+    Scsi = "SCSI"
+}
+
+// @public
+export enum KnownDiskCreateOptionTypes {
+    Attach = "Attach",
+    Copy = "Copy",
+    Empty = "Empty",
+    FromImage = "FromImage",
+    Restore = "Restore"
+}
+
+// @public
+export enum KnownDiskDeleteOptionTypes {
+    Delete = "Delete",
+    Detach = "Detach"
+}
+
+// @public
+export enum KnownDiskDetachOptionTypes {
+    ForceDetach = "ForceDetach"
+}
+
+// @public
+export enum KnownDistributionStrategy {
+    BestEffortBalanced = "BestEffortBalanced",
+    BestEffortSingleZone = "BestEffortSingleZone",
+    Prioritized = "Prioritized",
+    StrictBalanced = "StrictBalanced"
+}
+
+// @public
+export enum KnownDomainNameLabelScopeTypes {
+    NoReuse = "NoReuse",
+    ResourceGroupReuse = "ResourceGroupReuse",
+    SubscriptionReuse = "SubscriptionReuse",
+    TenantReuse = "TenantReuse"
+}
+
+// @public
+export enum KnownExtendedLocationType {
+    CustomLocation = "CustomLocation",
+    EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownIPVersions {
+    IPv4 = "IPv4",
+    IPv6 = "IPv6"
+}
+
+// @public
 export enum KnownLanguage {
     EnUs = "en-us"
+}
+
+// @public
+export enum KnownLinuxPatchAssessmentMode {
+    AutomaticByPlatform = "AutomaticByPlatform",
+    ImageDefault = "ImageDefault"
+}
+
+// @public
+export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
+    Always = "Always",
+    IfRequired = "IfRequired",
+    Never = "Never",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownLinuxVMGuestPatchMode {
+    AutomaticByPlatform = "AutomaticByPlatform",
+    ImageDefault = "ImageDefault"
+}
+
+// @public
+export enum KnownMode {
+    Audit = "Audit",
+    Enforce = "Enforce"
+}
+
+// @public
+export enum KnownModes {
+    Audit = "Audit",
+    Disabled = "Disabled",
+    Enforce = "Enforce"
 }
 
 // @public
@@ -239,6 +612,28 @@ export enum KnownMonth {
 }
 
 // @public
+export enum KnownNetworkApiVersion {
+    NetworkApiVersion20201101 = "2020-11-01",
+    NetworkApiVersion20221101 = "2022-11-01"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliaryMode {
+    AcceleratedConnections = "AcceleratedConnections",
+    Floating = "Floating",
+    None = "None"
+}
+
+// @public
+export enum KnownNetworkInterfaceAuxiliarySku {
+    A1 = "A1",
+    A2 = "A2",
+    A4 = "A4",
+    A8 = "A8",
+    None = "None"
+}
+
+// @public
 export enum KnownNotificationType {
     Email = "Email"
 }
@@ -252,6 +647,12 @@ export enum KnownOccurrenceState {
     Rescheduling = "Rescheduling",
     Scheduled = "Scheduled",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownOperatingSystemTypes {
+    Linux = "Linux",
+    Windows = "Windows"
 }
 
 // @public
@@ -282,11 +683,47 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownOsType {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownPriorityType {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
+export enum KnownProtocolTypes {
+    Http = "Http",
+    Https = "Https"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPublicIPAddressSkuName {
+    Basic = "Basic",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownPublicIPAddressSkuTier {
+    Global = "Global",
+    Regional = "Regional"
+}
+
+// @public
+export enum KnownPublicIPAllocationMethod {
+    Dynamic = "Dynamic",
+    Static = "Static"
 }
 
 // @public
@@ -297,7 +734,9 @@ export enum KnownResourceOperationStatus {
 
 // @public
 export enum KnownResourceOperationType {
+    Create = "Create",
     Deallocate = "Deallocate",
+    Delete = "Delete",
     Hibernate = "Hibernate",
     Start = "Start",
     Unknown = "Unknown"
@@ -324,11 +763,44 @@ export enum KnownScheduledActionType {
 }
 
 // @public
+export enum KnownSecurityEncryptionTypes {
+    DiskWithVMGuestState = "DiskWithVMGuestState",
+    NonPersistedTPM = "NonPersistedTPM",
+    VMGuestStateOnly = "VMGuestStateOnly"
+}
+
+// @public
+export enum KnownSecurityTypes {
+    ConfidentialVM = "ConfidentialVM",
+    TrustedLaunch = "TrustedLaunch"
+}
+
+// @public
+export enum KnownSettingNames {
+    AutoLogon = "AutoLogon",
+    FirstLogonCommands = "FirstLogonCommands"
+}
+
+// @public
+export enum KnownStorageAccountTypes {
+    PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
-    V20240815Preview = "2024-08-15-preview",
-    V20250415Preview = "2025-04-15-preview",
-    V20250501 = "2025-05-01"
+    V20250501 = "2025-05-01",
+    Versions20240815Preview = "2024-08-15-preview",
+    Versions20250415Preview = "2025-04-15-preview",
+    Versions20260101Preview = "2026-01-01-preview",
+    Versions20260301Preview = "2026-03-01-preview",
+    Versions20260415Preview = "2026-04-15-preview"
 }
 
 // @public
@@ -344,10 +816,108 @@ export enum KnownWeekDay {
 }
 
 // @public
+export enum KnownWindowsPatchAssessmentMode {
+    AutomaticByPlatform = "AutomaticByPlatform",
+    ImageDefault = "ImageDefault"
+}
+
+// @public
+export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
+    Always = "Always",
+    IfRequired = "IfRequired",
+    Never = "Never",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownWindowsVMGuestPatchMode {
+    AutomaticByOS = "AutomaticByOS",
+    AutomaticByPlatform = "AutomaticByPlatform",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any",
+    Auto = "Auto"
+}
+
+// @public
 export type Language = string;
 
 // @public
+export interface LinuxConfiguration {
+    disablePasswordAuthentication?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
+    patchSettings?: LinuxPatchSettings;
+    provisionVMAgent?: boolean;
+    ssh?: SshConfiguration;
+}
+
+// @public
+export type LinuxPatchAssessmentMode = string;
+
+// @public
+export interface LinuxPatchSettings {
+    assessmentMode?: LinuxPatchAssessmentMode;
+    automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
+    patchMode?: LinuxVMGuestPatchMode;
+}
+
+// @public
+export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
+    bypassPlatformSafetyChecksOnUserSchedule?: boolean;
+    rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
+}
+
+// @public
+export type LinuxVMGuestPatchMode = string;
+
+// @public
+export interface ManagedDiskParameters extends SubResource {
+    diskEncryptionSet?: DiskEncryptionSetParameters;
+    securityProfile?: VMDiskSecurityProfile;
+    storageAccountType?: StorageAccountTypes;
+}
+
+// @public
+export type Mode = string;
+
+// @public
+export type Modes = string;
+
+// @public
 export type Month = string;
+
+// @public
+export type NetworkApiVersion = string;
+
+// @public
+export type NetworkInterfaceAuxiliaryMode = string;
+
+// @public
+export type NetworkInterfaceAuxiliarySku = string;
+
+// @public
+export interface NetworkInterfaceReference extends SubResource {
+    properties?: NetworkInterfaceReferenceProperties;
+}
+
+// @public
+export interface NetworkInterfaceReferenceProperties {
+    deleteOption?: DeleteOptions;
+    primary?: boolean;
+}
+
+// @public
+export interface NetworkProfile {
+    networkApiVersion?: NetworkApiVersion;
+    networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
+    networkInterfaces?: NetworkInterfaceReference[];
+}
 
 // @public
 export interface NotificationProperties {
@@ -448,6 +1018,9 @@ export interface OccurrencesOperations {
 export type OccurrenceState = string;
 
 // @public
+export type OperatingSystemTypes = string;
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -504,6 +1077,44 @@ export type OptimizationPreference = string;
 export type Origin = string;
 
 // @public
+export interface OSDisk {
+    caching?: CachingTypes;
+    createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    diffDiskSettings?: DiffDiskSettings;
+    diskSizeGB?: number;
+    encryptionSettings?: DiskEncryptionSettings;
+    image?: VirtualHardDisk;
+    managedDisk?: ManagedDiskParameters;
+    name?: string;
+    osType?: OperatingSystemTypes;
+    vhd?: VirtualHardDisk;
+    writeAcceleratorEnabled?: boolean;
+}
+
+// @public
+export interface OSImageNotificationProfile {
+    enable?: boolean;
+    notBeforeTimeout?: string;
+}
+
+// @public
+export interface OSProfile {
+    adminPassword?: string;
+    adminUsername?: string;
+    allowExtensionOperations?: boolean;
+    computerName?: string;
+    customData?: string;
+    linuxConfiguration?: LinuxConfiguration;
+    requireGuestProvisionSignal?: boolean;
+    secrets?: VaultSecretGroup[];
+    windowsConfiguration?: WindowsConfiguration;
+}
+
+// @public
+export type OsType = string;
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -516,11 +1127,72 @@ export interface PageSettings {
 }
 
 // @public
+export interface PatchSettings {
+    assessmentMode?: WindowsPatchAssessmentMode;
+    automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
+    enableHotpatching?: boolean;
+    patchMode?: WindowsVMGuestPatchMode;
+}
+
+// @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
+export interface PriorityProfile {
+    allocationStrategy?: AllocationStrategy;
+    type?: PriorityType;
+}
+
+// @public
+export type PriorityType = string;
+
+// @public
+export type ProtocolTypes = string;
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyAgentSettings {
+    addProxyAgentExtension?: boolean;
+    enabled?: boolean;
+    imds?: HostEndpointSettings;
+    keyIncarnationId?: number;
+    mode?: Mode;
+    wireServer?: HostEndpointSettings;
+}
 
 // @public
 export interface ProxyResource extends Resource {
 }
+
+// @public
+export interface PublicIPAddressSku {
+    name?: PublicIPAddressSkuName;
+    tier?: PublicIPAddressSkuTier;
+}
+
+// @public
+export type PublicIPAddressSkuName = string;
+
+// @public
+export type PublicIPAddressSkuTier = string;
+
+// @public
+export type PublicIPAllocationMethod = string;
 
 // @public
 export interface RecurringActionsResourceOperationResult {
@@ -537,14 +1209,17 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceAttachRequest {
-    resources: ScheduledActionResourceCreate[];
+export interface ResourceAttachRequestInput {
+    resources: ScheduledActionResourceInput[];
 }
 
 // @public
 export interface ResourceDetachRequest {
     resources: string[];
 }
+
+// @public
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
 export interface ResourceOperation {
@@ -559,6 +1234,7 @@ export interface ResourceOperationDetails {
     completedAt?: string;
     deadline?: string;
     deadlineType?: DeadlineType;
+    fallbackOperationInfo?: FallbackOperationInfo;
     operationId: string;
     operationTimezone?: string;
     opType?: ResourceOperationType;
@@ -583,8 +1259,17 @@ export type ResourceOperationStatus = string;
 export type ResourceOperationType = string;
 
 // @public
-export interface ResourcePatchRequest {
-    resources: ScheduledActionResourceCreate[];
+export interface ResourcePatchRequestInput {
+    resources: ScheduledActionResourceInput[];
+}
+
+// @public
+export interface ResourceProvisionFlexPayload {
+    flexProperties: FlexProperties;
+    resourceCount: number;
+    resourcePrefix?: string;
+    virtualMachineBaseProfile?: BulkVMConfiguration;
+    virtualMachineOverrides?: BulkVMConfiguration[];
 }
 
 // @public
@@ -592,10 +1277,10 @@ export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceProvisionPayload {
-    baseProfile?: Record<string, any>;
     resourceCount: number;
-    resourceOverrides?: Record<string, any>[];
     resourcePrefix?: string;
+    virtualMachineBaseProfile?: BulkVMConfiguration;
+    virtualMachineOverrides?: BulkVMConfiguration[];
 }
 
 // @public
@@ -632,6 +1317,7 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export interface RetryPolicy {
+    onFailureAction?: ResourceOperationType;
     retryCount?: number;
     retryWindowInMinutes?: number;
 }
@@ -681,14 +1367,14 @@ export interface ScheduledActionResource {
 }
 
 // @public
-export interface ScheduledActionResourceCreate {
+export interface ScheduledActionResourceInput {
     notificationSettings?: NotificationProperties[];
     resourceId: string;
 }
 
 // @public
 export interface ScheduledActionResources extends ExtensionResource {
-    properties?: ScheduledActionProperties;
+    properties?: ScheduledActionsExtensionProperties;
 }
 
 // @public
@@ -722,6 +1408,19 @@ export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ScheduledActionsExtensionProperties {
+    actionType: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings: NotificationProperties[];
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceNotificationSettings?: NotificationProperties[];
+    resourceType: ResourceType;
+    schedule: ScheduledActionsSchedule;
+    startTime: string;
+}
+
+// @public
 export interface ScheduledActionsGetOptionalParams extends OperationOptions {
 }
 
@@ -739,7 +1438,7 @@ export interface ScheduledActionsListResourcesOptionalParams extends OperationOp
 
 // @public
 export interface ScheduledActionsOperations {
-    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequest, options?: ScheduledActionsAttachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
+    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequestInput, options?: ScheduledActionsAttachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     cancelNextOccurrence: (resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     createOrUpdate: (resourceGroupName: string, scheduledActionName: string, resource: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<ScheduledAction>, ScheduledAction>;
     delete: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
@@ -750,11 +1449,12 @@ export interface ScheduledActionsOperations {
     listByResourceGroup: (resourceGroupName: string, options?: ScheduledActionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
     listBySubscription: (options?: ScheduledActionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
     listResources: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResource>;
-    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequest, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
+    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequestInput, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     triggerManualOccurrence: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams) => Promise<Occurrence>;
     update: (resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams) => Promise<ScheduledAction>;
     virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
     virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
+    virtualMachinesExecuteCreateFlex: (locationparameter: string, body: ExecuteCreateFlexRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams) => Promise<CreateFlexResourceOperationResponse>;
     virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
     virtualMachinesExecuteDelete: (locationparameter: string, requestBody: ExecuteDeleteRequest, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams) => Promise<DeleteResourceOperationResponse>;
     virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
@@ -791,6 +1491,10 @@ export interface ScheduledActionsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -854,11 +1558,70 @@ export interface ScheduledActionUpdateProperties {
 }
 
 // @public
+export interface ScheduledEventsAdditionalPublishingTargets {
+    eventGridAndResourceGraph?: EventGridAndResourceGraph;
+}
+
+// @public
+export interface ScheduledEventsPolicy {
+    allInstancesDown?: AllInstancesDown;
+    scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
+    userInitiatedReboot?: UserInitiatedReboot;
+    userInitiatedRedeploy?: UserInitiatedRedeploy;
+}
+
+// @public
+export interface ScheduledEventsProfile {
+    osImageNotificationProfile?: OSImageNotificationProfile;
+    terminateNotificationProfile?: TerminateNotificationProfile;
+}
+
+// @public
+export type SecurityEncryptionTypes = string;
+
+// @public
+export interface SecurityProfile {
+    encryptionAtHost?: boolean;
+    encryptionIdentity?: EncryptionIdentity;
+    proxyAgentSettings?: ProxyAgentSettings;
+    securityType?: SecurityTypes;
+    uefiSettings?: UefiSettings;
+}
+
+// @public
+export type SecurityTypes = string;
+
+// @public
+export type SettingNames = string;
+
+// @public
+export interface SshConfiguration {
+    publicKeys?: SshPublicKey[];
+}
+
+// @public
+export interface SshPublicKey {
+    keyData?: string;
+    path?: string;
+}
+
+// @public
 export interface StartResourceOperationResponse {
     description: string;
     location: string;
     results?: ResourceOperation[];
     type: string;
+}
+
+// @public
+export type StorageAccountTypes = string;
+
+// @public
+export interface StorageProfile {
+    dataDisks?: DataDisk[];
+    diskControllerType?: DiskControllerTypes;
+    imageReference?: ImageReference;
+    osDisk?: OSDisk;
 }
 
 // @public
@@ -886,6 +1649,11 @@ export interface SubmitStartRequest {
 }
 
 // @public
+export interface SubResource {
+    id?: string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -896,13 +1664,221 @@ export interface SystemData {
 }
 
 // @public
+export interface TerminateNotificationProfile {
+    enable?: boolean;
+    notBeforeTimeout?: string;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
 
 // @public
+export interface UefiSettings {
+    secureBootEnabled?: boolean;
+    vTpmEnabled?: boolean;
+}
+
+// @public
+export interface UserAssignedIdentitiesValue {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface UserInitiatedReboot {
+    automaticallyApprove?: boolean;
+}
+
+// @public
+export interface UserInitiatedRedeploy {
+    automaticallyApprove?: boolean;
+}
+
+// @public
+export interface VaultCertificate {
+    certificateStore?: string;
+    certificateUrl?: string;
+}
+
+// @public
+export interface VaultSecretGroup {
+    sourceVault?: SubResource;
+    vaultCertificates?: VaultCertificate[];
+}
+
+// @public
+export interface VirtualHardDisk {
+    uri?: string;
+}
+
+// @public
+export interface VirtualMachineIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+// @public
+export interface VirtualMachineIpTag {
+    ipTagType?: string;
+    tag?: string;
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceConfiguration {
+    name: string;
+    properties?: VirtualMachineNetworkInterfaceConfigurationProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceConfigurationProperties {
+    auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    auxiliarySku?: NetworkInterfaceAuxiliarySku;
+    deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
+    dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
+    dscpConfiguration?: SubResource;
+    enableAcceleratedNetworking?: boolean;
+    enableFpga?: boolean;
+    enableIPForwarding?: boolean;
+    ipConfigurations: VirtualMachineNetworkInterfaceIPConfiguration[];
+    networkSecurityGroup?: SubResource;
+    primary?: boolean;
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration {
+    dnsServers?: string[];
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceIPConfiguration {
+    name: string;
+    properties?: VirtualMachineNetworkInterfaceIPConfigurationProperties;
+}
+
+// @public
+export interface VirtualMachineNetworkInterfaceIPConfigurationProperties {
+    applicationGatewayBackendAddressPools?: SubResource[];
+    applicationSecurityGroups?: SubResource[];
+    loadBalancerBackendAddressPools?: SubResource[];
+    primary?: boolean;
+    privateIPAddressVersion?: IPVersions;
+    publicIPAddressConfiguration?: VirtualMachinePublicIPAddressConfiguration;
+    subnet?: SubResource;
+}
+
+// @public
+export interface VirtualMachinePublicIPAddressConfiguration {
+    name: string;
+    properties?: VirtualMachinePublicIPAddressConfigurationProperties;
+    sku?: PublicIPAddressSku;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface VirtualMachinePublicIPAddressConfigurationProperties {
+    deleteOption?: DeleteOptions;
+    dnsSettings?: VirtualMachinePublicIPAddressDnsSettingsConfiguration;
+    idleTimeoutInMinutes?: number;
+    ipTags?: VirtualMachineIpTag[];
+    publicIPAddressVersion?: IPVersions;
+    publicIPAllocationMethod?: PublicIPAllocationMethod;
+    publicIPPrefix?: SubResource;
+}
+
+// @public
+export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
+    domainNameLabel: string;
+    domainNameLabelScope?: DomainNameLabelScopeTypes;
+}
+
+// @public
+export interface VMDiskSecurityProfile {
+    diskEncryptionSet?: DiskEncryptionSetParameters;
+    securityEncryptionType?: SecurityEncryptionTypes;
+}
+
+// @public
+export interface VMGalleryApplication {
+    configurationReference?: string;
+    enableAutomaticUpgrade?: boolean;
+    order?: number;
+    packageReferenceId: string;
+    tags?: string;
+    treatFailureAsDeploymentFailure?: boolean;
+}
+
+// @public
+export interface VmSizeProfile {
+    name: string;
+    rank?: number;
+}
+
+// @public
+export interface VmSizeProperties {
+    vCpusAvailable?: number;
+    vCpusPerCore?: number;
+}
+
+// @public
 export type WeekDay = string;
+
+// @public
+export interface WindowsConfiguration {
+    additionalUnattendContent?: AdditionalUnattendContent[];
+    enableAutomaticUpdates?: boolean;
+    patchSettings?: PatchSettings;
+    provisionVMAgent?: boolean;
+    timeZone?: string;
+    winRM?: WinRMConfiguration;
+}
+
+// @public
+export type WindowsPatchAssessmentMode = string;
+
+// @public
+export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
+    bypassPlatformSafetyChecksOnUserSchedule?: boolean;
+    rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
+}
+
+// @public
+export type WindowsVMGuestPatchMode = string;
+
+// @public
+export interface WinRMConfiguration {
+    listeners?: WinRMListener[];
+}
+
+// @public
+export interface WinRMListener {
+    certificateUrl?: string;
+    protocol?: ProtocolTypes;
+}
+
+// @public
+export interface ZoneAllocationPolicy {
+    distributionStrategy: DistributionStrategy;
+    zonePreferences?: ZonePreference[];
+}
+
+// @public
+export type ZonePlacementPolicyType = string;
+
+// @public
+export interface ZonePreference {
+    rank?: number;
+    zone: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

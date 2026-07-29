@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
  *
  * @summary extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
- * x-ms-original-file: 2025-08-01/BlobContainersExtendImmutabilityPolicy.json
+ * x-ms-original-file: 2026-04-01/BlobContainersExtendImmutabilityPolicy.json
  */
 async function extendImmutabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

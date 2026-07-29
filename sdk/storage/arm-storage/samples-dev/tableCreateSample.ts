@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new table with the specified table name, under the specified account.
  *
  * @summary creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: 2025-08-01/TableOperationPut.json
+ * x-ms-original-file: 2026-04-01/TableOperationPut.json
  */
 async function tableOperationPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function tableOperationPut(): Promise<void> {
  * This sample demonstrates how to creates a new table with the specified table name, under the specified account.
  *
  * @summary creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: 2025-08-01/TableOperationPutOrPatchAclsTableCreate.json
+ * x-ms-original-file: 2026-04-01/TableOperationPutOrPatchAclsTableCreate.json
  */
 async function tableOperationPutOrPatchAcls(): Promise<void> {
   const credential = new DefaultAzureCredential();

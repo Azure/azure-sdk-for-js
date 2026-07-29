@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an export pipeline for a container registry with the specified parameters.
  *
  * @summary creates an export pipeline for a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/ExportPipelineCreate.json
+ * x-ms-original-file: 2026-03-01-preview/ExportPipelineCreate.json
  */
 async function exportPipelineCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

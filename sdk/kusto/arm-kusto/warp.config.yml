@@ -1,5 +1,26 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/operationsResultsLocation": "./src/api/operationsResultsLocation/index.ts"
+  "./api/operationsResults": "./src/api/operationsResults/index.ts"
+  "./api/skus": "./src/api/skus/index.ts"
+  "./api/databaseOperations": "./src/api/databaseOperations/index.ts"
+  "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/sandboxCustomImages": "./src/api/sandboxCustomImages/index.ts"
+  "./api/managedPrivateEndpoints": "./src/api/managedPrivateEndpoints/index.ts"
+  "./api/attachedDatabaseConfigurations": "./src/api/attachedDatabaseConfigurations/index.ts"
+  "./api/databases": "./src/api/databases/index.ts"
+  "./api/dataConnections": "./src/api/dataConnections/index.ts"
+  "./api/scripts": "./src/api/scripts/index.ts"
+  "./api/databasePrincipalAssignments": "./src/api/databasePrincipalAssignments/index.ts"
+  "./api/clusterPrincipalAssignments": "./src/api/clusterPrincipalAssignments/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

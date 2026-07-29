@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes specified share under its account.
  *
  * @summary deletes specified share under its account.
- * x-ms-original-file: 2025-08-01/FileSharesDelete.json
+ * x-ms-original-file: 2026-04-01/FileSharesDelete.json
  */
 async function deleteShares() {
   const credential = new DefaultAzureCredential();

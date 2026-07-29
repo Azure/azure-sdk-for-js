@@ -4,11 +4,27 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BackupRequest {
@@ -21,7 +37,7 @@ export type ChangeDetectionMode = string;
 // @public
 export interface CheckNameAvailabilityParameters {
     name: string;
-    type: "Microsoft.StorageSync/storageSyncServices";
+    type: Type;
 }
 
 // @public
@@ -46,8 +62,9 @@ export interface CloudEndpoint extends ProxyResource {
 }
 
 // @public
-export interface CloudEndpointArray {
-    value?: CloudEndpoint[];
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+    readonly firstKey?: string;
+    readonly secondKey?: string;
 }
 
 // @public
@@ -89,6 +106,14 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
 }
 
 // @public
+export interface CloudEndpointCreateParametersProperties {
+    azureFileShareName?: string;
+    friendlyName?: string;
+    storageAccountResourceId?: string;
+    storageAccountTenantId?: string;
+}
+
+// @public
 export interface CloudEndpointLastChangeEnumerationStatus {
     readonly completedTimestamp?: Date;
     readonly namespaceDirectoriesCount?: number;
@@ -99,163 +124,110 @@ export interface CloudEndpointLastChangeEnumerationStatus {
 }
 
 // @public
-export interface CloudEndpoints {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsCreateResponse>, CloudEndpointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<CloudEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsDeleteResponse>, CloudEndpointsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<CloudEndpointsDeleteResponse>;
-    beginPostBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsPostBackupResponse>, CloudEndpointsPostBackupResponse>>;
-    beginPostBackupAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams): Promise<CloudEndpointsPostBackupResponse>;
-    beginPostRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginPostRestoreAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams): Promise<void>;
-    beginPreBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsPreBackupResponse>, CloudEndpointsPreBackupResponse>>;
-    beginPreBackupAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams): Promise<CloudEndpointsPreBackupResponse>;
-    beginPreRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginPreRestoreAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams): Promise<void>;
-    beginTriggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginTriggerChangeDetectionAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams): Promise<void>;
-    get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsGetOptionalParams): Promise<CloudEndpointsGetResponse>;
-    listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: CloudEndpointsListBySyncGroupOptionalParams): PagedAsyncIterableIterator<CloudEndpoint>;
-    restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams): Promise<CloudEndpointsRestoreheartbeatResponse>;
+export interface CloudEndpointProperties {
+    azureFileShareName?: string;
+    readonly backupEnabled?: string;
+    readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
+    friendlyName?: string;
+    lastOperationName?: string;
+    lastWorkflowId?: string;
+    partnershipId?: string;
+    provisioningState?: string;
+    storageAccountResourceId?: string;
+    storageAccountTenantId?: string;
 }
 
 // @public
-export interface CloudEndpointsCreateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudEndpointsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudEndpointsCreateResponse = CloudEndpointsCreateHeaders & CloudEndpoint;
-
-// @public
-export interface CloudEndpointsDeleteHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudEndpointsDeleteResponse = CloudEndpointsDeleteHeaders;
-
-// @public
-export interface CloudEndpointsGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface CloudEndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface CloudEndpointsListBySyncGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CloudEndpointsGetResponse = CloudEndpointsGetHeaders & CloudEndpoint;
-
-// @public
-export interface CloudEndpointsListBySyncGroupHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface CloudEndpointsOperations {
+    afsShareMetadataCertificatePublicKeys: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams) => Promise<CloudEndpointAfsShareMetadataCertificatePublicKeys>;
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<CloudEndpoint>, CloudEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => Promise<CloudEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPostBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams) => Promise<SimplePollerLike<OperationState<PostBackupResponse>, PostBackupResponse>>;
+    // @deprecated (undocumented)
+    beginPostBackupAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams) => Promise<PostBackupResponse>;
+    // @deprecated (undocumented)
+    beginPostRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPostRestoreAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPreBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPreBackupAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPreRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPreRestoreAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTriggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerChangeDetectionAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams) => PollerLike<OperationState<CloudEndpoint>, CloudEndpoint>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsGetOptionalParams) => Promise<CloudEndpoint>;
+    listBySyncGroup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: CloudEndpointsListBySyncGroupOptionalParams) => PagedAsyncIterableIterator<CloudEndpoint>;
+    postBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams) => PollerLike<OperationState<PostBackupResponse>, PostBackupResponse>;
+    postRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+    preBackup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams) => PollerLike<OperationState<void>, void>;
+    preRestore: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreheartbeat: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams) => Promise<void>;
+    triggerChangeDetection: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface CloudEndpointsListBySyncGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudEndpointsListBySyncGroupResponse = CloudEndpointsListBySyncGroupHeaders & CloudEndpointArray;
-
-// @public
-export interface CloudEndpointsPostBackupHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsPostBackupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsPostBackupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudEndpointsPostBackupResponse = CloudEndpointsPostBackupHeaders & PostBackupResponse;
-
-// @public
-export interface CloudEndpointsPostRestoreHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsPostRestoreOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsPostRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CloudEndpointsPreBackupHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsPreBackupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsPreBackupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CloudEndpointsPreBackupResponse = CloudEndpointsPreBackupHeaders;
-
-// @public
-export interface CloudEndpointsPreRestoreHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsPreRestoreOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsPreRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CloudEndpointsRestoreheartbeatHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface CloudEndpointsRestoreheartbeatOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CloudEndpointsRestoreheartbeatOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CloudEndpointsRestoreheartbeatResponse = CloudEndpointsRestoreheartbeatHeaders;
-
-// @public
-export interface CloudEndpointsTriggerChangeDetectionHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface CloudEndpointsTriggerChangeDetectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CloudEndpointsTriggerChangeDetectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -281,6 +253,15 @@ export interface CloudTieringFilesNotTiering {
 }
 
 // @public
+export interface CloudTieringLowDiskMode {
+    readonly lastUpdatedTimestamp?: Date;
+    readonly state?: CloudTieringLowDiskModeState;
+}
+
+// @public
+export type CloudTieringLowDiskModeState = string;
+
+// @public
 export interface CloudTieringSpaceSavings {
     readonly cachedSizeBytes?: number;
     readonly lastUpdatedTimestamp?: Date;
@@ -298,6 +279,34 @@ export interface CloudTieringVolumeFreeSpacePolicyStatus {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type FeatureStatus = string;
 
 // @public
@@ -307,9 +316,6 @@ export interface FilesNotTieringError {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export type IncomingTrafficPolicy = string;
 
 // @public
@@ -317,6 +323,8 @@ export type InitialDownloadPolicy = string;
 
 // @public
 export type InitialUploadPolicy = string;
+
+export { isRestError }
 
 // @public
 export enum KnownChangeDetectionMode {
@@ -334,6 +342,20 @@ export enum KnownCloudEndpointChangeEnumerationActivityState {
 export enum KnownCloudEndpointChangeEnumerationTotalCountsState {
     Calculating = "Calculating",
     Final = "Final"
+}
+
+// @public
+export enum KnownCloudTieringLowDiskModeState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -368,6 +390,14 @@ export enum KnownLocalCacheMode {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOperationDirection {
     Cancel = "cancel",
     Do = "do",
@@ -390,29 +420,17 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export enum KnownProgressType {
-    Download = "download",
-    Initialize = "initialize",
-    None = "none",
-    Recall = "recall",
-    Upload = "upload"
-}
-
-// @public
-export enum KnownReason {
-    Deleted = "Deleted",
-    Registered = "Registered",
-    Suspended = "Suspended",
-    Unregistered = "Unregistered",
-    Warned = "Warned"
-}
-
-// @public
 export enum KnownRegisteredServerAgentVersionStatus {
     Blocked = "Blocked",
     Expired = "Expired",
     NearExpiry = "NearExpiry",
     Ok = "Ok"
+}
+
+// @public
+export enum KnownServerAuthType {
+    Certificate = "Certificate",
+    ManagedIdentity = "ManagedIdentity"
 }
 
 // @public
@@ -447,6 +465,20 @@ export enum KnownServerEndpointSyncMode {
 }
 
 // @public
+export enum KnownServerProvisioningStatus {
+    Error = "Error",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    ReadySyncFunctional = "Ready_SyncFunctional",
+    ReadySyncNotFunctional = "Ready_SyncNotFunctional"
+}
+
+// @public
+export enum KnownVersions {
+    V20220901 = "2022-09-01"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "aborted",
     Active = "active",
@@ -470,55 +502,42 @@ export interface LocationOperationStatus {
 }
 
 // @public
-export interface LocationOperationStatusOptionalParams extends coreClient.OperationOptions {
+export interface LocationOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LocationOperationStatusResponse = MicrosoftStorageSyncLocationOperationStatusHeaders & LocationOperationStatus;
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public (undocumented)
-export class MicrosoftStorageSync extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftStorageSyncOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    cloudEndpoints: CloudEndpoints;
-    locationOperationStatus(locationName: string, operationId: string, options?: LocationOperationStatusOptionalParams): Promise<LocationOperationStatusResponse>;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    operationStatusOperations: OperationStatusOperations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    registeredServers: RegisteredServers;
-    // (undocumented)
-    serverEndpoints: ServerEndpoints;
-    // (undocumented)
-    storageSyncServices: StorageSyncServices;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    syncGroups: SyncGroups;
-    // (undocumented)
-    workflows: Workflows;
+export class MicrosoftStorageSync {
+    constructor(credential: TokenCredential, options?: MicrosoftStorageSyncOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MicrosoftStorageSyncOptionalParams);
+    readonly cloudEndpoints: CloudEndpointsOperations;
+    locationOperationStatus(locationName: string, operationId: string, options?: LocationOperationStatusOptionalParams): Promise<LocationOperationStatus>;
+    readonly operations: OperationsOperations;
+    readonly operationStatusOperations: OperationStatusOperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly registeredServers: RegisteredServersOperations;
+    readonly serverEndpoints: ServerEndpointsOperations;
+    readonly storageSyncServices: StorageSyncServicesOperations;
+    readonly syncGroups: SyncGroupsOperations;
+    readonly workflows: WorkflowsOperations;
 }
 
 // @public
-export interface MicrosoftStorageSyncLocationOperationStatusHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface MicrosoftStorageSyncOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface MicrosoftStorageSyncOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -536,25 +555,11 @@ export interface OperationDisplayInfo {
 }
 
 // @public
-export interface OperationDisplayResource {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
 export interface OperationEntity {
     display?: OperationDisplayInfo;
     name?: string;
     origin?: string;
     properties?: OperationProperties;
-}
-
-// @public
-export interface OperationEntityListResult {
-    nextLink?: string;
-    value?: OperationEntity[];
 }
 
 // @public
@@ -569,7 +574,9 @@ export interface OperationResourceMetricSpecification {
     displayDescription?: string;
     displayName?: string;
     fillGapWithZero?: boolean;
+    lockAggregationType?: string;
     name?: string;
+    supportedAggregationTypes?: string[];
     unit?: string;
 }
 
@@ -586,35 +593,13 @@ export interface OperationResourceServiceSpecification {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationEntity>;
 }
-
-// @public
-export interface OperationsListNextHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationsListNextHeaders & OperationEntityListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationsListHeaders & OperationEntityListResult;
 
 // @public
 export interface OperationStatus {
@@ -626,25 +611,33 @@ export interface OperationStatus {
 }
 
 // @public
-export interface OperationStatusGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface OperationStatusOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusOperationsOperations {
+    get: (resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: OperationStatusOperationsGetOptionalParams) => Promise<OperationStatus>;
 }
 
 // @public
-export type OperationStatusGetResponse = OperationStatusGetHeaders & OperationStatus;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export interface OperationStatusOperations {
-    get(resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusGetResponse>;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
 export interface PostBackupResponse {
+    readonly cloudEndpointName?: string;
+}
+
+// @public
+export interface PostBackupResponseProperties {
     readonly cloudEndpointName?: string;
 }
 
@@ -680,81 +673,56 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByStorageSyncServiceHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByStorageSyncService: (resourceGroupName: string, storageSyncServiceName: string, options?: PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListByStorageSyncServiceResponse = PrivateEndpointConnectionsListByStorageSyncServiceHeaders & PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
@@ -772,16 +740,20 @@ export interface PrivateLinkResourceListResult {
 }
 
 // @public
-export interface PrivateLinkResources {
-    listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams): Promise<PrivateLinkResourcesListByStorageSyncServiceResponse>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesListByStorageSyncServiceOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByStorageSyncServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByStorageSyncServiceResponse = PrivateLinkResourceListResult;
+export interface PrivateLinkResourcesOperations {
+    listByStorageSyncService: (resourceGroupName: string, storageSyncServiceName: string, options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams) => Promise<PrivateLinkResourceListResult>;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -791,14 +763,8 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export type ProgressType = string;
-
-// @public
 export interface ProxyResource extends Resource {
 }
-
-// @public
-export type Reason = string;
 
 // @public
 export interface RecallActionParameters {
@@ -808,16 +774,20 @@ export interface RecallActionParameters {
 
 // @public
 export interface RegisteredServer extends ProxyResource {
+    readonly activeAuthType?: ServerAuthType;
     agentVersion?: string;
     readonly agentVersionExpirationDate?: Date;
     readonly agentVersionStatus?: RegisteredServerAgentVersionStatus;
+    applicationId?: string;
     clusterId?: string;
     clusterName?: string;
     discoveryEndpointUri?: string;
     friendlyName?: string;
+    readonly identity?: boolean;
     lastHeartBeat?: string;
     lastOperationName?: string;
     lastWorkflowId?: string;
+    latestApplicationId?: string;
     managementEndpointUri?: string;
     monitoringConfiguration?: string;
     monitoringEndpointUri?: string;
@@ -837,16 +807,13 @@ export interface RegisteredServer extends ProxyResource {
 export type RegisteredServerAgentVersionStatus = string;
 
 // @public
-export interface RegisteredServerArray {
-    value?: RegisteredServer[];
-}
-
-// @public
 export interface RegisteredServerCreateParameters extends ProxyResource {
     agentVersion?: string;
+    applicationId?: string;
     clusterId?: string;
     clusterName?: string;
     friendlyName?: string;
+    identity?: boolean;
     lastHeartBeat?: string;
     serverCertificate?: string;
     serverId?: string;
@@ -855,106 +822,145 @@ export interface RegisteredServerCreateParameters extends ProxyResource {
 }
 
 // @public
-export interface RegisteredServers {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersCreateResponse>, RegisteredServersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams): Promise<RegisteredServersCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersDeleteResponse>, RegisteredServersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams): Promise<RegisteredServersDeleteResponse>;
-    beginTriggerRollover(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersTriggerRolloverResponse>, RegisteredServersTriggerRolloverResponse>>;
-    beginTriggerRolloverAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams): Promise<RegisteredServersTriggerRolloverResponse>;
-    get(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersGetOptionalParams): Promise<RegisteredServersGetResponse>;
-    listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: RegisteredServersListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<RegisteredServer>;
+export interface RegisteredServerCreateParametersProperties {
+    agentVersion?: string;
+    applicationId?: string;
+    clusterId?: string;
+    clusterName?: string;
+    friendlyName?: string;
+    identity?: boolean;
+    lastHeartBeat?: string;
+    serverCertificate?: string;
+    serverId?: string;
+    serverOSVersion?: string;
+    serverRole?: string;
 }
 
 // @public
-export interface RegisteredServersCreateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface RegisteredServerProperties {
+    readonly activeAuthType?: ServerAuthType;
+    agentVersion?: string;
+    readonly agentVersionExpirationDate?: Date;
+    readonly agentVersionStatus?: RegisteredServerAgentVersionStatus;
+    applicationId?: string;
+    clusterId?: string;
+    clusterName?: string;
+    discoveryEndpointUri?: string;
+    friendlyName?: string;
+    readonly identity?: boolean;
+    lastHeartBeat?: string;
+    lastOperationName?: string;
+    lastWorkflowId?: string;
+    latestApplicationId?: string;
+    managementEndpointUri?: string;
+    monitoringConfiguration?: string;
+    monitoringEndpointUri?: string;
+    provisioningState?: string;
+    resourceLocation?: string;
+    serverCertificate?: string;
+    serverId?: string;
+    serverManagementErrorCode?: number;
+    readonly serverName?: string;
+    serverOSVersion?: string;
+    serverRole?: string;
+    serviceLocation?: string;
+    storageSyncServiceUid?: string;
 }
 
 // @public
-export interface RegisteredServersCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RegisteredServersCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RegisteredServersCreateResponse = RegisteredServersCreateHeaders & RegisteredServer;
-
-// @public
-export interface RegisteredServersDeleteHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface RegisteredServersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RegisteredServersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RegisteredServersDeleteResponse = RegisteredServersDeleteHeaders;
-
-// @public
-export interface RegisteredServersGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface RegisteredServersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisteredServersGetOptionalParams extends coreClient.OperationOptions {
+export interface RegisteredServersListByStorageSyncServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RegisteredServersGetResponse = RegisteredServersGetHeaders & RegisteredServer;
-
-// @public
-export interface RegisteredServersListByStorageSyncServiceHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface RegisteredServersOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => Promise<RegisteredServer>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTriggerRollover: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerRolloverAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RegisteredServer>, RegisteredServer>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams) => Promise<RegisteredServer>;
+    create: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams) => PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersGetOptionalParams) => Promise<RegisteredServer>;
+    listByStorageSyncService: (resourceGroupName: string, storageSyncServiceName: string, options?: RegisteredServersListByStorageSyncServiceOptionalParams) => PagedAsyncIterableIterator<RegisteredServer>;
+    triggerRollover: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams) => PollerLike<OperationState<RegisteredServer>, RegisteredServer>;
 }
 
 // @public
-export interface RegisteredServersListByStorageSyncServiceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RegisteredServersListByStorageSyncServiceResponse = RegisteredServersListByStorageSyncServiceHeaders & RegisteredServerArray;
-
-// @public
-export interface RegisteredServersTriggerRolloverHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface RegisteredServersTriggerRolloverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface RegisteredServersTriggerRolloverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RegisteredServersTriggerRolloverResponse = RegisteredServersTriggerRolloverHeaders;
+export interface RegisteredServersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegisteredServerUpdateParameters extends ProxyResource {
+    applicationId?: string;
+    identity?: boolean;
+}
+
+// @public
+export interface RegisteredServerUpdateProperties {
+    applicationId?: string;
+    identity?: boolean;
+}
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
-// @public
-export interface ResourcesMoveInfo {
-    resources?: string[];
-    targetResourceGroup?: string;
-}
+export { RestError }
 
 // @public
 export interface RestoreFileSpec {
     isdir?: boolean;
     path?: string;
 }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MicrosoftStorageSync, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServerAuthType = string;
 
 // @public
 export interface ServerEndpoint extends ProxyResource {
@@ -972,17 +978,13 @@ export interface ServerEndpoint extends ProxyResource {
     readonly offlineDataTransferStorageAccountTenantId?: string;
     readonly provisioningState?: string;
     readonly recallStatus?: ServerEndpointRecallStatus;
+    serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus;
     serverLocalPath?: string;
     readonly serverName?: string;
     serverResourceId?: string;
     readonly syncStatus?: ServerEndpointSyncStatus;
     tierFilesOlderThanDays?: number;
     volumeFreeSpacePercent?: number;
-}
-
-// @public
-export interface ServerEndpointArray {
-    value?: ServerEndpoint[];
 }
 
 // @public
@@ -1003,12 +1005,28 @@ export interface ServerEndpointCloudTieringStatus {
     readonly lastCloudTieringResult?: number;
     readonly lastSuccessTimestamp?: Date;
     readonly lastUpdatedTimestamp?: Date;
+    readonly lowDiskMode?: CloudTieringLowDiskMode;
     readonly spaceSavings?: CloudTieringSpaceSavings;
     readonly volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
 }
 
 // @public
 export interface ServerEndpointCreateParameters extends ProxyResource {
+    cloudTiering?: FeatureStatus;
+    friendlyName?: string;
+    initialDownloadPolicy?: InitialDownloadPolicy;
+    initialUploadPolicy?: InitialUploadPolicy;
+    localCacheMode?: LocalCacheMode;
+    offlineDataTransfer?: FeatureStatus;
+    offlineDataTransferShareName?: string;
+    serverLocalPath?: string;
+    serverResourceId?: string;
+    tierFilesOlderThanDays?: number;
+    volumeFreeSpacePercent?: number;
+}
+
+// @public
+export interface ServerEndpointCreateParametersProperties {
     cloudTiering?: FeatureStatus;
     friendlyName?: string;
     initialDownloadPolicy?: InitialDownloadPolicy;
@@ -1036,6 +1054,50 @@ export type ServerEndpointHealthState = string;
 export type ServerEndpointOfflineDataTransferState = string;
 
 // @public
+export interface ServerEndpointProperties {
+    cloudTiering?: FeatureStatus;
+    readonly cloudTieringStatus?: ServerEndpointCloudTieringStatus;
+    friendlyName?: string;
+    initialDownloadPolicy?: InitialDownloadPolicy;
+    initialUploadPolicy?: InitialUploadPolicy;
+    readonly lastOperationName?: string;
+    readonly lastWorkflowId?: string;
+    localCacheMode?: LocalCacheMode;
+    offlineDataTransfer?: FeatureStatus;
+    offlineDataTransferShareName?: string;
+    readonly offlineDataTransferStorageAccountResourceId?: string;
+    readonly offlineDataTransferStorageAccountTenantId?: string;
+    readonly provisioningState?: string;
+    readonly recallStatus?: ServerEndpointRecallStatus;
+    serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus;
+    serverLocalPath?: string;
+    readonly serverName?: string;
+    serverResourceId?: string;
+    readonly syncStatus?: ServerEndpointSyncStatus;
+    tierFilesOlderThanDays?: number;
+    volumeFreeSpacePercent?: number;
+}
+
+// @public
+export interface ServerEndpointProvisioningStatus {
+    readonly provisioningStatus?: ServerProvisioningStatus;
+    readonly provisioningStepStatuses?: ServerEndpointProvisioningStepStatus[];
+    readonly provisioningType?: string;
+}
+
+// @public
+export interface ServerEndpointProvisioningStepStatus {
+    readonly additionalInformation?: Record<string, string>;
+    readonly endTime?: Date;
+    readonly errorCode?: number;
+    readonly minutesLeft?: number;
+    readonly name?: string;
+    readonly progressPercentage?: number;
+    readonly startTime?: Date;
+    readonly status?: string;
+}
+
+// @public
 export interface ServerEndpointRecallError {
     readonly count?: number;
     readonly errorCode?: number;
@@ -1049,106 +1111,59 @@ export interface ServerEndpointRecallStatus {
 }
 
 // @public
-export interface ServerEndpoints {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsCreateResponse>, ServerEndpointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams): Promise<ServerEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsDeleteResponse>, ServerEndpointsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams): Promise<ServerEndpointsDeleteResponse>;
-    beginRecallAction(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsRecallActionResponse>, ServerEndpointsRecallActionResponse>>;
-    beginRecallActionAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams): Promise<ServerEndpointsRecallActionResponse>;
-    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsUpdateResponse>, ServerEndpointsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams): Promise<ServerEndpointsUpdateResponse>;
-    get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsGetOptionalParams): Promise<ServerEndpointsGetResponse>;
-    listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: ServerEndpointsListBySyncGroupOptionalParams): PagedAsyncIterableIterator<ServerEndpoint>;
-}
-
-// @public
-export interface ServerEndpointsCreateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerEndpointsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerEndpointsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerEndpointsCreateResponse = ServerEndpointsCreateHeaders & ServerEndpoint;
-
-// @public
-export interface ServerEndpointsDeleteHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerEndpointsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerEndpointsDeleteResponse = ServerEndpointsDeleteHeaders;
-
-// @public
-export interface ServerEndpointsGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface ServerEndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServerEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface ServerEndpointsListBySyncGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServerEndpointsGetResponse = ServerEndpointsGetHeaders & ServerEndpoint;
-
-// @public
-export interface ServerEndpointsListBySyncGroupHeaders {
-    location?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface ServerEndpointsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => Promise<ServerEndpoint>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRecallAction: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRecallActionAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ServerEndpoint>, ServerEndpoint>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams) => Promise<ServerEndpoint>;
+    create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams) => PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsGetOptionalParams) => Promise<ServerEndpoint>;
+    listBySyncGroup: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: ServerEndpointsListBySyncGroupOptionalParams) => PagedAsyncIterableIterator<ServerEndpoint>;
+    recallAction: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams) => PollerLike<OperationState<ServerEndpoint>, ServerEndpoint>;
 }
 
 // @public
-export interface ServerEndpointsListBySyncGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServerEndpointsListBySyncGroupResponse = ServerEndpointsListBySyncGroupHeaders & ServerEndpointArray;
-
-// @public
-export interface ServerEndpointsRecallActionHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerEndpointsRecallActionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServerEndpointsRecallActionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServerEndpointsRecallActionResponse = ServerEndpointsRecallActionHeaders;
-
-// @public
-export interface ServerEndpointsUpdateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServerEndpointsUpdateOptionalParams extends OperationOptions {
     parameters?: ServerEndpointUpdateParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ServerEndpointsUpdateResponse = ServerEndpointsUpdateHeaders & ServerEndpoint;
 
 // @public
 export type ServerEndpointSyncActivityState = string;
@@ -1207,10 +1222,45 @@ export interface ServerEndpointUpdateParameters {
 }
 
 // @public
+export interface ServerEndpointUpdateProperties {
+    cloudTiering?: FeatureStatus;
+    localCacheMode?: LocalCacheMode;
+    offlineDataTransfer?: FeatureStatus;
+    offlineDataTransferShareName?: string;
+    tierFilesOlderThanDays?: number;
+    volumeFreeSpacePercent?: number;
+}
+
+// @public
+export type ServerProvisioningStatus = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface StorageSyncApiError {
     code?: string;
     details?: StorageSyncErrorDetails;
-    innerError?: StorageSyncInnerErrorDetails;
+    innererror?: StorageSyncInnerErrorDetails;
     message?: string;
     target?: string;
 }
@@ -1243,6 +1293,7 @@ export interface StorageSyncInnerErrorDetails {
 
 // @public
 export interface StorageSyncService extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
     readonly lastOperationName?: string;
     readonly lastWorkflowId?: string;
@@ -1250,144 +1301,101 @@ export interface StorageSyncService extends TrackedResource {
     readonly provisioningState?: string;
     readonly storageSyncServiceStatus?: number;
     readonly storageSyncServiceUid?: string;
+    readonly useIdentity?: boolean;
 }
 
 // @public
-export interface StorageSyncServiceArray {
-    value?: StorageSyncService[];
-}
-
-// @public
-export interface StorageSyncServiceCreateParameters {
+export interface StorageSyncServiceCreateParameters extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
-    location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    useIdentity?: boolean;
 }
 
 // @public
-export interface StorageSyncServices {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesCreateResponse>, StorageSyncServicesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams): Promise<StorageSyncServicesCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesDeleteResponse>, StorageSyncServicesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams): Promise<StorageSyncServicesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesUpdateResponse>, StorageSyncServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams): Promise<StorageSyncServicesUpdateResponse>;
-    checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: StorageSyncServicesCheckNameAvailabilityOptionalParams): Promise<StorageSyncServicesCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesGetOptionalParams): Promise<StorageSyncServicesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: StorageSyncServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageSyncService>;
-    listBySubscription(options?: StorageSyncServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageSyncService>;
+export interface StorageSyncServiceCreateParametersProperties {
+    incomingTrafficPolicy?: IncomingTrafficPolicy;
+    useIdentity?: boolean;
 }
 
 // @public
-export interface StorageSyncServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface StorageSyncServiceProperties {
+    incomingTrafficPolicy?: IncomingTrafficPolicy;
+    readonly lastOperationName?: string;
+    readonly lastWorkflowId?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    readonly storageSyncServiceStatus?: number;
+    readonly storageSyncServiceUid?: string;
+    readonly useIdentity?: boolean;
 }
 
 // @public
-export type StorageSyncServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface StorageSyncServicesCreateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: string;
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface StorageSyncServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StorageSyncServicesCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageSyncServicesCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageSyncServicesCreateResponse = StorageSyncService;
-
-// @public
-export interface StorageSyncServicesDeleteHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface StorageSyncServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageSyncServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StorageSyncServicesDeleteResponse = StorageSyncServicesDeleteHeaders;
-
-// @public
-export interface StorageSyncServicesGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface StorageSyncServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StorageSyncServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface StorageSyncServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageSyncServicesGetResponse = StorageSyncServicesGetHeaders & StorageSyncService;
-
-// @public
-export interface StorageSyncServicesListByResourceGroupHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface StorageSyncServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StorageSyncServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface StorageSyncServicesOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => Promise<StorageSyncService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<StorageSyncService>, StorageSyncService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams) => Promise<StorageSyncService>;
+    checkNameAvailability: (locationName: string, parameters: CheckNameAvailabilityParameters, options?: StorageSyncServicesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    create: (resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams) => PollerLike<OperationState<StorageSyncService>, StorageSyncService>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesGetOptionalParams) => Promise<StorageSyncService>;
+    listByResourceGroup: (resourceGroupName: string, options?: StorageSyncServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageSyncService>;
+    listBySubscription: (options?: StorageSyncServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageSyncService>;
+    update: (resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams) => PollerLike<OperationState<StorageSyncService>, StorageSyncService>;
 }
 
 // @public
-export type StorageSyncServicesListByResourceGroupResponse = StorageSyncServicesListByResourceGroupHeaders & StorageSyncServiceArray;
-
-// @public
-export interface StorageSyncServicesListBySubscriptionHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface StorageSyncServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageSyncServicesListBySubscriptionResponse = StorageSyncServicesListBySubscriptionHeaders & StorageSyncServiceArray;
-
-// @public
-export interface StorageSyncServicesUpdateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface StorageSyncServicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface StorageSyncServicesUpdateOptionalParams extends OperationOptions {
     parameters?: StorageSyncServiceUpdateParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type StorageSyncServicesUpdateResponse = StorageSyncServicesUpdateHeaders & StorageSyncService;
 
 // @public
 export interface StorageSyncServiceUpdateParameters {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+    useIdentity?: boolean;
 }
 
 // @public
-export interface SubscriptionState {
-    readonly istransitioning?: boolean;
-    properties?: Record<string, unknown>;
-    state?: Reason;
+export interface StorageSyncServiceUpdateProperties {
+    incomingTrafficPolicy?: IncomingTrafficPolicy;
+    useIdentity?: boolean;
 }
 
 // @public
@@ -1397,81 +1405,54 @@ export interface SyncGroup extends ProxyResource {
 }
 
 // @public
-export interface SyncGroupArray {
-    value?: SyncGroup[];
-}
-
-// @public
 export interface SyncGroupCreateParameters extends ProxyResource {
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
-export interface SyncGroups {
-    create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, parameters: SyncGroupCreateParameters, options?: SyncGroupsCreateOptionalParams): Promise<SyncGroupsCreateResponse>;
-    delete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: SyncGroupsDeleteOptionalParams): Promise<SyncGroupsDeleteResponse>;
-    get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: SyncGroupsGetOptionalParams): Promise<SyncGroupsGetResponse>;
-    listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: SyncGroupsListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<SyncGroup>;
+export interface SyncGroupProperties {
+    readonly syncGroupStatus?: string;
+    readonly uniqueId?: string;
 }
 
 // @public
-export interface SyncGroupsCreateHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface SyncGroupsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SyncGroupsCreateOptionalParams extends coreClient.OperationOptions {
+export interface SyncGroupsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SyncGroupsCreateResponse = SyncGroupsCreateHeaders & SyncGroup;
-
-// @public
-export interface SyncGroupsDeleteHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface SyncGroupsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SyncGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SyncGroupsListByStorageSyncServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SyncGroupsDeleteResponse = SyncGroupsDeleteHeaders;
-
-// @public
-export interface SyncGroupsGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface SyncGroupsOperations {
+    create: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, parameters: SyncGroupCreateParameters, options?: SyncGroupsCreateOptionalParams) => Promise<SyncGroup>;
+    delete: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: SyncGroupsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: SyncGroupsGetOptionalParams) => Promise<SyncGroup>;
+    listByStorageSyncService: (resourceGroupName: string, storageSyncServiceName: string, options?: SyncGroupsListByStorageSyncServiceOptionalParams) => PagedAsyncIterableIterator<SyncGroup>;
 }
 
 // @public
-export interface SyncGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
-
-// @public
-export type SyncGroupsGetResponse = SyncGroupsGetHeaders & SyncGroup;
-
-// @public
-export interface SyncGroupsListByStorageSyncServiceHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface SyncGroupsListByStorageSyncServiceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupsListByStorageSyncServiceHeaders & SyncGroupArray;
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1487,6 +1468,15 @@ export interface TriggerRolloverRequest {
 }
 
 // @public
+export type Type = "Microsoft.StorageSync/storageSyncServices";
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface Workflow extends ProxyResource {
     readonly commandName?: string;
     readonly createdTimestamp?: Date;
@@ -1499,55 +1489,35 @@ export interface Workflow extends ProxyResource {
 }
 
 // @public
-export interface WorkflowArray {
-    value?: Workflow[];
+export interface WorkflowProperties {
+    readonly commandName?: string;
+    readonly createdTimestamp?: Date;
+    lastOperationId?: string;
+    readonly lastStatusTimestamp?: Date;
+    lastStepName?: string;
+    operation?: OperationDirection;
+    status?: WorkflowStatus;
+    steps?: string;
 }
 
 // @public
-export interface Workflows {
-    abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: WorkflowsAbortOptionalParams): Promise<WorkflowsAbortResponse>;
-    get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: WorkflowsGetOptionalParams): Promise<WorkflowsGetResponse>;
-    listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: WorkflowsListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<Workflow>;
+export interface WorkflowsAbortOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowsAbortHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface WorkflowsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowsAbortOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowsListByStorageSyncServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowsAbortResponse = WorkflowsAbortHeaders;
-
-// @public
-export interface WorkflowsGetHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
+export interface WorkflowsOperations {
+    abort: (resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: WorkflowsAbortOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: WorkflowsGetOptionalParams) => Promise<Workflow>;
+    listByStorageSyncService: (resourceGroupName: string, storageSyncServiceName: string, options?: WorkflowsListByStorageSyncServiceOptionalParams) => PagedAsyncIterableIterator<Workflow>;
 }
-
-// @public
-export interface WorkflowsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowsGetResponse = WorkflowsGetHeaders & Workflow;
-
-// @public
-export interface WorkflowsListByStorageSyncServiceHeaders {
-    xMsCorrelationRequestId?: string;
-    xMsRequestId?: string;
-}
-
-// @public
-export interface WorkflowsListByStorageSyncServiceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowsListByStorageSyncServiceResponse = WorkflowsListByStorageSyncServiceHeaders & WorkflowArray;
 
 // @public
 export type WorkflowStatus = string;

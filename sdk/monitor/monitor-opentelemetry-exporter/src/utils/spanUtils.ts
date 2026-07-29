@@ -60,6 +60,7 @@ import type { Tags, Properties, MSLink, Measurements } from "../types.js";
 import {
   httpSemanticValues,
   internalMicrosoftAttributes,
+  allowedMicrosoftAttributes,
   legacySemanticValues,
   MaxPropertyLengths,
   experimentalOpenTelemetryValues,
@@ -169,7 +170,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
         // We need to not ignore the _MS.ProcessedByMetricExtractors key as it's used to identify standard metrics
         !(
           (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
-          key.startsWith("microsoft.") ||
+          (key.startsWith("microsoft.") && !allowedMicrosoftAttributes.includes(key)) ||
           legacySemanticValues.includes(key) ||
           httpSemanticValues.includes(key as any) ||
           key === (KnownContextTagKeys.AiOperationName as string)

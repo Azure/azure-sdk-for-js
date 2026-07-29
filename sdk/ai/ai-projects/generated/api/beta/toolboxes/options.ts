@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ToolboxPolicies, PageOrder } from "../../../models/models.js";
+import { ToolboxSkillUnion, ToolboxPolicies, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -77,6 +77,8 @@ export interface CreateVersionOptionalParams extends OperationOptions {
   description?: string;
   /** Arbitrary key-value metadata to associate with the toolbox. */
   metadata?: Record<string, string>;
+  /** The list of skill sources to include in this version. A skill reference specifies a skill name and optionally a version. If version is omitted, the skill's default version is used. */
+  skills?: ToolboxSkillUnion[];
   /** Policy configuration for this toolbox version. */
   policies?: ToolboxPolicies;
 }

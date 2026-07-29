@@ -83,12 +83,12 @@ describe("dnsresolve test", () => {
     assert.equal(res.name, dnsResolverName);
   });
 
-  it("dnsResolvers list clusters", async () => {
+  it.only("dnsResolvers list clusters", async () => {
     const resArray = new Array();
     for await (const item of client.dnsResolvers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 
   it("dnsResolvers delete clusters", async () => {

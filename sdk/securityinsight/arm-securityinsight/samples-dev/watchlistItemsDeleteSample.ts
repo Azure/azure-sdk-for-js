@@ -1,33 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete a watchlist item.
- *
- * @summary Delete a watchlist item.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/DeleteWatchlistItem.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete a watchlist item.
+ *
+ * @summary delete a watchlist item.
+ * x-ms-original-file: 2025-07-01-preview/watchlists/DeleteWatchlistItem.json
+ */
 async function deleteAWatchlistItem(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const watchlistAlias = "highValueAsset";
-  const watchlistItemId = "4008512e-1d30-48b2-9ee2-d3612ed9d3ea";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.watchlistItems.delete(
-    resourceGroupName,
-    workspaceName,
-    watchlistAlias,
-    watchlistItemId,
+  await client.watchlistItems.delete(
+    "myRg",
+    "myWorkspace",
+    "highValueAsset",
+    "4008512e-1d30-48b2-9ee2-d3612ed9d3ea",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

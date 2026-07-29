@@ -2,10 +2,23 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
+import type {
+  CorsOptions,
+  KnowledgeSourceReference,
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  KnowledgeRetrievalOutputMode,
+  KnowledgeRetrievalReasoningEffortUnion,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
-export interface RetrieveOptions extends OperationOptions {}
+export interface RetrieveOptions extends OperationOptions {
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+}
 
 export interface KnowledgeBase {
   /**
@@ -21,6 +34,14 @@ export interface KnowledgeBase {
    */
   models?: KnowledgeBaseModel[];
   /**
+   * The retrieval reasoning effort configuration applied at retrieval time.
+   */
+  retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  /**
+   * The output mode for the knowledge base.
+   */
+  outputMode?: KnowledgeRetrievalOutputMode;
+  /**
    * The ETag of the knowledge base.
    */
   etag?: string;
@@ -32,4 +53,16 @@ export interface KnowledgeBase {
    * The description of the knowledge base.
    */
   description?: string;
+  /**
+   * Instructions considered by the knowledge base when developing the query plan.
+   */
+  retrievalInstructions?: string;
+  /**
+   * Instructions considered by the knowledge base when generating answers.
+   */
+  answerInstructions?: string;
+  /**
+   * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
+   */
+  corsOptions?: CorsOptions;
 }

@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
-import { errorResponseDeserializer } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  applyMaintenanceWindowRequestSerializer,
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ManagedApplyMaintenanceWindowPostOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -20,13 +23,17 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: !options?.body ? options?.body : applyMaintenanceWindowRequestSerializer(options?.body),
+  });
 }
 
 export async function _postDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -34,13 +41,14 @@ export async function _postDeserialize(result: PathUncheckedResponse): Promise<v
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
   return;
 }
 
-/** Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied. */
+/** Action to Apply Maintenance window on the Service Fabric Managed Clusters. Any pending update will be applied. */
 export async function post(
   context: Client,
   resourceGroupName: string,

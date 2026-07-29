@@ -41,39 +41,47 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
-  /** Returns the list of versions of an agent. */
+  /** Returns a paged collection of versions for the specified agent. */
   listVersions: (
     agentName: string,
     options?: AgentsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentVersion>;
-  /** Deletes a specific version of an agent. */
+  /**
+   * Deletes a specific version of an agent. For hosted agents, if the version has active
+   * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
+   * force is true, all sessions associated with this version are cascade-deleted.
+   */
   deleteVersion: (
     agentName: string,
     agentVersion: string,
     options?: AgentsDeleteVersionOptionalParams,
   ) => Promise<DeleteAgentVersionResponse>;
-  /** Retrieves a specific version of an agent. */
+  /** Retrieves the specified version of an agent by its agent name and version identifier. */
   getVersion: (
     agentName: string,
     agentVersion: string,
     options?: AgentsGetVersionOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Create a new agent version from a manifest. */
+  /** Imports the provided manifest to create a new version for the specified agent. */
   createAgentVersionFromManifest: (
     agentName: string,
     manifestId: string,
     parameterValues: Record<string, any>,
     options?: AgentsCreateAgentVersionFromManifestOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Create a new agent version. */
+  /** Creates a new version for the specified agent and returns the created version resource. */
   createVersion: (
     agentName: string,
     definition: AgentDefinitionUnion,
     options?: AgentsCreateVersionOptionalParams,
   ) => Promise<AgentVersion>;
-  /** Returns the list of all agents. */
+  /** Returns a paged collection of agent resources. */
   list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
-  /** Deletes an agent. */
+  /**
+   * Deletes an agent. For hosted agents, if any version has active sessions, the request
+   * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
+   * associated sessions are cascade-deleted along with the agent and its versions.
+   */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -90,7 +98,7 @@ export interface AgentsOperations {
     parameterValues: Record<string, any>,
     options?: AgentsUpdateAgentFromManifestOptionalParams,
   ) => Promise<Agent>;
-  /** Creates an agent from a manifest. */
+  /** Imports the provided manifest to create an agent and returns the created resource. */
   createAgentFromManifest: (
     name: string,
     manifestId: string,
@@ -106,13 +114,13 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
-  /** Creates the agent. */
+  /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
     name: string,
     definition: AgentDefinitionUnion,
     options?: AgentsCreateAgentOptionalParams,
   ) => Promise<Agent>;
-  /** Retrieves the agent. */
+  /** Retrieves an agent definition by its unique name. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
 

@@ -86,11 +86,6 @@ export interface DedicatedHostsOperations {
     options?: DedicatedHostsListByHostGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DedicatedHost>;
   /** Delete a dedicated host. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     hostGroupName: string,
@@ -167,7 +162,6 @@ export interface DedicatedHostsOperations {
     options?: DedicatedHostsGetOptionalParams,
   ) => Promise<DedicatedHost>;
 }
-
 function _getDedicatedHosts(context: ComputeManagementContext) {
   return {
     restart: (
@@ -336,7 +330,6 @@ function _getDedicatedHosts(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, hostGroupName, hostName, options),
   };
 }
-
 export function _getDedicatedHostsOperations(
   context: ComputeManagementContext,
 ): DedicatedHostsOperations {

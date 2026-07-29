@@ -33,11 +33,10 @@ async function main() {
       kind: "hosted",
       cpu: "0.5",
       memory: "1Gi",
-      image,
-      container_protocol_versions: [{ protocol: "responses", version: "v1" }],
+      container_configuration: { image },
+      protocol_versions: [{ protocol: "responses", version: "v1" }],
     },
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );
@@ -58,8 +57,6 @@ async function main() {
     }
   }
 
-  const isolationKey = "sample-isolation-key-13";
-
   // ── Session CRUD ──────────────────────────────────────────────────────
 
   // Create a session
@@ -67,20 +64,16 @@ async function main() {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(
-    agentName,
-    isolationKey,
-    versionIndicator,
-  );
+  const session = await project.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   // Retrieve the session
-  const fetched = await project.beta.agents.getSession(agentName, session.agent_session_id);
+  const fetched = await project.agents.getSession(agentName, session.agent_session_id);
   console.log(`Retrieved session (id: ${fetched.agent_session_id}, status: ${fetched.status})`);
 
   // List sessions
   const sessions = [];
-  for await (const item of project.beta.agents.listSessions(agentName, { limit: 10 })) {
+  for await (const item of project.agents.listSessions(agentName, { limit: 10 })) {
     sessions.push(item);
   }
   console.log(`Found ${sessions.length} session(s)`);
@@ -93,7 +86,7 @@ async function main() {
   // Upload a file to the session sandbox
   const filePath = "/sandbox/hello.txt";
   const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
-  const uploadResult = await project.beta.agents.uploadSessionFile(
+  const uploadResult = await project.agents.uploadSessionFile(
     agentName,
     session.agent_session_id,
     filePath,
@@ -101,14 +94,19 @@ async function main() {
   );
   console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 
-  // List files in the session sandbox
-  const listing = await project.beta.agents.listSessionFiles(
-    agentName,
-    session.agent_session_id,
-    "/sandbox",
-  );
-  console.log(`Files in /sandbox:`);
-  for (const entry of listing.entries) {
+  // List files in the session sandbox (with pagination monitoring)
+  const files = [];
+  let pageCount = 0;
+  const pager = project.agents.listSessionFiles(agentName, session.agent_session_id, {
+    path: "/sandbox",
+  });
+  for await (const page of pager.byPage()) {
+    pageCount++;
+    console.log(`  Page ${pageCount}: ${page.length} entries`);
+    files.push(...page);
+  }
+  console.log(`Files in /sandbox (${files.length} total across ${pageCount} page(s)):`);
+  for (const entry of files) {
     console.log(
       `  - ${entry.name} (${entry.is_directory ? "directory" : "file"})`,
       JSON.stringify(entry),
@@ -116,7 +114,7 @@ async function main() {
   }
 
   // Download the file back
-  const downloadResult = await project.beta.agents.downloadSessionFile(
+  const downloadResult = await project.agents.downloadSessionFile(
     agentName,
     session.agent_session_id,
     uploadResult.path,
@@ -139,13 +137,13 @@ async function main() {
   console.log(`Downloaded file content: ${new TextDecoder().decode(downloadedContent)}`);
 
   // Delete the file
-  await project.beta.agents.deleteSessionFile(agentName, session.agent_session_id, filePath);
+  await project.agents.deleteSessionFile(agentName, session.agent_session_id, filePath);
   console.log(`Deleted file: ${filePath}`);
 
   // ── Cleanup ───────────────────────────────────────────────────────────
 
   // Delete the session
-  await project.beta.agents.deleteSession(agentName, session.agent_session_id, isolationKey);
+  await project.agents.deleteSession(agentName, session.agent_session_id);
   console.log("Session deleted");
 
   // Delete the agent version

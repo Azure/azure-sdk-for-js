@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the blob inventory policy associated with the specified storage account.
  *
  * @summary gets the blob inventory policy associated with the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountGetBlobInventoryPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetBlobInventoryPolicy.json
  */
 async function storageAccountGetBlobInventoryPolicy() {
   const credential = new DefaultAzureCredential();

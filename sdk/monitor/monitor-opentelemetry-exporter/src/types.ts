@@ -229,3 +229,15 @@ export const httpSemanticValues = [
  * @internal
  */
 export const internalMicrosoftAttributes = ["_MS.ProcessedByMetricExtractors"];
+
+/**
+ * Microsoft-namespaced span attributes that are allowed through to
+ * customDimensions despite the generic `microsoft.*` filter.
+ * @internal
+ */
+export const allowedMicrosoftAttributes = [
+  "microsoft.gen_ai.main_agent.name",
+  "microsoft.gen_ai.main_agent.id",
+  "microsoft.gen_ai.main_agent.version",
+  "microsoft.gen_ai.main_agent.conversation_id",
+];

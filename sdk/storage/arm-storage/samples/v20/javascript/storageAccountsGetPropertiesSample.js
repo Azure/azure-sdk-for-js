@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetAsyncSkuConversionStatus.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetAsyncSkuConversionStatus.json
  */
 async function storageAccountGetAsyncSkuConversionStatus() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function storageAccountGetAsyncSkuConversionStatus() {
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetProperties.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetProperties.json
  */
 async function storageAccountGetProperties() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function storageAccountGetProperties() {
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetPropertiesCMKEnabled.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetPropertiesCMKEnabled.json
  */
 async function storageAccountGetPropertiesCMKEnabled() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function storageAccountGetPropertiesCMKEnabled() {
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetPropertiesCMKVersionExpirationTime.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetPropertiesCMKVersionExpirationTime.json
  */
 async function storageAccountGetPropertiesCMKVersionExpirationTime() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function storageAccountGetPropertiesCMKVersionExpirationTime() {
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetPropertiesGeoReplicationStatscanFailoverFalse.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetPropertiesGeoReplicationStatscanFailoverFalse.json
  */
 async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse() 
  * This sample demonstrates how to returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: 2025-08-01/StorageAccountGetPropertiesGeoReplicationStatscanFailoverTrue.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetPropertiesGeoReplicationStatscanFailoverTrue.json
  */
 async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue() {
   const credential = new DefaultAzureCredential();

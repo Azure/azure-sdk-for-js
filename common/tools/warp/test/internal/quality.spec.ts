@@ -60,7 +60,7 @@ function mockParsedConfig(overrides: {
       options: {},
       fileNames: [],
       errors: [],
-    } as unknown as ts.ParsedCommandLine,
+    },
     outDir: overrides.outDir,
     rootDir: overrides.rootDir,
   };

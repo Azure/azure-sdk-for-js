@@ -1,34 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
-  FullBackupOperation,
-  SASTokenParameter,
-  PreBackupOperationParameters,
-  RestoreOperation,
-  RestoreOperationParameters,
-  PreRestoreOperationParameters,
-  SelectiveKeyRestoreOperation,
-  SelectiveKeyRestoreOperationParameters,
-  UpdateSettingRequest,
-  Setting,
-  SettingsListResult,
-} from "./models/models.js";
-import {
-  GetSettingsOptionalParams,
-  GetSettingOptionalParams,
-  UpdateSettingOptionalParams,
-  SelectiveKeyRestoreOperationOptionalParams,
-  SelectiveKeyRestoreStatusOptionalParams,
-  PreFullRestoreOperationOptionalParams,
-  FullRestoreOperationOptionalParams,
-  RestoreStatusOptionalParams,
-  PreFullBackupOptionalParams,
-  FullBackupOptionalParams,
-  FullBackupStatusOptionalParams,
-} from "./api/options.js";
-import {
+  deleteEkmConnection,
+  updateEkmConnection,
+  createEkmConnection,
+  checkEkmConnection,
+  getEkmCertificate,
+  getEkmConnection,
   getSettings,
   getSetting,
   updateSetting,
@@ -42,6 +22,25 @@ import {
   fullBackupStatus,
 } from "./api/operations.js";
 import {
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
+  GetSettingsOptionalParams,
+  GetSettingOptionalParams,
+  UpdateSettingOptionalParams,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreStatusOptionalParams,
+  PreFullRestoreOperationOptionalParams,
+  FullRestoreOperationOptionalParams,
+  RestoreStatusOptionalParams,
+  PreFullBackupOptionalParams,
+  FullBackupOptionalParams,
+  FullBackupStatusOptionalParams,
+} from "./api/options.js";
+import {
   RoleAssignmentsOperations,
   _getRoleAssignmentsOperations,
 } from "./classic/roleAssignments/index.js";
@@ -49,18 +48,38 @@ import {
   RoleDefinitionsOperations,
   _getRoleDefinitionsOperations,
 } from "./classic/roleDefinitions/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  FullBackupOperation,
+  SASTokenParameter,
+  PreBackupOperationParameters,
+  RestoreOperation,
+  RestoreOperationParameters,
+  PreRestoreOperationParameters,
+  SelectiveKeyRestoreOperation,
+  SelectiveKeyRestoreOperationParameters,
+  UpdateSettingRequest,
+  Setting,
+  SettingsListResult,
+  EkmConnection,
+  EkmProxyClientCertificateInfo,
+  EkmProxyInfo,
+} from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
+  /**
+   * The Azure Key Vault Administration service client performs administrative operations
+   * including RBAC, BackupRestore, and settings management
+   * against the Azure Key Vault service.
+   */
   constructor(
     endpointParam: string,
     credential: TokenCredential,
@@ -77,6 +96,50 @@ export class KeyVaultClient {
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
+  }
+
+  /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+  deleteEkmConnection(
+    options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return deleteEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) updates the existing EKM connection. If the EKM connection does not exist, this operation fails. This operation requires ekm/write permission. */
+  updateEkmConnection(
+    ekmConnection: EkmConnection,
+    options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return updateEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) sets up the EKM connection. If the EKM connection already exists, this operation fails. This operation requires ekm/write permission. */
+  createEkmConnection(
+    ekmConnection: EkmConnection,
+    options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return createEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) Check operation checks the connectivity and authentication with the EKM proxy. This operation requires ekm/read permission. */
+  checkEkmConnection(
+    options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyInfo> {
+    return checkEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Certificate Get operation returns Proxy client certificate. This operation requires ekm/read permission. */
+  getEkmCertificate(
+    options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyClientCertificateInfo> {
+    return getEkmCertificate(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Get operation returns EKM connection. This operation requires ekm/read permission. */
+  getEkmConnection(
+    options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return getEkmConnection(this._client, options);
   }
 
   /** Retrieves a list of all the available account settings that can be configured. */
@@ -107,9 +170,7 @@ export class KeyVaultClient {
   selectiveKeyRestoreOperation(
     keyName: string,
     restoreBlobDetails: SelectiveKeyRestoreOperationParameters,
-    options: SelectiveKeyRestoreOperationOptionalParams = {
-      requestOptions: {},
-    },
+    options: SelectiveKeyRestoreOperationOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation> {
     return selectiveKeyRestoreOperation(this._client, keyName, restoreBlobDetails, options);
   }

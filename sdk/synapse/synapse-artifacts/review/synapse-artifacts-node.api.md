@@ -7,8 +7,10 @@
 import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import type * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
@@ -3752,6 +3754,8 @@ export interface IntegrationRuntimeVNetProperties {
     vNetId?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface JiraLinkedService extends LinkedService {
     encryptedCredential?: any;
@@ -6883,6 +6887,8 @@ export interface ResponsysSource extends TabularSource {
     query?: any;
     type: "ResponsysSource";
 }
+
+export { RestError }
 
 // @public
 export interface RestResourceDataset extends Dataset {

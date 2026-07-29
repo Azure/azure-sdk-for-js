@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists deleted accounts under the subscription.
  *
  * @summary lists deleted accounts under the subscription.
- * x-ms-original-file: 2025-08-01/DeletedAccountList.json
+ * x-ms-original-file: 2026-04-01/DeletedAccountList.json
  */
 async function deletedAccountList() {
   const credential = new DefaultAzureCredential();

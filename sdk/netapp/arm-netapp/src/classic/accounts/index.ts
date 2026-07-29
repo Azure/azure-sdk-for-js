@@ -70,11 +70,6 @@ export interface AccountsOperations {
     options?: AccountsListOptionalParams,
   ) => PagedAsyncIterableIterator<NetAppAccount>;
   /** Delete the specified NetApp account */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -101,7 +96,6 @@ export interface AccountsOperations {
     options?: AccountsGetOptionalParams,
   ) => Promise<NetAppAccount>;
 }
-
 function _getAccounts(context: NetAppManagementContext) {
   return {
     changeKeyVault: (
@@ -149,7 +143,6 @@ function _getAccounts(context: NetAppManagementContext) {
       get(context, resourceGroupName, accountName, options),
   };
 }
-
 export function _getAccountsOperations(context: NetAppManagementContext): AccountsOperations {
   return {
     ..._getAccounts(context),

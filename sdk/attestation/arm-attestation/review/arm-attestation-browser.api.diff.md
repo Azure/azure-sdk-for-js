@@ -7,25 +7,25 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -153,9 +153,9 @@
- // @public
- export function getContinuationToken(page: unknown): string | undefined;
+@@ -148,9 +148,9 @@
  
- // @public (undocumented)
+ export { isRestError }
+ 
+ // @public
 -export interface JsonWebKey {
 +interface JsonWebKey_2 {
      alg?: string;
      crv?: string;
      d?: string;
      dp?: string;
-@@ -172,12 +172,13 @@
+@@ -167,12 +167,13 @@
      x?: string;
      x5C?: string[];
      y?: string;
  }
 +export { JsonWebKey_2 as JsonWebKey }
  
- // @public (undocumented)
+ // @public
  export interface JsonWebKeySet {
 -    keys?: JsonWebKey[];
 +    keys?: JsonWebKey_2[];

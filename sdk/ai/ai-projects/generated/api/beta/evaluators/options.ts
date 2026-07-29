@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EvaluatorType, EvaluatorCategory, PageOrder } from "../../../models/models.js";
+import { EvaluatorType, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -42,8 +42,6 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-  /** Filter evaluator generation jobs by category. */
-  category?: EvaluatorCategory;
 }
 
 /** Optional parameters. */
@@ -58,6 +56,18 @@ export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends Operati
   foundryFeatures?: "Evaluations=V1Preview";
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
+}
+
+/** Optional parameters. */
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
+
+/** Optional parameters. */
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */

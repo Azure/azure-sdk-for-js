@@ -6,6 +6,7 @@ import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
 import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
+import { getBinaryStreamResponse } from "../../../src/getBinaryStreamResponse.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -104,6 +105,60 @@ describe("[Node] Streams", () => {
     await expect(client.pathUnchecked("/foo").get().asBrowserStream()).rejects.toThrow(
       "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
     );
+  });
+});
+
+describe("[Node] getBinaryStreamResponse", () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("should set readableStreamBody and leave blobBody undefined", async () => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
+      const response = createResponse(200, "binary content");
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
+      return createRequest();
+    });
+
+    const { getClient } = await import("../../../src/getClient.js");
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    assert.isUndefined(result.blobBody);
+    assert.isDefined(result.readableStreamBody);
+  });
+
+  it("should expose the response body as a readable stream with correct content", async () => {
+    const expectedBody = "binary stream data";
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
+      const response = createResponse(200, expectedBody);
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
+      return createRequest();
+    });
+
+    const { getClient } = await import("../../../src/getClient.js");
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    const buffer = await readStreamToBuffer(result.readableStreamBody!);
+    assert.strictEqual(buffer.toString(), expectedBody);
+  });
+
+  it("should preserve status and headers from the underlying response", async () => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
+      const response = createResponse(206, "partial content");
+      const callback = cb as unknown as (res: IncomingMessage) => void;
+      callback(response);
+      return createRequest();
+    });
+
+    const { getClient } = await import("../../../src/getClient.js");
+    const client = getClient(mockBaseUrl);
+    const result = await getBinaryStreamResponse(client.pathUnchecked("/foo").get());
+
+    assert.strictEqual(result.status, "206");
   });
 });
 

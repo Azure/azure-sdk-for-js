@@ -36,6 +36,7 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
+  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
@@ -324,6 +325,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       answers,
       captions,
       debugMode,
+      queryRewrites,
       ...restSemanticOptions
     } = semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
@@ -341,6 +343,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       vectorQueries: queries?.map(this.convertVectorQuery.bind(this)),
       answers: this.convertQueryAnswers(answers),
       captions: this.convertQueryCaptions(captions),
+      queryRewrites: this.convertQueryRewrites(queryRewrites),
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
       debug: debugMode ?? debug, // Use semanticSearchOptions.debugMode if set, otherwise use top-level debug
@@ -859,6 +862,20 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     }
 
     return output;
+  }
+
+  private convertQueryRewrites(queryRewrites?: QueryRewrites): string | undefined {
+    if (!queryRewrites) {
+      return undefined;
+    }
+
+    const { rewritesType, count } = queryRewrites;
+
+    if (count !== undefined) {
+      return `${rewritesType}|count-${count}`;
+    }
+
+    return rewritesType;
   }
 
   private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {

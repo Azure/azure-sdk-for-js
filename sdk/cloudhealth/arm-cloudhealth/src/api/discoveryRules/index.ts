@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { listByHealthModel, $delete, createOrUpdate, get } from "./operations.js";
-export {
-  type DiscoveryRulesListByHealthModelOptionalParams,
-  type DiscoveryRulesDeleteOptionalParams,
-  type DiscoveryRulesCreateOrUpdateOptionalParams,
-  type DiscoveryRulesGetOptionalParams,
+export type {
+  DiscoveryRulesListByHealthModelOptionalParams,
+  DiscoveryRulesDeleteOptionalParams,
+  DiscoveryRulesCreateOrUpdateOptionalParams,
+  DiscoveryRulesGetOptionalParams,
 } from "./options.js";

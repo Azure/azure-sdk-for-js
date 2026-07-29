@@ -27,7 +27,7 @@ export function _retrieveSend(
     "/knowledgebases('{knowledgeBaseName}')/retrieve{?api%2Dversion}",
     {
       knowledgeBaseName: context.knowledgeBaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,6 +41,9 @@ export function _retrieveSend(
         ? {
             accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
           }
+        : {}),
+      ...(options?.querySourceAuthorization !== undefined
+        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }

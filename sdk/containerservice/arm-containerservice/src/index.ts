@@ -81,7 +81,17 @@ export type {
   SystemData,
   CreatedByType,
   ErrorResponse,
+  ResourceProvisioningState,
   AgentPoolDeleteMachinesParameter,
+  ListBootstrapDataRequest,
+  PoolBootstrapData,
+  BootstrapAzureConfig,
+  BootstrapTargetCluster,
+  BootstrapTokenInfo,
+  BootstrapComponentVersions,
+  BootstrapNetworkingConfig,
+  BootstrapNodeConfig,
+  BootstrapKubeletConfig,
   AgentPoolAvailableVersions,
   AgentPoolAvailableVersionsProperties,
   AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem,
@@ -138,6 +148,8 @@ export type {
   ManagedClusterLoadBalancerProfileOutboundIPs,
   BackendPoolType,
   ClusterServiceLoadBalancerHealthProbeMode,
+  BastionProfile,
+  BastionSku,
   ManagedClusterNATGatewayProfile,
   ManagedClusterManagedOutboundIPProfile,
   ManagedClusterStaticEgressGatewayProfile,
@@ -162,7 +174,7 @@ export type {
   ManagedClusterSecurityProfileDefender,
   ManagedClusterSecurityProfileDefenderSecurityMonitoring,
   ManagedClusterSecurityProfileDefenderSecurityGating,
-  ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem,
+  ManagedClusterSecurityProfileDefenderSecurityGatingIdentity,
   AzureKeyVaultKms,
   KeyVaultNetworkAccessTypes,
   KubernetesResourceObjectEncryptionProfile,
@@ -222,7 +234,6 @@ export type {
   ArtifactSource,
   ManagedClusterAIToolchainOperatorProfile,
   SchedulerProfile,
-  SchedulerProfileSchedulerInstanceProfiles,
   SchedulerInstanceProfile,
   SchedulerConfigMode,
   ManagedClusterHostedSystemProfile,
@@ -287,6 +298,8 @@ export type {
   RelativeMonthlySchedule,
   Type,
   DateSpan,
+  MaintenanceWindowResource,
+  MaintenanceWindowResourceProperties,
   ManagedNamespace,
   NamespaceProperties,
   NamespaceProvisioningState,
@@ -335,6 +348,7 @@ export type {
   IdentityBindingManagedIdentityProfile,
   IdentityBindingOidcIssuerProfile,
   IdentityBindingProvisioningState,
+  AllowedSubject,
   JWTAuthenticator,
   JWTAuthenticatorProperties,
   JWTAuthenticatorProvisioningState,
@@ -349,6 +363,11 @@ export type {
   MeshMembershipPrivateConnectProfile,
   OperationValue,
   OperationValueDisplay,
+  AlertConfiguration,
+  AlertConfigurationProperties,
+  AlertConfigurationMode,
+  AlertNotification,
+  AlertConfigurationProvisioningState,
   OperationStatusResult,
   PrivateLinkResourcesListResult,
   TrustedAccessRole,
@@ -399,6 +418,7 @@ export {
   KnownLocalDNSForwardPolicy,
   KnownLocalDNSServeStale,
   KnownCreatedByType,
+  KnownResourceProvisioningState,
   KnownLicenseType,
   KnownManagedClusterPodIdentityProvisioningState,
   KnownRestrictionLevel,
@@ -415,6 +435,7 @@ export {
   KnownLoadBalancerSku,
   KnownBackendPoolType,
   KnownClusterServiceLoadBalancerHealthProbeMode,
+  KnownBastionSku,
   KnownIpFamily,
   KnownPodLinkLocalAccess,
   KnownMode,
@@ -461,6 +482,8 @@ export {
   KnownIdentityBindingProvisioningState,
   KnownJWTAuthenticatorProvisioningState,
   KnownMeshMembershipProvisioningState,
+  KnownAlertConfigurationMode,
+  KnownAlertConfigurationProvisioningState,
   KnownResourceSkuCapacityScaleType,
   KnownResourceSkuRestrictionsType,
   KnownResourceSkuRestrictionsReasonCode,
@@ -471,6 +494,7 @@ export type { ContainerServiceClientOptionalParams } from "./api/index.js";
 export type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
+  AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
   AgentPoolsCompleteUpgradeOptionalParams,
@@ -480,6 +504,12 @@ export type {
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsGetOptionalParams,
 } from "./api/agentPools/index.js";
+export type {
+  AlertConfigurationsListByManagedClusterOptionalParams,
+  AlertConfigurationsDeleteOptionalParams,
+  AlertConfigurationsCreateOrUpdateOptionalParams,
+  AlertConfigurationsGetOptionalParams,
+} from "./api/alertConfigurations/index.js";
 export type { ContainerServiceListNodeImageVersionsOptionalParams } from "./api/containerService/index.js";
 export type {
   IdentityBindingsListByManagedClusterOptionalParams,
@@ -510,6 +540,14 @@ export type {
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsGetOptionalParams,
 } from "./api/maintenanceConfigurations/index.js";
+export type {
+  MaintenanceWindowsListBySubscriptionOptionalParams,
+  MaintenanceWindowsListOptionalParams,
+  MaintenanceWindowsDeleteOptionalParams,
+  MaintenanceWindowsUpdateTagsOptionalParams,
+  MaintenanceWindowsCreateOrUpdateOptionalParams,
+  MaintenanceWindowsGetOptionalParams,
+} from "./api/maintenanceWindows/index.js";
 export type {
   ManagedClustersListKubernetesVersionsOptionalParams,
   ManagedClustersListMeshUpgradeProfilesOptionalParams,
@@ -597,12 +635,14 @@ export type { TrustedAccessRolesListOptionalParams } from "./api/trustedAccessRo
 export type { VmSkusListOptionalParams } from "./api/vmSkus/index.js";
 export type {
   AgentPoolsOperations,
+  AlertConfigurationsOperations,
   ContainerServiceOperations,
   IdentityBindingsOperations,
   JWTAuthenticatorsOperations,
   LoadBalancersOperations,
   MachinesOperations,
   MaintenanceConfigurationsOperations,
+  MaintenanceWindowsOperations,
   ManagedClustersOperations,
   ManagedClusterSnapshotsOperations,
   ManagedNamespacesOperations,
@@ -620,3 +660,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

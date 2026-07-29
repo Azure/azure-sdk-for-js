@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the storage task assignments in an account
  *
  * @summary list all the storage task assignments in an account
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
  */
 async function listStorageTaskAssignmentsForAccount() {
   const credential = new DefaultAzureCredential();

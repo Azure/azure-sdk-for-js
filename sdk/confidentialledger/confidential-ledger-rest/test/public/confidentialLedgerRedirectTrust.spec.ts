@@ -10,7 +10,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import createClient from "../../src/confidentialLedger.js";
+import createClient from "../../src/confidentialLedgerCustomized.js";
 
 /**
  * Helper to extract the custom redirect policy from a client's pipeline.
@@ -32,7 +32,7 @@ function getRedirectPolicy(ledgerEndpoint: string): PipelinePolicy {
  * Helper to create a write request with a Bearer token. The token text is
  * checked in assertions to verify it never leaks to untrusted targets.
  */
-function writeRequest(url: string) {
+function writeRequest(url: string): PipelineRequest {
   return createPipelineRequest({
     url,
     method: "POST",

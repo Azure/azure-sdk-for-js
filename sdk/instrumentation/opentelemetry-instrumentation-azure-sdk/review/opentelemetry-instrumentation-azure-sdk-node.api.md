@@ -9,6 +9,7 @@ import type { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationBase } from '@opentelemetry/instrumentation';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { InstrumentationModuleDefinition } from '@opentelemetry/instrumentation';
+import type { Instrumenter } from '@azure/core-tracing';
 
 // @public
 export class AzureSdkInstrumentation extends InstrumentationBase {
@@ -22,6 +23,9 @@ export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {
 
 // @public
 export function createAzureSdkInstrumentation(options?: AzureSdkInstrumentationOptions): Instrumentation;
+
+// @public
+export function createOpenTelemetryInstrumenter(): Instrumenter;
 
 // @public
 export const logger: AzureLogger;

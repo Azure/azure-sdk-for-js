@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: 2025-08-01/FileSharesLease_Acquire.json
+ * x-ms-original-file: 2026-04-01/FileSharesLease_Acquire.json
  */
 async function acquireALeaseOnAShare(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function acquireALeaseOnAShare(): Promise<void> {
  * This sample demonstrates how to the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary the Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: 2025-08-01/FileSharesLease_Break.json
+ * x-ms-original-file: 2026-04-01/FileSharesLease_Break.json
  */
 async function breakALeaseOnAShare(): Promise<void> {
   const credential = new DefaultAzureCredential();

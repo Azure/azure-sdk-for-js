@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes any information about the association.
  *
  * @summary refreshes any information about the association.
- * x-ms-original-file: 2025-08-01/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: 2026-04-01/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationReconcile(): Promise<void> {
   const credential = new DefaultAzureCredential();

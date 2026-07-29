@@ -36,7 +36,7 @@ export function _postSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,10 +53,12 @@ export function _postSend(
 export async function _postDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OutboundRuleListResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -76,14 +78,14 @@ export function post(
   const initialPagingPoller = getLongRunningPoller(
     context,
     async (result: PathUncheckedResponse) => result,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
         _postSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -91,11 +93,11 @@ export function post(
     context,
     async () => await initialPagingPoller,
     _postDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

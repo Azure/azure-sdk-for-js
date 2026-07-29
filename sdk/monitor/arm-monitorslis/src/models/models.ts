@@ -432,7 +432,7 @@ export interface Condition {
   samplingType?: SamplingType;
   /** Operator used in the filtering condition. */
   operator: ConditionOperator;
-  /** Value used in filtering. */
+  /** Value used in filtering. For most operators (eq, ne, lt, lte, gt, gte, startswith, notstartswith, contains, notcontains) this is a single value (for example "GetContosoUsers"). For the `in` and `notin` operators, multiple values must be joined by the delimiter `^^` (for example "east^^west^^north"). */
   value: string;
 }
 
@@ -482,14 +482,16 @@ export type ScalarFunction = string;
 
 /** Defines the available sampling types. */
 export enum KnownSamplingType {
-  /** Maximum value. */
-  Max = "max",
-  /** Minimum value. */
-  Min = "min",
   /** Average value. */
-  Avg = "avg",
+  Average = "Average",
   /** Summation. */
-  Sum = "sum",
+  Sum = "Sum",
+  /** Count of occurrences. */
+  Count = "Count",
+  /** Minimum value. */
+  Min = "Min",
+  /** Maximum value. */
+  Max = "Max",
 }
 
 /**
@@ -497,39 +499,40 @@ export enum KnownSamplingType {
  * {@link KnownSamplingType} can be used interchangeably with SamplingType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **max**: Maximum value. \
- * **min**: Minimum value. \
- * **avg**: Average value. \
- * **sum**: Summation.
+ * **Average**: Average value. \
+ * **Sum**: Summation. \
+ * **Count**: Count of occurrences. \
+ * **Min**: Minimum value. \
+ * **Max**: Maximum value.
  */
 export type SamplingType = string;
 
 /** Defines operators used in filter conditions. */
 export enum KnownConditionOperator {
   /** Equal to. */
-  Equal = "==",
+  Equal = "eq",
   /** Not equal to. */
-  NotEqual = "!=",
+  NotEqual = "ne",
   /** Less than. */
-  LessThan = "<",
+  LessThan = "lt",
   /** Less than or equal to. */
-  LessThanOrEqual = "<=",
+  LessThanOrEqual = "lte",
   /** Greater than. */
-  GreaterThan = ">",
+  GreaterThan = "gt",
   /** Greater than or equal to. */
-  GreaterThanOrEqual = ">=",
-  /** In operator. */
-  In = "@in",
-  /** Not in. */
-  NotIn = "!in",
+  GreaterThanOrEqual = "gte",
+  /** Matches when `value` is one of the items in the `^^`-delimited list (for example, `value` = "east^^west^^north"). */
+  In = "in",
+  /** Matches when `value` is none of the items in the `^^`-delimited list (for example, `value` = "east^^west^^north"). */
+  NotIn = "notin",
   /** Starts with. */
   StartsWith = "startswith",
   /** Does not start with. */
-  NotStartsWith = "!startswith",
+  NotStartsWith = "notstartswith",
   /** Contains the value. */
   Contains = "contains",
   /** Does not contain the value. */
-  NotContains = "!contains",
+  NotContains = "notcontains",
 }
 
 /**
@@ -537,18 +540,18 @@ export enum KnownConditionOperator {
  * {@link KnownConditionOperator} can be used interchangeably with ConditionOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **==**: Equal to. \
- * **!=**: Not equal to. \
- * **<**: Less than. \
- * **<=**: Less than or equal to. \
- * **>**: Greater than. \
- * **>=**: Greater than or equal to. \
- * **@in**: In operator. \
- * **!in**: Not in. \
+ * **eq**: Equal to. \
+ * **ne**: Not equal to. \
+ * **lt**: Less than. \
+ * **lte**: Less than or equal to. \
+ * **gt**: Greater than. \
+ * **gte**: Greater than or equal to. \
+ * **in**: Matches when `value` is one of the items in the `^^`-delimited list (for example, `value` = "east^^west^^north"). \
+ * **notin**: Matches when `value` is none of the items in the `^^`-delimited list (for example, `value` = "east^^west^^north"). \
  * **startswith**: Starts with. \
- * **!startswith**: Does not start with. \
+ * **notstartswith**: Does not start with. \
  * **contains**: Contains the value. \
- * **!contains**: Does not contain the value.
+ * **notcontains**: Does not contain the value.
  */
 export type ConditionOperator = string;
 
@@ -685,13 +688,13 @@ export function windowUptimeCriteriaDeserializer(item: any): WindowUptimeCriteri
 /** Defines comparison operators for window uptime criteria. */
 export enum KnownWindowUptimeCriteriaComparator {
   /** Less than the target value. */
-  LessThan = "<",
+  LessThan = "lt",
   /** Greater than the target value. */
-  GreaterThan = ">",
+  GreaterThan = "gt",
   /** Less than or equal to the target value. */
-  LessThanOrEqual = "<=",
+  LessThanOrEqual = "lte",
   /** Greater than or equal to the target value. */
-  GreaterThanOrEqual = ">=",
+  GreaterThanOrEqual = "gte",
 }
 
 /**
@@ -699,10 +702,10 @@ export enum KnownWindowUptimeCriteriaComparator {
  * {@link KnownWindowUptimeCriteriaComparator} can be used interchangeably with WindowUptimeCriteriaComparator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **<**: Less than the target value. \
- * **>**: Greater than the target value. \
- * **<=**: Less than or equal to the target value. \
- * **>=**: Greater than or equal to the target value.
+ * **lt**: Less than the target value. \
+ * **gt**: Greater than the target value. \
+ * **lte**: Less than or equal to the target value. \
+ * **gte**: Greater than or equal to the target value.
  */
 export type WindowUptimeCriteriaComparator = string;
 

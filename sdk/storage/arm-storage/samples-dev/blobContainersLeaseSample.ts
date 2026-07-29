@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary the Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: 2025-08-01/BlobContainersLease_Acquire.json
+ * x-ms-original-file: 2026-04-01/BlobContainersLease_Acquire.json
  */
 async function acquireALeaseOnAContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function acquireALeaseOnAContainer(): Promise<void> {
  * This sample demonstrates how to the Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary the Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: 2025-08-01/BlobContainersLease_Break.json
+ * x-ms-original-file: 2026-04-01/BlobContainersLease_Break.json
  */
 async function breakALeaseOnAContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

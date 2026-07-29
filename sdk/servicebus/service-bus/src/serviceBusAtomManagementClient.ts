@@ -211,9 +211,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     credentialOrOptions2?:
-      | TokenCredential
-      | NamedKeyCredential
-      | ServiceBusAdministrationClientOptions,
+      TokenCredential | NamedKeyCredential | ServiceBusAdministrationClientOptions,
     options3?: ServiceBusAdministrationClientOptions,
   ) {
     let options: ServiceBusAdministrationClientOptions;
@@ -1941,10 +1939,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async putResource(
     name: string,
     entityFields:
-      | InternalQueueOptions
-      | InternalTopicOptions
-      | InternalSubscriptionOptions
-      | CreateRuleOptions,
+      InternalQueueOptions | InternalTopicOptions | InternalSubscriptionOptions | CreateRuleOptions,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {},
@@ -1963,8 +1958,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
 
         const queueOrSubscriptionFields = entityFields as
-          | InternalQueueOptions
-          | InternalSubscriptionOptions;
+          InternalQueueOptions | InternalSubscriptionOptions;
         if (
           queueOrSubscriptionFields.ForwardTo ||
           queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo

@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { EventHubManagementClient } = require("@azure/arm-eventhub");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to gets a list of application groups for a Namespace.
+ *
+ * @summary gets a list of application groups for a Namespace.
+ * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupListByNamespace.json
+ */
+async function listApplicationGroups() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new EventHubManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.applicationGroupOperations.listByNamespace(
+    "contosotest",
+    "contoso-ua-test-eh-system-1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listApplicationGroups();
+}
+
+main().catch(console.error);

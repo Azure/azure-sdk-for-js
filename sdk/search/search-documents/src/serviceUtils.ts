@@ -12,6 +12,7 @@ import type {
 } from "./models/azure/search/documents/index.js";
 import type {
   SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreParameters as GeneratedKnowledgeStoreParameters,
   BM25Similarity,
   ClassicSimilarity,
   CognitiveServicesAccountUnion,
@@ -111,6 +112,7 @@ import type {
   SearchIndexerDataSourceType,
   SearchIndexerIndexProjection,
   SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreParameters,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -130,7 +132,7 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-04-01";
+export const defaultServiceVersion = "2026-05-01-preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -324,6 +326,7 @@ export function convertFieldsToPublic(fields?: GeneratedSearchField[]): SearchFi
 
       const result: SimpleField = {
         ...restField,
+        hasSensitivityLabel: field.sensitivityLabelId,
         type,
         hidden,
         synonymMapNames,
@@ -359,6 +362,7 @@ export function convertFieldsToGenerated(
         indexAnalyzerName: field.indexAnalyzerName,
         synonymMapNames: field.synonymMapNames,
         normalizerName: field.normalizerName,
+        sensitivityLabelId: field.hasSensitivityLabel,
       };
     }
   });
@@ -414,6 +418,7 @@ function convertEncryptionKeyToPublic(
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
     identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity),
+    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -433,6 +438,7 @@ function convertEncryptionKeyToGenerated(
     keyVersion: encryptionKey.keyVersion,
     vaultUri: encryptionKey.vaultUrl,
     identity: encryptionKey.identity,
+    isServiceLevelKey: encryptionKey.isServiceLevelKey,
     applicationId: encryptionKey.applicationId,
     applicationSecret: encryptionKey.applicationSecret,
   };
@@ -613,8 +619,7 @@ export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchA
 
   if (["hnsw", "exhaustiveKnn"].includes(generatedAlgorithmConfiguration.kind)) {
     const algorithmConfiguration = generatedAlgorithmConfiguration as
-      | GeneratedHnswAlgorithmConfiguration
-      | GeneratedExhaustiveKnnAlgorithmConfiguration;
+      GeneratedHnswAlgorithmConfiguration | GeneratedExhaustiveKnnAlgorithmConfiguration;
     const metric = algorithmConfiguration.parameters?.metric as VectorSearchAlgorithmMetric;
     return {
       ...algorithmConfiguration,
@@ -798,8 +803,7 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     dataToExtract: dataToExtract as BlobIndexerDataToExtract | undefined,
     imageAction: imageAction as BlobIndexerImageAction | undefined,
     pdfTextRotationAlgorithm: pdfTextRotationAlgorithm as
-      | BlobIndexerPDFTextRotationAlgorithm
-      | undefined,
+      BlobIndexerPDFTextRotationAlgorithm | undefined,
     executionEnvironment: executionEnvironment as IndexerExecutionEnvironment | undefined,
     markdownParsingSubmode: indexer.parameters?.configuration?.markdownParsingSubmode,
     markdownHeaderDepth: indexer.parameters?.configuration?.markdownHeaderDepth,
@@ -831,6 +835,7 @@ export function publicDataSourceToGeneratedDataSource(
     connectionString: dataSource.connectionString,
     container: dataSource.container,
     identity: dataSource.identity,
+    indexerPermissionOptions: dataSource.indexerPermissionOptions,
     eTag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -848,6 +853,7 @@ export function generatedDataSourceToPublicDataSource(
     connectionString: dataSource.connectionString,
     container: dataSource.container,
     identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
+    indexerPermissionOptions: dataSource.indexerPermissionOptions,
     etag: dataSource.eTag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy,
@@ -910,6 +916,20 @@ function convertKnowledgeStoreToPublic(
   return {
     ...knowledgeStore,
     identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
+    parameters: convertKnowledgeStoreParametersToPublic(knowledgeStore.parameters),
+  };
+}
+
+function convertKnowledgeStoreParametersToPublic(
+  parameters?: GeneratedKnowledgeStoreParameters,
+): SearchIndexerKnowledgeStoreParameters | undefined {
+  if (!parameters) {
+    return undefined;
+  }
+  const { additionalProperties, synthesizeGeneratedKeyName } = parameters;
+  return {
+    ...(additionalProperties ?? {}),
+    synthesizeGeneratedKeyName,
   };
 }
 
@@ -992,6 +1012,20 @@ export function convertKnowledgeSourceToPublic(
         kind: "web",
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
+    }
+    case "indexedSharePoint":
+    case "remoteSharePoint":
+    case "workIQ":
+    case "mcpServer":
+    case "indexedSql":
+    case "file":
+    case "fabricDataAgent":
+    case "fabricOntology": {
+      const { encryptionKey } = knowledgeSource;
+      return {
+        ...knowledgeSource,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+      } as KnowledgeSource;
     }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);

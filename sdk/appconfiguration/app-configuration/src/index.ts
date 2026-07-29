@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export { AppConfigurationClient } from "./appConfigurationClient.js";
+export type { SimplePollerLike } from "./internal/lroShim.js";
 export {
   featureFlagContentType,
   featureFlagPrefix,
@@ -22,3 +23,4 @@ export {
   snapshotReferenceContentType,
   type SnapshotReferenceValue,
 } from "./snapshotReference.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

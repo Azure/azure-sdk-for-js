@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the storage task assignment properties
  *
  * @summary get the storage task assignment properties
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/GetStorageTaskAssignment.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/GetStorageTaskAssignment.json
  */
 async function getStorageTaskAssignment() {
   const credential = new DefaultAzureCredential();

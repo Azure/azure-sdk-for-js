@@ -5,8 +5,10 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -92,6 +94,8 @@ export interface ExecutionState {
     state: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownCategory {
     Availability = "Availability",
@@ -101,16 +105,16 @@ export enum KnownCategory {
 // @public
 export enum KnownConditionOperator {
     Contains = "contains",
-    Equal = "==",
-    GreaterThan = ">",
-    GreaterThanOrEqual = ">=",
-    In = "@in",
-    LessThan = "<",
-    LessThanOrEqual = "<=",
-    NotContains = "!contains",
-    NotEqual = "!=",
-    NotIn = "!in",
-    NotStartsWith = "!startswith",
+    Equal = "eq",
+    GreaterThan = "gt",
+    GreaterThanOrEqual = "gte",
+    In = "in",
+    LessThan = "lt",
+    LessThanOrEqual = "lte",
+    NotContains = "notcontains",
+    NotEqual = "ne",
+    NotIn = "notin",
+    NotStartsWith = "notstartswith",
     StartsWith = "startswith"
 }
 
@@ -151,10 +155,11 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownSamplingType {
-    Avg = "avg",
-    Max = "max",
-    Min = "min",
-    Sum = "sum"
+    Average = "Average",
+    Count = "Count",
+    Max = "Max",
+    Min = "Min",
+    Sum = "Sum"
 }
 
 // @public
@@ -194,10 +199,10 @@ export enum KnownVersions {
 
 // @public
 export enum KnownWindowUptimeCriteriaComparator {
-    GreaterThan = ">",
-    GreaterThanOrEqual = ">=",
-    LessThan = "<",
-    LessThanOrEqual = "<="
+    GreaterThan = "gt",
+    GreaterThanOrEqual = "gte",
+    LessThan = "lt",
+    LessThanOrEqual = "lte"
 }
 
 // @public
@@ -256,6 +261,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export type SamplingType = string;

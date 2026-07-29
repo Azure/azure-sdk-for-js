@@ -4,11 +4,17 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessMode = string;
@@ -31,6 +37,11 @@ export interface AllowedAudiencesValidation {
 export interface AllowedPrincipals {
     groups?: string[];
     identities?: string[];
+}
+
+// @public
+export interface AppInsightsConfiguration {
+    connectionString?: string;
 }
 
 // @public
@@ -65,6 +76,55 @@ export interface AppRegistration {
 }
 
 // @public
+export interface AppResiliency extends ProxyResource {
+    circuitBreakerPolicy?: CircuitBreakerPolicy;
+    httpConnectionPool?: HttpConnectionPool;
+    httpRetryPolicy?: HttpRetryPolicy;
+    tcpConnectionPool?: TcpConnectionPool;
+    tcpRetryPolicy?: TcpRetryPolicy;
+    timeoutPolicy?: TimeoutPolicy;
+}
+
+// @public
+export interface AppResiliencyCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppResiliencyDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppResiliencyGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppResiliencyListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppResiliencyOperations {
+    createOrUpdate: (resourceGroupName: string, appName: string, name: string, resiliencyEnvelope: AppResiliency, options?: AppResiliencyCreateOrUpdateOptionalParams) => Promise<AppResiliency>;
+    delete: (resourceGroupName: string, appName: string, name: string, options?: AppResiliencyDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, appName: string, name: string, options?: AppResiliencyGetOptionalParams) => Promise<AppResiliency>;
+    list: (resourceGroupName: string, appName: string, options?: AppResiliencyListOptionalParams) => PagedAsyncIterableIterator<AppResiliency>;
+    update: (resourceGroupName: string, appName: string, name: string, resiliencyEnvelope: AppResiliency, options?: AppResiliencyUpdateOptionalParams) => Promise<AppResiliency>;
+}
+
+// @public
+export interface AppResiliencyProperties {
+    circuitBreakerPolicy?: CircuitBreakerPolicy;
+    httpConnectionPool?: HttpConnectionPool;
+    httpRetryPolicy?: HttpRetryPolicy;
+    tcpConnectionPool?: TcpConnectionPool;
+    tcpRetryPolicy?: TcpRetryPolicy;
+    timeoutPolicy?: TimeoutPolicy;
+}
+
+// @public
+export interface AppResiliencyUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface AuthConfig extends ProxyResource {
     encryptionSettings?: EncryptionSettings;
     globalValidation?: GlobalValidation;
@@ -75,21 +135,19 @@ export interface AuthConfig extends ProxyResource {
 }
 
 // @public
-export interface AuthConfigCollection {
-    readonly nextLink?: string;
-    value: AuthConfig[];
+export interface AuthConfigProperties {
+    encryptionSettings?: EncryptionSettings;
+    globalValidation?: GlobalValidation;
+    httpSettings?: HttpSettings;
+    identityProviders?: IdentityProviders;
+    login?: Login;
+    platform?: AuthPlatform;
 }
 
 // @public
 export interface AuthPlatform {
     enabled?: boolean;
     runtimeVersion?: string;
-}
-
-// @public
-export interface AvailableOperations {
-    nextLink?: string;
-    value?: OperationDetail[];
 }
 
 // @public
@@ -109,29 +167,13 @@ export interface AvailableWorkloadProfileProperties {
 }
 
 // @public
-export interface AvailableWorkloadProfiles {
-    list(location: string, options?: AvailableWorkloadProfilesGetOptionalParams): PagedAsyncIterableIterator<AvailableWorkloadProfile>;
+export interface AvailableWorkloadProfilesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AvailableWorkloadProfilesCollection {
-    readonly nextLink?: string;
-    value: AvailableWorkloadProfile[];
+export interface AvailableWorkloadProfilesOperations {
+    list: (location: string, options?: AvailableWorkloadProfilesListOptionalParams) => PagedAsyncIterableIterator<AvailableWorkloadProfile>;
 }
-
-// @public
-export interface AvailableWorkloadProfilesGetNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailableWorkloadProfilesGetNextResponse = AvailableWorkloadProfilesCollection;
-
-// @public
-export interface AvailableWorkloadProfilesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailableWorkloadProfilesGetResponse = AvailableWorkloadProfilesCollection;
 
 // @public
 export interface AzureActiveDirectory {
@@ -166,6 +208,13 @@ export interface AzureActiveDirectoryValidation {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureCredentials {
     clientId?: string;
     clientSecret?: string;
@@ -195,11 +244,15 @@ export interface AzureStaticWebAppsRegistration {
 }
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BaseContainer {
     args?: string[];
     command?: string[];
     env?: EnvironmentVar[];
     image?: string;
+    imageType?: ImageType;
     name?: string;
     resources?: ContainerResources;
     volumeMounts?: VolumeMount[];
@@ -224,34 +277,197 @@ export interface BillingMeterProperties {
 }
 
 // @public
-export interface BillingMeters {
-    get(location: string, options?: BillingMetersGetOptionalParams): Promise<BillingMetersGetResponse>;
+export interface BillingMetersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BillingMetersGetOptionalParams extends coreClient.OperationOptions {
+export interface BillingMetersOperations {
+    get: (location: string, options?: BillingMetersGetOptionalParams) => Promise<BillingMeterCollection>;
 }
-
-// @public
-export type BillingMetersGetResponse = BillingMeterCollection;
 
 // @public
 export type BindingType = string;
 
 // @public
 export interface BlobStorageTokenStore {
-    sasUrlSettingName: string;
+    blobContainerUri?: string;
+    clientId?: string;
+    managedIdentityResourceId?: string;
+    sasUrlSettingName?: string;
+}
+
+// @public
+export interface BuildAuthTokenListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildAuthTokenOperations {
+    list: (resourceGroupName: string, builderName: string, buildName: string, options?: BuildAuthTokenListOptionalParams) => Promise<BuildToken>;
+}
+
+// @public
+export interface BuildConfiguration {
+    baseOs?: string;
+    environmentVariables?: EnvironmentVariable[];
+    platform?: string;
+    platformVersion?: string;
+    preBuildSteps?: PreBuildStep[];
+}
+
+// @public
+export interface BuilderProperties {
+    containerRegistries?: ContainerRegistry[];
+    environmentId: string;
+    readonly provisioningState?: BuilderProvisioningState;
+}
+
+// @public
+export type BuilderProvisioningState = string;
+
+// @public
+export interface BuilderResource extends TrackedResource {
+    containerRegistries?: ContainerRegistry[];
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    readonly provisioningState?: BuilderProvisioningState;
+}
+
+// @public
+export interface BuilderResourceUpdate {
+    environmentId?: string;
+    identity?: ManagedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface BuilderResourceUpdateProperties {
+    environmentId?: string;
+}
+
+// @public
+export interface BuildersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildersListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildersListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildersOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BuilderResource>, BuilderResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams) => Promise<BuilderResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BuilderResource>, BuilderResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams) => Promise<BuilderResource>;
+    createOrUpdate: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResource, options?: BuildersCreateOrUpdateOptionalParams) => PollerLike<OperationState<BuilderResource>, BuilderResource>;
+    delete: (resourceGroupName: string, builderName: string, options?: BuildersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, builderName: string, options?: BuildersGetOptionalParams) => Promise<BuilderResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: BuildersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BuilderResource>;
+    listBySubscription: (options?: BuildersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BuilderResource>;
+    update: (resourceGroupName: string, builderName: string, builderEnvelope: BuilderResourceUpdate, options?: BuildersUpdateOptionalParams) => PollerLike<OperationState<BuilderResource>, BuilderResource>;
+}
+
+// @public
+export interface BuildersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildProperties {
+    readonly buildStatus?: BuildStatus;
+    configuration?: BuildConfiguration;
+    destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly logStreamEndpoint?: string;
+    readonly provisioningState?: BuildProvisioningState;
+    readonly tokenEndpoint?: string;
+    readonly uploadEndpoint?: string;
+}
+
+// @public
+export type BuildProvisioningState = string;
+
+// @public
+export interface BuildResource extends ProxyResource {
+    readonly buildStatus?: BuildStatus;
+    configuration?: BuildConfiguration;
+    destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly logStreamEndpoint?: string;
+    readonly provisioningState?: BuildProvisioningState;
+    readonly tokenEndpoint?: string;
+    readonly uploadEndpoint?: string;
+}
+
+// @public
+export interface BuildsByBuilderResourceListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildsByBuilderResourceOperations {
+    list: (resourceGroupName: string, builderName: string, options?: BuildsByBuilderResourceListOptionalParams) => PagedAsyncIterableIterator<BuildResource>;
+}
+
+// @public
+export interface BuildsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BuildsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<BuildResource>, BuildResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams) => Promise<BuildResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, builderName: string, buildName: string, buildEnvelope: BuildResource, options?: BuildsCreateOrUpdateOptionalParams) => PollerLike<OperationState<BuildResource>, BuildResource>;
+    delete: (resourceGroupName: string, builderName: string, buildName: string, options?: BuildsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, builderName: string, buildName: string, options?: BuildsGetOptionalParams) => Promise<BuildResource>;
+}
+
+// @public
+export type BuildStatus = string;
+
+// @public
+export interface BuildToken {
+    readonly expires?: Date;
+    readonly token?: string;
 }
 
 // @public
 export interface Certificate extends TrackedResource {
     properties?: CertificateProperties;
-}
-
-// @public
-export interface CertificateCollection {
-    readonly nextLink?: string;
-    value: Certificate[];
 }
 
 // @public
@@ -262,14 +478,13 @@ export interface CertificateKeyVaultProperties {
 
 // @public
 export interface CertificatePatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface CertificateProperties {
     certificateKeyVaultProperties?: CertificateKeyVaultProperties;
+    certificateType?: CertificateType;
     readonly deploymentErrors?: string;
     readonly expirationDate?: Date;
     readonly issueDate?: Date;
@@ -288,53 +503,37 @@ export interface CertificateProperties {
 export type CertificateProvisioningState = string;
 
 // @public
-export interface Certificates {
-    createOrUpdate(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    update(resourceGroupName: string, environmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: CertificatesUpdateOptionalParams): Promise<CertificatesUpdateResponse>;
-}
-
-// @public
-export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends OperationOptions {
     certificateEnvelope?: Certificate;
 }
 
 // @public
-export type CertificatesCreateOrUpdateResponse = Certificate;
-
-// @public
-export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesGetResponse = Certificate;
-
-// @public
-export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesListNextResponse = CertificateCollection;
-
-// @public
-export interface CertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    delete: (resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, certificateName: string, options?: CertificatesGetOptionalParams) => Promise<Certificate>;
+    list: (resourceGroupName: string, environmentName: string, options?: CertificatesListOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    update: (resourceGroupName: string, environmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: CertificatesUpdateOptionalParams) => Promise<Certificate>;
 }
 
 // @public
-export type CertificatesListResponse = CertificateCollection;
-
-// @public
-export interface CertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesUpdateResponse = Certificate;
+export type CertificateType = string;
 
 // @public
 export type CheckNameAvailabilityReason = string;
@@ -353,6 +552,13 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
+export interface CircuitBreakerPolicy {
+    consecutiveErrors?: number;
+    intervalInSeconds?: number;
+    maxEjectionPercent?: number;
+}
+
+// @public
 export interface ClientRegistration {
     clientId?: string;
     clientSecretSettingName?: string;
@@ -366,9 +572,11 @@ export interface Configuration {
     ingress?: Ingress;
     maxInactiveRevisions?: number;
     registries?: RegistryCredentials[];
+    revisionTransitionThreshold?: number;
     runtime?: Runtime;
     secrets?: Secret[];
     service?: Service;
+    targetLabel?: string;
 }
 
 // @public
@@ -383,301 +591,184 @@ export interface ConnectedEnvironment extends TrackedResource {
 }
 
 // @public
-export interface ConnectedEnvironmentCollection {
-    readonly nextLink?: string;
-    value?: ConnectedEnvironment[];
+export interface ConnectedEnvironmentPatchResource extends ResourceTags {
 }
 
 // @public
-export interface ConnectedEnvironmentPatchResource extends ResourceTags {
+export interface ConnectedEnvironmentProperties {
+    customDomainConfiguration?: CustomDomainConfiguration;
+    daprAIConnectionString?: string;
+    readonly defaultDomain?: string;
+    readonly deploymentErrors?: string;
+    readonly provisioningState?: ConnectedEnvironmentProvisioningState;
+    staticIp?: string;
 }
 
 // @public
 export type ConnectedEnvironmentProvisioningState = string;
 
 // @public
-export interface ConnectedEnvironments {
-    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsCreateOrUpdateResponse>, ConnectedEnvironmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams): Promise<ConnectedEnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams): Promise<void>;
-    checkNameAvailability(resourceGroupName: string, connectedEnvironmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams): Promise<ConnectedEnvironmentsCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsGetOptionalParams): Promise<ConnectedEnvironmentsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ConnectedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConnectedEnvironment>;
-    listBySubscription(options?: ConnectedEnvironmentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ConnectedEnvironment>;
-    update(resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironmentPatchResource, options?: ConnectedEnvironmentsUpdateOptionalParams): Promise<ConnectedEnvironmentsUpdateResponse>;
-}
-
-// @public
-export interface ConnectedEnvironmentsCertificates {
-    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>, ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsCertificatesDeleteResponse>, ConnectedEnvironmentsCertificatesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams): Promise<ConnectedEnvironmentsCertificatesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsCertificatesUpdateResponse>, ConnectedEnvironmentsCertificatesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams): Promise<ConnectedEnvironmentsCertificatesUpdateResponse>;
-    get(resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesGetOptionalParams): Promise<ConnectedEnvironmentsCertificatesGetResponse>;
-    list(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsCertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
-}
-
-// @public
-export interface ConnectedEnvironmentsCertificatesCreateOrUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams extends OperationOptions {
     certificateEnvelope?: Certificate;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse = Certificate;
-
-// @public
-export interface ConnectedEnvironmentsCertificatesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsCertificatesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesDeleteResponse = ConnectedEnvironmentsCertificatesDeleteHeaders;
-
-// @public
-export interface ConnectedEnvironmentsCertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsCertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesGetResponse = Certificate;
-
-// @public
-export interface ConnectedEnvironmentsCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsCertificatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesListNextResponse = CertificateCollection;
-
-// @public
-export interface ConnectedEnvironmentsCertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsCertificatesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Certificate>, Certificate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Certificate>, Certificate>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams) => Promise<Certificate>;
+    createOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Certificate>, Certificate>;
+    delete: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, options?: ConnectedEnvironmentsCertificatesGetOptionalParams) => Promise<Certificate>;
+    list: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsCertificatesListOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    update: (resourceGroupName: string, connectedEnvironmentName: string, certificateName: string, certificateEnvelope: CertificatePatch, options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams) => PollerLike<OperationState<Certificate>, Certificate>;
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesListResponse = CertificateCollection;
-
-// @public
-export interface ConnectedEnvironmentsCertificatesUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsCertificatesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsCertificatesUpdateResponse = Certificate;
-
-// @public
-export interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface ConnectedEnvironmentsCreateOrUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsCreateOrUpdateResponse = ConnectedEnvironment;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponents {
-    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>, ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsDaprComponentsDeleteResponse>, ConnectedEnvironmentsDaprComponentsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams): Promise<ConnectedEnvironmentsDaprComponentsDeleteResponse>;
-    get(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams): Promise<ConnectedEnvironmentsDaprComponentsGetResponse>;
-    list(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDaprComponentsListOptionalParams): PagedAsyncIterableIterator<DaprComponent>;
-    listSecrets(resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams): Promise<ConnectedEnvironmentsDaprComponentsListSecretsResponse>;
-}
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse = DaprComponent;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsDeleteResponse = ConnectedEnvironmentsDaprComponentsDeleteHeaders;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsDaprComponentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsGetResponse = DaprComponent;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsDaprComponentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsListNextResponse = DaprComponentsCollection;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsListOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsListResponse = DaprComponentsCollection;
-
-// @public
-export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsDaprComponentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DaprComponent>, DaprComponent>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams) => Promise<DaprComponent>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DaprComponent>, DaprComponent>;
+    delete: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams) => Promise<DaprComponent>;
+    list: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDaprComponentsListOptionalParams) => PagedAsyncIterableIterator<DaprComponent>;
+    listSecrets: (resourceGroupName: string, connectedEnvironmentName: string, componentName: string, options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams) => Promise<DaprSecretsCollection>;
 }
 
 // @public
-export type ConnectedEnvironmentsDaprComponentsListSecretsResponse = DaprSecretsCollection;
-
-// @public
-export interface ConnectedEnvironmentsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ConnectedEnvironmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsGetResponse = ConnectedEnvironment;
-
-// @public
-export interface ConnectedEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsListByResourceGroupNextResponse = ConnectedEnvironmentCollection;
-
-// @public
-export interface ConnectedEnvironmentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsListByResourceGroupResponse = ConnectedEnvironmentCollection;
-
-// @public
-export interface ConnectedEnvironmentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedEnvironment>, ConnectedEnvironment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams) => Promise<ConnectedEnvironment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams) => Promise<void>;
+    checkNameAvailability: (resourceGroupName: string, connectedEnvironmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    createOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironment, options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConnectedEnvironment>, ConnectedEnvironment>;
+    delete: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsGetOptionalParams) => Promise<ConnectedEnvironment>;
+    listByResourceGroup: (resourceGroupName: string, options?: ConnectedEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedEnvironment>;
+    listBySubscription: (options?: ConnectedEnvironmentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedEnvironment>;
+    update: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsUpdateOptionalParams) => Promise<ConnectedEnvironment>;
 }
 
 // @public
-export type ConnectedEnvironmentsListBySubscriptionNextResponse = ConnectedEnvironmentCollection;
-
-// @public
-export interface ConnectedEnvironmentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedEnvironmentsListBySubscriptionResponse = ConnectedEnvironmentCollection;
-
-// @public
-export interface ConnectedEnvironmentsStorages {
-    beginCreateOrUpdate(resourceGroupName: string, connectedEnvironmentName: string, storageName: string, storageEnvelope: ConnectedEnvironmentStorage, options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>, ConnectedEnvironmentsStoragesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, connectedEnvironmentName: string, storageName: string, storageEnvelope: ConnectedEnvironmentStorage, options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedEnvironmentsStoragesDeleteResponse>, ConnectedEnvironmentsStoragesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesDeleteOptionalParams): Promise<ConnectedEnvironmentsStoragesDeleteResponse>;
-    get(resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesGetOptionalParams): Promise<ConnectedEnvironmentsStoragesGetResponse>;
-    list(resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsStoragesListOptionalParams): Promise<ConnectedEnvironmentsStoragesListResponse>;
-}
-
-// @public
-export interface ConnectedEnvironmentsStoragesCreateOrUpdateHeaders {
-    // (undocumented)
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse = ConnectedEnvironmentStorage;
-
-// @public
-export interface ConnectedEnvironmentsStoragesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ConnectedEnvironmentsStoragesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedEnvironmentsStoragesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedEnvironmentsStoragesDeleteResponse = ConnectedEnvironmentsStoragesDeleteHeaders;
-
-// @public
-export interface ConnectedEnvironmentsStoragesGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsStoragesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsStoragesGetResponse = ConnectedEnvironmentStorage;
-
-// @public
-export interface ConnectedEnvironmentsStoragesListOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsStoragesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedEnvironmentsStoragesListResponse = ConnectedEnvironmentStoragesCollection;
+export interface ConnectedEnvironmentsStoragesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, storageEnvelope: ConnectedEnvironmentStorage, options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ConnectedEnvironmentStorage>, ConnectedEnvironmentStorage>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, storageEnvelope: ConnectedEnvironmentStorage, options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams) => Promise<ConnectedEnvironmentStorage>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, storageEnvelope: ConnectedEnvironmentStorage, options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ConnectedEnvironmentStorage>, ConnectedEnvironmentStorage>;
+    delete: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, connectedEnvironmentName: string, storageName: string, options?: ConnectedEnvironmentsStoragesGetOptionalParams) => Promise<ConnectedEnvironmentStorage>;
+    list: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsStoragesListOptionalParams) => Promise<ConnectedEnvironmentStoragesCollection>;
+}
 
 // @public
 export interface ConnectedEnvironmentStorage extends ProxyResource {
@@ -689,6 +780,7 @@ export interface ConnectedEnvironmentStorageProperties {
     azureFile?: AzureFileProperties;
     readonly deploymentErrors?: string;
     readonly provisioningState?: ConnectedEnvironmentStorageProvisioningState;
+    smb?: SmbStorage;
 }
 
 // @public
@@ -700,11 +792,9 @@ export interface ConnectedEnvironmentStoragesCollection {
 }
 
 // @public
-export interface ConnectedEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedEnvironmentsUpdateOptionalParams extends OperationOptions {
+    environmentEnvelope?: ConnectedEnvironmentPatchResource;
 }
-
-// @public
-export type ConnectedEnvironmentsUpdateResponse = ConnectedEnvironment;
 
 // @public
 export interface Container extends BaseContainer {
@@ -715,6 +805,7 @@ export interface Container extends BaseContainer {
 export interface ContainerApp extends TrackedResource {
     configuration?: Configuration;
     readonly customDomainVerificationId?: string;
+    readonly deploymentErrors?: string;
     environmentId?: string;
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
@@ -726,6 +817,7 @@ export interface ContainerApp extends TrackedResource {
     managedBy?: string;
     managedEnvironmentId?: string;
     readonly outboundIpAddresses?: string[];
+    patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
     readonly provisioningState?: ContainerAppProvisioningState;
     readonly runningStatus?: ContainerAppRunningStatus;
     template?: Template;
@@ -739,9 +831,9 @@ export interface ContainerAppAuthToken extends TrackedResource {
 }
 
 // @public
-export interface ContainerAppCollection {
-    readonly nextLink?: string;
-    value: ContainerApp[];
+export interface ContainerAppAuthTokenProperties {
+    readonly expires?: Date;
+    readonly token?: string;
 }
 
 // @public
@@ -749,7 +841,7 @@ export type ContainerAppContainerRunningState = string;
 
 // @public
 export interface ContainerAppJobExecutions {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: JobExecution[];
 }
 
@@ -788,6 +880,30 @@ export interface ContainerAppProbeTcpSocket {
 }
 
 // @public
+export interface ContainerAppProperties {
+    configuration?: Configuration;
+    readonly customDomainVerificationId?: string;
+    readonly deploymentErrors?: string;
+    environmentId?: string;
+    readonly eventStreamEndpoint?: string;
+    readonly latestReadyRevisionName?: string;
+    readonly latestRevisionFqdn?: string;
+    readonly latestRevisionName?: string;
+    managedEnvironmentId?: string;
+    readonly outboundIpAddresses?: string[];
+    patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
+    readonly provisioningState?: ContainerAppProvisioningState;
+    readonly runningStatus?: ContainerAppRunningStatus;
+    template?: Template;
+    workloadProfileName?: string;
+}
+
+// @public
+export interface ContainerAppPropertiesPatchingConfiguration {
+    patchingMode?: PatchingMode;
+}
+
+// @public
 export type ContainerAppProvisioningState = string;
 
 // @public
@@ -796,229 +912,186 @@ export type ContainerAppReplicaRunningState = string;
 // @public
 export type ContainerAppRunningStatus = string;
 
-// @public
-export interface ContainerApps {
-    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStartResponse>, ContainerAppsStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams): Promise<ContainerAppsStartResponse>;
-    beginStop(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsStopResponse>, ContainerAppsStopResponse>>;
-    beginStopAndWait(resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams): Promise<ContainerAppsStopResponse>;
-    beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
-    get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
-    getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
-    listBySubscription(options?: ContainerAppsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
-    listCustomHostNameAnalysis(resourceGroupName: string, containerAppName: string, options?: ContainerAppsListCustomHostNameAnalysisOptionalParams): Promise<ContainerAppsListCustomHostNameAnalysisResponse>;
-    listSecrets(resourceGroupName: string, containerAppName: string, options?: ContainerAppsListSecretsOptionalParams): Promise<ContainerAppsListSecretsResponse>;
-}
-
 // @public (undocumented)
-export class ContainerAppsAPIClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerAppsAPIClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    availableWorkloadProfiles: AvailableWorkloadProfiles;
-    // (undocumented)
-    billingMeters: BillingMeters;
-    // (undocumented)
-    certificates: Certificates;
-    // (undocumented)
-    connectedEnvironments: ConnectedEnvironments;
-    // (undocumented)
-    connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
-    // (undocumented)
-    connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
-    // (undocumented)
-    connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
-    // (undocumented)
-    containerApps: ContainerApps;
-    // (undocumented)
-    containerAppsAuthConfigs: ContainerAppsAuthConfigs;
-    // (undocumented)
-    containerAppsDiagnostics: ContainerAppsDiagnostics;
-    // (undocumented)
-    containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
-    // (undocumented)
-    containerAppsRevisions: ContainerAppsRevisions;
-    // (undocumented)
-    containerAppsSessionPools: ContainerAppsSessionPools;
-    // (undocumented)
-    containerAppsSourceControls: ContainerAppsSourceControls;
-    // (undocumented)
-    daprComponents: DaprComponents;
+export class ContainerAppsAPIClient {
+    constructor(credential: TokenCredential, options?: ContainerAppsAPIClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerAppsAPIClientOptionalParams);
+    readonly appResiliency: AppResiliencyOperations;
+    readonly availableWorkloadProfiles: AvailableWorkloadProfilesOperations;
+    readonly billingMeters: BillingMetersOperations;
+    readonly buildAuthToken: BuildAuthTokenOperations;
+    readonly builders: BuildersOperations;
+    readonly builds: BuildsOperations;
+    readonly buildsByBuilderResource: BuildsByBuilderResourceOperations;
+    readonly certificates: CertificatesOperations;
+    readonly connectedEnvironments: ConnectedEnvironmentsOperations;
+    readonly connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificatesOperations;
+    readonly connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponentsOperations;
+    readonly connectedEnvironmentsStorages: ConnectedEnvironmentsStoragesOperations;
+    readonly containerApps: ContainerAppsOperations;
+    readonly containerAppsAuthConfigs: ContainerAppsAuthConfigsOperations;
+    readonly containerAppsBuilds: ContainerAppsBuildsOperations;
+    readonly containerAppsBuildsByContainerApp: ContainerAppsBuildsByContainerAppOperations;
+    readonly containerAppsDiagnostics: ContainerAppsDiagnosticsOperations;
+    readonly containerAppsFunctions: ContainerAppsFunctionsOperations;
+    readonly containerAppsLabelHistory: ContainerAppsLabelHistoryOperations;
+    readonly containerAppsPatches: ContainerAppsPatchesOperations;
+    readonly containerAppsRevisionFunctions: ContainerAppsRevisionFunctionsOperations;
+    readonly containerAppsRevisionReplicas: ContainerAppsRevisionReplicasOperations;
+    readonly containerAppsRevisions: ContainerAppsRevisionsOperations;
+    readonly containerAppsSessionPools: ContainerAppsSessionPoolsOperations;
+    readonly containerAppsSourceControls: ContainerAppsSourceControlsOperations;
+    readonly daprComponentResiliencyPolicies: DaprComponentResiliencyPoliciesOperations;
+    readonly daprComponents: DaprComponentsOperations;
+    readonly daprSubscriptions: DaprSubscriptionsOperations;
+    readonly dotNetComponents: DotNetComponentsOperations;
+    readonly functionsExtension: FunctionsExtensionOperations;
     getCustomDomainVerificationId(options?: GetCustomDomainVerificationIdOptionalParams): Promise<GetCustomDomainVerificationIdResponse>;
-    // (undocumented)
-    httpRouteConfigOperations: HttpRouteConfigOperations;
-    // (undocumented)
-    javaComponents: JavaComponents;
-    jobExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobExecutionOptionalParams): Promise<JobExecutionResponse>;
-    // (undocumented)
-    jobs: Jobs;
-    // (undocumented)
-    jobsExecutions: JobsExecutions;
-    // (undocumented)
-    logicApps: LogicApps;
-    // (undocumented)
-    maintenanceConfigurations: MaintenanceConfigurations;
-    // (undocumented)
-    managedCertificates: ManagedCertificates;
-    // (undocumented)
-    managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
-    // (undocumented)
-    managedEnvironmentPrivateEndpointConnections: ManagedEnvironmentPrivateEndpointConnections;
-    // (undocumented)
-    managedEnvironmentPrivateLinkResources: ManagedEnvironmentPrivateLinkResources;
-    // (undocumented)
-    managedEnvironments: ManagedEnvironments;
-    // (undocumented)
-    managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
-    // (undocumented)
-    managedEnvironmentsStorages: ManagedEnvironmentsStorages;
-    // (undocumented)
-    managedEnvironmentUsages: ManagedEnvironmentUsages;
-    // (undocumented)
-    namespaces: Namespaces;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    usages: Usages;
+    readonly httpRouteConfig: HttpRouteConfigOperations;
+    readonly javaComponents: JavaComponentsOperations;
+    jobExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobExecutionOptionalParams): Promise<JobExecution>;
+    readonly jobs: JobsOperations;
+    readonly jobsExecutions: JobsExecutionsOperations;
+    readonly logicApps: LogicAppsOperations;
+    readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
+    readonly managedCertificates: ManagedCertificatesOperations;
+    readonly managedEnvironmentDiagnostics: ManagedEnvironmentDiagnosticsOperations;
+    readonly managedEnvironmentPrivateEndpointConnections: ManagedEnvironmentPrivateEndpointConnectionsOperations;
+    readonly managedEnvironmentPrivateLinkResources: ManagedEnvironmentPrivateLinkResourcesOperations;
+    readonly managedEnvironments: ManagedEnvironmentsOperations;
+    readonly managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnosticsOperations;
+    readonly managedEnvironmentsStorages: ManagedEnvironmentsStoragesOperations;
+    readonly managedEnvironmentUsages: ManagedEnvironmentUsagesOperations;
+    readonly namespaces: NamespacesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly usages: UsagesOperations;
 }
 
 // @public
-export interface ContainerAppsAPIClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ContainerAppsAPIClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ContainerAppsAuthConfigs {
-    createOrUpdate(resourceGroupName: string, containerAppName: string, authConfigName: string, authConfigEnvelope: AuthConfig, options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams): Promise<ContainerAppsAuthConfigsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, containerAppName: string, authConfigName: string, options?: ContainerAppsAuthConfigsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerAppName: string, authConfigName: string, options?: ContainerAppsAuthConfigsGetOptionalParams): Promise<ContainerAppsAuthConfigsGetResponse>;
-    listByContainerApp(resourceGroupName: string, containerAppName: string, options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams): PagedAsyncIterableIterator<AuthConfig>;
+export interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsAuthConfigsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsAuthConfigsCreateOrUpdateResponse = AuthConfig;
-
-// @public
-export interface ContainerAppsAuthConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsAuthConfigsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsAuthConfigsGetOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsAuthConfigsGetResponse = AuthConfig;
-
-// @public
-export interface ContainerAppsAuthConfigsListByContainerAppNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsAuthConfigsOperations {
+    createOrUpdate: (resourceGroupName: string, containerAppName: string, authConfigName: string, authConfigEnvelope: AuthConfig, options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams) => Promise<AuthConfig>;
+    delete: (resourceGroupName: string, containerAppName: string, authConfigName: string, options?: ContainerAppsAuthConfigsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, containerAppName: string, authConfigName: string, options?: ContainerAppsAuthConfigsGetOptionalParams) => Promise<AuthConfig>;
+    listByContainerApp: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams) => PagedAsyncIterableIterator<AuthConfig>;
 }
 
 // @public
-export type ContainerAppsAuthConfigsListByContainerAppNextResponse = AuthConfigCollection;
-
-// @public
-export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsBuildConfiguration {
+    readonly baseOs?: string;
+    readonly environmentVariables?: EnvironmentVariable[];
+    readonly platform?: string;
+    readonly platformVersion?: string;
+    readonly preBuildSteps?: PreBuildStep[];
 }
 
 // @public
-export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
+export interface ContainerAppsBuildProperties {
+    readonly buildStatus?: BuildStatus;
+    readonly configuration?: ContainerAppsBuildConfiguration;
+    readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly logStreamEndpoint?: string;
+    readonly provisioningState?: BuildProvisioningState;
+}
 
 // @public
-export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsBuildResource extends ProxyResource {
+    readonly buildStatus?: BuildStatus;
+    readonly configuration?: ContainerAppsBuildConfiguration;
+    readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly logStreamEndpoint?: string;
+    readonly provisioningState?: BuildProvisioningState;
+}
+
+// @public
+export interface ContainerAppsBuildsByContainerAppListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsBuildsByContainerAppOperations {
+    list: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsBuildsByContainerAppListOptionalParams) => PagedAsyncIterableIterator<ContainerAppsBuildResource>;
+}
+
+// @public
+export interface ContainerAppsBuildsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
-
-// @public
-export interface ContainerAppsDeleteHeaders {
-    // (undocumented)
-    location?: string;
+export interface ContainerAppsBuildsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsBuildsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsGetOptionalParams) => Promise<ContainerAppsBuildResource>;
+}
+
+// @public
+export interface ContainerAppsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ContainerAppsDiagnostics {
-    getDetector(resourceGroupName: string, containerAppName: string, detectorName: string, options?: ContainerAppsDiagnosticsGetDetectorOptionalParams): Promise<ContainerAppsDiagnosticsGetDetectorResponse>;
-    getRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsDiagnosticsGetRevisionOptionalParams): Promise<ContainerAppsDiagnosticsGetRevisionResponse>;
-    getRoot(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsGetRootOptionalParams): Promise<ContainerAppsDiagnosticsGetRootResponse>;
-    listDetectors(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListDetectorsOptionalParams): PagedAsyncIterableIterator<Diagnostics>;
-    listRevisions(resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListRevisionsOptionalParams): PagedAsyncIterableIterator<Revision>;
+export interface ContainerAppsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ContainerAppsDiagnosticsGetDetectorOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsDiagnosticsGetDetectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsDiagnosticsGetDetectorResponse = Diagnostics;
-
-// @public
-export interface ContainerAppsDiagnosticsGetRevisionOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsDiagnosticsGetRevisionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsDiagnosticsGetRevisionResponse = Revision;
-
-// @public
-export interface ContainerAppsDiagnosticsGetRootOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsDiagnosticsGetRootOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsDiagnosticsGetRootResponse = ContainerApp;
-
-// @public
-export interface ContainerAppsDiagnosticsListDetectorsNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsDiagnosticsListDetectorsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsDiagnosticsListDetectorsNextResponse = DiagnosticsCollection;
-
-// @public
-export interface ContainerAppsDiagnosticsListDetectorsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollection;
-
-// @public
-export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsDiagnosticsListRevisionsNextResponse = RevisionCollection;
-
-// @public
-export interface ContainerAppsDiagnosticsListRevisionsOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsDiagnosticsListRevisionsOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ContainerAppsDiagnosticsListRevisionsResponse = RevisionCollection;
+export interface ContainerAppsDiagnosticsOperations {
+    getDetector: (resourceGroupName: string, containerAppName: string, detectorName: string, options?: ContainerAppsDiagnosticsGetDetectorOptionalParams) => Promise<Diagnostics>;
+    getRevision: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsDiagnosticsGetRevisionOptionalParams) => Promise<Revision>;
+    getRoot: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsGetRootOptionalParams) => Promise<ContainerApp>;
+    listDetectors: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListDetectorsOptionalParams) => PagedAsyncIterableIterator<Diagnostics>;
+    listRevisions: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDiagnosticsListRevisionsOptionalParams) => PagedAsyncIterableIterator<Revision>;
+}
 
 // @public
 export interface ContainerAppSecret {
@@ -1029,312 +1102,370 @@ export interface ContainerAppSecret {
 }
 
 // @public
-export interface ContainerAppsGetAuthTokenOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsFunction extends ProxyResource {
+    readonly invokeUrlTemplate?: string;
+    readonly isDisabled?: boolean;
+    readonly language?: string;
+    readonly triggerType?: string;
 }
 
 // @public
-export type ContainerAppsGetAuthTokenResponse = ContainerAppAuthToken;
-
-// @public
-export interface ContainerAppsGetOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsFunctionProperties {
+    readonly invokeUrlTemplate?: string;
+    readonly isDisabled?: boolean;
+    readonly language?: string;
+    readonly triggerType?: string;
 }
 
 // @public
-export type ContainerAppsGetResponse = ContainerApp;
-
-// @public
-export interface ContainerAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsFunctionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
-
-// @public
-export interface ContainerAppsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsFunctionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
-
-// @public
-export interface ContainerAppsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsFunctionsOperations {
+    get: (resourceGroupName: string, containerAppName: string, functionName: string, options?: ContainerAppsFunctionsGetOptionalParams) => Promise<ContainerAppsFunction>;
+    list: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsFunctionsListOptionalParams) => PagedAsyncIterableIterator<ContainerAppsFunction>;
 }
 
 // @public
-export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
-
-// @public
-export interface ContainerAppsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsGetAuthTokenOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
-
-// @public
-export interface ContainerAppsListCustomHostNameAnalysisOptionalParams extends coreClient.OperationOptions {
-    customHostname?: string;
+export interface ContainerAppsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsListCustomHostNameAnalysisResponse = CustomHostnameAnalysisResult;
-
-// @public
-export interface ContainerAppsListSecretsOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsListSecretsResponse = SecretsCollection;
-
-// @public
-export interface ContainerAppsRevisionReplicas {
-    getReplica(resourceGroupName: string, containerAppName: string, revisionName: string, replicaName: string, options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams): Promise<ContainerAppsRevisionReplicasGetReplicaResponse>;
-    listReplicas(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionReplicasListReplicasOptionalParams): Promise<ContainerAppsRevisionReplicasListReplicasResponse>;
+export interface ContainerAppsLabelHistoryGetLabelHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsRevisionReplicasGetReplicaOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsRevisionReplicasGetReplicaResponse = Replica;
-
-// @public
-export interface ContainerAppsRevisionReplicasListReplicasOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsRevisionReplicasListReplicasResponse = ReplicaCollection;
-
-// @public
-export interface ContainerAppsRevisions {
-    activateRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsActivateRevisionOptionalParams): Promise<void>;
-    deactivateRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams): Promise<void>;
-    getRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsGetRevisionOptionalParams): Promise<ContainerAppsRevisionsGetRevisionResponse>;
-    listRevisions(resourceGroupName: string, containerAppName: string, options?: ContainerAppsRevisionsListRevisionsOptionalParams): PagedAsyncIterableIterator<Revision>;
-    restartRevision(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsRestartRevisionOptionalParams): Promise<void>;
-}
-
-// @public
-export interface ContainerAppsRevisionsActivateRevisionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerAppsRevisionsGetRevisionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsRevisionsGetRevisionResponse = Revision;
-
-// @public
-export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
-
-// @public
-export interface ContainerAppsRevisionsListRevisionsOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsLabelHistoryListLabelHistoryOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
-
-// @public
-export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsLabelHistoryOperations {
+    deleteLabelHistory: (resourceGroupName: string, containerAppName: string, labelName: string, options?: ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams) => Promise<void>;
+    getLabelHistory: (resourceGroupName: string, containerAppName: string, labelName: string, options?: ContainerAppsLabelHistoryGetLabelHistoryOptionalParams) => Promise<LabelHistory>;
+    listLabelHistory: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsLabelHistoryListLabelHistoryOptionalParams) => PagedAsyncIterableIterator<LabelHistory>;
 }
 
 // @public
-export interface ContainerAppsSessionPools {
-    beginCreateOrUpdate(resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsCreateOrUpdateResponse>, ContainerAppsSessionPoolsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams): Promise<ContainerAppsSessionPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsDeleteResponse>, ContainerAppsSessionPoolsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams): Promise<ContainerAppsSessionPoolsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsUpdateResponse>, ContainerAppsSessionPoolsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams): Promise<ContainerAppsSessionPoolsUpdateResponse>;
-    get(resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsGetOptionalParams): Promise<ContainerAppsSessionPoolsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ContainerAppsSessionPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SessionPool>;
-    listBySubscription(options?: ContainerAppsSessionPoolsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SessionPool>;
+export interface ContainerAppsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsSessionPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsListCustomHostNameAnalysisOptionalParams extends OperationOptions {
+    customHostname?: string;
+}
+
+// @public
+export interface ContainerAppsListSecretsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerApp>, ContainerApp>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams) => Promise<ContainerApp>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerApp>, ContainerApp>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams) => Promise<ContainerApp>;
+    // @deprecated (undocumented)
+    beginStop: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerApp>, ContainerApp>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams) => Promise<ContainerApp>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerApp>, ContainerApp>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams) => Promise<ContainerApp>;
+    createOrUpdate: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ContainerApp>, ContainerApp>;
+    delete: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams) => Promise<ContainerApp>;
+    getAuthToken: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams) => Promise<ContainerAppAuthToken>;
+    listByResourceGroup: (resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ContainerApp>;
+    listBySubscription: (options?: ContainerAppsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ContainerApp>;
+    listCustomHostNameAnalysis: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsListCustomHostNameAnalysisOptionalParams) => Promise<CustomHostnameAnalysisResult>;
+    listSecrets: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsListSecretsOptionalParams) => Promise<SecretsCollection>;
+    start: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStartOptionalParams) => PollerLike<OperationState<ContainerApp>, ContainerApp>;
+    stop: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsStopOptionalParams) => PollerLike<OperationState<ContainerApp>, ContainerApp>;
+    update: (resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams) => PollerLike<OperationState<ContainerApp>, ContainerApp>;
+}
+
+// @public
+export interface ContainerAppsPatchesApplyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsSessionPoolsCreateOrUpdateResponse = SessionPool;
-
-// @public
-export interface ContainerAppsSessionPoolsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ContainerAppsSessionPoolsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsPatchesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsSessionPoolsDeleteResponse = ContainerAppsSessionPoolsDeleteHeaders;
-
-// @public
-export interface ContainerAppsSessionPoolsGetOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsPatchesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsSessionPoolsGetResponse = SessionPool;
-
-// @public
-export interface ContainerAppsSessionPoolsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsPatchesListByContainerAppOptionalParams extends OperationOptions {
+    filter?: string;
 }
 
 // @public
-export type ContainerAppsSessionPoolsListByResourceGroupNextResponse = SessionPoolCollection;
-
-// @public
-export interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsPatchesOperations {
+    apply: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesApplyOptionalParams) => PollerLike<OperationState<ContainerAppsPatchResource>, ContainerAppsPatchResource>;
+    // @deprecated (undocumented)
+    beginApply: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesApplyOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerAppsPatchResource>, ContainerAppsPatchResource>>;
+    // @deprecated (undocumented)
+    beginApplyAndWait: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesApplyOptionalParams) => Promise<ContainerAppsPatchResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSkipConfigure: (resourceGroupName: string, containerAppName: string, patchName: string, patchSkipConfig: PatchSkipConfig, options?: ContainerAppsPatchesSkipConfigureOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSkipConfigureAndWait: (resourceGroupName: string, containerAppName: string, patchName: string, patchSkipConfig: PatchSkipConfig, options?: ContainerAppsPatchesSkipConfigureOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesGetOptionalParams) => Promise<ContainerAppsPatchResource>;
+    listByContainerApp: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsPatchesListByContainerAppOptionalParams) => PagedAsyncIterableIterator<ContainerAppsPatchResource>;
+    skipConfigure: (resourceGroupName: string, containerAppName: string, patchName: string, patchSkipConfig: PatchSkipConfig, options?: ContainerAppsPatchesSkipConfigureOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type ContainerAppsSessionPoolsListByResourceGroupResponse = SessionPoolCollection;
-
-// @public
-export interface ContainerAppsSessionPoolsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsSessionPoolsListBySubscriptionNextResponse = SessionPoolCollection;
-
-// @public
-export interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerAppsSessionPoolsListBySubscriptionResponse = SessionPoolCollection;
-
-// @public
-export interface ContainerAppsSessionPoolsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ContainerAppsSessionPoolsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsPatchesSkipConfigureOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsSessionPoolsUpdateResponse = SessionPool;
-
-// @public
-export interface ContainerAppsSourceControls {
-    beginCreateOrUpdate(resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>, ContainerAppsSourceControlsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsGetOptionalParams): Promise<ContainerAppsSourceControlsGetResponse>;
-    listByContainerApp(resourceGroupName: string, containerAppName: string, options?: ContainerAppsSourceControlsListByContainerAppOptionalParams): PagedAsyncIterableIterator<SourceControl>;
+export interface ContainerAppsPatchResource extends ProxyResource {
+    properties?: PatchProperties;
 }
 
 // @public
-export interface ContainerAppsSourceControlsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsRevisionFunctionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionFunctionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionFunctionsOperations {
+    get: (resourceGroupName: string, containerAppName: string, revisionName: string, functionName: string, options?: ContainerAppsRevisionFunctionsGetOptionalParams) => Promise<ContainerAppsFunction>;
+    list: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionFunctionsListOptionalParams) => PagedAsyncIterableIterator<ContainerAppsFunction>;
+}
+
+// @public
+export interface ContainerAppsRevisionReplicasGetReplicaOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionReplicasListReplicasOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionReplicasOperations {
+    getReplica: (resourceGroupName: string, containerAppName: string, revisionName: string, replicaName: string, options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams) => Promise<Replica>;
+    listReplicas: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionReplicasListReplicasOptionalParams) => Promise<ReplicaCollection>;
+}
+
+// @public
+export interface ContainerAppsRevisionsActivateRevisionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsGetRevisionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsListRevisionsOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface ContainerAppsRevisionsOperations {
+    activateRevision: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsActivateRevisionOptionalParams) => Promise<void>;
+    deactivateRevision: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams) => Promise<void>;
+    getRevision: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsGetRevisionOptionalParams) => Promise<Revision>;
+    listRevisions: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsRevisionsListRevisionsOptionalParams) => PagedAsyncIterableIterator<Revision>;
+    restartRevision: (resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionsRestartRevisionOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsSessionPoolsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsSourceControlsCreateOrUpdateResponse = SourceControl;
-
-// @public
-export interface ContainerAppsSourceControlsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsSessionPoolsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ContainerAppsSourceControlsGetOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsSessionPoolsFetchMcpServerCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsSourceControlsGetResponse = SourceControl;
-
-// @public
-export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsSessionPoolsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
-
-// @public
-export interface ContainerAppsSourceControlsListByContainerAppOptionalParams extends coreClient.OperationOptions {
+export interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
-
-// @public
-export interface ContainerAppsStartHeaders {
-    // (undocumented)
-    location?: string;
+export interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ContainerAppsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsSessionPoolsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SessionPool>, SessionPool>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams) => Promise<SessionPool>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SessionPool>, SessionPool>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams) => Promise<SessionPool>;
+    createOrUpdate: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SessionPool>, SessionPool>;
+    delete: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchMcpServerCredentials: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsFetchMcpServerCredentialsOptionalParams) => Promise<McpServerCredential>;
+    get: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsGetOptionalParams) => Promise<SessionPool>;
+    listByResourceGroup: (resourceGroupName: string, options?: ContainerAppsSessionPoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SessionPool>;
+    listBySubscription: (options?: ContainerAppsSessionPoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SessionPool>;
+    rotateMcpServerCredentials: (resourceGroupName: string, sessionPoolName: string, options?: ContainerAppsSessionPoolsRotateMcpServerCredentialsOptionalParams) => Promise<McpServerCredential>;
+    update: (resourceGroupName: string, sessionPoolName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams) => PollerLike<OperationState<SessionPool>, SessionPool>;
+}
+
+// @public
+export interface ContainerAppsSessionPoolsRotateMcpServerCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsSessionPoolsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsStartResponse = ContainerApp;
-
-// @public
-export interface ContainerAppsStopHeaders {
-    // (undocumented)
-    location?: string;
+export interface ContainerAppsSourceControlsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+    xMsGithubAuxiliary?: string;
 }
 
 // @public
-export interface ContainerAppsStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsSourceControlsDeleteOptionalParams extends OperationOptions {
+    deleteWorkflow?: boolean;
+    ignoreWorkflowDeletionFailure?: boolean;
+    updateIntervalInMs?: number;
+    xMsGithubAuxiliary?: string;
+}
+
+// @public
+export interface ContainerAppsSourceControlsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsSourceControlsListByContainerAppOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ContainerAppsSourceControlsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SourceControl>, SourceControl>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams) => Promise<SourceControl>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, containerAppName: string, sourceControlName: string, sourceControlEnvelope: SourceControl, options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SourceControl>, SourceControl>;
+    delete: (resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, containerAppName: string, sourceControlName: string, options?: ContainerAppsSourceControlsGetOptionalParams) => Promise<SourceControl>;
+    listByContainerApp: (resourceGroupName: string, containerAppName: string, options?: ContainerAppsSourceControlsListByContainerAppOptionalParams) => PagedAsyncIterableIterator<SourceControl>;
+}
+
+// @public
+export interface ContainerAppsStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsStopResponse = ContainerApp;
-
-// @public
-export interface ContainerAppsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ContainerAppsStopOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ContainerAppsUpdateResponse = ContainerApp;
+export interface ContainerAppsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContainerExecutionStatus {
+    additionalInformation?: string;
+    code?: number;
+    name?: string;
+    status?: string;
+}
+
+// @public
+export interface ContainerRegistry {
+    containerRegistryServer: string;
+    identityResourceId: string;
+}
+
+// @public
+export interface ContainerRegistryWithCustomImage {
+    image?: string;
+    server: string;
+}
 
 // @public
 export interface ContainerResources {
     cpu?: number;
     readonly ephemeralStorage?: string;
+    gpu?: number;
     memory?: string;
 }
 
 // @public
 export type ContainerType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CookieExpiration {
@@ -1426,9 +1557,7 @@ export interface CustomOpenIdConnectProvider {
 export interface CustomScaleRule {
     auth?: ScaleRuleAuth[];
     identity?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
     type?: string;
 }
 
@@ -1466,6 +1595,22 @@ export interface DaprComponent extends ProxyResource {
     scopes?: string[];
     secrets?: Secret[];
     secretStoreComponent?: string;
+    serviceComponentBind?: DaprComponentServiceBinding[];
+    version?: string;
+}
+
+// @public
+export interface DaprComponentProperties {
+    componentType?: string;
+    readonly deploymentErrors?: string;
+    ignoreErrors?: boolean;
+    initTimeout?: string;
+    metadata?: DaprMetadata[];
+    readonly provisioningState?: DaprComponentProvisioningState;
+    scopes?: string[];
+    secrets?: Secret[];
+    secretStoreComponent?: string;
+    serviceComponentBind?: DaprComponentServiceBinding[];
     version?: string;
 }
 
@@ -1473,58 +1618,107 @@ export interface DaprComponent extends ProxyResource {
 export type DaprComponentProvisioningState = string;
 
 // @public
-export interface DaprComponents {
-    createOrUpdate(resourceGroupName: string, environmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: DaprComponentsCreateOrUpdateOptionalParams): Promise<DaprComponentsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsGetOptionalParams): Promise<DaprComponentsGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: DaprComponentsListOptionalParams): PagedAsyncIterableIterator<DaprComponent>;
-    listSecrets(resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsListSecretsOptionalParams): Promise<DaprComponentsListSecretsResponse>;
+export interface DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DaprComponentsCollection {
-    readonly nextLink?: string;
-    value: DaprComponent[];
+export interface DaprComponentResiliencyPoliciesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DaprComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DaprComponentsCreateOrUpdateResponse = DaprComponent;
-
-// @public
-export interface DaprComponentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DaprComponentsGetOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPoliciesOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, componentName: string, name: string, daprComponentResiliencyPolicyEnvelope: DaprComponentResiliencyPolicy, options?: DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams) => Promise<DaprComponentResiliencyPolicy>;
+    delete: (resourceGroupName: string, environmentName: string, componentName: string, name: string, options?: DaprComponentResiliencyPoliciesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, componentName: string, name: string, options?: DaprComponentResiliencyPoliciesGetOptionalParams) => Promise<DaprComponentResiliencyPolicy>;
+    list: (resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentResiliencyPoliciesListOptionalParams) => PagedAsyncIterableIterator<DaprComponentResiliencyPolicy>;
 }
 
 // @public
-export type DaprComponentsGetResponse = DaprComponent;
-
-// @public
-export interface DaprComponentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPolicy extends ProxyResource {
+    inboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
+    outboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
 }
 
 // @public
-export type DaprComponentsListNextResponse = DaprComponentsCollection;
-
-// @public
-export interface DaprComponentsListOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration {
+    consecutiveErrors?: number;
+    intervalInSeconds?: number;
+    timeoutInSeconds?: number;
 }
 
 // @public
-export type DaprComponentsListResponse = DaprComponentsCollection;
-
-// @public
-export interface DaprComponentsListSecretsOptionalParams extends coreClient.OperationOptions {
+export interface DaprComponentResiliencyPolicyConfiguration {
+    circuitBreakerPolicy?: DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration;
+    httpRetryPolicy?: DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration;
+    timeoutPolicy?: DaprComponentResiliencyPolicyTimeoutPolicyConfiguration;
 }
 
 // @public
-export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
+export interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration {
+    initialDelayInMilliseconds?: number;
+    maxIntervalInMilliseconds?: number;
+}
+
+// @public
+export interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration {
+    maxRetries?: number;
+    retryBackOff?: DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration;
+}
+
+// @public
+export interface DaprComponentResiliencyPolicyProperties {
+    inboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
+    outboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
+}
+
+// @public
+export interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration {
+    responseTimeoutInSeconds?: number;
+}
+
+// @public
+export interface DaprComponentsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprComponentsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprComponentServiceBinding {
+    metadata?: DaprServiceBindMetadata;
+    name?: string;
+    serviceId?: string;
+}
+
+// @public
+export interface DaprComponentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprComponentsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprComponentsListSecretsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprComponentsOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, componentName: string, daprComponentEnvelope: DaprComponent, options?: DaprComponentsCreateOrUpdateOptionalParams) => Promise<DaprComponent>;
+    delete: (resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsGetOptionalParams) => Promise<DaprComponent>;
+    list: (resourceGroupName: string, environmentName: string, options?: DaprComponentsListOptionalParams) => PagedAsyncIterableIterator<DaprComponent>;
+    listSecrets: (resourceGroupName: string, environmentName: string, componentName: string, options?: DaprComponentsListSecretsOptionalParams) => Promise<DaprSecretsCollection>;
+}
 
 // @public
 export interface DaprConfiguration {
@@ -1547,6 +1741,83 @@ export interface DaprSecret {
 // @public
 export interface DaprSecretsCollection {
     value: DaprSecret[];
+}
+
+// @public
+export interface DaprServiceBindMetadata {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface DaprSubscription extends ProxyResource {
+    bulkSubscribe?: DaprSubscriptionBulkSubscribeOptions;
+    deadLetterTopic?: string;
+    metadata?: Record<string, string>;
+    pubsubName?: string;
+    routes?: DaprSubscriptionRoutes;
+    scopes?: string[];
+    topic?: string;
+}
+
+// @public
+export interface DaprSubscriptionBulkSubscribeOptions {
+    enabled?: boolean;
+    maxAwaitDurationMs?: number;
+    maxMessagesCount?: number;
+}
+
+// @public
+export interface DaprSubscriptionProperties {
+    bulkSubscribe?: DaprSubscriptionBulkSubscribeOptions;
+    deadLetterTopic?: string;
+    metadata?: Record<string, string>;
+    pubsubName?: string;
+    routes?: DaprSubscriptionRoutes;
+    scopes?: string[];
+    topic?: string;
+}
+
+// @public
+export interface DaprSubscriptionRouteRule {
+    match?: string;
+    path?: string;
+}
+
+// @public
+export interface DaprSubscriptionRoutes {
+    default?: string;
+    rules?: DaprSubscriptionRouteRule[];
+}
+
+// @public
+export interface DaprSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprSubscriptionsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprSubscriptionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprSubscriptionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DaprSubscriptionsOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, name: string, daprSubscriptionEnvelope: DaprSubscription, options?: DaprSubscriptionsCreateOrUpdateOptionalParams) => Promise<DaprSubscription>;
+    delete: (resourceGroupName: string, environmentName: string, name: string, options?: DaprSubscriptionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, name: string, options?: DaprSubscriptionsGetOptionalParams) => Promise<DaprSubscription>;
+    list: (resourceGroupName: string, environmentName: string, options?: DaprSubscriptionsListOptionalParams) => PagedAsyncIterableIterator<DaprSubscription>;
+}
+
+// @public
+export interface DataDogConfiguration {
+    key?: string;
+    site?: string;
 }
 
 // @public
@@ -1577,6 +1848,15 @@ export interface DefaultErrorResponseErrorDetailsItem {
 }
 
 // @public
+export interface DestinationsConfiguration {
+    dataDogConfiguration?: DataDogConfiguration;
+    otlpConfigurations?: OtlpConfiguration[];
+}
+
+// @public
+export type DetectionStatus = string;
+
+// @public
 export interface DiagnosticDataProviderMetadata {
     propertyBag?: DiagnosticDataProviderMetadataPropertyBagItem[];
     providerName?: string;
@@ -1598,7 +1878,7 @@ export interface DiagnosticDataTableResponseColumn {
 // @public
 export interface DiagnosticDataTableResponseObject {
     columns?: DiagnosticDataTableResponseColumn[];
-    rows?: Record<string, unknown>[];
+    rows?: any[];
     tableName?: string;
 }
 
@@ -1617,7 +1897,7 @@ export interface Diagnostics extends ProxyResource {
 
 // @public
 export interface DiagnosticsCollection {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Diagnostics[];
 }
 
@@ -1661,7 +1941,101 @@ export interface DiagnosticSupportTopic {
 }
 
 // @public
+export interface DiskEncryptionConfiguration {
+    keyVaultConfiguration?: DiskEncryptionConfigurationKeyVaultConfiguration;
+}
+
+// @public
+export interface DiskEncryptionConfigurationKeyVaultConfiguration {
+    auth?: DiskEncryptionConfigurationKeyVaultConfigurationAuth;
+    keyUrl?: string;
+}
+
+// @public
+export interface DiskEncryptionConfigurationKeyVaultConfigurationAuth {
+    identity?: string;
+}
+
+// @public
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
+
+// @public
+export interface DotNetComponent extends ProxyResource {
+    componentType?: DotNetComponentType;
+    configurations?: DotNetComponentConfigurationProperty[];
+    readonly provisioningState?: DotNetComponentProvisioningState;
+    serviceBinds?: DotNetComponentServiceBind[];
+}
+
+// @public
+export interface DotNetComponentConfigurationProperty {
+    propertyName?: string;
+    value?: string;
+}
+
+// @public
+export interface DotNetComponentProperties {
+    componentType?: DotNetComponentType;
+    configurations?: DotNetComponentConfigurationProperty[];
+    readonly provisioningState?: DotNetComponentProvisioningState;
+    serviceBinds?: DotNetComponentServiceBind[];
+}
+
+// @public
+export type DotNetComponentProvisioningState = string;
+
+// @public
+export interface DotNetComponentsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DotNetComponentsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DotNetComponentServiceBind {
+    name?: string;
+    serviceId?: string;
+}
+
+// @public
+export interface DotNetComponentsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DotNetComponentsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DotNetComponentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DotNetComponent>, DotNetComponent>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsCreateOrUpdateOptionalParams) => Promise<DotNetComponent>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, environmentName: string, name: string, options?: DotNetComponentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, environmentName: string, name: string, options?: DotNetComponentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DotNetComponent>, DotNetComponent>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsUpdateOptionalParams) => Promise<DotNetComponent>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DotNetComponent>, DotNetComponent>;
+    delete: (resourceGroupName: string, environmentName: string, name: string, options?: DotNetComponentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, environmentName: string, name: string, options?: DotNetComponentsGetOptionalParams) => Promise<DotNetComponent>;
+    list: (resourceGroupName: string, environmentName: string, options?: DotNetComponentsListOptionalParams) => PagedAsyncIterableIterator<DotNetComponent>;
+    update: (resourceGroupName: string, environmentName: string, name: string, dotNetComponentEnvelope: DotNetComponent, options?: DotNetComponentsUpdateOptionalParams) => PollerLike<OperationState<DotNetComponent>, DotNetComponent>;
+}
+
+// @public
+export interface DotNetComponentsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DotNetComponentType = string;
 
 // @public
 export interface DynamicPoolConfiguration {
@@ -1681,6 +2055,12 @@ export interface EnvironmentAuthToken extends TrackedResource {
 }
 
 // @public
+export interface EnvironmentAuthTokenProperties {
+    readonly expires?: Date;
+    readonly token?: string;
+}
+
+// @public
 export type EnvironmentProvisioningState = string;
 
 // @public
@@ -1691,8 +2071,14 @@ export interface EnvironmentVar {
 }
 
 // @public
+export interface EnvironmentVariable {
+    name: string;
+    value: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1723,6 +2109,11 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface ExecutionStatus {
+    replicas?: ReplicaExecutionStatus[];
+}
+
+// @public
 export interface ExtendedLocation {
     name?: string;
     type?: ExtendedLocationTypes;
@@ -1750,13 +2141,24 @@ export interface ForwardProxy {
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface FunctionsExtensionInvokeFunctionsHostOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type FunctionsExtensionInvokeFunctionsHostResponse = {
+    body: string;
+};
 
 // @public
-export interface GetCustomDomainVerificationIdOptionalParams extends coreClient.OperationOptions {
+export interface FunctionsExtensionOperations {
+    invokeFunctionsHost: (resourceGroupName: string, containerAppName: string, revisionName: string, functionAppName: string, options?: FunctionsExtensionInvokeFunctionsHostOptionalParams) => Promise<FunctionsExtensionInvokeFunctionsHostResponse>;
 }
 
 // @public
+export interface GetCustomDomainVerificationIdOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
 export type GetCustomDomainVerificationIdResponse = {
     body: string;
 };
@@ -1771,7 +2173,9 @@ export interface GitHub {
 // @public
 export interface GithubActionConfiguration {
     azureCredentials?: AzureCredentials;
+    buildEnvironmentVariables?: EnvironmentVariable[];
     contextPath?: string;
+    dockerfilePath?: string;
     githubPersonalAccessToken?: string;
     image?: string;
     os?: string;
@@ -1797,6 +2201,65 @@ export interface Google {
 }
 
 // @public
+export interface Header {
+    key?: string;
+    value?: string;
+}
+
+// @public
+export interface HeaderMatch {
+    exactMatch?: string;
+    header?: string;
+    prefixMatch?: string;
+    regexMatch?: string;
+    suffixMatch?: string;
+}
+
+// @public
+export interface HeaderMatchMatch {
+    exactMatch?: string;
+    prefixMatch?: string;
+    regexMatch?: string;
+    suffixMatch?: string;
+}
+
+// @public
+export interface HttpConnectionPool {
+    http1MaxPendingRequests?: number;
+    http2MaxRequests?: number;
+}
+
+// @public
+export interface HttpGet {
+    fileName?: string;
+    headers?: string[];
+    url: string;
+}
+
+// @public
+export interface HttpRetryPolicy {
+    errors?: string[];
+    headers?: HeaderMatch[];
+    httpStatusCodes?: number[];
+    initialDelayInMilliseconds?: number;
+    maxIntervalInMilliseconds?: number;
+    maxRetries?: number;
+}
+
+// @public
+export interface HttpRetryPolicyMatches {
+    errors?: string[];
+    headers?: HeaderMatch[];
+    httpStatusCodes?: number[];
+}
+
+// @public
+export interface HttpRetryPolicyRetryBackOff {
+    initialDelayInMilliseconds?: number;
+    maxIntervalInMilliseconds?: number;
+}
+
+// @public
 export interface HttpRoute {
     action?: HttpRouteAction;
     match?: HttpRouteMatch;
@@ -1813,63 +2276,34 @@ export interface HttpRouteConfig extends ProxyResource {
 }
 
 // @public
-export interface HttpRouteConfigCollection {
-    readonly nextLink?: string;
-    value: HttpRouteConfig[];
-}
-
-// @public
-export interface HttpRouteConfigCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface HttpRouteConfigCreateOrUpdateOptionalParams extends OperationOptions {
     httpRouteConfigEnvelope?: HttpRouteConfig;
 }
 
 // @public
-export type HttpRouteConfigCreateOrUpdateResponse = HttpRouteConfig;
-
-// @public
-export interface HttpRouteConfigDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface HttpRouteConfigDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface HttpRouteConfigDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type HttpRouteConfigDeleteResponse = HttpRouteConfigDeleteHeaders;
-
-// @public
-export interface HttpRouteConfigGetOptionalParams extends coreClient.OperationOptions {
+export interface HttpRouteConfigGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type HttpRouteConfigGetResponse = HttpRouteConfig;
-
-// @public
-export interface HttpRouteConfigListNextOptionalParams extends coreClient.OperationOptions {
+export interface HttpRouteConfigListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type HttpRouteConfigListNextResponse = HttpRouteConfigCollection;
-
-// @public
-export interface HttpRouteConfigListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HttpRouteConfigListResponse = HttpRouteConfigCollection;
 
 // @public
 export interface HttpRouteConfigOperations {
-    beginDelete(resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigDeleteOptionalParams): Promise<SimplePollerLike<OperationState<HttpRouteConfigDeleteResponse>, HttpRouteConfigDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigDeleteOptionalParams): Promise<HttpRouteConfigDeleteResponse>;
-    createOrUpdate(resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigCreateOrUpdateOptionalParams): Promise<HttpRouteConfigCreateOrUpdateResponse>;
-    get(resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigGetOptionalParams): Promise<HttpRouteConfigGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: HttpRouteConfigListOptionalParams): PagedAsyncIterableIterator<HttpRouteConfig>;
-    update(resourceGroupName: string, environmentName: string, httpRouteName: string, httpRouteConfigEnvelope: HttpRouteConfig, options?: HttpRouteConfigUpdateOptionalParams): Promise<HttpRouteConfigUpdateResponse>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigCreateOrUpdateOptionalParams) => Promise<HttpRouteConfig>;
+    delete: (resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, environmentName: string, httpRouteName: string, options?: HttpRouteConfigGetOptionalParams) => Promise<HttpRouteConfig>;
+    list: (resourceGroupName: string, environmentName: string, options?: HttpRouteConfigListOptionalParams) => PagedAsyncIterableIterator<HttpRouteConfig>;
+    update: (resourceGroupName: string, environmentName: string, httpRouteName: string, httpRouteConfigEnvelope: HttpRouteConfig, options?: HttpRouteConfigUpdateOptionalParams) => Promise<HttpRouteConfig>;
 }
 
 // @public
@@ -1882,11 +2316,8 @@ export interface HttpRouteConfigProperties {
 }
 
 // @public
-export interface HttpRouteConfigUpdateOptionalParams extends coreClient.OperationOptions {
+export interface HttpRouteConfigUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type HttpRouteConfigUpdateResponse = HttpRouteConfig;
 
 // @public
 export interface HttpRouteMatch {
@@ -1917,15 +2348,14 @@ export interface HttpRouteTarget {
     containerApp: string;
     label?: string;
     revision?: string;
+    weight?: number;
 }
 
 // @public
 export interface HttpScaleRule {
     auth?: ScaleRuleAuth[];
     identity?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -1945,9 +2375,7 @@ export interface IdentityProviders {
     apple?: Apple;
     azureActiveDirectory?: AzureActiveDirectory;
     azureStaticWebApps?: AzureStaticWebApps;
-    customOpenIdConnectProviders?: {
-        [propertyName: string]: CustomOpenIdConnectProvider;
-    };
+    customOpenIdConnectProviders?: Record<string, CustomOpenIdConnectProvider>;
     facebook?: Facebook;
     gitHub?: GitHub;
     google?: Google;
@@ -1964,6 +2392,9 @@ export interface IdentitySettings {
 export type IdentitySettingsLifeCycle = string;
 
 // @public
+export type ImageType = string;
+
+// @public
 export interface Ingress {
     additionalPortMappings?: IngressPortMapping[];
     allowInsecure?: boolean;
@@ -1976,6 +2407,7 @@ export interface Ingress {
     ipSecurityRestrictions?: IpSecurityRestrictionRule[];
     stickySessions?: IngressStickySessions;
     targetPort?: number;
+    targetPortHttpScheme?: IngressTargetPortHttpScheme;
     traffic?: TrafficWeight[];
     transport?: IngressTransportMethod;
 }
@@ -2004,6 +2436,9 @@ export interface IngressStickySessions {
 }
 
 // @public
+export type IngressTargetPortHttpScheme = string;
+
+// @public
 export type IngressTransportMethod = string;
 
 // @public
@@ -2017,6 +2452,8 @@ export interface IpSecurityRestrictionRule {
     ipAddressRange: string;
     name: string;
 }
+
+export { isRestError }
 
 // @public
 export interface JavaComponent extends ProxyResource {
@@ -2036,7 +2473,7 @@ export interface JavaComponentIngress {
 
 // @public
 export interface JavaComponentProperties {
-    componentType: "SpringBootAdmin" | "SpringCloudEureka" | "SpringCloudConfig";
+    componentType: JavaComponentType;
     configurations?: JavaComponentConfigurationProperty[];
     readonly provisioningState?: JavaComponentProvisioningState;
     scale?: JavaComponentPropertiesScale;
@@ -2049,53 +2486,21 @@ export interface JavaComponentPropertiesScale {
     minReplicas?: number;
 }
 
-// @public (undocumented)
-export type JavaComponentPropertiesUnion = JavaComponentProperties | SpringBootAdminComponent | SpringCloudEurekaComponent | SpringCloudConfigComponent;
+// @public
+export type JavaComponentPropertiesUnion = SpringCloudGatewayComponent | SpringBootAdminComponent | NacosComponent | SpringCloudEurekaComponent | SpringCloudConfigComponent | JavaComponentProperties;
 
 // @public
 export type JavaComponentProvisioningState = string;
 
 // @public
-export interface JavaComponents {
-    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JavaComponentsCreateOrUpdateResponse>, JavaComponentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsCreateOrUpdateOptionalParams): Promise<JavaComponentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<JavaComponentsDeleteResponse>, JavaComponentsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsDeleteOptionalParams): Promise<JavaComponentsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JavaComponentsUpdateResponse>, JavaComponentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsUpdateOptionalParams): Promise<JavaComponentsUpdateResponse>;
-    get(resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsGetOptionalParams): Promise<JavaComponentsGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: JavaComponentsListOptionalParams): PagedAsyncIterableIterator<JavaComponent>;
-}
-
-// @public
-export interface JavaComponentsCollection {
-    readonly nextLink?: string;
-    value: JavaComponent[];
-}
-
-// @public
-export interface JavaComponentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JavaComponentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JavaComponentsCreateOrUpdateResponse = JavaComponent;
-
-// @public
-export interface JavaComponentsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JavaComponentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JavaComponentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type JavaComponentsDeleteResponse = JavaComponentsDeleteHeaders;
 
 // @public
 export interface JavaComponentServiceBind {
@@ -2104,40 +2509,38 @@ export interface JavaComponentServiceBind {
 }
 
 // @public
-export interface JavaComponentsGetOptionalParams extends coreClient.OperationOptions {
+export interface JavaComponentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JavaComponentsGetResponse = JavaComponent;
-
-// @public
-export interface JavaComponentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface JavaComponentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JavaComponentsListNextResponse = JavaComponentsCollection;
-
-// @public
-export interface JavaComponentsListOptionalParams extends coreClient.OperationOptions {
+export interface JavaComponentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<JavaComponent>, JavaComponent>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsCreateOrUpdateOptionalParams) => Promise<JavaComponent>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<JavaComponent>, JavaComponent>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsUpdateOptionalParams) => Promise<JavaComponent>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<JavaComponent>, JavaComponent>;
+    delete: (resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, environmentName: string, name: string, options?: JavaComponentsGetOptionalParams) => Promise<JavaComponent>;
+    list: (resourceGroupName: string, environmentName: string, options?: JavaComponentsListOptionalParams) => PagedAsyncIterableIterator<JavaComponent>;
+    update: (resourceGroupName: string, environmentName: string, name: string, javaComponentEnvelope: JavaComponent, options?: JavaComponentsUpdateOptionalParams) => PollerLike<OperationState<JavaComponent>, JavaComponent>;
 }
 
 // @public
-export type JavaComponentsListResponse = JavaComponentsCollection;
-
-// @public
-export interface JavaComponentsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JavaComponentsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JavaComponentsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type JavaComponentsUpdateResponse = JavaComponent;
 
 // @public
 export type JavaComponentType = string;
@@ -2147,9 +2550,11 @@ export interface Job extends TrackedResource {
     configuration?: JobConfiguration;
     environmentId?: string;
     readonly eventStreamEndpoint?: string;
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
     readonly outboundIpAddresses?: string[];
     readonly provisioningState?: JobProvisioningState;
+    readonly runningState?: JobRunningState;
     template?: JobTemplate;
     workloadProfileName?: string;
 }
@@ -2188,14 +2593,14 @@ export interface JobConfigurationScheduleTriggerConfig {
 }
 
 // @public
-export interface JobExecution {
+export interface JobExecution extends ProxyResource {
+    detailedStatus?: ExecutionStatus;
     endTime?: Date;
-    id?: string;
-    name?: string;
+    readonly message?: string;
+    readonly reason?: string;
     startTime?: Date;
     readonly status?: JobExecutionRunningState;
     template?: JobExecutionTemplate;
-    type?: string;
 }
 
 // @public
@@ -2215,16 +2620,19 @@ export interface JobExecutionContainer {
 }
 
 // @public
-export interface JobExecutionNamesCollection {
-    value: JobExecutionBase[];
+export interface JobExecutionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JobExecutionOptionalParams extends coreClient.OperationOptions {
+export interface JobExecutionProperties {
+    detailedStatus?: ExecutionStatus;
+    endTime?: Date;
+    readonly message?: string;
+    readonly reason?: string;
+    startTime?: Date;
+    readonly status?: JobExecutionRunningState;
+    template?: JobExecutionTemplate;
 }
-
-// @public
-export type JobExecutionResponse = JobExecution;
 
 // @public
 export type JobExecutionRunningState = string;
@@ -2237,15 +2645,13 @@ export interface JobExecutionTemplate {
 
 // @public
 export interface JobPatchProperties {
+    extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
-    // (undocumented)
     properties?: JobPatchPropertiesProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface JobPatchPropertiesProperties {
     configuration?: JobConfiguration;
     environmentId?: string;
@@ -2255,30 +2661,22 @@ export interface JobPatchPropertiesProperties {
 }
 
 // @public
+export interface JobProperties {
+    configuration?: JobConfiguration;
+    environmentId?: string;
+    readonly eventStreamEndpoint?: string;
+    readonly outboundIpAddresses?: string[];
+    readonly provisioningState?: JobProvisioningState;
+    readonly runningState?: JobRunningState;
+    template?: JobTemplate;
+    workloadProfileName?: string;
+}
+
+// @public
 export type JobProvisioningState = string;
 
 // @public
-export interface Jobs {
-    beginCreateOrUpdate(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateOrUpdateResponse>, JobsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams): Promise<JobsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
-    beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
-    beginStopMultipleExecutions(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
-    beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
-    beginUpdate(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
-    get(resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
-    getDetector(resourceGroupName: string, jobName: string, detectorName: string, options?: JobsGetDetectorOptionalParams): Promise<JobsGetDetectorResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Job>;
-    listBySubscription(options?: JobsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Job>;
-    listDetectors(resourceGroupName: string, jobName: string, options?: JobsListDetectorsOptionalParams): PagedAsyncIterableIterator<Diagnostics>;
-    listSecrets(resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
-    proxyGet(resourceGroupName: string, jobName: string, apiName: string, options?: JobsProxyGetOptionalParams): Promise<JobsProxyGetResponse>;
-}
+export type JobRunningState = string;
 
 // @public
 export interface JobScale {
@@ -2292,35 +2690,18 @@ export interface JobScale {
 export interface JobScaleRule {
     auth?: ScaleRuleAuth[];
     identity?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     name?: string;
     type?: string;
 }
 
 // @public
-export interface JobsCollection {
-    readonly nextLink?: string;
-    value: Job[];
-}
-
-// @public
-export interface JobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsCreateOrUpdateResponse = Job;
-
-// @public
-export interface JobsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2330,152 +2711,124 @@ export interface JobSecretsCollection {
 }
 
 // @public
-export interface JobsExecutions {
-    list(resourceGroupName: string, jobName: string, options?: JobsExecutionsListOptionalParams): PagedAsyncIterableIterator<JobExecution>;
-}
-
-// @public
-export interface JobsExecutionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobsExecutionsListNextResponse = ContainerAppJobExecutions;
-
-// @public
-export interface JobsExecutionsListOptionalParams extends coreClient.OperationOptions {
+export interface JobsExecutionsListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type JobsExecutionsListResponse = ContainerAppJobExecutions;
-
-// @public
-export interface JobsGetDetectorOptionalParams extends coreClient.OperationOptions {
+export interface JobsExecutionsOperations {
+    list: (resourceGroupName: string, jobName: string, options?: JobsExecutionsListOptionalParams) => PagedAsyncIterableIterator<JobExecution>;
 }
 
 // @public
-export type JobsGetDetectorResponse = Diagnostics;
-
-// @public
-export interface JobsGetOptionalParams extends coreClient.OperationOptions {
+export interface JobsGetDetectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsGetResponse = Job;
-
-// @public
-export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface JobsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListByResourceGroupNextResponse = JobsCollection;
-
-// @public
-export interface JobsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface JobsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListByResourceGroupResponse = JobsCollection;
-
-// @public
-export interface JobsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface JobsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListBySubscriptionNextResponse = JobsCollection;
-
-// @public
-export interface JobsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface JobsListDetectorsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListBySubscriptionResponse = JobsCollection;
-
-// @public
-export interface JobsListDetectorsNextOptionalParams extends coreClient.OperationOptions {
+export interface JobsListSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListDetectorsNextResponse = DiagnosticsCollection;
-
-// @public
-export interface JobsListDetectorsOptionalParams extends coreClient.OperationOptions {
+export interface JobsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginResume: (resourceGroupName: string, jobName: string, options?: JobsResumeOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginResumeAndWait: (resourceGroupName: string, jobName: string, options?: JobsResumeOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginStart: (resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams) => Promise<SimplePollerLike<OperationState<JobExecutionBase>, JobExecutionBase>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams) => Promise<JobExecutionBase>;
+    // @deprecated (undocumented)
+    beginStopExecution: (resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopExecutionAndWait: (resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStopMultipleExecutions: (resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams) => Promise<SimplePollerLike<OperationState<ContainerAppJobExecutions>, ContainerAppJobExecutions>>;
+    // @deprecated (undocumented)
+    beginStopMultipleExecutionsAndWait: (resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams) => Promise<ContainerAppJobExecutions>;
+    // @deprecated (undocumented)
+    beginSuspend: (resourceGroupName: string, jobName: string, options?: JobsSuspendOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginSuspendAndWait: (resourceGroupName: string, jobName: string, options?: JobsSuspendOptionalParams) => Promise<Job>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Job>, Job>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams) => Promise<Job>;
+    createOrUpdate: (resourceGroupName: string, jobName: string, jobEnvelope: Job, options?: JobsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    delete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams) => Promise<Job>;
+    getDetector: (resourceGroupName: string, jobName: string, detectorName: string, options?: JobsGetDetectorOptionalParams) => Promise<Diagnostics>;
+    listByResourceGroup: (resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Job>;
+    listBySubscription: (options?: JobsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Job>;
+    listDetectors: (resourceGroupName: string, jobName: string, options?: JobsListDetectorsOptionalParams) => PagedAsyncIterableIterator<Diagnostics>;
+    listSecrets: (resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams) => Promise<JobSecretsCollection>;
+    proxyGet: (resourceGroupName: string, jobName: string, apiName: string, options?: JobsProxyGetOptionalParams) => Promise<Job>;
+    resume: (resourceGroupName: string, jobName: string, options?: JobsResumeOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    start: (resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams) => PollerLike<OperationState<JobExecutionBase>, JobExecutionBase>;
+    stopExecution: (resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams) => PollerLike<OperationState<void>, void>;
+    stopMultipleExecutions: (resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams) => PollerLike<OperationState<ContainerAppJobExecutions>, ContainerAppJobExecutions>;
+    suspend: (resourceGroupName: string, jobName: string, options?: JobsSuspendOptionalParams) => PollerLike<OperationState<Job>, Job>;
+    update: (resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams) => PollerLike<OperationState<Job>, Job>;
 }
 
 // @public
-export type JobsListDetectorsResponse = DiagnosticsCollection;
-
-// @public
-export interface JobsListSecretsOptionalParams extends coreClient.OperationOptions {
+export interface JobsProxyGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListSecretsResponse = JobSecretsCollection;
-
-// @public
-export interface JobsProxyGetOptionalParams extends coreClient.OperationOptions {
+export interface JobsResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsProxyGetResponse = Job;
-
-// @public
-export interface JobsStartHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JobsStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsStartOptionalParams extends OperationOptions {
     template?: JobExecutionTemplate;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsStartResponse = JobExecutionBase;
-
-// @public
-export interface JobsStopExecutionHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JobsStopExecutionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsStopExecutionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface JobsStopMultipleExecutionsHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JobsStopMultipleExecutionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsStopMultipleExecutionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsStopMultipleExecutionsResponse = ContainerAppJobExecutions;
-
-// @public
-export interface JobsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface JobsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsSuspendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsUpdateResponse = Job;
+export interface JobsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface JobTemplate {
@@ -2512,6 +2865,7 @@ export enum KnownAction {
 
 // @public
 export enum KnownActiveRevisionsMode {
+    Labels = "Labels",
     Multiple = "Multiple",
     Single = "Single"
 }
@@ -2542,6 +2896,35 @@ export enum KnownBindingType {
 }
 
 // @public
+export enum KnownBuilderProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBuildProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBuildStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCertificateProvisioningState {
     Canceled = "Canceled",
     DeleteFailed = "DeleteFailed",
@@ -2549,6 +2932,12 @@ export enum KnownCertificateProvisioningState {
     Failed = "Failed",
     Pending = "Pending",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCertificateType {
+    ImagePullTrustedCA = "ImagePullTrustedCA",
+    ServerSSLCertificate = "ServerSSLCertificate"
 }
 
 // @public
@@ -2613,7 +3002,9 @@ export enum KnownContainerAppRunningStatus {
 // @public
 export enum KnownContainerType {
     CustomContainer = "CustomContainer",
-    PythonLTS = "PythonLTS"
+    NodeLTS = "NodeLTS",
+    PythonLTS = "PythonLTS",
+    Shell = "Shell"
 }
 
 // @public
@@ -2631,6 +3022,27 @@ export enum KnownDaprComponentProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownDetectionStatus {
+    Failed = "Failed",
+    RegistryLoginFailed = "RegistryLoginFailed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownDotNetComponentProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownDotNetComponentType {
+    AspireDashboard = "AspireDashboard"
 }
 
 // @public
@@ -2672,10 +3084,22 @@ export enum KnownIdentitySettingsLifeCycle {
 }
 
 // @public
+export enum KnownImageType {
+    CloudBuild = "CloudBuild",
+    ContainerImage = "ContainerImage"
+}
+
+// @public
 export enum KnownIngressClientCertificateMode {
     Accept = "accept",
     Ignore = "ignore",
     Require = "require"
+}
+
+// @public
+export enum KnownIngressTargetPortHttpScheme {
+    Http = "http",
+    Https = "https"
 }
 
 // @public
@@ -2697,9 +3121,11 @@ export enum KnownJavaComponentProvisioningState {
 
 // @public
 export enum KnownJavaComponentType {
+    Nacos = "Nacos",
     SpringBootAdmin = "SpringBootAdmin",
     SpringCloudConfig = "SpringCloudConfig",
-    SpringCloudEureka = "SpringCloudEureka"
+    SpringCloudEureka = "SpringCloudEureka",
+    SpringCloudGateway = "SpringCloudGateway"
 }
 
 // @public
@@ -2723,15 +3149,38 @@ export enum KnownJobProvisioningState {
 }
 
 // @public
+export enum KnownJobRunningState {
+    Progressing = "Progressing",
+    Ready = "Ready",
+    Suspended = "Suspended"
+}
+
+// @public
 export enum KnownKind {
     Functionapp = "functionapp",
     Workflowapp = "workflowapp"
 }
 
 // @public
+export enum KnownLevel {
+    Debug = "debug",
+    Error = "error",
+    Info = "info",
+    Off = "off",
+    Trace = "trace",
+    Warn = "warn"
+}
+
+// @public
 export enum KnownLifecycleType {
     OnContainerExit = "OnContainerExit",
     Timed = "Timed"
+}
+
+// @public
+export enum KnownLogicAppsProxyMethod {
+    GET = "GET",
+    Post = "POST"
 }
 
 // @public
@@ -2755,6 +3204,34 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownPatchApplyStatus {
+    Canceled = "Canceled",
+    CreatingRevision = "CreatingRevision",
+    ImagePushPullFailed = "ImagePushPullFailed",
+    ManuallySkipped = "ManuallySkipped",
+    NotStarted = "NotStarted",
+    RebaseFailed = "RebaseFailed",
+    RebaseInProgress = "RebaseInProgress",
+    RevisionCreationFailed = "RevisionCreationFailed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPatchingMode {
+    Automatic = "Automatic",
+    Disabled = "Disabled",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownPatchType {
+    FrameworkAndOSSecurity = "FrameworkAndOSSecurity",
+    FrameworkSecurity = "FrameworkSecurity",
+    OSSecurity = "OSSecurity",
+    Other = "Other"
 }
 
 // @public
@@ -2836,6 +3313,12 @@ export enum KnownSessionPoolProvisioningState {
 }
 
 // @public
+export enum KnownSessionProbeType {
+    Liveness = "Liveness",
+    Startup = "Startup"
+}
+
+// @public
 export enum KnownSourceControlOperationState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -2844,11 +3327,19 @@ export enum KnownSourceControlOperationState {
 }
 
 // @public
+export enum KnownStatus {
+    Failed = "Failed",
+    Starting = "Starting",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownStorageType {
     AzureFile = "AzureFile",
     EmptyDir = "EmptyDir",
     NfsAzureFile = "NfsAzureFile",
-    Secret = "Secret"
+    Secret = "Secret",
+    Smb = "Smb"
 }
 
 // @public
@@ -2863,6 +3354,11 @@ export enum KnownType {
     Liveness = "Liveness",
     Readiness = "Readiness",
     Startup = "Startup"
+}
+
+// @public
+export enum KnownVersions {
+    V20251002Preview = "2025-10-02-preview"
 }
 
 // @public
@@ -2883,6 +3379,27 @@ export enum KnownWorkflowState {
 }
 
 // @public
+export interface LabelHistory extends ProxyResource {
+    properties?: LabelHistoryProperties;
+}
+
+// @public
+export interface LabelHistoryProperties {
+    readonly records?: LabelHistoryRecordItem[];
+}
+
+// @public
+export interface LabelHistoryRecordItem {
+    readonly revision?: string;
+    readonly start?: Date;
+    readonly status?: Status;
+    readonly stop?: Date;
+}
+
+// @public
+export type Level = string;
+
+// @public
 export interface LifecycleConfiguration {
     cooldownPeriodInSeconds?: number;
     lifecycleType?: LifecycleType;
@@ -2892,16 +3409,17 @@ export interface LifecycleConfiguration {
 // @public
 export type LifecycleType = string;
 
-// @public (undocumented)
-export interface ListUsagesResult {
-    nextLink?: string;
-    value?: Usage[];
-}
-
 // @public
 export interface LogAnalyticsConfiguration {
     customerId?: string;
+    dynamicJsonColumns?: boolean;
     sharedKey?: string;
+}
+
+// @public
+export interface LoggerSetting {
+    level: Level;
+    logger: string;
 }
 
 // @public
@@ -2909,61 +3427,56 @@ export interface LogicApp extends ProxyResource {
 }
 
 // @public
-export interface LogicApps {
-    createOrUpdate(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsCreateOrUpdateOptionalParams): Promise<LogicAppsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsGetOptionalParams): Promise<LogicAppsGetResponse>;
-    getWorkflow(resourceGroupName: string, containerAppName: string, logicAppName: string, workflowName: string, options?: LogicAppsGetWorkflowOptionalParams): Promise<LogicAppsGetWorkflowResponse>;
-    listWorkflows(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
-    listWorkflowsConnections(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsConnectionsOptionalParams): Promise<LogicAppsListWorkflowsConnectionsResponse>;
+export interface LogicAppProperties {
 }
 
 // @public
-export interface LogicAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resource?: LogicApp;
+export interface LogicAppsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LogicAppsCreateOrUpdateResponse = LogicApp;
-
-// @public
-export interface LogicAppsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface LogicAppsGetOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsDeployWorkflowArtifactsOptionalParams extends OperationOptions {
+    workflowArtifacts?: WorkflowArtifacts;
 }
 
 // @public
-export type LogicAppsGetResponse = LogicApp;
-
-// @public
-export interface LogicAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LogicAppsGetWorkflowResponse = WorkflowEnvelope;
-
-// @public
-export interface LogicAppsListWorkflowsConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsGetWorkflowOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LogicAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
-
-// @public
-export interface LogicAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsInvokeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LogicAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
-
-// @public
-export interface LogicAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {
+export interface LogicAppsListWorkflowsConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type LogicAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
+export interface LogicAppsListWorkflowsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogicAppsOperations {
+    createOrUpdate: (resourceGroupName: string, containerAppName: string, logicAppName: string, resource: LogicApp, options?: LogicAppsCreateOrUpdateOptionalParams) => Promise<LogicApp>;
+    delete: (resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsDeleteOptionalParams) => Promise<void>;
+    deployWorkflowArtifacts: (resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsDeployWorkflowArtifactsOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsGetOptionalParams) => Promise<LogicApp>;
+    getWorkflow: (resourceGroupName: string, containerAppName: string, logicAppName: string, workflowName: string, options?: LogicAppsGetWorkflowOptionalParams) => Promise<WorkflowEnvelope>;
+    invoke: (resourceGroupName: string, containerAppName: string, logicAppName: string, xMsLogicAppsProxyPath: string, xMsLogicAppsProxyMethod: LogicAppsProxyMethod, options?: LogicAppsInvokeOptionalParams) => Promise<Object_2>;
+    listWorkflows: (resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsOptionalParams) => PagedAsyncIterableIterator<WorkflowEnvelope>;
+    listWorkflowsConnections: (resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsConnectionsOptionalParams) => Promise<WorkflowEnvelope>;
+}
+
+// @public
+export type LogicAppsProxyMethod = string;
 
 // @public
 export interface Login {
@@ -2989,9 +3502,8 @@ export interface LoginScopes {
 export type LogLevel = string;
 
 // @public
-export interface MaintenanceConfigurationCollection {
-    readonly nextLink?: string;
-    value?: MaintenanceConfigurationResource[];
+export interface LogsConfiguration {
+    destinations?: string[];
 }
 
 // @public
@@ -3000,44 +3512,28 @@ export interface MaintenanceConfigurationResource extends ProxyResource {
 }
 
 // @public
-export interface MaintenanceConfigurations {
-    createOrUpdate(resourceGroupName: string, environmentName: string, configName: string, maintenanceConfigurationEnvelope: MaintenanceConfigurationResource, options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams): Promise<MaintenanceConfigurationsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, configName: string, options?: MaintenanceConfigurationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, environmentName: string, configName: string, options?: MaintenanceConfigurationsGetOptionalParams): Promise<MaintenanceConfigurationsGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: MaintenanceConfigurationsListOptionalParams): PagedAsyncIterableIterator<MaintenanceConfigurationResource>;
+export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfigurationResource;
-
-// @public
-export interface MaintenanceConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MaintenanceConfigurationsGetResponse = MaintenanceConfigurationResource;
-
-// @public
-export interface MaintenanceConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, configName: string, maintenanceConfigurationEnvelope: MaintenanceConfigurationResource, options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams) => Promise<MaintenanceConfigurationResource>;
+    delete: (resourceGroupName: string, environmentName: string, configName: string, options?: MaintenanceConfigurationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, configName: string, options?: MaintenanceConfigurationsGetOptionalParams) => Promise<MaintenanceConfigurationResource>;
+    list: (resourceGroupName: string, environmentName: string, options?: MaintenanceConfigurationsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfigurationResource>;
 }
-
-// @public
-export type MaintenanceConfigurationsListNextResponse = MaintenanceConfigurationCollection;
-
-// @public
-export interface MaintenanceConfigurationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MaintenanceConfigurationsListResponse = MaintenanceConfigurationCollection;
 
 // @public
 export interface ManagedCertificate extends TrackedResource {
@@ -3045,19 +3541,11 @@ export interface ManagedCertificate extends TrackedResource {
 }
 
 // @public
-export interface ManagedCertificateCollection {
-    readonly nextLink?: string;
-    value: ManagedCertificate[];
-}
-
-// @public
 export type ManagedCertificateDomainControlValidation = string;
 
 // @public
 export interface ManagedCertificatePatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -3070,75 +3558,63 @@ export interface ManagedCertificateProperties {
 }
 
 // @public
-export interface ManagedCertificates {
-    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedCertificatesCreateOrUpdateResponse>, ManagedCertificatesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams): Promise<ManagedCertificatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesGetOptionalParams): Promise<ManagedCertificatesGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: ManagedCertificatesListOptionalParams): PagedAsyncIterableIterator<ManagedCertificate>;
-    update(resourceGroupName: string, environmentName: string, managedCertificateName: string, managedCertificateEnvelope: ManagedCertificatePatch, options?: ManagedCertificatesUpdateOptionalParams): Promise<ManagedCertificatesUpdateResponse>;
-}
-
-// @public
-export interface ManagedCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesCreateOrUpdateOptionalParams extends OperationOptions {
     managedCertificateEnvelope?: ManagedCertificate;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedCertificatesCreateOrUpdateResponse = ManagedCertificate;
-
-// @public
-export interface ManagedCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedCertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedCertificatesGetResponse = ManagedCertificate;
-
-// @public
-export interface ManagedCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedCertificatesListNextResponse = ManagedCertificateCollection;
-
-// @public
-export interface ManagedCertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedCertificate>, ManagedCertificate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams) => Promise<ManagedCertificate>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedCertificate>, ManagedCertificate>;
+    delete: (resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, managedCertificateName: string, options?: ManagedCertificatesGetOptionalParams) => Promise<ManagedCertificate>;
+    list: (resourceGroupName: string, environmentName: string, options?: ManagedCertificatesListOptionalParams) => PagedAsyncIterableIterator<ManagedCertificate>;
+    update: (resourceGroupName: string, environmentName: string, managedCertificateName: string, managedCertificateEnvelope: ManagedCertificatePatch, options?: ManagedCertificatesUpdateOptionalParams) => Promise<ManagedCertificate>;
 }
 
 // @public
-export type ManagedCertificatesListResponse = ManagedCertificateCollection;
-
-// @public
-export interface ManagedCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedCertificatesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ManagedCertificatesUpdateResponse = ManagedCertificate;
 
 // @public
 export interface ManagedEnvironment extends TrackedResource {
+    appInsightsConfiguration?: AppInsightsConfiguration;
     appLogsConfiguration?: AppLogsConfiguration;
+    availabilityZones?: string[];
     customDomainConfiguration?: CustomDomainConfiguration;
     daprAIConnectionString?: string;
     daprAIInstrumentationKey?: string;
     daprConfiguration?: DaprConfiguration;
     readonly defaultDomain?: string;
     readonly deploymentErrors?: string;
+    diskEncryptionConfiguration?: DiskEncryptionConfiguration;
     readonly eventStreamEndpoint?: string;
     identity?: ManagedServiceIdentity;
     infrastructureResourceGroup?: string;
     ingressConfiguration?: IngressConfiguration;
     kedaConfiguration?: KedaConfiguration;
     kind?: string;
+    openTelemetryConfiguration?: OpenTelemetryConfiguration;
     peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
     peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateLinkDefaultDomain?: string;
     readonly provisioningState?: EnvironmentProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly staticIp?: string;
@@ -3148,98 +3624,90 @@ export interface ManagedEnvironment extends TrackedResource {
 }
 
 // @public
-export interface ManagedEnvironmentDiagnostics {
-    getDetector(resourceGroupName: string, environmentName: string, detectorName: string, options?: ManagedEnvironmentDiagnosticsGetDetectorOptionalParams): Promise<ManagedEnvironmentDiagnosticsGetDetectorResponse>;
-    listDetectors(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentDiagnosticsListDetectorsOptionalParams): Promise<ManagedEnvironmentDiagnosticsListDetectorsResponse>;
+export interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentDiagnosticsGetDetectorResponse = Diagnostics;
-
-// @public
-export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentDiagnosticsOperations {
+    getDetector: (resourceGroupName: string, environmentName: string, detectorName: string, options?: ManagedEnvironmentDiagnosticsGetDetectorOptionalParams) => Promise<Diagnostics>;
+    listDetectors: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentDiagnosticsListDetectorsOptionalParams) => Promise<DiagnosticsCollection>;
 }
 
 // @public
-export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>, ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>, ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>;
-    get(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse = ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders;
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentPrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentPrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
-export type ManagedEnvironmentPrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface ManagedEnvironmentPrivateLinkResources {
-    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedEnvironmentPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentPrivateLinkResourcesOperations {
+    list: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
-export type ManagedEnvironmentPrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentProperties {
+    appInsightsConfiguration?: AppInsightsConfiguration;
+    appLogsConfiguration?: AppLogsConfiguration;
+    availabilityZones?: string[];
+    customDomainConfiguration?: CustomDomainConfiguration;
+    daprAIConnectionString?: string;
+    daprAIInstrumentationKey?: string;
+    daprConfiguration?: DaprConfiguration;
+    readonly defaultDomain?: string;
+    readonly deploymentErrors?: string;
+    diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+    readonly eventStreamEndpoint?: string;
+    infrastructureResourceGroup?: string;
+    ingressConfiguration?: IngressConfiguration;
+    kedaConfiguration?: KedaConfiguration;
+    openTelemetryConfiguration?: OpenTelemetryConfiguration;
+    peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+    peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateLinkDefaultDomain?: string;
+    readonly provisioningState?: EnvironmentProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly staticIp?: string;
+    vnetConfiguration?: VnetConfiguration;
+    workloadProfiles?: WorkloadProfile[];
+    zoneRedundant?: boolean;
 }
-
-// @public
-export type ManagedEnvironmentPrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface ManagedEnvironmentPropertiesPeerAuthentication {
@@ -3257,141 +3725,91 @@ export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption 
 }
 
 // @public
-export interface ManagedEnvironments {
-    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentsCreateOrUpdateResponse>, ManagedEnvironmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentsUpdateResponse>, ManagedEnvironmentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
-    get(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
-    getAuthToken(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
-    listBySubscription(options?: ManagedEnvironmentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
-    listWorkloadProfileStates(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams): PagedAsyncIterableIterator<WorkloadProfileStates>;
-}
-
-// @public
-export interface ManagedEnvironmentsCollection {
-    readonly nextLink?: string;
-    value: ManagedEnvironment[];
-}
-
-// @public
-export interface ManagedEnvironmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedEnvironmentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedEnvironmentsCreateOrUpdateResponse = ManagedEnvironment;
-
-// @public
-export interface ManagedEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedEnvironmentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ManagedEnvironmentsDiagnostics {
-    getRoot(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams): Promise<ManagedEnvironmentsDiagnosticsGetRootResponse>;
+export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsDiagnosticsOperations {
+    getRoot: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDiagnosticsGetRootOptionalParams) => Promise<ManagedEnvironment>;
 }
 
 // @public
-export type ManagedEnvironmentsDiagnosticsGetRootResponse = ManagedEnvironment;
-
-// @public
-export interface ManagedEnvironmentsGetAuthTokenOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsGetAuthTokenOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsGetAuthTokenResponse = EnvironmentAuthToken;
-
-// @public
-export interface ManagedEnvironmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsGetResponse = ManagedEnvironment;
-
-// @public
-export interface ManagedEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsListByResourceGroupNextResponse = ManagedEnvironmentsCollection;
-
-// @public
-export interface ManagedEnvironmentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsListByResourceGroupResponse = ManagedEnvironmentsCollection;
-
-// @public
-export interface ManagedEnvironmentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsListBySubscriptionNextResponse = ManagedEnvironmentsCollection;
-
-// @public
-export interface ManagedEnvironmentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedEnvironment>, ManagedEnvironment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams) => Promise<ManagedEnvironment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ManagedEnvironment>, ManagedEnvironment>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams) => Promise<ManagedEnvironment>;
+    createOrUpdate: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedEnvironment>, ManagedEnvironment>;
+    delete: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetOptionalParams) => Promise<ManagedEnvironment>;
+    getAuthToken: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsGetAuthTokenOptionalParams) => Promise<EnvironmentAuthToken>;
+    listByResourceGroup: (resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedEnvironment>;
+    listBySubscription: (options?: ManagedEnvironmentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedEnvironment>;
+    listWorkloadProfileStates: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams) => PagedAsyncIterableIterator<WorkloadProfileStates>;
+    update: (resourceGroupName: string, environmentName: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams) => PollerLike<OperationState<ManagedEnvironment>, ManagedEnvironment>;
 }
 
 // @public
-export type ManagedEnvironmentsListBySubscriptionResponse = ManagedEnvironmentsCollection;
-
-// @public
-export interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsListWorkloadProfileStatesNextResponse = WorkloadProfileStatesCollection;
-
-// @public
-export interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsStoragesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsListWorkloadProfileStatesResponse = WorkloadProfileStatesCollection;
-
-// @public
-export interface ManagedEnvironmentsStorages {
-    createOrUpdate(resourceGroupName: string, environmentName: string, storageName: string, storageEnvelope: ManagedEnvironmentStorage, options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesGetOptionalParams): Promise<ManagedEnvironmentsStoragesGetResponse>;
-    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsStoragesListOptionalParams): Promise<ManagedEnvironmentsStoragesListResponse>;
+export interface ManagedEnvironmentsStoragesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsStoragesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironmentStorage;
-
-// @public
-export interface ManagedEnvironmentsStoragesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentsStoragesOperations {
+    createOrUpdate: (resourceGroupName: string, environmentName: string, storageName: string, storageEnvelope: ManagedEnvironmentStorage, options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams) => Promise<ManagedEnvironmentStorage>;
+    delete: (resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, environmentName: string, storageName: string, options?: ManagedEnvironmentsStoragesGetOptionalParams) => Promise<ManagedEnvironmentStorage>;
+    list: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentsStoragesListOptionalParams) => Promise<ManagedEnvironmentStoragesCollection>;
 }
-
-// @public
-export interface ManagedEnvironmentsStoragesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedEnvironmentsStoragesGetResponse = ManagedEnvironmentStorage;
-
-// @public
-export interface ManagedEnvironmentsStoragesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
 
 // @public
 export interface ManagedEnvironmentStorage extends ProxyResource {
@@ -3410,32 +3828,18 @@ export interface ManagedEnvironmentStoragesCollection {
 }
 
 // @public
-export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedEnvironmentsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
-
-// @public
-export interface ManagedEnvironmentUsages {
-    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentUsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface ManagedEnvironmentUsagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedEnvironmentUsagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedEnvironmentUsagesOperations {
+    list: (resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentUsagesListOptionalParams) => PagedAsyncIterableIterator<Usage>;
 }
-
-// @public
-export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
-
-// @public
-export interface ManagedEnvironmentUsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
 
 // @public
 export interface ManagedIdentitySetting {
@@ -3448,13 +3852,29 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface McpServerCredential {
+    readonly apiKey?: string;
+}
+
+// @public
+export interface McpServerSettings {
+    isMcpServerApiKeyDisabled?: boolean;
+    isMcpServerEnabled?: boolean;
+    readonly mcpServerEndpoint?: string;
+}
+
+// @public
+export interface MetricsConfiguration {
+    destinations?: string[];
+    includeKeda?: boolean;
+}
 
 // @public
 export interface Mtls {
@@ -3462,16 +3882,19 @@ export interface Mtls {
 }
 
 // @public
-export interface Namespaces {
-    checkNameAvailability(resourceGroupName: string, environmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
+export interface NacosComponent extends JavaComponentProperties {
+    componentType: "Nacos";
+    ingress?: JavaComponentIngress;
 }
 
 // @public
-export interface NamespacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface NamespacesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+export interface NamespacesOperations {
+    checkNameAvailability: (resourceGroupName: string, environmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: NamespacesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+}
 
 // @public
 export interface NfsAzureFileProperties {
@@ -3485,6 +3908,12 @@ export interface Nonce {
     nonceExpirationInterval?: string;
     validateNonce?: boolean;
 }
+
+// @public
+interface Object_2 {
+    additionalProperties?: Record<string, any>;
+}
+export { Object_2 as Object }
 
 // @public
 export interface OpenIdConnectClientCredential {
@@ -3515,6 +3944,14 @@ export interface OpenIdConnectRegistration {
 }
 
 // @public
+export interface OpenTelemetryConfiguration {
+    destinationsConfiguration?: DestinationsConfiguration;
+    logsConfiguration?: LogsConfiguration;
+    metricsConfiguration?: MetricsConfiguration;
+    tracesConfiguration?: TracesConfiguration;
+}
+
+// @public
 export interface OperationDetail {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -3531,26 +3968,94 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationDetail>;
 }
 
 // @public
-export type OperationsListNextResponse = AvailableOperations;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OtlpConfiguration {
+    endpoint?: string;
+    headers?: Header[];
+    insecure?: boolean;
+    name?: string;
 }
 
 // @public
-export type OperationsListResponse = AvailableOperations;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export type PatchApplyStatus = string;
+
+// @public
+export interface PatchDetails {
+    readonly detectionStatus: DetectionStatus;
+    readonly lastDetectionTime: Date;
+    readonly newImageName?: string;
+    readonly newLayer?: PatchDetailsNewLayer;
+    readonly oldLayer?: PatchDetailsOldLayer;
+    readonly patchType?: PatchType;
+    readonly targetContainerName: string;
+    readonly targetImage: string;
+}
+
+// @public
+export interface PatchDetailsNewLayer {
+    frameworkAndVersion?: string;
+    name?: string;
+    osAndVersion?: string;
+}
+
+// @public
+export interface PatchDetailsOldLayer {
+    frameworkAndVersion?: string;
+    name?: string;
+    osAndVersion?: string;
+}
+
+// @public
+export type PatchingMode = string;
+
+// @public
+export interface PatchProperties {
+    readonly createdAt?: Date;
+    readonly lastModifiedAt?: Date;
+    readonly patchApplyStatus?: PatchApplyStatus;
+    readonly patchDetails?: PatchDetails[];
+    targetContainerAppId?: string;
+    targetEnvironmentId?: string;
+    targetRevisionId?: string;
+}
+
+// @public
+export interface PatchSkipConfig {
+    skip?: boolean;
+}
+
+// @public
+export type PatchType = string;
 
 // @public
 export type PoolManagementType = string;
+
+// @public
+export interface PreBuildStep {
+    description?: string;
+    httpGet?: HttpGet;
+    scripts?: string[];
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -3558,7 +4063,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -3566,9 +4071,11 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -3585,9 +4092,10 @@ export interface PrivateLinkResource extends Resource {
 }
 
 // @public
-export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -3645,6 +4153,7 @@ export interface ReplicaCollection {
 // @public
 export interface ReplicaContainer {
     containerId?: string;
+    readonly debugEndpoint?: string;
     readonly execEndpoint?: string;
     readonly logStreamEndpoint?: string;
     name?: string;
@@ -3653,6 +4162,21 @@ export interface ReplicaContainer {
     readonly runningState?: ContainerAppContainerRunningState;
     readonly runningStateDetails?: string;
     started?: boolean;
+}
+
+// @public
+export interface ReplicaExecutionStatus {
+    containers?: ContainerExecutionStatus[];
+    name?: string;
+}
+
+// @public
+export interface ReplicaProperties {
+    containers?: ReplicaContainer[];
+    readonly createdTime?: Date;
+    initContainers?: ReplicaContainer[];
+    readonly runningState?: ContainerAppReplicaRunningState;
+    readonly runningStateDetails?: string;
 }
 
 // @public
@@ -3665,9 +4189,19 @@ export interface Resource {
 
 // @public
 export interface ResourceTags {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerAppsAPIClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3676,6 +4210,7 @@ export interface Revision extends ProxyResource {
     readonly createdTime?: Date;
     readonly fqdn?: string;
     readonly healthState?: RevisionHealthState;
+    readonly labels?: string[];
     readonly lastActiveTime?: Date;
     readonly provisioningError?: string;
     readonly provisioningState?: RevisionProvisioningState;
@@ -3686,13 +4221,23 @@ export interface Revision extends ProxyResource {
 }
 
 // @public
-export interface RevisionCollection {
-    readonly nextLink?: string;
-    value: Revision[];
-}
+export type RevisionHealthState = string;
 
 // @public
-export type RevisionHealthState = string;
+export interface RevisionProperties {
+    readonly active?: boolean;
+    readonly createdTime?: Date;
+    readonly fqdn?: string;
+    readonly healthState?: RevisionHealthState;
+    readonly labels?: string[];
+    readonly lastActiveTime?: Date;
+    readonly provisioningError?: string;
+    readonly provisioningState?: RevisionProvisioningState;
+    readonly replicas?: number;
+    readonly runningState?: RevisionRunningState;
+    readonly template?: Template;
+    readonly trafficWeight?: number;
+}
 
 // @public
 export type RevisionProvisioningState = string;
@@ -3702,12 +4247,30 @@ export type RevisionRunningState = string;
 
 // @public
 export interface Runtime {
+    dotnet?: RuntimeDotnet;
     java?: RuntimeJava;
+}
+
+// @public
+export interface RuntimeDotnet {
+    autoConfigureDataProtection?: boolean;
 }
 
 // @public
 export interface RuntimeJava {
     enableMetrics?: boolean;
+    javaAgent?: RuntimeJavaJavaAgent;
+}
+
+// @public
+export interface RuntimeJavaJavaAgent {
+    enabled?: boolean;
+    logging?: RuntimeJavaJavaAgentLogging;
+}
+
+// @public
+export interface RuntimeJavaJavaAgentLogging {
+    loggerSettings?: LoggerSetting[];
 }
 
 // @public
@@ -3738,6 +4301,20 @@ export interface ScaleRule {
 export interface ScaleRuleAuth {
     secretRef?: string;
     triggerParameter?: string;
+}
+
+// @public
+export interface ScgRoute {
+    filters?: string[];
+    id: string;
+    order?: number;
+    predicates?: string[];
+    uri: string;
+}
+
+// @public
+export interface ScheduledEntries {
+    scheduledEntries: ScheduledEntry[];
 }
 
 // @public
@@ -3782,6 +4359,8 @@ export interface Service {
 
 // @public
 export interface ServiceBind {
+    clientType?: string;
+    customizedKeys?: Record<string, string>;
     name?: string;
     serviceId?: string;
 }
@@ -3793,6 +4372,7 @@ export interface SessionContainer {
     env?: EnvironmentVar[];
     image?: string;
     name?: string;
+    probes?: SessionProbe[];
     resources?: SessionContainerResources;
 }
 
@@ -3823,6 +4403,7 @@ export interface SessionPool extends TrackedResource {
     environmentId?: string;
     identity?: ManagedServiceIdentity;
     managedIdentitySettings?: ManagedIdentitySetting[];
+    mcpServerSettings?: McpServerSettings;
     readonly nodeCount?: number;
     readonly poolManagementEndpoint?: string;
     poolManagementType?: PoolManagementType;
@@ -3830,12 +4411,25 @@ export interface SessionPool extends TrackedResource {
     scaleConfiguration?: ScaleConfiguration;
     secrets?: SessionPoolSecret[];
     sessionNetworkConfiguration?: SessionNetworkConfiguration;
+    readonly templateUpdateStatus?: TemplateUpdateStatus;
 }
 
 // @public
-export interface SessionPoolCollection {
-    readonly nextLink?: string;
-    value: SessionPool[];
+export interface SessionPoolProperties {
+    containerType?: ContainerType;
+    customContainerTemplate?: CustomContainerTemplate;
+    dynamicPoolConfiguration?: DynamicPoolConfiguration;
+    environmentId?: string;
+    managedIdentitySettings?: ManagedIdentitySetting[];
+    mcpServerSettings?: McpServerSettings;
+    readonly nodeCount?: number;
+    readonly poolManagementEndpoint?: string;
+    poolManagementType?: PoolManagementType;
+    readonly provisioningState?: SessionPoolProvisioningState;
+    scaleConfiguration?: ScaleConfiguration;
+    secrets?: SessionPoolSecret[];
+    sessionNetworkConfiguration?: SessionNetworkConfiguration;
+    readonly templateUpdateStatus?: TemplateUpdateStatus;
 }
 
 // @public
@@ -3855,16 +4449,92 @@ export interface SessionPoolUpdatableProperties {
     scaleConfiguration?: ScaleConfiguration;
     secrets?: SessionPoolSecret[];
     sessionNetworkConfiguration?: SessionNetworkConfiguration;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
+
+// @public
+export interface SessionPoolUpdatablePropertiesProperties {
+    customContainerTemplate?: CustomContainerTemplate;
+    dynamicPoolConfiguration?: DynamicPoolConfiguration;
+    scaleConfiguration?: ScaleConfiguration;
+    secrets?: SessionPoolSecret[];
+    sessionNetworkConfiguration?: SessionNetworkConfiguration;
+}
+
+// @public
+export interface SessionProbe {
+    failureThreshold?: number;
+    httpGet?: SessionProbeHttpGet;
+    initialDelaySeconds?: number;
+    periodSeconds?: number;
+    successThreshold?: number;
+    tcpSocket?: SessionProbeTcpSocket;
+    terminationGracePeriodSeconds?: number;
+    timeoutSeconds?: number;
+    type?: SessionProbeType;
+}
+
+// @public
+export interface SessionProbeHttpGet {
+    host?: string;
+    httpHeaders?: SessionProbeHttpGetHttpHeadersItem[];
+    path?: string;
+    port: number;
+    scheme?: Scheme;
+}
+
+// @public
+export interface SessionProbeHttpGetHttpHeadersItem {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface SessionProbeTcpSocket {
+    host?: string;
+    port: number;
+}
+
+// @public
+export type SessionProbeType = string;
 
 // @public
 export interface SessionRegistryCredentials {
     identity?: string;
     passwordSecretRef?: string;
     server?: string;
+    username?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export interface SmbStorage {
+    accessMode?: AccessMode;
+    domain?: string;
+    host?: string;
+    password?: string;
+    shareName?: string;
     username?: string;
 }
 
@@ -3877,13 +4547,15 @@ export interface SourceControl extends ProxyResource {
 }
 
 // @public
-export interface SourceControlCollection {
-    readonly nextLink?: string;
-    value: SourceControl[];
-}
+export type SourceControlOperationState = string;
 
 // @public
-export type SourceControlOperationState = string;
+export interface SourceControlProperties {
+    branch?: string;
+    githubActionConfiguration?: GithubActionConfiguration;
+    readonly operationState?: SourceControlOperationState;
+    repoUrl?: string;
+}
 
 // @public
 export interface SpringBootAdminComponent extends JavaComponentProperties {
@@ -3903,6 +4575,16 @@ export interface SpringCloudEurekaComponent extends JavaComponentProperties {
 }
 
 // @public
+export interface SpringCloudGatewayComponent extends JavaComponentProperties {
+    componentType: "SpringCloudGateway";
+    ingress?: JavaComponentIngress;
+    springCloudGatewayRoutes?: ScgRoute[];
+}
+
+// @public
+export type Status = string;
+
+// @public
 export type StorageType = string;
 
 // @public
@@ -3916,12 +4598,20 @@ export interface SystemData {
 }
 
 // @public
+export interface TcpConnectionPool {
+    maxConnections?: number;
+}
+
+// @public
+export interface TcpRetryPolicy {
+    maxConnectAttempts?: number;
+}
+
+// @public
 export interface TcpScaleRule {
     auth?: ScaleRuleAuth[];
     identity?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -3936,6 +4626,37 @@ export interface Template {
 }
 
 // @public
+export interface TemplatePoolStatus {
+    allocatedCount?: number;
+    crashCount?: number;
+    expectedCount?: number;
+    imagePullFailCount?: number;
+    pendingCount?: number;
+    readyCount?: number;
+}
+
+// @public
+export interface TemplateStatus {
+    containers?: SessionContainer[];
+    createdTime?: Date;
+    details?: string;
+    ingress?: SessionIngress;
+    status?: TemplatePoolStatus;
+}
+
+// @public
+export interface TemplateUpdateStatus {
+    activeTemplate?: TemplateStatus;
+    desiredTemplate?: TemplateStatus;
+}
+
+// @public
+export interface TimeoutPolicy {
+    connectionTimeoutInSeconds?: number;
+    responseTimeoutInSeconds?: number;
+}
+
+// @public
 export interface TokenStore {
     azureBlobStorage?: BlobStorageTokenStore;
     enabled?: boolean;
@@ -3943,11 +4664,15 @@ export interface TokenStore {
 }
 
 // @public
+export interface TracesConfiguration {
+    destinations?: string[];
+    includeDapr?: boolean;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -3994,23 +4719,13 @@ export interface UsageName {
 }
 
 // @public
-export interface Usages {
-    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface UsagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface UsagesOperations {
+    list: (location: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<Usage>;
 }
-
-// @public
-export type UsagesListNextResponse = ListUsagesResult;
-
-// @public
-export interface UsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UsagesListResponse = ListUsagesResult;
 
 // @public
 export interface UserAssignedIdentity {
@@ -4047,20 +4762,21 @@ export interface VolumeMount {
 export type WeekDay = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
+export interface WorkflowArtifacts {
+    appSettings?: any;
+    files?: any;
+    filesToDelete?: string[];
+}
+
+// @public
 export interface WorkflowEnvelope extends ProxyResource {
     kind?: WorkflowKind;
     properties?: WorkflowEnvelopeProperties;
 }
 
 // @public
-export interface WorkflowEnvelopeCollection {
-    readonly nextLink?: string;
-    value: WorkflowEnvelope[];
-}
-
-// @public
 export interface WorkflowEnvelopeProperties {
-    files?: Record<string, unknown>;
+    files?: any;
     flowState?: WorkflowState;
     health?: WorkflowHealth;
 }
@@ -4082,6 +4798,7 @@ export type WorkflowState = string;
 
 // @public
 export interface WorkloadProfile {
+    enableFips?: boolean;
     maximumCount?: number;
     minimumCount?: number;
     name: string;
@@ -4091,12 +4808,6 @@ export interface WorkloadProfile {
 // @public
 export interface WorkloadProfileStates extends ProxyResource {
     properties?: WorkloadProfileStatesProperties;
-}
-
-// @public
-export interface WorkloadProfileStatesCollection {
-    readonly nextLink?: string;
-    value: WorkloadProfileStates[];
 }
 
 // @public

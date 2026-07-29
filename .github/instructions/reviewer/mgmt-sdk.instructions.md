@@ -28,7 +28,7 @@ Breaking changes are acceptable in mgmt SDKs with proper CHANGELOG documentation
 **Root-cause analysis:** Trace breaking changes to their source:
 - API version change in spec → expected, document in changelog
 - TypeSpec migration artifact → may be approved pattern, check with architects
-- Emitter/tooling bug → report to autorest.typescript
+- Emitter/tooling bug → report to typespec-azure
 - Do NOT flag cosmetic changes: `XxxOptionalParams→XxxOptions`, response wrapper removal
 
 **Changelog alignment:** Public API changes in `review/*.api.md` must be documented:
@@ -63,10 +63,19 @@ Flag patterns indicating spec problems:
 
 ## Samples & Tests
 - Samples are auto-generated — only comment on syntax issues found while checking `src/` references
+- Do NOT comment on placeholder values in samples (e.g., `subscriptionId`, `resourceGroupName`) — these are intentionally non-real values
 - Do NOT comment on style, formatting, documentation, or whitespace
 - Do NOT comment on implementation internals (private methods, internal helpers)
 
+## Generated Infrastructure Files
+- Do NOT comment on `eslint.config.mjs`, `warp.config.yml`, `tsconfig.json`, or `vitest.config.ts` patterns — these are set by the generation tool and intentionally differ from hand-written packages
+- Config deviations from other packages are expected when generation tooling evolves
+
+## Comment Deduplication
+- If an issue repeats across multiple files (e.g., same placeholder format in every sample), comment ONCE on the first file and note the total count of affected files
+- Do NOT post the same comment on every file that has the same issue
+
 ## Issue Types
-**🔴 Tool Issue:** Generation bug → fix + report to [autorest.typescript](https://github.com/Azure/autorest.typescript/issues)
+**🔴 Tool Issue:** Generation bug → fix + report to [typespec-azure](https://github.com/Azure/typespec-azure/issues)
 **🔴 Design Issue:** API problem → `@clientName`/`@override` in spec repo
 **🔵 Suggestion:** Optional improvement

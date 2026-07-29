@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0-beta.1 (2026-05-28)
+
+### Features Added
+
+- Export `createOpenTelemetryInstrumenter` factory function from the package entry point.
+
 ## 1.0.0 (2026-05-05)
 
 ### Features Added

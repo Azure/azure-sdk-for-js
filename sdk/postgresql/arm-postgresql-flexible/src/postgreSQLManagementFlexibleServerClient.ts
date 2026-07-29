@@ -26,6 +26,10 @@ import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
 import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
 import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
+import type { MaintenanceEventsOperations } from "./classic/maintenanceEvents/index.js";
+import { _getMaintenanceEventsOperations } from "./classic/maintenanceEvents/index.js";
+import type { MajorVersionUpgradePrecheckOperations } from "./classic/majorVersionUpgradePrecheck/index.js";
+import { _getMajorVersionUpgradePrecheckOperations } from "./classic/majorVersionUpgradePrecheck/index.js";
 import type { MigrationsOperations } from "./classic/migrations/index.js";
 import { _getMigrationsOperations } from "./classic/migrations/index.js";
 import type { NameAvailabilityOperations } from "./classic/nameAvailability/index.js";
@@ -46,8 +50,8 @@ import type { ServerThreatProtectionSettingsOperations } from "./classic/serverT
 import { _getServerThreatProtectionSettingsOperations } from "./classic/serverThreatProtectionSettings/index.js";
 import type { ServersOperations } from "./classic/servers/index.js";
 import { _getServersOperations } from "./classic/servers/index.js";
-import type { TuningOptionsOperations } from "./classic/tuningOptions/index.js";
-import { _getTuningOptionsOperations } from "./classic/tuningOptions/index.js";
+import type { TuningOptionsOperationsOperations } from "./classic/tuningOptionsOperations/index.js";
+import { _getTuningOptionsOperationsOperations } from "./classic/tuningOptionsOperations/index.js";
 import type { VirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
 import { _getVirtualEndpointsOperations } from "./classic/virtualEndpoints/index.js";
 import type { VirtualNetworkSubnetUsageOperations } from "./classic/virtualNetworkSubnetUsage/index.js";
@@ -100,7 +104,7 @@ export class PostgreSQLManagementFlexibleServerClient {
     this.privateDnsZoneSuffix = _getPrivateDnsZoneSuffixOperations(this._client);
     this.nameAvailability = _getNameAvailabilityOperations(this._client);
     this.capabilitiesByLocation = _getCapabilitiesByLocationOperations(this._client);
-    this.tuningOptions = _getTuningOptionsOperations(this._client);
+    this.tuningOptionsOperations = _getTuningOptionsOperationsOperations(this._client);
     this.backupsAutomaticAndOnDemand = _getBackupsAutomaticAndOnDemandOperations(this._client);
     this.serverThreatProtectionSettings = _getServerThreatProtectionSettingsOperations(
       this._client,
@@ -113,6 +117,8 @@ export class PostgreSQLManagementFlexibleServerClient {
     this.capturedLogs = _getCapturedLogsOperations(this._client);
     this.capabilitiesByServer = _getCapabilitiesByServerOperations(this._client);
     this.administratorsMicrosoftEntra = _getAdministratorsMicrosoftEntraOperations(this._client);
+    this.majorVersionUpgradePrecheck = _getMajorVersionUpgradePrecheckOperations(this._client);
+    this.maintenanceEvents = _getMaintenanceEventsOperations(this._client);
     this.virtualEndpoints = _getVirtualEndpointsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
@@ -134,8 +140,8 @@ export class PostgreSQLManagementFlexibleServerClient {
   public readonly nameAvailability: NameAvailabilityOperations;
   /** The operation groups for capabilitiesByLocation */
   public readonly capabilitiesByLocation: CapabilitiesByLocationOperations;
-  /** The operation groups for tuningOptions */
-  public readonly tuningOptions: TuningOptionsOperations;
+  /** The operation groups for tuningOptionsOperations */
+  public readonly tuningOptionsOperations: TuningOptionsOperationsOperations;
   /** The operation groups for backupsAutomaticAndOnDemand */
   public readonly backupsAutomaticAndOnDemand: BackupsAutomaticAndOnDemandOperations;
   /** The operation groups for serverThreatProtectionSettings */
@@ -152,6 +158,10 @@ export class PostgreSQLManagementFlexibleServerClient {
   public readonly capabilitiesByServer: CapabilitiesByServerOperations;
   /** The operation groups for administratorsMicrosoftEntra */
   public readonly administratorsMicrosoftEntra: AdministratorsMicrosoftEntraOperations;
+  /** The operation groups for majorVersionUpgradePrecheck */
+  public readonly majorVersionUpgradePrecheck: MajorVersionUpgradePrecheckOperations;
+  /** The operation groups for maintenanceEvents */
+  public readonly maintenanceEvents: MaintenanceEventsOperations;
   /** The operation groups for virtualEndpoints */
   public readonly virtualEndpoints: VirtualEndpointsOperations;
   /** The operation groups for privateLinkResources */

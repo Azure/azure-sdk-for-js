@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a FleetUpdateStrategy
  *
  * @summary delete a FleetUpdateStrategy
- * x-ms-original-file: 2026-02-01-preview/UpdateStrategies_Delete.json
+ * x-ms-original-file: 2026-03-02-preview/UpdateStrategies_Delete.json
  */
 async function deleteAFleetUpdateStrategyResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

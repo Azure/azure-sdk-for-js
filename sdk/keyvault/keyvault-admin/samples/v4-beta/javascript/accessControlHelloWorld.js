@@ -11,7 +11,6 @@ const {
   KnownKeyVaultRoleScope,
 } = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
-const uuid = require("uuid");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -32,7 +31,7 @@ async function main() {
   }
 
   const globalScope = KnownKeyVaultRoleScope.Global;
-  const roleDefinitionName = uuid.v4();
+  const roleDefinitionName = crypto.randomUUID();
   const permissions = [
     {
       dataActions: [
@@ -51,7 +50,7 @@ async function main() {
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-  const roleAssignmentName = uuid.v4();
+  const roleAssignmentName = crypto.randomUUID();
   const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   if (!clientObjectId) {
     throw new Error("Missing environment variable CLIENT_OBJECT_ID.");

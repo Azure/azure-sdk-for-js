@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetch the report summary of a single storage task assignment's instances
  *
  * @summary fetch the report summary of a single storage task assignment's instances
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsList/ListStorageTaskAssignmentInstancesReportSummary.json
  */
 async function listStorageTaskAssignmentInstancesReportSummary(): Promise<void> {
   const credential = new DefaultAzureCredential();

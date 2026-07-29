@@ -4,3 +4,4 @@
 export { AvroSerializer } from "./avroSerializer.js";
 
 export type * from "./models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

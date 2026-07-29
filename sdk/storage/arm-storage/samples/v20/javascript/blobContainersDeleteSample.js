@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes specified container under its account.
  *
  * @summary deletes specified container under its account.
- * x-ms-original-file: 2025-08-01/BlobContainersDelete.json
+ * x-ms-original-file: 2026-04-01/BlobContainersDelete.json
  */
 async function deleteContainers() {
   const credential = new DefaultAzureCredential();

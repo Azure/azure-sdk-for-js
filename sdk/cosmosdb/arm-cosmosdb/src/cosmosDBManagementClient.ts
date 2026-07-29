@@ -12,8 +12,6 @@ import type { CassandraDataCentersOperations } from "./classic/cassandraDataCent
 import { _getCassandraDataCentersOperations } from "./classic/cassandraDataCenters/index.js";
 import type { CassandraResourcesOperations } from "./classic/cassandraResources/index.js";
 import { _getCassandraResourcesOperations } from "./classic/cassandraResources/index.js";
-import type { ChaosFaultOperations } from "./classic/chaosFault/index.js";
-import { _getChaosFaultOperations } from "./classic/chaosFault/index.js";
 import type { CollectionOperations } from "./classic/collection/index.js";
 import { _getCollectionOperations } from "./classic/collection/index.js";
 import type { CollectionPartitionOperations } from "./classic/collectionPartition/index.js";
@@ -22,10 +20,6 @@ import type { CollectionPartitionRegionOperations } from "./classic/collectionPa
 import { _getCollectionPartitionRegionOperations } from "./classic/collectionPartitionRegion/index.js";
 import type { CollectionRegionOperations } from "./classic/collectionRegion/index.js";
 import { _getCollectionRegionOperations } from "./classic/collectionRegion/index.js";
-import type { CopyJobsOperations } from "./classic/copyJobs/index.js";
-import { _getCopyJobsOperations } from "./classic/copyJobs/index.js";
-import type { DataTransferJobsOperations } from "./classic/dataTransferJobs/index.js";
-import { _getDataTransferJobsOperations } from "./classic/dataTransferJobs/index.js";
 import type { DatabaseOperations } from "./classic/database/index.js";
 import { _getDatabaseOperations } from "./classic/database/index.js";
 import type { DatabaseAccountRegionOperations } from "./classic/databaseAccountRegion/index.js";
@@ -34,16 +28,10 @@ import type { DatabaseAccountsOperations } from "./classic/databaseAccounts/inde
 import { _getDatabaseAccountsOperations } from "./classic/databaseAccounts/index.js";
 import type { FleetOperations } from "./classic/fleet/index.js";
 import { _getFleetOperations } from "./classic/fleet/index.js";
-import type { FleetAnalyticsOperations } from "./classic/fleetAnalytics/index.js";
-import { _getFleetAnalyticsOperations } from "./classic/fleetAnalytics/index.js";
 import type { FleetspaceOperations } from "./classic/fleetspace/index.js";
 import { _getFleetspaceOperations } from "./classic/fleetspace/index.js";
 import type { FleetspaceAccountOperations } from "./classic/fleetspaceAccount/index.js";
 import { _getFleetspaceAccountOperations } from "./classic/fleetspaceAccount/index.js";
-import type { GarnetClustersOperations } from "./classic/garnetClusters/index.js";
-import { _getGarnetClustersOperations } from "./classic/garnetClusters/index.js";
-import type { GraphResourcesOperations } from "./classic/graphResources/index.js";
-import { _getGraphResourcesOperations } from "./classic/graphResources/index.js";
 import type { GremlinResourcesOperations } from "./classic/gremlinResources/index.js";
 import { _getGremlinResourcesOperations } from "./classic/gremlinResources/index.js";
 import type { LocationsOperations } from "./classic/locations/index.js";
@@ -52,8 +40,6 @@ import type { MongoDBResourcesOperations } from "./classic/mongoDBResources/inde
 import { _getMongoDBResourcesOperations } from "./classic/mongoDBResources/index.js";
 import type { MongoMIResourcesOperations } from "./classic/mongoMIResources/index.js";
 import { _getMongoMIResourcesOperations } from "./classic/mongoMIResources/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
 import type { NotebookWorkspacesOperations } from "./classic/notebookWorkspaces/index.js";
 import { _getNotebookWorkspacesOperations } from "./classic/notebookWorkspaces/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -102,14 +88,6 @@ import type { SqlResourcesOperations } from "./classic/sqlResources/index.js";
 import { _getSqlResourcesOperations } from "./classic/sqlResources/index.js";
 import type { TableResourcesOperations } from "./classic/tableResources/index.js";
 import { _getTableResourcesOperations } from "./classic/tableResources/index.js";
-import type { ThroughputPoolOperations } from "./classic/throughputPool/index.js";
-import { _getThroughputPoolOperations } from "./classic/throughputPool/index.js";
-import type { ThroughputPoolAccountOperations } from "./classic/throughputPoolAccount/index.js";
-import { _getThroughputPoolAccountOperations } from "./classic/throughputPoolAccount/index.js";
-import type { ThroughputPoolAccountsOperations } from "./classic/throughputPoolAccounts/index.js";
-import { _getThroughputPoolAccountsOperations } from "./classic/throughputPoolAccounts/index.js";
-import type { ThroughputPoolsOperations } from "./classic/throughputPools/index.js";
-import { _getThroughputPoolsOperations } from "./classic/throughputPools/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -152,13 +130,8 @@ export class CosmosDBManagementClient {
     this.pipeline = this._client.pipeline;
     this.fleetspaceAccount = _getFleetspaceAccountOperations(this._client);
     this.fleetspace = _getFleetspaceOperations(this._client);
-    this.fleetAnalytics = _getFleetAnalyticsOperations(this._client);
     this.fleet = _getFleetOperations(this._client);
     this.mongoMIResources = _getMongoMIResourcesOperations(this._client);
-    this.throughputPoolAccounts = _getThroughputPoolAccountsOperations(this._client);
-    this.throughputPoolAccount = _getThroughputPoolAccountOperations(this._client);
-    this.throughputPools = _getThroughputPoolsOperations(this._client);
-    this.throughputPool = _getThroughputPoolOperations(this._client);
     this.service = _getServiceOperations(this._client);
     this.restorableTableResources = _getRestorableTableResourcesOperations(this._client);
     this.restorableTables = _getRestorableTablesOperations(this._client);
@@ -186,21 +159,14 @@ export class CosmosDBManagementClient {
     this.collectionRegion = _getCollectionRegionOperations(this._client);
     this.collection = _getCollectionOperations(this._client);
     this.database = _getDatabaseOperations(this._client);
-    this.chaosFault = _getChaosFaultOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.notebookWorkspaces = _getNotebookWorkspacesOperations(this._client);
-    this.networkSecurityPerimeterConfigurations =
-      _getNetworkSecurityPerimeterConfigurationsOperations(this._client);
-    this.garnetClusters = _getGarnetClustersOperations(this._client);
-    this.dataTransferJobs = _getDataTransferJobsOperations(this._client);
     this.gremlinResources = _getGremlinResourcesOperations(this._client);
     this.cassandraResources = _getCassandraResourcesOperations(this._client);
     this.tableResources = _getTableResourcesOperations(this._client);
     this.mongoDBResources = _getMongoDBResourcesOperations(this._client);
     this.sqlResources = _getSqlResourcesOperations(this._client);
-    this.graphResources = _getGraphResourcesOperations(this._client);
-    this.copyJobs = _getCopyJobsOperations(this._client);
     this.databaseAccounts = _getDatabaseAccountsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -209,20 +175,10 @@ export class CosmosDBManagementClient {
   public readonly fleetspaceAccount: FleetspaceAccountOperations;
   /** The operation groups for fleetspace */
   public readonly fleetspace: FleetspaceOperations;
-  /** The operation groups for fleetAnalytics */
-  public readonly fleetAnalytics: FleetAnalyticsOperations;
   /** The operation groups for fleet */
   public readonly fleet: FleetOperations;
   /** The operation groups for mongoMIResources */
   public readonly mongoMIResources: MongoMIResourcesOperations;
-  /** The operation groups for throughputPoolAccounts */
-  public readonly throughputPoolAccounts: ThroughputPoolAccountsOperations;
-  /** The operation groups for throughputPoolAccount */
-  public readonly throughputPoolAccount: ThroughputPoolAccountOperations;
-  /** The operation groups for throughputPools */
-  public readonly throughputPools: ThroughputPoolsOperations;
-  /** The operation groups for throughputPool */
-  public readonly throughputPool: ThroughputPoolOperations;
   /** The operation groups for service */
   public readonly service: ServiceOperations;
   /** The operation groups for restorableTableResources */
@@ -277,20 +233,12 @@ export class CosmosDBManagementClient {
   public readonly collection: CollectionOperations;
   /** The operation groups for database */
   public readonly database: DatabaseOperations;
-  /** The operation groups for chaosFault */
-  public readonly chaosFault: ChaosFaultOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for notebookWorkspaces */
   public readonly notebookWorkspaces: NotebookWorkspacesOperations;
-  /** The operation groups for networkSecurityPerimeterConfigurations */
-  public readonly networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurationsOperations;
-  /** The operation groups for garnetClusters */
-  public readonly garnetClusters: GarnetClustersOperations;
-  /** The operation groups for dataTransferJobs */
-  public readonly dataTransferJobs: DataTransferJobsOperations;
   /** The operation groups for gremlinResources */
   public readonly gremlinResources: GremlinResourcesOperations;
   /** The operation groups for cassandraResources */
@@ -301,10 +249,6 @@ export class CosmosDBManagementClient {
   public readonly mongoDBResources: MongoDBResourcesOperations;
   /** The operation groups for sqlResources */
   public readonly sqlResources: SqlResourcesOperations;
-  /** The operation groups for graphResources */
-  public readonly graphResources: GraphResourcesOperations;
-  /** The operation groups for copyJobs */
-  public readonly copyJobs: CopyJobsOperations;
   /** The operation groups for databaseAccounts */
   public readonly databaseAccounts: DatabaseAccountsOperations;
   /** The operation groups for operations */

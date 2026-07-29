@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the usage of file service in storage account including account limits, file share limits and constants used in recommendations and bursting formula.
  *
  * @summary gets the usage of file service in storage account including account limits, file share limits and constants used in recommendations and bursting formula.
- * x-ms-original-file: 2025-08-01/FileServicesGetUsage.json
+ * x-ms-original-file: 2026-04-01/FileServicesGetUsage.json
  */
 async function getFileServiceUsage() {
   const credential = new DefaultAzureCredential();

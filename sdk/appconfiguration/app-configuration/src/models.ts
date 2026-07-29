@@ -6,20 +6,93 @@ import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
-import type {
-  SnapshotComposition,
-  ConfigurationSettingsFilter,
-  ConfigurationSnapshot,
-  ConfigurationSnapshotStatus,
-  SettingLabel,
-} from "./generated/src/index.js";
+
+/**
+ * Defines values for SnapshotComposition.
+ * {@link KnownSnapshotComposition} can be used interchangeably with SnapshotComposition.
+ */
+export type SnapshotComposition = string;
+
+/** Known values of {@link SnapshotComposition} that the service accepts. */
+export enum KnownSnapshotComposition {
+  /** Key */
+  Key = "key",
+  /** KeyLabel */
+  KeyLabel = "key_label",
+}
+
+/**
+ * Defines values for ConfigurationSnapshotStatus.
+ * {@link KnownConfigurationSnapshotStatus} can be used interchangeably with ConfigurationSnapshotStatus.
+ */
+export type ConfigurationSnapshotStatus = string;
+
+/** Known values of {@link ConfigurationSnapshotStatus} that the service accepts. */
+export enum KnownConfigurationSnapshotStatus {
+  /** Provisioning */
+  Provisioning = "provisioning",
+  /** Ready */
+  Ready = "ready",
+  /** Archived */
+  Archived = "archived",
+  /** Failed */
+  Failed = "failed",
+}
+
+/**
+ * Enables filtering of key-values. Syntax reference:
+ * https://aka.ms/azconfig/docs/restapisnapshots
+ */
+export interface ConfigurationSettingsFilter {
+  /** Filters key-values by their key field. */
+  keyFilter: string;
+  /** Filters key-values by their label field. */
+  labelFilter?: string;
+  /** Filters key-values by their tags field. */
+  tagsFilter?: string[];
+}
+
+/** A snapshot is a named, immutable subset of an App Configuration store's key-values. */
+export interface ConfigurationSnapshot {
+  /** The name of the snapshot. */
+  readonly name: string;
+  /** The current status of the snapshot. */
+  readonly status?: ConfigurationSnapshotStatus;
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: ConfigurationSettingsFilter[];
+  /** The composition type describes how the key-values within the snapshot are composed. */
+  compositionType?: SnapshotComposition;
+  /** The time that the snapshot was created. */
+  readonly createdOn?: Date;
+  /** The time that the snapshot will expire. */
+  readonly expiresOn?: Date;
+  /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. */
+  retentionPeriodInSeconds?: number;
+  /** The size in bytes of the snapshot. */
+  readonly sizeInBytes?: number;
+  /** The amount of key-values in the snapshot. */
+  readonly itemCount?: number;
+  /** The tags of the snapshot. */
+  tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
+  /** A value representing the current state of the snapshot. */
+  readonly etag?: string;
+}
+
+/** Labels are used to group key-values. */
+export interface SettingLabel {
+  /** The name of the label. */
+  readonly name?: string;
+}
 
 /**
  * Provides configuration options for AppConfigurationClient.
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2023-11-01`.
+   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
@@ -48,6 +121,18 @@ export enum KnownAppConfigAudience {
    * Audience for Azure Public
    */
   AzurePublicCloud = "https://appconfig.azure.com",
+}
+
+/**
+ * Known service API versions supported by AppConfigurationClient.
+ */
+export enum KnownAppConfigurationApiVersion {
+  /** The 2023-11-01 API version */
+  V20231101 = "2023-11-01",
+  /** The 2024-09-01 API version */
+  V20240901 = "2024-09-01",
+  /** The 2026-04-01 API version */
+  V20260401 = "2026-04-01",
 }
 
 /**
@@ -85,6 +170,11 @@ export type ConfigurationSettingParam<
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * The description of the setting.
+   */
+  description?: string;
 } & (T extends string
     ? {
         /**
@@ -558,14 +648,6 @@ export interface SnapshotInfo {
   retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
 }
-
-export {
-  type ConfigurationSnapshot,
-  type ConfigurationSettingsFilter,
-  type SnapshotComposition,
-  KnownSnapshotComposition,
-  KnownConfigurationSnapshotStatus,
-  type ConfigurationSnapshotStatus,
-  type SettingLabel,
-} from "./generated/src/index.js";

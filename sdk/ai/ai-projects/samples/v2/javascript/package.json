@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure AI Projects client library samples for JavaScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -33,8 +33,11 @@
     "@azure/arm-cognitiveservices": "8.1.0",
     "@modelcontextprotocol/sdk": "^1.25.1",
     "@azure/core-rest-pipeline": "^1.5.0",
-    "@azure/monitor-opentelemetry": "^1.16.0",
-    "@opentelemetry/api": "^1.9.0"
+    "@azure/monitor-opentelemetry": "^1.17.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-node": "^2.0.0",
+    "@opentelemetry/instrumentation": "^0.57.0",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7"
   },
   "devDependencies": {
     "cross-env": "latest"

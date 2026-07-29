@@ -27,14 +27,14 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaToolboxes operations. */
 export interface BetaToolboxesOperations {
-  /** Delete a specific version of a toolbox. */
+  /** Removes the specified version of a toolbox. */
   deleteVersion: (
     name: string,
     version: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: DeleteVersionOptionalParams,
   ) => Promise<void>;
-  /** Delete a toolbox and all its versions. */
+  /** Removes the specified toolbox along with all of its versions. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -45,38 +45,38 @@ export interface BetaToolboxesOperations {
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a toolbox to point to a specific version. */
+  /** Updates the toolbox's default version pointer to the specified version. */
   update: (
     name: string,
     defaultVersion: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesUpdateOptionalParams,
   ) => Promise<ToolboxObject>;
-  /** Retrieve a specific version of a toolbox. */
+  /** Retrieves the specified version of a toolbox by name and version identifier. */
   getVersion: (
     name: string,
     version: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: GetVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
-  /** List all versions of a toolbox. */
+  /** Returns the available versions for the specified toolbox. */
   listVersions: (
     name: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: ListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ToolboxVersionObject>;
-  /** List all toolboxes. */
+  /** Returns the toolboxes available in the current project. */
   list: (
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesListOptionalParams,
   ) => PagedAsyncIterableIterator<ToolboxObject>;
-  /** Retrieve a toolbox. */
+  /** Retrieves the specified toolbox and its current configuration. */
   get: (
     name: string,
     foundryFeatures: "Toolboxes=V1Preview",
     options?: BetaToolboxesGetOptionalParams,
   ) => Promise<ToolboxObject>;
-  /** Create a new version of a toolbox. If the toolbox does not exist, it will be created. */
+  /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
   createVersion: (
     name: string,
     tools: ToolUnion[],

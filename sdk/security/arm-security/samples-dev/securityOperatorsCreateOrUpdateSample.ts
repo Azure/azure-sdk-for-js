@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates Microsoft Defender for Cloud security operator on the given scope.
- *
- * @summary Creates Microsoft Defender for Cloud security operator on the given scope.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-01-01-preview/examples/SecurityOperators/PutSecurityOperatorByName_example.json
- */
-
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to creates Microsoft Defender for Cloud security operator on the given scope.
+ *
+ * @summary creates Microsoft Defender for Cloud security operator on the given scope.
+ * x-ms-original-file: 2023-01-01-preview/SecurityOperators/PutSecurityOperatorByName_example.json
+ */
 async function createASecurityOperatorOnTheGivenScope(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const pricingName = "CloudPosture";
-  const securityOperatorName = "DefenderCSPMSecurityOperator";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const client = new SecurityCenter(credential, subscriptionId);
-  const result = await client.securityOperators.createOrUpdate(pricingName, securityOperatorName);
+  const result = await client.securityOperators.createOrUpdate(
+    "CloudPosture",
+    "DefenderCSPMSecurityOperator",
+  );
   console.log(result);
 }
 

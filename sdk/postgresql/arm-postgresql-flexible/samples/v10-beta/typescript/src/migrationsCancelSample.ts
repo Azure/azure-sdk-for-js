@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels an active migration.
  *
  * @summary cancels an active migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCancel.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCancel.json
  */
 async function cancelAnActiveMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();

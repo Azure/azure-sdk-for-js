@@ -50,6 +50,8 @@ For each item from the api-surface diff plus each hand-applied edit:
 
 Beta-namespace additions still go under **Features Added**, with the namespace path included (e.g., `project.beta.toolboxes`).
 
+When a new public method or route brings supporting request/response models, helper classes, union members, or enum values along with it, **do not enumerate every supporting type in the changelog**. List the new public method/route and mention the feature it enables. Only call out supporting types separately when they are independently user-facing concepts that customers would reasonably search for outside the method they support.
+
 ### Step 3: Insert or extend the top entry
 
 First, **inspect the current top entry in `CHANGELOG.md`**:

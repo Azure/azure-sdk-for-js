@@ -15,7 +15,7 @@
 
 import "dotenv/config";
 import { createClientContext, listRegistrationsByChannel } from "@azure/notification-hubs/api";
-import { AppleRegistrationChannel } from "@azure/notification-hubs/models";
+import type { AppleRegistrationChannel } from "@azure/notification-hubs/models";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

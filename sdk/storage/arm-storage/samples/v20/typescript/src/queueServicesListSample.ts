@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all queue services for the storage account
  *
  * @summary list all queue services for the storage account
- * x-ms-original-file: 2025-08-01/QueueServicesList.json
+ * x-ms-original-file: 2026-04-01/QueueServicesList.json
  */
 async function queueServicesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

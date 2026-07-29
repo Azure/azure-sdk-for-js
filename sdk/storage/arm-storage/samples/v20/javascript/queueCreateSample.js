@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new queue with the specified queue name, under the specified account.
  *
  * @summary creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: 2025-08-01/QueueOperationPut.json
+ * x-ms-original-file: 2026-04-01/QueueOperationPut.json
  */
 async function queueOperationPut() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function queueOperationPut() {
  * This sample demonstrates how to creates a new queue with the specified queue name, under the specified account.
  *
  * @summary creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: 2025-08-01/QueueOperationPutWithMetadata.json
+ * x-ms-original-file: 2026-04-01/QueueOperationPutWithMetadata.json
  */
 async function queueOperationPutWithMetadata() {
   const credential = new DefaultAzureCredential();

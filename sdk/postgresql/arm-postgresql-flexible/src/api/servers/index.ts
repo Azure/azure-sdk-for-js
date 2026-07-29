@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  startMajorVersionUpgradePrecheck,
   migrateNetworkMode,
   stop,
   start,
@@ -14,6 +15,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  ServersStartMajorVersionUpgradePrecheckOptionalParams,
   ServersMigrateNetworkModeOptionalParams,
   ServersStopOptionalParams,
   ServersStartOptionalParams,

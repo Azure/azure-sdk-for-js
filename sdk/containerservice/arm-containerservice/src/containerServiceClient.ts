@@ -5,6 +5,8 @@ import type { ContainerServiceContext, ContainerServiceClientOptionalParams } fr
 import { createContainerService } from "./api/index.js";
 import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
 import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import type { AlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
+import { _getAlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
 import type { ContainerServiceOperations } from "./classic/containerService/index.js";
 import { _getContainerServiceOperations } from "./classic/containerService/index.js";
 import type { IdentityBindingsOperations } from "./classic/identityBindings/index.js";
@@ -17,6 +19,8 @@ import type { MachinesOperations } from "./classic/machines/index.js";
 import { _getMachinesOperations } from "./classic/machines/index.js";
 import type { MaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
 import { _getMaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
+import type { MaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
+import { _getMaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
 import type { ManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
 import { _getManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
 import type { ManagedClustersOperations } from "./classic/managedClusters/index.js";
@@ -74,14 +78,7 @@ export class ContainerServiceClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerService(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerService(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.vmSkus = _getVmSkusOperations(this._client);
     this.containerService = _getContainerServiceOperations(this._client);
@@ -89,6 +86,7 @@ export class ContainerServiceClient {
     this.resolvePrivateLinkServiceId = _getResolvePrivateLinkServiceIdOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.operationStatusResult = _getOperationStatusResultOperations(this._client);
+    this.alertConfigurations = _getAlertConfigurationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
     this.meshMemberships = _getMeshMembershipsOperations(this._client);
     this.jwtAuthenticators = _getJWTAuthenticatorsOperations(this._client);
@@ -100,6 +98,7 @@ export class ContainerServiceClient {
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.machines = _getMachinesOperations(this._client);
     this.managedNamespaces = _getManagedNamespacesOperations(this._client);
+    this.maintenanceWindows = _getMaintenanceWindowsOperations(this._client);
     this.maintenanceConfigurations = _getMaintenanceConfigurationsOperations(this._client);
     this.managedClusters = _getManagedClustersOperations(this._client);
     this.agentPools = _getAgentPoolsOperations(this._client);
@@ -117,6 +116,8 @@ export class ContainerServiceClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for operationStatusResult */
   public readonly operationStatusResult: OperationStatusResultOperations;
+  /** The operation groups for alertConfigurations */
+  public readonly alertConfigurations: AlertConfigurationsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
   /** The operation groups for meshMemberships */
@@ -139,6 +140,8 @@ export class ContainerServiceClient {
   public readonly machines: MachinesOperations;
   /** The operation groups for managedNamespaces */
   public readonly managedNamespaces: ManagedNamespacesOperations;
+  /** The operation groups for maintenanceWindows */
+  public readonly maintenanceWindows: MaintenanceWindowsOperations;
   /** The operation groups for maintenanceConfigurations */
   public readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
   /** The operation groups for managedClusters */

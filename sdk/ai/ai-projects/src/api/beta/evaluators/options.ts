@@ -61,6 +61,18 @@ export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends Operati
 }
 
 /** Optional parameters. */
+export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
+
+/** Optional parameters. */
+export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
+
+/** Optional parameters. */
 export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 export type { PollOperationState, PollerLike } from "@azure/core-lro";
 export * from "./BlobServiceClient.js";
@@ -28,6 +28,11 @@ export type { SasIPRange } from "./sas/SasIPRange.js";
 export type { Range } from "./Range.js";
 export {
   type BlobClientOptions,
+  type AppendBlobClientOptions,
+  type BlockBlobClientOptions,
+  type PageBlobClientOptions,
+  type ContainerClientOptions,
+  type BlobServiceClientOptions,
   type BlobClientConfig,
   BlockBlobTier,
   PremiumPageBlobTier,
@@ -98,7 +103,7 @@ export type {
   RequestHeaders,
   RequestQueryParameters,
 } from "./models.js";
-export { RestError };
+export { RestError, isRestError };
 export type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,

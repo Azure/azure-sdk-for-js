@@ -12,10 +12,12 @@ import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -241,6 +243,8 @@ export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
     frequency: "Hourly";
     interval: number;
 }
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: OperationsGetStatus200Response | OperationsGetStatusDefaultResponse): response is OperationsGetStatusDefaultResponse;
@@ -2242,6 +2246,8 @@ export interface ResourceOperationStatusTestErrorOutput {
     id: string;
     status: OperationStateOutput;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

@@ -4,11 +4,17 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessProtocol = "SMB" | "NFS";
@@ -23,7 +29,7 @@ export interface AccountCredentialDetails {
 
 // @public
 export interface AdditionalErrorInfo {
-    info?: Record<string, unknown>;
+    info?: Record<string, any>;
     type?: string;
 }
 
@@ -35,7 +41,7 @@ export interface AddressValidationOutput {
     readonly alternateAddresses?: ShippingAddress[];
     readonly error?: CloudError;
     readonly validationStatus?: AddressValidationStatus;
-    validationType?: ValidationInputDiscriminator;
+    validationType?: "ValidateAddress";
 }
 
 // @public
@@ -48,9 +54,8 @@ export interface AddressValidationProperties extends ValidationInputResponse {
 // @public
 export type AddressValidationStatus = "Valid" | "Invalid" | "Ambiguous";
 
-// @public (undocumented)
+// @public
 export interface ApiError {
-    // (undocumented)
     error: ErrorDetail;
 }
 
@@ -58,13 +63,6 @@ export interface ApiError {
 export interface ApplianceNetworkConfiguration {
     readonly macAddress?: string;
     readonly name?: string;
-}
-
-// @public
-export interface ArmBaseObject {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
 }
 
 // @public
@@ -76,9 +74,10 @@ export interface AvailableSkuRequest {
 }
 
 // @public
-export interface AvailableSkusResult {
-    nextLink?: string;
-    readonly value?: SkuInformation[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
@@ -87,6 +86,9 @@ export interface AzureFileFilterDetails {
     filePrefixList?: string[];
     fileShareList?: string[];
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BlobFilterDetails {
@@ -131,12 +133,17 @@ export interface ContactInfo {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export interface CopyLogDetails {
-    copyLogDetailsType: "DataBox" | "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy";
+    copyLogDetailsType: ClassDiscriminator;
 }
 
-// @public (undocumented)
-export type CopyLogDetailsUnion = CopyLogDetails | DataBoxAccountCopyLogDetails | DataBoxCustomerDiskCopyLogDetails | DataBoxDiskCopyLogDetails | DataBoxHeavyAccountCopyLogDetails;
+// @public
+export type CopyLogDetailsUnion = DataBoxAccountCopyLogDetails | DataBoxCustomerDiskCopyLogDetails | DataBoxDiskCopyLogDetails | DataBoxHeavyAccountCopyLogDetails | CopyLogDetails;
 
 // @public
 export interface CopyProgress {
@@ -161,6 +168,9 @@ export interface CopyProgress {
 
 // @public
 export type CopyStatus = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreateJobValidations extends ValidationRequest {
@@ -192,12 +202,12 @@ export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume" |
 
 // @public
 export interface DataAccountDetails {
-    dataAccountType: "ManagedDisk" | "StorageAccount";
+    dataAccountType: DataAccountType;
     sharePassword?: string;
 }
 
-// @public (undocumented)
-export type DataAccountDetailsUnion = DataAccountDetails | ManagedDiskDetails | StorageAccountDetails;
+// @public
+export type DataAccountDetailsUnion = ManagedDiskDetails | StorageAccountDetails | DataAccountDetails;
 
 // @public
 export type DataAccountType = "StorageAccount" | "ManagedDisk";
@@ -229,12 +239,8 @@ export interface DataBoxCustomerDiskJobDetails extends JobDetails {
     readonly copyProgress?: DataBoxCustomerDiskCopyProgress[];
     readonly deliverToDcPackageDetails?: PackageCarrierInfo;
     enableManifestBackup?: boolean;
-    readonly exportDiskDetailsCollection?: {
-        [propertyName: string]: ExportDiskDetails;
-    };
-    importDiskDetailsCollection?: {
-        [propertyName: string]: ImportDiskDetails;
-    };
+    readonly exportDiskDetailsCollection?: Record<string, ExportDiskDetails>;
+    importDiskDetailsCollection?: Record<string, ImportDiskDetails>;
     jobDetailsType: "DataBoxCustomerDisk";
     returnToCustomerPackageDetails: PackageCarrierDetails;
 }
@@ -275,16 +281,12 @@ export interface DataBoxDiskGranularCopyProgress extends GranularCopyProgress {
 // @public
 export interface DataBoxDiskJobDetails extends JobDetails {
     readonly copyProgress?: DataBoxDiskCopyProgress[];
-    readonly disksAndSizeDetails?: {
-        [propertyName: string]: number;
-    };
+    readonly disksAndSizeDetails?: Record<string, number>;
     readonly granularCopyLogDetails?: DataBoxDiskGranularCopyLogDetails[];
     readonly granularCopyProgress?: DataBoxDiskGranularCopyProgress[];
     jobDetailsType: "DataBoxDisk";
     passkey?: string;
-    preferredDisks?: {
-        [propertyName: string]: number;
-    };
+    preferredDisks?: Record<string, number>;
 }
 
 // @public
@@ -339,28 +341,20 @@ export interface DataboxJobSecrets extends JobSecrets {
 }
 
 // @public (undocumented)
-export class DataBoxManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataBoxManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    jobs: Jobs;
+export class DataBoxManagementClient {
+    constructor(credential: TokenCredential, options?: DataBoxManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DataBoxManagementClientOptionalParams);
+    readonly jobs: JobsOperations;
     mitigate(jobName: string, resourceGroupName: string, mitigateJobRequest: MitigateJobRequest, options?: MitigateOptionalParams): Promise<void>;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    service: Service;
-    // (undocumented)
-    subscriptionId: string;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly service: ServiceOperations;
 }
 
 // @public
-export interface DataBoxManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DataBoxManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -410,13 +404,13 @@ export interface DatacenterAddressRequest {
 
 // @public
 export interface DatacenterAddressResponse {
-    datacenterAddressType: "DatacenterAddressInstruction" | "DatacenterAddressLocation";
+    datacenterAddressType: DatacenterAddressType;
     readonly dataCenterAzureLocation?: string;
     readonly supportedCarriersForReturnShipment?: string[];
 }
 
-// @public (undocumented)
-export type DatacenterAddressResponseUnion = DatacenterAddressResponse | DatacenterAddressInstructionResponse | DatacenterAddressLocationResponse;
+// @public
+export type DatacenterAddressResponseUnion = DatacenterAddressInstructionResponse | DatacenterAddressLocationResponse | DatacenterAddressResponse;
 
 // @public
 export type DatacenterAddressType = "DatacenterAddressLocation" | "DatacenterAddressInstruction";
@@ -468,11 +462,9 @@ export interface DcAccessSecurityCode {
 // @public
 export type DelayNotificationStatus = string;
 
-// @public (undocumented)
+// @public
 export interface Details {
-    // (undocumented)
     code: string;
-    // (undocumented)
     message: string;
 }
 
@@ -496,6 +488,7 @@ export interface DeviceCapabilityResponse {
 export interface DeviceErasureDetails {
     readonly deviceErasureStatus?: StageStatus;
     readonly erasureOrDestructionCertificateSasKey?: string;
+    readonly secureErasureCertificateSasKey?: string;
 }
 
 // @public
@@ -519,15 +512,11 @@ export interface EncryptionPreferences {
     hardwareEncryption?: HardwareEncryption;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorDetail {
-    // (undocumented)
     code: string;
-    // (undocumented)
     details?: Details[];
-    // (undocumented)
     message: string;
-    // (undocumented)
     target?: string;
 }
 
@@ -548,15 +537,12 @@ export interface FilterFileDetails {
 export type FilterFileType = "AzureBlob" | "AzureFile";
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface GranularCopyLogDetails {
-    copyLogDetailsType: "DataBoxCustomerDisk";
+    copyLogDetailsType: ClassDiscriminator;
 }
 
-// @public (undocumented)
-export type GranularCopyLogDetailsUnion = GranularCopyLogDetails | DataBoxDiskGranularCopyLogDetails;
+// @public
+export type GranularCopyLogDetailsUnion = DataBoxDiskGranularCopyLogDetails | GranularCopyLogDetails;
 
 // @public
 export interface GranularCopyProgress {
@@ -601,6 +587,8 @@ export interface ImportDiskDetails {
     manifestHash: string;
 }
 
+export { isRestError }
+
 // @public
 export interface JobDelayDetails {
     readonly description?: string;
@@ -631,7 +619,7 @@ export interface JobDetails {
     readonly deliveryPackage?: PackageShippingDetails;
     readonly deviceErasureDetails?: DeviceErasureDetails;
     expectedDataSizeInTeraBytes?: number;
-    jobDetailsType: "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy" | "DataBox";
+    jobDetailsType: ClassDiscriminator;
     readonly jobStages?: JobStages[];
     keyEncryptionKey?: KeyEncryptionKey;
     readonly lastMitigationActionOnJob?: LastMitigationActionOnJob;
@@ -642,11 +630,11 @@ export interface JobDetails {
     shippingAddress?: ShippingAddress;
 }
 
-// @public (undocumented)
-export type JobDetailsUnion = JobDetails | DataBoxCustomerDiskJobDetails | DataBoxDiskJobDetails | DataBoxHeavyJobDetails | DataBoxJobDetails;
+// @public
+export type JobDetailsUnion = DataBoxCustomerDiskJobDetails | DataBoxDiskJobDetails | DataBoxHeavyJobDetails | DataBoxJobDetails | JobDetails;
 
 // @public
-export interface JobResource extends Resource {
+export interface JobProperties {
     readonly allDevicesLost?: boolean;
     readonly cancellationReason?: string;
     readonly delayedStage?: StageName;
@@ -654,82 +642,63 @@ export interface JobResource extends Resource {
     deliveryType?: JobDeliveryType;
     details?: JobDetailsUnion;
     readonly error?: CloudError;
-    readonly id?: string;
     readonly isCancellable?: boolean;
     readonly isCancellableWithoutFee?: boolean;
     readonly isDeletable?: boolean;
     readonly isPrepareToShipEnabled?: boolean;
     readonly isShippingAddressEditable?: boolean;
-    readonly name?: string;
     readonly reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus;
     readonly reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus;
     readonly startTime?: Date;
     readonly status?: StageName;
-    readonly systemData?: SystemData;
     transferType: TransferType;
-    readonly type?: string;
 }
 
 // @public
-export interface JobResourceList {
-    nextLink?: string;
-    value?: JobResource[];
+export interface JobResource extends TrackedResource {
+    readonly allDevicesLost?: boolean;
+    readonly cancellationReason?: string;
+    readonly delayedStage?: StageName;
+    deliveryInfo?: JobDeliveryInfo;
+    deliveryType?: JobDeliveryType;
+    details?: JobDetailsUnion;
+    readonly error?: CloudError;
+    identity?: ResourceIdentity;
+    readonly isCancellable?: boolean;
+    readonly isCancellableWithoutFee?: boolean;
+    readonly isDeletable?: boolean;
+    readonly isPrepareToShipEnabled?: boolean;
+    readonly isShippingAddressEditable?: boolean;
+    readonly reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus;
+    readonly reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus;
+    sku: Sku;
+    readonly startTime?: Date;
+    readonly status?: StageName;
+    transferType: TransferType;
 }
 
 // @public
 export interface JobResourceUpdateParameter {
     details?: UpdateJobDetails;
     identity?: ResourceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface Jobs {
-    beginCreate(resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams): Promise<SimplePollerLike<OperationState<JobsCreateResponse>, JobsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams): Promise<JobsCreateResponse>;
-    beginDelete(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams): Promise<JobsUpdateResponse>;
-    bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: ShipmentPickUpRequest, options?: JobsBookShipmentPickUpOptionalParams): Promise<JobsBookShipmentPickUpResponse>;
-    cancel(resourceGroupName: string, jobName: string, cancellationReason: CancellationReason, options?: JobsCancelOptionalParams): Promise<void>;
-    get(resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
-    list(options?: JobsListOptionalParams): PagedAsyncIterableIterator<JobResource>;
-    listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<JobResource>;
-    listCredentials(resourceGroupName: string, jobName: string, options?: JobsListCredentialsOptionalParams): PagedAsyncIterableIterator<UnencryptedCredentials>;
-    markDevicesShipped(jobName: string, resourceGroupName: string, markDevicesShippedRequest: MarkDevicesShippedRequest, options?: JobsMarkDevicesShippedOptionalParams): Promise<void>;
+export interface JobsBookShipmentPickUpOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JobsBookShipmentPickUpOptionalParams extends coreClient.OperationOptions {
+export interface JobsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsBookShipmentPickUpResponse = ShipmentPickUpResponse;
-
-// @public
-export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface JobsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type JobsCreateResponse = JobResource;
-
-// @public
-export interface JobsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -737,85 +706,76 @@ export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
 export interface JobSecrets {
     readonly dcAccessSecurityCode?: DcAccessSecurityCode;
     readonly error?: CloudError;
-    jobSecretsType: "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy" | "DataBox";
+    jobSecretsType: ClassDiscriminator;
 }
 
-// @public (undocumented)
-export type JobSecretsUnion = JobSecrets | CustomerDiskJobSecrets | DataBoxDiskJobSecrets | DataBoxHeavyJobSecrets | DataboxJobSecrets;
+// @public
+export type JobSecretsUnion = CustomerDiskJobSecrets | DataBoxDiskJobSecrets | DataBoxHeavyJobSecrets | DataboxJobSecrets | JobSecrets;
 
 // @public
-export interface JobsGetOptionalParams extends coreClient.OperationOptions {
+export interface JobsGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type JobsGetResponse = JobResource;
-
-// @public
-export interface JobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobsListByResourceGroupNextResponse = JobResourceList;
-
-// @public
-export interface JobsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface JobsListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
 }
 
 // @public
-export type JobsListByResourceGroupResponse = JobResourceList;
-
-// @public
-export interface JobsListCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface JobsListCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobsListCredentialsResponse = UnencryptedCredentialsList;
-
-// @public
-export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobsListNextResponse = JobResourceList;
-
-// @public
-export interface JobsListOptionalParams extends coreClient.OperationOptions {
+export interface JobsListOptionalParams extends OperationOptions {
     skipToken?: string;
 }
 
 // @public
-export type JobsListResponse = JobResourceList;
+export interface JobsMarkDevicesShippedOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface JobsMarkDevicesShippedOptionalParams extends coreClient.OperationOptions {
+export interface JobsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => Promise<JobResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<JobResource>, JobResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams) => Promise<JobResource>;
+    bookShipmentPickUp: (resourceGroupName: string, jobName: string, shipmentPickUpRequest: ShipmentPickUpRequest, options?: JobsBookShipmentPickUpOptionalParams) => Promise<ShipmentPickUpResponse>;
+    cancel: (resourceGroupName: string, jobName: string, cancellationReason: CancellationReason, options?: JobsCancelOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, jobName: string, jobResource: JobResource, options?: JobsCreateOptionalParams) => PollerLike<OperationState<JobResource>, JobResource>;
+    delete: (resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, jobName: string, options?: JobsGetOptionalParams) => Promise<JobResource>;
+    list: (options?: JobsListOptionalParams) => PagedAsyncIterableIterator<JobResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<JobResource>;
+    listCredentials: (resourceGroupName: string, jobName: string, options?: JobsListCredentialsOptionalParams) => PagedAsyncIterableIterator<UnencryptedCredentials>;
+    markDevicesShipped: (jobName: string, resourceGroupName: string, markDevicesShippedRequest: MarkDevicesShippedRequest, options?: JobsMarkDevicesShippedOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, jobName: string, jobResourceUpdateParameter: JobResourceUpdateParameter, options?: JobsUpdateOptionalParams) => PollerLike<OperationState<JobResource>, JobResource>;
 }
 
 // @public
 export interface JobStages {
     readonly delayInformation?: JobDelayDetails[];
     readonly displayName?: string;
-    readonly jobStageDetails?: Record<string, unknown>;
+    readonly jobStageDetails?: any;
     readonly stageName?: StageName;
     readonly stageStatus?: StageStatus;
     readonly stageTime?: Date;
 }
 
 // @public
-export interface JobsUpdateHeaders {
-    location?: string;
-}
-
-// @public
-export interface JobsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface JobsUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type JobsUpdateResponse = JobResource;
 
 // @public
 export type KekType = "MicrosoftManaged" | "CustomerManaged";
@@ -848,6 +808,14 @@ export enum KnownCopyStatus {
     StorageAccountNotAccessible = "StorageAccountNotAccessible",
     UnsupportedData = "UnsupportedData",
     UnsupportedDrive = "UnsupportedDrive"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -974,6 +942,11 @@ export enum KnownStageName {
 }
 
 // @public
+export enum KnownVersions {
+    V20250701 = "2025-07-01"
+}
+
+// @public
 export interface LastMitigationActionOnJob {
     actionDateTimeInUtc?: Date;
     customerResolution?: CustomerResolutionCode;
@@ -998,13 +971,11 @@ export interface MarkDevicesShippedRequest {
 // @public
 export interface MitigateJobRequest {
     customerResolutionCode?: CustomerResolutionCode;
-    serialNumberCustomerResolutionMap?: {
-        [propertyName: string]: CustomerResolutionCode;
-    };
+    serialNumberCustomerResolutionMap?: Record<string, CustomerResolutionCode>;
 }
 
 // @public
-export interface MitigateOptionalParams extends coreClient.OperationOptions {
+export interface MitigateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1025,7 +996,7 @@ export interface Operation {
     isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: string;
-    readonly properties?: Record<string, unknown>;
+    readonly properties?: Record<string, any>;
 }
 
 // @public
@@ -1037,29 +1008,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationList {
-    nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationList;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationList;
 
 // @public
 export type OverallValidationStatus = "AllValidToProceed" | "InputsRevisitRequired" | "CertainInputValidationsSkipped";
@@ -1085,6 +1040,18 @@ export interface PackageShippingDetails {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type PortalDelayErrorCode = string;
 
 // @public
@@ -1092,7 +1059,7 @@ export interface Preferences {
     encryptionPreferences?: EncryptionPreferences;
     preferredDataCenterRegion?: string[];
     reverseTransportPreferences?: TransportPreferences;
-    storageAccountAccessTierPreferences?: string[];
+    storageAccountAccessTierPreferences?: "Archive"[];
     transportPreferences?: TransportPreferences;
 }
 
@@ -1128,12 +1095,10 @@ export interface RegionConfigurationResponse {
 
 // @public
 export interface Resource {
-    identity?: ResourceIdentity;
-    location: string;
-    sku: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
@@ -1141,9 +1106,19 @@ export interface ResourceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: string;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataBoxManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1163,12 +1138,12 @@ export type ReverseTransportPreferenceEditStatus = "Enabled" | "Disabled" | "Not
 export interface ScheduleAvailabilityRequest {
     country?: string;
     model?: ModelName;
-    skuName: "DataBox" | "DataBoxDisk" | "DataBoxHeavy";
+    skuName: SkuName;
     storageLocation: string;
 }
 
-// @public (undocumented)
-export type ScheduleAvailabilityRequestUnion = ScheduleAvailabilityRequest | DataBoxScheduleAvailabilityRequest | DiskScheduleAvailabilityRequest | HeavyScheduleAvailabilityRequest;
+// @public
+export type ScheduleAvailabilityRequestUnion = DataBoxScheduleAvailabilityRequest | DiskScheduleAvailabilityRequest | HeavyScheduleAvailabilityRequest | ScheduleAvailabilityRequest;
 
 // @public
 export interface ScheduleAvailabilityResponse {
@@ -1176,63 +1151,38 @@ export interface ScheduleAvailabilityResponse {
 }
 
 // @public
-export interface Service {
-    listAvailableSkusByResourceGroup(resourceGroupName: string, location: string, availableSkuRequest: AvailableSkuRequest, options?: ServiceListAvailableSkusByResourceGroupOptionalParams): PagedAsyncIterableIterator<SkuInformation>;
-    regionConfiguration(location: string, regionConfigurationRequest: RegionConfigurationRequest, options?: ServiceRegionConfigurationOptionalParams): Promise<ServiceRegionConfigurationResponse>;
-    regionConfigurationByResourceGroup(resourceGroupName: string, location: string, regionConfigurationRequest: RegionConfigurationRequest, options?: ServiceRegionConfigurationByResourceGroupOptionalParams): Promise<ServiceRegionConfigurationByResourceGroupResponse>;
-    validateAddress(location: string, validateAddress: ValidateAddress, options?: ServiceValidateAddressOptionalParams): Promise<ServiceValidateAddressResponse>;
-    validateInputs(location: string, validationRequest: ValidationRequestUnion, options?: ServiceValidateInputsOptionalParams): Promise<ServiceValidateInputsResponse>;
-    validateInputsByResourceGroup(resourceGroupName: string, location: string, validationRequest: ValidationRequestUnion, options?: ServiceValidateInputsByResourceGroupOptionalParams): Promise<ServiceValidateInputsByResourceGroupResponse>;
+export interface ServiceListAvailableSkusByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServiceListAvailableSkusByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ServiceOperations {
+    listAvailableSkusByResourceGroup: (resourceGroupName: string, location: string, availableSkuRequest: AvailableSkuRequest, options?: ServiceListAvailableSkusByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SkuInformation>;
+    regionConfiguration: (location: string, regionConfigurationRequest: RegionConfigurationRequest, options?: ServiceRegionConfigurationOptionalParams) => Promise<RegionConfigurationResponse>;
+    regionConfigurationByResourceGroup: (resourceGroupName: string, location: string, regionConfigurationRequest: RegionConfigurationRequest, options?: ServiceRegionConfigurationByResourceGroupOptionalParams) => Promise<RegionConfigurationResponse>;
+    validateAddress: (location: string, validateAddressParameter: ValidateAddress, options?: ServiceValidateAddressOptionalParams) => Promise<AddressValidationOutput>;
+    validateInputs: (location: string, validationRequest: ValidationRequestUnion, options?: ServiceValidateInputsOptionalParams) => Promise<ValidationResponse>;
+    validateInputsByResourceGroup: (resourceGroupName: string, location: string, validationRequest: ValidationRequestUnion, options?: ServiceValidateInputsByResourceGroupOptionalParams) => Promise<ValidationResponse>;
 }
 
 // @public
-export type ServiceListAvailableSkusByResourceGroupNextResponse = AvailableSkusResult;
-
-// @public
-export interface ServiceListAvailableSkusByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ServiceRegionConfigurationByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceListAvailableSkusByResourceGroupResponse = AvailableSkusResult;
-
-// @public
-export interface ServiceRegionConfigurationByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ServiceRegionConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceRegionConfigurationByResourceGroupResponse = RegionConfigurationResponse;
-
-// @public
-export interface ServiceRegionConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface ServiceValidateAddressOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceRegionConfigurationResponse = RegionConfigurationResponse;
-
-// @public
-export interface ServiceValidateAddressOptionalParams extends coreClient.OperationOptions {
+export interface ServiceValidateInputsByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceValidateAddressResponse = AddressValidationOutput;
-
-// @public
-export interface ServiceValidateInputsByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ServiceValidateInputsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServiceValidateInputsByResourceGroupResponse = ValidationResponse;
-
-// @public
-export interface ServiceValidateInputsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceValidateInputsResponse = ValidationResponse;
 
 // @public
 export interface ShareCredentialDetails {
@@ -1273,6 +1223,28 @@ export interface ShippingAddress {
     streetAddress3?: string;
     taxIdentificationNumber?: string;
     zipExtendedCode?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -1334,6 +1306,18 @@ export interface SkuInformation {
 export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk";
 
 // @public
+export interface SkuProperties {
+    readonly apiVersions?: string[];
+    readonly capacity?: SkuCapacity;
+    readonly costs?: SkuCost[];
+    readonly countriesWithinCommerceBoundary?: string[];
+    readonly dataLocationToServiceLocationMap?: DataLocationToServiceLocationMap[];
+    readonly disabledReason?: SkuDisabledReason;
+    readonly disabledReasonMessage?: string;
+    readonly requiredFeature?: string;
+}
+
+// @public
 export type StageName = string;
 
 // @public
@@ -1358,12 +1342,18 @@ export interface SubscriptionIsAllowedToCreateJobValidationResponseProperties ex
 
 // @public
 export interface SystemData {
-    readonly createdAt?: Date;
-    readonly createdBy?: string;
-    readonly createdByType?: string;
-    readonly lastModifiedAt?: Date;
-    readonly lastModifiedBy?: string;
-    readonly lastModifiedByType?: string;
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1436,12 +1426,6 @@ export interface UnencryptedCredentials {
 }
 
 // @public
-export interface UnencryptedCredentialsList {
-    nextLink?: string;
-    value?: UnencryptedCredentials[];
-}
-
-// @public
 export interface UpdateJobDetails {
     contactDetails?: ContactDetails;
     keyEncryptionKey?: KeyEncryptionKey;
@@ -1449,6 +1433,11 @@ export interface UpdateJobDetails {
     returnToCustomerPackageDetails?: PackageCarrierDetails;
     reverseShippingDetails?: ReverseShippingDetails;
     shippingAddress?: ShippingAddress;
+}
+
+// @public
+export interface UpdateJobProperties {
+    details?: UpdateJobDetails;
 }
 
 // @public
@@ -1476,20 +1465,20 @@ export type ValidationInputDiscriminator = "ValidateAddress" | "ValidateSubscrip
 
 // @public
 export interface ValidationInputRequest {
-    validationType: "ValidateAddress" | "ValidateCreateOrderLimit" | "ValidateDataTransferDetails" | "ValidatePreferences" | "ValidateSkuAvailability" | "ValidateSubscriptionIsAllowedToCreateJob";
+    validationType: ValidationInputDiscriminator;
 }
 
-// @public (undocumented)
-export type ValidationInputRequestUnion = ValidationInputRequest | ValidateAddress | CreateOrderLimitForSubscriptionValidationRequest | DataTransferDetailsValidationRequest | PreferencesValidationRequest | SkuAvailabilityValidationRequest | SubscriptionIsAllowedToCreateJobValidationRequest;
+// @public
+export type ValidationInputRequestUnion = ValidateAddress | CreateOrderLimitForSubscriptionValidationRequest | DataTransferDetailsValidationRequest | PreferencesValidationRequest | SkuAvailabilityValidationRequest | SubscriptionIsAllowedToCreateJobValidationRequest | ValidationInputRequest;
 
 // @public
 export interface ValidationInputResponse {
     readonly error?: CloudError;
-    validationType: "ValidateAddress" | "ValidateCreateOrderLimit" | "ValidateDataTransferDetails" | "ValidatePreferences" | "ValidateSkuAvailability" | "ValidateSubscriptionIsAllowedToCreateJob";
+    validationType: ValidationInputDiscriminator;
 }
 
-// @public (undocumented)
-export type ValidationInputResponseUnion = ValidationInputResponse | AddressValidationProperties | CreateOrderLimitForSubscriptionValidationResponseProperties | DataTransferDetailsValidationResponseProperties | PreferencesValidationResponseProperties | SkuAvailabilityValidationResponseProperties | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
+// @public
+export type ValidationInputResponseUnion = AddressValidationProperties | CreateOrderLimitForSubscriptionValidationResponseProperties | DataTransferDetailsValidationResponseProperties | PreferencesValidationResponseProperties | SkuAvailabilityValidationResponseProperties | SubscriptionIsAllowedToCreateJobValidationResponseProperties | ValidationInputResponse;
 
 // @public
 export interface ValidationRequest {
@@ -1497,11 +1486,17 @@ export interface ValidationRequest {
     validationCategory: "JobCreationValidation";
 }
 
-// @public (undocumented)
-export type ValidationRequestUnion = ValidationRequest | CreateJobValidations;
+// @public
+export type ValidationRequestUnion = CreateJobValidations | ValidationRequest;
 
 // @public
 export interface ValidationResponse {
+    readonly individualResponseDetails?: ValidationInputResponseUnion[];
+    readonly status?: OverallValidationStatus;
+}
+
+// @public
+export interface ValidationResponseProperties {
     readonly individualResponseDetails?: ValidationInputResponseUnion[];
     readonly status?: OverallValidationStatus;
 }

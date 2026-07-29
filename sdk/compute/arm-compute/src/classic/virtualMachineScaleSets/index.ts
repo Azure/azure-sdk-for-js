@@ -388,11 +388,6 @@ export interface VirtualMachineScaleSetsOperations {
     options?: VirtualMachineScaleSetsListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
   /** Deletes a VM scale set. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmScaleSetName: string,
@@ -459,7 +454,6 @@ export interface VirtualMachineScaleSetsOperations {
     options?: VirtualMachineScaleSetsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSet>;
 }
-
 function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
   return {
     listByLocation: (
@@ -935,7 +929,6 @@ function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, vmScaleSetName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetsOperations {

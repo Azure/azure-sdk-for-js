@@ -1,8 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { InsightType } from "../../../models/models.js";
+import type { InsightRequestUnion, InsightType } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
+
+/** The request body for generating an insight. */
+export interface InsightGenerationRequest {
+  /** User friendly display name for the insight. */
+  displayName: string;
+  /** Request for the insights analysis. */
+  request: InsightRequestUnion;
+}
 
 /** Optional parameters. */
 export interface BetaInsightsListOptionalParams extends OperationOptions {
@@ -18,8 +26,6 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
   agentName?: string;
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
@@ -28,8 +34,6 @@ export interface BetaInsightsGetOptionalParams extends OperationOptions {
   foundryFeatures?: "Insights=V1Preview";
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */

@@ -332,6 +332,39 @@ describe("NodeHttpClient", function () {
     assert.strictEqual(response.status, 200);
   });
 
+  it("should send only the ArrayBufferView window for subarray bodies", async function () {
+    const client = createDefaultHttpClient();
+    let sentChunk: unknown;
+    const captureChunkRequest: ClientRequest = {
+      on() {
+        /* no op */
+      },
+      once() {
+        /* no op */
+      },
+      end(chunk: unknown) {
+        sentChunk = chunk;
+      },
+    } as unknown as ClientRequest;
+    vi.mocked(https.request).mockReturnValueOnce(captureChunkRequest);
+
+    const data = Uint8Array.from([0, 1, 2, 3, 4, 5, 6, 7]);
+    const subarray = data.subarray(2, 6);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: subarray,
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+    const response = await promise;
+
+    assert.strictEqual(response.status, 200);
+    assert.isTrue(Buffer.isBuffer(sentChunk), "Expected request body to be a Buffer");
+    assert.deepStrictEqual(Array.from(sentChunk as Buffer), [2, 3, 4, 5]);
+    assert.strictEqual((sentChunk as Buffer).byteLength, subarray.byteLength);
+    assert.strictEqual(request.headers.get("Content-Length"), String(subarray.byteLength));
+  });
+
   it("should handle ArrayBuffer bodies correctly", async function () {
     const client = createDefaultHttpClient();
     vi.mocked(https.request).mockReturnValueOnce(httpRequestChecker);

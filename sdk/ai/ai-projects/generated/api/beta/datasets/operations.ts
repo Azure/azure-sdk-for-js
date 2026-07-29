@@ -63,15 +63,23 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return;
 }
 
-/** Deletes a data generation job by its ID. */
+/** Removes the specified data generation job and its associated output. */
 export async function deleteGenerationJob(
   context: Client,
   jobId: string,
@@ -116,15 +124,23 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Cancels a data generation job by its ID. */
+/** Cancels the specified data generation job if it is still in progress. */
 export async function cancelGenerationJob(
   context: Client,
   jobId: string,
@@ -136,7 +152,7 @@ export async function cancelGenerationJob(
 
 export function _createGenerationJobSend(
   context: Client,
-  body: DataGenerationJob,
+  job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -161,7 +177,7 @@ export function _createGenerationJobSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: dataGenerationJobSerializer(body),
+      body: dataGenerationJobSerializer(job),
     });
 }
 
@@ -171,21 +187,29 @@ export async function _createGenerationJobDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Creates a data generation job. */
+/** Submits a new data generation job for asynchronous execution. */
 export async function createGenerationJob(
   context: Client,
-  body: DataGenerationJob,
+  job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): Promise<DataGenerationJob> {
-  const result = await _createGenerationJobSend(context, body, options);
+  const result = await _createGenerationJobSend(context, job, options);
   return _createGenerationJobDeserialize(result);
 }
 
@@ -194,18 +218,12 @@ export function _listGenerationJobsSend(
   options: BetaDatasetsListGenerationJobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/data_generation_jobs{?limit,order,after,before,scenario,type,api%2Dversion}",
+    "/data_generation_jobs{?limit,order,after,before,api%2Dversion}",
     {
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
-      scenario: options?.scenario,
-      type: !options?.typeParam
-        ? options?.typeParam
-        : options?.typeParam.map((p: any) => {
-            return p;
-          }),
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -232,8 +250,16 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
@@ -289,15 +315,23 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Gets the details of a data generation job by its ID. */
+/** Retrieves the specified data generation job and its current status. */
 export async function getGenerationJob(
   context: Client,
   jobId: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/BlobServicesGet.json
+ * x-ms-original-file: 2026-04-01/BlobServicesGet.json
  */
 async function getBlobServices(): Promise<void> {
   const credential = new DefaultAzureCredential();

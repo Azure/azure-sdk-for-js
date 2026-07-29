@@ -32,7 +32,7 @@ export function _updateSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -55,7 +55,7 @@ export function _updateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(body),
+      body: evaluationTaxonomySerializer(taxonomy),
     });
 }
 
@@ -75,10 +75,10 @@ export async function update(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _updateSend(context, foundryFeatures, name, body, options);
+  const result = await _updateSend(context, foundryFeatures, name, taxonomy, options);
   return _updateDeserialize(result);
 }
 
@@ -86,7 +86,7 @@ export function _createSend(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -109,7 +109,7 @@ export function _createSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: evaluationTaxonomySerializer(body),
+      body: evaluationTaxonomySerializer(taxonomy),
     });
 }
 
@@ -124,15 +124,15 @@ export async function _createDeserialize(
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Create an evaluation taxonomy. */
+/** Creates or replaces the specified evaluation taxonomy with the provided definition. */
 export async function create(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
   name: string,
-  body: EvaluationTaxonomy,
+  taxonomy: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): Promise<EvaluationTaxonomy> {
-  const result = await _createSend(context, foundryFeatures, name, body, options);
+  const result = await _createSend(context, foundryFeatures, name, taxonomy, options);
   return _createDeserialize(result);
 }
 
@@ -169,7 +169,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete an evaluation taxonomy by name. */
+/** Removes the specified evaluation taxonomy from the project. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -224,7 +224,7 @@ export async function _listDeserialize(
   return _pagedEvaluationTaxonomyDeserializer(result.body);
 }
 
-/** List evaluation taxonomies */
+/** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
 export function list(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",
@@ -276,7 +276,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Get an evaluation run by name. */
+/** Retrieves the specified evaluation taxonomy. */
 export async function get(
   context: Client,
   name: string,

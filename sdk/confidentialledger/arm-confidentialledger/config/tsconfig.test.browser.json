@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-confidentialledger": ["../src/index.ts"],
+      "@azure/arm-confidentialledger/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

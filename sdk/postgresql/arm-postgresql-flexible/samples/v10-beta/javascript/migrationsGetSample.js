@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a migration.
  *
  * @summary gets information about a migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsGet.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsGet.json
  */
 async function getInformationAboutAMigration() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getInformationAboutAMigration() {
  * This sample demonstrates how to gets information about a migration.
  *
  * @summary gets information about a migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsGetMigrationWithSuccessfulValidationAndMigration.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsGetMigrationWithSuccessfulValidationAndMigration.json
  */
 async function getInformationAboutAMigrationWithSuccessfulValidationAndSuccessfulMigration() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getInformationAboutAMigrationWithSuccessfulValidationAndSuccessfu
  * This sample demonstrates how to gets information about a migration.
  *
  * @summary gets information about a migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsGetMigrationWithSuccessfulValidationButMigrationFailure.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsGetMigrationWithSuccessfulValidationButMigrationFailure.json
  */
 async function getInformationAboutAMigrationWithSuccessfulValidationButFailedMigration() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getInformationAboutAMigrationWithSuccessfulValidationButFailedMig
  * This sample demonstrates how to gets information about a migration.
  *
  * @summary gets information about a migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsGetMigrationWithSuccessfulValidationOnly.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsGetMigrationWithSuccessfulValidationOnly.json
  */
 async function getInformationAboutAMigrationWithSuccessfulValidationOnly() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getInformationAboutAMigrationWithSuccessfulValidationOnly() {
  * This sample demonstrates how to gets information about a migration.
  *
  * @summary gets information about a migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsGetMigrationWithValidationFailures.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsGetMigrationWithValidationFailures.json
  */
 async function getInformationAboutAMigrationWithValidationFailures() {
   const credential = new DefaultAzureCredential();

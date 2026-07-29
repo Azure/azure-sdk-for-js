@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets properties of a specified container.
  *
  * @summary gets properties of a specified container.
- * x-ms-original-file: 2025-08-01/BlobContainersGet.json
+ * x-ms-original-file: 2026-04-01/BlobContainersGet.json
  */
 async function getContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getContainers(): Promise<void> {
  * This sample demonstrates how to gets properties of a specified container.
  *
  * @summary gets properties of a specified container.
- * x-ms-original-file: 2025-08-01/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: 2026-04-01/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
 async function getBlobContainersGetWithAllowProtectedAppendWritesAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

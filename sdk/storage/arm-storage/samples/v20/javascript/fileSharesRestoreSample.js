@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restore a file share within a valid retention days if share soft delete is enabled
  *
  * @summary restore a file share within a valid retention days if share soft delete is enabled
- * x-ms-original-file: 2025-08-01/FileSharesRestore.json
+ * x-ms-original-file: 2026-04-01/FileSharesRestore.json
  */
 async function restoreShares() {
   const credential = new DefaultAzureCredential();

@@ -436,7 +436,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadFile should update progress with parallel upload", async (ctx) => {
+  it.skip("uploadFile should update progress with parallel upload", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

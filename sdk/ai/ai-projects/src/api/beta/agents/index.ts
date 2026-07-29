@@ -2,26 +2,16 @@
 // Licensed under the MIT License.
 
 export {
-  deleteSessionFile,
-  getSessionFiles,
-  downloadSessionFile,
-  uploadSessionFile,
-  getSessionLogStream,
-  listSessions,
-  deleteSession,
-  getSession,
-  createSession,
-  patchAgentObject,
+  deleteOptimizationJob,
+  cancelOptimizationJob,
+  listOptimizationJobs,
+  getOptimizationJob,
+  createOptimizationJob,
 } from "./operations.js";
 export type {
-  BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
-  BetaAgentsDownloadSessionFileOptionalParams,
-  BetaAgentsUploadSessionFileOptionalParams,
-  BetaAgentsGetSessionLogStreamOptionalParams,
-  BetaAgentsListSessionsOptionalParams,
-  BetaAgentsDeleteSessionOptionalParams,
-  BetaAgentsGetSessionOptionalParams,
-  BetaAgentsCreateSessionOptionalParams,
-  BetaAgentsPatchAgentObjectOptionalParams,
+  BetaAgentsDeleteOptimizationJobOptionalParams,
+  BetaAgentsCancelOptimizationJobOptionalParams,
+  BetaAgentsListOptimizationJobsOptionalParams,
+  BetaAgentsGetOptimizationJobOptionalParams,
+  BetaAgentsCreateOptimizationJobOptionalParams,
 } from "./options.js";

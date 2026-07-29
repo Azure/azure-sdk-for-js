@@ -691,8 +691,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
         const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
 
-        await new Promise((resolve) => setTimeout(resolve, 120));
-        expect(mockExport).toHaveBeenCalled();
+        // The periodic reader exports on a ~100ms interval; poll rather than waiting a fixed
+        // window so the assertion isn't racy under CI load.
+        await vi.waitFor(() => expect(mockExport).toHaveBeenCalled(), {
+          timeout: 5000,
+          interval: 50,
+        });
         const resourceMetrics = mockExport.mock.calls[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");

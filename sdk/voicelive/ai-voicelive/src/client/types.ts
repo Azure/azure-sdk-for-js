@@ -65,8 +65,7 @@ export interface AgentSessionConfig {
  * ```
  */
 export type SessionTarget =
-  | { model: string; agent?: never }
-  | { agent: AgentSessionConfig; model?: never };
+  { model: string; agent?: never } | { agent: AgentSessionConfig; model?: never };
 
 /**
  * Type guard to check if a SessionTarget specifies an agent session.

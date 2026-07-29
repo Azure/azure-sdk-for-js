@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
  *
  * @summary lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
- * x-ms-original-file: 2025-08-01/StorageAccountListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01/StorageAccountListByResourceGroup.json
  */
 async function storageAccountListByResourceGroup() {
   const credential = new DefaultAzureCredential();
