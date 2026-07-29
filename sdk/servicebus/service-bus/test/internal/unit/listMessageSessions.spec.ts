@@ -112,4 +112,37 @@ describe("listMessageSessions request", function (): void {
     expect(calls[0].top).to.equal(100);
     await client.close();
   });
+
+  it("yields zero sessions (not one undefined) when the first page is empty", async () => {
+    // getPagedAsyncIterator surfaces the raw value of a non-array first page, so
+    // returning undefined for an empty first page would yield a single
+    // `undefined` element. An empty array page must yield zero elements.
+    const { client } = stubbedClient([[]]);
+    const ids: string[] = [];
+    for await (const id of client.listMessageSessions("myqueue")) {
+      ids.push(id);
+    }
+    expect(ids).to.have.lengthOf(0);
+    await client.close();
+  });
+
+  it("yields zero sessions (not one undefined) on a 404 MessageNotFound", async () => {
+    const client = new ServiceBusClient(
+      "Endpoint=sb://fake.servicebus.windows.net/;SharedAccessKeyName=key;SharedAccessKey=c2VjcmV0",
+    );
+    (client as any)._connectionContext.getManagementClient = () => ({
+      listMessageSessions: async (): Promise<string[]> => {
+        const err: any = new Error("The requested message was not found.");
+        err.statusCode = 404;
+        err.code = "MessageNotFound";
+        throw err;
+      },
+    });
+    const ids: string[] = [];
+    for await (const id of client.listMessageSessions("myqueue")) {
+      ids.push(id);
+    }
+    expect(ids).to.have.lengthOf(0);
+    await client.close();
+  });
 });
