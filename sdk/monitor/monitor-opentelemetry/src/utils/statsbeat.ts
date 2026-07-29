@@ -12,8 +12,10 @@ import {
   StatsbeatFeature,
   StatsbeatFeaturesMap,
   StatsbeatInstrumentation,
+  StatsbeatInstrumentationsMap,
 } from "../types.js";
 import { Logger as InternalLogger } from "../shared/logging/index.js";
+import { addNumberFlag, hasNumberFlag } from "./common.js";
 
 let instance: StatsbeatConfiguration;
 
@@ -60,41 +62,37 @@ class StatsbeatConfiguration {
     this.currentStatsbeatFeatures = { ...this.currentStatsbeatFeatures, ...statsbeatFeatures };
 
     // Set the statsbeat options for community instrumentations based on the environment variable
+    const envInstrumentation = statsbeatEnv!.instrumentation;
     statsbeatInstrumentations = {
       ...this.currentStatsbeatInstrumentations,
-      amqplib: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.AMQPLIB ? true : false,
-      cucumber: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.CUCUMBER ? true : false,
-      dataloader:
-        statsbeatEnv!.instrumentation & StatsbeatInstrumentation.DATALOADER ? true : false,
-      fs: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.FS ? true : false,
-      lruMemoizer:
-        statsbeatEnv!.instrumentation & StatsbeatInstrumentation.LRU_MEMOIZER ? true : false,
-      mongoose: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.MONGOOSE ? true : false,
-      runtimeNode:
-        statsbeatEnv!.instrumentation & StatsbeatInstrumentation.RUNTIME_NODE ? true : false,
-      socketIo: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.SOCKET_IO ? true : false,
-      tedious: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.TEDIOUS ? true : false,
-      undici: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.UNDICI ? true : false,
-      cassandra: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.CASSANDRA ? true : false,
-      connect: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.CONNECT ? true : false,
-      dns: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.DNS ? true : false,
-      express: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.EXPRESS ? true : false,
-      fastify: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.FASTIFY ? true : false,
-      genericPool:
-        statsbeatEnv!.instrumentation & StatsbeatInstrumentation.GENERIC_POOL ? true : false,
-      graphql: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.GRAPHQL ? true : false,
-      hapi: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.HAPI ? true : false,
-      ioredis: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.IOREDIS ? true : false,
-      knex: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.KNEX ? true : false,
-      koa: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.KOA ? true : false,
-      memcached: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.MEMCACHED ? true : false,
-      mysql2: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.MYSQL2 ? true : false,
-      nestjsCore:
-        statsbeatEnv!.instrumentation & StatsbeatInstrumentation.NESTJS_CORE ? true : false,
-      net: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.NET ? true : false,
-      pino: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.PINO ? true : false,
-      restify: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.RESTIFY ? true : false,
-      router: statsbeatEnv!.instrumentation & StatsbeatInstrumentation.ROUTER ? true : false,
+      amqplib: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.AMQPLIB),
+      cucumber: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.CUCUMBER),
+      dataloader: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.DATALOADER),
+      fs: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.FS),
+      lruMemoizer: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.LRU_MEMOIZER),
+      mongoose: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.MONGOOSE),
+      runtimeNode: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.RUNTIME_NODE),
+      socketIo: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.SOCKET_IO),
+      tedious: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.TEDIOUS),
+      undici: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.UNDICI),
+      cassandra: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.CASSANDRA),
+      connect: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.CONNECT),
+      dns: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.DNS),
+      express: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.EXPRESS),
+      fastify: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.FASTIFY),
+      genericPool: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.GENERIC_POOL),
+      graphql: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.GRAPHQL),
+      hapi: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.HAPI),
+      ioredis: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.IOREDIS),
+      knex: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.KNEX),
+      koa: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.KOA),
+      memcached: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.MEMCACHED),
+      mysql2: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.MYSQL2),
+      nestjsCore: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.NESTJS_CORE),
+      net: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.NET),
+      pino: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.PINO),
+      restify: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.RESTIFY),
+      router: hasNumberFlag(envInstrumentation, StatsbeatInstrumentation.ROUTER),
     };
 
     let instrumentationBitMap = StatsbeatInstrumentation.NONE;
@@ -105,10 +103,13 @@ class StatsbeatConfiguration {
       return { option: entry[0], value: entry[1] };
     });
 
-    // Map the instrumentation options to a bit map
+    // Map enabled option names to their assigned bits.
     for (let i = 0; i < instrumentationArray.length; i++) {
       if (instrumentationArray[i].value) {
-        instrumentationBitMap |= 2 ** i;
+        const instrumentationBit = StatsbeatInstrumentationsMap.get(instrumentationArray[i].option);
+        if (instrumentationBit !== undefined) {
+          instrumentationBitMap = addNumberFlag(instrumentationBitMap, instrumentationBit);
+        }
       }
     }
 

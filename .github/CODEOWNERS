@@ -1694,7 +1694,13 @@ sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHu
 sdk/billingtrust/arm-billing-trust/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/containerservice/arm-containerservicepreparedimgspec/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
 sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

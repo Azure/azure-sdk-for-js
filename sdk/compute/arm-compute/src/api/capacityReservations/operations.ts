@@ -71,7 +71,6 @@ export async function _listByCapacityReservationGroupDeserialize(
 
   return _capacityReservationListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations. */
 export function listByCapacityReservationGroup(
   context: Client,
@@ -132,7 +131,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time. */
 export function $delete(
   context: Client,
@@ -201,7 +199,6 @@ export async function _updateDeserialize(
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation to update a capacity reservation. */
 export function update(
   context: Client,
@@ -272,7 +269,6 @@ export async function _createOrUpdateDeserialize(
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details. */
 export function createOrUpdate(
   context: Client,
@@ -339,7 +335,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ca
 
   return capacityReservationDeserializer(result.body);
 }
-
 /** The operation that retrieves information about the capacity reservation. */
 export async function get(
   context: Client,

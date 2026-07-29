@@ -8,18 +8,18 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkDeallocate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MaximumSet_Gen.json
  */
-async function virtualMachineBulkOperationsBulkDeallocateGeneratedByMaximumSetRule() {
+async function virtualMachineBulkOperationsBulkDeallocateExample() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "401789D7-9B98-4B5A-AF58-808C415E37B4";
+  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.virtualMachineBulkOperations.bulkDeallocateOperation(
-    "myResourceGroup",
-    "eastus2euap",
+    "rgBulkactions",
+    "useast2euap",
     {
       executionParameters: {
-        retryPolicy: { retryCount: 2, retryWindowInMinutes: 20, onFailureAction: "Unknown" },
+        retryPolicy: { retryCount: 2, retryWindowInMinutes: 19, onFailureAction: "Unknown" },
       },
       resources: {
         ids: [
@@ -35,7 +35,7 @@ async function virtualMachineBulkOperationsBulkDeallocateGeneratedByMaximumSetRu
  * This sample demonstrates how to bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-06-06/VirtualMachineBulkOperations_BulkDeallocate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeallocateGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function virtualMachineBulkOperationsBulkDeallocateGeneratedByMinimumSetRu
 }
 
 async function main() {
-  await virtualMachineBulkOperationsBulkDeallocateGeneratedByMaximumSetRule();
+  await virtualMachineBulkOperationsBulkDeallocateExample();
   await virtualMachineBulkOperationsBulkDeallocateGeneratedByMinimumSetRule();
 }
 
