@@ -63,7 +63,6 @@ export async function _exportThrottledRequestsDeserialize(
 
   return logAnalyticsOperationResultDeserializer(result.body);
 }
-
 /** Export logs that show total throttled Api requests for this subscription in the given time window. */
 export function exportThrottledRequests(
   context: Client,
@@ -120,7 +119,6 @@ export async function _exportRequestRateByIntervalDeserialize(
 
   return logAnalyticsOperationResultDeserializer(result.body);
 }
-
 /** Export logs that show Api requests made by this subscription in the given time window to show throttling activities. */
 export function exportRequestRateByInterval(
   context: Client,

@@ -68,7 +68,7 @@
     "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "@eslint/js": "catalog:",
     "@types/express": "^5.0.1",
     "@types/express-serve-static-core": "^5.0.6",
     "@types/minimist": "^1.2.5",
@@ -82,7 +82,7 @@
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",
-    "typescript-eslint": "~8.60.0",
+    "typescript-eslint": "catalog:",
     "vitest": "catalog:testing"
   }
 }
