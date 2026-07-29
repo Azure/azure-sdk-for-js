@@ -124,7 +124,7 @@ Flag synchronous operations that block the event loop:
 For browser-compatible packages:
 
 - **Large new dependency** — flag new dependencies that add > 50 KB
-  minified to the bundle. Check if a lighter alternative exists.
+  minified-and-gzipped to the bundle. Check if a lighter alternative exists.
 - **Node-only code in browser bundle** — flag imports of `fs`,
   `crypto`, `child_process`, `net`, `http` in code paths that execute
   in browsers without a platform check.

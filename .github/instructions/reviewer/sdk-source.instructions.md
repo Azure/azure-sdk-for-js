@@ -59,7 +59,7 @@ Use `@azure/core-*`: `core-rest-pipeline`, `core-client`, `core-lro`, `core-auth
 
 ### Retry & Bundle
 - Exponential backoff via `core-rest-pipeline` | Only retry 408/429/5xx
-- New deps <50KB | No Node imports in browser without platform check
+- New deps <=50 KB | No Node imports in browser without platform check
 - String unions over `enum` | No `namespace`
 
 ### Async

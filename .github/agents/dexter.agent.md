@@ -20,7 +20,7 @@ When reviewing dependency changes, check for:
    `workspace:^` for internal dev tools. No pinning, tilde, star, or
    git URLs.
 4. **New dependency evaluation** — necessity (core-* already provides?),
-   size (>100 KB?), license (MIT-compatible?), maintenance, types
+   size (>50 KB minified-and-gzipped?), license (MIT-compatible?), maintenance, types
 5. **Dependency removal** — verify no remaining imports, check peer dep
    impact, flag suspicious core-* removal
 6. **Dev vs runtime boundary** — test-only packages in devDependencies,

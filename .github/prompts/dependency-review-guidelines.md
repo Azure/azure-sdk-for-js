@@ -103,7 +103,10 @@ When a PR adds a new production dependency, check:
    - `@azure/core-auth` provides credential interfaces
    - `@azure/core-lro` provides long-running operation support
 2. **Size** — large transitive dependency trees impact bundle size for
-   browser-compatible packages. Flag dependencies > 100 KB minified.
+   browser-compatible packages. Flag dependencies > 50 KB minified-and-gzipped.
+   Apply extra scrutiny to dependencies loaded on the default (non-lazy) code
+   path — their cost is paid by every consumer on every import, not just users
+   of a specific feature.
 3. **Maintenance** — is the package actively maintained? Flag packages
    with no commits in 2+ years or deprecated npm status.
 4. **License** — must be compatible with MIT. Acceptable licenses:
