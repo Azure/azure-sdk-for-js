@@ -8,17 +8,23 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve the time series history for a signal on an entity
  *
  * @summary retrieve the time series history for a signal on an entity
- * x-ms-original-file: 2026-01-01-preview/Entities_GetSignalHistory.json
+ * x-ms-original-file: 2026-05-01-preview/Entities_GetSignalHistory.json
  */
 async function entitiesGetSignalHistory() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.entities.getSignalHistory("rgopenapi", "myHealthModel", "entity1", {
-    signalName: "uniqueSignalName1",
-    startAt: new Date("2025-12-11T10:00:00Z"),
-    endAt: new Date("2025-12-12T10:00:00Z"),
-  });
+  const result = await client.entities.getSignalHistory(
+    "online-store-rg",
+    "online-store",
+    "web-frontend",
+    {
+      signalName: "http-5xx",
+      startAt: new Date("2026-05-03T09:30:00Z"),
+      endAt: new Date("2026-05-04T09:30:00Z"),
+      top: 7,
+    },
+  );
   console.log(result);
 }
 

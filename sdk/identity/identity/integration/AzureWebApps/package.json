@@ -13,7 +13,7 @@
   "type": "module",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "dev",
+    "@azure/identity": "beta",
     "@azure/storage-blob": "^12.17.0",
     "express": "^5.2.1",
     "tslib": "^1.10.0"

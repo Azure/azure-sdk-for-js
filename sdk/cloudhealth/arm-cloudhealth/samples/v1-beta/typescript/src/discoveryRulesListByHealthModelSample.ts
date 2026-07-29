@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DiscoveryRule resources by HealthModel
  *
  * @summary list DiscoveryRule resources by HealthModel
- * x-ms-original-file: 2026-01-01-preview/DiscoveryRules_ListByHealthModel.json
+ * x-ms-original-file: 2026-05-01-preview/DiscoveryRules_ListByHealthModel.json
  */
 async function discoveryRulesListByHealthModel(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.discoveryRules.listByHealthModel(
-    "my-resource-group",
-    "my-health-model",
+    "online-store-rg",
+    "online-store",
   )) {
     resArray.push(item);
   }

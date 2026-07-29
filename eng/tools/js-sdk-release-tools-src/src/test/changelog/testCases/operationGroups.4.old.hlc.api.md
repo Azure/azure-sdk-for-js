@@ -5,11 +5,17 @@
 ```ts
 // @public
 export interface DataProductsCatalogs_remove {
-    get(resourceGroupName: string, options?: DataProductsCatalogsGetOptionalParams): Promise<DataProductsCatalogsGetResponse>;
+  get(
+    resourceGroupName: string,
+    options?: DataProductsCatalogsGetOptionalParams,
+  ): Promise<DataProductsCatalogsGetResponse>;
 }
 
 export interface DataProductsCatalogs_sig_change {
-    get(resourceGroupName: string, options?: DataProductsCatalogsGetOptionalParams): Promise<DataProductsCatalogsGetResponse>;
+  get(
+    resourceGroupName: string,
+    options?: DataProductsCatalogsGetOptionalParams,
+  ): Promise<DataProductsCatalogsGetResponse>;
 }
 // (No @packageDocumentation comment for this package)
 ```

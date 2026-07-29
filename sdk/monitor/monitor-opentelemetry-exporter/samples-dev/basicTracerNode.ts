@@ -3,7 +3,7 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-sdk-trace-base)
+ * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-sdk-trace-base)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.

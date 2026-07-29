@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists of all the topics in a clusters
  *
  * @summary lists of all the topics in a clusters
- * x-ms-original-file: 2025-08-18-preview/Topics_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Topics_List_MaximumSet_Gen.json
  */
 async function topicsListMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -9,7 +9,6 @@ export interface ClusterDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ClusterCreateOrUpdateOptionalParams extends OperationOptions {
   /** Confluent Cluster resource model */

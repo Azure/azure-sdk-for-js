@@ -131,7 +131,6 @@ export interface VirtualMachineRunCommandsOperations {
     options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
   ) => Promise<VirtualMachineRunCommand>;
 }
-
 function _getVirtualMachineRunCommands(context: ComputeManagementContext) {
   return {
     get: (
@@ -253,7 +252,6 @@ function _getVirtualMachineRunCommands(context: ComputeManagementContext) {
     ) => getByVirtualMachine(context, resourceGroupName, vmName, runCommandName, options),
   };
 }
-
 export function _getVirtualMachineRunCommandsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineRunCommandsOperations {

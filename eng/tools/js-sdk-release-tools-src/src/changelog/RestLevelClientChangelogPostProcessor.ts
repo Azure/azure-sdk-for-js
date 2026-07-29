@@ -1,5 +1,8 @@
-import { Changelog, ChangelogItem } from './changelogGenerator.js';
-import { InlineDeclarationNameSetMessage, NodeContext } from 'typescript-codegen-breaking-change-detector';
+import { Changelog, ChangelogItem } from "./changelogGenerator.js";
+import {
+  InlineDeclarationNameSetMessage,
+  NodeContext,
+} from "typescript-codegen-breaking-change-detector";
 
 export class RestLevelClientChangelogPostProcessor {
   private changelog: Changelog;
@@ -54,11 +57,15 @@ export class RestLevelClientChangelogPostProcessor {
 
   private findCompatibleNodeContext(
     inputContext: NodeContext,
-    contextMapToFind: Map<string, NodeContext>
+    contextMapToFind: Map<string, NodeContext>,
   ): NodeContext | undefined {
     for (const [_, foundContext] of contextMapToFind) {
-      const isCompatibleFromInputToFound = inputContext.node.getType().isAssignableTo(foundContext.node.getType());
-      const isCompatibleFromFoundToInput = foundContext.node.getType().isAssignableTo(inputContext.node.getType());
+      const isCompatibleFromInputToFound = inputContext.node
+        .getType()
+        .isAssignableTo(foundContext.node.getType());
+      const isCompatibleFromFoundToInput = foundContext.node
+        .getType()
+        .isAssignableTo(inputContext.node.getType());
       if (isCompatibleFromInputToFound && isCompatibleFromFoundToInput) return foundContext;
     }
     return undefined;
@@ -67,7 +74,7 @@ export class RestLevelClientChangelogPostProcessor {
   private tryIgnoreInlineTypeInChangelogItem(
     inputContext: NodeContext,
     nodeContextMapToFind: Map<string, NodeContext>,
-    item: ChangelogItem
+    item: ChangelogItem,
   ) {
     if (!inputContext) return;
     const foundContext = this.findCompatibleNodeContext(inputContext, nodeContextMapToFind);

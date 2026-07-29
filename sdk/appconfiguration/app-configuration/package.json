@@ -58,11 +58,7 @@
         "prefix": "packageVersion"
       },
       {
-        "path": "src/generated/src/appConfiguration.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/api/azureAppConfigurationContext.ts",
+        "path": "src/generated/api/appConfigurationContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

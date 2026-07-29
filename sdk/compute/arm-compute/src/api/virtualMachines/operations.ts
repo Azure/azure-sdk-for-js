@@ -115,7 +115,6 @@ export async function _listByLocationDeserialize(
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Gets all the virtual machines under the specified subscription for the specified location. */
 export function listByLocation(
   context: Client,
@@ -173,7 +172,6 @@ export async function _migrateToVMScaleSetDeserialize(
 
   return;
 }
-
 /** Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set. */
 export function migrateToVMScaleSet(
   context: Client,
@@ -232,7 +230,6 @@ export async function _runCommandDeserialize(
 
   return runCommandResultDeserializer(result.body);
 }
-
 /** Run command on the VM. */
 export function runCommand(
   context: Client,
@@ -290,7 +287,6 @@ export async function _listAvailableSizesDeserialize(
 
   return _virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** Lists all available virtual machine sizes to which the specified virtual machine can be resized. */
 export function listAvailableSizes(
   context: Client,
@@ -341,7 +337,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** The operation to start a virtual machine. */
 export function start(
   context: Client,
@@ -392,7 +387,6 @@ export async function _simulateEvictionDeserialize(result: PathUncheckedResponse
 
   return;
 }
-
 /** The operation to simulate the eviction of spot virtual machine. */
 export async function simulateEviction(
   context: Client,
@@ -444,7 +438,6 @@ export async function _retrieveBootDiagnosticsDataDeserialize(
 
   return retrieveBootDiagnosticsDataResultDeserializer(result.body);
 }
-
 /** The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs. */
 export async function retrieveBootDiagnosticsData(
   context: Client,
@@ -495,7 +488,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to restart a virtual machine. */
 export function restart(
   context: Client,
@@ -552,7 +544,6 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Reimages (upgrade the operating system) a virtual machine which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state. NOTE: The retaining of old OS disk depends on the value of deleteOption of OS disk. If deleteOption is detach, the old OS disk will be preserved after reimage. If deleteOption is delete, the old OS disk will be deleted after reimage. The deleteOption of the OS disk should be updated accordingly before performing the reimage. */
 export function reimage(
   context: Client,
@@ -603,7 +594,6 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Shuts down the virtual machine, moves it to a new node, and powers it back on. */
 export function redeploy(
   context: Client,
@@ -654,7 +644,6 @@ export async function _reapplyDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to reapply a virtual machine's state. */
 export function reapply(
   context: Client,
@@ -706,7 +695,6 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine. */
 export function powerOff(
   context: Client,
@@ -757,7 +745,6 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
 
   return;
 }
-
 /** The operation to perform maintenance on a virtual machine. */
 export function performMaintenance(
   context: Client,
@@ -813,7 +800,6 @@ export async function _instanceViewDeserialize(
 
   return virtualMachineInstanceViewDeserializer(result.body);
 }
-
 /** Retrieves information about the run-time state of a virtual machine. */
 export async function instanceView(
   context: Client,
@@ -867,7 +853,6 @@ export async function _installPatchesDeserialize(
 
   return virtualMachineInstallPatchesResultDeserializer(result.body);
 }
-
 /** Installs patches on the VM. */
 export function installPatches(
   context: Client,
@@ -926,7 +911,6 @@ export async function _generalizeDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image). */
 export async function generalize(
   context: Client,
@@ -974,7 +958,6 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses. */
 export function deallocate(
   context: Client,
@@ -1027,7 +1010,6 @@ export async function _convertToManagedDisksDeserialize(
 
   return;
 }
-
 /** Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation. */
 export function convertToManagedDisks(
   context: Client,
@@ -1087,7 +1069,6 @@ export async function _captureDeserialize(
 
   return virtualMachineCaptureResultDeserializer(result.body);
 }
-
 /** Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs. */
 export function capture(
   context: Client,
@@ -1147,7 +1128,6 @@ export async function _attachDetachDataDisksDeserialize(
 
   return storageProfileDeserializer(result.body);
 }
-
 /** Attach and detach data disks to/from the virtual machine. */
 export function attachDetachDataDisks(
   context: Client,
@@ -1205,7 +1185,6 @@ export async function _assessPatchesDeserialize(
 
   return virtualMachineAssessPatchesResultDeserializer(result.body);
 }
-
 /** Assess patches on the VM. */
 export function assessPatches(
   context: Client,
@@ -1266,7 +1245,6 @@ export async function _listAllDeserialize(
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. */
 export function listAll(
   context: Client,
@@ -1320,7 +1298,6 @@ export async function _listDeserialize(
 
   return _virtualMachineListResultDeserializer(result.body);
 }
-
 /** Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. */
 export function list(
   context: Client,
@@ -1371,7 +1348,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a virtual machine. */
 export function $delete(
   context: Client,
@@ -1433,7 +1409,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** The operation to update a virtual machine. */
 export function update(
   context: Client,
@@ -1498,7 +1473,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation. */
 export function createOrUpdate(
   context: Client,
@@ -1555,7 +1529,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return virtualMachineDeserializer(result.body);
 }
-
 /** Retrieves information about the model view or the instance view of a virtual machine. */
 export async function get(
   context: Client,

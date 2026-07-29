@@ -33,7 +33,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listBySubscriptionLocationResourceDeserialize(
 
   return _guestSubscriptionListResultDeserializer(result.body);
 }
-
 /** Lists all guest subscriptions in a location. */
 export function listBySubscriptionLocationResource(
   context: Client,
@@ -74,7 +73,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-31" },
   );
 }
 
@@ -90,7 +89,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +111,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a subscription as a guest to stop consuming the compute limits shared by the host subscription. */
 export async function $delete(
   context: Client,
@@ -137,7 +135,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +164,6 @@ export async function _createDeserialize(
 
   return guestSubscriptionDeserializer(result.body);
 }
-
 /** Adds a subscription as a guest to consume the compute limits shared by the host subscription. */
 export async function create(
   context: Client,
@@ -191,7 +188,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       guestSubscriptionId: guestSubscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,7 +213,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gu
 
   return guestSubscriptionDeserializer(result.body);
 }
-
 /** Gets the properties of a guest subscription. */
 export async function get(
   context: Client,

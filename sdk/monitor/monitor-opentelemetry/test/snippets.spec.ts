@@ -67,6 +67,8 @@ describe("snippets", () => {
         // Instrumentations generating logs
         bunyan: { enabled: true },
         winston: { enabled: true },
+        // Console log collection is opt-in (disabled by default)
+        console: { enabled: false },
       },
       enableLiveMetrics: true,
       enableStandardMetrics: true,

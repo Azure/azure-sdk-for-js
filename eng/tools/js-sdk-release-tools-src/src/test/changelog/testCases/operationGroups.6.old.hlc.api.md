@@ -5,14 +5,37 @@
 ```ts
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi>;
+  list(
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi>;
 }
 
 // @public
 export interface PrivateEndpointConnectionOperations {
-    beginDelete(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginPut(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
-    get(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionResource>;
+  beginDelete(
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  beginPut(
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionPutOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionResource>,
+      PrivateEndpointConnectionResource
+    >
+  >;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionGetOptionalParams,
+  ): Promise<PrivateEndpointConnectionResource>;
 }
 
 // (No @packageDocumentation comment for this package)

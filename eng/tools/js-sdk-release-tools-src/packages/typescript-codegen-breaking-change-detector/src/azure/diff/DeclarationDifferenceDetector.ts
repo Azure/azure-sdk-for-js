@@ -14,7 +14,7 @@ import {
   ClassDeclaration,
   EnumDeclaration,
   EnumMember,
-} from 'ts-morph';
+} from "ts-morph";
 import {
   DiffLocation,
   DiffPair,
@@ -24,14 +24,14 @@ import {
   NameNode,
   CallSignatureLikeDeclaration,
   DeclarationDifferenceDetectorOptions,
-} from '../common/types';
+} from "../common/types";
 import {
   getCallableEntityParametersFromSymbol,
   isMethodOrArrowFunction,
   isPropertyArrowFunction,
   isPropertyMethod,
   isSameCallSignatureLikeDeclaration,
-} from '../../utils/ast-utils';
+} from "../../utils/ast-utils";
 
 export class DeclarationDifferenceDetector {
   constructor(private options: DeclarationDifferenceDetectorOptions) {}
@@ -45,7 +45,11 @@ export class DeclarationDifferenceDetector {
       const symbol = node.getSymbol();
       const isTyped = Node.isTyped(node);
       if (symbol && isPropertyArrowFunction(symbol)) {
-        if (isTyped) return node.getTypeNodeOrThrow().asKindOrThrow(SyntaxKind.FunctionType).getReturnTypeNodeOrThrow();
+        if (isTyped)
+          return node
+            .getTypeNodeOrThrow()
+            .asKindOrThrow(SyntaxKind.FunctionType)
+            .getReturnTypeNodeOrThrow();
         else throw new Error(`Should not reach here: "${node.getText()}"`);
       }
       // Note: if the node is a constructor, the return type is the instance type
@@ -60,7 +64,10 @@ export class DeclarationDifferenceDetector {
 
     // check if concrete type -> any. e.g. string -> any
     if (this.options.ConcretTypeToAnyAsBreakingChange) {
-      const isConcretTypeToAny = this.canConvertConcretTypeToAny(targetTypeNode?.getKind(), sourceTypeNode?.getKind());
+      const isConcretTypeToAny = this.canConvertConcretTypeToAny(
+        targetTypeNode?.getKind(),
+        sourceTypeNode?.getKind(),
+      );
       if (isConcretTypeToAny) breakingReasons |= DiffReasons.TypeChanged;
     }
 
@@ -73,7 +80,8 @@ export class DeclarationDifferenceDetector {
     ) {
       const getTypeName = (node: TypeNode) =>
         node.asKindOrThrow(SyntaxKind.TypePredicate).getTypeNodeOrThrow().getText();
-      if (getTypeName(targetTypeNode) !== getTypeName(sourceTypeNode)) breakingReasons |= DiffReasons.TypeChanged;
+      if (getTypeName(targetTypeNode) !== getTypeName(sourceTypeNode))
+        breakingReasons |= DiffReasons.TypeChanged;
     }
 
     // check type
@@ -112,14 +120,20 @@ export class DeclarationDifferenceDetector {
   private findCallSignatureLikeDeclarationBreakingChanges<T extends CallSignatureLikeDeclaration>(
     sourceDeclarations: T[],
     targetDeclarations: T[],
-    findMappingConstructorLikeDeclaration: FindMappingCallSignatureLikeDeclaration<T>
+    findMappingConstructorLikeDeclaration: FindMappingCallSignatureLikeDeclaration<T>,
   ): DiffPair[] {
     const pairs = targetDeclarations.reduce((result, targetDeclaration) => {
-      const sourceContext = findMappingConstructorLikeDeclaration(targetDeclaration, sourceDeclarations);
+      const sourceContext = findMappingConstructorLikeDeclaration(
+        targetDeclaration,
+        sourceDeclarations,
+      );
       if (sourceContext) {
         const sourceDeclaration = sourceContext.declaration;
         // handle return type
-        const returnPairs = this.findReturnTypeBreakingChangesCore(sourceDeclaration, targetDeclaration);
+        const returnPairs = this.findReturnTypeBreakingChangesCore(
+          sourceDeclaration,
+          targetDeclaration,
+        );
         if (returnPairs.length > 0) result.push(...returnPairs);
 
         // handle parameters
@@ -130,7 +144,7 @@ export class DeclarationDifferenceDetector {
           path,
           path,
           sourceDeclaration,
-          targetDeclaration
+          targetDeclaration,
         );
         if (parameterPairs.length > 0) result.push(...parameterPairs);
 
@@ -140,7 +154,12 @@ export class DeclarationDifferenceDetector {
       // not found
       const getNameNode = (n: T): NameNode => ({ name: n.getText(), node: n });
       const targetNameNode = getNameNode(targetDeclaration);
-      const pair = this.createDiffPair(DiffLocation.Signature, DiffReasons.Removed, undefined, targetNameNode);
+      const pair = this.createDiffPair(
+        DiffLocation.Signature,
+        DiffReasons.Removed,
+        undefined,
+        targetNameNode,
+      );
       result.push(pair);
       return result;
     }, new Array<DiffPair>());
@@ -161,14 +180,20 @@ export class DeclarationDifferenceDetector {
     return (p.getFlags() & SymbolFlags.Property) !== 0 && !isMethodOrArrowFunction(p);
   }
 
-  private canConvertConcretTypeToAny(targetKind: SyntaxKind | undefined, sourceKind: SyntaxKind | undefined) {
+  private canConvertConcretTypeToAny(
+    targetKind: SyntaxKind | undefined,
+    sourceKind: SyntaxKind | undefined,
+  ) {
     return targetKind !== SyntaxKind.AnyKeyword && sourceKind === SyntaxKind.AnyKeyword;
   }
 
-  private findClassicPropertyBreakingChanges(sourceProperty: Symbol, targetProperty: Symbol): DiffPair | undefined {
+  private findClassicPropertyBreakingChanges(
+    sourceProperty: Symbol,
+    targetProperty: Symbol,
+  ): DiffPair | undefined {
     const reasons = this.findBreakingReasons(
       sourceProperty.getValueDeclarationOrThrow(),
-      targetProperty.getValueDeclarationOrThrow()
+      targetProperty.getValueDeclarationOrThrow(),
     );
 
     if (reasons === DiffReasons.None) return undefined;
@@ -176,11 +201,14 @@ export class DeclarationDifferenceDetector {
       DiffLocation.Property,
       reasons,
       this.getNameNodeFromSymbol(sourceProperty),
-      this.getNameNodeFromSymbol(targetProperty)
+      this.getNameNodeFromSymbol(targetProperty),
     );
   }
 
-  private findPropertyBreakingChanges(sourceProperties: Symbol[], targetProperties: Symbol[]): DiffPair[] {
+  private findPropertyBreakingChanges(
+    sourceProperties: Symbol[],
+    targetProperties: Symbol[],
+  ): DiffPair[] {
     const sourcePropMap = sourceProperties.reduce((map, p) => {
       map.set(p.getName(), p);
       return map;
@@ -198,7 +226,7 @@ export class DeclarationDifferenceDetector {
         location,
         DiffReasons.Removed,
         undefined,
-        this.getNameNodeFromSymbol(targetProperty)
+        this.getNameNodeFromSymbol(targetProperty),
       );
       result.push(pair);
       return result;
@@ -220,14 +248,17 @@ export class DeclarationDifferenceDetector {
             DiffLocation.Signature,
             DiffReasons.TypeChanged,
             this.getNameNodeFromSymbol(sourceProperty),
-            this.getNameNodeFromSymbol(targetProperty)
+            this.getNameNodeFromSymbol(targetProperty),
           ),
         ];
       }
 
       // handle classic property
       if (isTargetPropertyClassic && isSourcePropertyClassic) {
-        const classicBreakingPair = this.findClassicPropertyBreakingChanges(sourceProperty, targetProperty);
+        const classicBreakingPair = this.findClassicPropertyBreakingChanges(
+          sourceProperty,
+          targetProperty,
+        );
         if (!classicBreakingPair) return result;
         return [...result, classicBreakingPair];
       }
@@ -237,11 +268,14 @@ export class DeclarationDifferenceDetector {
         (isPropertyMethod(targetProperty) || isPropertyArrowFunction(targetProperty)) &&
         (isPropertyMethod(sourceProperty) || isPropertyArrowFunction(sourceProperty))
       ) {
-        const functionPropertyDetails = this.findFunctionPropertyBreakingChangeDetails(sourceProperty, targetProperty);
+        const functionPropertyDetails = this.findFunctionPropertyBreakingChangeDetails(
+          sourceProperty,
+          targetProperty,
+        );
         return [...result, ...functionPropertyDetails];
       }
 
-      throw new Error('Should never reach here');
+      throw new Error("Should never reach here");
     }, new Array<DiffPair>());
     return [...removed, ...changed];
   }
@@ -258,7 +292,7 @@ export class DeclarationDifferenceDetector {
         DiffLocation.Signature,
         DiffReasons.NotComparable,
         sourceNameNode,
-        targetNameNode
+        targetNameNode,
       );
       return [pair];
     }
@@ -266,7 +300,12 @@ export class DeclarationDifferenceDetector {
 
     const reasons = this.findBreakingReasons(source, target);
     if (reasons === DiffReasons.None) return [];
-    const pair = this.createDiffPair(DiffLocation.Signature_ReturnType, reasons, sourceNameNode, targetNameNode);
+    const pair = this.createDiffPair(
+      DiffLocation.Signature_ReturnType,
+      reasons,
+      sourceNameNode,
+      targetNameNode,
+    );
     return [pair];
   }
 
@@ -282,7 +321,7 @@ export class DeclarationDifferenceDetector {
     sourceName: string,
     targetName: string,
     sourceNode: Node,
-    targetNode: Node
+    targetNode: Node,
   ): DiffPair[] {
     const pairs: DiffPair[] = [];
 
@@ -291,7 +330,12 @@ export class DeclarationDifferenceDetector {
     if (!isSameParameterCount) {
       const source = { name: sourceName, node: sourceNode };
       const target = { name: targetName, node: targetNode };
-      const pair = this.createDiffPair(DiffLocation.Signature_ParameterList, DiffReasons.CountChanged, source, target);
+      const pair = this.createDiffPair(
+        DiffLocation.Signature_ParameterList,
+        DiffReasons.CountChanged,
+        source,
+        target,
+      );
       pairs.push(pair);
       return pairs;
     }
@@ -301,7 +345,7 @@ export class DeclarationDifferenceDetector {
     targetParameters.forEach((targetParameter, i) => {
       const sourceParameter = sourceParameters[i];
       const getParameterNameNode = (p: ParameterDeclaration | undefined) =>
-        p ? { name: p.getName() || '', node: p } : undefined;
+        p ? { name: p.getName() || "", node: p } : undefined;
       const target = getParameterNameNode(targetParameter);
       const source = getParameterNameNode(sourceParameter);
       const reasons = this.findBreakingReasons(sourceParameter, targetParameter);
@@ -323,11 +367,14 @@ export class DeclarationDifferenceDetector {
       sourceMethod.getName(),
       targetMethod.getName(),
       sourceMethod.getValueDeclarationOrThrow(),
-      targetMethod.getValueDeclarationOrThrow()
+      targetMethod.getValueDeclarationOrThrow(),
     );
   }
 
-  private findFunctionPropertyBreakingChangeDetails(sourceMethod: Symbol, targetMethod: Symbol): DiffPair[] {
+  private findFunctionPropertyBreakingChangeDetails(
+    sourceMethod: Symbol,
+    targetMethod: Symbol,
+  ): DiffPair[] {
     const returnTypePairs = this.findReturnTypeBreakingChanges(sourceMethod, targetMethod);
     const parameterPairs = this.findParameterBreakingChanges(sourceMethod, targetMethod);
     return [...returnTypePairs, ...parameterPairs];
@@ -346,7 +393,7 @@ export class DeclarationDifferenceDetector {
   public findInterfaceDifferences(
     source: InterfaceDeclaration,
     target: InterfaceDeclaration,
-    findMappingCallSignature = this.defaultFindMappingCallSignatureLikeDeclaration
+    findMappingCallSignature = this.defaultFindMappingCallSignatureLikeDeclaration,
   ): DiffPair[] {
     const getDeclaration = (s: Signature): CallSignatureDeclaration =>
       s.getDeclaration().asKindOrThrow(SyntaxKind.CallSignature);
@@ -362,18 +409,21 @@ export class DeclarationDifferenceDetector {
     const callSignatureBreakingChanges = this.findCallSignatureLikeDeclarationBreakingChanges(
       sourceSignatures,
       targetSignatures,
-      findMappingCallSignature
+      findMappingCallSignature,
     );
     const callSignatureNewFeatures = this.findCallSignatureLikeDeclarationBreakingChanges(
       targetSignatures,
       sourceSignatures,
-      findMappingCallSignature
+      findMappingCallSignature,
     )
       .filter((p) => p.reasons === DiffReasons.Removed)
       .map(this.updateDiffPairForNewFeature);
     const targetProperties = target.getType().getProperties();
     const sourceProperties = source.getType().getProperties();
-    const propertyBreakingChanges = this.findPropertyBreakingChanges(sourceProperties, targetProperties);
+    const propertyBreakingChanges = this.findPropertyBreakingChanges(
+      sourceProperties,
+      targetProperties,
+    );
     const propertyNewFeatures = this.findPropertyBreakingChanges(targetProperties, sourceProperties)
       .filter((p) => p.reasons === DiffReasons.Removed)
       .map(this.updateDiffPairForNewFeature);
@@ -398,20 +448,23 @@ export class DeclarationDifferenceDetector {
     const constructorBreakingChanges = this.findCallSignatureLikeDeclarationBreakingChanges(
       sourceConstructors,
       targetConstructors,
-      this.defaultFindMappingCallSignatureLikeDeclaration
+      this.defaultFindMappingCallSignatureLikeDeclaration,
     );
 
     const constructorNewFeatures = this.findCallSignatureLikeDeclarationBreakingChanges(
       targetConstructors,
       sourceConstructors,
-      this.defaultFindMappingCallSignatureLikeDeclaration
+      this.defaultFindMappingCallSignatureLikeDeclaration,
     )
       .filter((p) => p.reasons === DiffReasons.Removed)
       .map(this.updateDiffPairForNewFeature);
 
     const targetProperties = target.getType().getProperties();
     const sourceProperties = source.getType().getProperties();
-    const propertyBreakingChanges = this.findPropertyBreakingChanges(sourceProperties, targetProperties);
+    const propertyBreakingChanges = this.findPropertyBreakingChanges(
+      sourceProperties,
+      targetProperties,
+    );
     const propertyNewFeatures = this.findPropertyBreakingChanges(targetProperties, sourceProperties)
       .filter((p) => p.reasons === DiffReasons.Removed)
       .map(this.updateDiffPairForNewFeature);
@@ -426,7 +479,7 @@ export class DeclarationDifferenceDetector {
 
   private findRemovedFunctionOverloads(
     sourceOverloads: FunctionDeclaration[],
-    targetOverloads: FunctionDeclaration[]
+    targetOverloads: FunctionDeclaration[],
   ): FunctionDeclaration[] {
     const overloads = targetOverloads.filter((t) => {
       const compatibleSourceFunction = sourceOverloads.find((s) => {
@@ -437,8 +490,22 @@ export class DeclarationDifferenceDetector {
         ];
         if (returnTypePairs.length > 0) return false;
         const parameterPairs = [
-          ...this.findParameterBreakingChangesCore(s.getParameters(), t.getParameters(), '', '', s, t),
-          ...this.findParameterBreakingChangesCore(t.getParameters(), s.getParameters(), '', '', t, s),
+          ...this.findParameterBreakingChangesCore(
+            s.getParameters(),
+            t.getParameters(),
+            "",
+            "",
+            s,
+            t,
+          ),
+          ...this.findParameterBreakingChangesCore(
+            t.getParameters(),
+            s.getParameters(),
+            "",
+            "",
+            t,
+            s,
+          ),
         ];
         return parameterPairs.length === 0;
       });
@@ -449,17 +516,21 @@ export class DeclarationDifferenceDetector {
 
   // TODO: move public function before private
   // TODO: support arrow function
-  public findFunctionDifferences(source: FunctionDeclaration, target: FunctionDeclaration): DiffPair[] {
+  public findFunctionDifferences(
+    source: FunctionDeclaration,
+    target: FunctionDeclaration,
+  ): DiffPair[] {
     const sourceOverloads = source.getOverloads();
     const targetOverloads = target.getOverloads();
 
     // private has overloads
     if (sourceOverloads.length > 1 || targetOverloads.length > 1) {
-      const removedPairs = this.findRemovedFunctionOverloads(sourceOverloads, targetOverloads).map((t) =>
-        this.createDiffPair(DiffLocation.Signature_Overload, DiffReasons.Removed, undefined, {
-          name: t.getName()!,
-          node: t,
-        })
+      const removedPairs = this.findRemovedFunctionOverloads(sourceOverloads, targetOverloads).map(
+        (t) =>
+          this.createDiffPair(DiffLocation.Signature_Overload, DiffReasons.Removed, undefined, {
+            name: t.getName()!,
+            node: t,
+          }),
       );
 
       const addedPairs = this.findRemovedFunctionOverloads(targetOverloads, sourceOverloads).map(
@@ -468,7 +539,7 @@ export class DeclarationDifferenceDetector {
             name: t.getName()!,
             node: t,
           }),
-        undefined
+        undefined,
       );
       return [...removedPairs, ...addedPairs];
     }
@@ -482,19 +553,32 @@ export class DeclarationDifferenceDetector {
       source.getName()!,
       target.getName()!,
       source,
-      target
+      target,
     );
 
     return [...returnTypePairs, ...parameterPairs];
   }
 
-  public findTypeAliasBreakingChanges(source: TypeAliasDeclaration, target: TypeAliasDeclaration): DiffPair[] {
-    if (source.getType().isAssignableTo(target.getType()) && target.getType().isAssignableTo(source.getType()))
+  public findTypeAliasBreakingChanges(
+    source: TypeAliasDeclaration,
+    target: TypeAliasDeclaration,
+  ): DiffPair[] {
+    if (
+      source.getType().isAssignableTo(target.getType()) &&
+      target.getType().isAssignableTo(source.getType())
+    )
       return [];
 
     let sourceNameNode: NameNode = { name: source.getName(), node: source };
     let targetNameNode: NameNode = { name: target.getName(), node: target };
-    return [this.createDiffPair(DiffLocation.TypeAlias, DiffReasons.TypeChanged, sourceNameNode, targetNameNode)];
+    return [
+      this.createDiffPair(
+        DiffLocation.TypeAlias,
+        DiffReasons.TypeChanged,
+        sourceNameNode,
+        targetNameNode,
+      ),
+    ];
   }
 
   public findEnumDifferences(source: EnumDeclaration, target: EnumDeclaration): DiffPair[] {
@@ -523,7 +607,7 @@ export class DeclarationDifferenceDetector {
           DiffLocation.EnumMember,
           DiffReasons.Added,
           { name: sourceMember.getName(), node: sourceMember },
-          undefined
+          undefined,
         );
         result.push(pair);
       }
@@ -540,7 +624,7 @@ export class DeclarationDifferenceDetector {
     reasons: DiffReasons,
     source?: NameNode,
     target?: NameNode,
-    assignDirection: AssignDirection = AssignDirection.None
+    assignDirection: AssignDirection = AssignDirection.None,
   ): DiffPair {
     return { location, reasons, target, source, assignDirection };
   }
@@ -549,7 +633,7 @@ export class DeclarationDifferenceDetector {
     location: DiffLocation,
     baseline?: Node,
     current?: Node,
-    assignDirection: AssignDirection = AssignDirection.CurrentToBaseline
+    assignDirection: AssignDirection = AssignDirection.CurrentToBaseline,
   ): DiffPair | undefined {
     if (baseline && current) return undefined;
 
@@ -562,14 +646,20 @@ export class DeclarationDifferenceDetector {
         ? this.getNameNodeFromNode(current)
         : this.getNameNodeFromNode(baseline);
     if (!current)
-      return this.createDiffPair(location, DiffReasons.Removed, sourceNameNode, targetNameNode, assignDirection);
+      return this.createDiffPair(
+        location,
+        DiffReasons.Removed,
+        sourceNameNode,
+        targetNameNode,
+        assignDirection,
+      );
   }
 
   public checkAddedDeclaration(
     location: DiffLocation,
     baseline?: Node,
     current?: Node,
-    assignDirection: AssignDirection = AssignDirection.CurrentToBaseline
+    assignDirection: AssignDirection = AssignDirection.CurrentToBaseline,
   ): DiffPair | undefined {
     if (baseline && current) return undefined;
 
@@ -582,6 +672,12 @@ export class DeclarationDifferenceDetector {
         ? this.getNameNodeFromNode(current)
         : this.getNameNodeFromNode(baseline);
     if (!baseline)
-      return this.createDiffPair(location, DiffReasons.Added, sourceNameNode, targetNameNode, assignDirection);
+      return this.createDiffPair(
+        location,
+        DiffReasons.Added,
+        sourceNameNode,
+        targetNameNode,
+        assignDirection,
+      );
   }
 }

@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Operation Resource */
 export interface OperationResource {
   /** End time of the operation */
@@ -122,7 +128,9 @@ export function vaultSerializer(item: Vault): any {
 
 export function vaultDeserializer(item: any): Vault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -163,6 +171,8 @@ export interface VaultProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Monitoring Settings of the vault */
   monitoringSettings?: MonitoringSettings;
+  /** Cost Management Settings of the vault */
+  costManagementSettings?: CostManagementSettings;
   /** Restore Settings of the vault */
   restoreSettings?: RestoreSettings;
   /** The redundancy Settings of a Vault */
@@ -192,6 +202,9 @@ export function vaultPropertiesSerializer(item: VaultProperties): any {
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsSerializer(item["monitoringSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsSerializer(item["costManagementSettings"]),
     restoreSettings: !item["restoreSettings"]
       ? item["restoreSettings"]
       : restoreSettingsSerializer(item["restoreSettings"]),
@@ -234,6 +247,9 @@ export function vaultPropertiesDeserializer(item: any): VaultProperties {
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsDeserializer(item["monitoringSettings"]),
+    costManagementSettings: !item["costManagementSettings"]
+      ? item["costManagementSettings"]
+      : costManagementSettingsDeserializer(item["costManagementSettings"]),
     restoreSettings: !item["restoreSettings"]
       ? item["restoreSettings"]
       : restoreSettingsDeserializer(item["restoreSettings"]),
@@ -275,8 +291,8 @@ export interface UpgradeDetails {
   readonly previousResourceId?: string;
 }
 
-export function upgradeDetailsSerializer(item: UpgradeDetails): any {
-  return item;
+export function upgradeDetailsSerializer(_item: UpgradeDetails): any {
+  return {};
 }
 
 export function upgradeDetailsDeserializer(item: any): UpgradeDetails {
@@ -625,8 +641,8 @@ export interface VaultPropertiesMoveDetails {
   readonly targetResourceId?: string;
 }
 
-export function vaultPropertiesMoveDetailsSerializer(item: VaultPropertiesMoveDetails): any {
-  return item;
+export function vaultPropertiesMoveDetailsSerializer(_item: VaultPropertiesMoveDetails): any {
+  return {};
 }
 
 export function vaultPropertiesMoveDetailsDeserializer(item: any): VaultPropertiesMoveDetails {
@@ -806,6 +822,35 @@ export function classicAlertSettingsDeserializer(item: any): ClassicAlertSetting
   };
 }
 
+/** Cost Management Settings of the vault */
+export interface CostManagementSettings {
+  /** Settings for granularity level */
+  granularityLevel?: GranularityLevel;
+}
+
+export function costManagementSettingsSerializer(item: CostManagementSettings): any {
+  return { granularityLevel: item["granularityLevel"] };
+}
+
+export function costManagementSettingsDeserializer(item: any): CostManagementSettings {
+  return {
+    granularityLevel: item["granularityLevel"],
+  };
+}
+
+/** Known values of {@link GranularityLevel} that the service accepts. */
+export enum KnownGranularityLevel {
+  /** VaultLevel */
+  VaultLevel = "VaultLevel",
+  /** ProtectedItemLevel */
+  ProtectedItemLevel = "ProtectedItemLevel",
+  /** ProtectedItemWithParentTag */
+  ProtectedItemWithParentTag = "ProtectedItemWithParentTag",
+}
+
+/** Type of GranularityLevel */
+export type GranularityLevel = string;
+
 /** Restore Settings  of the vault */
 export interface RestoreSettings {
   /** Settings for CrossSubscriptionRestore */
@@ -836,9 +881,7 @@ export interface CrossSubscriptionRestoreSettings {
 export function crossSubscriptionRestoreSettingsSerializer(
   item: CrossSubscriptionRestoreSettings,
 ): any {
-  return {
-    crossSubscriptionRestoreState: item["crossSubscriptionRestoreState"],
-  };
+  return { crossSubscriptionRestoreState: item["crossSubscriptionRestoreState"] };
 }
 
 export function crossSubscriptionRestoreSettingsDeserializer(
@@ -974,15 +1017,29 @@ export function securitySettingsDeserializer(item: any): SecuritySettings {
 /** Immutability Settings of vault */
 export interface ImmutabilitySettings {
   state?: ImmutabilityState;
+  /**
+   * Immutability configuration of the vault — selects whether immutability is
+   * inherited from the backup policy (AsPerPolicy) or fixed for a specific
+   * duration (TimeBased).
+   */
+  configuration?: ImmutabilityConfiguration;
 }
 
 export function immutabilitySettingsSerializer(item: ImmutabilitySettings): any {
-  return { state: item["state"] };
+  return {
+    state: item["state"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : immutabilityConfigurationSerializer(item["configuration"]),
+  };
 }
 
 export function immutabilitySettingsDeserializer(item: any): ImmutabilitySettings {
   return {
     state: item["state"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : immutabilityConfigurationDeserializer(item["configuration"]),
   };
 }
 
@@ -998,6 +1055,43 @@ export enum KnownImmutabilityState {
 
 /** Type of ImmutabilityState */
 export type ImmutabilityState = string;
+
+/** Immutability configuration of vault. */
+export interface ImmutabilityConfiguration {
+  /** Immutability type. 'AsPerPolicy' inherits duration from backup policy; 'TimeBased' requires explicit durationInDays. */
+  type?: ImmutabilityType;
+  /** Duration in days. Required when type is TimeBased, omitted when AsPerPolicy. */
+  durationInDays?: number;
+}
+
+export function immutabilityConfigurationSerializer(item: ImmutabilityConfiguration): any {
+  return { type: item["type"], durationInDays: item["durationInDays"] };
+}
+
+export function immutabilityConfigurationDeserializer(item: any): ImmutabilityConfiguration {
+  return {
+    type: item["type"],
+    durationInDays: item["durationInDays"],
+  };
+}
+
+/** Immutability config type. */
+export enum KnownImmutabilityType {
+  /** Immutability is governed by policy. */
+  AsPerPolicy = "AsPerPolicy",
+  /** Immutability duration is time-based. */
+  TimeBased = "TimeBased",
+}
+
+/**
+ * Immutability config type. \
+ * {@link KnownImmutabilityType} can be used interchangeably with ImmutabilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AsPerPolicy**: Immutability is governed by policy. \
+ * **TimeBased**: Immutability duration is time-based.
+ */
+export type ImmutabilityType = string;
 
 /** Soft delete Settings of vault */
 export interface SoftDeleteSettings {
@@ -1284,8 +1378,8 @@ export interface UserIdentity {
   readonly clientId?: string;
 }
 
-export function userIdentitySerializer(item: UserIdentity): any {
-  return item;
+export function userIdentitySerializer(_item: UserIdentity): any {
+  return {};
 }
 
 export function userIdentityDeserializer(item: any): UserIdentity {
@@ -1367,7 +1461,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1384,8 +1480,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1753,8 +1849,8 @@ export function deletedVaultPropertiesDeserializer(item: any): DeletedVaultPrope
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1775,9 +1871,7 @@ export interface DeletedVaultUndeleteInput {
 }
 
 export function deletedVaultUndeleteInputSerializer(item: DeletedVaultUndeleteInput): any {
-  return {
-    properties: deletedVaultUndeleteInputPropertiesSerializer(item["properties"]),
-  };
+  return { properties: deletedVaultUndeleteInputPropertiesSerializer(item["properties"]) };
 }
 
 /** Input definition for DeletedVault undelete properties. */
@@ -1990,7 +2084,7 @@ export type ResourceCertificateDetailsUnion =
 export function resourceCertificateDetailsUnionDeserializer(
   item: any,
 ): ResourceCertificateDetailsUnion {
-  switch (item.authType) {
+  switch (item["authType"]) {
     case "AzureActiveDirectory":
       return resourceCertificateAndAadDetailsDeserializer(item as ResourceCertificateAndAadDetails);
 
@@ -2492,4 +2586,10 @@ export enum KnownVersions {
   V20250201 = "2025-02-01",
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
+  /** The 2026-02-01 API version. */
+  V20260201 = "2026-02-01",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
 }

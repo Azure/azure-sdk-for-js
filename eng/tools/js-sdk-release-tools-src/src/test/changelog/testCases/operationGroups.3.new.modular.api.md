@@ -5,8 +5,12 @@
 ```ts
 // @public (undocumented)
 export interface DataProductsCatalogsOperations {
-    // (undocumented)
-    listByResourceGroup_NEW: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataProductsCatalog>;
+  // (undocumented)
+  listByResourceGroup_NEW: (
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: DataProductsCatalogsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DataProductsCatalog>;
 }
 // (No @packageDocumentation comment for this package)
 ```

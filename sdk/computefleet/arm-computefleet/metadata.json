@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.AzureFleet": "2026-04-01-preview"
+    "Microsoft.AzureFleet": "2026-06-01-preview"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AzureFleet",
     "CrossLanguageDefinitionId": {
