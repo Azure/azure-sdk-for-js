@@ -51,11 +51,77 @@ permissions:
   pull-requests: read
   actions: read
   copilot-requests: write
+# DataOps: gather all PR review context in a deterministic shell step
+# (GH_TOKEN, runs outside the agent sandbox — zero AI tokens and no agent
+# rate-limit pressure). The agent then reads /tmp/gh-aw/agent/*.json
+# instead of making GitHub API/MCP calls to list files, fetch diffs, or
+# check CI. See the gh-aw DataOps pattern (deterministic-ops).
+#
+# Inlined here rather than a committed sibling script because this
+# workflow runs with `checkout: false`, so no repo clone is on disk in
+# the agent job for a `bash .github/...` invocation to resolve.
+steps:
+  - name: Prefetch PR review context (DataOps)
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.item_number }}
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -euo pipefail
+      mkdir -p "$OUTDIR"
+
+      # PR metadata: base/head SHAs, mergeability, labels (one call).
+      gh pr view "$PR_NUMBER" -R "$REPO" \
+        --json number,title,state,isDraft,mergeable,mergeStateStatus,baseRefName,headRefName,headRefOid,baseRefOid,labels,additions,deletions,changedFiles \
+        > "$OUTDIR/pr.json"
+      head_sha="$(jq -r '.headRefOid' "$OUTDIR/pr.json")"
+
+      # Changed files with per-file patch (top-level array — gh --paginate
+      # merges pages into one array).
+      gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" > "$OUTDIR/files_raw.json"
+
+      # Compact list (no patch) for quick scanning.
+      jq '[.[] | {filename, status, additions, deletions, previous_filename}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/changed_files.json"
+
+      # Public-API-surface subset: barrels/index.ts, API reports, package.json.
+      surface_re='(^|/)index\.ts$|/review/[^/]+\.api\.md$|(^|/)package\.json$'
+      jq --arg re "$surface_re" \
+        '[.[] | select(.filename | test($re)) | {filename, status, additions, deletions}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/api_surface.json"
+
+      # Compact diff of just the API-surface files (primary review input).
+      jq -r --arg re "$surface_re" \
+        '.[] | select(.filename | test($re))
+             | "=== " + .filename + " (" + .status + ") ===\n" + (.patch // "(binary or no textual patch)")' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/api_diff.patch"
+
+      # Full diff as a fallback (may be large; prefer api_diff.patch).
+      gh pr diff "$PR_NUMBER" -R "$REPO" > "$OUTDIR/diff.patch" 2>/dev/null \
+        || echo "(full diff unavailable)" > "$OUTDIR/diff.patch"
+
+      # CI check-run status for the head commit (first 100 checks).
+      gh api "repos/$REPO/commits/$head_sha/check-runs?per_page=100" \
+        --jq '{total: (.check_runs | length),
+               failing: [.check_runs[] | select(.conclusion == "failure" or .conclusion == "cancelled" or .conclusion == "timed_out") | {name, conclusion}],
+               by_conclusion: (.check_runs | group_by(.conclusion // "pending") | map({(.[0].conclusion // "pending"): length}) | add)}' \
+        > "$OUTDIR/ci_status.json" \
+        || echo '{"error": "check-runs unavailable"}' > "$OUTDIR/ci_status.json"
+
+      rm -f "$OUTDIR/files_raw.json"
+      printf '{"repo":"%s","pr_number":%s,"head_sha":"%s","generated_at":"%s"}\n' \
+        "$REPO" "$PR_NUMBER" "$head_sha" "$(date -u +%FT%TZ)" > "$OUTDIR/meta.json"
+      echo "Prefetch complete:"; ls -la "$OUTDIR"
 tools:
   github:
+    # gh-proxy: pre-authenticated gh CLI, no Docker MCP server startup.
+    # Used only for the on-demand GA-baseline lookup in Step 2; all bulk
+    # PR data is already prefetched above.
+    mode: gh-proxy
     toolsets: [context, repos, pull_requests, actions]
     min-integrity: unapproved
-  bash: ["cat", "date", "echo", "git:*", "grep", "head", "ls", "pwd", "sort", "tail", "uniq", "wc"]
+  bash: ["cat", "date", "echo", "gh:*", "grep", "head", "jq", "ls", "pwd", "sort", "tail", "uniq", "wc"]
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -97,17 +163,41 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
 - Do **not** comment on style, formatting, or whitespace.
 - Do **not** flag issues in APIs tagged `@internal`.
 
+## Prefetched context — read these first, do not re-fetch
+
+A deterministic step has already gathered everything you need about this
+PR into `/tmp/gh-aw/agent/`. **Read these files with `cat`. Do not call
+the GitHub API or MCP tools to re-list files, fetch diffs, or check CI —
+that work is already done.**
+
+| File | Contents |
+|---|---|
+| `pr.json` | PR metadata: `title`, `state`, `mergeable`, `mergeStateStatus`, `baseRefName`, `headRefName`, `headRefOid`, `labels`, `additions`, `deletions`, `changedFiles`. |
+| `changed_files.json` | Every changed file: `{filename, status, additions, deletions, previous_filename}`. |
+| `api_surface.json` | The public-API-surface subset of `changed_files.json` (barrels/`index.ts`, `review/*.api.md`, `package.json`). Start here. |
+| `api_diff.patch` | Unified diff of only the API-surface files — your primary review input. |
+| `diff.patch` | Full PR diff (fallback; may be large — prefer `api_diff.patch`). |
+| `ci_status.json` | `{total, failing[], by_conclusion}` for the head commit's checks. |
+| `meta.json` | `{repo, pr_number, head_sha, generated_at}`. |
+
+The only GitHub read you may still perform on demand is retrieving the
+**GA baseline API report** in Step 2 (it depends on which package
+changed). Use the `gh` CLI for that — this workflow runs with
+`mode: gh-proxy`.
+
 ## Step 0 — Context Gathering
 
-1. **Check CI status** — use the Actions toolset to check whether CI
-   checks are passing on this PR. If the build is failing, note it but
-   proceed with the review (API design issues exist regardless of build).
+1. **Check CI status** — read `ci_status.json`. If `failing` is non-empty,
+   note it but proceed with the review (API design issues exist regardless
+   of build state).
 2. **Recall past context** — use cache-memory to check if this PR or
    package has been reviewed before.
 
 ## Step 1 — Identify Changed API Surface
 
-1. List the files changed in the pull request using the GitHub API.
+1. Read `api_surface.json` for the public-API-relevant changed files and
+   `changed_files.json` for the complete list. Do **not** call the GitHub
+   API — this data is already on disk.
 2. Focus on:
    - `src/index.ts` or barrel export files (added/removed exports)
    - Subpath export entry points defined in the `exports` field of
@@ -115,15 +205,21 @@ Follow the guidelines in [architecture-review-guidelines.md](../prompts/architec
      source files
    - `review/*.api.md` files (the API report — each line is a public symbol)
    - New or modified public interfaces, classes, types, and functions
-3. If no public API surface was changed, post a single comment saying the
-   API surface looks good and stop.
+
+   Review the actual changes in `api_diff.patch`.
+3. If `api_surface.json` is empty (no public API surface changed), post a
+   single comment saying the API surface looks good and stop.
 
 ## Step 2 — Check Against Guidelines
 
-Before checking for breaking changes, use `bash` to find the last GA
-release tag for the package and retrieve its API report. This establishes
-the stable baseline — only flag removals as breaking if the API existed
-in the GA release.
+Before checking for breaking changes, establish the stable baseline: use
+the `gh` CLI (available via `mode: gh-proxy`) to find the last GA
+(non-preview) release tag for the changed package and retrieve its
+`review/*.api.md` at that tag — e.g. `gh api
+"repos/<repo>/contents/<path/to/review/x.api.md>?ref=<tag>"`. Only flag
+removals as breaking if the API existed in the GA release. This is the
+one lookup that stays on demand because it depends on which package
+changed.
 
 For each changed public API element, apply the full checklist from the
 architecture review guidelines. Focus on breaking changes, naming
@@ -174,4 +270,4 @@ After completing all review steps, update the PR labels to indicate completion:
 1. Remove the `architecture-review-in-progress` label
 2. Add the `architecture-review-added` label
 
-Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.
+Use the `gh` CLI (via `mode: gh-proxy`) to manage these labels on PR #${{ github.event.pull_request.number }}.
