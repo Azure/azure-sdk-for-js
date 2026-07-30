@@ -1,6 +1,6 @@
 # Release History
 
-## 2.5.0 (Unreleased)
+## 2.5.0 (2026-07-30)
 
 ### Features Added
 
@@ -9,14 +9,10 @@
   - A token that cannot be decoded is now accepted as-is and assigned a fallback expiry, instead of throwing at construction as it did previously; only an empty token is rejected.
   - Added `undecodableTokenExpiryIntervalInSeconds` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 600 seconds).
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fixed `dispose()` not always cancelling the scheduled proactive token refresh, which could trigger a token refresh after the credential was disposed.
 - A token that decodes successfully but has no `exp` claim no longer yields a `NaN` expiry; it now uses the fallback expiry.
-
-### Other Changes
 
 ## 2.4.2 (2026-06-02)
 
