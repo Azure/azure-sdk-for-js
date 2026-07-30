@@ -166,7 +166,9 @@ export function convertToMorphNode(
 ) {
   const tsNode = service.esTreeNodeToTSNodeMap.get(node);
   const typeChecker = service.program.getTypeChecker();
-  const moNode = createWrappedNode(tsNode as ts.Node, { typeChecker: typeChecker as ts.TypeChecker });
+  const moNode = createWrappedNode(tsNode as ts.Node, {
+    typeChecker: typeChecker as ts.TypeChecker,
+  });
   return moNode;
 }
 
