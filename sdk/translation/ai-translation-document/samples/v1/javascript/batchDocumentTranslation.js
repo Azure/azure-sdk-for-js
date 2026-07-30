@@ -15,6 +15,7 @@ require("dotenv/config");
 const { DocumentTranslationClient } = require("@azure/ai-translation-document");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { BlobServiceClient } = require("@azure/storage-blob");
+const { mkdir } = require("node:fs/promises");
 const https = require("node:https");
 const path = require("node:path");
 const endpoint =
@@ -73,11 +74,16 @@ async function main() {
   const result = await poller.pollUntilDone();
   console.log(`Translation completed with status: ${result.status}`);
 
-  const currentDir = process.cwd();
+  const downloadDir = path.resolve(process.cwd(), "translations");
+  await mkdir(downloadDir, { recursive: true });
 
   for await (const blob of targetContainerClient.listBlobsFlat()) {
     const translatedBlobClient = targetContainerClient.getBlobClient(blob.name);
-    const filePath = path.join(currentDir, blob.name);
+    const filePath = path.resolve(downloadDir, blob.name);
+    if (!filePath.startsWith(`${downloadDir}${path.sep}`)) {
+      throw new Error(`Refusing to download blob outside the output directory: ${blob.name}`);
+    }
+    await mkdir(path.dirname(filePath), { recursive: true });
     await translatedBlobClient.downloadToFile(filePath);
     console.log("Translated file downloaded to:", filePath);
   }

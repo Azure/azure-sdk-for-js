@@ -262,7 +262,7 @@ function addApiVersionToUrl(url: string, apiVersion: string): string {
   const urlObj = new URL(url, "https://microsoft.com");
   if (!urlObj.searchParams.get("api-version")) {
     // Append one if there is no apiVersion
-    return `${url}${urlObj.search ? "&" : "?"}api-version=${apiVersion}`;
+    return `${url}${urlObj.search ? "&" : "?"}api-version=${encodeURIComponent(apiVersion)}`;
   }
   return url;
 }
