@@ -121,6 +121,28 @@ describe("listMessageSessions", () => {
     }
 
     expect(result).to.include(sessionId);
+
+    // Discriminating negative: list again with a cutoff one hour in the future.
+    // The session's state was updated in the past, so a future cutoff must
+    // exclude it. Without this, the inclusion assertion above still passes if the
+    // client drops the option, if the service ignores lastUpdatedTime, or if the
+    // management client applies its own default cutoff instead of ours. This also
+    // proves the service accepts a future lastUpdatedTime without erroring. Run it
+    // after the inclusion assertion so propagation delay cannot make it pass for
+    // the wrong reason.
+    const afterStateUpdate = new Date(Date.now() + 60 * 60 * 1000);
+    const excluded: string[] = [];
+    const excludedIter = entityNames.queue
+      ? serviceBusClient.listMessageSessions(entityNames.queue, {
+          sessionStateUpdatedAfter: afterStateUpdate,
+        })
+      : serviceBusClient.listMessageSessions(entityNames.topic!, entityNames.subscription!, {
+          sessionStateUpdatedAfter: afterStateUpdate,
+        });
+    for await (const id of excludedIter) {
+      excluded.push(id);
+    }
+    expect(excluded).to.not.include(sessionId);
   });
 
   it("byPage returns pages of session IDs", async () => {

@@ -583,11 +583,13 @@ export class ServiceBusClient {
           // core AMQP layer resolves it normally and the internal managementClient
           // returns an empty array, which the `page.length === 0` check below handles.
           //
-          // The 404 + MessageNotFound catch below is a cross-SDK safety net that .NET
-          // and Python also carry. The service does not currently send this combination
-          // for get-message-sessions, but keeping it avoids a breaking behavior change
-          // if the service ever starts returning 404 for empty results.
-          if (err.statusCode === 404 && err.code === "MessageNotFound") {
+          // The MessageNotFound catch below is a cross-SDK safety net that .NET and
+          // Python also carry. The management path translates a broker rejection via
+          // translateServiceBusError, which sets `code` from the AMQP condition and
+          // never sets `statusCode`, so this matches on `code` alone. The service does
+          // not currently send com.microsoft:message-not-found for get-message-sessions,
+          // but keeping it avoids a breaking behavior change if it ever starts.
+          if (err.code === "MessageNotFound") {
             // Return an empty array page, not undefined. getPagedAsyncIterator's
             // item iterator yields the raw value of a non-array first page, so a
             // `return undefined` here surfaces one `undefined` element instead of
@@ -599,7 +601,7 @@ export class ServiceBusClient {
         if (!page || page.length === 0) {
           // Empty page ends the iteration. Return an empty array page, not
           // undefined, so the item iterator yields zero elements rather than a
-          // single `undefined` (see the 404 branch above).
+          // single `undefined` (see the MessageNotFound branch above).
           return { page: [], nextPageLink: undefined };
         }
         return {

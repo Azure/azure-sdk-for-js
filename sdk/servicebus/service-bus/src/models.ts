@@ -352,7 +352,7 @@ export interface PurgeMessagesOptions extends OperationOptionsBase {
 export interface ListMessageSessionsOptions extends OperationOptionsBase {
   /**
    * If specified, only sessions whose state was updated after this time are returned.
-   * If not specified, returns sessions with active messages in the entity.
+   * If not specified, returns sessions that have active messages or session state.
    */
   sessionStateUpdatedAfter?: Date;
 }

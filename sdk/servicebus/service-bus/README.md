@@ -485,7 +485,7 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 ### List message sessions
 
-To discover which sessions have active messages in a queue or subscription, use `listMessageSessions()`:
+To discover which sessions have active messages or session state in a queue or subscription, use `listMessageSessions()`:
 
 ```ts snippet:ReadmeSampleListMessageSessions
 import { DefaultAzureCredential } from "@azure/identity";
@@ -495,7 +495,7 @@ const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.wind
 const credential = new DefaultAzureCredential();
 const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
 
-// List all sessions with active messages in a queue
+// List all sessions with active messages or session state in a queue
 for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
   console.log("Session ID:", sessionId);
 }

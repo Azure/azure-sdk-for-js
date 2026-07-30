@@ -149,7 +149,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
     // @ts-preserve-whitespace
-    // List all sessions with active messages in a queue
+    // List all sessions with active messages or session state in a queue
     for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
       console.log("Session ID:", sessionId);
     }
