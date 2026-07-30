@@ -87,13 +87,22 @@ export function createFolderIfNotExist(path: string) {
   }
 }
 
-export function getConfigFromReadmeMd(readmePath: string) {
+interface AutorestConfig {
+  title: string;
+  description: string;
+  "input-file": string | string[];
+  "package-version": string;
+  "credential-scopes": string;
+  "package-name": string;
+}
+
+export function getConfigFromReadmeMd(readmePath: string): AutorestConfig {
   const readme = fs.readFileSync(readmePath, { encoding: "utf-8" });
   const match = /```yaml((.|\n)*)```/.exec(readme);
   if (!match || match.length !== 3) {
     throw new Error(`Cannot find valid package name from ${readmePath}`);
   }
-  return yaml.load(match[1]);
+  return yaml.load(match[1]) as AutorestConfig;
 }
 
 export function getPackageNameFromReadmeMd(readme: any) {
