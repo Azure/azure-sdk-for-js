@@ -90,7 +90,7 @@ export default createRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    if (findOwningPackageName(context.filename, context.getCwd()) === CORE_PROCESS_PACKAGE) {
+    if (findOwningPackageName(context.filename, context.cwd) === CORE_PROCESS_PACKAGE) {
       return {};
     }
 

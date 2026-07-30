@@ -828,8 +828,8 @@ importers:
         specifier: ^1.11.1
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.43
-        version: 1.0.0-beta.43
+        specifier: 1.0.0-beta.44
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
         version: 1.0.0
@@ -934,8 +934,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.43
-        version: 1.0.0-beta.43
+        specifier: 1.0.0-beta.44
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
         version: 1.0.0
@@ -1058,7 +1058,7 @@ importers:
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/monitor-opentelemetry':
-        specifier: ^1.17.0
+        specifier: ^1.19.0
         version: link:../../monitor/monitor-opentelemetry
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
@@ -9046,7 +9046,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@microsoft/api-extractor':
         specifier: ^7.52.4
-        version: 7.58.11(@types/node@22.20.1)
+        version: 7.58.12(@types/node@22.20.1)
       '@microsoft/warp':
         specifier: workspace:^
         version: link:../../../common/tools/warp
@@ -9061,10 +9061,10 @@ importers:
         version: 10.1.0
       eslint:
         specifier: 'catalog:'
-        version: 9.39.5
+        version: 10.8.0
       prettier:
         specifier: 'catalog:'
-        version: 3.9.5
+        version: 3.9.6
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22548,7 +22548,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
-        specifier: ^1.17.0
+        specifier: ^1.19.0
         version: link:../monitor-opentelemetry
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -22643,8 +22643,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.43
-        version: 1.0.0-beta.43
+        specifier: 1.0.0-beta.44
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -22734,8 +22734,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.43
-        version: 1.0.0-beta.43
+        specifier: 1.0.0-beta.44
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -35749,10 +35749,6 @@ packages:
     resolution: {integrity: sha1-Cey+hAiSgQAjgn7y2DjyGaUcHDU=}
     engines: {node: '>=14.0.0'}
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.43':
-    resolution: {integrity: sha1-W2siG+6x+yYn03KXHloGei9otlI=}
-    engines: {node: '>=22.0.0'}
-
   '@azure/msal-browser@4.30.0':
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
@@ -36899,10 +36895,6 @@ packages:
     resolution: {integrity: sha1-MtntmJOZVqhNTi/14BWYy50o10Q=}
     engines: {node: '>=8.0.0'}
 
-  '@opentelemetry/api-logs@0.219.0':
-    resolution: {integrity: sha1-MwPxD0Pm/xdB+PYBnkOpJyN4FjA=}
-    engines: {node: '>=8.0.0'}
-
   '@opentelemetry/api-logs@0.220.0':
     resolution: {integrity: sha1-su0jXeS188F2mt+l87wkfYLN+8k=}
     engines: {node: '>=8.0.0'}
@@ -36945,12 +36937,6 @@ packages:
 
   '@opentelemetry/core@2.10.0':
     resolution: {integrity: sha1-qnf3E450ulOZ1fO7DereDBaPALI=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-
-  '@opentelemetry/core@2.8.0':
-    resolution: {integrity: sha1-9uht42iL21Smyo9JNTY6W1iK6Rw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -37157,12 +37143,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
 
-  '@opentelemetry/resources@2.8.0':
-    resolution: {integrity: sha1-m8tlirYlTzMJn0qVVEtA1vU8yUY=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.3.0 <1.10.0'
-
   '@opentelemetry/resources@2.9.0':
     resolution: {integrity: sha1-geHOlG7sZhhXqdbE+lB7N1CuUA8=}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -37171,12 +37151,6 @@ packages:
 
   '@opentelemetry/sdk-logs@0.200.0':
     resolution: {integrity: sha1-iT2GzvpvLAKnzQPVy0qVnu02U9E=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.4.0 <1.10.0'
-
-  '@opentelemetry/sdk-logs@0.219.0':
-    resolution: {integrity: sha1-ACQzI3kI0k+p5/F+tJY/JfA9ZVw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
@@ -42407,25 +42381,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.43':
-    dependencies:
-      '@azure-rest/core-client': 2.8.0
-      '@azure/core-auth': 1.11.0
-      '@azure/core-client': 1.11.0
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-util': 1.14.0
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.219.0
-      '@opentelemetry/core': 2.10.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.10.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-logs': 0.219.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-metrics': 2.10.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-base': 2.10.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.43.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/msal-browser@4.30.0':
     dependencies:
       '@azure/msal-common': 15.17.0
@@ -43680,10 +43635,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
 
-  '@opentelemetry/api-logs@0.219.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-
   '@opentelemetry/api-logs@0.220.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -43718,11 +43669,6 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.43.0
 
   '@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/semantic-conventions': 1.43.0
-
-  '@opentelemetry/core@2.8.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/semantic-conventions': 1.43.0
@@ -44014,12 +43960,6 @@ snapshots:
       '@opentelemetry/core': 2.10.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/semantic-conventions': 1.43.0
 
-  '@opentelemetry/resources@2.8.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.43.0
-
   '@opentelemetry/resources@2.9.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -44032,14 +43972,6 @@ snapshots:
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.1)
-
-  '@opentelemetry/sdk-logs@0.219.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.219.0
-      '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.43.0
 
   '@opentelemetry/sdk-logs@0.220.0(@opentelemetry/api@1.9.1)':
     dependencies:
