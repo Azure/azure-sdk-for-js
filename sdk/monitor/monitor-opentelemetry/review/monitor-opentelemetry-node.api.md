@@ -5,6 +5,7 @@
 ```ts
 
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
+import type { ConsoleInstrumentationConfig } from '@opentelemetry/instrumentation-console';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
@@ -44,7 +45,7 @@ export function _getSdkInstance(): NodeSDK | undefined;
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
-    console?: InstrumentationConfig;
+    console?: ConsoleInstrumentationConfig;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;

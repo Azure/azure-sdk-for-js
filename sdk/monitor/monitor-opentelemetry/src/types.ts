@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import type { ConsoleInstrumentationConfig } from "@opentelemetry/instrumentation-console";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -63,8 +64,9 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
-  /** Console Instrumentation Config */
-  console?: InstrumentationConfig;
+  /** Console Instrumentation Config. `logSeverity` takes precedence over the
+   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. */
+  console?: ConsoleInstrumentationConfig;
 }
 
 /**
@@ -163,7 +165,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.19.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.20.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.20.0 (Unreleased)
+
+### Features Added
+
+- `instrumentationOptions.console` now accepts a `logSeverity` value. When set, it takes precedence over the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable, so console log severity can be configured programmatically.
+
 ## 1.19.0 (2026-07-29)
 
 ### Features Added
