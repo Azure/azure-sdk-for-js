@@ -58,8 +58,61 @@ network:
     - defaults
     - node
     - "dev.azure.com"
+# DataOps: prefetch all PR context in a deterministic shell step (GH_TOKEN,
+# outside the agent sandbox — zero AI tokens, no agent rate-limit pressure).
+# The agent reads /tmp/gh-aw/agent/*.json instead of calling the GitHub API
+# to list files, fetch diffs, or check CI. Inlined because this workflow runs
+# with `checkout: false` (no repo clone on disk in the agent job).
+steps:
+  - name: Prefetch PR review context (DataOps)
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.item_number }}
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -euo pipefail
+      mkdir -p "$OUTDIR"
+
+      gh pr view "$PR_NUMBER" -R "$REPO" \
+        --json number,title,state,isDraft,mergeable,mergeStateStatus,baseRefName,headRefName,headRefOid,baseRefOid,labels,additions,deletions,changedFiles \
+        > "$OUTDIR/pr.json"
+      head_sha="$(jq -r '.headRefOid' "$OUTDIR/pr.json")"
+
+      # Changed files with per-file patch (top-level array — gh --paginate merges pages).
+      gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" > "$OUTDIR/files_raw.json"
+      jq '[.[] | {filename, status, additions, deletions, previous_filename}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/changed_files.json"
+
+      # Persona surface: mgmt API reports, CHANGELOG, and package manifests.
+      surface_re='/review/[^/]+-node\.api\.md$|(^|/)CHANGELOG\.md$|(^|/)package\.json$'
+      jq --arg re "$surface_re" \
+        '[.[] | select(.filename | test($re)) | {filename, status, additions, deletions}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/surface.json"
+      jq -r --arg re "$surface_re" \
+        '.[] | select(.filename | test($re))
+             | "=== " + .filename + " (" + .status + ") ===\n" + (.patch // "(binary or no textual patch)")' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/surface_diff.patch"
+
+      gh pr diff "$PR_NUMBER" -R "$REPO" > "$OUTDIR/diff.patch" 2>/dev/null \
+        || echo "(full diff unavailable)" > "$OUTDIR/diff.patch"
+
+      gh api "repos/$REPO/commits/$head_sha/check-runs?per_page=100" \
+        --jq '{total: (.check_runs | length),
+               failing: [.check_runs[] | select(.conclusion == "failure" or .conclusion == "cancelled" or .conclusion == "timed_out") | {name, conclusion}],
+               by_conclusion: (.check_runs | group_by(.conclusion // "pending") | map({(.[0].conclusion // "pending"): length}) | add)}' \
+        > "$OUTDIR/ci_status.json" \
+        || echo '{"error": "check-runs unavailable"}' > "$OUTDIR/ci_status.json"
+
+      rm -f "$OUTDIR/files_raw.json"
+      printf '{"repo":"%s","pr_number":%s,"head_sha":"%s","generated_at":"%s"}\n' \
+        "$REPO" "$PR_NUMBER" "$head_sha" "$(date -u +%FT%TZ)" > "$OUTDIR/meta.json"
+      echo "Prefetch complete:"; ls -la "$OUTDIR"
 tools:
   github:
+    # gh-proxy: pre-authenticated gh CLI, no Docker MCP server startup. Used
+    # for the on-demand full-file reads in Step 4; bulk PR data is prefetched.
+    mode: gh-proxy
     toolsets: [context, repos, pull_requests, actions]
   bash: true
   cache-memory:
@@ -111,19 +164,38 @@ Follow the guidelines in [mgmt-review-guidelines.md](../prompts/mgmt-review-guid
 - Do **not** raise CHANGELOG `Compared with version X.Y.Z` baseline issues except an `alpha` baseline — see the **CHANGELOG comparison baseline** rule in the guidelines for why skipped previews and "missing" intermediate entries are expected.
 - **Do** flag if the `api-version` introduced in this PR is not strictly newer than the one already present in the package (i.e., it is the same as or older than the existing version).
 
+## Prefetched context — read these first, do not re-fetch
+
+A deterministic step has already gathered this PR's context into
+`/tmp/gh-aw/agent/`. **Read these files with `cat`. Do not call the GitHub
+API to re-list files, fetch diffs, or check CI.**
+
+| File | Contents |
+|---|---|
+| `pr.json` | PR metadata (`title`, `mergeable`, `headRefOid`, `labels`, `changedFiles`). |
+| `changed_files.json` | Every changed file: `{filename, status, additions, deletions, previous_filename}`. |
+| `surface.json` | The mgmt-relevant subset (`review/*-node.api.md`, `CHANGELOG.md`, `package.json`). Start here. |
+| `surface_diff.patch` | Diff of only those files. |
+| `diff.patch` | Full PR diff (fallback). |
+| `ci_status.json` | `{total, failing[], by_conclusion}` for the head commit's checks. |
+| `meta.json` | `{repo, pr_number, head_sha, generated_at}`. |
+
+This workflow runs with `mode: gh-proxy`. In Step 4, when you need the
+**full file** (not just the diff), read it on demand with the `gh` CLI.
+
 ### Step 1 — Context Gathering
 
 1. **Recall past context** — use `cache-memory` to check whether this PR or package has been reviewed before.
 
 ### Step 2 - Validate any tool issues
 
-1. List the files changed in the pull request using the GitHub API.
+1. Read `changed_files.json` (the prefetched file list) — do not call the GitHub API.
 2. Focus on the tool validation rules and highlight tool issues.
 3. If no listed violations are found, proceed to the following steps.
 
 ### Step 3 — Validate changed public API surface
 
-1. List the files changed in the pull request using the GitHub API.
+1. Read `surface.json` and the corresponding `surface_diff.patch` (prefetched) — do not call the GitHub API.
 2. Focus on:
    - `review/{package-name}-node.api.md` files (the API report — each line is a public symbol)
   - Only consider checkpoints mentioned in the guidelines
@@ -184,4 +256,4 @@ After completing all review steps, update the PR labels to indicate completion:
 1. Remove the `mgmt-review-in-progress` label
 2. Add the `mgmt-review-added` label
 
-Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.
+Use the `add-labels` and `remove-labels` safe-outputs to manage these labels on PR #${{ github.event.pull_request.number }}.

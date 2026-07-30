@@ -11,9 +11,33 @@ permissions:
   copilot-requests: write
 tools:
   github:
+    # gh-proxy: pre-authenticated gh CLI, no Docker MCP server startup.
+    mode: gh-proxy
     toolsets: [default]
   edit:
   bash: true
+# DataOps: inventory the documentation set in a deterministic step (repo is
+# checked out for this scheduled workflow) so the agent has the file list
+# without an exploratory glob. The consistency reasoning itself stays with
+# the agent — only the inventory is precomputed.
+steps:
+  - name: Prefetch documentation inventory (DataOps)
+    env:
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -euo pipefail
+      mkdir -p "$OUTDIR"
+      if [ -d documentation ]; then
+        find documentation -type f -name '*.md' -printf '%p\t%s\n' | sort > "$OUTDIR/docs_list.tsv"
+        jq -Rn '[inputs | split("\t") | {path: .[0], bytes: (.[1] | tonumber)}]' \
+          "$OUTDIR/docs_list.tsv" > "$OUTDIR/docs_manifest.json"
+        rm -f "$OUTDIR/docs_list.tsv"
+      else
+        echo '[]' > "$OUTDIR/docs_manifest.json"
+      fi
+      printf '{"count":%s,"generated_at":"%s"}\n' \
+        "$(jq 'length' "$OUTDIR/docs_manifest.json")" "$(date -u +%FT%TZ)" > "$OUTDIR/meta.json"
+      echo "Documentation inventory:"; cat "$OUTDIR/docs_manifest.json"
 safe-outputs:
   create-pull-request:
     title-prefix: "[docs] "
@@ -45,9 +69,13 @@ Go through each file in the `documentation/` folder and check for:
 
 ## Process
 
-1. Read every markdown file in `documentation/`.
+1. Read every markdown file listed in the prefetched inventory at
+   `/tmp/gh-aw/agent/docs_manifest.json` (each entry is `{path, bytes}`).
+   This is the authoritative set of `documentation/` files to review — you
+   don't need to glob for them.
 2. For each claim or instruction, verify it against the current source code and
-   repository structure using bash and the GitHub tools.
+   repository structure using bash and the `gh` CLI (this workflow uses
+   `mode: gh-proxy`).
 3. Collect all inconsistencies found.
 4. Fix the documentation files directly using the edit tools.
 5. Create a pull request with all fixes, providing a clear summary of every change

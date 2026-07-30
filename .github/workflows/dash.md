@@ -51,8 +51,61 @@ permissions:
   pull-requests: read
   actions: read
   copilot-requests: write
+# DataOps: prefetch all PR context in a deterministic shell step (GH_TOKEN,
+# outside the agent sandbox — zero AI tokens, no agent rate-limit pressure).
+# The agent reads /tmp/gh-aw/agent/*.json instead of calling the GitHub API
+# to list files, fetch diffs, or check CI. Inlined because this workflow runs
+# with `checkout: false` (no repo clone on disk in the agent job).
+steps:
+  - name: Prefetch PR review context (DataOps)
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number || github.event.inputs.item_number }}
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -euo pipefail
+      mkdir -p "$OUTDIR"
+
+      gh pr view "$PR_NUMBER" -R "$REPO" \
+        --json number,title,state,isDraft,mergeable,mergeStateStatus,baseRefName,headRefName,headRefOid,baseRefOid,labels,additions,deletions,changedFiles \
+        > "$OUTDIR/pr.json"
+      head_sha="$(jq -r '.headRefOid' "$OUTDIR/pr.json")"
+
+      # Changed files with per-file patch (top-level array — gh --paginate merges pages).
+      gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/files" > "$OUTDIR/files_raw.json"
+      jq '[.[] | {filename, status, additions, deletions, previous_filename}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/changed_files.json"
+
+      # Persona surface: production source files (performance-relevant hot paths).
+      surface_re='(^|/)src/.*\.[cm]?ts$'
+      jq --arg re "$surface_re" \
+        '[.[] | select(.filename | test($re)) | {filename, status, additions, deletions}]' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/surface.json"
+      jq -r --arg re "$surface_re" \
+        '.[] | select(.filename | test($re))
+             | "=== " + .filename + " (" + .status + ") ===\n" + (.patch // "(binary or no textual patch)")' \
+        "$OUTDIR/files_raw.json" > "$OUTDIR/surface_diff.patch"
+
+      gh pr diff "$PR_NUMBER" -R "$REPO" > "$OUTDIR/diff.patch" 2>/dev/null \
+        || echo "(full diff unavailable)" > "$OUTDIR/diff.patch"
+
+      gh api "repos/$REPO/commits/$head_sha/check-runs?per_page=100" \
+        --jq '{total: (.check_runs | length),
+               failing: [.check_runs[] | select(.conclusion == "failure" or .conclusion == "cancelled" or .conclusion == "timed_out") | {name, conclusion}],
+               by_conclusion: (.check_runs | group_by(.conclusion // "pending") | map({(.[0].conclusion // "pending"): length}) | add)}' \
+        > "$OUTDIR/ci_status.json" \
+        || echo '{"error": "check-runs unavailable"}' > "$OUTDIR/ci_status.json"
+
+      rm -f "$OUTDIR/files_raw.json"
+      printf '{"repo":"%s","pr_number":%s,"head_sha":"%s","generated_at":"%s"}\n' \
+        "$REPO" "$PR_NUMBER" "$head_sha" "$(date -u +%FT%TZ)" > "$OUTDIR/meta.json"
+      echo "Prefetch complete:"; ls -la "$OUTDIR"
 tools:
   github:
+    # gh-proxy: pre-authenticated gh CLI, no Docker MCP server startup. Used
+    # only for residual on-demand reads; bulk PR data is prefetched above.
+    mode: gh-proxy
     toolsets: [context, repos, pull_requests, actions]
     min-integrity: unapproved
   bash: true
@@ -106,17 +159,38 @@ Follow the guidelines in [performance-review-guidelines.md](../prompts/performan
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation
   snippet sources, **not** real tests — ignore them.
 
+## Prefetched context — read these first, do not re-fetch
+
+A deterministic step has already gathered this PR's context into
+`/tmp/gh-aw/agent/`. **Read these files with `cat`. Do not call the GitHub
+API or MCP tools to re-list files, fetch diffs, or check CI.**
+
+| File | Contents |
+|---|---|
+| `pr.json` | PR metadata (`title`, `mergeable`, `headRefOid`, `labels`, `additions`, `deletions`, `changedFiles`). |
+| `changed_files.json` | Every changed file: `{filename, status, additions, deletions, previous_filename}`. |
+| `surface.json` | The performance-relevant subset (production `src/**` source files). Start here. |
+| `surface_diff.patch` | Diff of only the `src/**` files — your primary review input. |
+| `diff.patch` | Full PR diff (fallback; may be large). |
+| `ci_status.json` | `{total, failing[], by_conclusion}` for the head commit's checks. |
+| `meta.json` | `{repo, pr_number, head_sha, generated_at}`. |
+
+This workflow runs with `mode: gh-proxy`, so any residual on-demand GitHub
+read uses the `gh` CLI. Benchmarking (Step 2.5) still uses `bash`/`node`.
+
 ## Step 0 — Context Gathering
 
-1. **Check CI status** — use the Actions toolset to check whether CI
-   checks are passing. Performance issues sometimes manifest as timeouts
-   or OOM in CI.
+1. **Check CI status** — read `ci_status.json`. If `failing` is non-empty,
+   note it (performance issues sometimes manifest as timeouts or OOM in CI)
+   but proceed with the review.
 2. **Recall past context** — use cache-memory to check if this package
    has had prior performance findings.
 
 ## Step 1 — Identify Changed Files
 
-1. List the files changed in the pull request using the GitHub API.
+1. Read `surface.json` (performance-relevant `src/**` files) and
+   `changed_files.json` (complete list); review the changes in
+   `surface_diff.patch`. Do **not** call the GitHub API.
 2. Prioritize:
    - Core pipeline files (`*pipeline*`, `*policy*`, `*client*`)
    - Paging and iteration logic (`*paging*`, `list*` methods)
@@ -124,8 +198,9 @@ Follow the guidelines in [performance-review-guidelines.md](../prompts/performan
      `*download*`, `*upload*`)
    - Retry and polling logic (`*retry*`, `*lro*`, `*poller*`)
    - Hot-path utilities called from multiple operations
-3. If no performance-relevant code was changed, post a single pull
-   request comment saying no performance concerns were found and stop.
+3. If no performance-relevant code was changed (`surface.json` is empty),
+   post a single pull request comment saying no performance concerns were
+   found and stop.
 
 ## Step 2 — Check Against Guidelines
 
@@ -225,4 +300,4 @@ After completing all review steps, update the PR labels to indicate completion:
 1. Remove the `performance-review-in-progress` label
 2. Add the `performance-review-added` label
 
-Use the GitHub MCP tool to manage these labels on PR #${{ github.event.pull_request.number }}.
+Use the `gh` CLI (via `mode: gh-proxy`) to manage these labels on PR #${{ github.event.pull_request.number }}.

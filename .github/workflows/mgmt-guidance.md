@@ -97,8 +97,44 @@ network:
   allowed:
     - defaults
     - "dev.azure.com"
+# DataOps: prefetch PR mergeability + all check runs in a deterministic
+# shell step (GH_TOKEN, outside the agent sandbox — zero AI tokens). The
+# agent reads /tmp/gh-aw/agent/*.json instead of fetching the PR and
+# iterating check runs via the API. Per-failure ADO log diagnosis stays
+# on-demand (it depends on which checks failed and hits dev.azure.com).
+steps:
+  - name: Prefetch merge-guidance context (DataOps)
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ needs.pre_activation.outputs.pr_number }}
+      OUTDIR: /tmp/gh-aw/agent
+    run: |
+      set -euo pipefail
+      mkdir -p "$OUTDIR"
+
+      # REST PR so mergeable_state matches the wording used below.
+      gh api "repos/$REPO/pulls/$PR_NUMBER" \
+        --jq '{number, title, state, mergeable, mergeable_state, head_sha: .head.sha, labels: [.labels[].name]}' \
+        > "$OUTDIR/pr.json"
+      head_sha="$(jq -r '.head_sha' "$OUTDIR/pr.json")"
+
+      # All check runs for the head commit, plus a failing subset with the
+      # ADO details_url each diagnosis will drill into.
+      gh api "repos/$REPO/commits/$head_sha/check-runs?per_page=100" \
+        --jq '{total: (.check_runs | length),
+               failing: [.check_runs[] | select(.conclusion == "failure" or .conclusion == "cancelled" or .conclusion == "timed_out") | {name, conclusion, details_url, started_at, completed_at}],
+               all: [.check_runs[] | {name, status, conclusion, details_url}]}' \
+        > "$OUTDIR/check_runs.json" \
+        || echo '{"error": "check-runs unavailable"}' > "$OUTDIR/check_runs.json"
+
+      printf '{"repo":"%s","pr_number":%s,"head_sha":"%s","generated_at":"%s"}\n' \
+        "$REPO" "$PR_NUMBER" "$head_sha" "$(date -u +%FT%TZ)" > "$OUTDIR/meta.json"
+      echo "Prefetch complete:"; ls -la "$OUTDIR"
 tools:
   github:
+    # gh-proxy: pre-authenticated gh CLI, no Docker MCP server startup.
+    mode: gh-proxy
     toolsets: [context, repos, pull_requests, actions]
   bash: true
 safe-outputs:
@@ -121,9 +157,24 @@ You provide merge readiness guidance for Azure SDK for JS management-plane PRs.
 
 All CI checks have finished on this PR's head commit. Determine whether the PR is ready to merge or has blocking failures, then post a single comment.
 
+## Prefetched context — read these first, do not re-fetch
+
+A deterministic step has already gathered this PR's state into
+`/tmp/gh-aw/agent/`. **Read these files with `cat`. Do not call the GitHub
+API to fetch the PR or list check runs.**
+
+| File | Contents |
+|---|---|
+| `pr.json` | `{number, title, state, mergeable, mergeable_state, head_sha, labels}`. |
+| `check_runs.json` | `{total, failing[], all[]}` — `failing` items include `details_url` (the ADO build) for diagnosis. |
+| `meta.json` | `{repo, pr_number, head_sha, generated_at}`. |
+
+This workflow runs with `mode: gh-proxy`; the ADO log drill-down below
+still uses `curl` against `dev.azure.com`.
+
 ## Step 1. Confirm merge readiness
 
-Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check has `conclusion: "failure"`, `"cancelled"`, or `"timed_out"`:
+Read `pr.json` and `check_runs.json`. If `mergeable_state == "clean"` and `check_runs.json` `failing` is empty:
 
 Post this comment and stop:
 ```markdown
@@ -139,13 +190,13 @@ For more details, see the [management SDK release process](https://eng.ms/docs/p
 
 Collect every blocker:
 
-1. **PR merge conflicts** — if `mergeable_state == "dirty"` → pnpm-lock or code conflict.
-2. **Failed CI checks** — every check run with `conclusion: "failure"`, `"cancelled"`, or `"timed_out"`.
+1. **PR merge conflicts** — if `pr.json` `mergeable_state == "dirty"` → pnpm-lock or code conflict.
+2. **Failed CI checks** — every entry in `check_runs.json` `failing` (`conclusion: "failure"`, `"cancelled"`, or `"timed_out"`).
 3. **Diagnose each failed ADO sub-check** (names like `js - pullrequest (Build Build)`, `js - pullrequest (UnitTest ubuntu_24x_node)`):
-   - Extract `buildId` from `target_url` (pattern: `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`)
+   - Extract `buildId` from the failing check's `details_url` (pattern: `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`)
    - Timeline: `curl -s "https://dev.azure.com/azure-sdk/public/_apis/build/builds/<buildId>/timeline?api-version=7.1"` — find `records` with `result: "failed"`
    - Logs: `curl -s "<record.log.url>"` — search for specific error messages
-   - **CRITICAL**: Use only the real `target_url` from the API. Never fabricate or use placeholder URLs.
+   - **CRITICAL**: Use only the real `details_url` from `check_runs.json`. Never fabricate or use placeholder URLs.
 
 #### CI Check → Category
 
@@ -181,8 +232,8 @@ Post a single `add-comment`. Include marker `<!-- gh-aw-workflow-id: mgmt-guidan
 ## Next Steps to Merge
 Only failed checks and required actions are listed below.
 
-- ❌ <failed check name>: <short reason>. Action: <specific fix>. Review [ADO logs](<real target_url>).
-- ❌ Check-format: code not formatted. Action: Run `cd <package-dir> && pnpm format`, then commit and push. Review [ADO logs](<target_url>).
+- ❌ <failed check name>: <short reason>. Action: <specific fix>. Review [ADO logs](<real details_url>).
+- ❌ Check-format: code not formatted. Action: Run `cd <package-dir> && pnpm format`, then commit and push. Review [ADO logs](<details_url>).
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md).
 
 Need a hand? Feel free to ask in the [Language – JS & TS 🥷 Teams channel](https://teams.microsoft.com/l/channel/19%3A344f6b5b36ba414daa15473942c7477b%40thread.skype/Language%20%E2%80%93%20JS%E2%80%89%EF%BC%86%E2%80%89TS%20%F0%9F%A5%B7?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) — we're happy to help.
