@@ -4,96 +4,35 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { KeyCredential } from '@azure/core-auth';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItems {
-    post(options: AddOrUpdateBlocklistItemsParameters): StreamableMethod<AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse>;
-}
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddOrUpdateBlocklistItems200Response extends HttpResponse {
-    // (undocumented)
-    body: AddOrUpdateTextBlocklistItemsResultOutput;
-    // (undocumented)
-    status: "200";
+export interface AddOrUpdateBlocklistItemsOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsBodyParam {
-    body: AddOrUpdateTextBlocklistItemsOptions;
-}
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface AddOrUpdateBlocklistItemsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AddOrUpdateBlocklistItemsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type AddOrUpdateBlocklistItemsParameters = AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
 
 // @public
 export interface AddOrUpdateTextBlocklistItemsOptions {
-    blocklistItems: Array<TextBlocklistItem>;
+    blocklistItems: TextBlocklistItem[];
 }
 
 // @public
-export interface AddOrUpdateTextBlocklistItemsResultOutput {
-    blocklistItems: Array<TextBlocklistItemOutput>;
-}
-
-// @public (undocumented)
-export interface AnalyzeImage {
-    post(options: AnalyzeImageParameters): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
+export interface AddOrUpdateTextBlocklistItemsResult {
+    blocklistItems: TextBlocklistItem[];
 }
 
 // @public
-export interface AnalyzeImage200Response extends HttpResponse {
-    // (undocumented)
-    body: AnalyzeImageResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface AnalyzeImageBodyParam {
-    body: AnalyzeImageOptions;
-}
-
-// @public (undocumented)
-export interface AnalyzeImageDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface AnalyzeImageDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
-    // (undocumented)
-    status: string;
+export interface AnalyzeImageOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -104,47 +43,15 @@ export interface AnalyzeImageOptions {
 }
 
 // @public
-export type AnalyzeImageOutputType = string;
-
-// @public (undocumented)
-export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
+export type AnalyzeImageOutputType = "FourSeverityLevels";
 
 // @public
-export interface AnalyzeImageResultOutput {
-    categoriesAnalysis: Array<ImageCategoriesAnalysisOutput>;
-}
-
-// @public (undocumented)
-export interface AnalyzeText {
-    post(options: AnalyzeTextParameters): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
+export interface AnalyzeImageResult {
+    categoriesAnalysis: ImageCategoriesAnalysis[];
 }
 
 // @public
-export interface AnalyzeText200Response extends HttpResponse {
-    // (undocumented)
-    body: AnalyzeTextResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface AnalyzeTextBodyParam {
-    body: AnalyzeTextOptions;
-}
-
-// @public (undocumented)
-export interface AnalyzeTextDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface AnalyzeTextDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & AnalyzeTextDefaultHeaders;
-    // (undocumented)
-    status: string;
+export interface AnalyzeTextOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -157,314 +64,178 @@ export interface AnalyzeTextOptions {
 }
 
 // @public
-export type AnalyzeTextOutputType = string;
-
-// @public (undocumented)
-export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
+export type AnalyzeTextOutputType = "FourSeverityLevels" | "EightSeverityLevels";
 
 // @public
-export interface AnalyzeTextResultOutput {
-    blocklistsMatch?: Array<TextBlocklistMatchOutput>;
-    categoriesAnalysis: Array<TextCategoriesAnalysisOutput>;
+export interface AnalyzeTextResult {
+    blocklistsMatch?: TextBlocklistMatch[];
+    categoriesAnalysis: TextCategoriesAnalysis[];
 }
 
 // @public (undocumented)
-export type ContentSafetyClient = Client & {
-    path: Routes;
-};
+export class BlocklistClient {
+    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: BlocklistClientOptionalParams);
+    addOrUpdateBlocklistItems(blocklistName: string, body: AddOrUpdateTextBlocklistItemsOptions, options?: AddOrUpdateBlocklistItemsOptionalParams): Promise<AddOrUpdateTextBlocklistItemsResult>;
+    createOrUpdateTextBlocklist(blocklistName: string, options: TextBlocklist, optionalParams?: CreateOrUpdateTextBlocklistOptionalParams): Promise<TextBlocklist>;
+    deleteTextBlocklist(blocklistName: string, options?: DeleteTextBlocklistOptionalParams): Promise<void>;
+    getTextBlocklist(blocklistName: string, options?: GetTextBlocklistOptionalParams): Promise<TextBlocklist>;
+    getTextBlocklistItem(blocklistName: string, blocklistItemId: string, options?: GetTextBlocklistItemOptionalParams): Promise<TextBlocklistItem>;
+    listTextBlocklistItems(blocklistName: string, options?: ListTextBlocklistItemsOptionalParams): PagedAsyncIterableIterator<TextBlocklistItem>;
+    listTextBlocklists(options?: ListTextBlocklistsOptionalParams): PagedAsyncIterableIterator<TextBlocklist>;
+    readonly pipeline: Pipeline;
+    removeBlocklistItems(blocklistName: string, body: RemoveTextBlocklistItemsOptions, options?: RemoveBlocklistItemsOptionalParams): Promise<void>;
+}
 
 // @public
-export interface ContentSafetyClientOptions extends ClientOptions {
+export interface BlocklistClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public (undocumented)
+export class ContentProvenanceClient {
+    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentProvenanceClientOptionalParams);
+    detect(options: DetectProvenanceOptions, optionalParams?: DetectOptionalParams): PollerLike<OperationState_2<DetectProvenanceResult>, DetectProvenanceResult>;
+    getOperationStatus(operationId: string, options?: GetOperationStatusOptionalParams): Promise<ProvenanceDetectOperation>;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface ContentProvenanceClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public (undocumented)
+export class ContentSafetyClient {
+    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentSafetyClientOptionalParams);
+    analyzeImage(body: AnalyzeImageOptions, options?: AnalyzeImageOptionalParams): Promise<AnalyzeImageResult>;
+    analyzeText(body: AnalyzeTextOptions, options?: AnalyzeTextOptionalParams): Promise<AnalyzeTextResult>;
+    detectTextProtectedMaterial(body: DetectTextProtectedMaterialOptions, options?: DetectTextProtectedMaterialOptionalParams): Promise<DetectTextProtectedMaterialResult>;
+    readonly pipeline: Pipeline;
+    shieldPrompt(body: ShieldPromptOptions, options?: ShieldPromptOptionalParams): Promise<ShieldPromptResult>;
+}
+
+// @public
+export interface ContentSafetyClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: ContentSafetyClientOptions): ContentSafetyClient;
-export default createClient;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface CreateOrUpdateTextBlocklist200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "200";
+export interface CreateOrUpdateTextBlocklistOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreateOrUpdateTextBlocklist201Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistBodyParam {
-    body: TextBlocklistResourceMergeAndPatch;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CreateOrUpdateTextBlocklistMediaTypesParam {
-    contentType: "application/merge-patch+json";
-}
-
-// @public (undocumented)
-export type CreateOrUpdateTextBlocklistParameters = CreateOrUpdateTextBlocklistMediaTypesParam & CreateOrUpdateTextBlocklistBodyParam & RequestParameters;
-
-// @public
-export interface DeleteTextBlocklist204Response extends HttpResponse {
-    // (undocumented)
-    status: "204";
-}
-
-// @public (undocumented)
-export interface DeleteTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type DeleteTextBlocklistParameters = RequestParameters;
-
-// @public
-export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
-
-// @public
-export type GetPage<TPage> = (pageLink: string) => Promise<{
-    page: TPage;
-    nextPageLink?: string;
-}>;
-
-// @public (undocumented)
-export interface GetTextBlocklist {
-    delete(options?: DeleteTextBlocklistParameters): StreamableMethod<DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse>;
-    get(options?: GetTextBlocklistParameters): StreamableMethod<GetTextBlocklist200Response | GetTextBlocklistDefaultResponse>;
-    patch(options: CreateOrUpdateTextBlocklistParameters): StreamableMethod<CreateOrUpdateTextBlocklist200Response | CreateOrUpdateTextBlocklist201Response | CreateOrUpdateTextBlocklistDefaultResponse>;
+export interface DeleteTextBlocklistOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetTextBlocklist200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTextBlocklistDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItem {
-    get(options?: GetTextBlocklistItemParameters): StreamableMethod<GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse>;
+export interface DetectedProvenance {
+    modelName?: string;
+    provider?: string;
+    timestamp?: Date;
+    type?: DetectedProvenanceType;
 }
 
 // @public
-export interface GetTextBlocklistItem200Response extends HttpResponse {
-    // (undocumented)
-    body: TextBlocklistItemOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItemDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetTextBlocklistItemDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTextBlocklistItemDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type GetTextBlocklistItemParameters = RequestParameters;
-
-// @public (undocumented)
-export type GetTextBlocklistParameters = RequestParameters;
+export type DetectedProvenanceType = "C2PA" | "Watermark";
 
 // @public
-export interface ImageCategoriesAnalysisOutput {
-    category: ImageCategoryOutput;
+export interface DetectOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DetectOutcome = "NoProvenanceDetected" | "ProvenanceDetected";
+
+// @public
+export interface DetectProvenanceOptions {
+    content: ProvenanceContent;
+}
+
+// @public
+export interface DetectProvenanceResult {
+    outcome: DetectOutcome;
+    results?: DetectedProvenance[];
+}
+
+// @public
+export interface DetectTextProtectedMaterialOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DetectTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public
+export interface DetectTextProtectedMaterialResult {
+    protectedMaterialAnalysis: TextProtectedMaterialAnalysisResult;
+}
+
+// @public
+export interface DocumentInjectionAnalysisResult {
+    attackDetected: boolean;
+}
+
+// @public
+export interface GetOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetTextBlocklistItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GetTextBlocklistOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ImageCategoriesAnalysis {
+    category: ImageCategory;
     severity?: number;
 }
 
 // @public
-export type ImageCategory = string;
-
-// @public
-export type ImageCategoryOutput = string;
+export type ImageCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // @public
 export interface ImageData {
     blobUrl?: string;
-    content?: string;
+    content?: Uint8Array;
 }
 
 export { isRestError }
 
-// @public (undocumented)
-export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: CreateOrUpdateTextBlocklist200Response | CreateOrUpdateTextBlocklist201Response | CreateOrUpdateTextBlocklistDefaultResponse): response is CreateOrUpdateTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse): response is DeleteTextBlocklistDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse): response is ListTextBlocklistsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse): response is AddOrUpdateBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse): response is RemoveBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse): response is GetTextBlocklistItemDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse): response is ListTextBlocklistItemsDefaultResponse;
-
-// @public (undocumented)
-export interface ListTextBlocklistItems {
-    get(options?: ListTextBlocklistItemsParameters): StreamableMethod<ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse>;
+// @public
+export enum KnownVersions {
+    V20231001 = "2023-10-01",
+    V20240901 = "2024-09-01",
+    V20260701Preview = "2026-07-01-preview"
 }
 
 // @public
-export interface ListTextBlocklistItems200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedTextBlocklistItemOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistItemsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistItemsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & ListTextBlocklistItemsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ListTextBlocklistItemsParameters = ListTextBlocklistItemsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListTextBlocklistItemsQueryParam {
-    // (undocumented)
-    queryParameters?: ListTextBlocklistItemsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistItemsQueryParamProperties {
+export interface ListTextBlocklistItemsOptionalParams extends OperationOptions {
     maxpagesize?: number;
     skip?: number;
     top?: number;
 }
 
-// @public (undocumented)
-export interface ListTextBlocklists {
-    get(options?: ListTextBlocklistsParameters): StreamableMethod<ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse>;
+// @public
+export interface ListTextBlocklistsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ListTextBlocklists200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedTextBlocklistOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & ListTextBlocklistsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ListTextBlocklistsParameters = RequestParameters;
+export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
     next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PagedTextBlocklistItemOutput {
-    nextLink?: string;
-    value: Array<TextBlocklistItemOutput>;
-}
-
-// @public
-export interface PagedTextBlocklistOutput {
-    nextLink?: string;
-    value: Array<TextBlocklistOutput>;
 }
 
 // @public
@@ -473,53 +244,27 @@ export interface PageSettings {
 }
 
 // @public
-export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
-
-// @public
-export type PaginateReturn<TResult> = TResult extends {
-    body: {
-        value?: infer TPage;
-    };
-} ? GetArrayType<TPage> : Array<unknown>;
-
-// @public
-export interface PagingOptions<TResponse> {
-    customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
-}
-
-// @public (undocumented)
-export interface RemoveBlocklistItems {
-    post(options: RemoveBlocklistItemsParameters): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
+export interface ProvenanceContent {
+    uri: string;
 }
 
 // @public
-export interface RemoveBlocklistItems204Response extends HttpResponse {
-    // (undocumented)
-    status: "204";
+export interface ProvenanceDetectOperation {
+    readonly createdAt?: Date;
+    error?: ErrorModel;
+    id: string;
+    readonly kind: ProvenanceOperationKind;
+    readonly lastUpdatedAt?: Date;
+    result?: DetectProvenanceResult;
+    status: OperationState;
 }
 
-// @public (undocumented)
-export interface RemoveBlocklistItemsBodyParam {
-    body: RemoveTextBlocklistItemsOptions;
-}
+// @public
+export type ProvenanceOperationKind = "Detect";
 
-// @public (undocumented)
-export interface RemoveBlocklistItemsDefaultHeaders {
-    "x-ms-error-code"?: string;
+// @public
+export interface RemoveBlocklistItemsOptionalParams extends OperationOptions {
 }
-
-// @public (undocumented)
-export interface RemoveBlocklistItemsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & RemoveBlocklistItemsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam & RequestParameters;
 
 // @public
 export interface RemoveTextBlocklistItemsOptions {
@@ -528,16 +273,30 @@ export interface RemoveTextBlocklistItemsOptions {
 
 export { RestError }
 
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentProvenanceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
 // @public (undocumented)
-export interface Routes {
-    (path: "/image:analyze"): AnalyzeImage;
-    (path: "/text:analyze"): AnalyzeText;
-    (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
-    (path: "/text/blocklists"): ListTextBlocklists;
-    (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): AddOrUpdateBlocklistItems;
-    (path: "/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName: string): RemoveBlocklistItems;
-    (path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName: string, blocklistItemId: string): GetTextBlocklistItem;
-    (path: "/text/blocklists/{blocklistName}/blocklistItems", blocklistName: string): ListTextBlocklistItems;
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ShieldPromptOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ShieldPromptOptions {
+    documents?: string[];
+    userPrompt?: string;
+}
+
+// @public
+export interface ShieldPromptResult {
+    documentsAnalysis?: DocumentInjectionAnalysisResult[];
+    userPromptAnalysis?: UserPromptInjectionAnalysisResult;
 }
 
 // @public
@@ -548,44 +307,37 @@ export interface TextBlocklist {
 
 // @public
 export interface TextBlocklistItem {
-    description?: string;
-    text: string;
-}
-
-// @public
-export interface TextBlocklistItemOutput {
     readonly blocklistItemId: string;
     description?: string;
+    isRegex?: boolean;
     text: string;
 }
 
 // @public
-export interface TextBlocklistMatchOutput {
+export interface TextBlocklistMatch {
     blocklistItemId: string;
     blocklistItemText: string;
     blocklistName: string;
 }
 
 // @public
-export interface TextBlocklistOutput {
-    blocklistName: string;
-    description?: string;
-}
-
-// @public
-export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
-
-// @public
-export interface TextCategoriesAnalysisOutput {
-    category: TextCategoryOutput;
+export interface TextCategoriesAnalysis {
+    category: TextCategory;
     severity?: number;
 }
 
 // @public
-export type TextCategory = string;
+export type TextCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // @public
-export type TextCategoryOutput = string;
+export interface TextProtectedMaterialAnalysisResult {
+    detected: boolean;
+}
+
+// @public
+export interface UserPromptInjectionAnalysisResult {
+    attackDetected: boolean;
+}
 
 // (No @packageDocumentation comment for this package)
 
