@@ -12,8 +12,10 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "imports": {
     "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
@@ -24,6 +26,10 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
@@ -39,6 +45,10 @@
         "types": "./dist/browser/documentTranslation/index.d.ts",
         "default": "./dist/browser/documentTranslation/index.js"
       },
+      "react-native": {
+        "types": "./dist/react-native/documentTranslation/index.d.ts",
+        "default": "./dist/react-native/documentTranslation/index.js"
+      },
       "import": {
         "types": "./dist/esm/documentTranslation/index.d.ts",
         "default": "./dist/esm/documentTranslation/index.js"
@@ -52,6 +62,10 @@
       "browser": {
         "types": "./dist/browser/documentTranslation/api/index.d.ts",
         "default": "./dist/browser/documentTranslation/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/documentTranslation/api/index.d.ts",
+        "default": "./dist/react-native/documentTranslation/api/index.js"
       },
       "import": {
         "types": "./dist/esm/documentTranslation/api/index.d.ts",
@@ -67,6 +81,10 @@
         "types": "./dist/browser/singleDocumentTranslation/index.d.ts",
         "default": "./dist/browser/singleDocumentTranslation/index.js"
       },
+      "react-native": {
+        "types": "./dist/react-native/singleDocumentTranslation/index.d.ts",
+        "default": "./dist/react-native/singleDocumentTranslation/index.js"
+      },
       "import": {
         "types": "./dist/esm/singleDocumentTranslation/index.d.ts",
         "default": "./dist/esm/singleDocumentTranslation/index.js"
@@ -81,6 +99,10 @@
         "types": "./dist/browser/singleDocumentTranslation/api/index.d.ts",
         "default": "./dist/browser/singleDocumentTranslation/api/index.js"
       },
+      "react-native": {
+        "types": "./dist/react-native/singleDocumentTranslation/api/index.d.ts",
+        "default": "./dist/react-native/singleDocumentTranslation/api/index.js"
+      },
       "import": {
         "types": "./dist/esm/singleDocumentTranslation/api/index.d.ts",
         "default": "./dist/esm/singleDocumentTranslation/api/index.js"
@@ -94,6 +116,10 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",

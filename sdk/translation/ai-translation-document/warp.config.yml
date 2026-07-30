@@ -13,6 +13,10 @@ targets:
   - name: browser
     tsconfig: "./config/tsconfig.src.browser.json"
 
+  - name: react-native
+    tsconfig: "./config/tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
