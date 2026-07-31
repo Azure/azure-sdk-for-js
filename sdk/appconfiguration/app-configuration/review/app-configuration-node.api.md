@@ -31,6 +31,10 @@ export interface AddFeatureFlagOptions extends OperationOptions {
 }
 
 // @public
+export interface AddFeatureFlagResponse extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
@@ -62,6 +66,10 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 // @public
 export interface CheckConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
     pageEtags?: string[];
+}
+
+// @public
+export interface CheckFeatureFlagsOptions extends ListFeatureFlagsOptions {
 }
 
 // @public
@@ -140,8 +148,10 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 
 // @public
 export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
-    etag?: string;
-    label?: string;
+}
+
+// @public
+export interface DeleteFeatureFlagResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -156,10 +166,12 @@ export interface FeatureFlag {
     description?: string;
     enabled: boolean;
     readonly etag?: string;
-    readonly label?: string;
+    label?: string;
     readonly lastModified?: Date;
-    readonly name: string;
-    tags?: Record<string, string>;
+    name: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     telemetry?: FeatureFlagTelemetryConfiguration;
     variants?: FeatureFlagVariantDefinition[];
 }
@@ -178,13 +190,14 @@ export interface FeatureFlagAllocation {
 export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
-    addFeatureFlag(featureFlag: FeatureFlag, options?: AddFeatureFlagOptions): Promise<FeatureFlag>;
-    deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
-    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
+    addFeatureFlag(featureFlag: FeatureFlag, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
+    checkFeatureFlags(options?: CheckFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
+    deleteFeatureFlag(id: FeatureFlagId, options?: DeleteFeatureFlagOptions): Promise<DeleteFeatureFlagResponse>;
+    getFeatureFlag(id: FeatureFlagId, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
-    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
+    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
 }
 
 // @public
@@ -201,12 +214,21 @@ export interface FeatureFlagConditions {
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
 // @public
-export type FeatureFlagFields = "name" | "enabled" | "label" | "description" | "conditions" | "variants" | "allocation" | "telemetry" | "tags" | "last_modified" | "etag";
+export type FeatureFlagFields = keyof FeatureFlag;
 
 // @public
 export interface FeatureFlagFilter {
     name: string;
-    parameters?: Record<string, string>;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface FeatureFlagId {
+    etag?: string;
+    label?: string;
+    name: string;
 }
 
 // @public
@@ -215,7 +237,9 @@ export const featureFlagPrefix = ".appconfig.featureflag/";
 // @public
 export interface FeatureFlagTelemetryConfiguration {
     enabled: boolean;
-    metadata?: Record<string, string>;
+    metadata?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -257,14 +281,15 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 // @public
 export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
     acceptDateTime?: Date;
-    etag?: string;
     fields?: FeatureFlagFields[];
-    label?: string;
 }
 
 // @public
-export interface GetFeatureFlagResponse extends FeatureFlag, HttpResponseFields {
-}
+export type GetFeatureFlagResponse = (FeatureFlag & SyncTokenHeaderField & HttpResponseField<SyncTokenHeaderField> & {
+    statusCode: 200;
+}) | (Pick<FeatureFlag, "name"> & Partial<Omit<FeatureFlag, "name">> & SyncTokenHeaderField & HttpResponseField<SyncTokenHeaderField> & {
+    statusCode: 304;
+});
 
 // @public
 export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFields {
@@ -338,9 +363,22 @@ export enum KnownConfigurationSnapshotStatus {
 }
 
 // @public
+export enum KnownRequirementType {
+    All = "All",
+    Any = "Any"
+}
+
+// @public
 export enum KnownSnapshotComposition {
     Key = "key",
     KeyLabel = "key_label"
+}
+
+// @public
+export enum KnownStatusOverride {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    None = "None"
 }
 
 // @public
@@ -465,7 +503,7 @@ export interface PercentileAllocation {
 }
 
 // @public
-export type RequirementType = "Any" | "All";
+export type RequirementType = string;
 
 export { RestError }
 
@@ -496,6 +534,10 @@ export interface SetConfigurationSettingResponse extends ConfigurationSetting, S
 
 // @public
 export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
+}
+
+// @public
+export interface SetFeatureFlagResponse extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -556,7 +598,7 @@ export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeader
 }
 
 // @public
-export type StatusOverride = "None" | "Enabled" | "Disabled";
+export type StatusOverride = string;
 
 // @public
 export interface SyncTokenHeaderField {

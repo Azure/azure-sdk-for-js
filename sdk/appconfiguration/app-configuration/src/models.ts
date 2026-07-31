@@ -6,22 +6,6 @@ import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
-import type { FeatureFlag, FeatureFlagFields } from "./generated/models/index.js";
-
-export type {
-  FeatureFlag,
-  FeatureFlagConditions,
-  RequirementType,
-  FeatureFlagFilter,
-  FeatureFlagVariantDefinition,
-  StatusOverride,
-  FeatureFlagAllocation,
-  PercentileAllocation,
-  UserAllocation,
-  GroupAllocation,
-  FeatureFlagTelemetryConfiguration,
-  FeatureFlagFields,
-} from "./generated/models/index.js";
 
 /**
  * Defines values for SnapshotComposition.
@@ -125,6 +109,147 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
  * Provides configuration options for FeatureFlagClient.
  */
 export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {}
+
+/** The conditions that must be met for the feature flag to be enabled. */
+export interface FeatureFlagConditions {
+  /** The requirement type for the conditions. */
+  requirementType?: RequirementType;
+  /** The filters that will conditionally enable or disable the flag. */
+  filters?: FeatureFlagFilter[];
+}
+
+/** Defines values for the feature flag condition requirement type. */
+export type RequirementType = string;
+
+/** Known values of {@link RequirementType} that the service accepts. */
+export enum KnownRequirementType {
+  /** Any condition may be met. */
+  Any = "Any",
+  /** All conditions must be met. */
+  All = "All",
+}
+
+/** A filter that conditionally enables or disables a feature flag. */
+export interface FeatureFlagFilter {
+  /** The name of the filter. */
+  name: string;
+  /** The parameters used by the filter. */
+  parameters?: { [propertyName: string]: string };
+}
+
+/** A variant of a feature flag. */
+export interface FeatureFlagVariantDefinition {
+  /** The name of the variant. */
+  name: string;
+  /** The value of the variant. */
+  value?: string;
+  /** The content type of the variant value. */
+  contentType?: string;
+  /** Determines whether the variant overrides the status of the feature flag. */
+  statusOverride?: StatusOverride;
+}
+
+/** Defines values for a feature flag variant status override. */
+export type StatusOverride = string;
+
+/** Known values of {@link StatusOverride} that the service accepts. */
+export enum KnownStatusOverride {
+  /** Do not override the feature flag status. */
+  None = "None",
+  /** Treat the feature flag as enabled. */
+  Enabled = "Enabled",
+  /** Treat the feature flag as disabled. */
+  Disabled = "Disabled",
+}
+
+/** Defines how to allocate feature flag variants based on context. */
+export interface FeatureFlagAllocation {
+  /** The default variant to use when the feature flag is disabled. */
+  defaultWhenDisabled?: string;
+  /** The default variant to use when the feature flag is enabled but not allocated. */
+  defaultWhenEnabled?: string;
+  /** Allocates percentiles to variants. */
+  percentile?: PercentileAllocation[];
+  /** Allocates users to variants. */
+  user?: UserAllocation[];
+  /** Allocates groups to variants. */
+  group?: GroupAllocation[];
+  /** The seed used for random allocation. */
+  seed?: string;
+}
+
+/** Allocates a percentile range to a feature flag variant. */
+export interface PercentileAllocation {
+  /** The variant to allocate the percentile range to. */
+  variant: string;
+  /** The lower bound of the percentile range. */
+  from: number;
+  /** The upper bound of the percentile range. */
+  to: number;
+}
+
+/** Allocates users to a feature flag variant. */
+export interface UserAllocation {
+  /** The variant to allocate the users to. */
+  variant: string;
+  /** The users that receive the variant. */
+  users: string[];
+}
+
+/** Allocates groups to a feature flag variant. */
+export interface GroupAllocation {
+  /** The variant to allocate the groups to. */
+  variant: string;
+  /** The groups that receive the variant. */
+  groups: string[];
+}
+
+/** Telemetry configuration for a feature flag. */
+export interface FeatureFlagTelemetryConfiguration {
+  /** Whether telemetry is enabled. */
+  enabled: boolean;
+  /** Metadata to include on outbound telemetry. */
+  metadata?: { [propertyName: string]: string };
+}
+
+/** A feature flag managed through the dedicated feature flag endpoint. */
+export interface FeatureFlag {
+  /** The name of the feature flag. */
+  name: string;
+  /** The enabled state of the feature flag. */
+  enabled: boolean;
+  /** The label the feature flag belongs to. */
+  label?: string;
+  /** The description of the feature flag. */
+  description?: string;
+  /** The conditions of the feature flag. */
+  conditions?: FeatureFlagConditions;
+  /** The variants of the feature flag. */
+  variants?: FeatureFlagVariantDefinition[];
+  /** The allocation of the feature flag. */
+  allocation?: FeatureFlagAllocation;
+  /** The telemetry settings of the feature flag. */
+  telemetry?: FeatureFlagTelemetryConfiguration;
+  /** The tags of the feature flag. */
+  tags?: { [propertyName: string]: string };
+  /** A date representing the last time the feature flag was modified. */
+  readonly lastModified?: Date;
+  /** A value representing the current state of the resource. */
+  readonly etag?: string;
+}
+
+/** Fields that uniquely identify a feature flag. */
+export interface FeatureFlagId {
+  /** The name of the feature flag. */
+  name: string;
+  /** The label the feature flag belongs to. */
+  label?: string;
+  /** A value representing the current state of the resource. */
+  etag?: string;
+}
+
+/** Fields that can be selected when retrieving feature flags. */
+export type FeatureFlagFields = keyof FeatureFlag;
 
 /**
  * Known values for Azure App Configuration Audience
@@ -507,6 +632,18 @@ export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUncha
  */
 export interface AddFeatureFlagOptions extends OperationOptions {}
 
+/** Response from adding a feature flag through the dedicated feature flag endpoint. */
+export interface AddFeatureFlagResponse
+  extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
+
+/** Response from setting a feature flag through the dedicated feature flag endpoint. */
+export interface SetFeatureFlagResponse
+  extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
+
+/** Response from deleting a feature flag through the dedicated feature flag endpoint. */
+export interface DeleteFeatureFlagResponse
+  extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {}
+
 /**
  * Response from retrieving a feature flag through the dedicated feature flag endpoint.
  *
@@ -515,23 +652,19 @@ export interface AddFeatureFlagOptions extends OperationOptions {}
  * that case `statusCode` is `304` and the feature flag fields (other than `name`) are
  * left unset.
  */
-export interface GetFeatureFlagResponse extends FeatureFlag, HttpResponseFields {}
+export type GetFeatureFlagResponse =
+  | (FeatureFlag &
+      SyncTokenHeaderField &
+      HttpResponseField<SyncTokenHeaderField> & { statusCode: 200 })
+  | (Pick<FeatureFlag, "name"> &
+      Partial<Omit<FeatureFlag, "name">> &
+      SyncTokenHeaderField &
+      HttpResponseField<SyncTokenHeaderField> & { statusCode: 304 });
 
 /**
  * Options for getting a feature flag through the dedicated feature flag endpoint.
  */
 export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
-  /**
-   * The label used to identify the feature flag. Leaving this undefined means the
-   * feature flag does not have a label.
-   */
-  label?: string;
-
-  /**
-   * The etag to use for conditional retrieval, in conjunction with `onlyIfChanged`.
-   */
-  etag?: string;
-
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -546,18 +679,7 @@ export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChang
 /**
  * Options for deleting a feature flag through the dedicated feature flag endpoint.
  */
-export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
-  /**
-   * The label used to identify the feature flag. Leaving this undefined means the
-   * feature flag does not have a label.
-   */
-  label?: string;
-
-  /**
-   * The etag to use for conditional delete, in conjunction with `onlyIfUnchanged`.
-   */
-  etag?: string;
-}
+export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
 
 /**
  * Options for listFeatureFlags that allow for filtering based on name, label and tags.
@@ -587,6 +709,9 @@ export interface ListFeatureFlagsOptions extends OperationOptions {
    */
   pageEtags?: string[];
 }
+
+/** Options for checking feature flags for changes without retrieving response bodies. */
+export interface CheckFeatureFlagsOptions extends ListFeatureFlagsOptions {}
 
 /**
  * A page of feature flags and the corresponding HTTP response

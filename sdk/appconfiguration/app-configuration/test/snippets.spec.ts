@@ -306,7 +306,7 @@ describe("snippets", () => {
     });
     // @ts-preserve-whitespace
     // Retrieve a single feature flag.
-    const flag = await client.getFeatureFlag("my-feature");
+    const flag = await client.getFeatureFlag({ name: "my-feature" });
     console.log(`Feature flag ${flag.name} is enabled: ${flag.enabled}`);
     // @ts-preserve-whitespace
     // List all feature flags.
@@ -315,7 +315,7 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // Delete a feature flag.
-    await client.deleteFeatureFlag("my-feature");
+    await client.deleteFeatureFlag({ name: "my-feature" });
   });
 
   it("SetFeatureFlag", async () => {
@@ -347,7 +347,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new FeatureFlagClient(endpoint, credential);
     // @ts-preserve-whitespace
-    const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
+    const featureFlag = await client.getFeatureFlag({ name: "MyFeatureFlag" });
     console.log(`Feature flag ${featureFlag.name} is enabled: ${featureFlag.enabled}`);
   });
 
@@ -356,7 +356,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     const client = new FeatureFlagClient(endpoint, credential);
     // @ts-preserve-whitespace
-    await client.deleteFeatureFlag("MyFeatureFlag");
+    await client.deleteFeatureFlag({ name: "MyFeatureFlag" });
   });
 
   it("ListFeatureFlags", async () => {
@@ -366,6 +366,17 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for await (const featureFlag of client.listFeatureFlags()) {
       console.log(`Feature flag: ${featureFlag.name}`);
+    }
+  });
+
+  it("CheckFeatureFlags", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const pages = client.checkFeatureFlags({ nameFilter: "MyFeatureFlag" }).byPage();
+    for await (const page of pages) {
+      console.log(`Feature flag page etag: ${page.etag}`);
     }
   });
 

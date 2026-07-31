@@ -5,38 +5,26 @@ import type { PagedAsyncIterableIterator, PagedResult, PageSettings } from "@azu
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
-import type { ListFeatureFlagPage } from "../models.js";
+import type { FeatureFlag, ListFeatureFlagPage } from "../models.js";
 import type { AppConfigurationContext } from "../generated/api/appConfigurationContext.js";
-import type { FeatureFlag } from "../generated/models/models.js";
-import type { FeatureFlagClientGetFeatureFlagsOptionalParams } from "../generated/api/featureFlagClient/options.js";
+import type { FeatureFlagClientCheckFeatureFlagsOptionalParams } from "../generated/api/featureFlagClient/options.js";
 import {
-  _getFeatureFlagsDeserialize,
-  _getFeatureFlagsSend,
+  _checkFeatureFlagsDeserialize,
+  _checkFeatureFlagsSend,
 } from "../generated/api/featureFlagClient/operations.js";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
-  extractAfterTokenFromNextLink,
   toFeatureFlagCompatResponse,
 } from "./helpers.js";
 import { logger } from "../logger.js";
 import { tracingClient } from "./tracing.js";
 
-/**
- * Shared implementation of `listFeatureFlags` used by `FeatureFlagClient`.
- *
- * Wraps each page fetch in an operation-level span so tracing behaves
- * consistently with the other public client methods, and supports conditional
- * page retrieval via `pageEtags`: each etag is sent as an `If-None-Match` header
- * for its corresponding page, and an unchanged page (`304 Not Modified`) yields
- * an empty page whose `etag` is preserved.
- *
- * @internal
- */
-export function listFeatureFlags(
+/** @internal */
+export function checkFeatureFlags(
   context: AppConfigurationContext,
   spanName: string,
-  sendParams: FeatureFlagClientGetFeatureFlagsOptionalParams,
+  sendParams: FeatureFlagClientCheckFeatureFlagsOptionalParams,
   pageEtags: string[] | undefined,
   options: OperationOptions = {},
 ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings> {
@@ -45,9 +33,10 @@ export function listFeatureFlags(
     firstPageLink: undefined,
     getPage: async (pageLink: string | undefined) => {
       const etag = remainingPageEtags?.shift();
+      let rawResponse;
       try {
-        const response = await tracingClient.withSpan(spanName, options, async (updatedOptions) => {
-          const rawResponse = await _getFeatureFlagsSend(context, {
+        rawResponse = await tracingClient.withSpan(spanName, options, async (updatedOptions) => {
+          const response = await _checkFeatureFlagsSend(context, {
             ...sendParams,
             ...updatedOptions,
             ...checkAndFormatIfAndIfNoneMatch({ etag }, { onlyIfChanged: true }),
@@ -58,43 +47,44 @@ export function listFeatureFlags(
               skipUrlEncoding: true,
             },
           });
-          const parsed = await _getFeatureFlagsDeserialize(rawResponse);
-          return Object.assign(parsed, { _response: rawResponse });
+          await _checkFeatureFlagsDeserialize(response);
+          return response;
         });
-        const currentResponse: ListFeatureFlagPage = {
-          ...response,
-          items: response.items ?? [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-          _response: toFeatureFlagCompatResponse(response._response),
-        };
+        const compatResponse = toFeatureFlagCompatResponse(rawResponse);
+        const link = compatResponse.headers.get("link");
+        const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
         return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
+          page: {
+            items: [],
+            etag: compatResponse.headers.get("etag"),
+            continuationToken,
+            _response: compatResponse,
+          } as unknown as ListFeatureFlagPage,
+          nextPageLink: continuationToken,
         };
       } catch (error) {
         const err = error as RestError;
-
-        const link = err.response?.headers?.get("link");
-        const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
-
         if (err.statusCode === 304) {
-          err.message = `Status 304: No updates for this page`;
+          const response = rawResponse ?? err.response;
+          if (!response) {
+            throw err;
+          }
+          const compatResponse = toFeatureFlagCompatResponse(response);
+          const link = compatResponse.headers.get("link");
+          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
           logger.info(
-            `[listFeatureFlags] No updates for this page. The current etag for the page is ${etag}`,
+            `[checkFeatureFlags] No updates for this page. The current etag for the page is ${etag}`,
           );
           return {
             page: {
               items: [],
               etag,
               continuationToken,
-              _response: toFeatureFlagCompatResponse(err.response),
+              _response: compatResponse,
             } as unknown as ListFeatureFlagPage,
             nextPageLink: continuationToken,
           };
         }
-
         throw err;
       }
     },

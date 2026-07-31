@@ -20,7 +20,7 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
 
   afterEach(async () => {
     try {
-      await client.deleteFeatureFlag(featureFlagName, { label });
+      await client.deleteFeatureFlag({ name: featureFlagName, label });
     } catch {
       // best-effort cleanup
     }
@@ -37,12 +37,15 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     assert.equal(setResponse.name, featureFlagName);
     assert.equal(setResponse.label, label);
     assert.equal(setResponse.enabled, true);
+    assert.isDefined(setResponse._response);
 
-    const getResponse = await client.getFeatureFlag(featureFlagName, { label });
+    const getResponse = await client.getFeatureFlag({ name: featureFlagName, label });
     assert.equal(getResponse.name, featureFlagName);
     assert.equal(getResponse.label, label);
     assert.equal(getResponse.enabled, true);
     assert.equal(getResponse.description, "a simple feature flag");
+    assert.equal(getResponse.statusCode, 200);
+    assert.isDefined(getResponse._response);
   });
 
   it("can add a feature flag and fails when it already exists", async () => {
@@ -105,7 +108,7 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
 
     await client.setFeatureFlag(richFlag);
 
-    const getResponse = await client.getFeatureFlag(featureFlagName, { label });
+    const getResponse = await client.getFeatureFlag({ name: featureFlagName, label });
     assert.equal(getResponse.name, featureFlagName);
     assert.equal(getResponse.conditions?.requirementType, "All");
     assert.deepEqual(getResponse.conditions?.filters?.map((f) => f.name).sort(), [
@@ -149,7 +152,9 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
 
   it("can delete a feature flag", async () => {
     await client.setFeatureFlag({ name: featureFlagName, label, enabled: true });
-    await client.deleteFeatureFlag(featureFlagName, { label });
+    const deleteResponse = await client.deleteFeatureFlag({ name: featureFlagName, label });
+    assert.isTrue(deleteResponse.statusCode === 200 || deleteResponse.statusCode === 204);
+    assert.isDefined(deleteResponse._response);
 
     let found = false;
     for await (const flag of client.listFeatureFlags({ nameFilter: featureFlagName })) {

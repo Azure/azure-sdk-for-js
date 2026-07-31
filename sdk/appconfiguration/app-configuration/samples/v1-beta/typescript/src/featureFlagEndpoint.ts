@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   });
 
   // Retrieve the feature flag we just created.
-  const retrieved = await client.getFeatureFlag(simpleFlagName);
+  const retrieved = await client.getFeatureFlag({ name: simpleFlagName });
   console.log(`Retrieved feature flag: ${retrieved.name}, enabled: ${retrieved.enabled}`);
 
   // Create a richer feature flag with conditions, variants, allocation, telemetry, and tags.
@@ -91,8 +91,8 @@ export async function main(): Promise<void> {
 
   // Clean up the feature flags we created.
   console.log(`Deleting the sample feature flags`);
-  await client.deleteFeatureFlag(simpleFlagName);
-  await client.deleteFeatureFlag(richFlagName);
+  await client.deleteFeatureFlag({ name: simpleFlagName });
+  await client.deleteFeatureFlag({ name: richFlagName });
 }
 
 main().catch((error) => {

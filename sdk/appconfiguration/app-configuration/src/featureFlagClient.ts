@@ -5,9 +5,13 @@
 /// <reference lib="esnext.asynciterable" />
 
 import type {
+  AddFeatureFlagResponse,
+  CheckFeatureFlagsOptions,
   DeleteFeatureFlagOptions,
+  DeleteFeatureFlagResponse,
   FeatureFlag,
   FeatureFlagClientOptions,
+  FeatureFlagId,
   GetFeatureFlagOptions,
   GetFeatureFlagResponse,
   ListFeatureFlagRevisionsOptions,
@@ -18,20 +22,51 @@ import type {
   ListLabelsPage,
   PageSettings,
   SetFeatureFlagOptions,
+  SetFeatureFlagResponse,
   AddFeatureFlagOptions,
   SettingLabel,
 } from "./models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TokenCredential } from "@azure/core-auth";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { checkAndFormatIfAndIfNoneMatch } from "./internal/helpers.js";
+import {
+  checkAndFormatIfAndIfNoneMatch,
+  formatFeatureFlagFieldsForSelect,
+  toFeatureFlagCompatResponse,
+} from "./internal/helpers.js";
 import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
+import type { FeatureFlag as GeneratedFeatureFlag } from "./generated/models/models.js";
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import { listLabels } from "./internal/listLabels.js";
 import { listFeatureFlags } from "./internal/listFeatureFlags.js";
+import { checkFeatureFlags } from "./internal/checkFeatureFlags.js";
 import { listFeatureFlagRevisions } from "./internal/listFeatureFlagRevisions.js";
 import { tracingClient } from "./internal/tracing.js";
+import {
+  _deleteFeatureFlagDeserialize,
+  _deleteFeatureFlagSend,
+  _getFeatureFlagDeserialize,
+  _getFeatureFlagSend,
+  _putFeatureFlagDeserialize,
+  _putFeatureFlagSend,
+} from "./generated/api/featureFlagClient/operations.js";
+
+function attachRawResponse<T extends object>(value: T, rawResponse: unknown): T {
+  const compatResponse = toFeatureFlagCompatResponse(rawResponse);
+  const response = Object.assign(value, {
+    syncToken: compatResponse.parsedHeaders.syncToken,
+  });
+  Object.defineProperty(response, "_response", {
+    enumerable: false,
+    value: compatResponse,
+  });
+  return response;
+}
+
+function toGeneratedFeatureFlag(featureFlag: FeatureFlag): GeneratedFeatureFlag {
+  return featureFlag as unknown as GeneratedFeatureFlag;
+}
 
 /**
  * Client for managing feature flags through the dedicated feature flag endpoint
@@ -96,7 +131,7 @@ export class FeatureFlagClient {
   setFeatureFlag(
     featureFlag: FeatureFlag,
     options: SetFeatureFlagOptions = {},
-  ): Promise<FeatureFlag> {
+  ): Promise<SetFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.setFeatureFlag",
       options,
@@ -106,9 +141,9 @@ export class FeatureFlagClient {
           { etag: featureFlag.etag },
           { onlyIfUnchanged },
         );
-        return this.client.featureFlagClient.putFeatureFlag(featureFlag.name, {
+        const rawResponse = await _putFeatureFlagSend(this._context, featureFlag.name, {
           ...restOptions,
-          entity: featureFlag,
+          entity: toGeneratedFeatureFlag(featureFlag),
           label: featureFlag.label,
           ifMatch,
           requestOptions: {
@@ -116,6 +151,8 @@ export class FeatureFlagClient {
             skipUrlEncoding: true,
           },
         });
+        const response = await _putFeatureFlagDeserialize(rawResponse);
+        return attachRawResponse(response, rawResponse) as SetFeatureFlagResponse;
       },
     );
   }
@@ -145,15 +182,15 @@ export class FeatureFlagClient {
   addFeatureFlag(
     featureFlag: FeatureFlag,
     options: AddFeatureFlagOptions = {},
-  ): Promise<FeatureFlag> {
+  ): Promise<AddFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.addFeatureFlag",
       options,
       async (updatedOptions) => {
         try {
-          return await this.client.featureFlagClient.putFeatureFlag(featureFlag.name, {
+          const rawResponse = await _putFeatureFlagSend(this._context, featureFlag.name, {
             ...updatedOptions,
-            entity: featureFlag,
+            entity: toGeneratedFeatureFlag(featureFlag),
             label: featureFlag.label,
             ifNoneMatch: "*",
             requestOptions: {
@@ -161,6 +198,8 @@ export class FeatureFlagClient {
               skipUrlEncoding: true,
             },
           });
+          const response = await _putFeatureFlagDeserialize(rawResponse);
+          return attachRawResponse(response, rawResponse) as AddFeatureFlagResponse;
         } catch (error) {
           const err = error as RestError;
           // Service does not return an error message. Raise a 412 error similar to addConfigurationSetting.
@@ -185,31 +224,28 @@ export class FeatureFlagClient {
    * const credential = new DefaultAzureCredential();
    * const client = new FeatureFlagClient(endpoint, credential);
    *
-   * const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
+   * const featureFlag = await client.getFeatureFlag({ name: "MyFeatureFlag" });
    * console.log(`Feature flag ${featureFlag.name} is enabled: ${featureFlag.enabled}`);
    * ```
-   * @param name - The name of the feature flag to retrieve.
+   * @param id - The id of the feature flag to retrieve.
    * @param options - Optional parameters for the request.
    */
   getFeatureFlag(
-    name: string,
+    id: FeatureFlagId,
     options: GetFeatureFlagOptions = {},
   ): Promise<GetFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.getFeatureFlag",
       options,
       async (updatedOptions) => {
-        const { label, etag, acceptDateTime, fields, onlyIfChanged, ...restOptions } =
-          updatedOptions;
-        const { ifMatch, ifNoneMatch } = checkAndFormatIfAndIfNoneMatch(
-          { etag },
-          { onlyIfChanged },
-        );
+        const { acceptDateTime, fields, onlyIfChanged, ...restOptions } = updatedOptions;
+        const { ifMatch, ifNoneMatch } = checkAndFormatIfAndIfNoneMatch(id, { onlyIfChanged });
+        let rawResponse;
         try {
-          const featureFlag = await this.client.featureFlagClient.getFeatureFlag(name, {
+          rawResponse = await _getFeatureFlagSend(this._context, id.name, {
             ...restOptions,
-            label,
-            select: fields,
+            label: id.label,
+            select: formatFeatureFlagFieldsForSelect(fields),
             acceptDatetime: acceptDateTime?.toISOString(),
             ifMatch,
             ifNoneMatch,
@@ -218,13 +254,21 @@ export class FeatureFlagClient {
               skipUrlEncoding: true,
             },
           });
-          return { ...featureFlag, statusCode: 200 };
+          const featureFlag = await _getFeatureFlagDeserialize(rawResponse);
+          return attachRawResponse(
+            { ...featureFlag, statusCode: 200 },
+            rawResponse,
+          ) as GetFeatureFlagResponse;
         } catch (error) {
           const err = error as RestError;
           // 304 only comes back if the user has passed `onlyIfChanged` in their request
           // _and_ the remote feature flag still has the same etag as what the user passed.
           if (err.statusCode === 304) {
-            return { name, statusCode: 304 } as GetFeatureFlagResponse;
+            const response = {
+              name: id.name,
+              statusCode: 304,
+            } as GetFeatureFlagResponse;
+            return attachRawResponse(response, rawResponse ?? err.response!);
           }
           throw err;
         }
@@ -244,31 +288,35 @@ export class FeatureFlagClient {
    * const credential = new DefaultAzureCredential();
    * const client = new FeatureFlagClient(endpoint, credential);
    *
-   * await client.deleteFeatureFlag("MyFeatureFlag");
+   * await client.deleteFeatureFlag({ name: "MyFeatureFlag" });
    * ```
-   * @param name - The name of the feature flag to delete.
+   * @param id - The id of the feature flag to delete.
    * @param options - Optional parameters for the request.
    */
   deleteFeatureFlag(
-    name: string,
+    id: FeatureFlagId,
     options: DeleteFeatureFlagOptions = {},
-  ): Promise<FeatureFlag | undefined> {
+  ): Promise<DeleteFeatureFlagResponse> {
     return tracingClient.withSpan(
       "FeatureFlagClient.deleteFeatureFlag",
       options,
       async (updatedOptions) => {
-        const { label, etag, onlyIfUnchanged, ...restOptions } = updatedOptions;
-        const { ifMatch } = checkAndFormatIfAndIfNoneMatch({ etag }, { onlyIfUnchanged });
-        const response = await this.client.featureFlagClient.deleteFeatureFlag(name, {
+        const { onlyIfUnchanged, ...restOptions } = updatedOptions;
+        const { ifMatch } = checkAndFormatIfAndIfNoneMatch(id, { onlyIfUnchanged });
+        const rawResponse = await _deleteFeatureFlagSend(this._context, id.name, {
           ...restOptions,
-          label,
+          label: id.label,
           ifMatch,
           requestOptions: {
             ...restOptions.requestOptions,
             skipUrlEncoding: true,
           },
         });
-        return response || undefined;
+        await _deleteFeatureFlagDeserialize(rawResponse);
+        return attachRawResponse(
+          { statusCode: Number(rawResponse.status) },
+          rawResponse,
+        ) as DeleteFeatureFlagResponse;
       },
     );
   }
@@ -315,7 +363,53 @@ export class FeatureFlagClient {
         label: labelFilter,
         tags: tagsFilter,
         acceptDatetime: acceptDateTime?.toISOString(),
-        select: fields,
+        select: formatFeatureFlagFieldsForSelect(fields),
+      },
+      pageEtags,
+      restOptions,
+    );
+  }
+
+  /**
+   * Checks feature flags for changes using HEAD requests without retrieving response bodies.
+   *
+   * Example usage:
+   * ```ts snippet:CheckFeatureFlags
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { FeatureFlagClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new FeatureFlagClient(endpoint, credential);
+   *
+   * const pages = client.checkFeatureFlags({ nameFilter: "MyFeatureFlag" }).byPage();
+   * for await (const page of pages) {
+   *   console.log(`Feature flag page etag: ${page.etag}`);
+   * }
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  checkFeatureFlags(
+    options: CheckFeatureFlagsOptions = {},
+  ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings> {
+    const {
+      nameFilter,
+      labelFilter,
+      tagsFilter,
+      acceptDateTime,
+      fields,
+      pageEtags,
+      ...restOptions
+    } = options;
+    return checkFeatureFlags(
+      this._context,
+      "FeatureFlagClient.checkFeatureFlags",
+      {
+        name: nameFilter,
+        label: labelFilter,
+        tags: tagsFilter,
+        acceptDatetime: acceptDateTime?.toISOString(),
+        select: formatFeatureFlagFieldsForSelect(fields),
       },
       pageEtags,
       restOptions,
@@ -353,7 +447,7 @@ export class FeatureFlagClient {
         name: nameFilter,
         label: labelFilter,
         tags: tagsFilter,
-        select: fields,
+        select: formatFeatureFlagFieldsForSelect(fields),
       },
       restOptions,
     );
