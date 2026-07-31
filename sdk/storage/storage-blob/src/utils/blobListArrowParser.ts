@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ArrowTableReader } from "@azure/storage-common";
+import { stringToUint8Array } from "@azure/core-util";
+import type { Table } from "apache-arrow";
 import type {
   BlobItemInternal,
   BlobPrefix as BlobPrefixInternal,
@@ -40,7 +41,7 @@ export async function parseBlobListArrowResponse(response: {
   const table = response.readableStreamBody
     ? await tableFromIPC(response.readableStreamBody)
     : tableFromIPC(await readResponseBodyToBytes(response));
-  return projectArrowTable(new ArrowTableReader(table));
+  return projectArrowTable(table);
 }
 
 /**
@@ -51,84 +52,126 @@ export async function parseBlobListArrowResponse(response: {
  * each column at that row index; the caller projects those to public models. The
  * continuation token travels in the schema metadata (a page-level value, not a column).
  */
-function projectArrowTable(reader: ArrowTableReader): ParsedBlobListArrowSegment {
-  const nextMarker = reader.metadata("NextMarker");
+function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
+  const nextMarker = table.schema.metadata?.get("NextMarker") ?? undefined;
+
+  const getColumn = (columnName: string): { get(rowIndex: number): unknown } | null =>
+    (
+      table as unknown as {
+        getChild(name: string): { get(rowIndex: number): unknown } | null;
+      }
+    ).getChild(columnName);
+
+  const cell = (rowIndex: number, columnName: string): unknown =>
+    getColumn(columnName)?.get(rowIndex);
+
+  const asString = (rowIndex: number, columnName: string): string | undefined => {
+    const value = cell(rowIndex, columnName);
+    return value === undefined || value === null ? undefined : String(value);
+  };
+  const asBoolean = (rowIndex: number, columnName: string): boolean | undefined => {
+    const value = cell(rowIndex, columnName);
+    return value === undefined || value === null ? undefined : Boolean(value);
+  };
+  const asNumber = (rowIndex: number, columnName: string): number | undefined => {
+    const value = cell(rowIndex, columnName);
+    return value === undefined || value === null ? undefined : Number(value);
+  };
+  const asDate = (rowIndex: number, columnName: string): Date | undefined => {
+    const value = cell(rowIndex, columnName);
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+    // apache-arrow normalizes every Timestamp unit to epoch milliseconds when a
+    // cell is read (SECOND x1000, MICROSECOND /1000, NANOSECOND /1e6), so the
+    // value is already in the milliseconds a Date expects and must not be scaled
+    // again. Fall back to string parsing if a column ever arrives non-numeric.
+    const millis = Number(value);
+    if (Number.isNaN(millis)) {
+      const parsed = Date.parse(String(value));
+      return Number.isNaN(parsed) ? undefined : new Date(parsed);
+    }
+    return new Date(millis);
+  };
+  const asBytesFromBase64 = (rowIndex: number, columnName: string): Uint8Array | undefined => {
+    const value = asString(rowIndex, columnName);
+    return value === undefined ? undefined : stringToUint8Array(value, "base64");
+  };
+  const asMap = (rowIndex: number, columnName: string): Record<string, string> | undefined =>
+    toRecord(cell(rowIndex, columnName));
 
   const blobItems: BlobItemInternal[] = [];
   const blobPrefixes: BlobPrefixInternal[] = [];
 
-  for (let i = 0; i < reader.rowCount; i++) {
+  for (let i = 0; i < table.numRows; i++) {
     // BlobPrefix rows only populate the `Name` column; all others are null.
-    const resourceType = reader.string(i, "ResourceType");
+    const resourceType = asString(i, "ResourceType");
     if (resourceType !== undefined && resourceType.toLowerCase() === "blobprefix") {
-      blobPrefixes.push({ name: { content: reader.string(i, "Name") ?? "" } });
+      blobPrefixes.push({ name: { content: asString(i, "Name") ?? "" } });
       continue;
     }
 
     const properties: BlobPropertiesInternal = {
-      createdOn: reader.date(i, "Creation-Time"),
-      lastModified: reader.date(i, "Last-Modified") ?? new Date(0),
-      etag: reader.string(i, "Etag") ?? "",
-      contentLength: reader.number(i, "Content-Length"),
-      contentType: reader.string(i, "Content-Type"),
-      contentEncoding: reader.string(i, "Content-Encoding"),
-      contentLanguage: reader.string(i, "Content-Language"),
-      contentMD5: reader.bytesFromBase64(i, "Content-MD5"),
-      contentDisposition: reader.string(i, "Content-Disposition"),
-      cacheControl: reader.string(i, "Cache-Control"),
-      blobSequenceNumber: reader.number(i, "x-ms-blob-sequence-number"),
-      blobType: reader.string(i, "BlobType") as BlobPropertiesInternal["blobType"],
-      leaseStatus: reader.string(i, "LeaseStatus") as BlobPropertiesInternal["leaseStatus"],
-      leaseState: reader.string(i, "LeaseState") as BlobPropertiesInternal["leaseState"],
-      leaseDuration: reader.string(i, "LeaseDuration") as BlobPropertiesInternal["leaseDuration"],
-      copyId: reader.string(i, "CopyId"),
-      copyStatus: reader.string(i, "CopyStatus") as BlobPropertiesInternal["copyStatus"],
-      copySource: reader.string(i, "CopySource"),
-      copyProgress: reader.string(i, "CopyProgress"),
-      copyCompletedOn: reader.date(i, "CopyCompletionTime"),
-      copyStatusDescription: reader.string(i, "CopyStatusDescription"),
-      serverEncrypted: reader.boolean(i, "ServerEncrypted"),
-      incrementalCopy: reader.boolean(i, "IncrementalCopy"),
-      destinationSnapshot: reader.string(i, "CopyDestinationSnapshot"),
-      deletedOn: reader.date(i, "DeletedTime"),
-      remainingRetentionDays: reader.number(i, "RemainingRetentionDays"),
-      accessTier: reader.string(i, "AccessTier") as BlobPropertiesInternal["accessTier"],
-      accessTierInferred: reader.boolean(i, "AccessTierInferred"),
-      archiveStatus: reader.string(i, "ArchiveStatus") as BlobPropertiesInternal["archiveStatus"],
-      smartAccessTier: reader.string(
-        i,
-        "SmartAccessTier",
-      ) as BlobPropertiesInternal["smartAccessTier"],
-      customerProvidedKeySha256: reader.string(i, "CustomerProvidedKeySha256"),
-      encryptionScope: reader.string(i, "EncryptionScope"),
-      accessTierChangedOn: reader.date(i, "AccessTierChangeTime"),
-      tagCount: reader.number(i, "TagCount"),
-      expiresOn: reader.date(i, "Expiry-Time"),
-      isSealed: reader.boolean(i, "Sealed"),
-      rehydratePriority: reader.string(
+      createdOn: asDate(i, "Creation-Time"),
+      lastModified: asDate(i, "Last-Modified") ?? new Date(0),
+      etag: asString(i, "Etag") ?? "",
+      contentLength: asNumber(i, "Content-Length"),
+      contentType: asString(i, "Content-Type"),
+      contentEncoding: asString(i, "Content-Encoding"),
+      contentLanguage: asString(i, "Content-Language"),
+      contentMD5: asBytesFromBase64(i, "Content-MD5"),
+      contentDisposition: asString(i, "Content-Disposition"),
+      cacheControl: asString(i, "Cache-Control"),
+      blobSequenceNumber: asNumber(i, "x-ms-blob-sequence-number"),
+      blobType: asString(i, "BlobType") as BlobPropertiesInternal["blobType"],
+      leaseStatus: asString(i, "LeaseStatus") as BlobPropertiesInternal["leaseStatus"],
+      leaseState: asString(i, "LeaseState") as BlobPropertiesInternal["leaseState"],
+      leaseDuration: asString(i, "LeaseDuration") as BlobPropertiesInternal["leaseDuration"],
+      copyId: asString(i, "CopyId"),
+      copyStatus: asString(i, "CopyStatus") as BlobPropertiesInternal["copyStatus"],
+      copySource: asString(i, "CopySource"),
+      copyProgress: asString(i, "CopyProgress"),
+      copyCompletedOn: asDate(i, "CopyCompletionTime"),
+      copyStatusDescription: asString(i, "CopyStatusDescription"),
+      serverEncrypted: asBoolean(i, "ServerEncrypted"),
+      incrementalCopy: asBoolean(i, "IncrementalCopy"),
+      destinationSnapshot: asString(i, "CopyDestinationSnapshot"),
+      deletedOn: asDate(i, "DeletedTime"),
+      remainingRetentionDays: asNumber(i, "RemainingRetentionDays"),
+      accessTier: asString(i, "AccessTier") as BlobPropertiesInternal["accessTier"],
+      accessTierInferred: asBoolean(i, "AccessTierInferred"),
+      archiveStatus: asString(i, "ArchiveStatus") as BlobPropertiesInternal["archiveStatus"],
+      smartAccessTier: asString(i, "SmartAccessTier") as BlobPropertiesInternal["smartAccessTier"],
+      customerProvidedKeySha256: asString(i, "CustomerProvidedKeySha256"),
+      encryptionScope: asString(i, "EncryptionScope"),
+      accessTierChangedOn: asDate(i, "AccessTierChangeTime"),
+      tagCount: asNumber(i, "TagCount"),
+      expiresOn: asDate(i, "Expiry-Time"),
+      isSealed: asBoolean(i, "Sealed"),
+      rehydratePriority: asString(
         i,
         "RehydratePriority",
       ) as BlobPropertiesInternal["rehydratePriority"],
-      lastAccessedOn: reader.date(i, "LastAccessTime"),
-      immutabilityPolicyExpiresOn: reader.date(i, "ImmutabilityPolicyUntilDate"),
-      immutabilityPolicyMode: reader.string(
+      lastAccessedOn: asDate(i, "LastAccessTime"),
+      immutabilityPolicyExpiresOn: asDate(i, "ImmutabilityPolicyUntilDate"),
+      immutabilityPolicyMode: asString(
         i,
         "ImmutabilityPolicyMode",
       ) as BlobPropertiesInternal["immutabilityPolicyMode"],
-      legalHold: reader.boolean(i, "LegalHold"),
+      legalHold: asBoolean(i, "LegalHold"),
     };
 
     blobItems.push({
-      name: { content: reader.string(i, "Name") ?? "" },
-      deleted: reader.boolean(i, "Deleted") ?? false,
-      snapshot: reader.string(i, "Snapshot") ?? "",
-      versionId: reader.string(i, "VersionId"),
-      isCurrentVersion: reader.boolean(i, "IsCurrentVersion"),
+      name: { content: asString(i, "Name") ?? "" },
+      deleted: asBoolean(i, "Deleted") ?? false,
+      snapshot: asString(i, "Snapshot") ?? "",
+      versionId: asString(i, "VersionId"),
+      isCurrentVersion: asBoolean(i, "IsCurrentVersion"),
       properties,
-      metadata: reader.map(i, "Metadata"),
-      blobTags: toBlobTags(reader.map(i, "Tags")),
-      objectReplicationMetadata: reader.map(i, "OrMetadata"),
-      hasVersionsOnly: reader.boolean(i, "HasVersionsOnly"),
+      metadata: asMap(i, "Metadata"),
+      blobTags: toBlobTags(asMap(i, "Tags")),
+      objectReplicationMetadata: asMap(i, "OrMetadata"),
+      hasVersionsOnly: asBoolean(i, "HasVersionsOnly"),
     });
   }
 
@@ -144,4 +187,32 @@ function toBlobTags(map: Record<string, string> | undefined): BlobTags | undefin
   return map === undefined
     ? undefined
     : { blobTagSet: Object.entries(map).map(([key, value]) => ({ key, value })) };
+}
+
+/**
+ * Converts an Apache Arrow map cell into a plain string dictionary. Handles the
+ * possible shapes an arrow map value can take (iterable of `[key, value]` pairs,
+ * iterable of `{ key, value }` structs, or a plain object).
+ */
+function toRecord(value: unknown): Record<string, string> | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const entries: Array<[string, string]> = [];
+  const asText = (v: unknown): string => (v === undefined || v === null ? "" : String(v));
+  if (typeof (value as { [Symbol.iterator]?: unknown })[Symbol.iterator] === "function") {
+    for (const entry of value as Iterable<unknown>) {
+      if (Array.isArray(entry)) {
+        entries.push([String(entry[0]), asText(entry[1])]);
+      } else if (entry && typeof entry === "object" && "key" in entry) {
+        const { key, value: entryValue } = entry as { key: unknown; value: unknown };
+        entries.push([String(key), asText(entryValue)]);
+      }
+    }
+  } else if (typeof value === "object") {
+    for (const [key, entryValue] of Object.entries(value as Record<string, unknown>)) {
+      entries.push([key, asText(entryValue)]);
+    }
+  }
+  return Object.fromEntries(entries);
 }
