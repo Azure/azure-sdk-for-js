@@ -461,7 +461,11 @@ export class MessageSession extends LinkEntity<Receiver> {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translateServiceBusError(receiverError) as MessagingError;
-        if (sbError.code === "SessionLockLostError") {
+        // translateServiceBusError normalizes the code to "SessionLockLost" (the AMQP
+        // condition maps to "SessionLockLostError", which the ServiceBusError constructor
+        // then normalizes), so the check compares against the normalized value; comparing
+        // against "SessionLockLostError" never matched and left the message un-enriched.
+        if (sbError.code === "SessionLockLost") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
         this._lastSBError = sbError;

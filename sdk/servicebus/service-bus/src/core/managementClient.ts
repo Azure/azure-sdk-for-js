@@ -22,12 +22,7 @@ import type {
   RetryOptions,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import {
-  ConditionErrorNameMapper,
-  Constants,
-  defaultCancellableLock,
-  RequestResponseLink,
-} from "@azure/core-amqp";
+import { Constants, defaultCancellableLock, RequestResponseLink } from "@azure/core-amqp";
 import type { ConnectionContext } from "../connectionContext.js";
 import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../serviceBusMessage.js";
 import {
@@ -616,8 +611,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         error,
         `${this.logPrefix} An error occurred while sending the request to peek messages to $management endpoint`,
       );
-      // statusCode == 404 then do not throw
-      if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
+      // A message-not-found rejection means there is nothing to peek, so return the
+      // empty list rather than throwing, matching .NET. translateServiceBusError
+      // normalizes the code to "MessageNotFound" (the AMQP condition maps to
+      // "MessageNotFoundError", which the ServiceBusError constructor then normalizes),
+      // so the check compares against the normalized value.
+      if (error.code !== "MessageNotFound") {
         throw error;
       }
     }
