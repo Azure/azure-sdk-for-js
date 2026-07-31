@@ -68,12 +68,7 @@ export interface JobOperationState<TResult> extends OperationState<TResult> {
 }
 
 /** A poller for a long-running operation that creates a job resource. */
-export type JobPoller<TResult> = Omit<
-  PollerLike<OperationState<TResult>, TResult>,
-  "operationState"
-> & {
-  readonly operationState: JobOperationState<TResult> | undefined;
-};
+export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
 
 /**
  * Builds a {@link JobPoller} that records the created job's id from the initial response.
