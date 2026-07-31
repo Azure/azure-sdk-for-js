@@ -422,9 +422,6 @@ importers:
       '@azure/storage-blob':
         specifier: ^12.27.0
         version: link:../../../sdk/storage/storage-blob
-      '@fastify/multipart':
-        specifier: ^9.0.3
-        version: 9.4.0
       '@hapi/boom':
         specifier: ^10.0.1
         version: 10.0.1
@@ -439,7 +436,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@eslint/js':
-        specifier: 'catalog:'
+        specifier: ^10.0.1
         version: 10.0.1(eslint@10.8.0)
       '@types/node':
         specifier: ^22.0.0
@@ -448,16 +445,16 @@ importers:
         specifier: ^4.0.0
         version: 4.1.10(vitest@4.1.10)
       eslint:
-        specifier: 'catalog:'
+        specifier: ^10.8.0
         version: 10.8.0
       pino-pretty:
         specifier: ^13.1.1
         version: 13.1.3
       prettier:
-        specifier: 'catalog:'
+        specifier: ^3.9.1
         version: 3.9.6
       rimraf:
-        specifier: 'catalog:'
+        specifier: ^6.1.0
         version: 6.1.3
       tsx:
         specifier: ^4.17.0
@@ -466,7 +463,7 @@ importers:
         specifier: ~6.0.2
         version: 6.0.3
       typescript-eslint:
-        specifier: 'catalog:'
+        specifier: ~8.65.0
         version: 8.65.0(eslint@10.8.0)(typescript@6.0.3)
       vitest:
         specifier: ^4.0.0
@@ -36468,12 +36465,6 @@ packages:
   '@fastify/ajv-compiler@4.0.5':
     resolution: {integrity: sha1-/bCIenr1GrqujBgp6AmdNPjd0wI=}
 
-  '@fastify/busboy@3.2.0':
-    resolution: {integrity: sha1-E+2CEvO5uml2EVKdFTR/hSgFjOo=}
-
-  '@fastify/deepmerge@3.2.1':
-    resolution: {integrity: sha1-D+VqTuPuyHRVYAZDn3vH1hbxDcE=}
-
   '@fastify/error@4.2.0':
     resolution: {integrity: sha1-1A9GunX1Qf3MTcJ2tzCLvI6ObXo=}
 
@@ -36485,9 +36476,6 @@ packages:
 
   '@fastify/merge-json-schemas@0.2.1':
     resolution: {integrity: sha1-OqMNLwyBqKxZlbbZTtTqosMFWCQ=}
-
-  '@fastify/multipart@9.4.0':
-    resolution: {integrity: sha1-vlDn0S2YnLQrg1peRuCLQKtbByg=}
 
   '@fastify/proxy-addr@5.1.0':
     resolution: {integrity: sha1-9TYLXdg8fePUG0Fb5Kq4SuRKoQY=}
@@ -39063,9 +39051,6 @@ packages:
   fast-xml-parser@5.10.1:
     resolution: {integrity: sha1-GTE/fJOGxH+kod5SdUe3PtLPzt4=}
     hasBin: true
-
-  fastify-plugin@5.1.0:
-    resolution: {integrity: sha1-cIPgOdZBhBX5pmn4wl5y/Fvy0+c=}
 
   fastify@5.10.0:
     resolution: {integrity: sha1-PJSlJDklmmaInbrRTg/D1rG8k04=}
@@ -43086,10 +43071,6 @@ snapshots:
       ajv-formats: 3.0.1(ajv@8.20.0)
       fast-uri: 3.1.4
 
-  '@fastify/busboy@3.2.0': {}
-
-  '@fastify/deepmerge@3.2.1': {}
-
   '@fastify/error@4.2.0': {}
 
   '@fastify/fast-json-stringify-compiler@5.1.0':
@@ -43101,14 +43082,6 @@ snapshots:
   '@fastify/merge-json-schemas@0.2.1':
     dependencies:
       dequal: 2.0.3
-
-  '@fastify/multipart@9.4.0':
-    dependencies:
-      '@fastify/busboy': 3.2.0
-      '@fastify/deepmerge': 3.2.1
-      '@fastify/error': 4.2.0
-      fastify-plugin: 5.1.0
-      secure-json-parse: 4.1.0
 
   '@fastify/proxy-addr@5.1.0':
     dependencies:
@@ -46047,8 +46020,6 @@ snapshots:
       path-expression-matcher: 1.6.2
       strnum: 2.4.1
       xml-naming: 0.3.0
-
-  fastify-plugin@5.1.0: {}
 
   fastify@5.10.0:
     dependencies:
