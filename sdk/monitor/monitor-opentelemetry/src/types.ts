@@ -65,7 +65,8 @@ export interface InstrumentationOptions {
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
   /** Console Instrumentation Config. `logSeverity` takes precedence over the
-   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. */
+   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable,
+   * including when that variable is set to `NONE`. */
   console?: ConsoleInstrumentationConfig;
 }
 

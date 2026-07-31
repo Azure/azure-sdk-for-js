@@ -4,6 +4,7 @@
 import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
 import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
 import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -414,6 +415,38 @@ describe("Main functions", () => {
     assert.notOk(
       instrumentations & StatsbeatInstrumentation.CONSOLE,
       "CONSOLE should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.BUNYAN,
+      "BUNYAN should not be reported when the logging level is NONE",
+    );
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.WINSTON,
+      "WINSTON should not be reported when the logging level is NONE",
+    );
+    await shutdownAzureMonitor();
+  });
+
+  it("should report the Console instrumentation in Statsbeat when logSeverity overrides a NONE logging level", async () => {
+    const env = <{ [id: string]: string }>{};
+    env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        console: { enabled: true, logSeverity: SeverityNumber.ERROR },
+        bunyan: { enabled: true },
+        winston: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.CONSOLE,
+      "CONSOLE should be reported when logSeverity is explicitly configured",
     );
     assert.notOk(
       instrumentations & StatsbeatInstrumentation.BUNYAN,

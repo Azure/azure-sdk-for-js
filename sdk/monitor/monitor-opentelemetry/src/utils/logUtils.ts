@@ -12,6 +12,17 @@ export function isLogCollectionDisabled(): boolean {
 }
 
 /**
+ * Checks whether console log collection is disabled. An explicitly configured
+ * `logSeverity` always takes precedence over the
+ * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable,
+ * including when that variable is set to `NONE`.
+ * @internal
+ */
+export function isConsoleCollectionDisabled(logSeverity?: SeverityNumber): boolean {
+  return isLogCollectionDisabled() && logSeverity === undefined;
+}
+
+/**
  * Convert log level to severity number.
  * @internal
  */

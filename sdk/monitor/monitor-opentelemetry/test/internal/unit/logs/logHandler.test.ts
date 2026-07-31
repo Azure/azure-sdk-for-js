@@ -318,6 +318,44 @@ describe("LogHandler", () => {
       );
       delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     });
+
+    it("should prefer an explicitly configured console logSeverity over a NONE logging level", () => {
+      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "NONE";
+      const config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.console = {
+        enabled: true,
+        logSeverity: SeverityNumber.ERROR,
+      };
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      config.instrumentationOptions.winston = {
+        enabled: true,
+      };
+      const logHandler = new LogHandler(config, metricHandler);
+      assert.strictEqual(
+        logHandler.getInstrumentations().length,
+        1,
+        "Only the explicitly configured console instrumentation should be registered",
+      );
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-console",
+        "Console instrumentation should be registered despite the NONE logging level",
+      );
+      assert.strictEqual(
+        (logHandler.getInstrumentations()[0].getConfig() as ConsoleInstrumentationConfig)
+          .logSeverity,
+        SeverityNumber.ERROR,
+      );
+      assert.isDefined(
+        logHandler.getConsoleInstrumentation(),
+        "Console instrumentation should be created when logSeverity is explicitly configured",
+      );
+      delete process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    });
   });
 
   describe("#console collection", () => {
