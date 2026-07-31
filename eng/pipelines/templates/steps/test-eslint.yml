@@ -1,0 +1,19 @@
+parameters:
+  ServiceDirectory: ''
+
+steps:
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
+
+  - script: |
+      pnpm install
+    displayName: "Install library dependencies"
+
+  - pwsh: |
+      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/monitor-opentelemetry-exporter...
+      $env:FORCE_COLOR = "1"
+      node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}"
+    displayName: "Build ESLint Plugin and Lint Libraries"
+
+  - pwsh: |
+      pnpm test --filter @azure/eslint-plugin-azure-sdk...
+    displayName: "Run ESLint Plugin Unit Tests"

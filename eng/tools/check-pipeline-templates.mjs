@@ -24,36 +24,56 @@ const pipelinesDir = path.join(repoRoot, "eng", "pipelines");
 
 const PRELUDE = path.join(pipelinesDir, "templates", "steps", "common.yml");
 
+/** Directories that never contain ADO pipeline definitions. */
+const SKIP_DIRS = new Set(["node_modules", ".git", "dist", "dist-esm", "dist-test"]);
+
 /** Collect every *.yml under a directory. */
 function listYaml(dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (SKIP_DIRS.has(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...listYaml(full));
-    else if (entry.name.endsWith(".yml")) out.push(full);
+    // *.template.yml files are scaffolding for generated pipelines; their
+    // relative paths resolve from the generated file's location, not their own.
+    else if (entry.name.endsWith(".yml") && !entry.name.endsWith(".template.yml")) out.push(full);
   }
   return out;
 }
 
 /**
  * Extract `- template: <ref>` references from a file, ignoring commented lines.
- * Returns absolute paths for refs that resolve inside eng/pipelines.
+ *
+ * Returns `{ resolved, missing }`. A reference is only considered resolvable
+ * when it targets this repo: refs carrying a repository alias other than
+ * `@self` live in another repo, and refs built from template expressions can't
+ * be resolved statically, so both are ignored.
  */
 function templateRefs(file) {
-  const refs = [];
+  const resolved = [];
+  const missing = [];
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
+
   for (const line of lines) {
     if (/^\s*#/.test(line)) continue;
     const match = /^\s*-?\s*template:\s*(\S+)\s*$/.exec(line);
     if (!match) continue;
-    // Strip a repository alias suffix such as "@self".
-    const ref = match[1].split("@")[0];
-    const resolved = ref.startsWith("/")
+
+    const raw = match[1];
+    if (raw.includes("${{")) continue; // built at compile time, not statically knowable
+
+    const [ref, alias] = raw.split("@");
+    if (alias && alias !== "self") continue; // lives in another repository
+
+    const target = ref.startsWith("/")
       ? path.join(repoRoot, ref.slice(1))
       : path.resolve(path.dirname(file), ref);
-    if (fs.existsSync(resolved)) refs.push(resolved);
+
+    if (fs.existsSync(target)) resolved.push(target);
+    else missing.push({ file, ref: raw, target });
   }
-  return refs;
+
+  return { resolved, missing };
 }
 
 /**
@@ -68,7 +88,7 @@ function preludeCount(file, stack = new Set()) {
 
   stack.add(file);
   let total = 0;
-  for (const ref of templateRefs(file)) total += preludeCount(ref, stack);
+  for (const ref of templateRefs(file).resolved) total += preludeCount(ref, stack);
   stack.delete(file);
 
   preludeCountCache.set(file, total);
@@ -77,16 +97,32 @@ function preludeCount(file, stack = new Set()) {
 
 const failures = [];
 
-for (const file of listYaml(pipelinesDir)) {
-  if (file === PRELUDE) continue;
+// Check 1: no dangling template references.
+//
+// Pipeline definitions live all over the repo (sdk/*/ci.yml,
+// common/tools/*/ci.yml, ...), not just under eng/pipelines, so this scans the
+// whole tree. Deleting a "unused" template that is actually referenced from
+// outside eng/ is otherwise invisible until the pipeline fails to compile.
+for (const file of listYaml(repoRoot)) {
+  for (const { ref, target } of templateRefs(file).missing) {
+    failures.push(
+      `${path.relative(repoRoot, file)} references template "${ref}", which does not exist ` +
+        `(looked for ${path.relative(repoRoot, target)}).`,
+    );
+  }
+}
 
-  // Only step templates are checked. A job/stage file may legitimately include
-  // the prelude several times - once per job it declares (jobs/ci.yml declares
-  // both "Build" and "Analyze", for example). Counting those correctly would
-  // mean modelling job boundaries, and it isn't necessary: once no step
-  // template pulls in the prelude, the only remaining includes are the explicit
-  // per-job ones, which are obvious in review.
-  if (path.dirname(file) !== path.join(pipelinesDir, "templates", "steps")) continue;
+// Check 2: step templates must not pull in the job prelude.
+//
+// A job/stage file may legitimately include the prelude several times - once
+// per job it declares (jobs/ci.yml declares both "Build" and "Analyze", for
+// example). Counting those correctly would mean modelling job boundaries, and
+// it isn't necessary: once no step template pulls in the prelude, the only
+// remaining includes are the explicit per-job ones, which are obvious in review.
+const stepsDir = path.join(pipelinesDir, "templates", "steps");
+
+for (const file of listYaml(stepsDir)) {
+  if (file === PRELUDE) continue;
 
   const count = preludeCount(file);
   if (count > 0) {
@@ -99,13 +135,13 @@ for (const file of listYaml(pipelinesDir)) {
 }
 
 if (failures.length > 0) {
-  console.error("Pipeline template prelude check failed:\n");
+  console.error("Pipeline template check failed:\n");
   for (const failure of failures) console.error(`  - ${failure}`);
   console.error(
-    "\nADO does not de-duplicate step templates, so a nested common.yml makes " +
-      "UseNode and npmAuthenticate run repeatedly in the same job.",
+    "\nNote that ADO does not de-duplicate step templates, so a nested common.yml " +
+      "makes UseNode and npmAuthenticate run repeatedly in the same job.",
   );
   process.exit(1);
 }
 
-console.log("Pipeline template prelude check passed.");
+console.log("Pipeline template check passed.");
