@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeZonesContext } from "../../api/edgeZonesContext.js";
+import { EdgeZonesContext } from "../../api/edgeZonesContext.js";
 import {
   unregister,
   register,
   listBySubscription,
   get,
 } from "../../api/extendedZones/operations.js";
-import type {
+import {
   ExtendedZonesUnregisterOptionalParams,
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesListBySubscriptionOptionalParams,
   ExtendedZonesGetOptionalParams,
 } from "../../api/extendedZones/options.js";
-import type { ExtendedZone } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ExtendedZone } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtendedZones operations. */
 export interface ExtendedZonesOperations {
