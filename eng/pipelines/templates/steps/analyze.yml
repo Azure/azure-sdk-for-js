@@ -4,8 +4,8 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/pipelines/templates/steps/common.yml
-  
+  # NOTE: common.yml is job-scoped and is included by the job template that
+  # consumes this file (jobs/ci.yml). Do not include it here.
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -39,6 +39,10 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
+
+  - pwsh: |
+      node eng/tools/check-pipeline-templates.mjs
+    displayName: "Check pipeline template structure"
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
