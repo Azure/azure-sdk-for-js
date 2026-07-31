@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `instrumentationOptions.console` now accepts a `logSeverity` value. When set, it takes precedence over the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable — including when that variable is set to `NONE` — so console log severity can be configured programmatically. Bunyan and Winston instrumentations continue to honor `NONE`.
+- `instrumentationOptions.console` now accepts a `logSeverity` value. When set, it takes precedence over the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable — including when that variable is set to `NONE` — so console log severity can be configured programmatically. Bunyan and Winston instrumentations continue to honor `NONE`. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
 
 ## 1.19.0 (2026-07-29)
 
