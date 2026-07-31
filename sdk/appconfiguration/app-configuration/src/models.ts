@@ -212,14 +212,20 @@ export interface FeatureFlagTelemetryConfiguration {
   metadata?: { [propertyName: string]: string };
 }
 
-/** A feature flag managed through the dedicated feature flag endpoint. */
-export interface FeatureFlag {
+/** Fields that uniquely identify a feature flag. */
+export interface FeatureFlagId {
   /** The name of the feature flag. */
   name: string;
-  /** The enabled state of the feature flag. */
-  enabled: boolean;
   /** The label the feature flag belongs to. */
   label?: string;
+  /** A value representing the current state of the resource. */
+  etag?: string;
+}
+
+/** Necessary fields for updating or creating a feature flag. */
+export type FeatureFlagParam = FeatureFlagId & {
+  /** The enabled state of the feature flag. */
+  enabled: boolean;
   /** The description of the feature flag. */
   description?: string;
   /** The conditions of the feature flag. */
@@ -232,21 +238,13 @@ export interface FeatureFlag {
   telemetry?: FeatureFlagTelemetryConfiguration;
   /** The tags of the feature flag. */
   tags?: { [propertyName: string]: string };
+};
+
+/** A feature flag managed through the dedicated feature flag endpoint. */
+export type FeatureFlag = FeatureFlagParam & {
   /** A date representing the last time the feature flag was modified. */
   readonly lastModified?: Date;
-  /** A value representing the current state of the resource. */
-  readonly etag?: string;
-}
-
-/** Fields that uniquely identify a feature flag. */
-export interface FeatureFlagId {
-  /** The name of the feature flag. */
-  name: string;
-  /** The label the feature flag belongs to. */
-  label?: string;
-  /** A value representing the current state of the resource. */
-  etag?: string;
-}
+};
 
 /** Fields that can be selected when retrieving feature flags. */
 export type FeatureFlagFields = keyof FeatureFlag;
@@ -632,6 +630,12 @@ export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUncha
  */
 export interface AddFeatureFlagOptions extends OperationOptions {}
 
+/** Parameters for adding a feature flag through the dedicated feature flag endpoint. */
+export type AddFeatureFlagParam = FeatureFlagParam;
+
+/** Parameters for creating or updating a feature flag through the dedicated feature flag endpoint. */
+export type SetFeatureFlagParam = FeatureFlagParam;
+
 /** Response from adding a feature flag through the dedicated feature flag endpoint. */
 export interface AddFeatureFlagResponse
   extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
@@ -745,7 +749,7 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
  * A page of feature flag revisions and the corresponding HTTP response
  */
 export interface ListFeatureFlagRevisionsPage
-  extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
   /**
    * The feature flag revisions for this page of results.
    */

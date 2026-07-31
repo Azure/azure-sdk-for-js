@@ -31,6 +31,9 @@ export interface AddFeatureFlagOptions extends OperationOptions {
 }
 
 // @public
+export type AddFeatureFlagParam = FeatureFlagParam;
+
+// @public
 export interface AddFeatureFlagResponse extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
@@ -160,21 +163,9 @@ export interface EtagEntity {
 }
 
 // @public
-export interface FeatureFlag {
-    allocation?: FeatureFlagAllocation;
-    conditions?: FeatureFlagConditions;
-    description?: string;
-    enabled: boolean;
-    readonly etag?: string;
-    label?: string;
+export type FeatureFlag = FeatureFlagParam & {
     readonly lastModified?: Date;
-    name: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    telemetry?: FeatureFlagTelemetryConfiguration;
-    variants?: FeatureFlagVariantDefinition[];
-}
+};
 
 // @public
 export interface FeatureFlagAllocation {
@@ -190,14 +181,14 @@ export interface FeatureFlagAllocation {
 export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
-    addFeatureFlag(featureFlag: FeatureFlag, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
+    addFeatureFlag(featureFlag: AddFeatureFlagParam, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
     checkFeatureFlags(options?: CheckFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     deleteFeatureFlag(id: FeatureFlagId, options?: DeleteFeatureFlagOptions): Promise<DeleteFeatureFlagResponse>;
     getFeatureFlag(id: FeatureFlagId, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
-    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
+    setFeatureFlag(featureFlag: SetFeatureFlagParam, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
 }
 
 // @public
@@ -230,6 +221,19 @@ export interface FeatureFlagId {
     label?: string;
     name: string;
 }
+
+// @public
+export type FeatureFlagParam = FeatureFlagId & {
+    enabled: boolean;
+    description?: string;
+    conditions?: FeatureFlagConditions;
+    variants?: FeatureFlagVariantDefinition[];
+    allocation?: FeatureFlagAllocation;
+    telemetry?: FeatureFlagTelemetryConfiguration;
+    tags?: {
+        [propertyName: string]: string;
+    };
+};
 
 // @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
@@ -409,7 +413,7 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
 }
 
 // @public
-export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
     items: FeatureFlag[];
 }
 
@@ -535,6 +539,9 @@ export interface SetConfigurationSettingResponse extends ConfigurationSetting, S
 // @public
 export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
 }
+
+// @public
+export type SetFeatureFlagParam = FeatureFlagParam;
 
 // @public
 export interface SetFeatureFlagResponse extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {

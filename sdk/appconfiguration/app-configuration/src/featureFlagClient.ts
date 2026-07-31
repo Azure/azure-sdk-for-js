@@ -5,6 +5,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import type {
+  AddFeatureFlagParam,
   AddFeatureFlagResponse,
   CheckFeatureFlagsOptions,
   DeleteFeatureFlagOptions,
@@ -12,6 +13,7 @@ import type {
   FeatureFlag,
   FeatureFlagClientOptions,
   FeatureFlagId,
+  FeatureFlagParam,
   GetFeatureFlagOptions,
   GetFeatureFlagResponse,
   ListFeatureFlagRevisionsOptions,
@@ -21,6 +23,7 @@ import type {
   ListLabelsOptions,
   ListLabelsPage,
   PageSettings,
+  SetFeatureFlagParam,
   SetFeatureFlagOptions,
   SetFeatureFlagResponse,
   AddFeatureFlagOptions,
@@ -64,7 +67,7 @@ function attachRawResponse<T extends object>(value: T, rawResponse: unknown): T 
   return response;
 }
 
-function toGeneratedFeatureFlag(featureFlag: FeatureFlag): GeneratedFeatureFlag {
+function toGeneratedFeatureFlag(featureFlag: FeatureFlagParam): GeneratedFeatureFlag {
   return featureFlag as unknown as GeneratedFeatureFlag;
 }
 
@@ -129,7 +132,7 @@ export class FeatureFlagClient {
    * @param options - Optional parameters for the request.
    */
   setFeatureFlag(
-    featureFlag: FeatureFlag,
+    featureFlag: SetFeatureFlagParam,
     options: SetFeatureFlagOptions = {},
   ): Promise<SetFeatureFlagResponse> {
     return tracingClient.withSpan(
@@ -180,7 +183,7 @@ export class FeatureFlagClient {
    * @param options - Optional parameters for the request.
    */
   addFeatureFlag(
-    featureFlag: FeatureFlag,
+    featureFlag: AddFeatureFlagParam,
     options: AddFeatureFlagOptions = {},
   ): Promise<AddFeatureFlagResponse> {
     return tracingClient.withSpan(

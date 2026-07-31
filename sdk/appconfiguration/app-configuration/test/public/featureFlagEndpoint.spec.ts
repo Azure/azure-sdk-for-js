@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FeatureFlag, FeatureFlagClient } from "../../src/index.js";
+import type { FeatureFlagClient, FeatureFlagParam } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createFeatureFlagClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -70,7 +70,7 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
   });
 
   it("can set and get a rich feature flag", async () => {
-    const richFlag: FeatureFlag = {
+    const richFlag: FeatureFlagParam = {
       name: featureFlagName,
       label,
       enabled: true,
@@ -141,11 +141,15 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
     await client.setFeatureFlag({ name: featureFlagName, label, enabled: true });
 
     const revisions: FeatureFlag[] = [];
-    for await (const revision of client.listFeatureFlagRevisions({
-      nameFilter: featureFlagName,
-      labelFilter: label,
-    })) {
-      revisions.push(revision);
+    const pages = client
+      .listFeatureFlagRevisions({
+        nameFilter: featureFlagName,
+        labelFilter: label,
+      })
+      .byPage();
+    for await (const page of pages) {
+      assert.isDefined(page.etag, "Expected the revision page to include an etag");
+      revisions.push(...page.items);
     }
     assert.isAtLeast(revisions.length, 2, "Expected at least two revisions");
   });

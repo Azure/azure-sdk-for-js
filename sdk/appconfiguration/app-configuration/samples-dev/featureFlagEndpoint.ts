@@ -6,7 +6,7 @@
  * using the dedicated feature flag endpoint. Requires the 2026-05-01-preview API version or later.
  * @azsdk-weight 19
  */
-import type { FeatureFlag } from "@azure/app-configuration";
+import type { FeatureFlagParam } from "@azure/app-configuration";
 import { FeatureFlagClient } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
 
   // Create a richer feature flag with conditions, variants, allocation, telemetry, and tags.
   const richFlagName = "sample-rich-feature-flag";
-  const richFlag: FeatureFlag = {
+  const richFlag: FeatureFlagParam = {
     name: richFlagName,
     enabled: true,
     description: "A feature flag with conditions, variants, allocation, and telemetry",
