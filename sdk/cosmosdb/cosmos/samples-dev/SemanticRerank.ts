@@ -17,8 +17,10 @@ const inferenceEndpoint =
   process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT ||
   "https://<account>.<region>.dbinference.azure.com";
 
-// A pre-existing database and container are expected. The inference service is container-agnostic,
-// so any container reachable with your credentials works; the sample only writes/reads items in it.
+// A pre-existing database and container are expected, and the container must be partitioned by
+// `/category`: the sample items carry a `category` value that is used as the partition key,
+// including during cleanup. The inference service itself is container-agnostic; the container only
+// stages the documents this sample reranks.
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
