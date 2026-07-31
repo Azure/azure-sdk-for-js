@@ -33,7 +33,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -71,23 +71,25 @@
+@@ -42,23 +42,25 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -63,7 +63,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -97,28 +99,29 @@
+@@ -68,28 +70,29 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -101,7 +101,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -208,58 +211,46 @@
+@@ -179,58 +182,46 @@
      FIXED = 1
  }
  
@@ -171,7 +171,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -272,10 +263,13 @@
+@@ -243,10 +234,13 @@
  
  // @public
  export class UserDelegationKeyCredential {
