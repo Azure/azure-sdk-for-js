@@ -22,7 +22,7 @@ import type {
   OptimizationJobListItem,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
@@ -49,7 +49,7 @@ export interface BetaAgentsOperations {
   createOptimizationJob: (
     job: OptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
-  ) => PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
+  ) => JobPoller<OptimizationJobResult>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {

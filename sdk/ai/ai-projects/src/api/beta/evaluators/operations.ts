@@ -27,7 +27,8 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
@@ -46,7 +47,6 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -323,8 +323,9 @@ export function createGenerationJob(
   context: Client,
   job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion> {
-  return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+): JobPoller<EvaluatorVersion> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createGenerationJobSend(context, job, options),
@@ -334,7 +335,7 @@ export function createGenerationJob(
       ...options?.requestOptions?.headers,
       "foundry-features": "Evaluations=V1Preview",
     },
-  }) as PollerLike<OperationState<EvaluatorVersion>, EvaluatorVersion>;
+  });
 }
 
 export function _getCredentialsSend(

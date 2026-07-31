@@ -41,25 +41,23 @@ export async function main(): Promise<void> {
     },
   });
 
-  // Creating an evaluator generation job is a long-running operation. The job is queued as
-  // soon as the initial request is accepted, so look it up by listing to inspect it while
-  // it runs.
+  // Creating an evaluator generation job is a long-running operation. Once `submitted()`
+  // resolves the job is queued and its id is available on the poller state, so it can be
+  // inspected while it runs.
   await generationPoller.submitted();
 
+  const jobId = generationPoller.operationState?.jobId;
+  if (!jobId) {
+    console.log("The service did not return a job id; nothing left to do.");
+    return;
+  }
+  console.log(`Created evaluator generation job (id: ${jobId})`);
+
   console.log("Listing evaluator generation jobs...");
-  let jobId: string | undefined;
   for await (const job of project.beta.evaluators.listGenerationJobs({
     limit: 5,
   })) {
     console.log(`  - ${job.id} (${job.status})`);
-    if (job.inputs?.evaluator_display_name === displayName) {
-      jobId = job.id;
-    }
-  }
-
-  if (!jobId) {
-    console.log("No evaluator generation job was found; nothing left to do.");
-    return;
   }
 
   const fetchedJob = await project.beta.evaluators.getGenerationJob(jobId);
