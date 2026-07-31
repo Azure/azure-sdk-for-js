@@ -9,6 +9,7 @@ require("dotenv/config");
 const { logSampleHeader, logStep } = require("./Shared/handleError.js");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { CosmosClient } = require("@azure/cosmos");
+const { randomUUID } = require("node:crypto");
 
 // Semantic rerank requires AAD authentication and an inference endpoint registered for the account.
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -40,11 +41,17 @@ async function run() {
 
   const container = client.database(databaseId).container(containerId);
 
+  // Unique per-run marker so the query (and the reranker) only ever see this sample's own
+  // documents, never unrelated items already present in the pre-existing container.
+  const runId = `rerank-sample-${randomUUID()}`;
+
   // Sample catalog items partitioned by `/category`. Descriptions are what the reranker scores.
+  // Each item is tagged with `runId` so it can be isolated from any pre-existing container data.
   const sampleItems = [
     {
       id: "sr-1",
       category: "fitness",
+      runId,
       name: "ProFit Power Tower",
       description:
         "Professional power tower with integrated pull-up bar, dip station, and vertical knee raise. Heavy-duty steel frame supports up to 300 lbs.",
@@ -52,6 +59,7 @@ async function run() {
     {
       id: "sr-2",
       category: "fitness",
+      runId,
       name: "FlexForce Cable Machine",
       description:
         "Compact cable crossover machine with multiple pulley adjustments and a 200 lb weight stack. Great for chest flys, lat pulldowns, and cable rows.",
@@ -59,6 +67,7 @@ async function run() {
     {
       id: "sr-3",
       category: "fitness",
+      runId,
       name: "IronGrip Adjustable Dumbbells",
       description:
         "Quick-change adjustable dumbbell set ranging from 5 to 52.5 lbs per hand. Replaces 15 sets of weights with a space-saving design.",
@@ -66,6 +75,7 @@ async function run() {
     {
       id: "sr-4",
       category: "fitness",
+      runId,
       name: "EnduraRun Treadmill",
       description:
         "Folding treadmill with a cushioned running deck, 12 incline levels, and speeds up to 12 mph. Compact folding design for apartment living.",
@@ -73,6 +83,7 @@ async function run() {
     {
       id: "sr-5",
       category: "fitness",
+      runId,
       name: "BudgetFlex Home Gym",
       description:
         "Most economical home gym system with an integrated pull-up bar and multiple pulley adjustments. Affordable yet sturdy, ideal for home gyms.",
@@ -85,9 +96,18 @@ async function run() {
       await container.items.upsert(item);
     }
 
-    logStep("Query the items to produce the candidate document set for reranking");
+    logStep("Query only this run's items to produce the candidate document set for reranking");
+    // Filter on the partition key (`category`) and the per-run marker (`runId`) so pre-existing
+    // documents in the container are never picked up. Parameterized to follow query best practices.
     const { resources: queryResults } = await container.items
-      .query("SELECT c.id, c.name, c.description FROM c WHERE c.category = 'fitness'")
+      .query({
+        query:
+          "SELECT c.id, c.name, c.description FROM c WHERE c.category = @category AND c.runId = @runId",
+        parameters: [
+          { name: "@category", value: "fitness" },
+          { name: "@runId", value: runId },
+        ],
+      })
       .fetchAll();
 
     // The reranker takes documents as strings; serialize each query result to JSON.
@@ -98,7 +118,7 @@ async function run() {
     const context = "most economical with multiple pulley adjustments and ideal for home gyms";
     const result = await container.semanticRerank(context, documents, {
       return_documents: true, // include the reranked document text in the response
-      top_k: 10, // return up to 10 top-ranked documents
+      top_k: 3, // return only the top 3 of the 5 documents to demonstrate truncation
       sort: true, // sort results by descending relevance score
     });
 
