@@ -1,6 +1,6 @@
 # Release History
 
-## 1.19.0 (Unreleased)
+## 1.19.0 (2026-07-29)
 
 ### Features Added
 
@@ -15,6 +15,7 @@
 
 - Fixed Statsbeat instrumentation encoding so adding an instrumentation no longer shifts the reported bits of others, and flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 - Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). Updated the bundled contrib instrumentations and resource detector to their latest versions. [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Updated to using exporter version 1.0.0-beta.44.
 
 ## 1.18.2 (2026-07-01)
 
@@ -200,6 +201,7 @@
 ## 1.8.0 (2024-10-23)
 
 ### Features Added
+
 - Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
 - Support for Live Metrics Filtering.
 - Support parsing AAD Audience from the connection string for live metrics.
@@ -211,6 +213,7 @@
 ## 1.7.1 (2024-09-13)
 
 ### Bugs Fixed
+
 - Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes
