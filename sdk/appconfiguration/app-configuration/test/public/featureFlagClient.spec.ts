@@ -60,7 +60,11 @@ describe("FeatureFlagClient", () => {
           request,
           status: 200,
           headers: createHttpHeaders(),
-          bodyAsText: JSON.stringify({ items: [], etag: `etag-${requests.length}`, "@nextLink": nextLink }),
+          bodyAsText: JSON.stringify({
+            items: [],
+            etag: `etag-${requests.length}`,
+            "@nextLink": nextLink,
+          }),
         };
       },
     };

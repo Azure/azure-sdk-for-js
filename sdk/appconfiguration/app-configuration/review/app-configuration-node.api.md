@@ -163,6 +163,14 @@ export interface EtagEntity {
 }
 
 // @public
+export interface FeatureFilter {
+    name: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type FeatureFlag = FeatureFlagParam & {
     readonly lastModified?: Date;
 };
@@ -182,6 +190,7 @@ export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
     addFeatureFlag(featureFlag: AddFeatureFlagParam, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
+    addFeatureFlag(name: string, enabled: boolean, label?: string, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
     checkFeatureFlags(options?: CheckFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     deleteFeatureFlag(id: FeatureFlagId, options?: DeleteFeatureFlagOptions): Promise<DeleteFeatureFlagResponse>;
     getFeatureFlag(id: FeatureFlagId, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
@@ -189,6 +198,7 @@ export class FeatureFlagClient {
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     setFeatureFlag(featureFlag: SetFeatureFlagParam, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
+    setFeatureFlag(name: string, enabled: boolean, label?: string, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
 }
 
 // @public
@@ -197,7 +207,7 @@ export interface FeatureFlagClientOptions extends AppConfigurationClientOptions 
 
 // @public
 export interface FeatureFlagConditions {
-    filters?: FeatureFlagFilter[];
+    filters?: FeatureFilter[];
     requirementType?: RequirementType;
 }
 
@@ -206,14 +216,6 @@ export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+js
 
 // @public
 export type FeatureFlagFields = keyof FeatureFlag;
-
-// @public
-export interface FeatureFlagFilter {
-    name: string;
-    parameters?: {
-        [propertyName: string]: string;
-    };
-}
 
 // @public
 export interface FeatureFlagId {
@@ -406,9 +408,11 @@ export interface ListFeatureFlagPage extends HttpResponseField<SyncTokenHeaderFi
 
 // @public
 export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
+    acceptDateTime?: Date;
     fields?: FeatureFlagFields[];
     labelFilter?: string;
     nameFilter?: string;
+    pageEtags?: string[];
     tagsFilter?: string[];
 }
 

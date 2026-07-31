@@ -159,9 +159,7 @@ export class FeatureFlagClient {
         ? { name: featureFlagOrName, enabled: enabledOrOptions as boolean, label }
         : featureFlagOrName;
     const operationOptions =
-      typeof featureFlagOrName === "string"
-        ? options
-        : (enabledOrOptions as SetFeatureFlagOptions);
+      typeof featureFlagOrName === "string" ? options : (enabledOrOptions as SetFeatureFlagOptions);
     return tracingClient.withSpan(
       "FeatureFlagClient.setFeatureFlag",
       operationOptions,
@@ -237,9 +235,7 @@ export class FeatureFlagClient {
         ? { name: featureFlagOrName, enabled: enabledOrOptions as boolean, label }
         : featureFlagOrName;
     const operationOptions =
-      typeof featureFlagOrName === "string"
-        ? options
-        : (enabledOrOptions as AddFeatureFlagOptions);
+      typeof featureFlagOrName === "string" ? options : (enabledOrOptions as AddFeatureFlagOptions);
     return tracingClient.withSpan(
       "FeatureFlagClient.addFeatureFlag",
       operationOptions,
