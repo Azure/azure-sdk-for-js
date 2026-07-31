@@ -95,6 +95,16 @@ function preludeCount(file, stack = new Set()) {
   return total;
 }
 
+/** True when expanding `file` reaches `target` (following template includes). */
+function reaches(file, target, stack = new Set()) {
+  if (file === target) return true;
+  if (stack.has(file)) return false;
+  stack.add(file);
+  const hit = templateRefs(file).resolved.some((ref) => reaches(ref, target, stack));
+  stack.delete(file);
+  return hit;
+}
+
 const failures = [];
 
 // Check 1: no dangling template references.
@@ -132,6 +142,35 @@ for (const file of listYaml(stepsDir)) {
         `job template that consumes this file.`,
     );
   }
+}
+
+// Check 3: pipelines that install pnpm must provide a prelude.
+//
+// The mirror image of check 2. Removing a nested common.yml from a step template
+// is only safe if every consuming pipeline supplies the prelude itself -
+// otherwise the job silently loses its pinned Node version and, worse, its
+// authenticated .npmrc, which install-pnpm.yml needs to npm install -g pnpm.
+//
+// A pipeline satisfies this by including common.yml, or by wiring up
+// use-node-version.yml plus create-authenticated-npmrc.yml directly.
+//
+// This is file-scoped rather than job-scoped: a multi-job file where only one
+// job has a prelude would pass. Modelling job boundaries is the only way to be
+// exact, and it isn't worth the fragility - the common failure is a pipeline
+// with no prelude at all.
+const INSTALL_PNPM = path.join(stepsDir, "install-pnpm.yml");
+const USE_NODE = path.join(stepsDir, "use-node-version.yml");
+
+for (const file of listYaml(repoRoot)) {
+  if (file.startsWith(stepsDir + path.sep)) continue; // step templates rely on their consumer
+  if (!reaches(file, INSTALL_PNPM)) continue;
+  if (reaches(file, PRELUDE) || reaches(file, USE_NODE)) continue;
+
+  failures.push(
+    `${path.relative(repoRoot, file)} installs pnpm but never includes the job prelude ` +
+      `(templates/steps/common.yml). That job would run without a pinned Node version or an ` +
+      `authenticated .npmrc.`,
+  );
 }
 
 if (failures.length > 0) {
