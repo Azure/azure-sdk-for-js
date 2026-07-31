@@ -115,7 +115,7 @@ export interface FeatureFlagConditions {
   /** The requirement type for the conditions. */
   requirementType?: RequirementType;
   /** The filters that will conditionally enable or disable the flag. */
-  filters?: FeatureFlagFilter[];
+  filters?: FeatureFilter[];
 }
 
 /** Defines values for the feature flag condition requirement type. */
@@ -130,7 +130,7 @@ export enum KnownRequirementType {
 }
 
 /** A filter that conditionally enables or disables a feature flag. */
-export interface FeatureFlagFilter {
+export interface FeatureFilter {
   /** The name of the filter. */
   name: string;
   /** The parameters used by the filter. */
@@ -741,8 +741,20 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
   /** A filter used to query by tags. */
   tagsFilter?: string[];
 
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
   /** Which fields to return for each feature flag. */
   fields?: FeatureFlagFields[];
+
+  /**
+   * A list of page etags, one per page, used to conditionally retrieve pages. Each etag is sent as
+   * an `If-None-Match` header for its corresponding page; when the page is unchanged the service
+   * responds with `304 Not Modified` and the SDK yields an empty page whose `etag` is preserved.
+   */
+  pageEtags?: string[];
 }
 
 /**
