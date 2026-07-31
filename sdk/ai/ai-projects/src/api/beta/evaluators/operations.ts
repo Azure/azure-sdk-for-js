@@ -324,8 +324,7 @@ export function createGenerationJob(
   job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<EvaluatorVersion> {
-  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` instead of the emitted `getLongRunningPoller`
-  // so `operationState.jobId` exposes the queued job id.
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,

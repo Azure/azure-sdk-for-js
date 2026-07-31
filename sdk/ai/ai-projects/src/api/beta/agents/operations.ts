@@ -299,8 +299,7 @@ export function createOptimizationJob(
   job: OptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): JobPoller<OptimizationJobResult> {
-  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` instead of the emitted `getLongRunningPoller`
-  // so `operationState.jobId` exposes the queued job id.
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,

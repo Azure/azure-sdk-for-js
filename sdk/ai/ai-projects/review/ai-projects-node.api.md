@@ -2653,7 +2653,9 @@ export interface JobOperationState<TResult> extends OperationState_2<TResult> {
 }
 
 // @public
-export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
+export type JobPoller<TResult> = Omit<PollerLike<OperationState_2<TResult>, TResult>, "operationState"> & {
+    readonly operationState: JobOperationState<TResult> | undefined;
+};
 
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
