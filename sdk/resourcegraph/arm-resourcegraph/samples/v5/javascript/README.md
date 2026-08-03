@@ -1,4 +1,4 @@
-# @azure/arm-resourcegraph client library samples for JavaScript (Beta)
+# @azure/arm-resourcegraph client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-resourcegraph in some common scenarios.
 
@@ -54,17 +54,17 @@ node graphQueryCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[graphquerycreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryCreateOrUpdateSample.js
-[graphquerydeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryDeleteSample.js
-[graphquerygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryGetSample.js
-[graphquerylistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryListBySubscriptionSample.js
-[graphquerylistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryListSample.js
-[graphqueryupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/graphQueryUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/operationsListSample.js
-[resourcechangedetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/resourceChangeDetailsSample.js
-[resourcechangessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/resourceChangesSample.js
-[resourceshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/resourcesHistorySample.js
-[resourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5-beta/javascript/resourcesSample.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcegraph?view=azure-node-preview
+[graphquerycreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryCreateOrUpdateSample.js
+[graphquerydeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryDeleteSample.js
+[graphquerygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryGetSample.js
+[graphquerylistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryListBySubscriptionSample.js
+[graphquerylistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryListSample.js
+[graphqueryupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/graphQueryUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/operationsListSample.js
+[resourcechangedetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/resourceChangeDetailsSample.js
+[resourcechangessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/resourceChangesSample.js
+[resourceshistorysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/resourcesHistorySample.js
+[resourcessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcegraph/arm-resourcegraph/samples/v5/javascript/resourcesSample.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcegraph
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcegraph/arm-resourcegraph/README.md
