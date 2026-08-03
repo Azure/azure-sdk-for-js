@@ -1,0 +1,244 @@
+{
+  "name": "@azure/ai-discovery",
+  "version": "1.0.0",
+  "description": "Azure AI Discovery client library for JavaScript, providing WorkspaceClient and BookshelfClient.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./workspace": {
+      "browser": {
+        "types": "./dist/browser/workspace/index.d.ts",
+        "default": "./dist/browser/workspace/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/workspace/index.d.ts",
+        "default": "./dist/esm/workspace/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/workspace/index.d.ts",
+        "default": "./dist/commonjs/workspace/index.js"
+      }
+    },
+    "./workspace/api": {
+      "browser": {
+        "types": "./dist/browser/workspace/api/index.d.ts",
+        "default": "./dist/browser/workspace/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/workspace/api/index.d.ts",
+        "default": "./dist/esm/workspace/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/workspace/api/index.d.ts",
+        "default": "./dist/commonjs/workspace/api/index.js"
+      }
+    },
+    "./bookshelf": {
+      "browser": {
+        "types": "./dist/browser/bookshelf/index.d.ts",
+        "default": "./dist/browser/bookshelf/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/bookshelf/index.d.ts",
+        "default": "./dist/esm/bookshelf/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/bookshelf/index.d.ts",
+        "default": "./dist/commonjs/bookshelf/index.js"
+      }
+    },
+    "./bookshelf/api": {
+      "browser": {
+        "types": "./dist/browser/bookshelf/api/index.d.ts",
+        "default": "./dist/browser/bookshelf/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/bookshelf/api/index.d.ts",
+        "default": "./dist/esm/bookshelf/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/bookshelf/api/index.d.ts",
+        "default": "./dist/commonjs/bookshelf/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/microsoft/discovery/bookshelf": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/discovery/bookshelf/index.d.ts",
+        "default": "./dist/browser/models/microsoft/discovery/bookshelf/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/discovery/bookshelf/index.d.ts",
+        "default": "./dist/esm/models/microsoft/discovery/bookshelf/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/discovery/bookshelf/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/discovery/bookshelf/index.js"
+      }
+    },
+    "./models/microsoft/discovery/common": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/discovery/common/index.d.ts",
+        "default": "./dist/browser/models/microsoft/discovery/common/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/discovery/common/index.d.ts",
+        "default": "./dist/esm/models/microsoft/discovery/common/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/discovery/common/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/discovery/common/index.js"
+      }
+    },
+    "./models/microsoft/discovery/workspace": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/discovery/workspace/index.d.ts",
+        "default": "./dist/browser/models/microsoft/discovery/workspace/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/discovery/workspace/index.d.ts",
+        "default": "./dist/esm/models/microsoft/discovery/workspace/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/discovery/workspace/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/discovery/workspace/index.js"
+      }
+    }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sdk-type": "client",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/discovery/ai-discovery"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/discovery/ai-discovery/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/workspace/api/workspaceContext.ts",
+        "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/bookshelf/api/bookshelfContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "catalog:"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "build:samples": "tsc -p tsconfig.samples.json",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "echo skipped",
+    "test:browser": "echo skipped",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "Microsoft Discovery",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-discovery"
+  }
+}

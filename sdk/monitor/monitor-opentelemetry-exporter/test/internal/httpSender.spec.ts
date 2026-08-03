@@ -12,8 +12,8 @@ import {
 } from "../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
-import type { PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
-import { createEmptyPipeline } from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline, RestError } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
 import { delay } from "@azure/core-util";
@@ -190,6 +190,47 @@ describe("HttpSender", () => {
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
+    });
+
+    it.each([
+      [
+        "connection reset",
+        (request: Parameters<HttpClient["sendRequest"]>[0]) =>
+          new RestError("Connection reset before a response was received", {
+            code: "ECONNRESET",
+            request,
+          }),
+      ],
+      [
+        "request timeout",
+        () =>
+          Object.assign(new Error("Request timed out before a response was received"), {
+            name: "AbortError",
+          }),
+      ],
+    ])("should persist telemetry after a %s with no response", async (_name, createError) => {
+      const sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
+        throw createError(request);
+      });
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {
+          httpClient: { sendRequest },
+          retryOptions: { maxRetries: 0 },
+        },
+      });
+      const persistSpy = vi.spyOn(sender["persister"], "push").mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([envelope]);
+
+      assert.strictEqual(sendRequest.mock.calls.length, 1);
+      assert.deepStrictEqual(persistSpy.mock.calls[0][0], [envelope]);
+      assert.isNotNull(sender["retryTimer"]);
+      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+      clearTimeout(sender["retryTimer"]!);
+      sender["retryTimer"] = null;
     });
 
     it("should persist retriable failed telemetry 429", async () => {

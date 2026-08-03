@@ -57,7 +57,6 @@ export interface SnapshotsOperations {
     options?: SnapshotsGetOptionalParams,
   ) => Promise<Snapshot>;
 }
-
 function _getSnapshots(context: ContainerServiceContext) {
   return {
     list: (options?: SnapshotsListOptionalParams) => list(context, options),
@@ -86,7 +85,6 @@ function _getSnapshots(context: ContainerServiceContext) {
       get(context, resourceGroupName, resourceName, options),
   };
 }
-
 export function _getSnapshotsOperations(context: ContainerServiceContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

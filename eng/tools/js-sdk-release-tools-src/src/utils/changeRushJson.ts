@@ -1,14 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-import { CommentDescriptor, CommentSymbol, parse, CommentArray, stringify } from 'comment-json';
+import fs from "fs";
+import path from "path";
+import { CommentDescriptor, CommentSymbol, parse, CommentArray, stringify } from "comment-json";
 
 export function changeRushJson(
   azureSDKForJSRepoRoot: string,
   packageName: any,
   relativePackageFolderPath: string,
-  versionPolicyName: string
+  versionPolicyName: string,
 ) {
-  const parsed = parse(fs.readFileSync(path.join(azureSDKForJSRepoRoot, 'rush.json'), { encoding: 'utf-8' }));
+  const parsed = parse(
+    fs.readFileSync(path.join(azureSDKForJSRepoRoot, "rush.json"), { encoding: "utf-8" }),
+  );
   const rushJson = parsed as CommentDescriptor & { projects: CommentArray<CommentSymbol> };
   const projects: any[] = rushJson.projects;
   let exist = false;
@@ -21,11 +23,15 @@ export function changeRushJson(
   if (!exist) {
     projects.push({
       packageName: packageName,
-      projectFolder: relativePackageFolderPath.replace(/\\/g, '/'),
+      projectFolder: relativePackageFolderPath.replace(/\\/g, "/"),
       versionPolicyName: versionPolicyName,
     });
-    fs.writeFileSync(path.join(azureSDKForJSRepoRoot, 'rush.json'), stringify(rushJson, undefined, 2), {
-      encoding: 'utf-8',
-    });
+    fs.writeFileSync(
+      path.join(azureSDKForJSRepoRoot, "rush.json"),
+      stringify(rushJson, undefined, 2),
+      {
+        encoding: "utf-8",
+      },
+    );
   }
 }

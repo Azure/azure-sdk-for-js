@@ -19,7 +19,6 @@ export interface BackupsUnderVolumeOperations {
     options?: BackupsUnderVolumeMigrateBackupsOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
 }
-
 function _getBackupsUnderVolume(context: NetAppManagementContext) {
   return {
     migrateBackups: (
@@ -33,7 +32,6 @@ function _getBackupsUnderVolume(context: NetAppManagementContext) {
       migrateBackups(context, resourceGroupName, accountName, poolName, volumeName, body, options),
   };
 }
-
 export function _getBackupsUnderVolumeOperations(
   context: NetAppManagementContext,
 ): BackupsUnderVolumeOperations {

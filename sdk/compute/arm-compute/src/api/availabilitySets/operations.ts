@@ -83,7 +83,6 @@ export async function _convertToVirtualMachineScaleSetDeserialize(
 
   return;
 }
-
 /** Create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the Availability Set. This does not trigger a downtime on the Virtual Machines. */
 export function convertToVirtualMachineScaleSet(
   context: Client,
@@ -154,7 +153,6 @@ export async function _validateMigrationToVirtualMachineScaleSetDeserialize(
 
   return;
 }
-
 /** Validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual Machine Scale Set. */
 export async function validateMigrationToVirtualMachineScaleSet(
   context: Client,
@@ -213,7 +211,6 @@ export async function _cancelMigrationToVirtualMachineScaleSetDeserialize(
 
   return;
 }
-
 /** Cancel the migration operation on an Availability Set. */
 export async function cancelMigrationToVirtualMachineScaleSet(
   context: Client,
@@ -275,7 +272,6 @@ export async function _startMigrationToVirtualMachineScaleSetDeserialize(
 
   return;
 }
-
 /** Start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine. */
 export async function startMigrationToVirtualMachineScaleSet(
   context: Client,
@@ -335,7 +331,6 @@ export async function _listAvailableSizesDeserialize(
 
   return _virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set. */
 export function listAvailableSizes(
   context: Client,
@@ -388,7 +383,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _availabilitySetListResultDeserializer(result.body);
 }
-
 /** Lists all availability sets in a subscription. */
 export function listBySubscription(
   context: Client,
@@ -440,7 +434,6 @@ export async function _listDeserialize(
 
   return _availabilitySetListResultDeserializer(result.body);
 }
-
 /** Lists all availability sets in a resource group. */
 export function list(
   context: Client,
@@ -490,7 +483,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete an availability set. */
 export async function $delete(
   context: Client,
@@ -542,7 +534,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return availabilitySetDeserializer(result.body);
 }
-
 /** Update an availability set. */
 export async function update(
   context: Client,
@@ -603,7 +594,6 @@ export async function _createOrUpdateDeserialize(
 
   return availabilitySetDeserializer(result.body);
 }
-
 /** Create or update an availability set. */
 export async function createOrUpdate(
   context: Client,
@@ -659,7 +649,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Av
 
   return availabilitySetDeserializer(result.body);
 }
-
 /** Retrieves information about an availability set. */
 export async function get(
   context: Client,

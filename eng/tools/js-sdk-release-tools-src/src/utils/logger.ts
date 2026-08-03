@@ -4,7 +4,7 @@
  * license information.
  */
 
-import winston from 'winston';
+import winston from "winston";
 
 const pipeline = winston.format((info, opts) => {
   info.level = `[${info.level.toUpperCase()}]`;
@@ -12,14 +12,14 @@ const pipeline = winston.format((info, opts) => {
 });
 
 export const logger = winston.createLogger({
-  level: 'info',
+  level: "info",
   format: winston.format.combine(winston.format.json(), pipeline()),
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   logger.add(
     new winston.transports.Console({
       format: winston.format.simple(),
-    })
+    }),
   );
 }

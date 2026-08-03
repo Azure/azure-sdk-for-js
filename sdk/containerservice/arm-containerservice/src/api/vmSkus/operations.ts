@@ -21,7 +21,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
       includeExtendedLocations: options?.includeExtendedLocations,
     },
     {
@@ -47,7 +47,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _vmSkusListResultDeserializer(result.body);
 }
-
 /** Gets the list of VM SKUs accepted by AKS when creating node pools in a specified location. AKS will perform a best effort approach to provision the requested VM SKUs, but availability is not guaranteed. */
 export function list(
   context: Client,
@@ -62,7 +61,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-05-02-preview",
     },
   );
 }

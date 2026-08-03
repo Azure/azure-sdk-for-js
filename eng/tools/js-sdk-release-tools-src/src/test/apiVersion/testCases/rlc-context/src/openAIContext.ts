@@ -18,21 +18,16 @@ export function createOpenAI(
   credential: KeyCredential | TokenCredential,
   options: OpenAIClientOptionalParams = {},
 ): OpenAIContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/openai`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/openai`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api`
-    : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cognitiveservices.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };

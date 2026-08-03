@@ -125,7 +125,6 @@ export interface VirtualMachineScaleSetVMRunCommandsOperations {
     options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
   ) => Promise<VirtualMachineRunCommand>;
 }
-
 function _getVirtualMachineScaleSetVMRunCommands(context: ComputeManagementContext) {
   return {
     list: (
@@ -294,7 +293,6 @@ function _getVirtualMachineScaleSetVMRunCommands(context: ComputeManagementConte
     ) => get(context, resourceGroupName, vmScaleSetName, instanceId, runCommandName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetVMRunCommandsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMRunCommandsOperations {

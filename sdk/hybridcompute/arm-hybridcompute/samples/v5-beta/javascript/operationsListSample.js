@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of hybrid compute operations.
  *
  * @summary gets a list of hybrid compute operations.
- * x-ms-original-file: 2025-09-16-preview/Operations_List.json
+ * x-ms-original-file: 2026-06-16-preview/Operations_List.json
  */
 async function listHybridComputeProviderOperations() {
   const credential = new DefaultAzureCredential();

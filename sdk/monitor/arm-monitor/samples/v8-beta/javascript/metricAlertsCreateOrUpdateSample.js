@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateDynamicMetricAlertMultipleResource.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateDynamicMetricAlertMultipleResource.json
  */
 async function createOrUpdateADynamicAlertRuleForMultipleResources() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function createOrUpdateADynamicAlertRuleForMultipleResources() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateDynamicMetricAlertSingleResource.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateDynamicMetricAlertSingleResource.json
  */
 async function createOrUpdateADynamicAlertRuleForSingleResource() {
   const credential = new DefaultAzureCredential();
@@ -114,7 +114,7 @@ async function createOrUpdateADynamicAlertRuleForSingleResource() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertMultipleResource.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertMultipleResource.json
  */
 async function createOrUpdateAnAlertRuleForMultipleResource() {
   const credential = new DefaultAzureCredential();
@@ -169,7 +169,7 @@ async function createOrUpdateAnAlertRuleForMultipleResource() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertQuery.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertQuery.json
  */
 async function createOrUpdateAQueryBasedAlertRule() {
   const credential = new DefaultAzureCredential();
@@ -220,7 +220,7 @@ async function createOrUpdateAQueryBasedAlertRule() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertQueryDT.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertQueryDT.json
  */
 async function createOrUpdateAQueryBasedAlertRuleWithDynamicThreshold() {
   const credential = new DefaultAzureCredential();
@@ -274,7 +274,7 @@ async function createOrUpdateAQueryBasedAlertRuleWithDynamicThreshold() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertQueryMultiResource.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertQueryMultiResource.json
  */
 async function createOrUpdateAResourceCentricQueryBasedAlertRuleForMultipleResources() {
   const credential = new DefaultAzureCredential();
@@ -323,7 +323,7 @@ async function createOrUpdateAResourceCentricQueryBasedAlertRuleForMultipleResou
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertQueryResourceCentric.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertQueryResourceCentric.json
  */
 async function createOrUpdateAResourceCentricQueryBasedAlertRule() {
   const credential = new DefaultAzureCredential();
@@ -374,7 +374,7 @@ async function createOrUpdateAResourceCentricQueryBasedAlertRule() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertResourceGroup.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertResourceGroup.json
  */
 async function createOrUpdateAnAlertRuleOnResourceGroupS() {
   const credential = new DefaultAzureCredential();
@@ -429,7 +429,7 @@ async function createOrUpdateAnAlertRuleOnResourceGroupS() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertSingleResource.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertSingleResource.json
  */
 async function createOrUpdateAnAlertRuleForSingleResource() {
   const credential = new DefaultAzureCredential();
@@ -476,7 +476,7 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertSubscription.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertSubscription.json
  */
 async function createOrUpdateAnAlertRuleOnSubscription() {
   const credential = new DefaultAzureCredential();
@@ -528,7 +528,7 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateMetricAlertWithDimensions.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateMetricAlertWithDimensions.json
  */
 async function createOrUpdateAnAlertRulesWithDimensions() {
   const credential = new DefaultAzureCredential();
@@ -583,7 +583,7 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
  * This sample demonstrates how to create or update an metric alert definition.
  *
  * @summary create or update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/createOrUpdateWebTestMetricAlert.json
+ * x-ms-original-file: 2026-01-01/createOrUpdateWebTestMetricAlert.json
  */
 async function createOrUpdateAWebTestAlertRule() {
   const credential = new DefaultAzureCredential();
