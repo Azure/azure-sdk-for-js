@@ -27,7 +27,7 @@ export interface OneSettingsResponse {
   /** Refresh interval, in milliseconds, until the next poll should occur. */
   refreshIntervalMs: number;
   /** Configuration key-value pairs. Empty for 304 (unchanged) and error responses. */
-  settings: Record<string, string>;
+  settings: Record<string, unknown>;
   /** HTTP status code, or 0 when the request failed before a response was received. */
   statusCode: number;
   /** True when the request failed with a transient error (network error, timeout). */
@@ -107,7 +107,7 @@ function parseOneSettingsResponse(response: PipelineResponse): OneSettingsRespon
     }
   }
 
-  let settings: Record<string, string> = {};
+  let settings: Record<string, unknown> = {};
   if (statusCode === 200) {
     if (response.bodyAsText) {
       try {
