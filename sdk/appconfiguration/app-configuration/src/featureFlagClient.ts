@@ -492,15 +492,7 @@ export class FeatureFlagClient {
   listFeatureFlagRevisions(
     options: ListFeatureFlagRevisionsOptions = {},
   ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings> {
-    const {
-      nameFilter,
-      labelFilter,
-      tagsFilter,
-      acceptDateTime,
-      fields,
-      pageEtags,
-      ...restOptions
-    } = options;
+    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, ...restOptions } = options;
     return listFeatureFlagRevisions(
       this._context,
       "FeatureFlagClient.listFeatureFlagRevisions",
@@ -511,7 +503,6 @@ export class FeatureFlagClient {
         select: formatFeatureFlagFieldsForSelect(fields),
       },
       acceptDateTime?.toISOString(),
-      pageEtags,
       restOptions,
     );
   }

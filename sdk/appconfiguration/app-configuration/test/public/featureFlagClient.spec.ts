@@ -47,7 +47,7 @@ describe("FeatureFlagClient", () => {
     assert.include(requests[1].url, "label=test-label");
   });
 
-  it("sends accept-datetime and if-none-match on every revisions page request", async () => {
+  it("sends accept-datetime on every revisions page request", async () => {
     const requests: PipelineRequest[] = [];
     const mockHttpClient: HttpClient = {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
@@ -76,20 +76,17 @@ describe("FeatureFlagClient", () => {
       { httpClient: mockHttpClient },
     );
     const acceptDateTime = new Date("2026-07-31T12:34:56.000Z");
-    const pageEtags = ["etag-1", "etag-2"];
 
-    let pageNumber = 0;
-    for await (const page of client
-      .listFeatureFlagRevisions({ acceptDateTime, pageEtags })
-      .byPage()) {
-      pageNumber++;
-      assert.equal(page.etag, `etag-${pageNumber}`);
+    let pageCount = 0;
+    for await (const _page of client.listFeatureFlagRevisions({ acceptDateTime }).byPage()) {
+      pageCount++;
     }
 
+    assert.equal(pageCount, 2);
     assert.lengthOf(requests, 2);
-    for (const [index, request] of requests.entries()) {
+    for (const request of requests) {
       assert.equal(request.headers.get("accept-datetime"), acceptDateTime.toISOString());
-      assert.equal(request.headers.get("if-none-match"), `"${pageEtags[index]}"`);
+      assert.isUndefined(request.headers.get("if-none-match"));
     }
   });
 });

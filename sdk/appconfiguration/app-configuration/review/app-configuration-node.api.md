@@ -412,12 +412,11 @@ export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
     fields?: FeatureFlagFields[];
     labelFilter?: string;
     nameFilter?: string;
-    pageEtags?: string[];
     tagsFilter?: string[];
 }
 
 // @public
-export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+export interface ListFeatureFlagRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: FeatureFlag[];
 }
 

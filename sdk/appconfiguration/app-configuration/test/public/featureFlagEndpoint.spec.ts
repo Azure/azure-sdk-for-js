@@ -148,7 +148,6 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
       })
       .byPage();
     for await (const page of pages) {
-      assert.isDefined(page.etag, "Expected the revision page to include an etag");
       revisions.push(...page.items);
     }
     assert.isAtLeast(revisions.length, 2, "Expected at least two revisions");
