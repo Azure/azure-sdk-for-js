@@ -8,8 +8,6 @@
 - Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support.
 - Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Stopped exporting the internal-only `FileDownloadOptionalParams` and `FileUploadRangeFromURLOptionalParams` types, which are not referenced by any public API.
