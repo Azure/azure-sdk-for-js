@@ -5,8 +5,8 @@ parameters:
   IncludeRelease: true
 
 steps:
-  - template: /eng/pipelines/templates/steps/common.yml
-  
+  # NOTE: common.yml is job-scoped and is included by the job template that
+  # consumes this file (jobs/ci.yml). Do not include it here.
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"

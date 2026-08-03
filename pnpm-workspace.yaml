@@ -70,6 +70,14 @@ peerDependencyRules:
 
 linkWorkspacePackages: true
 
+# Exempt our own packages from the minimumReleaseAge delay so freshly published
+# Azure SDK packages (and the TypeSpec runtime we own) install immediately
+# instead of waiting out the default maturation window.
+minimumReleaseAgeExclude:
+  - '@azure/*'
+  - '@azure-rest/*'
+  - '@typespec/ts-http-runtime'
+
 # Ensure lockfile includes optional dependencies for all CI and development platforms
 # This prevents lockfile churn when running pnpm install on different OSes
 # Lists all OS/CPU combinations used in CI (Ubuntu, Windows, macOS) and dev machines
