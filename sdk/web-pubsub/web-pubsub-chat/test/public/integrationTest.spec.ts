@@ -7,7 +7,7 @@ import { createRecorder } from "./utils/recordedClient.js";
 import { createChatMessage } from "./utils/chatClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getConnectionString, getEndpoint } from "../utils/injectables.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("", () => {
   let client: WebPubSubChatServiceClient;
@@ -60,6 +60,55 @@ describe("", () => {
       await client.deleteRole(roleName);
     });
 
+    it("creates a role only when it does not exist", async () => {
+      const createOnlyRoleName = "user.create_only_test_role";
+
+      try {
+        const created = await client.createOrReplaceRole(
+          createOnlyRoleName,
+          { permissions: [ChatPermissions.UserCreateRoom] },
+          { ifNoneMatch: "*" },
+        );
+        assert.equal(created.name, createOnlyRoleName);
+
+        await expect(
+          client.createOrReplaceRole(
+            createOnlyRoleName,
+            { permissions: [ChatPermissions.UserFetchAllRooms] },
+            { ifNoneMatch: "*" },
+          ),
+        ).rejects.toMatchObject({ statusCode: 412 });
+      } finally {
+        await client.deleteRole(createOnlyRoleName).catch(() => undefined);
+      }
+    });
+
+    it("rejects replacing a role with a stale ETag", async () => {
+      const etagRoleName = "user.etag_test_role";
+
+      try {
+        const created = await client.createOrReplaceRole(etagRoleName, {
+          permissions: [ChatPermissions.UserCreateRoom],
+        });
+        const replaced = await client.createOrReplaceRole(
+          etagRoleName,
+          { permissions: [ChatPermissions.UserCreateRoom, ChatPermissions.UserFetchAllRooms] },
+          { ifMatch: created.etag },
+        );
+        assert.notEqual(replaced.etag, created.etag);
+
+        await expect(
+          client.createOrReplaceRole(
+            etagRoleName,
+            { permissions: [ChatPermissions.UserCreateRoom] },
+            { ifMatch: created.etag },
+          ),
+        ).rejects.toMatchObject({ statusCode: 412 });
+      } finally {
+        await client.deleteRole(etagRoleName).catch(() => undefined);
+      }
+    });
+
     it("lists roles", async () => {
       const userRoleName = "user.list_test_role";
       const roomRoleName = "room.list_test_role";
@@ -85,7 +134,7 @@ describe("", () => {
       }
     });
 
-    it.skip("lists roles by page and resumes from a continuation token", async () => {
+    it("lists roles by page and resumes from a continuation token", async () => {
       const firstRoleName = "user.pagination_test_role";
       const secondRoleName = "room.pagination_test_role";
 

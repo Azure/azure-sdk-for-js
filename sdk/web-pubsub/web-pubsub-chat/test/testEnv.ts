@@ -26,6 +26,7 @@ const recorderOptions: RecorderStartOptions = {
     "AZSDK3430", // $..id
     "AZSDK3433", // $..userId
     "AZSDK3442", // $..createdBy
+    "AZSDK3490", // $..etag values are required for conditional request playback
     "AZSDK3493", // $..name
   ],
 };
