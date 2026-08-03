@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
+- Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)
 
 ## 1.0.0-beta.44 (2026-07-29)
 
