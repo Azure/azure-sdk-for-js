@@ -364,11 +364,6 @@ for await (const item of client.listFeatureFlags()) {
   console.log(`Found feature flag: ${item.name}`);
 }
 
-// Check feature flag pages for changes without downloading their bodies.
-for await (const page of client.checkFeatureFlags().byPage()) {
-  console.log(`Feature flag page etag: ${page.etag}`);
-}
-
 // Delete a feature flag.
 await client.deleteFeatureFlag({ name: "my-feature" });
 ```

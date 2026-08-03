@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FeatureFlagClient, FeatureFlagParam } from "../../src/index.js";
+import type { FeatureFlag, FeatureFlagClient, FeatureFlagParam } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createFeatureFlagClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
