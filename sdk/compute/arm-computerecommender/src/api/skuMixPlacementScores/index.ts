@@ -3,6 +3,6 @@
 
 export { post, get } from "./operations.js";
 export type {
-  SpotPlacementScoresPostOptionalParams,
-  SpotPlacementScoresGetOptionalParams,
+  SkuMixPlacementScoresPostOptionalParams,
+  SkuMixPlacementScoresGetOptionalParams,
 } from "./options.js";
