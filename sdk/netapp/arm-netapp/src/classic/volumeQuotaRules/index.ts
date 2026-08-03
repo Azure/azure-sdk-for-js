@@ -69,7 +69,6 @@ export interface VolumeQuotaRulesOperations {
     options?: VolumeQuotaRulesGetOptionalParams,
   ) => Promise<VolumeQuotaRule>;
 }
-
 function _getVolumeQuotaRules(context: NetAppManagementContext) {
   return {
     listByVolume: (
@@ -153,7 +152,6 @@ function _getVolumeQuotaRules(context: NetAppManagementContext) {
       ),
   };
 }
-
 export function _getVolumeQuotaRulesOperations(
   context: NetAppManagementContext,
 ): VolumeQuotaRulesOperations {

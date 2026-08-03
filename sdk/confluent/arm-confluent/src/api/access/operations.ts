@@ -60,7 +60,7 @@ export function _listRoleBindingNameListSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,14 +80,15 @@ export async function _listRoleBindingNameListDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessRoleBindingNameListSuccessResponseDeserializer(result.body);
 }
-
 /** Organization role bindings */
 export async function listRoleBindingNameList(
   context: Client,
@@ -119,7 +120,7 @@ export function _createRoleBindingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,14 +140,15 @@ export async function _createRoleBindingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return roleBindingRecordDeserializer(result.body);
 }
-
 /** Organization role bindings */
 export async function createRoleBinding(
   context: Client,
@@ -178,7 +180,7 @@ export function _listRoleBindingsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,14 +200,15 @@ export async function _listRoleBindingsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListRoleBindingsSuccessResponseDeserializer(result.body);
 }
-
 /** Organization role bindings */
 export async function listRoleBindings(
   context: Client,
@@ -237,7 +240,7 @@ export function _listClustersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,14 +260,15 @@ export async function _listClustersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListClusterSuccessResponseDeserializer(result.body);
 }
-
 /** Cluster details */
 export async function listClusters(
   context: Client,
@@ -296,7 +300,7 @@ export function _listEnvironmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,14 +320,15 @@ export async function _listEnvironmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListEnvironmentsSuccessResponseDeserializer(result.body);
 }
-
 /** Environment list of an organization */
 export async function listEnvironments(
   context: Client,
@@ -355,7 +360,7 @@ export function _inviteUserSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -375,14 +380,15 @@ export async function _inviteUserDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return invitationRecordDeserializer(result.body);
 }
-
 /** Invite user to the organization */
 export async function inviteUser(
   context: Client,
@@ -408,7 +414,7 @@ export function _listInvitationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -428,14 +434,15 @@ export async function _listInvitationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListInvitationsSuccessResponseDeserializer(result.body);
 }
-
 /** Organization accounts invitation details */
 export async function listInvitations(
   context: Client,
@@ -467,7 +474,7 @@ export function _listServiceAccountsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -487,14 +494,15 @@ export async function _listServiceAccountsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListServiceAccountsSuccessResponseDeserializer(result.body);
 }
-
 /** Organization service accounts details */
 export async function listServiceAccounts(
   context: Client,
@@ -526,7 +534,7 @@ export function _listUsersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -546,14 +554,15 @@ export async function _listUsersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessListUsersSuccessResponseDeserializer(result.body);
 }
-
 /** Organization users details */
 export async function listUsers(
   context: Client,
@@ -580,7 +589,7 @@ export function _deleteRoleBindingSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       roleBindingId: roleBindingId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -593,14 +602,15 @@ export async function _deleteRoleBindingDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Organization role bindings */
 export async function deleteRoleBinding(
   context: Client,

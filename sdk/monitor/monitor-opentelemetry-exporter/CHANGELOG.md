@@ -1,10 +1,16 @@
 # Release History
 
-## 1.0.0-beta.44 (Unreleased)
+## 1.0.0-beta.44 (2026-07-29)
 
 ### Bugs Fixed
 
 - Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
+- Raised the minimum `@opentelemetry/api` version from `^1.9.0` to `^1.9.1`. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ## 1.0.0-beta.43 (2026-07-01)
 
@@ -66,7 +72,7 @@
 
 ## 1.0.0-beta.39 (2026-02-20)
 
-### Features Added 
+### Features Added
 
 - Add ownership checks for storage directories.
 - Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
@@ -75,14 +81,14 @@
 
 - Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
 
-### 1.0.0-beta.38 (2026-01-16)
+## 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
 - Updated customer SDK Stats metric names from preview format to stable format.
 
-### 1.0.0-beta.37 (2026-01-15)
+## 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 

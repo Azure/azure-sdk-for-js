@@ -4,13 +4,14 @@
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
+import { ConsoleInstrumentation } from "@opentelemetry/instrumentation-console";
 import { WinstonInstrumentation } from "@opentelemetry/instrumentation-winston";
 import type { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { AzureLogRecordProcessor } from "./logRecordProcessor.js";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor.js";
-import { logLevelToSeverityNumber } from "../utils/logUtils.js";
+import { isLogCollectionDisabled, logLevelToSeverityNumber } from "../utils/logUtils.js";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -22,6 +23,7 @@ export class LogHandler {
   private _metricHandler: MetricHandler;
   private _config: InternalConfig;
   private _instrumentations: Instrumentation[];
+  private _consoleInstrumentation: Instrumentation | undefined;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -52,17 +54,27 @@ export class LogHandler {
     return this._instrumentations;
   }
 
+  /** Returns the console instrumentation for explicit lifecycle management. */
+  public getConsoleInstrumentation(): Instrumentation | undefined {
+    return this._consoleInstrumentation;
+  }
+
   /**
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations(): void {
+    if (isLogCollectionDisabled()) {
+      return;
+    }
+
     const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    const logSeverity = logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined;
 
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
         new BunyanInstrumentation({
           ...this._config.instrumentationOptions.bunyan,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+          logSeverity,
         }),
       );
     }
@@ -70,9 +82,19 @@ export class LogHandler {
       this._instrumentations.push(
         new WinstonInstrumentation({
           ...this._config.instrumentationOptions.winston,
-          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+          logSeverity,
         }),
       );
+    }
+    if (this._config.instrumentationOptions.console?.enabled) {
+      // Defer patching until registration so construction preserves the original methods.
+      const consoleInstrumentation = new ConsoleInstrumentation({
+        ...this._config.instrumentationOptions.console,
+        enabled: false,
+        logSeverity,
+      });
+      this._consoleInstrumentation = consoleInstrumentation;
+      this._instrumentations.push(consoleInstrumentation);
     }
   }
 }

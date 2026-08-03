@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.33.1";
-export const SERVICE_VERSION: string = "2026-06-06";
+export const SDK_VERSION: string = "12.34.0-beta.1";
+export const SERVICE_VERSION: string = "2026-10-06";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
@@ -16,6 +16,13 @@ export const REQUEST_TIMEOUT: number = 100 * 1000; // In ms
  * The OAuth scope to use with Azure Storage.
  */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
+
+/**
+ * The media type returned by the List Blobs Apache Arrow operation when Apache Arrow
+ * is enabled for the account. When the response Content-Type differs from this value,
+ * the service has fallen back to XML.
+ */
+export const ApacheArrowContentType: string = "application/vnd.apache.arrow.stream";
 
 export const URLConstants = {
   Parameters: {

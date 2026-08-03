@@ -1,14 +1,40 @@
 # Release History
 
-## 24.1.1 (Unreleased)
+## 25.0.0 (2026-07-22)
 
 ### Features Added
+  - Added operation group SharedGalleryInvitesOperations
+  - Added operation group TenantLevelSharedGalleryInvitesOperations
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicy
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyAndWait
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLock
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLockAndWait
+  - Added operation SnapshotsOperations.updateImmutabilityPolicy
+  - Added operation SnapshotsOperations.updateImmutabilityPolicyLock
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ImmutabilityPolicyData
+  - Added Interface ImmutabilityPolicyLockData
+  - Added Interface SharedGalleryInvitesGallerySharingAcceptOptionalParams
+  - Added Interface SharedGalleryInvitesGallerySharingRejectOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyLockOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams
+  - Interface DiskRestorePoint has a new optional parameter snapshotAccessState
+  - Interface DiskRestorePointProperties has a new optional parameter snapshotAccessState
+  - Interface DiskSecurityProfile has a new optional parameter confidentialVMVersion
+  - Interface Snapshot has a new optional parameter immutabilityPolicy
+  - Interface SnapshotProperties has a new optional parameter immutabilityPolicy
+  - Added Type Alias ConfidentialVMVersion
+  - Added Type Alias ImmutabilityPolicyType
+  - Added Enum KnownConfidentialVMVersion
+  - Added Enum KnownImmutabilityPolicyType
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation VirtualMachineScaleSetRollingUpgradesOperations.getLatest has a new signature
+  - Operation VirtualMachineScaleSetsOperations.listOSUpgradeHistory has a new signature
+  - Type alias "RollingUpgradeStatusCode" has been changed
+  - Type alias "UpgradeState" has been changed
 
 ## 24.1.0 (2026-06-17)
 

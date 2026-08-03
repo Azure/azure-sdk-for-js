@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/maintenanceWindows{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _maintenanceWindowResourceListResultDeserializer(result.body);
 }
-
 /** Lists maintenance windows in the specified subscription. */
 export function listBySubscription(
   context: Client,
@@ -79,7 +78,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-05-02-preview",
     },
   );
 }
@@ -94,7 +93,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +120,6 @@ export async function _listDeserialize(
 
   return _maintenanceWindowResourceListResultDeserializer(result.body);
 }
-
 /** Lists maintenance windows in the specified resource group. */
 export function list(
   context: Client,
@@ -136,7 +134,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-02-preview",
+      apiVersion: context.apiVersion ?? "2026-05-02-preview",
     },
   );
 }
@@ -153,7 +151,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       maintenanceWindowName: maintenanceWindowName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +173,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a maintenance window. */
 export function $delete(
   context: Client,
@@ -189,7 +186,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, maintenanceWindowName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-05-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -206,7 +203,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       maintenanceWindowName: maintenanceWindowName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,7 +232,6 @@ export async function _updateTagsDeserialize(
 
   return maintenanceWindowResourceDeserializer(result.body);
 }
-
 /** Updates tags on a maintenance window. */
 export async function updateTags(
   context: Client,
@@ -267,7 +263,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       maintenanceWindowName: maintenanceWindowName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -296,7 +292,6 @@ export async function _createOrUpdateDeserialize(
 
   return maintenanceWindowResourceDeserializer(result.body);
 }
-
 /** Creates or updates a maintenance window. */
 export function createOrUpdate(
   context: Client,
@@ -311,7 +306,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, maintenanceWindowName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-02-preview",
+    apiVersion: context.apiVersion ?? "2026-05-02-preview",
   }) as PollerLike<OperationState<MaintenanceWindowResource>, MaintenanceWindowResource>;
 }
 
@@ -327,7 +322,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       maintenanceWindowName: maintenanceWindowName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +349,6 @@ export async function _getDeserialize(
 
   return maintenanceWindowResourceDeserializer(result.body);
 }
-
 /** Gets the specified maintenance window. */
 export async function get(
   context: Client,

@@ -8,6 +8,8 @@ import type {
 import { createConfluentManagement } from "./api/index.js";
 import type { AccessOperations } from "./classic/access/index.js";
 import { _getAccessOperations } from "./classic/access/index.js";
+import type { AccessPointResourcesOperations } from "./classic/accessPointResources/index.js";
+import { _getAccessPointResourcesOperations } from "./classic/accessPointResources/index.js";
 import type { ClusterOperations } from "./classic/cluster/index.js";
 import { _getClusterOperations } from "./classic/cluster/index.js";
 import type { ConnectorOperations } from "./classic/connector/index.js";
@@ -16,6 +18,8 @@ import type { EnvironmentOperations } from "./classic/environment/index.js";
 import { _getEnvironmentOperations } from "./classic/environment/index.js";
 import type { MarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
 import { _getMarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
+import type { NetworkGatewayResourcesOperations } from "./classic/networkGatewayResources/index.js";
+import { _getNetworkGatewayResourcesOperations } from "./classic/networkGatewayResources/index.js";
 import type { OrganizationOperations } from "./classic/organization/index.js";
 import { _getOrganizationOperations } from "./classic/organization/index.js";
 import type { OrganizationOperationsOperations } from "./classic/organizationOperations/index.js";
@@ -54,14 +58,7 @@ export class ConfluentManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createConfluentManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createConfluentManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.validations = _getValidationsOperations(this._client);
     this.marketplaceAgreements = _getMarketplaceAgreementsOperations(this._client);
@@ -72,6 +69,8 @@ export class ConfluentManagementClient {
     this.access = _getAccessOperations(this._client);
     this.organization = _getOrganizationOperations(this._client);
     this.organizationOperations = _getOrganizationOperationsOperations(this._client);
+    this.accessPointResources = _getAccessPointResourcesOperations(this._client);
+    this.networkGatewayResources = _getNetworkGatewayResourcesOperations(this._client);
   }
 
   /** The operation groups for validations */
@@ -92,4 +91,8 @@ export class ConfluentManagementClient {
   public readonly organization: OrganizationOperations;
   /** The operation groups for organizationOperations */
   public readonly organizationOperations: OrganizationOperationsOperations;
+  /** The operation groups for accessPointResources */
+  public readonly accessPointResources: AccessPointResourcesOperations;
+  /** The operation groups for networkGatewayResources */
+  public readonly networkGatewayResources: NetworkGatewayResourcesOperations;
 }

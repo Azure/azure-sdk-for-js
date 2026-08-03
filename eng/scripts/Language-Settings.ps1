@@ -411,14 +411,23 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
   Push-Location "$EngDir/tools/eng-package-utils"
-  Confirm-NodeInstallation
-  npm install
-  Push-Location "$EngDir/tools/versioning"
-  npm install
-  $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
-  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
-    --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
-  Pop-Location
+  try {
+    Confirm-NodeInstallation
+    npm install
+    Push-Location "$EngDir/tools/versioning"
+    try {
+      npm install
+      $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
+      node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
+        --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
+    }
+    finally {
+      Pop-Location
+    }
+  }
+  finally {
+    Pop-Location
+  }
 }
 
 # PackageName: Pass full package name e.g. @azure/abort-controller

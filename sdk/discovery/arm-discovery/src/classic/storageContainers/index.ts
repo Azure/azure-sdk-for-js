@@ -34,11 +34,6 @@ export interface StorageContainersOperations {
     options?: StorageContainersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StorageContainer>;
   /** Delete a StorageContainer */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageContainerName: string,
@@ -65,7 +60,6 @@ export interface StorageContainersOperations {
     options?: StorageContainersGetOptionalParams,
   ) => Promise<StorageContainer>;
 }
-
 function _getStorageContainers(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: StorageContainersListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getStorageContainers(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, storageContainerName, options),
   };
 }
-
 export function _getStorageContainersOperations(
   context: DiscoveryContext,
 ): StorageContainersOperations {
