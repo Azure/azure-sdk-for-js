@@ -6,7 +6,6 @@ import {
   bodyToString,
   configureBlobStorageClient,
   getBSU,
-  getGenericBSU,
   getRecorderUniqueVariable,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
@@ -1813,44 +1812,29 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
     assert.isTrue(sawCurrentVersion);
   });
 
-  it("listBlobsFlat should list with soft-deleted blobs", async (ctx) => {
-    let softDeleteServiceClient: BlobServiceClient;
-    try {
-      softDeleteServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");
-    } catch (err: any) {
-      ctx.skip();
-      return;
-    }
+  // On a versioning-enabled account (the shared test accounts have versioning on),
+  // deleting a blob turns its current version into a previous version, so the base
+  // blob surfaces as "has versions only" via includeDeletedWithVersions rather than as
+  // a classic soft-deleted (deleted: true) blob. This mirrors the XML
+  // "listBlobsFlat with includeDeletedwithVersions" test, exercised through Apache Arrow.
+  it("listBlobsFlat should list with deleted versions", async () => {
+    const name = getRecorderUniqueVariable(recorder, "softdeleteblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(name);
+    await blockBlobClient.upload("hello", 5);
+    await blockBlobClient.delete();
 
-    const softDeleteContainerName = recorder.variable(
-      "softdeletecontainer",
-      getUniqueName("softdeletecontainer"),
-    );
-    const softDeleteContainerClient =
-      softDeleteServiceClient.getContainerClient(softDeleteContainerName);
-    await softDeleteContainerClient.create();
-
-    try {
-      const name = getRecorderUniqueVariable(recorder, "softdeleteblob");
-      const blockBlobClient = softDeleteContainerClient.getBlockBlobClient(name);
-      await blockBlobClient.upload("hello", 5);
-      await blockBlobClient.delete();
-
-      let deletedBlob: { name: string; deleted: boolean } | undefined;
-      for await (const blob of softDeleteContainerClient.listBlobsFlat({
-        responseFormat: StorageResponseFormat.Arrow,
-        includeDeleted: true,
-      })) {
-        if (blob.name === name) {
-          deletedBlob = { name: blob.name, deleted: blob.deleted };
-        }
+    let deletedBlob: { name: string; hasVersionsOnly?: boolean } | undefined;
+    for await (const blob of containerClient.listBlobsFlat({
+      responseFormat: StorageResponseFormat.Arrow,
+      includeDeletedWithVersions: true,
+    })) {
+      if (blob.name === name) {
+        deletedBlob = { name: blob.name, hasVersionsOnly: blob.hasVersionsOnly };
       }
-
-      assert.isDefined(deletedBlob);
-      assert.isTrue(deletedBlob!.deleted);
-    } finally {
-      await softDeleteContainerClient.delete();
     }
+
+    assert.isDefined(deletedBlob);
+    assert.isTrue(deletedBlob!.hasVersionsOnly);
   });
 });
 
