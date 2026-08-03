@@ -134,6 +134,16 @@ export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
 
 // @public
+export const StorageResponseFormat: {
+    readonly Auto: "Auto";
+    readonly Xml: "Xml";
+    readonly Arrow: "Arrow";
+};
+
+// @public
+export type StorageResponseFormat = (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];
+
+// @public
 export interface StorageRetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly maxTries?: number;
