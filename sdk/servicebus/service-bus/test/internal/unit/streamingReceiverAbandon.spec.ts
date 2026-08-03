@@ -45,8 +45,9 @@ describe("StreamingReceiver abandon-on-handler-error", () => {
       preInitialize: async () => {},
       forwardInternalErrors: false,
     });
-    // Keep the finally's credit top-up a no-op so it cannot reach a live link.
-    (streamingReceiver as any)._receiverHelper = { addCredit: () => {} };
+    // Keep the real _receiverHelper (close() calls its suspend() at teardown); just
+    // no-op the credit top-up in the finally so it cannot reach a live link.
+    vi.spyOn(streamingReceiver["_receiverHelper"] as any, "addCredit").mockImplementation(() => {});
 
     const eventContext = {
       delivery: { remote_settled: false },
@@ -54,7 +55,14 @@ describe("StreamingReceiver abandon-on-handler-error", () => {
         message_annotations: { [Constants.enqueuedTime]: new Date() },
       },
     };
-    await streamingReceiver["_onAmqpMessage"](eventContext as any as EventContext);
+    try {
+      await streamingReceiver["_onAmqpMessage"](eventContext as any as EventContext);
+    } finally {
+      // Restore the no-link state so the afterEach close() takes the same clean
+      // path the other streaming unit tests rely on (closing the stub link would
+      // need a live connection).
+      (streamingReceiver as any)._link = undefined;
+    }
   }
 
   it("skips abandon when the handler error is MessageLockLost", async () => {
