@@ -63,7 +63,6 @@ export interface NetworkSecurityPerimeterConfigurationsOperations {
     options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   ) => Promise<NetworkSecurityPerimeterConfiguration>;
 }
-
 function _getNetworkSecurityPerimeterConfigurations(context: CognitiveServicesManagementContext) {
   return {
     reconcile: (
@@ -115,7 +114,6 @@ function _getNetworkSecurityPerimeterConfigurations(context: CognitiveServicesMa
     ) => get(context, resourceGroupName, accountName, nspConfigurationName, options),
   };
 }
-
 export function _getNetworkSecurityPerimeterConfigurationsOperations(
   context: CognitiveServicesManagementContext,
 ): NetworkSecurityPerimeterConfigurationsOperations {

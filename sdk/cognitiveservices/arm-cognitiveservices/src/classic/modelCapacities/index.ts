@@ -17,7 +17,6 @@ export interface ModelCapacitiesOperations {
     options?: ModelCapacitiesListOptionalParams,
   ) => PagedAsyncIterableIterator<ModelCapacityListResultValueItem>;
 }
-
 function _getModelCapacities(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -28,7 +27,6 @@ function _getModelCapacities(context: CognitiveServicesManagementContext) {
     ) => list(context, modelFormat, modelName, modelVersion, options),
   };
 }
-
 export function _getModelCapacitiesOperations(
   context: CognitiveServicesManagementContext,
 ): ModelCapacitiesOperations {

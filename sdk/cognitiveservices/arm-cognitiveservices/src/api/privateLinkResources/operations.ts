@@ -24,7 +24,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +51,6 @@ export async function _listDeserialize(
 
   return privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources that need to be created for a Cognitive Services account. */
 export async function list(
   context: Client,

@@ -42,7 +42,6 @@ export interface SubscriptionRaiPolicyOperations {
     options?: SubscriptionRaiPolicyGetOptionalParams,
   ) => Promise<RaiPolicy>;
 }
-
 function _getSubscriptionRaiPolicy(context: CognitiveServicesManagementContext) {
   return {
     delete: (raiPolicyName: string, options?: SubscriptionRaiPolicyDeleteOptionalParams) =>
@@ -70,7 +69,6 @@ function _getSubscriptionRaiPolicy(context: CognitiveServicesManagementContext) 
       get(context, raiPolicyName, options),
   };
 }
-
 export function _getSubscriptionRaiPolicyOperations(
   context: CognitiveServicesManagementContext,
 ): SubscriptionRaiPolicyOperations {

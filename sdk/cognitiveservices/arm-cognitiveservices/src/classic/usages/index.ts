@@ -12,14 +12,12 @@ export interface UsagesOperations {
   /** Get usages for the requested subscription */
   list: (location: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<Usage>;
 }
-
 function _getUsages(context: CognitiveServicesManagementContext) {
   return {
     list: (location: string, options?: UsagesListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getUsagesOperations(
   context: CognitiveServicesManagementContext,
 ): UsagesOperations {

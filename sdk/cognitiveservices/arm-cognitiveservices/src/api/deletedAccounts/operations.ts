@@ -35,7 +35,7 @@ export function _purgeSend(
       location: location,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _purgeDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Deletes a Cognitive Services account from the resource group. */
 export function purge(
   context: Client,
@@ -72,7 +71,7 @@ export function purge(
     getInitialResponse: () =>
       _purgeSend(context, location, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -90,7 +89,7 @@ export function _getSend(
       location: location,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +114,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ac
 
   return accountDeserializer(result.body);
 }
-
 /** Returns a Cognitive Services account specified by the parameters. */
 export async function get(
   context: Client,
@@ -136,7 +134,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +159,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _accountListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a subscription. */
 export function list(
   context: Client,
@@ -172,10 +169,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }

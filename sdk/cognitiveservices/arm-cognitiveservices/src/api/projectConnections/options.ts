@@ -16,21 +16,17 @@ export interface ProjectConnectionsListOptionalParams extends OperationOptions {
   /** query parameter that indicates if get connection call should return both connections and datastores */
   includeAll?: boolean;
 }
-
 /** Optional parameters. */
 export interface ProjectConnectionsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ProjectConnectionsUpdateOptionalParams extends OperationOptions {
   /** Parameters for account connection update. */
   connection?: ConnectionUpdateContent;
 }
-
 /** Optional parameters. */
 export interface ProjectConnectionsCreateOptionalParams extends OperationOptions {
   /** The object for creating or updating a new account connection */
   connection?: ConnectionPropertiesV2BasicResource;
 }
-
 /** Optional parameters. */
 export interface ProjectConnectionsGetOptionalParams extends OperationOptions {}

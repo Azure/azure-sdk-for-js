@@ -37,7 +37,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _outboundRuleListResultDeserializer(result.body);
 }
-
 /** The GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account. */
 export function list(
   context: Client,
@@ -78,11 +77,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, managedNetworkName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -102,7 +97,7 @@ export function _$deleteSend(
       accountName: accountName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account. */
 export function $delete(
   context: Client,
@@ -140,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, managedNetworkName, ruleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -161,7 +155,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +184,6 @@ export async function _createOrUpdateDeserialize(
 
   return outboundRuleBasicResourceDeserializer(result.body);
 }
-
 /** The PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account. */
 export function createOrUpdate(
   context: Client,
@@ -215,7 +208,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OutboundRuleBasicResource>, OutboundRuleBasicResource>;
 }
 
@@ -235,7 +228,7 @@ export function _getSend(
       accountName: accountName,
       managedNetworkName: managedNetworkName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +255,6 @@ export async function _getDeserialize(
 
   return outboundRuleBasicResourceDeserializer(result.body);
 }
-
 /** The GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account. */
 export async function get(
   context: Client,

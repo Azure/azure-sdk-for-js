@@ -29,7 +29,6 @@ export interface OutboundRulesOperations {
     options?: OutboundRulesPostOptionalParams,
   ) => PagedAsyncIterableIterator<OutboundRuleBasicResource>;
 }
-
 function _getOutboundRules(context: CognitiveServicesManagementContext) {
   return {
     post: (
@@ -50,7 +49,6 @@ function _getOutboundRules(context: CognitiveServicesManagementContext) {
     },
   };
 }
-
 export function _getOutboundRulesOperations(
   context: CognitiveServicesManagementContext,
 ): OutboundRulesOperations {

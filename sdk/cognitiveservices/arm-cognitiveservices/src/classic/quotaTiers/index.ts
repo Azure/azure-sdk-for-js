@@ -38,7 +38,6 @@ export interface QuotaTiersOperations {
   /** Gets the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information. */
   get: (defaultParam: string, options?: QuotaTiersGetOptionalParams) => Promise<QuotaTier>;
 }
-
 function _getQuotaTiers(context: CognitiveServicesManagementContext) {
   return {
     listBySubscription: (options?: QuotaTiersListBySubscriptionOptionalParams) =>
@@ -54,7 +53,6 @@ function _getQuotaTiers(context: CognitiveServicesManagementContext) {
       get(context, defaultParam, options),
   };
 }
-
 export function _getQuotaTiersOperations(
   context: CognitiveServicesManagementContext,
 ): QuotaTiersOperations {

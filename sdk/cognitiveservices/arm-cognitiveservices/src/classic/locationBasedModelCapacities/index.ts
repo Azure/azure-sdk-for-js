@@ -18,7 +18,6 @@ export interface LocationBasedModelCapacitiesOperations {
     options?: LocationBasedModelCapacitiesListOptionalParams,
   ) => PagedAsyncIterableIterator<ModelCapacityListResultValueItem>;
 }
-
 function _getLocationBasedModelCapacities(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -30,7 +29,6 @@ function _getLocationBasedModelCapacities(context: CognitiveServicesManagementCo
     ) => list(context, location, modelFormat, modelName, modelVersion, options),
   };
 }
-
 export function _getLocationBasedModelCapacitiesOperations(
   context: CognitiveServicesManagementContext,
 ): LocationBasedModelCapacitiesOperations {

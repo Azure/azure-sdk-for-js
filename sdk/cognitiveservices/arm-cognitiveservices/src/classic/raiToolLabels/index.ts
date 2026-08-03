@@ -60,7 +60,6 @@ export interface RaiToolLabelsOperations {
     options?: RaiToolLabelsGetOptionalParams,
   ) => Promise<RaiToolLabel>;
 }
-
 function _getRaiToolLabels(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -121,7 +120,6 @@ function _getRaiToolLabels(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, raiToolConnectionName, options),
   };
 }
-
 export function _getRaiToolLabelsOperations(
   context: CognitiveServicesManagementContext,
 ): RaiToolLabelsOperations {

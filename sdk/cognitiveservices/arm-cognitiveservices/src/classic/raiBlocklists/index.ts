@@ -60,7 +60,6 @@ export interface RaiBlocklistsOperations {
     options?: RaiBlocklistsGetOptionalParams,
   ) => Promise<RaiBlocklist>;
 }
-
 function _getRaiBlocklists(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -115,7 +114,6 @@ function _getRaiBlocklists(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, raiBlocklistName, options),
   };
 }
-
 export function _getRaiBlocklistsOperations(
   context: CognitiveServicesManagementContext,
 ): RaiBlocklistsOperations {
