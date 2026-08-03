@@ -48,7 +48,6 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
-
 /** Lists all of the available REST API operations of the Microsoft.Cache provider. */
 export function list(
   context: Client,

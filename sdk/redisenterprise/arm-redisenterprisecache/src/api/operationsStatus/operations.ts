@@ -46,7 +46,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Op
 
   return operationStatusDeserializer(result.body);
 }
-
 /** Gets the status of operation. */
 export async function get(
   context: Client,

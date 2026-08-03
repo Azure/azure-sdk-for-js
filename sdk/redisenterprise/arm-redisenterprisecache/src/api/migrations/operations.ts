@@ -73,7 +73,6 @@ export async function _validateDeserialize(
 
   return migrationValidationResponseDeserializer(result.body);
 }
-
 /** Validates if a source Azure Cache for Redis resource can be migrated to a target Azure Managed Redis resource. */
 export async function validate(
   context: Client,
@@ -120,7 +119,6 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Cancel or rollback the migration operation in a Redis Enterprise cluster. */
 export function cancel(
   context: Client,
@@ -174,7 +172,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _migrationListDeserializer(result.body);
 }
-
 /** Gets information about all migrations attempts in a Redis Enterprise cluster. */
 export function list(
   context: Client,
@@ -235,7 +232,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return migrationDeserializer(result.body);
 }
-
 /** Starts a new migration */
 export function start(
   context: Client,
@@ -291,7 +287,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mi
 
   return migrationDeserializer(result.body);
 }
-
 /** Gets information about a migration in a Redis Enterprise cluster. */
 export async function get(
   context: Client,

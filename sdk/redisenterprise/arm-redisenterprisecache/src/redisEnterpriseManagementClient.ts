@@ -38,14 +38,7 @@ export class RedisEnterpriseManagementClient {
     subscriptionId: string,
     options: RedisEnterpriseManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRedisEnterpriseManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRedisEnterpriseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operationsStatus = _getOperationsStatusOperations(this._client);
     this.accessPolicyAssignment = _getAccessPolicyAssignmentOperations(this._client);

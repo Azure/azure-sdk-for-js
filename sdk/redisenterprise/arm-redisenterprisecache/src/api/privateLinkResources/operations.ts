@@ -53,7 +53,6 @@ export async function _listByClusterDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources that need to be created for a Redis Enterprise cluster. */
 export function listByCluster(
   context: Client,

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Cache": "2026-06-01-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Cache",
     "CrossLanguageDefinitionId": {

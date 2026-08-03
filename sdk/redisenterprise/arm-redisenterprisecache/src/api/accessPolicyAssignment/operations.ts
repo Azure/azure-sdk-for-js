@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _accessPolicyAssignmentListDeserializer(result.body);
 }
-
 /** Gets all access policy assignments.. */
 export function list(
   context: Client,
@@ -124,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a single access policy assignment. */
 export function $delete(
   context: Client,
@@ -197,7 +195,6 @@ export async function _createUpdateDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
-
 /** Creates/Updates a particular access policy assignment for a database */
 export function createUpdate(
   context: Client,
@@ -269,7 +266,6 @@ export async function _getDeserialize(
 
   return accessPolicyAssignmentDeserializer(result.body);
 }
-
 /** Gets information about access policy assignment for database. */
 export async function get(
   context: Client,

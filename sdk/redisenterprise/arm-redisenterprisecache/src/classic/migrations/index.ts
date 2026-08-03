@@ -81,7 +81,6 @@ export interface MigrationsOperations {
     options?: MigrationsGetOptionalParams,
   ) => Promise<Migration>;
 }
-
 function _getMigrations(context: RedisEnterpriseManagementContext) {
   return {
     validate: (
@@ -144,7 +143,6 @@ function _getMigrations(context: RedisEnterpriseManagementContext) {
       get(context, resourceGroupName, clusterName, options),
   };
 }
-
 export function _getMigrationsOperations(
   context: RedisEnterpriseManagementContext,
 ): MigrationsOperations {

@@ -67,7 +67,6 @@ export async function _listSkusForScalingDeserialize(
 
   return skuDetailsListDeserializer(result.body);
 }
-
 /** Lists the available SKUs for scaling the Redis Enterprise cluster. */
 export async function listSkusForScaling(
   context: Client,
@@ -112,7 +111,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _clusterListDeserializer(result.body);
 }
-
 /** Lists all Redis Enterprise clusters in the specified subscription. */
 export function list(
   context: Client,
@@ -168,7 +166,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _clusterListDeserializer(result.body);
 }
-
 /** Lists all Redis Enterprise clusters in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -222,7 +219,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a Redis Enterprise cache cluster. */
 export function $delete(
   context: Client,
@@ -279,7 +275,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
-
 /** Updates an existing Redis Enterprise cluster */
 export function update(
   context: Client,
@@ -338,7 +333,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
-
 /** Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster */
 export function create(
   context: Client,
@@ -394,7 +388,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
 
   return clusterDeserializer(result.body);
 }
-
 /** Gets information about a Redis Enterprise cluster */
 export async function get(
   context: Client,

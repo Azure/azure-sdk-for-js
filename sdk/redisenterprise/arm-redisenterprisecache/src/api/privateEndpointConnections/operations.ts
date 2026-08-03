@@ -65,7 +65,6 @@ export async function _listDeserialize(
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** Lists all the private endpoint connections associated with the Redis Enterprise cluster. */
 export function list(
   context: Client,
@@ -122,7 +121,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified private endpoint connection associated with the Redis Enterprise cluster. */
 export function $delete(
   context: Client,
@@ -185,7 +183,6 @@ export async function _putDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster. */
 export function put(
   context: Client,
@@ -253,7 +250,6 @@ export async function _getDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets the specified private endpoint connection associated with the Redis Enterprise cluster. */
 export async function get(
   context: Client,
