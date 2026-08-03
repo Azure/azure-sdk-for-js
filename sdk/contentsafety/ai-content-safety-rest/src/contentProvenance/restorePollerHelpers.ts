@@ -77,7 +77,10 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST :detect": { deserializer: _detectDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /provenance:detect": {
+    deserializer: _detectDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
 };
 
 function getDeserializationHelper(

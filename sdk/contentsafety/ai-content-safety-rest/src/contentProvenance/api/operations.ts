@@ -27,7 +27,7 @@ export function _getOperationStatusSend(
   options: GetOperationStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/operations/{operationId}{?api%2Dversion}",
+    "/provenance/operations/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
       "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
@@ -68,7 +68,7 @@ export function _detectSend(
   optionalParams: DetectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    ":detect{?api%2Dversion}",
+    "/provenance:detect{?api%2Dversion}",
     {
       "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
