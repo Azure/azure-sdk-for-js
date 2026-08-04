@@ -24,6 +24,8 @@ export interface Agent {
   name: string;
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
+  /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
+  readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
   versions: {
     latest: AgentVersion;
@@ -45,6 +47,7 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+    state_source: item["state_source"],
     versions: _agentVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
@@ -66,6 +69,8 @@ export function agentDeserializer(item: any): Agent {
 
 /** The operational state of an agent. */
 export type AgentState = "enabled" | "disabled";
+/** Indicates the source of an agent's operational state. Empty when the state is not derived from a specific source. */
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
 /**
  * Helper interface for agent version references.
@@ -4781,14 +4786,20 @@ export interface AgentIdentity {
   principal_id: string;
   /** The client ID of the agent instance. Also referred to as the instance ID */
   client_id: string;
+  /** The status of the agent identity. Present for both the agent instance identity and the agent blueprint. */
+  status?: AgentIdentityStatus;
 }
 
 export function agentIdentityDeserializer(item: any): AgentIdentity {
   return {
     principal_id: item["principal_id"],
     client_id: item["client_id"],
+    status: item["status"],
   };
 }
+
+/** The status of an agent identity, applicable to both the agent instance identity and the agent blueprint. */
+export type AgentIdentityStatus = "active" | "disabled";
 
 /** model interface AgentBlueprintReference */
 export interface AgentBlueprintReference {
@@ -6879,7 +6890,7 @@ export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion
 /** An abstract representation of a tool stored in a toolbox. */
 export interface ToolboxTool {
   /** The type of tool. */
-  /** The discriminator possible values: code_interpreter, file_search, web_search, mcp, azure_ai_search, openapi, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, toolbox_search_preview */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, mcp, azure_ai_search, openapi, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, toolbox_search_preview, toolbox_search */
   type: ToolboxToolType;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -6929,6 +6940,7 @@ export type ToolboxToolUnion =
   | WorkIQPreviewToolboxTool
   | FabricIQPreviewToolboxTool
   | ToolboxSearchPreviewToolboxTool
+  | ToolSearchToolboxTool
   | ToolboxTool;
 
 export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
@@ -6970,6 +6982,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
 
     case "toolbox_search_preview":
       return toolboxSearchPreviewToolboxToolSerializer(item as ToolboxSearchPreviewToolboxTool);
+
+    case "toolbox_search":
+      return toolSearchToolboxToolSerializer(item as ToolSearchToolboxTool);
 
     default:
       return toolboxToolSerializer(item);
@@ -7016,6 +7031,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
     case "toolbox_search_preview":
       return toolboxSearchPreviewToolboxToolDeserializer(item as ToolboxSearchPreviewToolboxTool);
 
+    case "toolbox_search":
+      return toolSearchToolboxToolDeserializer(item as ToolSearchToolboxTool);
+
     default:
       return toolboxToolDeserializer(item);
   }
@@ -7034,6 +7052,7 @@ export type ToolboxToolType =
   | "reminder_preview"
   | "work_iq_preview"
   | "fabric_iq_preview"
+  | "toolbox_search"
   | "toolbox_search_preview";
 
 /** A code interpreter tool stored in a toolbox. */
@@ -7574,6 +7593,34 @@ export function toolboxSearchPreviewToolboxToolSerializer(
 export function toolboxSearchPreviewToolboxToolDeserializer(
   item: any,
 ): ToolboxSearchPreviewToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+  };
+}
+
+/** A toolbox search tool stored in a toolbox. */
+export interface ToolSearchToolboxTool extends ToolboxTool {
+  /** The type of the tool. Always `toolbox_search`. */
+  type: "toolbox_search";
+}
+
+export function toolSearchToolboxToolSerializer(item: ToolSearchToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+  };
+}
+
+export function toolSearchToolboxToolDeserializer(item: any): ToolSearchToolboxTool {
   return {
     type: item["type"],
     name: item["name"],
@@ -8270,6 +8317,10 @@ export interface EvaluatorVersion {
   definition: EvaluatorDefinitionUnion;
   /** Provenance artifacts from the generation pipeline. Read-only; present only on evaluator versions created via an EvaluatorGenerationJob. Each artifact resolves to a versioned Foundry Dataset. */
   readonly generation_artifacts?: EvaluatorGenerationArtifacts;
+  /** Read-only provenance link back to the EvaluatorGenerationJob that produced this version. Present only on evaluator versions created via the generation pipeline; absent for manually-created versions and unaffected by subsequent `PATCH` calls. */
+  readonly generation_job_id?: string;
+  /** Categories of warnings surfaced on this generated evaluator version. Present only on versions created via an EvaluatorGenerationJob when the paired job produced non-empty warnings. Absent (treat as no warnings) when the version is not from generation, when the paired job was clean, or when a subsequent `PATCH` to `definition` cleared the paired job's advisories. Follow `generation_job_id` to fetch the detailed warning payloads. */
+  readonly warnings?: GenerationWarningType[];
   /** Creator of the evaluator */
   readonly created_by?: string;
   /** Creation date/time of the evaluator */
@@ -8312,6 +8363,12 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     generation_artifacts: !item["generation_artifacts"]
       ? item["generation_artifacts"]
       : evaluatorGenerationArtifactsDeserializer(item["generation_artifacts"]),
+    generation_job_id: item["generation_job_id"],
+    warnings: !item["warnings"]
+      ? item["warnings"]
+      : item["warnings"].map((p: any) => {
+          return p;
+        }),
     created_by: item["created_by"],
     created_at: item["created_at"],
     modified_at: item["modified_at"],
@@ -8704,6 +8761,9 @@ export function datasetReferenceDeserializer(item: any): DatasetReference {
   };
 }
 
+/** Category of a warning surfaced on a generated evaluator version. Extensible so new warning categories (e.g., safety, output quality) can be introduced without a breaking change. */
+export type GenerationWarningType = "input_quality";
+
 /** Request body for getting evaluator credentials */
 export interface EvaluatorCredentialRequest {
   /** The blob URI for the evaluator storage. Example: `https://account.blob.core.windows.net:443/container` */
@@ -8732,6 +8792,8 @@ export interface EvaluatorGenerationJob {
   readonly finished_at?: Date;
   /** Token consumption summary. Populated when the job reaches a terminal state. */
   readonly usage?: EvaluatorGenerationTokenUsage;
+  /** Non-fatal input-quality advisories produced by the generation pipeline. Read-only; service-generated; populated only on terminal jobs when advisories fired. Omitted when generation was clean. Cleared when a subsequent `PATCH` to the paired `EvaluatorVersion.definition` invalidates the advisories. */
+  readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
 }
 
 export function evaluatorGenerationJobSerializer(item: EvaluatorGenerationJob): any {
@@ -8755,6 +8817,9 @@ export function evaluatorGenerationJobDeserializer(item: any): EvaluatorGenerati
     usage: !item["usage"]
       ? item["usage"]
       : evaluatorGenerationTokenUsageDeserializer(item["usage"]),
+    input_quality_warnings: !item["input_quality_warnings"]
+      ? item["input_quality_warnings"]
+      : rubricGenerationInputQualityWarningArrayDeserializer(item["input_quality_warnings"]),
   };
 }
 
@@ -9056,6 +9121,56 @@ export function evaluatorGenerationTokenUsageDeserializer(
     total_tokens: item["total_tokens"],
   };
 }
+
+export function rubricGenerationInputQualityWarningArrayDeserializer(
+  result: Array<RubricGenerationInputQualityWarning>,
+): any[] {
+  return result.map((item) => {
+    return rubricGenerationInputQualityWarningDeserializer(item);
+  });
+}
+
+/** A non-fatal advisory produced during rubric evaluator generation when resolved inputs are technically valid but likely too weak to produce a high-quality rubric. Read-only; service-generated. Persisted with the terminal EvaluatorGenerationJob. */
+export interface RubricGenerationInputQualityWarning {
+  /** Stable searchable machine-readable warning code. */
+  code: RubricGenerationInputQualityWarningCode;
+  /** Advisory severity. Initial values: `warning`. */
+  severity: RubricGenerationInputQualityWarningSeverity;
+  /** Human-readable message suitable for direct SDK/CLI/UI display. Must not include raw prompt, instruction, dataset, or trace text. */
+  message: string;
+  /** Which source category the warning applies to. `aggregate` is used only for cross-source warnings. */
+  source: RubricGenerationInputQualityWarningSource;
+  /** Zero-based index into `EvaluatorGenerationJob.inputs.sources` when the warning applies to a specific source. Omitted for aggregate warnings and for warnings not tied to one source. */
+  source_index?: number;
+}
+
+export function rubricGenerationInputQualityWarningDeserializer(
+  item: any,
+): RubricGenerationInputQualityWarning {
+  return {
+    code: item["code"],
+    severity: item["severity"],
+    message: item["message"],
+    source: item["source"],
+    source_index: item["source_index"],
+  };
+}
+
+/** Stable searchable machine-readable warning code for a rubric-generation input-quality warning. Values are `snake_case`; clients must tolerate additional service-defined identifiers. */
+export type RubricGenerationInputQualityWarningCode =
+  | "empty_prompt"
+  | "short_prompt"
+  | "empty_agent_instructions"
+  | "short_agent_instructions"
+  | "empty_dataset_content"
+  | "short_dataset_content"
+  | "low_trace_count"
+  | "insufficient_total_input";
+/** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
+export type RubricGenerationInputQualityWarningSeverity = "warning";
+/** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
+export type RubricGenerationInputQualityWarningSource =
+  "prompt" | "agent" | "dataset" | "aggregate";
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultEvaluatorGenerationJob {
@@ -12363,7 +12478,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, tool_use */
+  /** The discriminator possible values: simple_qna, traces, task_generation, tool_use */
   type: DataGenerationJobType;
   /** Maximum number of samples to generate. */
   max_samples: number;
@@ -12399,6 +12514,7 @@ export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJ
 export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
+  | TaskGenerationDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
   | DataGenerationJobOptions;
 
@@ -12409,6 +12525,11 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
 
     case "traces":
       return tracesDataGenerationJobOptionsSerializer(item as TracesDataGenerationJobOptions);
+
+    case "task_generation":
+      return taskGenerationDataGenerationJobOptionsSerializer(
+        item as TaskGenerationDataGenerationJobOptions,
+      );
 
     case "tool_use":
       return toolUseFineTuningDataGenerationJobOptionsSerializer(
@@ -12432,6 +12553,11 @@ export function dataGenerationJobOptionsUnionDeserializer(
     case "traces":
       return tracesDataGenerationJobOptionsDeserializer(item as TracesDataGenerationJobOptions);
 
+    case "task_generation":
+      return taskGenerationDataGenerationJobOptionsDeserializer(
+        item as TaskGenerationDataGenerationJobOptions,
+      );
+
     case "tool_use":
       return toolUseFineTuningDataGenerationJobOptionsDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
@@ -12443,7 +12569,7 @@ export function dataGenerationJobOptionsUnionDeserializer(
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -12530,6 +12656,38 @@ export function tracesDataGenerationJobOptionsSerializer(
 export function tracesDataGenerationJobOptionsDeserializer(
   item: any,
 ): TracesDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** The options for a task generation data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is TaskGeneration for this model. */
+  type: "task_generation";
+}
+
+export function taskGenerationDataGenerationJobOptionsSerializer(
+  item: TaskGenerationDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function taskGenerationDataGenerationJobOptionsDeserializer(
+  item: any,
+): TaskGenerationDataGenerationJobOptions {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -13105,6 +13263,8 @@ export interface OptimizationOptions {
   optimization_model?: string;
   /** Evaluation granularity. Null/omitted means per-item single-turn. Set to 'conversation' for per-conversation multi-turn simulation scoring. */
   evaluation_level?: EvaluationLevel;
+  /** Maximum number of consecutive reflective minibatch rejections before stopping early. A 'stall' occurs when the optimizer proposes a prompt change, evaluates it on a small subset, and the score does not improve — so no full validation-set evaluation is triggered. The counter resets whenever a minibatch passes and its full-validation score beats the current best. Only a sustained plateau of `max_stalls` consecutive minibatch failures triggers the stop. The service defaults to 5 if a value is not specified by the caller. Must be >= 1 when set. */
+  max_stalls?: number;
 }
 
 export function optimizationOptionsSerializer(item: OptimizationOptions): any {
@@ -13114,6 +13274,7 @@ export function optimizationOptionsSerializer(item: OptimizationOptions): any {
     eval_model: item["eval_model"],
     optimization_model: item["optimization_model"],
     evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
   };
 }
 
@@ -13128,6 +13289,7 @@ export function optimizationOptionsDeserializer(item: any): OptimizationOptions 
     eval_model: item["eval_model"],
     optimization_model: item["optimization_model"],
     evaluation_level: item["evaluation_level"],
+    max_stalls: item["max_stalls"],
   };
 }
 
