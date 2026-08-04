@@ -596,7 +596,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

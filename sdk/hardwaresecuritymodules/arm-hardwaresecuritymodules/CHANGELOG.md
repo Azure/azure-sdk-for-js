@@ -1,15 +1,51 @@
 # Release History
-    
-## 2.0.1 (Unreleased)
+
+## 3.0.0-beta.1 (2026-08-04)
+Compared with version 2.0.0
 
 ### Features Added
+  - Added operation group PaymentHsmClusterPrivateEndpointConnectionsOperations
+  - Added operation group PaymentHsmClusterPrivateLinkResourcesOperations
+  - Added operation group PaymentHsmClustersOperations
+  - Added Interface PaymentHsmCluster
+  - Added Interface PaymentHsmClusterPatchParameters
+  - Added Interface PaymentHsmClusterPrivateEndpointConnection
+  - Added Interface PaymentHsmClusterPrivateEndpointConnectionsCreateOptionalParams
+  - Added Interface PaymentHsmClusterPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PaymentHsmClusterPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PaymentHsmClusterPrivateEndpointConnectionsListByPaymentHsmClusterOptionalParams
+  - Added Interface PaymentHsmClusterPrivateLinkResourcesListByPaymentHsmClusterOptionalParams
+  - Added Interface PaymentHsmClusterProperties
+  - Added Interface PaymentHsmClustersCreateOrUpdateOptionalParams
+  - Added Interface PaymentHsmClustersDeleteOptionalParams
+  - Added Interface PaymentHsmClustersGetOptionalParams
+  - Added Interface PaymentHsmClusterSku
+  - Added Interface PaymentHsmClustersListByResourceGroupOptionalParams
+  - Added Interface PaymentHsmClustersListBySubscriptionOptionalParams
+  - Added Interface PaymentHsmClustersUpdateOptionalParams
+  - Added Interface PaymentHsmProperties
+  - Interface AzureDedicatedHSMResourceProviderOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias HsmState
+  - Added Type Alias PaymentHsmClusterSkuFamily
+  - Added Type Alias PaymentHsmClusterSkuName
+  - Added Enum AzureClouds
+  - Added Enum KnownCloudHsmClusterSkuName
+  - Added Enum KnownHsmState
+  - Added Enum KnownPaymentHsmClusterSkuFamily
+  - Added Enum KnownPaymentHsmClusterSkuName
+  - Enum KnownVersions has a new value V20251201Preview
 
 ### Breaking Changes
+  - Operation CloudHsmClustersOperations.createOrUpdate has a new signature
+  - Operation CloudHsmClustersOperations.get has a new signature
+  - Operation CloudHsmClustersOperations.listByResourceGroup has a new signature
+  - Operation CloudHsmClustersOperations.listBySubscription has a new signature
+  - Interface CloudHsmClusterBackupStatusGetOptionalParams no longer has parameter updateIntervalInMs
+  - Interface CloudHsmClusterRestoreStatusGetOptionalParams no longer has parameter updateIntervalInMs
+  - Type alias "CloudHsmClusterSkuName" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 2.0.0 (2025-07-04)
     
 ### Features Added
