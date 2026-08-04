@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { HttpClient, Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
   createEmptyPipeline,
@@ -14,6 +14,25 @@ import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Consta
 
 /** Request timeout, in milliseconds, for a single OneSettings HTTP call. */
 const ONE_SETTINGS_REQUEST_TIMEOUT_MS = 10000;
+
+// A single HTTP client and pipeline are reused across polls. The keep-alive agent/socket cache
+// lives on the HTTP client instance, so constructing a new client per request would leak a fresh
+// keep-alive agent each time. proxyPolicy is added once; with no arguments it reads the standard
+// HTTPS_PROXY/HTTP_PROXY/ALL_PROXY environment variables (honoring NO_PROXY) and sets the request
+// agent so OneSettings polling works behind a corporate proxy.
+let oneSettingsPipeline: Pipeline | undefined;
+let oneSettingsHttpClient: HttpClient | undefined;
+
+function getOneSettingsSender(): { pipeline: Pipeline; httpClient: HttpClient } {
+  if (!oneSettingsPipeline) {
+    oneSettingsPipeline = createEmptyPipeline();
+    oneSettingsPipeline.addPolicy(proxyPolicy());
+  }
+  if (!oneSettingsHttpClient) {
+    oneSettingsHttpClient = createDefaultHttpClient();
+  }
+  return { pipeline: oneSettingsPipeline, httpClient: oneSettingsHttpClient };
+}
 
 /**
  * Parsed result of a single OneSettings HTTP request.
@@ -61,13 +80,8 @@ export async function makeOneSettingsRequest(
       headers: createHttpHeaders(headers),
       timeout: ONE_SETTINGS_REQUEST_TIMEOUT_MS,
     });
-    // Route the request through a minimal pipeline so proxyPolicy runs: it reads the standard
-    // HTTPS_PROXY/HTTP_PROXY/ALL_PROXY (honoring NO_PROXY) environment variables and sets the
-    // request agent accordingly. Sending through the bare HTTP client would skip all policies and
-    // silently ignore proxy configuration, breaking OneSettings polling behind a corporate proxy.
-    const pipeline = createEmptyPipeline();
-    pipeline.addPolicy(proxyPolicy());
-    const response = await pipeline.sendRequest(createDefaultHttpClient(), request);
+    const { pipeline, httpClient } = getOneSettingsSender();
+    const response = await pipeline.sendRequest(httpClient, request);
     return parseOneSettingsResponse(response);
   } catch (error) {
     diag.debug("Failed to fetch configuration from OneSettings:", error);
