@@ -75,7 +75,7 @@ describe("OneSettings utils", () => {
       assert.deepStrictEqual(response.settings, {});
     });
 
-    it.each(["not-a-number", "30.5", "-5", ""])(
+    it.each(["not-a-number", "30.5", "0", "-5", ""])(
       "falls back to the default refresh interval when the header is invalid (%j)",
       async (headerValue) => {
         nock(host)

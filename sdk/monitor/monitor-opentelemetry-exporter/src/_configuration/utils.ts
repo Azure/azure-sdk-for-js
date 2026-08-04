@@ -97,10 +97,10 @@ function parseOneSettingsResponse(response: PipelineResponse): OneSettingsRespon
   let refreshIntervalMs = ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS;
   const refreshIntervalHeader = response.headers.get("x-ms-onesetinterval");
   if (refreshIntervalHeader) {
-    // OneSettings returns the refresh interval as a non-negative integer number of minutes;
-    // convert to milliseconds. Reject anything else (non-integer, negative, non-numeric).
+    // OneSettings returns the refresh interval as a positive integer number of minutes;
+    // convert to milliseconds. Reject anything else (non-integer, zero, negative, non-numeric).
     const minutes = Number(refreshIntervalHeader);
-    if (Number.isInteger(minutes) && minutes >= 0) {
+    if (Number.isInteger(minutes) && minutes > 0) {
       refreshIntervalMs = minutes * 60 * 1000;
     } else {
       diag.debug(`Invalid OneSettings refresh interval header: ${refreshIntervalHeader}`);
