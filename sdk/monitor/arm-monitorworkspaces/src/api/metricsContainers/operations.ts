@@ -5,10 +5,11 @@ import { MonitorContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   MetricsContainerResource,
-  metricsContainerResourceSerializer,
   metricsContainerResourceDeserializer,
   _MetricsContainerResourceListResult,
   _metricsContainerResourceListResultDeserializer,
+  MetricsContainerResourceCreateOrUpdate,
+  metricsContainerResourceCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -92,7 +93,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   metricsContainerName: string,
-  resource: MetricsContainerResource,
+  resource: MetricsContainerResourceCreateOrUpdate,
   options: MetricsContainersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -108,12 +109,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: metricsContainerResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: metricsContainerResourceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -136,7 +139,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   metricsContainerName: string,
-  resource: MetricsContainerResource,
+  resource: MetricsContainerResourceCreateOrUpdate,
   options: MetricsContainersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<MetricsContainerResource> {
   const result = await _createOrUpdateSend(

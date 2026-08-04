@@ -6,13 +6,14 @@ import type {
   NamespaceDiscoveredAsset,
   NamespaceDiscoveredAssetUpdate,
   _NamespaceDiscoveredAssetListResult,
+  NamespaceDiscoveredAssetCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  namespaceDiscoveredAssetSerializer,
   namespaceDiscoveredAssetDeserializer,
   namespaceDiscoveredAssetUpdateSerializer,
   _namespaceDiscoveredAssetListResultDeserializer,
+  namespaceDiscoveredAssetCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -123,11 +124,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a NamespaceDiscoveredAsset */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -219,7 +215,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   namespaceName: string,
   discoveredAssetName: string,
-  resource: NamespaceDiscoveredAsset,
+  resource: NamespaceDiscoveredAssetCreateOrUpdate,
   options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -235,12 +231,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceDiscoveredAssetSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceDiscoveredAssetCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -263,7 +261,7 @@ export function createOrReplace(
   resourceGroupName: string,
   namespaceName: string,
   discoveredAssetName: string,
-  resource: NamespaceDiscoveredAsset,
+  resource: NamespaceDiscoveredAssetCreateOrUpdate,
   options: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {

@@ -83,9 +83,7 @@ export async function _testFailoverCleanupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -156,9 +154,7 @@ export async function _testFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -221,9 +217,7 @@ export async function _reprotectDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -283,9 +277,7 @@ export async function _failoverCommitDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -348,9 +340,7 @@ export async function _failoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -409,9 +399,7 @@ export async function _checkReadinessDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -473,9 +461,7 @@ export async function _validateForReprotectDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -541,9 +527,7 @@ export async function _validateForTestFailoverCleanupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -623,9 +607,7 @@ export async function _validateForTestFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -699,9 +681,7 @@ export async function _validateForFailoverCommitDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -781,9 +761,7 @@ export async function _validateForFailoverDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -858,13 +836,9 @@ export async function _validateForOperationDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 200) {
-      if (result.body) {
-        error.details = errorResponseDeserializer(result.body);
-      }
+      error.details = errorResponseDeserializer(result.body);
     } else {
-      if (result.body) {
-        error.details = errorResponseDeserializer(result.body);
-      }
+      error.details = errorResponseDeserializer(result.body);
     }
     throw error;
   }
@@ -935,9 +909,7 @@ export async function _updateResourcesDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -999,13 +971,9 @@ export async function _finalizeDeserialize(
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 200) {
-      if (result.body) {
-        error.details = errorResponseDeserializer(result.body);
-      }
+      error.details = errorResponseDeserializer(result.body);
     } else {
-      if (result.body) {
-        error.details = errorResponseDeserializer(result.body);
-      }
+      error.details = errorResponseDeserializer(result.body);
     }
     throw error;
   }

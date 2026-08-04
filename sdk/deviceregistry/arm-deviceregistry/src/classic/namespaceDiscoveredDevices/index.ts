@@ -19,6 +19,7 @@ import type {
 import type {
   NamespaceDiscoveredDevice,
   NamespaceDiscoveredDeviceUpdate,
+  NamespaceDiscoveredDeviceCreateOrUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -32,11 +33,6 @@ export interface NamespaceDiscoveredDevicesOperations {
     options?: NamespaceDiscoveredDevicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
   /** Delete a NamespaceDiscoveredDevice */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -56,7 +52,7 @@ export interface NamespaceDiscoveredDevicesOperations {
     resourceGroupName: string,
     namespaceName: string,
     discoveredDeviceName: string,
-    resource: NamespaceDiscoveredDevice,
+    resource: NamespaceDiscoveredDeviceCreateOrUpdate,
     options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
   /** Get a NamespaceDiscoveredDevice */
@@ -93,7 +89,7 @@ function _getNamespaceDiscoveredDevices(context: DeviceRegistryManagementContext
       resourceGroupName: string,
       namespaceName: string,
       discoveredDeviceName: string,
-      resource: NamespaceDiscoveredDevice,
+      resource: NamespaceDiscoveredDeviceCreateOrUpdate,
       options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams,
     ) =>
       createOrReplace(

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DiscoveryContext as Client } from "../index.js";
-import type { NodePool, NodePoolUpdate, _NodePoolListResult } from "../../models/models.js";
+import type { NodePool, NodePoolUpdate, _NodePoolListResult, NodePoolCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  nodePoolSerializer,
   nodePoolDeserializer,
   nodePoolUpdateSerializer,
   _nodePoolListResultDeserializer,
+  nodePoolCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -55,9 +55,7 @@ export async function _listBySupercomputerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -107,9 +105,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -167,9 +163,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -200,7 +194,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   supercomputerName: string,
   nodePoolName: string,
-  resource: NodePool,
+  resource: NodePoolCreateOrUpdate,
   options: NodePoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -216,21 +210,21 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: nodePoolSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: nodePoolCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<NodePool> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -243,7 +237,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   supercomputerName: string,
   nodePoolName: string,
-  resource: NodePool,
+  resource: NodePoolCreateOrUpdate,
   options: NodePoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NodePool>, NodePool> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -293,9 +287,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<No
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

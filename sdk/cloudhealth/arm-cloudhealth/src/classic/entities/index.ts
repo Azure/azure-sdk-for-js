@@ -38,6 +38,7 @@ import type {
   GetDataAnnotationsRequest,
   GetDataAnnotationsResponse,
   GetSignalRecommendationsResponse,
+  EntityCreateOrUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -109,7 +110,7 @@ export interface EntitiesOperations {
     resourceGroupName: string,
     healthModelName: string,
     entityName: string,
-    resource: Entity,
+    resource: EntityCreateOrUpdate,
     options?: EntitiesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Entity>, Entity>;
   /** Get a Entity */
@@ -179,7 +180,7 @@ function _getEntities(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       entityName: string,
-      resource: Entity,
+      resource: EntityCreateOrUpdate,
       options?: EntitiesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, healthModelName, entityName, resource, options),
     get: (

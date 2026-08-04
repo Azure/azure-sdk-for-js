@@ -16,7 +16,7 @@ import type {
   NamespaceAssetsCreateOrReplaceOptionalParams,
   NamespaceAssetsGetOptionalParams,
 } from "../../api/namespaceAssets/options.js";
-import type { NamespaceAsset, NamespaceAssetUpdate } from "../../models/models.js";
+import type { NamespaceAsset, SchemaRegistryUpdateUpdate, NamespaceAssetCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -29,11 +29,6 @@ export interface NamespaceAssetsOperations {
     options?: NamespaceAssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceAsset>;
   /** Delete a NamespaceAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -45,7 +40,7 @@ export interface NamespaceAssetsOperations {
     resourceGroupName: string,
     namespaceName: string,
     assetName: string,
-    properties: NamespaceAssetUpdate,
+    properties: SchemaRegistryUpdateUpdate,
     options?: NamespaceAssetsUpdateOptionalParams,
   ) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
   /** Create a NamespaceAsset */
@@ -53,7 +48,7 @@ export interface NamespaceAssetsOperations {
     resourceGroupName: string,
     namespaceName: string,
     assetName: string,
-    resource: NamespaceAsset,
+    resource: NamespaceAssetCreateOrUpdate,
     options?: NamespaceAssetsCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
   /** Get a NamespaceAsset */
@@ -82,14 +77,14 @@ function _getNamespaceAssets(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       namespaceName: string,
       assetName: string,
-      properties: NamespaceAssetUpdate,
+      properties: SchemaRegistryUpdateUpdate,
       options?: NamespaceAssetsUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, assetName, properties, options),
     createOrReplace: (
       resourceGroupName: string,
       namespaceName: string,
       assetName: string,
-      resource: NamespaceAsset,
+      resource: NamespaceAssetCreateOrUpdate,
       options?: NamespaceAssetsCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, namespaceName, assetName, resource, options),
     get: (

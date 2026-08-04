@@ -26,6 +26,8 @@ import type {
   GoalAssignment,
   UpdateGoalResourceRequest,
   RecommendCapacityRequest,
+  GoalAssignmentCreateOrUpdate,
+  GoalAssignmentUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -121,42 +123,42 @@ export interface GoalAssignmentsOperations {
   update: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    properties: GoalAssignment,
+    properties: GoalAssignmentUpdate,
     options?: GoalAssignmentsUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use update instead */
   beginUpdate: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    properties: GoalAssignment,
+    properties: GoalAssignmentUpdate,
     options?: GoalAssignmentsUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    properties: GoalAssignment,
+    properties: GoalAssignmentUpdate,
     options?: GoalAssignmentsUpdateOptionalParams,
   ) => Promise<void>;
   /** Create a GoalAssignment */
   createOrUpdate: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    resource: GoalAssignment,
+    resource: GoalAssignmentCreateOrUpdate,
     options?: GoalAssignmentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    resource: GoalAssignment,
+    resource: GoalAssignmentCreateOrUpdate,
     options?: GoalAssignmentsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     serviceGroupName: string,
     goalAssignmentName: string,
-    resource: GoalAssignment,
+    resource: GoalAssignmentCreateOrUpdate,
     options?: GoalAssignmentsCreateOrUpdateOptionalParams,
   ) => Promise<void>;
   /** Get a GoalAssignment */
@@ -282,13 +284,13 @@ function _getGoalAssignments(context: AzureResilienceManagementContext) {
     update: (
       serviceGroupName: string,
       goalAssignmentName: string,
-      properties: GoalAssignment,
+      properties: GoalAssignmentUpdate,
       options?: GoalAssignmentsUpdateOptionalParams,
     ) => update(context, serviceGroupName, goalAssignmentName, properties, options),
     beginUpdate: async (
       serviceGroupName: string,
       goalAssignmentName: string,
-      properties: GoalAssignment,
+      properties: GoalAssignmentUpdate,
       options?: GoalAssignmentsUpdateOptionalParams,
     ) => {
       const poller = update(context, serviceGroupName, goalAssignmentName, properties, options);
@@ -298,7 +300,7 @@ function _getGoalAssignments(context: AzureResilienceManagementContext) {
     beginUpdateAndWait: async (
       serviceGroupName: string,
       goalAssignmentName: string,
-      properties: GoalAssignment,
+      properties: GoalAssignmentUpdate,
       options?: GoalAssignmentsUpdateOptionalParams,
     ) => {
       return await update(context, serviceGroupName, goalAssignmentName, properties, options);
@@ -306,13 +308,13 @@ function _getGoalAssignments(context: AzureResilienceManagementContext) {
     createOrUpdate: (
       serviceGroupName: string,
       goalAssignmentName: string,
-      resource: GoalAssignment,
+      resource: GoalAssignmentCreateOrUpdate,
       options?: GoalAssignmentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, serviceGroupName, goalAssignmentName, resource, options),
     beginCreateOrUpdate: async (
       serviceGroupName: string,
       goalAssignmentName: string,
-      resource: GoalAssignment,
+      resource: GoalAssignmentCreateOrUpdate,
       options?: GoalAssignmentsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -328,7 +330,7 @@ function _getGoalAssignments(context: AzureResilienceManagementContext) {
     beginCreateOrUpdateAndWait: async (
       serviceGroupName: string,
       goalAssignmentName: string,
-      resource: GoalAssignment,
+      resource: GoalAssignmentCreateOrUpdate,
       options?: GoalAssignmentsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, serviceGroupName, goalAssignmentName, resource, options);

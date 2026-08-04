@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ProxyResource, systemDataDeserializer } from "../models.js";
+
 /** Page of a security applications list */
 export interface _ApplicationsList {
   /** Collection of applications in this page */
@@ -58,7 +58,7 @@ export function applicationSerializer(item: Application): any {
       "conditionSets",
     ])
       ? undefined
-      : _applicationPropertiesSerializer(item),
+      : _applicationCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -72,7 +72,7 @@ export function applicationDeserializer(item: any): Application {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _applicationPropertiesDeserializer(item["properties"])),
+      : _applicationCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -125,7 +125,48 @@ export enum KnownApplicationSourceResourceType {
  */
 export type ApplicationSourceResourceType = string;
 
-export function _applicationPropertiesSerializer(item: Application): any {
+/** Security Application over a given scope */
+export interface ApplicationCreateOrUpdate extends ProxyResource {
+  /** display name of the application */
+  displayName?: string;
+  /** description of the application */
+  description?: string;
+  /** The application source, what it affects, e.g. Assessments */
+  sourceResourceType?: ApplicationSourceResourceType;
+  /** The application conditionSets - see examples */
+  conditionSets?: any[];
+}
+
+export function applicationCreateOrUpdateSerializer(item: ApplicationCreateOrUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "displayName",
+      "description",
+      "sourceResourceType",
+      "conditionSets",
+    ])
+      ? undefined
+      : _applicationCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function applicationCreateOrUpdateDeserializer(item: any): ApplicationCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _applicationCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _applicationCreateOrUpdatePropertiesSerializer(
+  item: ApplicationCreateOrUpdate,
+): any {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -138,7 +179,7 @@ export function _applicationPropertiesSerializer(item: Application): any {
   };
 }
 
-export function _applicationPropertiesDeserializer(item: any) {
+export function _applicationCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
     description: item["description"],

@@ -7,14 +7,17 @@ import type {
   UpdateGoalResourceRequest,
   RecommendCapacityRequest,
   _GoalAssignmentListResult,
+  GoalAssignmentCreateOrUpdate,
+  GoalAssignmentUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  goalAssignmentSerializer,
   goalAssignmentDeserializer,
   updateGoalResourceRequestSerializer,
   recommendCapacityRequestSerializer,
   _goalAssignmentListResultDeserializer,
+  goalAssignmentCreateOrUpdateSerializer,
+  goalAssignmentUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -63,9 +66,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -122,9 +123,7 @@ export async function _recommendCapacityDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -174,9 +173,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -229,9 +226,7 @@ export async function _refreshGoalResourcesDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -288,9 +283,7 @@ export async function _updateGoalResourcesDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -320,7 +313,7 @@ export function _updateSend(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  properties: GoalAssignment,
+  properties: GoalAssignmentUpdate,
   options: GoalAssignmentsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -334,21 +327,21 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalAssignmentSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalAssignmentUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -361,7 +354,7 @@ export function update(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  properties: GoalAssignment,
+  properties: GoalAssignmentUpdate,
   options: GoalAssignmentsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -378,7 +371,7 @@ export function _createOrUpdateSend(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  resource: GoalAssignment,
+  resource: GoalAssignmentCreateOrUpdate,
   options: GoalAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -392,21 +385,21 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalAssignmentSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalAssignmentCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -419,7 +412,7 @@ export function createOrUpdate(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  resource: GoalAssignment,
+  resource: GoalAssignmentCreateOrUpdate,
   options: GoalAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -459,9 +452,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Go
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

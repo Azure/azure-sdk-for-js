@@ -9,7 +9,10 @@ import {
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesGetOptionalParams,
 } from "../../api/alertsSuppressionRules/options.js";
-import { AlertsSuppressionRule } from "../../models/alertsSuppressionRulesAPI/models.js";
+import {
+  AlertsSuppressionRule,
+  AlertsSuppressionRuleCreateOrUpdate,
+} from "../../models/alertsSuppressionRulesAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertsSuppressionRules operations. */
@@ -26,7 +29,7 @@ export interface AlertsSuppressionRulesOperations {
   /** Update existing rule or create new rule if it doesn't exist */
   update: (
     alertsSuppressionRuleName: string,
-    alertsSuppressionRule: AlertsSuppressionRule,
+    alertsSuppressionRule: AlertsSuppressionRuleCreateOrUpdate,
     options?: AlertsSuppressionRulesUpdateOptionalParams,
   ) => Promise<AlertsSuppressionRule>;
   /** Get dismiss rule, with name: {alertsSuppressionRuleName}, for the given subscription */
@@ -45,7 +48,7 @@ function _getAlertsSuppressionRules(context: SecurityCenterContext) {
     ) => $delete(context, alertsSuppressionRuleName, options),
     update: (
       alertsSuppressionRuleName: string,
-      alertsSuppressionRule: AlertsSuppressionRule,
+      alertsSuppressionRule: AlertsSuppressionRuleCreateOrUpdate,
       options?: AlertsSuppressionRulesUpdateOptionalParams,
     ) => update(context, alertsSuppressionRuleName, alertsSuppressionRule, options),
     get: (alertsSuppressionRuleName: string, options?: AlertsSuppressionRulesGetOptionalParams) =>

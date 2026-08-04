@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ProxyResource, systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** Auto provisioning setting */
 export interface AutoProvisioningSetting extends ProxyResource {
   /** Describes what kind of security agent provisioning action to take */
@@ -20,7 +20,7 @@ export function autoProvisioningSettingSerializer(item: AutoProvisioningSetting)
   return {
     properties: areAllPropsUndefined(item, ["autoProvision"])
       ? undefined
-      : _autoProvisioningSettingPropertiesSerializer(item),
+      : _autoProvisioningSettingCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -34,7 +34,7 @@ export function autoProvisioningSettingDeserializer(item: any): AutoProvisioning
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _autoProvisioningSettingPropertiesDeserializer(item["properties"])),
+      : _autoProvisioningSettingCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -494,7 +494,7 @@ export function workspaceSettingSerializer(item: WorkspaceSetting): any {
   return {
     properties: areAllPropsUndefined(item, ["workspaceId", "scope"])
       ? undefined
-      : _workspaceSettingPropertiesSerializer(item),
+      : _workspaceSettingUpdatePropertiesSerializer(item),
   };
 }
 
@@ -508,7 +508,7 @@ export function workspaceSettingDeserializer(item: any): WorkspaceSetting {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _workspaceSettingPropertiesDeserializer(item["properties"])),
+      : _workspaceSettingUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -558,11 +558,173 @@ export function workspaceSettingArrayDeserializer(result: Array<WorkspaceSetting
   });
 }
 
-export function _autoProvisioningSettingPropertiesSerializer(item: AutoProvisioningSetting): any {
+/** Configures where to store the OMS agent data for workspaces under a scope */
+export interface WorkspaceSettingCreateOrUpdate extends ProxyResource {
+  /** The full Azure ID of the workspace to save the data in */
+  workspaceId?: string;
+  /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
+  scope?: string;
+}
+
+export function workspaceSettingCreateOrUpdateSerializer(
+  item: WorkspaceSettingCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["workspaceId", "scope"])
+      ? undefined
+      : _workspaceSettingUpdatePropertiesSerializer(item),
+  };
+}
+
+export function workspaceSettingCreateOrUpdateDeserializer(
+  item: any,
+): WorkspaceSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _workspaceSettingUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Configures where to store the OMS agent data for workspaces under a scope */
+export interface WorkspaceSettingUpdate extends ProxyResource {
+  /** The full Azure ID of the workspace to save the data in */
+  workspaceId?: string;
+  /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
+  scope?: string;
+}
+
+export function workspaceSettingUpdateSerializer(item: WorkspaceSettingUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, ["workspaceId", "scope"])
+      ? undefined
+      : _workspaceSettingUpdatePropertiesSerializer(item),
+  };
+}
+
+export function workspaceSettingUpdateDeserializer(item: any): WorkspaceSettingUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _workspaceSettingUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Information protection policy. */
+export interface InformationProtectionPolicyCreateOrUpdate extends ExtensionResource {
+  /** Dictionary of sensitivity labels. */
+  labels?: Record<string, SensitivityLabel>;
+  /** The sensitivity information types. */
+  informationTypes?: Record<string, InformationType>;
+}
+
+export function informationProtectionPolicyCreateOrUpdateSerializer(
+  item: InformationProtectionPolicyCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["labels", "informationTypes"])
+      ? undefined
+      : _informationProtectionPolicyCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function informationProtectionPolicyCreateOrUpdateDeserializer(
+  item: any,
+): InformationProtectionPolicyCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _informationProtectionPolicyCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** describes properties of an information protection policy. */
+export interface InformationProtectionPolicyPropertiesCreateOrUpdate {
+  /** Dictionary of sensitivity labels. */
+  labels?: Record<string, SensitivityLabel>;
+  /** The sensitivity information types. */
+  informationTypes?: Record<string, InformationType>;
+}
+
+export function informationProtectionPolicyPropertiesCreateOrUpdateSerializer(
+  item: InformationProtectionPolicyPropertiesCreateOrUpdate,
+): any {
+  return {
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordSerializer(item["labels"]),
+    informationTypes: !item["informationTypes"]
+      ? item["informationTypes"]
+      : informationTypeRecordSerializer(item["informationTypes"]),
+  };
+}
+
+export function informationProtectionPolicyPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): InformationProtectionPolicyPropertiesCreateOrUpdate {
+  return {
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordDeserializer(item["labels"]),
+    informationTypes: !item["informationTypes"]
+      ? item["informationTypes"]
+      : informationTypeRecordDeserializer(item["informationTypes"]),
+  };
+}
+
+/** Auto provisioning setting */
+export interface AutoProvisioningSettingCreateOrUpdate extends ProxyResource {
+  /** Describes what kind of security agent provisioning action to take */
+  autoProvision?: AutoProvision;
+}
+
+export function autoProvisioningSettingCreateOrUpdateSerializer(
+  item: AutoProvisioningSettingCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["autoProvision"])
+      ? undefined
+      : _autoProvisioningSettingCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function autoProvisioningSettingCreateOrUpdateDeserializer(
+  item: any,
+): AutoProvisioningSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _autoProvisioningSettingCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _autoProvisioningSettingCreateOrUpdatePropertiesSerializer(
+  item: AutoProvisioningSettingCreateOrUpdate,
+): any {
   return { autoProvision: item["autoProvision"] };
 }
 
-export function _autoProvisioningSettingPropertiesDeserializer(item: any) {
+export function _autoProvisioningSettingCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     autoProvision: item["autoProvision"],
   };
@@ -604,13 +766,33 @@ export function _informationProtectionPolicyPropertiesDeserializer(item: any) {
   };
 }
 
-export function _workspaceSettingPropertiesSerializer(item: WorkspaceSetting): any {
+export function _workspaceSettingUpdatePropertiesSerializer(item: WorkspaceSettingUpdate): any {
   return { workspaceId: item["workspaceId"], scope: item["scope"] };
 }
 
-export function _workspaceSettingPropertiesDeserializer(item: any) {
+export function _workspaceSettingUpdatePropertiesDeserializer(item: any) {
   return {
     workspaceId: item["workspaceId"],
     scope: item["scope"],
+  };
+}
+
+export function _informationProtectionPolicyCreateOrUpdatePropertiesSerializer(
+  item: InformationProtectionPolicyCreateOrUpdate,
+): any {
+  return {
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordSerializer(item["labels"]),
+    informationTypes: !item["informationTypes"]
+      ? item["informationTypes"]
+      : informationTypeRecordSerializer(item["informationTypes"]),
+  };
+}
+
+export function _informationProtectionPolicyCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    labels: !item["labels"] ? item["labels"] : sensitivityLabelRecordDeserializer(item["labels"]),
+    informationTypes: !item["informationTypes"]
+      ? item["informationTypes"]
+      : informationTypeRecordDeserializer(item["informationTypes"]),
   };
 }

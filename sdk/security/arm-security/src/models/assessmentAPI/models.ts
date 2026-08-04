@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import {
   Severity,
@@ -11,12 +17,6 @@ import {
 } from "../common/models.js";
 import { ProxyResource, Resource, systemDataDeserializer, ExtensionResource } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Security assessment metadata response */
 export interface SecurityAssessmentMetadataResponse extends ProxyResource {
   /** User friendly display name of the assessment */
@@ -69,7 +69,7 @@ export function securityAssessmentMetadataResponseSerializer(
       "techniques",
     ])
       ? undefined
-      : _securityAssessmentMetadataResponsePropertiesSerializer(item),
+      : _securityAssessmentMetadataResponseCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -85,7 +85,9 @@ export function securityAssessmentMetadataResponseDeserializer(
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _securityAssessmentMetadataResponsePropertiesDeserializer(item["properties"])),
+      : _securityAssessmentMetadataResponseCreateOrUpdatePropertiesDeserializer(
+          item["properties"],
+        )),
   };
 }
 
@@ -1530,6 +1532,80 @@ export function securityAssessmentResponseArrayDeserializer(
   });
 }
 
+/** Security assessment metadata response */
+export interface SecurityAssessmentMetadataResponseCreateOrUpdate extends ProxyResource {
+  /** User friendly display name of the assessment */
+  displayName?: string;
+  /** Azure resource ID of the policy definition that turns this assessment calculation on */
+  readonly policyDefinitionId?: string;
+  /** Human readable description of the assessment */
+  description?: string;
+  /** Human readable description of what you should do to mitigate this security issue */
+  remediationDescription?: string;
+  categories?: Categories[];
+  /** The severity level of the assessment */
+  severity?: Severity;
+  /** The user impact of the assessment */
+  userImpact?: UserImpact;
+  /** The implementation effort required to remediate this assessment */
+  implementationEffort?: ImplementationEffort;
+  threats?: Threats[];
+  /** True if this assessment is in preview release status */
+  preview?: boolean;
+  /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
+  assessmentType?: AssessmentType;
+  /** Describes the partner that created the assessment */
+  partnerData?: SecurityAssessmentMetadataPartnerData;
+  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
+  plannedDeprecationDate?: string;
+  tactics?: Tactics[];
+  techniques?: Techniques[];
+}
+
+export function securityAssessmentMetadataResponseCreateOrUpdateSerializer(
+  item: SecurityAssessmentMetadataResponseCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "displayName",
+      "description",
+      "remediationDescription",
+      "categories",
+      "severity",
+      "userImpact",
+      "implementationEffort",
+      "threats",
+      "preview",
+      "assessmentType",
+      "partnerData",
+      "publishDates",
+      "plannedDeprecationDate",
+      "tactics",
+      "techniques",
+    ])
+      ? undefined
+      : _securityAssessmentMetadataResponseCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function securityAssessmentMetadataResponseCreateOrUpdateDeserializer(
+  item: any,
+): SecurityAssessmentMetadataResponseCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _securityAssessmentMetadataResponseCreateOrUpdatePropertiesDeserializer(
+          item["properties"],
+        )),
+  };
+}
+
 /** Known values of {@link ExpandEnum} that the service accepts. */
 export enum KnownExpandEnum {
   /** All links associated with an assessment */
@@ -1541,8 +1617,8 @@ export enum KnownExpandEnum {
 /** Type of ExpandEnum */
 export type ExpandEnum = string;
 
-export function _securityAssessmentMetadataResponsePropertiesSerializer(
-  item: SecurityAssessmentMetadataResponse,
+export function _securityAssessmentMetadataResponseCreateOrUpdatePropertiesSerializer(
+  item: SecurityAssessmentMetadataResponseCreateOrUpdate,
 ): any {
   return {
     displayName: item["displayName"],
@@ -1583,7 +1659,7 @@ export function _securityAssessmentMetadataResponsePropertiesSerializer(
   };
 }
 
-export function _securityAssessmentMetadataResponsePropertiesDeserializer(item: any) {
+export function _securityAssessmentMetadataResponseCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
     policyDefinitionId: item["policyDefinitionId"],

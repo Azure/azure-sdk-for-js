@@ -5,17 +5,17 @@ import type { DisconnectedOperationsManagementContext as Client } from "../index
 import type {
   DisconnectedOperation,
   DisconnectedOperationCreateOrUpdate,
-  DisconnectedOperationUpdate,
   _DisconnectedOperationListResult,
   DisconnectedOperationDeploymentManifest,
+  DisconnectedOperationUpdateUpdate,
 } from "../../models/models.js";
 import {
   disconnectedOperationDeserializer,
   errorResponseDeserializer,
   disconnectedOperationCreateOrUpdateSerializer,
-  disconnectedOperationUpdateSerializer,
   _disconnectedOperationListResultDeserializer,
   disconnectedOperationDeploymentManifestDeserializer,
+  disconnectedOperationUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -216,11 +216,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a DisconnectedOperation */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -240,7 +235,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  properties: DisconnectedOperationUpdate,
+  properties: DisconnectedOperationUpdateUpdate,
   options: DisconnectedOperationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -255,12 +250,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: disconnectedOperationUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: disconnectedOperationUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -282,7 +279,7 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   name: string,
-  properties: DisconnectedOperationUpdate,
+  properties: DisconnectedOperationUpdateUpdate,
   options: DisconnectedOperationsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DisconnectedOperation> {
   const result = await _updateSend(context, resourceGroupName, name, properties, options);

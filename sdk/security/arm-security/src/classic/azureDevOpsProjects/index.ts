@@ -9,7 +9,11 @@ import {
   AzureDevOpsProjectsCreateOrUpdateOptionalParams,
   AzureDevOpsProjectsGetOptionalParams,
 } from "../../api/azureDevOpsProjects/options.js";
-import { AzureDevOpsProject } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import {
+  AzureDevOpsProject,
+  AzureDevOpsProjectCreateOrUpdate,
+  AzureDevOpsProjectUpdate,
+} from "../../models/securityConnectorsDevOpsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -29,7 +33,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectUpdate,
     options?: AzureDevOpsProjectsUpdateOptionalParams,
   ) => PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>;
   /** @deprecated use update instead */
@@ -38,7 +42,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectUpdate,
     options?: AzureDevOpsProjectsUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>>;
   /** @deprecated use update instead */
@@ -47,7 +51,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectUpdate,
     options?: AzureDevOpsProjectsUpdateOptionalParams,
   ) => Promise<AzureDevOpsProject>;
   /** Creates or updates a monitored Azure DevOps project resource. */
@@ -56,7 +60,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
     options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>;
   /** @deprecated use createOrUpdate instead */
@@ -65,7 +69,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
     options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AzureDevOpsProject>, AzureDevOpsProject>>;
   /** @deprecated use createOrUpdate instead */
@@ -74,7 +78,7 @@ export interface AzureDevOpsProjectsOperations {
     securityConnectorName: string,
     orgName: string,
     projectName: string,
-    azureDevOpsProject: AzureDevOpsProject,
+    azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
     options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
   ) => Promise<AzureDevOpsProject>;
   /** Returns a monitored Azure DevOps project resource. */
@@ -100,7 +104,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectUpdate,
       options?: AzureDevOpsProjectsUpdateOptionalParams,
     ) =>
       update(
@@ -117,7 +121,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectUpdate,
       options?: AzureDevOpsProjectsUpdateOptionalParams,
     ) => {
       const poller = update(
@@ -137,7 +141,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectUpdate,
       options?: AzureDevOpsProjectsUpdateOptionalParams,
     ) => {
       return await update(
@@ -155,7 +159,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
       options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -172,7 +176,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
       options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -192,7 +196,7 @@ function _getAzureDevOpsProjects(context: SecurityCenterContext) {
       securityConnectorName: string,
       orgName: string,
       projectName: string,
-      azureDevOpsProject: AzureDevOpsProject,
+      azureDevOpsProject: AzureDevOpsProjectCreateOrUpdate,
       options?: AzureDevOpsProjectsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

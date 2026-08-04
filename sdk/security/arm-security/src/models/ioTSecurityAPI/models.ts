@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ProxyResource, systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** The device security group resource */
 export interface DeviceSecurityGroup extends ExtensionResource {
   /** The list of custom alert threshold rules. */
@@ -31,7 +31,7 @@ export function deviceSecurityGroupSerializer(item: DeviceSecurityGroup): any {
       "denylistRules",
     ])
       ? undefined
-      : _deviceSecurityGroupPropertiesSerializer(item),
+      : _deviceSecurityGroupCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -45,7 +45,7 @@ export function deviceSecurityGroupDeserializer(item: any): DeviceSecurityGroup 
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _deviceSecurityGroupPropertiesDeserializer(item["properties"])),
+      : _deviceSecurityGroupCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -162,7 +162,8 @@ export function thresholdCustomAlertRuleDeserializer(item: any): ThresholdCustom
 
 /** Alias for ThresholdCustomAlertRuleUnion */
 export type ThresholdCustomAlertRuleUnion =
-  TimeWindowCustomAlertRuleUnion | ThresholdCustomAlertRule;
+  | TimeWindowCustomAlertRuleUnion
+  | ThresholdCustomAlertRule;
 
 export function thresholdCustomAlertRuleUnionSerializer(item: ThresholdCustomAlertRuleUnion): any {
   switch (item.ruleType) {
@@ -1227,7 +1228,9 @@ export function customAlertRuleDeserializer(item: any): CustomAlertRule {
 
 /** Alias for CustomAlertRuleUnion */
 export type CustomAlertRuleUnion =
-  ThresholdCustomAlertRuleUnion | ListCustomAlertRuleUnion | CustomAlertRule;
+  | ThresholdCustomAlertRuleUnion
+  | ListCustomAlertRuleUnion
+  | CustomAlertRule;
 
 export function customAlertRuleUnionSerializer(item: CustomAlertRuleUnion): any {
   switch (item.ruleType) {
@@ -1331,7 +1334,9 @@ export function listCustomAlertRuleDeserializer(item: any): ListCustomAlertRule 
 
 /** Alias for ListCustomAlertRuleUnion */
 export type ListCustomAlertRuleUnion =
-  AllowlistCustomAlertRuleUnion | DenylistCustomAlertRule | ListCustomAlertRule;
+  | AllowlistCustomAlertRuleUnion
+  | DenylistCustomAlertRule
+  | ListCustomAlertRule;
 
 export function listCustomAlertRuleUnionSerializer(item: ListCustomAlertRuleUnion): any {
   switch (item.ruleType) {
@@ -2464,7 +2469,215 @@ export function ioTSecurityAggregatedRecommendationArrayDeserializer(
   });
 }
 
-export function _deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGroup): any {
+/** IoT Security solution configuration and resource information. */
+export interface IoTSecuritySolutionModelCreateOrUpdate extends ProxyResource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Workspace resource ID */
+  workspace?: string;
+  /** Resource display name. */
+  displayName?: string;
+  /** Status of the IoT Security solution. */
+  status?: SecuritySolutionStatus;
+  /** List of additional options for exporting to workspace data. */
+  export?: ExportData[];
+  /** Disabled data sources. Disabling these data sources compromises the system. */
+  disabledDataSources?: DataSource[];
+  /** IoT Hub resource IDs */
+  iotHubs?: string[];
+  /** Properties of the IoT Security solution's user defined resources. */
+  userDefinedResources?: UserDefinedResourcesProperties;
+  /** List of the configuration status for each recommendation type. */
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
+  /** Unmasked IP address logging status */
+  unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
+  /** List of additional workspaces */
+  additionalWorkspaces?: AdditionalWorkspacesProperties[];
+}
+
+export function ioTSecuritySolutionModelCreateOrUpdateSerializer(
+  item: IoTSecuritySolutionModelCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "workspace",
+      "displayName",
+      "status",
+      "export",
+      "disabledDataSources",
+      "iotHubs",
+      "userDefinedResources",
+      "recommendationsConfiguration",
+      "unmaskedIpLoggingStatus",
+      "additionalWorkspaces",
+    ])
+      ? undefined
+      : _ioTSecuritySolutionModelCreateOrUpdatePropertiesSerializer(item),
+    tags: item["tags"],
+    location: item["location"],
+  };
+}
+
+export function ioTSecuritySolutionModelCreateOrUpdateDeserializer(
+  item: any,
+): IoTSecuritySolutionModelCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _ioTSecuritySolutionModelCreateOrUpdatePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
+
+/** Security Solution setting data */
+export interface IoTSecuritySolutionPropertiesCreateOrUpdate {
+  /** Workspace resource ID */
+  workspace?: string;
+  /** Resource display name. */
+  displayName: string;
+  /** Status of the IoT Security solution. */
+  status?: SecuritySolutionStatus;
+  /** List of additional options for exporting to workspace data. */
+  export?: ExportData[];
+  /** Disabled data sources. Disabling these data sources compromises the system. */
+  disabledDataSources?: DataSource[];
+  /** IoT Hub resource IDs */
+  iotHubs: string[];
+  /** Properties of the IoT Security solution's user defined resources. */
+  userDefinedResources?: UserDefinedResourcesProperties;
+  /** List of the configuration status for each recommendation type. */
+  recommendationsConfiguration?: RecommendationConfigurationProperties[];
+  /** Unmasked IP address logging status */
+  unmaskedIpLoggingStatus?: UnmaskedIpLoggingStatus;
+  /** List of additional workspaces */
+  additionalWorkspaces?: AdditionalWorkspacesProperties[];
+}
+
+export function ioTSecuritySolutionPropertiesCreateOrUpdateSerializer(
+  item: IoTSecuritySolutionPropertiesCreateOrUpdate,
+): any {
+  return {
+    workspace: item["workspace"],
+    displayName: item["displayName"],
+    status: item["status"],
+    export: !item["export"]
+      ? item["export"]
+      : item["export"].map((p: any) => {
+          return p;
+        }),
+    disabledDataSources: !item["disabledDataSources"]
+      ? item["disabledDataSources"]
+      : item["disabledDataSources"].map((p: any) => {
+          return p;
+        }),
+    iotHubs: item["iotHubs"].map((p: any) => {
+      return p;
+    }),
+    userDefinedResources: !item["userDefinedResources"]
+      ? item["userDefinedResources"]
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+    recommendationsConfiguration: !item["recommendationsConfiguration"]
+      ? item["recommendationsConfiguration"]
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
+    unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
+    additionalWorkspaces: !item["additionalWorkspaces"]
+      ? item["additionalWorkspaces"]
+      : additionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
+  };
+}
+
+export function ioTSecuritySolutionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): IoTSecuritySolutionPropertiesCreateOrUpdate {
+  return {
+    workspace: item["workspace"],
+    displayName: item["displayName"],
+    status: item["status"],
+    export: !item["export"]
+      ? item["export"]
+      : item["export"].map((p: any) => {
+          return p;
+        }),
+    disabledDataSources: !item["disabledDataSources"]
+      ? item["disabledDataSources"]
+      : item["disabledDataSources"].map((p: any) => {
+          return p;
+        }),
+    iotHubs: item["iotHubs"].map((p: any) => {
+      return p;
+    }),
+    userDefinedResources: !item["userDefinedResources"]
+      ? item["userDefinedResources"]
+      : userDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
+    recommendationsConfiguration: !item["recommendationsConfiguration"]
+      ? item["recommendationsConfiguration"]
+      : recommendationConfigurationPropertiesArrayDeserializer(
+          item["recommendationsConfiguration"],
+        ),
+    unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
+    additionalWorkspaces: !item["additionalWorkspaces"]
+      ? item["additionalWorkspaces"]
+      : additionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
+  };
+}
+
+/** The device security group resource */
+export interface DeviceSecurityGroupCreateOrUpdate extends ExtensionResource {
+  /** The list of custom alert threshold rules. */
+  thresholdRules?: ThresholdCustomAlertRuleUnion[];
+  /** The list of custom alert time-window rules. */
+  timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
+  /** The allow-list custom alert rules. */
+  allowlistRules?: AllowlistCustomAlertRuleUnion[];
+  /** The deny-list custom alert rules. */
+  denylistRules?: DenylistCustomAlertRule[];
+}
+
+export function deviceSecurityGroupCreateOrUpdateSerializer(
+  item: DeviceSecurityGroupCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "thresholdRules",
+      "timeWindowRules",
+      "allowlistRules",
+      "denylistRules",
+    ])
+      ? undefined
+      : _deviceSecurityGroupCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function deviceSecurityGroupCreateOrUpdateDeserializer(
+  item: any,
+): DeviceSecurityGroupCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _deviceSecurityGroupCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _deviceSecurityGroupCreateOrUpdatePropertiesSerializer(
+  item: DeviceSecurityGroupCreateOrUpdate,
+): any {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
@@ -2481,7 +2694,7 @@ export function _deviceSecurityGroupPropertiesSerializer(item: DeviceSecurityGro
   };
 }
 
-export function _deviceSecurityGroupPropertiesDeserializer(item: any) {
+export function _deviceSecurityGroupCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     thresholdRules: !item["thresholdRules"]
       ? item["thresholdRules"]
@@ -2643,5 +2856,75 @@ export function _ioTSecurityAggregatedRecommendationPropertiesDeserializer(item:
     healthyDevices: item["healthyDevices"],
     unhealthyDeviceCount: item["unhealthyDeviceCount"],
     logAnalyticsQuery: item["logAnalyticsQuery"],
+  };
+}
+
+export function _ioTSecuritySolutionModelCreateOrUpdatePropertiesSerializer(
+  item: IoTSecuritySolutionModelCreateOrUpdate,
+): any {
+  return {
+    workspace: item["workspace"],
+    displayName: item["displayName"],
+    status: item["status"],
+    export: !item["export"]
+      ? item["export"]
+      : item["export"].map((p: any) => {
+          return p;
+        }),
+    disabledDataSources: !item["disabledDataSources"]
+      ? item["disabledDataSources"]
+      : item["disabledDataSources"].map((p: any) => {
+          return p;
+        }),
+    iotHubs: !item["iotHubs"]
+      ? item["iotHubs"]
+      : item["iotHubs"].map((p: any) => {
+          return p;
+        }),
+    userDefinedResources: !item["userDefinedResources"]
+      ? item["userDefinedResources"]
+      : userDefinedResourcesPropertiesSerializer(item["userDefinedResources"]),
+    recommendationsConfiguration: !item["recommendationsConfiguration"]
+      ? item["recommendationsConfiguration"]
+      : recommendationConfigurationPropertiesArraySerializer(item["recommendationsConfiguration"]),
+    unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
+    additionalWorkspaces: !item["additionalWorkspaces"]
+      ? item["additionalWorkspaces"]
+      : additionalWorkspacesPropertiesArraySerializer(item["additionalWorkspaces"]),
+  };
+}
+
+export function _ioTSecuritySolutionModelCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    workspace: item["workspace"],
+    displayName: item["displayName"],
+    status: item["status"],
+    export: !item["export"]
+      ? item["export"]
+      : item["export"].map((p: any) => {
+          return p;
+        }),
+    disabledDataSources: !item["disabledDataSources"]
+      ? item["disabledDataSources"]
+      : item["disabledDataSources"].map((p: any) => {
+          return p;
+        }),
+    iotHubs: !item["iotHubs"]
+      ? item["iotHubs"]
+      : item["iotHubs"].map((p: any) => {
+          return p;
+        }),
+    userDefinedResources: !item["userDefinedResources"]
+      ? item["userDefinedResources"]
+      : userDefinedResourcesPropertiesDeserializer(item["userDefinedResources"]),
+    recommendationsConfiguration: !item["recommendationsConfiguration"]
+      ? item["recommendationsConfiguration"]
+      : recommendationConfigurationPropertiesArrayDeserializer(
+          item["recommendationsConfiguration"],
+        ),
+    unmaskedIpLoggingStatus: item["unmaskedIpLoggingStatus"],
+    additionalWorkspaces: !item["additionalWorkspaces"]
+      ? item["additionalWorkspaces"]
+      : additionalWorkspacesPropertiesArrayDeserializer(item["additionalWorkspaces"]),
   };
 }

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ProxyResource, systemDataDeserializer } from "../models.js";
+
 /** The security connector resource. */
 export interface SecurityConnector extends ProxyResource {
   /** Resource tags. */
@@ -2594,7 +2594,9 @@ export function awsOrganizationalDataDeserializer(item: any): AwsOrganizationalD
 
 /** Alias for AwsOrganizationalDataUnion */
 export type AwsOrganizationalDataUnion =
-  AwsOrganizationalDataMaster | AwsOrganizationalDataMember | AwsOrganizationalData;
+  | AwsOrganizationalDataMaster
+  | AwsOrganizationalDataMember
+  | AwsOrganizationalData;
 
 export function awsOrganizationalDataUnionSerializer(item: AwsOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {
@@ -2753,7 +2755,9 @@ export function gcpOrganizationalDataDeserializer(item: any): GcpOrganizationalD
 
 /** Alias for GcpOrganizationalDataUnion */
 export type GcpOrganizationalDataUnion =
-  GcpOrganizationalDataOrganization | GcpOrganizationalDataMember | GcpOrganizationalData;
+  | GcpOrganizationalDataOrganization
+  | GcpOrganizationalDataMember
+  | GcpOrganizationalData;
 
 export function gcpOrganizationalDataUnionSerializer(item: GcpOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {
@@ -3295,6 +3299,1118 @@ export function securityConnectorArrayDeserializer(result: Array<SecurityConnect
   });
 }
 
+/** The security connector resource. */
+export interface SecurityConnectorCreateOrUpdate extends ProxyResource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Kind of the resource */
+  kind?: string;
+  /** Entity tag is used for comparing two or more entities from the same requested resource. */
+  etag?: string;
+  /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
+  hierarchyIdentifier?: string;
+  /** The multi cloud resource's cloud name. */
+  environmentName?: CloudName;
+  /** A collection of offerings for the security connector. */
+  offerings?: CloudOfferingUnion[];
+  /** The security connector environment data. */
+  environmentData?: EnvironmentDataCreateOrUpdateUnion;
+}
+
+export function securityConnectorCreateOrUpdateSerializer(
+  item: SecurityConnectorCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "hierarchyIdentifier",
+      "environmentName",
+      "offerings",
+      "environmentData",
+    ])
+      ? undefined
+      : _securityConnectorCreateOrUpdatePropertiesSerializer(item),
+    tags: item["tags"],
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+export function securityConnectorCreateOrUpdateDeserializer(
+  item: any,
+): SecurityConnectorCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _securityConnectorCreateOrUpdatePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+/** A set of properties that defines the security connector configuration. */
+export interface SecurityConnectorPropertiesCreateOrUpdate {
+  /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
+  hierarchyIdentifier?: string;
+  /** The multi cloud resource's cloud name. */
+  environmentName?: CloudName;
+  /** A collection of offerings for the security connector. */
+  offerings?: CloudOfferingUnion[];
+  /** The security connector environment data. */
+  environmentData?: EnvironmentDataCreateOrUpdateUnion;
+}
+
+export function securityConnectorPropertiesCreateOrUpdateSerializer(
+  item: SecurityConnectorPropertiesCreateOrUpdate,
+): any {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataCreateOrUpdateUnionSerializer(item["environmentData"]),
+  };
+}
+
+export function securityConnectorPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SecurityConnectorPropertiesCreateOrUpdate {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataCreateOrUpdateUnionDeserializer(item["environmentData"]),
+  };
+}
+
+/** The security connector environment data. */
+export interface EnvironmentDataCreateOrUpdate {
+  /** The type of the environment data. */
+  /** The discriminator possible values: AwsAccount, GcpProject, GithubScope, AzureDevOpsScope, GitlabScope, DockerHubOrganization, JFrogArtifactory */
+  environmentType: EnvironmentType;
+}
+
+export function environmentDataCreateOrUpdateSerializer(item: EnvironmentDataCreateOrUpdate): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function environmentDataCreateOrUpdateDeserializer(
+  item: any,
+): EnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** Alias for EnvironmentDataCreateOrUpdateUnion */
+export type EnvironmentDataCreateOrUpdateUnion =
+  | AwsEnvironmentDataCreateOrUpdate
+  | GcpProjectEnvironmentDataCreateOrUpdate
+  | GithubScopeEnvironmentDataCreateOrUpdate
+  | AzureDevOpsScopeEnvironmentDataCreateOrUpdate
+  | GitlabScopeEnvironmentDataCreateOrUpdate
+  | DockerHubEnvironmentDataCreateOrUpdate
+  | JFrogEnvironmentDataCreateOrUpdate
+  | EnvironmentDataCreateOrUpdate;
+
+export function environmentDataCreateOrUpdateUnionSerializer(
+  item: EnvironmentDataCreateOrUpdateUnion,
+): any {
+  switch (item.environmentType) {
+    case "AwsAccount":
+      return awsEnvironmentDataCreateOrUpdateSerializer(item as AwsEnvironmentDataCreateOrUpdate);
+
+    case "GcpProject":
+      return gcpProjectEnvironmentDataCreateOrUpdateSerializer(
+        item as GcpProjectEnvironmentDataCreateOrUpdate,
+      );
+
+    case "GithubScope":
+      return githubScopeEnvironmentDataCreateOrUpdateSerializer(
+        item as GithubScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "AzureDevOpsScope":
+      return azureDevOpsScopeEnvironmentDataCreateOrUpdateSerializer(
+        item as AzureDevOpsScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "GitlabScope":
+      return gitlabScopeEnvironmentDataCreateOrUpdateSerializer(
+        item as GitlabScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "DockerHubOrganization":
+      return dockerHubEnvironmentDataCreateOrUpdateSerializer(
+        item as DockerHubEnvironmentDataCreateOrUpdate,
+      );
+
+    case "JFrogArtifactory":
+      return jFrogEnvironmentDataCreateOrUpdateSerializer(
+        item as JFrogEnvironmentDataCreateOrUpdate,
+      );
+
+    default:
+      return environmentDataCreateOrUpdateSerializer(item);
+  }
+}
+
+export function environmentDataCreateOrUpdateUnionDeserializer(
+  item: any,
+): EnvironmentDataCreateOrUpdateUnion {
+  switch (item["environmentType"]) {
+    case "AwsAccount":
+      return awsEnvironmentDataCreateOrUpdateDeserializer(item as AwsEnvironmentDataCreateOrUpdate);
+
+    case "GcpProject":
+      return gcpProjectEnvironmentDataCreateOrUpdateDeserializer(
+        item as GcpProjectEnvironmentDataCreateOrUpdate,
+      );
+
+    case "GithubScope":
+      return githubScopeEnvironmentDataCreateOrUpdateDeserializer(
+        item as GithubScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "AzureDevOpsScope":
+      return azureDevOpsScopeEnvironmentDataCreateOrUpdateDeserializer(
+        item as AzureDevOpsScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "GitlabScope":
+      return gitlabScopeEnvironmentDataCreateOrUpdateDeserializer(
+        item as GitlabScopeEnvironmentDataCreateOrUpdate,
+      );
+
+    case "DockerHubOrganization":
+      return dockerHubEnvironmentDataCreateOrUpdateDeserializer(
+        item as DockerHubEnvironmentDataCreateOrUpdate,
+      );
+
+    case "JFrogArtifactory":
+      return jFrogEnvironmentDataCreateOrUpdateDeserializer(
+        item as JFrogEnvironmentDataCreateOrUpdate,
+      );
+
+    default:
+      return environmentDataCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** The AWS connector environment data */
+export interface AwsEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The AWS account's organizational data */
+  organizationalData?: AwsOrganizationalDataUnion;
+  /** list of regions to scan */
+  regions?: string[];
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "AwsAccount";
+}
+
+export function awsEnvironmentDataCreateOrUpdateSerializer(
+  item: AwsEnvironmentDataCreateOrUpdate,
+): any {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : awsOrganizationalDataUnionSerializer(item["organizationalData"]),
+    regions: !item["regions"]
+      ? item["regions"]
+      : item["regions"].map((p: any) => {
+          return p;
+        }),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function awsEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): AwsEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : awsOrganizationalDataUnionDeserializer(item["organizationalData"]),
+    regions: !item["regions"]
+      ? item["regions"]
+      : item["regions"].map((p: any) => {
+          return p;
+        }),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The GCP project connector environment data */
+export interface GcpProjectEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The Gcp project's organizational data */
+  organizationalData?: GcpOrganizationalDataCreateOrUpdateUnion;
+  /** The Gcp project's details */
+  projectDetails?: GcpProjectDetailsCreateOrUpdate;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "GcpProject";
+}
+
+export function gcpProjectEnvironmentDataCreateOrUpdateSerializer(
+  item: GcpProjectEnvironmentDataCreateOrUpdate,
+): any {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : gcpOrganizationalDataCreateOrUpdateUnionSerializer(item["organizationalData"]),
+    projectDetails: !item["projectDetails"]
+      ? item["projectDetails"]
+      : gcpProjectDetailsCreateOrUpdateSerializer(item["projectDetails"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function gcpProjectEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): GcpProjectEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : gcpOrganizationalDataCreateOrUpdateUnionDeserializer(item["organizationalData"]),
+    projectDetails: !item["projectDetails"]
+      ? item["projectDetails"]
+      : gcpProjectDetailsCreateOrUpdateDeserializer(item["projectDetails"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The gcpOrganization data */
+export interface GcpOrganizationalDataCreateOrUpdate {
+  /** The multi cloud account's membership type in the organization */
+  /** The discriminator possible values: Organization, Member */
+  organizationMembershipType: OrganizationMembershipType;
+}
+
+export function gcpOrganizationalDataCreateOrUpdateSerializer(
+  item: GcpOrganizationalDataCreateOrUpdate,
+): any {
+  return { organizationMembershipType: item["organizationMembershipType"] };
+}
+
+export function gcpOrganizationalDataCreateOrUpdateDeserializer(
+  item: any,
+): GcpOrganizationalDataCreateOrUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+  };
+}
+
+/** Alias for GcpOrganizationalDataCreateOrUpdateUnion */
+export type GcpOrganizationalDataCreateOrUpdateUnion =
+  | GcpOrganizationalDataOrganizationCreateOrUpdate
+  | GcpOrganizationalDataMemberCreateOrUpdate
+  | GcpOrganizationalDataCreateOrUpdate;
+
+export function gcpOrganizationalDataCreateOrUpdateUnionSerializer(
+  item: GcpOrganizationalDataCreateOrUpdateUnion,
+): any {
+  switch (item.organizationMembershipType) {
+    case "Organization":
+      return gcpOrganizationalDataOrganizationCreateOrUpdateSerializer(
+        item as GcpOrganizationalDataOrganizationCreateOrUpdate,
+      );
+
+    case "Member":
+      return gcpOrganizationalDataMemberCreateOrUpdateSerializer(
+        item as GcpOrganizationalDataMemberCreateOrUpdate,
+      );
+
+    default:
+      return gcpOrganizationalDataCreateOrUpdateSerializer(item);
+  }
+}
+
+export function gcpOrganizationalDataCreateOrUpdateUnionDeserializer(
+  item: any,
+): GcpOrganizationalDataCreateOrUpdateUnion {
+  switch (item["organizationMembershipType"]) {
+    case "Organization":
+      return gcpOrganizationalDataOrganizationCreateOrUpdateDeserializer(
+        item as GcpOrganizationalDataOrganizationCreateOrUpdate,
+      );
+
+    case "Member":
+      return gcpOrganizationalDataMemberCreateOrUpdateDeserializer(
+        item as GcpOrganizationalDataMemberCreateOrUpdate,
+      );
+
+    default:
+      return gcpOrganizationalDataCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** The gcpOrganization data for the parent account */
+export interface GcpOrganizationalDataOrganizationCreateOrUpdate extends GcpOrganizationalDataCreateOrUpdate {
+  /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
+  excludedProjectNumbers?: string[];
+  /** The service account email address which represents the organization level permissions container. */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id which represents the permissions required to auto provision security connectors */
+  workloadIdentityProviderId?: string;
+  /** The multi cloud account's membership type in the organization */
+  organizationMembershipType: "Organization";
+}
+
+export function gcpOrganizationalDataOrganizationCreateOrUpdateSerializer(
+  item: GcpOrganizationalDataOrganizationCreateOrUpdate,
+): any {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+  };
+}
+
+export function gcpOrganizationalDataOrganizationCreateOrUpdateDeserializer(
+  item: any,
+): GcpOrganizationalDataOrganizationCreateOrUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+  };
+}
+
+/** The gcpOrganization data for the member account */
+export interface GcpOrganizationalDataMemberCreateOrUpdate extends GcpOrganizationalDataCreateOrUpdate {
+  /** If the multi cloud account is not of membership type organization, this will be the ID of the project's parent */
+  parentHierarchyId?: string;
+  /** The GCP management project number from organizational onboarding */
+  managementProjectNumber?: string;
+  /** The multi cloud account's membership type in the organization */
+  organizationMembershipType: "Member";
+}
+
+export function gcpOrganizationalDataMemberCreateOrUpdateSerializer(
+  item: GcpOrganizationalDataMemberCreateOrUpdate,
+): any {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    parentHierarchyId: item["parentHierarchyId"],
+    managementProjectNumber: item["managementProjectNumber"],
+  };
+}
+
+export function gcpOrganizationalDataMemberCreateOrUpdateDeserializer(
+  item: any,
+): GcpOrganizationalDataMemberCreateOrUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    parentHierarchyId: item["parentHierarchyId"],
+    managementProjectNumber: item["managementProjectNumber"],
+  };
+}
+
+/** The details about the project represented by the security connector */
+export interface GcpProjectDetailsCreateOrUpdate {
+  /** The unique GCP Project number */
+  projectNumber?: string;
+  /** The GCP Project id */
+  projectId?: string;
+}
+
+export function gcpProjectDetailsCreateOrUpdateSerializer(
+  item: GcpProjectDetailsCreateOrUpdate,
+): any {
+  return { projectNumber: item["projectNumber"], projectId: item["projectId"] };
+}
+
+export function gcpProjectDetailsCreateOrUpdateDeserializer(
+  item: any,
+): GcpProjectDetailsCreateOrUpdate {
+  return {
+    projectNumber: item["projectNumber"],
+    projectId: item["projectId"],
+  };
+}
+
+/** The github scope connector's environment data */
+export interface GithubScopeEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The type of the environment data. */
+  environmentType: "GithubScope";
+}
+
+export function githubScopeEnvironmentDataCreateOrUpdateSerializer(
+  item: GithubScopeEnvironmentDataCreateOrUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function githubScopeEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): GithubScopeEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The AzureDevOps scope connector's environment data */
+export interface AzureDevOpsScopeEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The type of the environment data. */
+  environmentType: "AzureDevOpsScope";
+}
+
+export function azureDevOpsScopeEnvironmentDataCreateOrUpdateSerializer(
+  item: AzureDevOpsScopeEnvironmentDataCreateOrUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function azureDevOpsScopeEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsScopeEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The GitLab scope connector's environment data */
+export interface GitlabScopeEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The type of the environment data. */
+  environmentType: "GitlabScope";
+}
+
+export function gitlabScopeEnvironmentDataCreateOrUpdateSerializer(
+  item: GitlabScopeEnvironmentDataCreateOrUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function gitlabScopeEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): GitlabScopeEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The Docker Hub connector environment data */
+export interface DockerHubEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** The Docker Hub organization authentication details */
+  authentication?: AuthenticationUnion;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "DockerHubOrganization";
+}
+
+export function dockerHubEnvironmentDataCreateOrUpdateSerializer(
+  item: DockerHubEnvironmentDataCreateOrUpdate,
+): any {
+  return {
+    environmentType: item["environmentType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationUnionSerializer(item["authentication"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function dockerHubEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): DockerHubEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationUnionDeserializer(item["authentication"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The JFrog Artifactory connector environment data */
+export interface JFrogEnvironmentDataCreateOrUpdate extends EnvironmentDataCreateOrUpdate {
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "JFrogArtifactory";
+}
+
+export function jFrogEnvironmentDataCreateOrUpdateSerializer(
+  item: JFrogEnvironmentDataCreateOrUpdate,
+): any {
+  return { environmentType: item["environmentType"], scanInterval: item["scanInterval"] };
+}
+
+export function jFrogEnvironmentDataCreateOrUpdateDeserializer(
+  item: any,
+): JFrogEnvironmentDataCreateOrUpdate {
+  return {
+    environmentType: item["environmentType"],
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The security connector resource. */
+export interface SecurityConnectorUpdate extends ProxyResource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** Kind of the resource */
+  kind?: string;
+  /** Entity tag is used for comparing two or more entities from the same requested resource. */
+  etag?: string;
+  /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
+  hierarchyIdentifier?: string;
+  /** The multi cloud resource's cloud name. */
+  environmentName?: CloudName;
+  /** A collection of offerings for the security connector. */
+  offerings?: CloudOfferingUnion[];
+  /** The security connector environment data. */
+  environmentData?: EnvironmentDataUpdateUnion;
+}
+
+export function securityConnectorUpdateSerializer(item: SecurityConnectorUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "hierarchyIdentifier",
+      "environmentName",
+      "offerings",
+      "environmentData",
+    ])
+      ? undefined
+      : _securityConnectorUpdatePropertiesSerializer(item),
+    tags: item["tags"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+export function securityConnectorUpdateDeserializer(item: any): SecurityConnectorUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _securityConnectorUpdatePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+/** A set of properties that defines the security connector configuration. */
+export interface SecurityConnectorPropertiesUpdate {
+  /** The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector). */
+  hierarchyIdentifier?: string;
+  /** The multi cloud resource's cloud name. */
+  environmentName?: CloudName;
+  /** A collection of offerings for the security connector. */
+  offerings?: CloudOfferingUnion[];
+  /** The security connector environment data. */
+  environmentData?: EnvironmentDataUpdateUnion;
+}
+
+export function securityConnectorPropertiesUpdateSerializer(
+  item: SecurityConnectorPropertiesUpdate,
+): any {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataUpdateUnionSerializer(item["environmentData"]),
+  };
+}
+
+export function securityConnectorPropertiesUpdateDeserializer(
+  item: any,
+): SecurityConnectorPropertiesUpdate {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataUpdateUnionDeserializer(item["environmentData"]),
+  };
+}
+
+/** The security connector environment data. */
+export interface EnvironmentDataUpdate {
+  /** The type of the environment data. */
+  /** The discriminator possible values: AwsAccount, GcpProject, GithubScope, AzureDevOpsScope, GitlabScope, DockerHubOrganization, JFrogArtifactory */
+  environmentType: EnvironmentType;
+}
+
+export function environmentDataUpdateSerializer(item: EnvironmentDataUpdate): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function environmentDataUpdateDeserializer(item: any): EnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** Alias for EnvironmentDataUpdateUnion */
+export type EnvironmentDataUpdateUnion =
+  | AwsEnvironmentDataUpdate
+  | GcpProjectEnvironmentDataUpdate
+  | GithubScopeEnvironmentDataUpdate
+  | AzureDevOpsScopeEnvironmentDataUpdate
+  | GitlabScopeEnvironmentDataUpdate
+  | DockerHubEnvironmentDataUpdate
+  | JFrogEnvironmentDataUpdate
+  | EnvironmentDataUpdate;
+
+export function environmentDataUpdateUnionSerializer(item: EnvironmentDataUpdateUnion): any {
+  switch (item.environmentType) {
+    case "AwsAccount":
+      return awsEnvironmentDataUpdateSerializer(item as AwsEnvironmentDataUpdate);
+
+    case "GcpProject":
+      return gcpProjectEnvironmentDataUpdateSerializer(item as GcpProjectEnvironmentDataUpdate);
+
+    case "GithubScope":
+      return githubScopeEnvironmentDataUpdateSerializer(item as GithubScopeEnvironmentDataUpdate);
+
+    case "AzureDevOpsScope":
+      return azureDevOpsScopeEnvironmentDataUpdateSerializer(
+        item as AzureDevOpsScopeEnvironmentDataUpdate,
+      );
+
+    case "GitlabScope":
+      return gitlabScopeEnvironmentDataUpdateSerializer(item as GitlabScopeEnvironmentDataUpdate);
+
+    case "DockerHubOrganization":
+      return dockerHubEnvironmentDataUpdateSerializer(item as DockerHubEnvironmentDataUpdate);
+
+    case "JFrogArtifactory":
+      return jFrogEnvironmentDataUpdateSerializer(item as JFrogEnvironmentDataUpdate);
+
+    default:
+      return environmentDataUpdateSerializer(item);
+  }
+}
+
+export function environmentDataUpdateUnionDeserializer(item: any): EnvironmentDataUpdateUnion {
+  switch (item["environmentType"]) {
+    case "AwsAccount":
+      return awsEnvironmentDataUpdateDeserializer(item as AwsEnvironmentDataUpdate);
+
+    case "GcpProject":
+      return gcpProjectEnvironmentDataUpdateDeserializer(item as GcpProjectEnvironmentDataUpdate);
+
+    case "GithubScope":
+      return githubScopeEnvironmentDataUpdateDeserializer(item as GithubScopeEnvironmentDataUpdate);
+
+    case "AzureDevOpsScope":
+      return azureDevOpsScopeEnvironmentDataUpdateDeserializer(
+        item as AzureDevOpsScopeEnvironmentDataUpdate,
+      );
+
+    case "GitlabScope":
+      return gitlabScopeEnvironmentDataUpdateDeserializer(item as GitlabScopeEnvironmentDataUpdate);
+
+    case "DockerHubOrganization":
+      return dockerHubEnvironmentDataUpdateDeserializer(item as DockerHubEnvironmentDataUpdate);
+
+    case "JFrogArtifactory":
+      return jFrogEnvironmentDataUpdateDeserializer(item as JFrogEnvironmentDataUpdate);
+
+    default:
+      return environmentDataUpdateDeserializer(item);
+  }
+}
+
+/** The AWS connector environment data */
+export interface AwsEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The AWS account's organizational data */
+  organizationalData?: AwsOrganizationalDataUnion;
+  /** list of regions to scan */
+  regions?: string[];
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "AwsAccount";
+}
+
+export function awsEnvironmentDataUpdateSerializer(item: AwsEnvironmentDataUpdate): any {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : awsOrganizationalDataUnionSerializer(item["organizationalData"]),
+    regions: !item["regions"]
+      ? item["regions"]
+      : item["regions"].map((p: any) => {
+          return p;
+        }),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function awsEnvironmentDataUpdateDeserializer(item: any): AwsEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : awsOrganizationalDataUnionDeserializer(item["organizationalData"]),
+    regions: !item["regions"]
+      ? item["regions"]
+      : item["regions"].map((p: any) => {
+          return p;
+        }),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The GCP project connector environment data */
+export interface GcpProjectEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The Gcp project's organizational data */
+  organizationalData?: GcpOrganizationalDataUpdateUnion;
+  /** The Gcp project's details */
+  projectDetails?: GcpProjectDetailsUpdate;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "GcpProject";
+}
+
+export function gcpProjectEnvironmentDataUpdateSerializer(
+  item: GcpProjectEnvironmentDataUpdate,
+): any {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : gcpOrganizationalDataUpdateUnionSerializer(item["organizationalData"]),
+    projectDetails: !item["projectDetails"]
+      ? item["projectDetails"]
+      : gcpProjectDetailsUpdateSerializer(item["projectDetails"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function gcpProjectEnvironmentDataUpdateDeserializer(
+  item: any,
+): GcpProjectEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+    organizationalData: !item["organizationalData"]
+      ? item["organizationalData"]
+      : gcpOrganizationalDataUpdateUnionDeserializer(item["organizationalData"]),
+    projectDetails: !item["projectDetails"]
+      ? item["projectDetails"]
+      : gcpProjectDetailsUpdateDeserializer(item["projectDetails"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The gcpOrganization data */
+export interface GcpOrganizationalDataUpdate {
+  /** The multi cloud account's membership type in the organization */
+  /** The discriminator possible values: Organization, Member */
+  organizationMembershipType: OrganizationMembershipType;
+}
+
+export function gcpOrganizationalDataUpdateSerializer(item: GcpOrganizationalDataUpdate): any {
+  return { organizationMembershipType: item["organizationMembershipType"] };
+}
+
+export function gcpOrganizationalDataUpdateDeserializer(item: any): GcpOrganizationalDataUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+  };
+}
+
+/** Alias for GcpOrganizationalDataUpdateUnion */
+export type GcpOrganizationalDataUpdateUnion =
+  | GcpOrganizationalDataOrganizationUpdate
+  | GcpOrganizationalDataMemberUpdate
+  | GcpOrganizationalDataUpdate;
+
+export function gcpOrganizationalDataUpdateUnionSerializer(
+  item: GcpOrganizationalDataUpdateUnion,
+): any {
+  switch (item.organizationMembershipType) {
+    case "Organization":
+      return gcpOrganizationalDataOrganizationUpdateSerializer(
+        item as GcpOrganizationalDataOrganizationUpdate,
+      );
+
+    case "Member":
+      return gcpOrganizationalDataMemberUpdateSerializer(item as GcpOrganizationalDataMemberUpdate);
+
+    default:
+      return gcpOrganizationalDataUpdateSerializer(item);
+  }
+}
+
+export function gcpOrganizationalDataUpdateUnionDeserializer(
+  item: any,
+): GcpOrganizationalDataUpdateUnion {
+  switch (item["organizationMembershipType"]) {
+    case "Organization":
+      return gcpOrganizationalDataOrganizationUpdateDeserializer(
+        item as GcpOrganizationalDataOrganizationUpdate,
+      );
+
+    case "Member":
+      return gcpOrganizationalDataMemberUpdateDeserializer(
+        item as GcpOrganizationalDataMemberUpdate,
+      );
+
+    default:
+      return gcpOrganizationalDataUpdateDeserializer(item);
+  }
+}
+
+/** The gcpOrganization data for the parent account */
+export interface GcpOrganizationalDataOrganizationUpdate extends GcpOrganizationalDataUpdate {
+  /** If the multi cloud account is of membership type organization, list of accounts excluded from offering */
+  excludedProjectNumbers?: string[];
+  /** The service account email address which represents the organization level permissions container. */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id which represents the permissions required to auto provision security connectors */
+  workloadIdentityProviderId?: string;
+  /** The multi cloud account's membership type in the organization */
+  organizationMembershipType: "Organization";
+}
+
+export function gcpOrganizationalDataOrganizationUpdateSerializer(
+  item: GcpOrganizationalDataOrganizationUpdate,
+): any {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+  };
+}
+
+export function gcpOrganizationalDataOrganizationUpdateDeserializer(
+  item: any,
+): GcpOrganizationalDataOrganizationUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+  };
+}
+
+/** The gcpOrganization data for the member account */
+export interface GcpOrganizationalDataMemberUpdate extends GcpOrganizationalDataUpdate {
+  /** If the multi cloud account is not of membership type organization, this will be the ID of the project's parent */
+  parentHierarchyId?: string;
+  /** The GCP management project number from organizational onboarding */
+  managementProjectNumber?: string;
+  /** The multi cloud account's membership type in the organization */
+  organizationMembershipType: "Member";
+}
+
+export function gcpOrganizationalDataMemberUpdateSerializer(
+  item: GcpOrganizationalDataMemberUpdate,
+): any {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    parentHierarchyId: item["parentHierarchyId"],
+    managementProjectNumber: item["managementProjectNumber"],
+  };
+}
+
+export function gcpOrganizationalDataMemberUpdateDeserializer(
+  item: any,
+): GcpOrganizationalDataMemberUpdate {
+  return {
+    organizationMembershipType: item["organizationMembershipType"],
+    parentHierarchyId: item["parentHierarchyId"],
+    managementProjectNumber: item["managementProjectNumber"],
+  };
+}
+
+/** The details about the project represented by the security connector */
+export interface GcpProjectDetailsUpdate {
+  /** The unique GCP Project number */
+  projectNumber?: string;
+  /** The GCP Project id */
+  projectId?: string;
+}
+
+export function gcpProjectDetailsUpdateSerializer(item: GcpProjectDetailsUpdate): any {
+  return { projectNumber: item["projectNumber"], projectId: item["projectId"] };
+}
+
+export function gcpProjectDetailsUpdateDeserializer(item: any): GcpProjectDetailsUpdate {
+  return {
+    projectNumber: item["projectNumber"],
+    projectId: item["projectId"],
+  };
+}
+
+/** The github scope connector's environment data */
+export interface GithubScopeEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The type of the environment data. */
+  environmentType: "GithubScope";
+}
+
+export function githubScopeEnvironmentDataUpdateSerializer(
+  item: GithubScopeEnvironmentDataUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function githubScopeEnvironmentDataUpdateDeserializer(
+  item: any,
+): GithubScopeEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The AzureDevOps scope connector's environment data */
+export interface AzureDevOpsScopeEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The type of the environment data. */
+  environmentType: "AzureDevOpsScope";
+}
+
+export function azureDevOpsScopeEnvironmentDataUpdateSerializer(
+  item: AzureDevOpsScopeEnvironmentDataUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function azureDevOpsScopeEnvironmentDataUpdateDeserializer(
+  item: any,
+): AzureDevOpsScopeEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The GitLab scope connector's environment data */
+export interface GitlabScopeEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The type of the environment data. */
+  environmentType: "GitlabScope";
+}
+
+export function gitlabScopeEnvironmentDataUpdateSerializer(
+  item: GitlabScopeEnvironmentDataUpdate,
+): any {
+  return { environmentType: item["environmentType"] };
+}
+
+export function gitlabScopeEnvironmentDataUpdateDeserializer(
+  item: any,
+): GitlabScopeEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+  };
+}
+
+/** The Docker Hub connector environment data */
+export interface DockerHubEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** The Docker Hub organization authentication details */
+  authentication?: AuthenticationUnion;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "DockerHubOrganization";
+}
+
+export function dockerHubEnvironmentDataUpdateSerializer(
+  item: DockerHubEnvironmentDataUpdate,
+): any {
+  return {
+    environmentType: item["environmentType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationUnionSerializer(item["authentication"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+export function dockerHubEnvironmentDataUpdateDeserializer(
+  item: any,
+): DockerHubEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationUnionDeserializer(item["authentication"]),
+    scanInterval: item["scanInterval"],
+  };
+}
+
+/** The JFrog Artifactory connector environment data */
+export interface JFrogEnvironmentDataUpdate extends EnvironmentDataUpdate {
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+  /** The type of the environment data. */
+  environmentType: "JFrogArtifactory";
+}
+
+export function jFrogEnvironmentDataUpdateSerializer(item: JFrogEnvironmentDataUpdate): any {
+  return { environmentType: item["environmentType"], scanInterval: item["scanInterval"] };
+}
+
+export function jFrogEnvironmentDataUpdateDeserializer(item: any): JFrogEnvironmentDataUpdate {
+  return {
+    environmentType: item["environmentType"],
+    scanInterval: item["scanInterval"],
+  };
+}
+
 export function _securityConnectorPropertiesSerializer(item: SecurityConnector): any {
   return {
     hierarchyIdentifier: item["hierarchyIdentifier"],
@@ -3321,5 +4437,59 @@ export function _securityConnectorPropertiesDeserializer(item: any) {
     environmentData: !item["environmentData"]
       ? item["environmentData"]
       : environmentDataUnionDeserializer(item["environmentData"]),
+  };
+}
+
+export function _securityConnectorCreateOrUpdatePropertiesSerializer(
+  item: SecurityConnectorCreateOrUpdate,
+): any {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataCreateOrUpdateUnionSerializer(item["environmentData"]),
+  };
+}
+
+export function _securityConnectorCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataCreateOrUpdateUnionDeserializer(item["environmentData"]),
+  };
+}
+
+export function _securityConnectorUpdatePropertiesSerializer(item: SecurityConnectorUpdate): any {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArraySerializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataUpdateUnionSerializer(item["environmentData"]),
+  };
+}
+
+export function _securityConnectorUpdatePropertiesDeserializer(item: any) {
+  return {
+    hierarchyIdentifier: item["hierarchyIdentifier"],
+    environmentName: item["environmentName"],
+    offerings: !item["offerings"]
+      ? item["offerings"]
+      : cloudOfferingUnionArrayDeserializer(item["offerings"]),
+    environmentData: !item["environmentData"]
+      ? item["environmentData"]
+      : environmentDataUpdateUnionDeserializer(item["environmentData"]),
   };
 }

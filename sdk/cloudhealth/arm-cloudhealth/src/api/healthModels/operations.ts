@@ -4,15 +4,16 @@
 import type { CloudHealthContext as Client } from "../index.js";
 import type {
   HealthModel,
-  HealthModelUpdate,
   _HealthModelListResult,
+  HealthModelCreateOrUpdate,
+  HealthModelUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  healthModelSerializer,
   healthModelDeserializer,
-  healthModelUpdateSerializer,
   _healthModelListResultDeserializer,
+  healthModelCreateOrUpdateSerializer,
+  healthModelUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -56,9 +57,7 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -112,9 +111,7 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -166,9 +163,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -196,7 +191,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  properties: HealthModelUpdate,
+  properties: HealthModelUpdateUpdate,
   options: HealthModelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -211,21 +206,21 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: healthModelUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: healthModelUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<HealthModel> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -238,7 +233,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  properties: HealthModelUpdate,
+  properties: HealthModelUpdateUpdate,
   options: HealthModelsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<HealthModel>, HealthModel> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -255,7 +250,7 @@ export function _createSend(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  resource: HealthModel,
+  resource: HealthModelCreateOrUpdate,
   options: HealthModelsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -270,21 +265,21 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: healthModelSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: healthModelCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<HealthModel> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -297,7 +292,7 @@ export function create(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  resource: HealthModel,
+  resource: HealthModelCreateOrUpdate,
   options: HealthModelsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<HealthModel>, HealthModel> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
@@ -338,9 +333,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<He
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

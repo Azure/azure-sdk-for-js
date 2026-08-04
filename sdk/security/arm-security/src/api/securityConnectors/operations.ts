@@ -5,10 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   SecurityConnector,
-  securityConnectorSerializer,
   securityConnectorDeserializer,
   _SecurityConnectorsList,
   _securityConnectorsListDeserializer,
+  SecurityConnectorCreateOrUpdate,
+  securityConnectorCreateOrUpdateSerializer,
+  SecurityConnectorUpdate,
+  securityConnectorUpdateSerializer,
 } from "../../models/securityConnectorsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -177,7 +180,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnector,
+  securityConnector: SecurityConnectorUpdate,
   options: SecurityConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -192,12 +195,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorSerializer(securityConnector),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: securityConnectorUpdateSerializer(securityConnector),
+    });
 }
 
 export async function _updateDeserialize(
@@ -219,7 +224,7 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnector,
+  securityConnector: SecurityConnectorUpdate,
   options: SecurityConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SecurityConnector> {
   const result = await _updateSend(
@@ -236,7 +241,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnector,
+  securityConnector: SecurityConnectorCreateOrUpdate,
   options: SecurityConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -251,12 +256,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityConnectorSerializer(securityConnector),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: securityConnectorCreateOrUpdateSerializer(securityConnector),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -278,7 +285,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  securityConnector: SecurityConnector,
+  securityConnector: SecurityConnectorCreateOrUpdate,
   options: SecurityConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SecurityConnector> {
   const result = await _createOrUpdateSend(

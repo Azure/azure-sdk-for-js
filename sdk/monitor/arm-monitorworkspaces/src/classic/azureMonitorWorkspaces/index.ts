@@ -20,7 +20,8 @@ import {
 } from "../../api/azureMonitorWorkspaces/options.js";
 import {
   AzureMonitorWorkspaceResource,
-  AzureMonitorWorkspaceResourceUpdate,
+  AzureMonitorWorkspaceResourceCreateOrUpdate,
+  AzureMonitorWorkspaceResourceUpdateUpdate,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -46,14 +47,14 @@ export interface AzureMonitorWorkspacesOperations {
   update: (
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
-    properties: AzureMonitorWorkspaceResourceUpdate,
+    properties: AzureMonitorWorkspaceResourceUpdateUpdate,
     options?: AzureMonitorWorkspacesUpdateOptionalParams,
   ) => Promise<AzureMonitorWorkspaceResource>;
   /** Creates or updates an Azure Monitor Workspace */
   createOrUpdate: (
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
-    resource: AzureMonitorWorkspaceResource,
+    resource: AzureMonitorWorkspaceResourceCreateOrUpdate,
     options?: AzureMonitorWorkspacesCreateOrUpdateOptionalParams,
   ) => Promise<AzureMonitorWorkspaceResource>;
   /** Returns the specified Azure Monitor Workspace */
@@ -80,13 +81,13 @@ function _getAzureMonitorWorkspaces(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
-      properties: AzureMonitorWorkspaceResourceUpdate,
+      properties: AzureMonitorWorkspaceResourceUpdateUpdate,
       options?: AzureMonitorWorkspacesUpdateOptionalParams,
     ) => update(context, resourceGroupName, azureMonitorWorkspaceName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
-      resource: AzureMonitorWorkspaceResource,
+      resource: AzureMonitorWorkspaceResourceCreateOrUpdate,
       options?: AzureMonitorWorkspacesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, azureMonitorWorkspaceName, resource, options),
     get: (

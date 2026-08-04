@@ -11,6 +11,8 @@ export type {
   Extension,
   IsEnabled,
   PricingList,
+  PricingCreateOrUpdate,
+  PricingPropertiesCreateOrUpdate,
 } from "./models.js";
 export {
   KnownPricingTier,

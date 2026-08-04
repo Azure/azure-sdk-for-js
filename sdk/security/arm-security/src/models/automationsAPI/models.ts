@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ActionType, Tags, State } from "../common/models.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ActionType, Tags, State } from "../common/models.js";
+import { ProxyResource, systemDataDeserializer } from "../models.js";
+
 /** The security automation resource. */
 export interface Automation extends ProxyResource {
   /** Resource tags. */
@@ -43,7 +43,7 @@ export function automationSerializer(item: Automation): any {
       "actions",
     ])
       ? undefined
-      : _automationPropertiesSerializer(item),
+      : _automationCreatePropertiesSerializer(item),
     tags: item["tags"],
     location: item["location"],
     kind: item["kind"],
@@ -61,7 +61,7 @@ export function automationDeserializer(item: any): Automation {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _automationPropertiesDeserializer(item["properties"])),
+      : _automationCreatePropertiesDeserializer(item["properties"])),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -614,7 +614,7 @@ export function securityContactSerializer(item: SecurityContact): any {
       "notificationsByRole",
     ])
       ? undefined
-      : _securityContactPropertiesSerializer(item),
+      : _securityContactCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -628,7 +628,7 @@ export function securityContactDeserializer(item: any): SecurityContact {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _securityContactPropertiesDeserializer(item["properties"])),
+      : _securityContactCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -709,7 +709,9 @@ export function notificationsSourceDeserializer(item: any): NotificationsSource 
 
 /** Alias for NotificationsSourceUnion */
 export type NotificationsSourceUnion =
-  NotificationsSourceAlert | NotificationsSourceAttackPath | NotificationsSource;
+  | NotificationsSourceAlert
+  | NotificationsSourceAttackPath
+  | NotificationsSource;
 
 export function notificationsSourceUnionSerializer(item: NotificationsSourceUnion): any {
   switch (item.sourceType) {
@@ -934,7 +936,171 @@ export function securityContactArrayDeserializer(result: Array<SecurityContact>)
   });
 }
 
-export function _automationPropertiesSerializer(item: Automation): any {
+/** Contact details and configurations for notifications coming from Microsoft Defender for Cloud. */
+export interface SecurityContactCreateOrUpdate extends ProxyResource {
+  /** List of email addresses which will get notifications from Microsoft Defender for Cloud by the configurations defined in this security contact. */
+  emails?: string;
+  /** The security contact's phone number */
+  phone?: string;
+  /** Indicates whether the security contact is enabled. */
+  isEnabled?: boolean;
+  /** A collection of sources types which evaluate the email notification. */
+  notificationsSources?: NotificationsSourceUnion[];
+  /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
+  notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
+}
+
+export function securityContactCreateOrUpdateSerializer(item: SecurityContactCreateOrUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "emails",
+      "phone",
+      "isEnabled",
+      "notificationsSources",
+      "notificationsByRole",
+    ])
+      ? undefined
+      : _securityContactCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function securityContactCreateOrUpdateDeserializer(
+  item: any,
+): SecurityContactCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _securityContactCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The security automation resource. */
+export interface AutomationCreateOrUpdate extends ProxyResource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Kind of the resource */
+  kind?: string;
+  /** Entity tag is used for comparing two or more entities from the same requested resource. */
+  etag?: string;
+  /** The security automation description. */
+  description?: string;
+  /** Indicates whether the security automation is enabled. */
+  isEnabled?: boolean;
+  /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
+  scopes?: AutomationScope[];
+  /** A collection of the source event types which evaluate the security automation set of rules. */
+  sources?: AutomationSource[];
+  /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
+  actions?: AutomationActionUnion[];
+}
+
+export function automationCreateOrUpdateSerializer(item: AutomationCreateOrUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "description",
+      "isEnabled",
+      "scopes",
+      "sources",
+      "actions",
+    ])
+      ? undefined
+      : _automationCreatePropertiesSerializer(item),
+    tags: item["tags"],
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+export function automationCreateOrUpdateDeserializer(item: any): AutomationCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _automationCreatePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+/** The security automation resource. */
+export interface AutomationCreate extends ProxyResource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** Kind of the resource */
+  kind?: string;
+  /** Entity tag is used for comparing two or more entities from the same requested resource. */
+  etag?: string;
+  /** The security automation description. */
+  description?: string;
+  /** Indicates whether the security automation is enabled. */
+  isEnabled?: boolean;
+  /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
+  scopes?: AutomationScope[];
+  /** A collection of the source event types which evaluate the security automation set of rules. */
+  sources?: AutomationSource[];
+  /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
+  actions?: AutomationActionUnion[];
+}
+
+export function automationCreateSerializer(item: AutomationCreate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "description",
+      "isEnabled",
+      "scopes",
+      "sources",
+      "actions",
+    ])
+      ? undefined
+      : _automationCreatePropertiesSerializer(item),
+    tags: item["tags"],
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+export function automationCreateDeserializer(item: any): AutomationCreate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _automationCreatePropertiesDeserializer(item["properties"])),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    kind: item["kind"],
+    etag: item["etag"],
+  };
+}
+
+export function _automationCreatePropertiesSerializer(item: AutomationCreate): any {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
@@ -946,7 +1112,7 @@ export function _automationPropertiesSerializer(item: Automation): any {
   };
 }
 
-export function _automationPropertiesDeserializer(item: any) {
+export function _automationCreatePropertiesDeserializer(item: any) {
   return {
     description: item["description"],
     isEnabled: item["isEnabled"],
@@ -986,7 +1152,9 @@ export function _automationUpdateModelPropertiesDeserializer(item: any) {
   };
 }
 
-export function _securityContactPropertiesSerializer(item: SecurityContact): any {
+export function _securityContactCreateOrUpdatePropertiesSerializer(
+  item: SecurityContactCreateOrUpdate,
+): any {
   return {
     emails: item["emails"],
     phone: item["phone"],
@@ -1000,7 +1168,7 @@ export function _securityContactPropertiesSerializer(item: SecurityContact): any
   };
 }
 
-export function _securityContactPropertiesDeserializer(item: any) {
+export function _securityContactCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     emails: item["emails"],
     phone: item["phone"],

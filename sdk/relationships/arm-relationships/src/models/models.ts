@@ -174,138 +174,18 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** DependencyOf relationship resource for create or update. */
-export interface DependencyOfRelationshipCreateOrUpdate extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DependencyOfRelationshipPropertiesCreateOrUpdate;
-}
-
-export function dependencyOfRelationshipCreateOrUpdateSerializer(
-  item: DependencyOfRelationshipCreateOrUpdate,
-): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(item["properties"]),
-  };
-}
-
-/** model interface DependencyOfRelationshipPropertiesCreateOrUpdate */
-export interface DependencyOfRelationshipPropertiesCreateOrUpdate {
-  /** The relationship target resource id. */
-  targetId: string;
-  /** The relationship target tenant id. */
-  targetTenant?: string;
-}
-
-export function dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(
-  item: DependencyOfRelationshipPropertiesCreateOrUpdate,
-): any {
-  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
-}
-
-/** The base extension resource. */
-export interface ExtensionResource extends Resource {}
-
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
-}
-
-export function extensionResourceDeserializer(item: any): ExtensionResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
 /** Defines a dependencyOf relationship resource. */
 export interface DependencyOfRelationship extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: DependencyOfRelationshipProperties;
+}
+
+export function dependencyOfRelationshipSerializer(item: DependencyOfRelationship): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : dependencyOfRelationshipPropertiesSerializer(item["properties"]),
+  };
 }
 
 export function dependencyOfRelationshipDeserializer(item: any): DependencyOfRelationship {
@@ -336,6 +216,12 @@ export interface DependencyOfRelationshipProperties {
   readonly metadata: RelationshipMetadata;
   /** The provisioning state of the relationship. */
   readonly provisioningState?: ProvisioningState;
+}
+
+export function dependencyOfRelationshipPropertiesSerializer(
+  item: DependencyOfRelationshipProperties,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
 }
 
 export function dependencyOfRelationshipPropertiesDeserializer(
@@ -440,40 +326,118 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-/** ServiceGroupMember relationship resource for create or update. */
-export interface ServiceGroupMemberRelationshipCreateOrUpdate extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ServiceGroupMemberRelationshipPropertiesCreateOrUpdate;
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
-export function serviceGroupMemberRelationshipCreateOrUpdateSerializer(
-  item: ServiceGroupMemberRelationshipCreateOrUpdate,
-): any {
+export function extensionResourceDeserializer(item: any): ExtensionResource {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : serviceGroupMemberRelationshipPropertiesCreateOrUpdateSerializer(item["properties"]),
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
-/** model interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate */
-export interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
-  /** The relationship target resource id. */
-  targetId: string;
-  /** The relationship target tenant id. */
-  targetTenant?: string;
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
 }
 
-export function serviceGroupMemberRelationshipPropertiesCreateOrUpdateSerializer(
-  item: ServiceGroupMemberRelationshipPropertiesCreateOrUpdate,
-): any {
-  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
 
 /** Defines a ServiceGroupMember relationship resource. */
 export interface ServiceGroupMemberRelationship extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: ServiceGroupMemberRelationshipProperties;
+}
+
+export function serviceGroupMemberRelationshipSerializer(
+  item: ServiceGroupMemberRelationship,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : serviceGroupMemberRelationshipPropertiesSerializer(item["properties"]),
+  };
 }
 
 export function serviceGroupMemberRelationshipDeserializer(
@@ -508,6 +472,12 @@ export interface ServiceGroupMemberRelationshipProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
+export function serviceGroupMemberRelationshipPropertiesSerializer(
+  item: ServiceGroupMemberRelationshipProperties,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
+}
+
 export function serviceGroupMemberRelationshipPropertiesDeserializer(
   item: any,
 ): ServiceGroupMemberRelationshipProperties {
@@ -521,8 +491,118 @@ export function serviceGroupMemberRelationshipPropertiesDeserializer(
   };
 }
 
+/** Defines a ServiceGroupMember relationship resource. */
+export interface ServiceGroupMemberRelationshipCreateOrUpdate extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ServiceGroupMemberRelationshipPropertiesCreateOrUpdate;
+}
+
+export function serviceGroupMemberRelationshipCreateOrUpdateSerializer(
+  item: ServiceGroupMemberRelationshipCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : serviceGroupMemberRelationshipPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function serviceGroupMemberRelationshipCreateOrUpdateDeserializer(
+  item: any,
+): ServiceGroupMemberRelationshipCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : serviceGroupMemberRelationshipPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** ServiceGroupMember relationship properties. */
+export interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
+  /** The relationship target resource id. */
+  targetId: string;
+  /** The relationship target tenant id. */
+  targetTenant?: string;
+}
+
+export function serviceGroupMemberRelationshipPropertiesCreateOrUpdateSerializer(
+  item: ServiceGroupMemberRelationshipPropertiesCreateOrUpdate,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
+}
+
+export function serviceGroupMemberRelationshipPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
+  return {
+    targetId: item["targetId"],
+    targetTenant: item["targetTenant"],
+  };
+}
+
+/** Defines a dependencyOf relationship resource. */
+export interface DependencyOfRelationshipCreateOrUpdate extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DependencyOfRelationshipPropertiesCreateOrUpdate;
+}
+
+export function dependencyOfRelationshipCreateOrUpdateSerializer(
+  item: DependencyOfRelationshipCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function dependencyOfRelationshipCreateOrUpdateDeserializer(
+  item: any,
+): DependencyOfRelationshipCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : dependencyOfRelationshipPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** dependencyOf relationship properties. */
+export interface DependencyOfRelationshipPropertiesCreateOrUpdate {
+  /** The relationship target resource id. */
+  targetId: string;
+  /** The relationship target tenant id. */
+  targetTenant?: string;
+}
+
+export function dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(
+  item: DependencyOfRelationshipPropertiesCreateOrUpdate,
+): any {
+  return { targetId: item["targetId"], targetTenant: item["targetTenant"] };
+}
+
+export function dependencyOfRelationshipPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DependencyOfRelationshipPropertiesCreateOrUpdate {
+  return {
+    targetId: item["targetId"],
+    targetTenant: item["targetTenant"],
+  };
+}
+
 /** Relationships RP API Versions */
 export enum KnownVersions {
   /** 2023-09-01-preview version */
-  Versions20230901Preview = "2023-09-01-preview",
+  V20230901Preview = "2023-09-01-preview",
 }

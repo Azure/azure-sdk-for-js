@@ -4,23 +4,24 @@
 import type { AzureResilienceManagementContext as Client } from "../index.js";
 import type {
   Drill,
-  DrillUpdate,
   _DrillListResult,
   ValidateForExecutionRequest,
   DrillStartRequest,
   DrillEndRequest,
   AddOrUpdateResourcesRequest,
+  DrillCreateOrUpdate,
+  DrillUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  drillSerializer,
   drillDeserializer,
-  drillUpdateSerializer,
   _drillListResultDeserializer,
   validateForExecutionRequestSerializer,
   drillStartRequestSerializer,
   drillEndRequestSerializer,
   addOrUpdateResourcesRequestSerializer,
+  drillCreateOrUpdateSerializer,
+  drillUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -72,9 +73,7 @@ export async function _resyncReadinessCheckDeserialize(
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -138,9 +137,7 @@ export async function _addOrUpdateResourcesDeserialize(
   const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -207,9 +204,7 @@ export async function _endDeserialize(result: PathUncheckedResponse): Promise<vo
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -271,9 +266,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -337,9 +330,7 @@ export async function _validateForExecutionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -393,9 +384,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -446,9 +435,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -476,7 +463,7 @@ export function _updateSend(
   context: Client,
   serviceGroupName: string,
   drillName: string,
-  properties: DrillUpdate,
+  properties: DrillUpdateUpdate,
   options: DrillsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -490,21 +477,21 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: drillUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: drillUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -517,7 +504,7 @@ export function update(
   context: Client,
   serviceGroupName: string,
   drillName: string,
-  properties: DrillUpdate,
+  properties: DrillUpdateUpdate,
   options: DrillsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -534,7 +521,7 @@ export function _createSend(
   context: Client,
   serviceGroupName: string,
   drillName: string,
-  resource: Drill,
+  resource: DrillCreateOrUpdate,
   options: DrillsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -548,21 +535,21 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: drillSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: drillCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Drill> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -575,7 +562,7 @@ export function create(
   context: Client,
   serviceGroupName: string,
   drillName: string,
-  resource: Drill,
+  resource: DrillCreateOrUpdate,
   options: DrillsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Drill>, Drill> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
@@ -614,9 +601,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Dr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

@@ -10,7 +10,11 @@ import {
   WorkspaceSettingsCreateOptionalParams,
   WorkspaceSettingsGetOptionalParams,
 } from "../../api/workspaceSettings/options.js";
-import { WorkspaceSetting } from "../../models/legacySettingsAPI/models.js";
+import {
+  WorkspaceSetting,
+  WorkspaceSettingCreateOrUpdate,
+  WorkspaceSettingUpdate,
+} from "../../models/legacySettingsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceSettings operations. */
@@ -27,13 +31,13 @@ export interface WorkspaceSettingsOperations {
   /** Settings about where we should store your security data and logs */
   update: (
     workspaceSettingName: string,
-    workspaceSetting: WorkspaceSetting,
+    workspaceSetting: WorkspaceSettingUpdate,
     options?: WorkspaceSettingsUpdateOptionalParams,
   ) => Promise<WorkspaceSetting>;
   /** creating settings about where we should store your security data and logs */
   create: (
     workspaceSettingName: string,
-    workspaceSetting: WorkspaceSetting,
+    workspaceSetting: WorkspaceSettingCreateOrUpdate,
     options?: WorkspaceSettingsCreateOptionalParams,
   ) => Promise<WorkspaceSetting>;
   /** Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set */
@@ -50,12 +54,12 @@ function _getWorkspaceSettings(context: SecurityCenterContext) {
       $delete(context, workspaceSettingName, options),
     update: (
       workspaceSettingName: string,
-      workspaceSetting: WorkspaceSetting,
+      workspaceSetting: WorkspaceSettingUpdate,
       options?: WorkspaceSettingsUpdateOptionalParams,
     ) => update(context, workspaceSettingName, workspaceSetting, options),
     create: (
       workspaceSettingName: string,
-      workspaceSetting: WorkspaceSetting,
+      workspaceSetting: WorkspaceSettingCreateOrUpdate,
       options?: WorkspaceSettingsCreateOptionalParams,
     ) => create(context, workspaceSettingName, workspaceSetting, options),
     get: (workspaceSettingName: string, options?: WorkspaceSettingsGetOptionalParams) =>

@@ -30,6 +30,9 @@ export type {
   SecurityContactPropertiesNotificationsByRole,
   SecurityContactRole,
   SecurityContactName,
+  SecurityContactCreateOrUpdate,
+  AutomationCreateOrUpdate,
+  AutomationCreate,
 } from "./models.js";
 export {
   KnownEventSource,

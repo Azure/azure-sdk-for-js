@@ -12,7 +12,10 @@ import {
   MetricsContainersCreateOrUpdateOptionalParams,
   MetricsContainersGetOptionalParams,
 } from "../../api/metricsContainers/options.js";
-import { MetricsContainerResource } from "../../models/models.js";
+import {
+  MetricsContainerResource,
+  MetricsContainerResourceCreateOrUpdate,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MetricsContainers operations. */
@@ -28,7 +31,7 @@ export interface MetricsContainersOperations {
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     metricsContainerName: string,
-    resource: MetricsContainerResource,
+    resource: MetricsContainerResourceCreateOrUpdate,
     options?: MetricsContainersCreateOrUpdateOptionalParams,
   ) => Promise<MetricsContainerResource>;
   /** Gets metrics container settings for a monitoring account. */
@@ -52,7 +55,7 @@ function _getMetricsContainers(context: MonitorContext) {
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
       metricsContainerName: string,
-      resource: MetricsContainerResource,
+      resource: MetricsContainerResourceCreateOrUpdate,
       options?: MetricsContainersCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

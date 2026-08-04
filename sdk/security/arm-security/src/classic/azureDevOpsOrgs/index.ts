@@ -19,6 +19,8 @@ import {
 import {
   AzureDevOpsOrg,
   AzureDevOpsOrgListResponse,
+  AzureDevOpsOrgCreateOrUpdate,
+  AzureDevOpsOrgUpdate,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -43,7 +45,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgUpdate,
     options?: AzureDevOpsOrgsUpdateOptionalParams,
   ) => PollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg>;
   /** @deprecated use update instead */
@@ -51,7 +53,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgUpdate,
     options?: AzureDevOpsOrgsUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg>>;
   /** @deprecated use update instead */
@@ -59,7 +61,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgUpdate,
     options?: AzureDevOpsOrgsUpdateOptionalParams,
   ) => Promise<AzureDevOpsOrg>;
   /** Creates or updates monitored Azure DevOps organization details. */
@@ -67,7 +69,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
     options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg>;
   /** @deprecated use createOrUpdate instead */
@@ -75,7 +77,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
     options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg>>;
   /** @deprecated use createOrUpdate instead */
@@ -83,7 +85,7 @@ export interface AzureDevOpsOrgsOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     orgName: string,
-    azureDevOpsOrg: AzureDevOpsOrg,
+    azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
     options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
   ) => Promise<AzureDevOpsOrg>;
   /** Returns a monitored Azure DevOps organization resource. */
@@ -111,7 +113,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgUpdate,
       options?: AzureDevOpsOrgsUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, securityConnectorName, orgName, azureDevOpsOrg, options),
@@ -119,7 +121,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgUpdate,
       options?: AzureDevOpsOrgsUpdateOptionalParams,
     ) => {
       const poller = update(
@@ -137,7 +139,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgUpdate,
       options?: AzureDevOpsOrgsUpdateOptionalParams,
     ) => {
       return await update(
@@ -153,7 +155,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
       options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -168,7 +170,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
       options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -186,7 +188,7 @@ function _getAzureDevOpsOrgs(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       orgName: string,
-      azureDevOpsOrg: AzureDevOpsOrg,
+      azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
       options?: AzureDevOpsOrgsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

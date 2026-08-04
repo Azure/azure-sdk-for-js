@@ -14,7 +14,7 @@ import type {
   SignalDefinitionsCreateOrUpdateOptionalParams,
   SignalDefinitionsGetOptionalParams,
 } from "../../api/signalDefinitions/options.js";
-import type { SignalDefinition } from "../../models/models.js";
+import type { SignalDefinition, SignalDefinitionCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface SignalDefinitionsOperations {
     resourceGroupName: string,
     healthModelName: string,
     signalDefinitionName: string,
-    resource: SignalDefinition,
+    resource: SignalDefinitionCreateOrUpdate,
     options?: SignalDefinitionsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<SignalDefinition>, SignalDefinition>;
   /** Get a SignalDefinition */
@@ -67,7 +67,7 @@ function _getSignalDefinitions(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       signalDefinitionName: string,
-      resource: SignalDefinition,
+      resource: SignalDefinitionCreateOrUpdate,
       options?: SignalDefinitionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

@@ -9,7 +9,10 @@ import {
   CustomRecommendationsCreateOrUpdateOptionalParams,
   CustomRecommendationsGetOptionalParams,
 } from "../../api/customRecommendations/options.js";
-import { CustomRecommendation } from "../../models/securityStandardsAPI/models.js";
+import {
+  CustomRecommendation,
+  CustomRecommendationCreateOrUpdate,
+} from "../../models/securityStandardsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CustomRecommendations operations. */
@@ -29,7 +32,7 @@ export interface CustomRecommendationsOperations {
   createOrUpdate: (
     scope: string,
     customRecommendationName: string,
-    customRecommendationBody: CustomRecommendation,
+    customRecommendationBody: CustomRecommendationCreateOrUpdate,
     options?: CustomRecommendationsCreateOrUpdateOptionalParams,
   ) => Promise<CustomRecommendation>;
   /** Get a specific custom recommendation for the requested scope by customRecommendationName */
@@ -52,7 +55,7 @@ function _getCustomRecommendations(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       customRecommendationName: string,
-      customRecommendationBody: CustomRecommendation,
+      customRecommendationBody: CustomRecommendationCreateOrUpdate,
       options?: CustomRecommendationsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, scope, customRecommendationName, customRecommendationBody, options),

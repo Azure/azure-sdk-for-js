@@ -4,11 +4,12 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   SecurityContact,
-  securityContactSerializer,
   securityContactDeserializer,
   SecurityContactName,
   _SecurityContactList,
   _securityContactListDeserializer,
+  SecurityContactCreateOrUpdate,
+  securityContactCreateOrUpdateSerializer,
 } from "../../models/automationsAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
@@ -121,7 +122,7 @@ export async function $delete(
 export function _createSend(
   context: Client,
   securityContactName: SecurityContactName,
-  securityContact: SecurityContact,
+  securityContact: SecurityContactCreateOrUpdate,
   options: SecurityContactsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,12 +136,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityContactSerializer(securityContact),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: securityContactCreateOrUpdateSerializer(securityContact),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<SecurityContact> {
@@ -159,7 +162,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   securityContactName: SecurityContactName,
-  securityContact: SecurityContact,
+  securityContact: SecurityContactCreateOrUpdate,
   options: SecurityContactsCreateOptionalParams = { requestOptions: {} },
 ): Promise<SecurityContact> {
   const result = await _createSend(context, securityContactName, securityContact, options);

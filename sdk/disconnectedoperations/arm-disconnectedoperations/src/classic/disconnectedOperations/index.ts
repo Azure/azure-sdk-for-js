@@ -23,8 +23,8 @@ import type {
 import type {
   DisconnectedOperation,
   DisconnectedOperationCreateOrUpdate,
-  DisconnectedOperationUpdate,
   DisconnectedOperationDeploymentManifest,
+  DisconnectedOperationUpdateUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -47,11 +47,6 @@ export interface DisconnectedOperationsOperations {
     options?: DisconnectedOperationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DisconnectedOperation>;
   /** Delete a DisconnectedOperation */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -61,7 +56,7 @@ export interface DisconnectedOperationsOperations {
   update: (
     resourceGroupName: string,
     name: string,
-    properties: DisconnectedOperationUpdate,
+    properties: DisconnectedOperationUpdateUpdate,
     options?: DisconnectedOperationsUpdateOptionalParams,
   ) => Promise<DisconnectedOperation>;
   /** Create a DisconnectedOperation */
@@ -100,7 +95,7 @@ function _getDisconnectedOperations(context: DisconnectedOperationsManagementCon
     update: (
       resourceGroupName: string,
       name: string,
-      properties: DisconnectedOperationUpdate,
+      properties: DisconnectedOperationUpdateUpdate,
       options?: DisconnectedOperationsUpdateOptionalParams,
     ) => update(context, resourceGroupName, name, properties, options),
     createOrUpdate: (

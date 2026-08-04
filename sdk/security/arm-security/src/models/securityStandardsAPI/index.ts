@@ -23,6 +23,15 @@ export type {
   RecommendationSupportedClouds,
   SeverityEnum,
   SecurityIssue,
+  CustomRecommendationCreateOrUpdate,
+  CustomRecommendationPropertiesCreateOrUpdate,
+  StandardAssignmentCreateOrUpdate,
+  StandardAssignmentPropertiesCreateOrUpdate,
+  StandardAssignmentPropertiesAttestationDataCreateOrUpdate,
+  StandardAssignmentMetadataCreateOrUpdate,
+  SecurityStandardCreateOrUpdate,
+  SecurityStandardPropertiesCreateOrUpdate,
+  StandardMetadataCreateOrUpdate,
 } from "./models.js";
 export {
   KnownStandardType,

@@ -9,7 +9,11 @@ import {
   SecurityContactsCreateOptionalParams,
   SecurityContactsGetOptionalParams,
 } from "../../api/securityContacts/options.js";
-import { SecurityContact, SecurityContactName } from "../../models/automationsAPI/models.js";
+import {
+  SecurityContact,
+  SecurityContactName,
+  SecurityContactCreateOrUpdate,
+} from "../../models/automationsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityContacts operations. */
@@ -26,7 +30,7 @@ export interface SecurityContactsOperations {
   /** Create security contact configurations for the subscription */
   create: (
     securityContactName: SecurityContactName,
-    securityContact: SecurityContact,
+    securityContact: SecurityContactCreateOrUpdate,
     options?: SecurityContactsCreateOptionalParams,
   ) => Promise<SecurityContact>;
   /** Get Default Security contact configurations for the subscription */
@@ -45,7 +49,7 @@ function _getSecurityContacts(context: SecurityCenterContext) {
     ) => $delete(context, securityContactName, options),
     create: (
       securityContactName: SecurityContactName,
-      securityContact: SecurityContact,
+      securityContact: SecurityContactCreateOrUpdate,
       options?: SecurityContactsCreateOptionalParams,
     ) => create(context, securityContactName, securityContact, options),
     get: (securityContactName: SecurityContactName, options?: SecurityContactsGetOptionalParams) =>

@@ -4,17 +4,18 @@
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
 import type {
   Namespace,
-  NamespaceUpdate,
   _NamespaceListResult,
   NamespaceMigrateRequest,
+  SchemaRegistryUpdateUpdate,
+  NamespaceCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  namespaceSerializer,
   namespaceDeserializer,
-  namespaceUpdateSerializer,
   _namespaceListResultDeserializer,
   namespaceMigrateRequestSerializer,
+  schemaRegistryUpdateUpdateSerializer,
+  namespaceCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -61,7 +62,7 @@ export function _migrateSend(
 }
 
 export async function _migrateDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -80,7 +81,7 @@ export function migrate(
   body: NamespaceMigrateRequest,
   options: NamespacesMigrateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _migrateDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _migrateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -231,11 +232,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Namespace */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -255,7 +251,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: NamespaceUpdate,
+  properties: SchemaRegistryUpdateUpdate,
   options: NamespacesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -270,12 +266,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: schemaRegistryUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Namespace> {
@@ -295,7 +293,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: NamespaceUpdate,
+  properties: SchemaRegistryUpdateUpdate,
   options: NamespacesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Namespace>, Namespace> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -312,7 +310,7 @@ export function _createOrReplaceSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  resource: Namespace,
+  resource: NamespaceCreateOrUpdate,
   options: NamespacesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -327,12 +325,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -354,7 +354,7 @@ export function createOrReplace(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  resource: Namespace,
+  resource: NamespaceCreateOrUpdate,
   options: NamespacesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Namespace>, Namespace> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {

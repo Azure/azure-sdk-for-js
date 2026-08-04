@@ -5,12 +5,13 @@ import type { DiscoveryContext as Client } from "../index.js";
 import type {
   BookshelfPrivateEndpointConnection,
   _BookshelfPrivateEndpointConnectionListResult,
+  BookshelfPrivateEndpointConnectionCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  bookshelfPrivateEndpointConnectionSerializer,
   bookshelfPrivateEndpointConnectionDeserializer,
   _bookshelfPrivateEndpointConnectionListResultDeserializer,
+  bookshelfPrivateEndpointConnectionCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -58,9 +59,7 @@ export async function _listByBookshelfDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -112,9 +111,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -150,7 +147,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   bookshelfName: string,
   privateEndpointConnectionName: string,
-  resource: BookshelfPrivateEndpointConnection,
+  resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
   options: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -166,12 +163,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: bookshelfPrivateEndpointConnectionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: bookshelfPrivateEndpointConnectionCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -180,9 +179,7 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -195,7 +192,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   bookshelfName: string,
   privateEndpointConnectionName: string,
-  resource: BookshelfPrivateEndpointConnection,
+  resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
   options: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<BookshelfPrivateEndpointConnection>,
@@ -253,9 +250,7 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

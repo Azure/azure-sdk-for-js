@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
+import { systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** The Defender for Storage resource. */
 export interface DefenderForStorageSetting extends ExtensionResource {
   /** Defender for Storage resource properties. */
@@ -391,5 +391,135 @@ export function filesScanSummaryDeserializer(item: any): FilesScanSummary {
     skippedFilesCount: item["skippedFilesCount"],
     failedFilesCount: item["failedFilesCount"],
     scannedFilesInGB: item["scannedFilesInGB"],
+  };
+}
+
+/** The Defender for Storage resource. */
+export interface DefenderForStorageSettingCreateOrUpdate extends ExtensionResource {
+  /** Defender for Storage resource properties. */
+  properties?: DefenderForStorageSettingPropertiesCreateOrUpdate;
+}
+
+export function defenderForStorageSettingCreateOrUpdateSerializer(
+  item: DefenderForStorageSettingCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : defenderForStorageSettingPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function defenderForStorageSettingCreateOrUpdateDeserializer(
+  item: any,
+): DefenderForStorageSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : defenderForStorageSettingPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Defender for Storage resource properties. */
+export interface DefenderForStorageSettingPropertiesCreateOrUpdate {
+  /** Indicates whether Defender for Storage is enabled on this storage account. */
+  isEnabled?: boolean;
+  /** Properties of Malware Scanning. */
+  malwareScanning?: MalwareScanningPropertiesCreateOrUpdate;
+  /** Properties of Sensitive Data Discovery. */
+  sensitiveDataDiscovery?: SensitiveDataDiscoveryPropertiesCreateOrUpdate;
+  /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
+  overrideSubscriptionLevelSettings?: boolean;
+}
+
+export function defenderForStorageSettingPropertiesCreateOrUpdateSerializer(
+  item: DefenderForStorageSettingPropertiesCreateOrUpdate,
+): any {
+  return {
+    isEnabled: item["isEnabled"],
+    malwareScanning: !item["malwareScanning"]
+      ? item["malwareScanning"]
+      : malwareScanningPropertiesCreateOrUpdateSerializer(item["malwareScanning"]),
+    sensitiveDataDiscovery: !item["sensitiveDataDiscovery"]
+      ? item["sensitiveDataDiscovery"]
+      : sensitiveDataDiscoveryPropertiesCreateOrUpdateSerializer(item["sensitiveDataDiscovery"]),
+    overrideSubscriptionLevelSettings: item["overrideSubscriptionLevelSettings"],
+  };
+}
+
+export function defenderForStorageSettingPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DefenderForStorageSettingPropertiesCreateOrUpdate {
+  return {
+    isEnabled: item["isEnabled"],
+    malwareScanning: !item["malwareScanning"]
+      ? item["malwareScanning"]
+      : malwareScanningPropertiesCreateOrUpdateDeserializer(item["malwareScanning"]),
+    sensitiveDataDiscovery: !item["sensitiveDataDiscovery"]
+      ? item["sensitiveDataDiscovery"]
+      : sensitiveDataDiscoveryPropertiesCreateOrUpdateDeserializer(item["sensitiveDataDiscovery"]),
+    overrideSubscriptionLevelSettings: item["overrideSubscriptionLevelSettings"],
+  };
+}
+
+/** Properties of Malware Scanning. */
+export interface MalwareScanningPropertiesCreateOrUpdate {
+  /** Properties of On Upload malware scanning. */
+  onUpload?: OnUploadProperties;
+  /** Optional. Resource id of an Event Grid Topic to send scan results to. */
+  scanResultsEventGridTopicResourceId?: string;
+  /** Optional. Write scan result on BlobIndexTags by default. */
+  blobScanResultsOptions?: BlobScanResultsOptions;
+  /** Optional. Specifies the automated response action to take when malware is detected. */
+  automatedResponse?: AutomatedResponseType;
+}
+
+export function malwareScanningPropertiesCreateOrUpdateSerializer(
+  item: MalwareScanningPropertiesCreateOrUpdate,
+): any {
+  return {
+    onUpload: !item["onUpload"] ? item["onUpload"] : onUploadPropertiesSerializer(item["onUpload"]),
+    scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
+    blobScanResultsOptions: item["blobScanResultsOptions"],
+    automatedResponse: item["automatedResponse"],
+  };
+}
+
+export function malwareScanningPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): MalwareScanningPropertiesCreateOrUpdate {
+  return {
+    onUpload: !item["onUpload"]
+      ? item["onUpload"]
+      : onUploadPropertiesDeserializer(item["onUpload"]),
+    scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
+    blobScanResultsOptions: item["blobScanResultsOptions"],
+    automatedResponse: item["automatedResponse"],
+  };
+}
+
+/** Properties of Sensitive Data Discovery. */
+export interface SensitiveDataDiscoveryPropertiesCreateOrUpdate {
+  /** Indicates whether Sensitive Data Discovery should be enabled. */
+  isEnabled?: boolean;
+}
+
+export function sensitiveDataDiscoveryPropertiesCreateOrUpdateSerializer(
+  item: SensitiveDataDiscoveryPropertiesCreateOrUpdate,
+): any {
+  return { isEnabled: item["isEnabled"] };
+}
+
+export function sensitiveDataDiscoveryPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SensitiveDataDiscoveryPropertiesCreateOrUpdate {
+  return {
+    isEnabled: item["isEnabled"],
   };
 }

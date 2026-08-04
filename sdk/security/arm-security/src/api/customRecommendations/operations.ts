@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import {
   CustomRecommendation,
-  customRecommendationSerializer,
   customRecommendationDeserializer,
   _CustomRecommendationsList,
   _customRecommendationsListDeserializer,
+  CustomRecommendationCreateOrUpdate,
+  customRecommendationCreateOrUpdateSerializer,
 } from "../../models/securityStandardsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -125,7 +126,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   customRecommendationName: string,
-  customRecommendationBody: CustomRecommendation,
+  customRecommendationBody: CustomRecommendationCreateOrUpdate,
   options: CustomRecommendationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,12 +140,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: customRecommendationSerializer(customRecommendationBody),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: customRecommendationCreateOrUpdateSerializer(customRecommendationBody),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -166,7 +169,7 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   customRecommendationName: string,
-  customRecommendationBody: CustomRecommendation,
+  customRecommendationBody: CustomRecommendationCreateOrUpdate,
   options: CustomRecommendationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<CustomRecommendation> {
   const result = await _createOrUpdateSend(

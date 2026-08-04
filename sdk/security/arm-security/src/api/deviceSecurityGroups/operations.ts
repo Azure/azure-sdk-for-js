@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   DeviceSecurityGroup,
-  deviceSecurityGroupSerializer,
   deviceSecurityGroupDeserializer,
   _DeviceSecurityGroupList,
   _deviceSecurityGroupListDeserializer,
+  DeviceSecurityGroupCreateOrUpdate,
+  deviceSecurityGroupCreateOrUpdateSerializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -125,7 +126,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceId: string,
   deviceSecurityGroupName: string,
-  deviceSecurityGroup: DeviceSecurityGroup,
+  deviceSecurityGroup: DeviceSecurityGroupCreateOrUpdate,
   options: DeviceSecurityGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,12 +140,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: deviceSecurityGroupSerializer(deviceSecurityGroup),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: deviceSecurityGroupCreateOrUpdateSerializer(deviceSecurityGroup),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -166,7 +169,7 @@ export async function createOrUpdate(
   context: Client,
   resourceId: string,
   deviceSecurityGroupName: string,
-  deviceSecurityGroup: DeviceSecurityGroup,
+  deviceSecurityGroup: DeviceSecurityGroupCreateOrUpdate,
   options: DeviceSecurityGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DeviceSecurityGroup> {
   const result = await _createOrUpdateSend(

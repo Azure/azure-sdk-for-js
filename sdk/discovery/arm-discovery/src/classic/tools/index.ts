@@ -18,7 +18,7 @@ import type {
   ToolsCreateOrUpdateOptionalParams,
   ToolsGetOptionalParams,
 } from "../../api/tools/options.js";
-import type { Tool, ToolUpdate } from "../../models/models.js";
+import type { Tool, ToolUpdate, ToolCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -50,7 +50,7 @@ export interface ToolsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     toolName: string,
-    resource: Tool,
+    resource: ToolCreateOrUpdate,
     options?: ToolsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Tool>, Tool>;
   /** Get a Tool */
@@ -79,7 +79,7 @@ function _getTools(context: DiscoveryContext) {
     createOrUpdate: (
       resourceGroupName: string,
       toolName: string,
-      resource: Tool,
+      resource: ToolCreateOrUpdate,
       options?: ToolsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, toolName, resource, options),
     get: (resourceGroupName: string, toolName: string, options?: ToolsGetOptionalParams) =>

@@ -5,13 +5,14 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   GovernanceRule,
-  governanceRuleSerializer,
   governanceRuleDeserializer,
   _GovernanceRuleList,
   _governanceRuleListDeserializer,
   executeGovernanceRuleParamsSerializer,
   OperationResult,
   operationResultDeserializer,
+  GovernanceRuleCreateOrUpdate,
+  governanceRuleCreateOrUpdateSerializer,
 } from "../../models/governanceAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -62,13 +63,17 @@ export function _operationResultsSend(
 
 export async function _operationResultsDeserialize(
   result: PathUncheckedResponse,
-): Promise<OperationResult> {
+): Promise<OperationResult | void> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = cloudErrorDeserializer(result.body);
 
     throw error;
+  }
+
+  if (!result.body) {
+    return;
   }
 
   return operationResultDeserializer(result.body);
@@ -81,7 +86,7 @@ export async function operationResults(
   ruleId: string,
   operationId: string,
   options: GovernanceRulesOperationResultsOptionalParams = { requestOptions: {} },
-): Promise<OperationResult> {
+): Promise<OperationResult | void> {
   const result = await _operationResultsSend(context, scope, ruleId, operationId, options);
   return _operationResultsDeserialize(result);
 }
@@ -242,7 +247,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   ruleId: string,
-  governanceRule: GovernanceRule,
+  governanceRule: GovernanceRuleCreateOrUpdate,
   options: GovernanceRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -256,12 +261,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: governanceRuleSerializer(governanceRule),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: governanceRuleCreateOrUpdateSerializer(governanceRule),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -283,7 +290,7 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   ruleId: string,
-  governanceRule: GovernanceRule,
+  governanceRule: GovernanceRuleCreateOrUpdate,
   options: GovernanceRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<GovernanceRule> {
   const result = await _createOrUpdateSend(context, scope, ruleId, governanceRule, options);

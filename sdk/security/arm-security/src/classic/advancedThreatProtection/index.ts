@@ -7,14 +7,17 @@ import {
   AdvancedThreatProtectionCreateOptionalParams,
   AdvancedThreatProtectionGetOptionalParams,
 } from "../../api/advancedThreatProtection/options.js";
-import { AdvancedThreatProtectionSetting } from "../../models/atpSettingsAPI/models.js";
+import {
+  AdvancedThreatProtectionSetting,
+  AdvancedThreatProtectionSettingCreateOrUpdate,
+} from "../../models/atpSettingsAPI/models.js";
 
 /** Interface representing a AdvancedThreatProtection operations. */
 export interface AdvancedThreatProtectionOperations {
   /** Creates or updates the Advanced Threat Protection settings on a specified resource. */
   create: (
     resourceId: string,
-    advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
+    advancedThreatProtectionSetting: AdvancedThreatProtectionSettingCreateOrUpdate,
     options?: AdvancedThreatProtectionCreateOptionalParams,
   ) => Promise<AdvancedThreatProtectionSetting>;
   /** Gets the Advanced Threat Protection settings for the specified resource. */
@@ -28,7 +31,7 @@ function _getAdvancedThreatProtection(context: SecurityCenterContext) {
   return {
     create: (
       resourceId: string,
-      advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
+      advancedThreatProtectionSetting: AdvancedThreatProtectionSettingCreateOrUpdate,
       options?: AdvancedThreatProtectionCreateOptionalParams,
     ) => create(context, resourceId, advancedThreatProtectionSetting, options),
     get: (resourceId: string, options?: AdvancedThreatProtectionGetOptionalParams) =>

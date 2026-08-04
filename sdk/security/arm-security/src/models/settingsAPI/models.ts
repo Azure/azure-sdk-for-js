@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { ProxyResource, systemDataDeserializer, ProxyResourceCreateOrUpdate } from "../models.js";
+
 /** The kind of the security setting */
 export interface Setting extends ProxyResource {
   /** the kind of the settings string */
@@ -96,7 +96,7 @@ export function dataExportSettingsSerializer(item: DataExportSettings): any {
     kind: item["kind"],
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
-      : _dataExportSettingsPropertiesSerializer(item),
+      : _dataExportSettingsCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -111,7 +111,7 @@ export function dataExportSettingsDeserializer(item: any): DataExportSettings {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _dataExportSettingsPropertiesDeserializer(item["properties"])),
+      : _dataExportSettingsCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -144,7 +144,7 @@ export function alertSyncSettingsSerializer(item: AlertSyncSettings): any {
     kind: item["kind"],
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
-      : _alertSyncSettingsPropertiesSerializer(item),
+      : _alertSyncSettingsCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -159,7 +159,7 @@ export function alertSyncSettingsDeserializer(item: any): AlertSyncSettings {
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _alertSyncSettingsPropertiesDeserializer(item["properties"])),
+      : _alertSyncSettingsCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -206,21 +206,152 @@ export function settingUnionArrayDeserializer(result: Array<SettingUnion>): any[
   });
 }
 
-export function _dataExportSettingsPropertiesSerializer(item: DataExportSettings): any {
+/** The kind of the security setting */
+export interface SettingCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+  /** the kind of the settings string */
+  /** The discriminator possible values: DataExportSettings, AlertSyncSettings */
+  kind: SettingKind;
+}
+
+export function settingCreateOrUpdateSerializer(item: SettingCreateOrUpdate): any {
+  return { kind: item["kind"] };
+}
+
+export function settingCreateOrUpdateDeserializer(item: any): SettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    kind: item["kind"],
+  };
+}
+
+/** Alias for SettingCreateOrUpdateUnion */
+export type SettingCreateOrUpdateUnion =
+  | DataExportSettingsCreateOrUpdate
+  | AlertSyncSettingsCreateOrUpdate
+  | SettingCreateOrUpdate;
+
+export function settingCreateOrUpdateUnionSerializer(item: SettingCreateOrUpdateUnion): any {
+  switch (item.kind) {
+    case "DataExportSettings":
+      return dataExportSettingsCreateOrUpdateSerializer(item as DataExportSettingsCreateOrUpdate);
+
+    case "AlertSyncSettings":
+      return alertSyncSettingsCreateOrUpdateSerializer(item as AlertSyncSettingsCreateOrUpdate);
+
+    default:
+      return settingCreateOrUpdateSerializer(item);
+  }
+}
+
+export function settingCreateOrUpdateUnionDeserializer(item: any): SettingCreateOrUpdateUnion {
+  switch (item["kind"]) {
+    case "DataExportSettings":
+      return dataExportSettingsCreateOrUpdateDeserializer(item as DataExportSettingsCreateOrUpdate);
+
+    case "AlertSyncSettings":
+      return alertSyncSettingsCreateOrUpdateDeserializer(item as AlertSyncSettingsCreateOrUpdate);
+
+    default:
+      return settingCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** Represents a data export setting */
+export interface DataExportSettingsCreateOrUpdate extends SettingCreateOrUpdate {
+  /** the kind of the settings string */
+  kind: "DataExportSettings";
+  /** Is the data export setting enabled */
+  enabled?: boolean;
+}
+
+export function dataExportSettingsCreateOrUpdateSerializer(
+  item: DataExportSettingsCreateOrUpdate,
+): any {
+  return {
+    kind: item["kind"],
+    properties: areAllPropsUndefined(item, ["enabled"])
+      ? undefined
+      : _dataExportSettingsCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function dataExportSettingsCreateOrUpdateDeserializer(
+  item: any,
+): DataExportSettingsCreateOrUpdate {
+  return {
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _dataExportSettingsCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Represents an alert sync setting */
+export interface AlertSyncSettingsCreateOrUpdate extends SettingCreateOrUpdate {
+  /** the kind of the settings string */
+  kind: "AlertSyncSettings";
+  /** Is the alert sync setting enabled */
+  enabled?: boolean;
+}
+
+export function alertSyncSettingsCreateOrUpdateSerializer(
+  item: AlertSyncSettingsCreateOrUpdate,
+): any {
+  return {
+    kind: item["kind"],
+    properties: areAllPropsUndefined(item, ["enabled"])
+      ? undefined
+      : _alertSyncSettingsCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function alertSyncSettingsCreateOrUpdateDeserializer(
+  item: any,
+): AlertSyncSettingsCreateOrUpdate {
+  return {
+    kind: item["kind"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _alertSyncSettingsCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _dataExportSettingsCreateOrUpdatePropertiesSerializer(
+  item: DataExportSettingsCreateOrUpdate,
+): any {
   return { enabled: item["enabled"] };
 }
 
-export function _dataExportSettingsPropertiesDeserializer(item: any) {
+export function _dataExportSettingsCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     enabled: item["enabled"],
   };
 }
 
-export function _alertSyncSettingsPropertiesSerializer(item: AlertSyncSettings): any {
+export function _alertSyncSettingsCreateOrUpdatePropertiesSerializer(
+  item: AlertSyncSettingsCreateOrUpdate,
+): any {
   return { enabled: item["enabled"] };
 }
 
-export function _alertSyncSettingsPropertiesDeserializer(item: any) {
+export function _alertSyncSettingsCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     enabled: item["enabled"],
   };

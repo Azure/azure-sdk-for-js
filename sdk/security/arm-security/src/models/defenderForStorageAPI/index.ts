@@ -15,5 +15,9 @@ export type {
   ScanSummary,
   BlobsScanSummary,
   FilesScanSummary,
+  DefenderForStorageSettingCreateOrUpdate,
+  DefenderForStorageSettingPropertiesCreateOrUpdate,
+  MalwareScanningPropertiesCreateOrUpdate,
+  SensitiveDataDiscoveryPropertiesCreateOrUpdate,
 } from "./models.js";
 export { KnownBlobScanResultsOptions, KnownAutomatedResponseType } from "./models.js";

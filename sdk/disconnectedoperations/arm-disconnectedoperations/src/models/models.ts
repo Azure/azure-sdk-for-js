@@ -13,6 +13,16 @@ export interface DisconnectedOperation extends TrackedResource {
   properties?: DisconnectedOperationProperties;
 }
 
+export function disconnectedOperationSerializer(item: DisconnectedOperation): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : disconnectedOperationPropertiesSerializer(item["properties"]),
+  };
+}
+
 export function disconnectedOperationDeserializer(item: any): DisconnectedOperation {
   return {
     tags: !item["tags"]
@@ -51,6 +61,22 @@ export interface DisconnectedOperationProperties {
   billingConfiguration?: BillingConfiguration;
   /** The benefit plans */
   benefitPlans?: BenefitPlans;
+}
+
+export function disconnectedOperationPropertiesSerializer(
+  item: DisconnectedOperationProperties,
+): any {
+  return {
+    connectionIntent: item["connectionIntent"],
+    registrationStatus: item["registrationStatus"],
+    deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationSerializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansSerializer(item["benefitPlans"]),
+  };
 }
 
 export function disconnectedOperationPropertiesDeserializer(
@@ -353,8 +379,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -486,65 +512,6 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Disconnected operation resource for create or update. */
-export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DisconnectedOperationPropertiesCreateOrUpdate;
-}
-
-export function disconnectedOperationCreateOrUpdateSerializer(
-  item: DisconnectedOperationCreateOrUpdate,
-): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : disconnectedOperationPropertiesCreateOrUpdateSerializer(item["properties"]),
-  };
-}
-
-/** model interface DisconnectedOperationPropertiesCreateOrUpdate */
-export interface DisconnectedOperationPropertiesCreateOrUpdate {
-  /** The connection intent */
-  connectionIntent: ConnectionIntent;
-  /** The device version */
-  deviceVersion?: string;
-  /** The billing configuration */
-  billingConfiguration?: BillingConfigurationCreateOrUpdate;
-  /** The benefit plans */
-  benefitPlans?: BenefitPlans;
-}
-
-export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
-  item: DisconnectedOperationPropertiesCreateOrUpdate,
-): any {
-  return {
-    connectionIntent: item["connectionIntent"],
-    deviceVersion: item["deviceVersion"],
-    billingConfiguration: !item["billingConfiguration"]
-      ? item["billingConfiguration"]
-      : billingConfigurationCreateOrUpdateSerializer(item["billingConfiguration"]),
-    benefitPlans: !item["benefitPlans"]
-      ? item["benefitPlans"]
-      : benefitPlansSerializer(item["benefitPlans"]),
-  };
-}
-
-/** The billing configuration */
-export interface BillingConfigurationCreateOrUpdate {
-  /** The auto renew setting */
-  autoRenew: AutoRenew;
-  /** The current billing configuration */
-  current: BillingPeriod;
-}
-
-export function billingConfigurationCreateOrUpdateSerializer(
-  item: BillingConfigurationCreateOrUpdate,
-): any {
-  return { autoRenew: item["autoRenew"], current: billingPeriodSerializer(item["current"]) };
-}
-
 /** The type used for update operations of the DisconnectedOperation. */
 export interface DisconnectedOperationUpdate {
   /** Resource tags. */
@@ -607,6 +574,12 @@ export function _disconnectedOperationListResultDeserializer(
     value: disconnectedOperationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function disconnectedOperationArraySerializer(result: Array<DisconnectedOperation>): any[] {
+  return result.map((item) => {
+    return disconnectedOperationSerializer(item);
+  });
 }
 
 export function disconnectedOperationArrayDeserializer(
@@ -802,8 +775,8 @@ export type SystemReboot = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1065,6 +1038,325 @@ export function hardwareSettingPropertiesDeserializer(item: any): HardwareSettin
     versionAtRegistration: item["versionAtRegistration"],
     solutionBuilderExtension: item["solutionBuilderExtension"],
     deviceId: item["deviceId"],
+  };
+}
+
+/** Hardware settings resource. */
+export interface HardwareSettingCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HardwareSettingPropertiesCreateOrUpdate;
+}
+
+export function hardwareSettingCreateOrUpdateSerializer(item: HardwareSettingCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : hardwareSettingPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function hardwareSettingCreateOrUpdateDeserializer(
+  item: any,
+): HardwareSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : hardwareSettingPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** The hardware setting properties */
+export interface HardwareSettingPropertiesCreateOrUpdate {
+  /** The total number of cores */
+  totalCores: number;
+  /** The disk space in GB */
+  diskSpaceInGb: number;
+  /** The memory in GB */
+  memoryInGb: number;
+  /** The OEM */
+  oem: string;
+  /** The hardware SKU */
+  hardwareSku: string;
+  /** The number of nodes */
+  nodes: number;
+  /** The active version at registration */
+  versionAtRegistration: string;
+  /** The solution builder extension at registration */
+  solutionBuilderExtension: string;
+  /** The unique Id of the device */
+  deviceId: string;
+}
+
+export function hardwareSettingPropertiesCreateOrUpdateSerializer(
+  item: HardwareSettingPropertiesCreateOrUpdate,
+): any {
+  return {
+    totalCores: item["totalCores"],
+    diskSpaceInGb: item["diskSpaceInGb"],
+    memoryInGb: item["memoryInGb"],
+    oem: item["oem"],
+    hardwareSku: item["hardwareSku"],
+    nodes: item["nodes"],
+    versionAtRegistration: item["versionAtRegistration"],
+    solutionBuilderExtension: item["solutionBuilderExtension"],
+    deviceId: item["deviceId"],
+  };
+}
+
+export function hardwareSettingPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): HardwareSettingPropertiesCreateOrUpdate {
+  return {
+    totalCores: item["totalCores"],
+    diskSpaceInGb: item["diskSpaceInGb"],
+    memoryInGb: item["memoryInGb"],
+    oem: item["oem"],
+    hardwareSku: item["hardwareSku"],
+    nodes: item["nodes"],
+    versionAtRegistration: item["versionAtRegistration"],
+    solutionBuilderExtension: item["solutionBuilderExtension"],
+    deviceId: item["deviceId"],
+  };
+}
+
+/** Disconnected operation resource. */
+export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DisconnectedOperationPropertiesCreateOrUpdate;
+}
+
+export function disconnectedOperationCreateOrUpdateSerializer(
+  item: DisconnectedOperationCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : disconnectedOperationPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function disconnectedOperationCreateOrUpdateDeserializer(
+  item: any,
+): DisconnectedOperationCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : disconnectedOperationPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** The disconnected operation properties */
+export interface DisconnectedOperationPropertiesCreateOrUpdate {
+  /** The connection intent */
+  connectionIntent: ConnectionIntent;
+  /** The registration intent */
+  registrationStatus?: RegistrationStatus;
+  /** The device version */
+  deviceVersion?: string;
+  /** The billing configuration */
+  billingConfiguration?: BillingConfigurationCreateOrUpdate;
+  /** The benefit plans */
+  benefitPlans?: BenefitPlans;
+}
+
+export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
+  item: DisconnectedOperationPropertiesCreateOrUpdate,
+): any {
+  return {
+    connectionIntent: item["connectionIntent"],
+    registrationStatus: item["registrationStatus"],
+    deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationCreateOrUpdateSerializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansSerializer(item["benefitPlans"]),
+  };
+}
+
+export function disconnectedOperationPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DisconnectedOperationPropertiesCreateOrUpdate {
+  return {
+    connectionIntent: item["connectionIntent"],
+    registrationStatus: item["registrationStatus"],
+    deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationCreateOrUpdateDeserializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansDeserializer(item["benefitPlans"]),
+  };
+}
+
+/** The billing configuration */
+export interface BillingConfigurationCreateOrUpdate {
+  /** The auto renew setting */
+  autoRenew: AutoRenew;
+  /** The current billing configuration */
+  current: BillingPeriodCreateOrUpdate;
+  /** The upcoming billing configuration */
+  upcoming?: BillingPeriodCreateOrUpdate;
+}
+
+export function billingConfigurationCreateOrUpdateSerializer(
+  item: BillingConfigurationCreateOrUpdate,
+): any {
+  return {
+    autoRenew: item["autoRenew"],
+    current: billingPeriodCreateOrUpdateSerializer(item["current"]),
+    upcoming: !item["upcoming"]
+      ? item["upcoming"]
+      : billingPeriodCreateOrUpdateSerializer(item["upcoming"]),
+  };
+}
+
+export function billingConfigurationCreateOrUpdateDeserializer(
+  item: any,
+): BillingConfigurationCreateOrUpdate {
+  return {
+    autoRenew: item["autoRenew"],
+    current: billingPeriodCreateOrUpdateDeserializer(item["current"]),
+    upcoming: !item["upcoming"]
+      ? item["upcoming"]
+      : billingPeriodCreateOrUpdateDeserializer(item["upcoming"]),
+  };
+}
+
+/** The billing period */
+export interface BillingPeriodCreateOrUpdate {
+  /** The number of cores */
+  cores: number;
+  /** The pricing model */
+  pricingModel: PricingModel;
+}
+
+export function billingPeriodCreateOrUpdateSerializer(item: BillingPeriodCreateOrUpdate): any {
+  return { cores: item["cores"], pricingModel: item["pricingModel"] };
+}
+
+export function billingPeriodCreateOrUpdateDeserializer(item: any): BillingPeriodCreateOrUpdate {
+  return {
+    cores: item["cores"],
+    pricingModel: item["pricingModel"],
+  };
+}
+
+/** The type used for update operations of the DisconnectedOperation. */
+export interface DisconnectedOperationUpdateUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: DisconnectedOperationUpdatePropertiesUpdate;
+}
+
+export function disconnectedOperationUpdateUpdateSerializer(
+  item: DisconnectedOperationUpdateUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : disconnectedOperationUpdatePropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the DisconnectedOperation. */
+export interface DisconnectedOperationUpdatePropertiesUpdate {
+  /** The connection intent */
+  connectionIntent?: ConnectionIntent;
+  /** The registration intent */
+  registrationStatus?: RegistrationStatus;
+  /** The device version */
+  deviceVersion?: string;
+  /** The billing configuration */
+  billingConfiguration?: BillingConfigurationUpdate;
+  /** The benefit plans */
+  benefitPlans?: BenefitPlans;
+}
+
+export function disconnectedOperationUpdatePropertiesUpdateSerializer(
+  item: DisconnectedOperationUpdatePropertiesUpdate,
+): any {
+  return {
+    connectionIntent: item["connectionIntent"],
+    registrationStatus: item["registrationStatus"],
+    deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationUpdateSerializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansSerializer(item["benefitPlans"]),
+  };
+}
+
+/** The billing configuration */
+export interface BillingConfigurationUpdate {
+  /** The auto renew setting */
+  autoRenew: AutoRenew;
+  /** The current billing configuration */
+  current: BillingPeriodUpdate;
+  /** The upcoming billing configuration */
+  upcoming?: BillingPeriodUpdate;
+}
+
+export function billingConfigurationUpdateSerializer(item: BillingConfigurationUpdate): any {
+  return {
+    autoRenew: item["autoRenew"],
+    current: billingPeriodUpdateSerializer(item["current"]),
+    upcoming: !item["upcoming"]
+      ? item["upcoming"]
+      : billingPeriodUpdateSerializer(item["upcoming"]),
+  };
+}
+
+export function billingConfigurationUpdateDeserializer(item: any): BillingConfigurationUpdate {
+  return {
+    autoRenew: item["autoRenew"],
+    current: billingPeriodUpdateDeserializer(item["current"]),
+    upcoming: !item["upcoming"]
+      ? item["upcoming"]
+      : billingPeriodUpdateDeserializer(item["upcoming"]),
+  };
+}
+
+/** The billing period */
+export interface BillingPeriodUpdate {
+  /** The number of cores */
+  cores: number;
+  /** The pricing model */
+  pricingModel: PricingModel;
+}
+
+export function billingPeriodUpdateSerializer(item: BillingPeriodUpdate): any {
+  return { cores: item["cores"], pricingModel: item["pricingModel"] };
+}
+
+export function billingPeriodUpdateDeserializer(item: any): BillingPeriodUpdate {
+  return {
+    cores: item["cores"],
+    pricingModel: item["pricingModel"],
   };
 }
 

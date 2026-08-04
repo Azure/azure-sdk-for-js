@@ -34,6 +34,7 @@ export type {
   SecurityAssessment,
   SecurityAssessmentProperties,
   ExpandEnum,
+  SecurityAssessmentMetadataResponseCreateOrUpdate,
 } from "./models.js";
 export {
   KnownTactics,

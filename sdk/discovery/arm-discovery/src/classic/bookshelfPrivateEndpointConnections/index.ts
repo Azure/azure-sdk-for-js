@@ -14,7 +14,7 @@ import type {
   BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   BookshelfPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/bookshelfPrivateEndpointConnections/options.js";
-import type { BookshelfPrivateEndpointConnection } from "../../models/models.js";
+import type { BookshelfPrivateEndpointConnection, BookshelfPrivateEndpointConnectionCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface BookshelfPrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     bookshelfName: string,
     privateEndpointConnectionName: string,
-    resource: BookshelfPrivateEndpointConnection,
+    resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
     options?: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => PollerLike<
     OperationState<BookshelfPrivateEndpointConnection>,
@@ -69,7 +69,7 @@ function _getBookshelfPrivateEndpointConnections(context: DiscoveryContext) {
       resourceGroupName: string,
       bookshelfName: string,
       privateEndpointConnectionName: string,
-      resource: BookshelfPrivateEndpointConnection,
+      resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
       options?: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

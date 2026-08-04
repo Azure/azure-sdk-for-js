@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import type { AzureResilienceManagementContext as Client } from "../index.js";
-import type { GoalTemplate, _GoalTemplateListResult } from "../../models/models.js";
+import type { GoalTemplate, _GoalTemplateListResult, GoalTemplateCreateOrUpdate, GoalTemplateUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  goalTemplateSerializer,
   goalTemplateDeserializer,
   _goalTemplateListResultDeserializer,
+  goalTemplateCreateOrUpdateSerializer,
+  goalTemplateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -53,9 +54,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -106,9 +105,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -136,7 +133,7 @@ export function _updateSend(
   context: Client,
   serviceGroupName: string,
   goalTemplateName: string,
-  properties: GoalTemplate,
+  properties: GoalTemplateUpdate,
   options: GoalTemplatesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -150,21 +147,21 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalTemplateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalTemplateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -177,7 +174,7 @@ export function update(
   context: Client,
   serviceGroupName: string,
   goalTemplateName: string,
-  properties: GoalTemplate,
+  properties: GoalTemplateUpdate,
   options: GoalTemplatesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -194,7 +191,7 @@ export function _createOrUpdateSend(
   context: Client,
   serviceGroupName: string,
   goalTemplateName: string,
-  resource: GoalTemplate,
+  resource: GoalTemplateCreateOrUpdate,
   options: GoalTemplatesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -208,12 +205,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalTemplateSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalTemplateCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -222,9 +221,7 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -237,7 +234,7 @@ export function createOrUpdate(
   context: Client,
   serviceGroupName: string,
   goalTemplateName: string,
-  resource: GoalTemplate,
+  resource: GoalTemplateCreateOrUpdate,
   options: GoalTemplatesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GoalTemplate>, GoalTemplate> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -277,9 +274,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Go
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

@@ -5,12 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   IoTSecuritySolutionModel,
-  ioTSecuritySolutionModelSerializer,
   ioTSecuritySolutionModelDeserializer,
   UpdateIotSecuritySolutionData,
   updateIotSecuritySolutionDataSerializer,
   _IoTSecuritySolutionsList,
   _ioTSecuritySolutionsListDeserializer,
+  IoTSecuritySolutionModelCreateOrUpdate,
+  ioTSecuritySolutionModelCreateOrUpdateSerializer,
 } from "../../models/ioTSecurityAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -240,7 +241,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  iotSecuritySolutionData: IoTSecuritySolutionModel,
+  iotSecuritySolutionData: IoTSecuritySolutionModelCreateOrUpdate,
   options: IotSecuritySolutionCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -255,12 +256,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ioTSecuritySolutionModelSerializer(iotSecuritySolutionData),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ioTSecuritySolutionModelCreateOrUpdateSerializer(iotSecuritySolutionData),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -282,7 +285,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   solutionName: string,
-  iotSecuritySolutionData: IoTSecuritySolutionModel,
+  iotSecuritySolutionData: IoTSecuritySolutionModelCreateOrUpdate,
   options: IotSecuritySolutionCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<IoTSecuritySolutionModel> {
   const result = await _createOrUpdateSend(

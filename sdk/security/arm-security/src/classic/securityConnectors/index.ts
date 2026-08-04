@@ -18,7 +18,11 @@ import {
   SecurityConnectorsCreateOrUpdateOptionalParams,
   SecurityConnectorsGetOptionalParams,
 } from "../../api/securityConnectors/options.js";
-import { SecurityConnector } from "../../models/securityConnectorsAPI/models.js";
+import {
+  SecurityConnector,
+  SecurityConnectorCreateOrUpdate,
+  SecurityConnectorUpdate,
+} from "../../models/securityConnectorsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityConnectors operations. */
@@ -42,14 +46,14 @@ export interface SecurityConnectorsOperations {
   update: (
     resourceGroupName: string,
     securityConnectorName: string,
-    securityConnector: SecurityConnector,
+    securityConnector: SecurityConnectorUpdate,
     options?: SecurityConnectorsUpdateOptionalParams,
   ) => Promise<SecurityConnector>;
   /** Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated. */
   createOrUpdate: (
     resourceGroupName: string,
     securityConnectorName: string,
-    securityConnector: SecurityConnector,
+    securityConnector: SecurityConnectorCreateOrUpdate,
     options?: SecurityConnectorsCreateOrUpdateOptionalParams,
   ) => Promise<SecurityConnector>;
   /** Retrieves details of a specific security connector */
@@ -75,13 +79,13 @@ function _getSecurityConnectors(context: SecurityCenterContext) {
     update: (
       resourceGroupName: string,
       securityConnectorName: string,
-      securityConnector: SecurityConnector,
+      securityConnector: SecurityConnectorUpdate,
       options?: SecurityConnectorsUpdateOptionalParams,
     ) => update(context, resourceGroupName, securityConnectorName, securityConnector, options),
     createOrUpdate: (
       resourceGroupName: string,
       securityConnectorName: string,
-      securityConnector: SecurityConnector,
+      securityConnector: SecurityConnectorCreateOrUpdate,
       options?: SecurityConnectorsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, securityConnectorName, securityConnector, options),

@@ -16,7 +16,7 @@ import type {
   StorageAssetsCreateOrUpdateOptionalParams,
   StorageAssetsGetOptionalParams,
 } from "../../api/storageAssets/options.js";
-import type { StorageAsset, StorageAssetUpdate } from "../../models/models.js";
+import type { StorageAsset, StorageAssetUpdate, StorageAssetCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -48,7 +48,7 @@ export interface StorageAssetsOperations {
     resourceGroupName: string,
     storageContainerName: string,
     storageAssetName: string,
-    resource: StorageAsset,
+    resource: StorageAssetCreateOrUpdate,
     options?: StorageAssetsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<StorageAsset>, StorageAsset>;
   /** Get a StorageAsset */
@@ -91,7 +91,7 @@ function _getStorageAssets(context: DiscoveryContext) {
       resourceGroupName: string,
       storageContainerName: string,
       storageAssetName: string,
-      resource: StorageAsset,
+      resource: StorageAssetCreateOrUpdate,
       options?: StorageAssetsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

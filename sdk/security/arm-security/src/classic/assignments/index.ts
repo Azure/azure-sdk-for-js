@@ -16,7 +16,7 @@ import {
   AssignmentsCreateOrUpdateOptionalParams,
   AssignmentsGetOptionalParams,
 } from "../../api/assignments/options.js";
-import { Assignment } from "../../models/standardsAPI/models.js";
+import { Assignment, AssignmentCreateOrUpdate } from "../../models/standardsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Assignments operations. */
@@ -40,7 +40,7 @@ export interface AssignmentsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     assignmentId: string,
-    assignment: Assignment,
+    assignment: AssignmentCreateOrUpdate,
     options?: AssignmentsCreateOrUpdateOptionalParams,
   ) => Promise<Assignment>;
   /** Get a specific standard assignment for the requested scope by resourceId */
@@ -65,7 +65,7 @@ function _getAssignments(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       assignmentId: string,
-      assignment: Assignment,
+      assignment: AssignmentCreateOrUpdate,
       options?: AssignmentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, assignmentId, assignment, options),
     get: (

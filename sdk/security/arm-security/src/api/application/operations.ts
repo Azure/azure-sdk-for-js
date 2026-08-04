@@ -4,8 +4,9 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   Application,
-  applicationSerializer,
   applicationDeserializer,
+  ApplicationCreateOrUpdate,
+  applicationCreateOrUpdateSerializer,
 } from "../../models/applicationsAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -65,7 +66,7 @@ export async function $delete(
 export function _createOrUpdateSend(
   context: Client,
   applicationId: string,
-  application: Application,
+  application: ApplicationCreateOrUpdate,
   options: ApplicationCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -79,12 +80,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: applicationSerializer(application),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: applicationCreateOrUpdateSerializer(application),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -105,7 +108,7 @@ export async function _createOrUpdateDeserialize(
 export async function createOrUpdate(
   context: Client,
   applicationId: string,
-  application: Application,
+  application: ApplicationCreateOrUpdate,
   options: ApplicationCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Application> {
   const result = await _createOrUpdateSend(context, applicationId, application, options);

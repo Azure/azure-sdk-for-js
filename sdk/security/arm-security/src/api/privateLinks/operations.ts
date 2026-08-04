@@ -5,12 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import {
   PrivateLinkResource,
-  privateLinkResourceSerializer,
   privateLinkResourceDeserializer,
   PrivateLinkUpdate,
   privateLinkUpdateSerializer,
   _PrivateLinksList,
   _privateLinksListDeserializer,
+  PrivateLinkResourceCreateOrUpdate,
+  privateLinkResourceCreateOrUpdateSerializer,
 } from "../../models/privateLinksAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -244,7 +245,7 @@ export function _createSend(
   context: Client,
   resourceGroupName: string,
   privateLinkName: string,
-  privateLink: PrivateLinkResource,
+  privateLink: PrivateLinkResourceCreateOrUpdate,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -259,12 +260,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinkResourceSerializer(privateLink),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: privateLinkResourceCreateOrUpdateSerializer(privateLink),
+    });
 }
 
 export async function _createDeserialize(
@@ -286,7 +289,7 @@ export function create(
   context: Client,
   resourceGroupName: string,
   privateLinkName: string,
-  privateLink: PrivateLinkResource,
+  privateLink: PrivateLinkResourceCreateOrUpdate,
   options: PrivateLinksCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {

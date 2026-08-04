@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorModel } from "@azure-rest/core-client";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { ErrorModel } from "@azure-rest/core-client";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -762,7 +762,7 @@ export interface BulkVMConfiguration {
 export function bulkVMConfigurationSerializer(item: BulkVMConfiguration): any {
   return {
     name: item["name"],
-    computeApiVersion: item["computeApiVersion"] ?? "2026-04-15-preview",
+    computeApiVersion: item["computeApiVersion"],
     resourceGroupName: item["resourceGroupName"],
     zones: !item["zones"]
       ? item["zones"]
@@ -834,7 +834,10 @@ export function virtualMachineIdentitySerializer(item: VirtualMachineIdentity): 
 
 /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
 export type ResourceIdentityType =
-  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 export function userAssignedIdentitiesValueRecordSerializer(
   item: Record<string, UserAssignedIdentitiesValue>,
@@ -1079,10 +1082,7 @@ export interface EventGridAndResourceGraph {
 }
 
 export function eventGridAndResourceGraphSerializer(item: EventGridAndResourceGraph): any {
-  return {
-    enable: item["enable"],
-    scheduledEventsApiVersion: item["scheduledEventsApiVersion"] ?? "2026-04-15-preview",
-  };
+  return { enable: item["enable"], scheduledEventsApiVersion: item["scheduledEventsApiVersion"] };
 }
 
 /** Specifies if Scheduled Events should be auto-approved when all instances are down. */
@@ -2098,7 +2098,7 @@ export function networkProfileSerializer(item: NetworkProfile): any {
     networkInterfaces: !item["networkInterfaces"]
       ? item["networkInterfaces"]
       : networkInterfaceReferenceArraySerializer(item["networkInterfaces"]),
-    networkApiVersion: item["networkApiVersion"] ?? "2026-04-15-preview",
+    networkApiVersion: item["networkApiVersion"],
     networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
       ? item["networkInterfaceConfigurations"]
       : virtualMachineNetworkInterfaceConfigurationArraySerializer(
@@ -4050,6 +4050,14 @@ export function _resourceListResponseDeserializer(item: any): _ResourceListRespo
   };
 }
 
+export function scheduledActionResourceArraySerializer(
+  result: Array<ScheduledActionResource>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceSerializer(item);
+  });
+}
+
 export function scheduledActionResourceArrayDeserializer(
   result: Array<ScheduledActionResource>,
 ): any[] {
@@ -4075,6 +4083,15 @@ export interface ScheduledActionResource {
   notificationSettings?: NotificationProperties[];
 }
 
+export function scheduledActionResourceSerializer(item: ScheduledActionResource): any {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
+  };
+}
+
 export function scheduledActionResourceDeserializer(item: any): ScheduledActionResource {
   return {
     name: item["name"],
@@ -4088,41 +4105,13 @@ export function scheduledActionResourceDeserializer(item: any): ScheduledActionR
 }
 
 /** Request model to attach a list of scheduled action resources. */
-export interface ResourceAttachRequestInput {
+export interface ResourceAttachRequest {
   /** List of resources to be attached/patched */
-  resources: ScheduledActionResourceInput[];
+  resources: ScheduledActionResource[];
 }
 
-export function resourceAttachRequestInputSerializer(item: ResourceAttachRequestInput): any {
-  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
-}
-
-export function scheduledActionResourceInputArraySerializer(
-  result: Array<ScheduledActionResourceInput>,
-): any[] {
-  return result.map((item) => {
-    return scheduledActionResourceInputSerializer(item);
-  });
-}
-
-/** Represents a scheduled action resource input for write operations. */
-export interface ScheduledActionResourceInput {
-  /**
-   * The ARM Id of the resource.
-   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-   */
-  resourceId: string;
-  /** The desired notification settings for the specified resource. */
-  notificationSettings?: NotificationProperties[];
-}
-
-export function scheduledActionResourceInputSerializer(item: ScheduledActionResourceInput): any {
-  return {
-    resourceId: item["resourceId"],
-    notificationSettings: !item["notificationSettings"]
-      ? item["notificationSettings"]
-      : notificationPropertiesArraySerializer(item["notificationSettings"]),
-  };
+export function resourceAttachRequestSerializer(item: ResourceAttachRequest): any {
+  return { resources: scheduledActionResourceArraySerializer(item["resources"]) };
 }
 
 /** The response from scheduled action resource requests, which contains the status of each resource */
@@ -4199,13 +4188,13 @@ export function resourceDetachRequestSerializer(item: ResourceDetachRequest): an
 }
 
 /** Request model perform a resource operation in a list of resources */
-export interface ResourcePatchRequestInput {
+export interface ResourcePatchRequest {
   /** The list of resources we watch to patch */
-  resources: ScheduledActionResourceInput[];
+  resources: ScheduledActionResource[];
 }
 
-export function resourcePatchRequestInputSerializer(item: ResourcePatchRequestInput): any {
-  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
+export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any {
+  return { resources: scheduledActionResourceArraySerializer(item["resources"]) };
 }
 
 /** The request to cancel an occurrence. */
@@ -4625,20 +4614,272 @@ export function occurrenceExtensionPropertiesDeserializer(
   };
 }
 
+/** The ExecuteCreateFlexRequest request for executeCreateFlex operations */
+export interface ExecuteCreateFlexRequestCreate {
+  /** Resource creation payload with flex properties */
+  resourceConfigParameters: ResourceProvisionFlexPayloadCreate;
+  /** The execution parameters for the request */
+  executionParameters: ExecutionParameters;
+  /** Correlationid item */
+  correlationId?: string;
+}
+
+export function executeCreateFlexRequestCreateSerializer(
+  item: ExecuteCreateFlexRequestCreate,
+): any {
+  return {
+    resourceConfigParameters: resourceProvisionFlexPayloadCreateSerializer(
+      item["resourceConfigParameters"],
+    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    correlationid: item["correlationId"],
+  };
+}
+
+/** Resource creation data model for flex VM provisioning */
+export interface ResourceProvisionFlexPayloadCreate {
+  /** JSON object that contains VM properties that are common across all VMs in this batch */
+  virtualMachineBaseProfile?: BulkVMConfigurationCreate;
+  /** JSON array that contains VM properties that should be overridden for each VM in the batch */
+  virtualMachineOverrides?: BulkVMConfiguration[];
+  /** Number of VMs to be created */
+  resourceCount: number;
+  /** If resourceOverrides doesn't contain name, service will create name based on prefix and resourceCount */
+  resourcePrefix?: string;
+  /** The flex properties for flexible VM creation */
+  flexProperties: FlexProperties;
+}
+
+export function resourceProvisionFlexPayloadCreateSerializer(
+  item: ResourceProvisionFlexPayloadCreate,
+): any {
+  return {
+    virtualMachineBaseProfile: !item["virtualMachineBaseProfile"]
+      ? item["virtualMachineBaseProfile"]
+      : bulkVMConfigurationCreateSerializer(item["virtualMachineBaseProfile"]),
+    virtualMachineOverrides: !item["virtualMachineOverrides"]
+      ? item["virtualMachineOverrides"]
+      : bulkVMConfigurationArraySerializer(item["virtualMachineOverrides"]),
+    resourceCount: item["resourceCount"],
+    resourcePrefix: item["resourcePrefix"],
+    flexProperties: flexPropertiesSerializer(item["flexProperties"]),
+  };
+}
+
+/** Specifies the configuration for a virtual machine operation */
+export interface BulkVMConfigurationCreate {
+  /** Identifier for created virtual machine. If not passed, it will be created from resource prefix. */
+  name?: string;
+  /** Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machines. */
+  computeApiVersion?: string;
+  /** Resource group name for the virtual machine. */
+  resourceGroupName?: string;
+  /** The availability zones. */
+  zones?: string[];
+  /** The marketplace image plan used for the virtual machine. */
+  plan?: Plan;
+  /** The identity of the virtual machine, if configured. */
+  identity?: VirtualMachineIdentityCreate;
+  /** The extended location of the Virtual Machine. */
+  extendedLocation?: ExtendedLocation;
+  /** Placement constraints for virtual machine hardware placement. */
+  placement?: Placement;
+  /** Resource tags to apply to the virtual machines created by this bulk action. */
+  tags?: Record<string, string>;
+  /** Specifies the properties of the virtual machine to be created. */
+  properties?: BulkActionVMProperties;
+  /** Virtual Machine Extensions Array to be applied to the Virtual Machines. */
+  vmExtensions?: BulkActionVMExtension[];
+}
+
+export function bulkVMConfigurationCreateSerializer(item: BulkVMConfigurationCreate): any {
+  return {
+    name: item["name"],
+    computeApiVersion: item["computeApiVersion"],
+    resourceGroupName: item["resourceGroupName"],
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentityCreateSerializer(item["identity"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : bulkActionVMPropertiesSerializer(item["properties"]),
+    vmExtensions: !item["vmExtensions"]
+      ? item["vmExtensions"]
+      : bulkActionVMExtensionArraySerializer(item["vmExtensions"]),
+  };
+}
+
+/** Identity for the virtual machine. */
+export interface VirtualMachineIdentityCreate {
+  /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+export function virtualMachineIdentityCreateSerializer(item: VirtualMachineIdentityCreate): any {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentitiesValueRecordSerializer(item["userAssignedIdentities"]),
+  };
+}
+
+/** The ExecuteCreateRequest request for create operations */
+export interface ExecuteCreateRequestCreate {
+  /** resource creation payload */
+  resourceConfigParameters: ResourceProvisionPayloadCreate;
+  /** The execution parameters for the request */
+  executionParameters: ExecutionParameters;
+  /** CorrelationId item */
+  correlationId?: string;
+}
+
+export function executeCreateRequestCreateSerializer(item: ExecuteCreateRequestCreate): any {
+  return {
+    resourceConfigParameters: resourceProvisionPayloadCreateSerializer(
+      item["resourceConfigParameters"],
+    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    correlationid: item["correlationId"],
+  };
+}
+
+/** Resource creation data model */
+export interface ResourceProvisionPayloadCreate {
+  /** Virtual machine profile object that contains VM properties that are common across all VMs in this batch  (if you want to create 100 VMs in this request, and they all have same vmSize, then include vmSize in baseProfile) */
+  virtualMachineBaseProfile?: BulkVMConfigurationCreate;
+  /** Virtual machine profile array that contains VM properties that needs to be overridden for each VM in the batch (if you want to create 100 VMs, they all need a distinct computerName property, you pass computerNames for each VM in batch in this array), service will merge baseProfile with VM specific overrides and create a merged VMProfile. */
+  virtualMachineOverrides?: BulkVMConfiguration[];
+  /** Number of VMs to be created */
+  resourceCount: number;
+  /** if resourceOverrides doesn't contain "name", service will create name based of prefix and ResourceCount e.g. resourceprefix-0,resourceprefix-1.. */
+  resourcePrefix?: string;
+}
+
+export function resourceProvisionPayloadCreateSerializer(
+  item: ResourceProvisionPayloadCreate,
+): any {
+  return {
+    virtualMachineBaseProfile: !item["virtualMachineBaseProfile"]
+      ? item["virtualMachineBaseProfile"]
+      : bulkVMConfigurationCreateSerializer(item["virtualMachineBaseProfile"]),
+    virtualMachineOverrides: !item["virtualMachineOverrides"]
+      ? item["virtualMachineOverrides"]
+      : bulkVMConfigurationArraySerializer(item["virtualMachineOverrides"]),
+    resourceCount: item["resourceCount"],
+    resourcePrefix: item["resourcePrefix"],
+  };
+}
+
+/** The scheduled action resource */
+export interface ScheduledActionCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ScheduledActionPropertiesCreateOrUpdate;
+}
+
+export function scheduledActionCreateOrUpdateSerializer(item: ScheduledActionCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function scheduledActionCreateOrUpdateDeserializer(
+  item: any,
+): ScheduledActionCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Scheduled action properties */
+export interface ScheduledActionPropertiesCreateOrUpdate {
+  /** The type of resource the scheduled action is targeting */
+  resourceType: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType: ScheduledActionType;
+  /** The time which the scheduled action is supposed to start running */
+  startTime: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule: ScheduledActionsSchedule;
+  /** The notification settings for the scheduled action */
+  notificationSettings: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+}
+
+export function scheduledActionPropertiesCreateOrUpdateSerializer(
+  item: ScheduledActionPropertiesCreateOrUpdate,
+): any {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleSerializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArraySerializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+  };
+}
+
+export function scheduledActionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ScheduledActionPropertiesCreateOrUpdate {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleDeserializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+  };
+}
+
 /** ComputeSchedule API versions */
 export enum KnownVersions {
   /** 2024-08-15-preview version */
-  Versions20240815Preview = "2024-08-15-preview",
+  V20240815Preview = "2024-08-15-preview",
   /** 2024-10-01 version */
   "V2024-10-01" = "2024-10-01",
   /** 2025-05-01 version */
   V20250501 = "2025-05-01",
   /** 2025-04-15-preview version */
-  Versions20250415Preview = "2025-04-15-preview",
+  V20250415Preview = "2025-04-15-preview",
   /** 2026-01-01-preview version */
-  Versions20260101Preview = "2026-01-01-preview",
+  V20260101Preview = "2026-01-01-preview",
   /** 2026-03-01-preview version */
-  Versions20260301Preview = "2026-03-01-preview",
+  V20260301Preview = "2026-03-01-preview",
   /** 2026-04-15-preview version */
-  Versions20260415Preview = "2026-04-15-preview",
+  V20260415Preview = "2026-04-15-preview",
 }

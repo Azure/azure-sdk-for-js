@@ -9,5 +9,9 @@ export type {
   DataExportSettingProperties,
   AlertSyncSettings,
   AlertSyncSettingProperties,
+  SettingCreateOrUpdate,
+  SettingCreateOrUpdateUnion,
+  DataExportSettingsCreateOrUpdate,
+  AlertSyncSettingsCreateOrUpdate,
 } from "./models.js";
 export { KnownSettingKind } from "./models.js";

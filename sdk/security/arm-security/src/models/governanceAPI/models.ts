@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** Governance assignment over a given scope */
 export interface GovernanceAssignment extends ExtensionResource {
   /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
@@ -37,7 +37,7 @@ export function governanceAssignmentSerializer(item: GovernanceAssignment): any 
       "additionalData",
     ])
       ? undefined
-      : _governanceAssignmentPropertiesSerializer(item),
+      : _governanceAssignmentCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -51,7 +51,7 @@ export function governanceAssignmentDeserializer(item: any): GovernanceAssignmen
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _governanceAssignmentPropertiesDeserializer(item["properties"])),
+      : _governanceAssignmentCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -562,7 +562,236 @@ export enum KnownOperationResultStatus {
  */
 export type OperationResultStatus = string;
 
-export function _governanceAssignmentPropertiesSerializer(item: GovernanceAssignment): any {
+/** Governance rule over a given scope */
+export interface GovernanceRuleCreateOrUpdate extends ExtensionResource {
+  /** Display name of the governance rule */
+  displayName?: string;
+  /** Description of the governance rule */
+  description?: string;
+  /** Governance rule remediation timeframe - this is the time that will affect on the grace-period duration e.g. 7.00:00:00 - means 7 days */
+  remediationTimeframe?: string;
+  /** Defines whether there is a grace period on the governance rule */
+  isGracePeriod?: boolean;
+  /** The governance rule priority, priority to the lower number. Rules with the same priority on the same scope will not be allowed */
+  rulePriority?: number;
+  /** Defines whether the rule is active/inactive */
+  isDisabled?: boolean;
+  /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
+  ruleType?: GovernanceRuleType;
+  /** The governance rule source, what the rule affects, e.g. Assessments */
+  sourceResourceType?: GovernanceRuleSourceResourceType;
+  /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
+  excludedScopes?: string[];
+  /** The governance rule conditionSets - see examples */
+  conditionSets?: any[];
+  /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
+  includeMemberScopes?: boolean;
+  /** The owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
+  ownerSource?: GovernanceRuleOwnerSource;
+  /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
+  governanceEmailNotification?: GovernanceRuleEmailNotification;
+  /** The governance rule metadata */
+  metadata?: GovernanceRuleMetadataCreateOrUpdate;
+}
+
+export function governanceRuleCreateOrUpdateSerializer(item: GovernanceRuleCreateOrUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "displayName",
+      "description",
+      "remediationTimeframe",
+      "isGracePeriod",
+      "rulePriority",
+      "isDisabled",
+      "ruleType",
+      "sourceResourceType",
+      "excludedScopes",
+      "conditionSets",
+      "includeMemberScopes",
+      "ownerSource",
+      "governanceEmailNotification",
+      "metadata",
+    ])
+      ? undefined
+      : _governanceRuleCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function governanceRuleCreateOrUpdateDeserializer(item: any): GovernanceRuleCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _governanceRuleCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Describes properties of an governance rule */
+export interface GovernanceRulePropertiesCreateOrUpdate {
+  /** Display name of the governance rule */
+  displayName: string;
+  /** Description of the governance rule */
+  description?: string;
+  /** Governance rule remediation timeframe - this is the time that will affect on the grace-period duration e.g. 7.00:00:00 - means 7 days */
+  remediationTimeframe?: string;
+  /** Defines whether there is a grace period on the governance rule */
+  isGracePeriod?: boolean;
+  /** The governance rule priority, priority to the lower number. Rules with the same priority on the same scope will not be allowed */
+  rulePriority: number;
+  /** Defines whether the rule is active/inactive */
+  isDisabled?: boolean;
+  /** The rule type of the governance rule, defines the source of the rule e.g. Integrated */
+  ruleType: GovernanceRuleType;
+  /** The governance rule source, what the rule affects, e.g. Assessments */
+  sourceResourceType: GovernanceRuleSourceResourceType;
+  /** Excluded scopes, filter out the descendants of the scope (on management scopes) */
+  excludedScopes?: string[];
+  /** The governance rule conditionSets - see examples */
+  conditionSets: any[];
+  /** Defines whether the rule is management scope rule (master connector as a single scope or management scope) */
+  includeMemberScopes?: boolean;
+  /** The owner source for the governance rule - e.g. Manually by user@contoso.com - see example */
+  ownerSource: GovernanceRuleOwnerSource;
+  /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
+  governanceEmailNotification?: GovernanceRuleEmailNotification;
+  /** The governance rule metadata */
+  metadata?: GovernanceRuleMetadataCreateOrUpdate;
+}
+
+export function governanceRulePropertiesCreateOrUpdateSerializer(
+  item: GovernanceRulePropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    remediationTimeframe: item["remediationTimeframe"],
+    isGracePeriod: item["isGracePeriod"],
+    rulePriority: item["rulePriority"],
+    isDisabled: item["isDisabled"],
+    ruleType: item["ruleType"],
+    sourceResourceType: item["sourceResourceType"],
+    excludedScopes: !item["excludedScopes"]
+      ? item["excludedScopes"]
+      : item["excludedScopes"].map((p: any) => {
+          return p;
+        }),
+    conditionSets: item["conditionSets"].map((p: any) => {
+      return p;
+    }),
+    includeMemberScopes: item["includeMemberScopes"],
+    ownerSource: governanceRuleOwnerSourceSerializer(item["ownerSource"]),
+    governanceEmailNotification: !item["governanceEmailNotification"]
+      ? item["governanceEmailNotification"]
+      : governanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : governanceRuleMetadataCreateOrUpdateSerializer(item["metadata"]),
+  };
+}
+
+export function governanceRulePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): GovernanceRulePropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    remediationTimeframe: item["remediationTimeframe"],
+    isGracePeriod: item["isGracePeriod"],
+    rulePriority: item["rulePriority"],
+    isDisabled: item["isDisabled"],
+    ruleType: item["ruleType"],
+    sourceResourceType: item["sourceResourceType"],
+    excludedScopes: !item["excludedScopes"]
+      ? item["excludedScopes"]
+      : item["excludedScopes"].map((p: any) => {
+          return p;
+        }),
+    conditionSets: item["conditionSets"].map((p: any) => {
+      return p;
+    }),
+    includeMemberScopes: item["includeMemberScopes"],
+    ownerSource: governanceRuleOwnerSourceDeserializer(item["ownerSource"]),
+    governanceEmailNotification: !item["governanceEmailNotification"]
+      ? item["governanceEmailNotification"]
+      : governanceRuleEmailNotificationDeserializer(item["governanceEmailNotification"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : governanceRuleMetadataCreateOrUpdateDeserializer(item["metadata"]),
+  };
+}
+
+/** The governance rule metadata */
+export interface GovernanceRuleMetadataCreateOrUpdate {}
+
+export function governanceRuleMetadataCreateOrUpdateSerializer(
+  _item: GovernanceRuleMetadataCreateOrUpdate,
+): any {
+  return {};
+}
+
+export function governanceRuleMetadataCreateOrUpdateDeserializer(
+  item: any,
+): GovernanceRuleMetadataCreateOrUpdate {
+  return item;
+}
+
+/** Governance assignment over a given scope */
+export interface GovernanceAssignmentCreateOrUpdate extends ExtensionResource {
+  /** The Owner for the governance assignment - e.g. user@contoso.com - see example */
+  owner?: string;
+  /** The remediation due-date - after this date Secure Score will be affected (in case of  active grace-period) */
+  remediationDueDate?: Date;
+  /** The ETA (estimated time of arrival) for remediation (optional), see example */
+  remediationEta?: RemediationEta;
+  /** Defines whether there is a grace period on the governance assignment */
+  isGracePeriod?: boolean;
+  /** The email notifications settings for the governance rule, states whether to disable notifications for mangers and owners */
+  governanceEmailNotification?: GovernanceEmailNotification;
+  /** The additional data for the governance assignment - e.g. links to ticket (optional), see example */
+  additionalData?: GovernanceAssignmentAdditionalData;
+}
+
+export function governanceAssignmentCreateOrUpdateSerializer(
+  item: GovernanceAssignmentCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "owner",
+      "remediationDueDate",
+      "remediationEta",
+      "isGracePeriod",
+      "governanceEmailNotification",
+      "additionalData",
+    ])
+      ? undefined
+      : _governanceAssignmentCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function governanceAssignmentCreateOrUpdateDeserializer(
+  item: any,
+): GovernanceAssignmentCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _governanceAssignmentCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _governanceAssignmentCreateOrUpdatePropertiesSerializer(
+  item: GovernanceAssignmentCreateOrUpdate,
+): any {
   return {
     owner: item["owner"],
     remediationDueDate: !item["remediationDueDate"]
@@ -581,7 +810,7 @@ export function _governanceAssignmentPropertiesSerializer(item: GovernanceAssign
   };
 }
 
-export function _governanceAssignmentPropertiesDeserializer(item: any) {
+export function _governanceAssignmentCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     owner: item["owner"],
     remediationDueDate: !item["remediationDueDate"]
@@ -664,5 +893,73 @@ export function _governanceRulePropertiesDeserializer(item: any) {
     metadata: !item["metadata"]
       ? item["metadata"]
       : governanceRuleMetadataDeserializer(item["metadata"]),
+  };
+}
+
+export function _governanceRuleCreateOrUpdatePropertiesSerializer(
+  item: GovernanceRuleCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    remediationTimeframe: item["remediationTimeframe"],
+    isGracePeriod: item["isGracePeriod"],
+    rulePriority: item["rulePriority"],
+    isDisabled: item["isDisabled"],
+    ruleType: item["ruleType"],
+    sourceResourceType: item["sourceResourceType"],
+    excludedScopes: !item["excludedScopes"]
+      ? item["excludedScopes"]
+      : item["excludedScopes"].map((p: any) => {
+          return p;
+        }),
+    conditionSets: !item["conditionSets"]
+      ? item["conditionSets"]
+      : item["conditionSets"].map((p: any) => {
+          return p;
+        }),
+    includeMemberScopes: item["includeMemberScopes"],
+    ownerSource: !item["ownerSource"]
+      ? item["ownerSource"]
+      : governanceRuleOwnerSourceSerializer(item["ownerSource"]),
+    governanceEmailNotification: !item["governanceEmailNotification"]
+      ? item["governanceEmailNotification"]
+      : governanceRuleEmailNotificationSerializer(item["governanceEmailNotification"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : governanceRuleMetadataCreateOrUpdateSerializer(item["metadata"]),
+  };
+}
+
+export function _governanceRuleCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    remediationTimeframe: item["remediationTimeframe"],
+    isGracePeriod: item["isGracePeriod"],
+    rulePriority: item["rulePriority"],
+    isDisabled: item["isDisabled"],
+    ruleType: item["ruleType"],
+    sourceResourceType: item["sourceResourceType"],
+    excludedScopes: !item["excludedScopes"]
+      ? item["excludedScopes"]
+      : item["excludedScopes"].map((p: any) => {
+          return p;
+        }),
+    conditionSets: !item["conditionSets"]
+      ? item["conditionSets"]
+      : item["conditionSets"].map((p: any) => {
+          return p;
+        }),
+    includeMemberScopes: item["includeMemberScopes"],
+    ownerSource: !item["ownerSource"]
+      ? item["ownerSource"]
+      : governanceRuleOwnerSourceDeserializer(item["ownerSource"]),
+    governanceEmailNotification: !item["governanceEmailNotification"]
+      ? item["governanceEmailNotification"]
+      : governanceRuleEmailNotificationDeserializer(item["governanceEmailNotification"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : governanceRuleMetadataCreateOrUpdateDeserializer(item["metadata"]),
   };
 }

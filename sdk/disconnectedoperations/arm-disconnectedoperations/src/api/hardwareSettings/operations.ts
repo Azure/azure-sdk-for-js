@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { DisconnectedOperationsManagementContext as Client } from "../index.js";
-import type { _HardwareSettingListResult, HardwareSetting } from "../../models/models.js";
+import type { _HardwareSettingListResult, HardwareSetting, HardwareSettingCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   _hardwareSettingListResultDeserializer,
-  hardwareSettingSerializer,
   hardwareSettingDeserializer,
+  hardwareSettingCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -59,11 +59,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete hardware settings */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -86,7 +81,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   name: string,
   hardwareSettingName: string,
-  resource: HardwareSetting,
+  resource: HardwareSettingCreateOrUpdate,
   options: HardwareSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -102,12 +97,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: hardwareSettingSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: hardwareSettingCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -130,7 +127,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   name: string,
   hardwareSettingName: string,
-  resource: HardwareSetting,
+  resource: HardwareSettingCreateOrUpdate,
   options: HardwareSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<HardwareSetting>, HardwareSetting> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

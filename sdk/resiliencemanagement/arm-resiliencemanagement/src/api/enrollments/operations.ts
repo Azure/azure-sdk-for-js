@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { AzureResilienceManagementContext as Client } from "../index.js";
-import type { Enrollment, _EnrollmentListResult } from "../../models/models.js";
+import type { Enrollment, _EnrollmentListResult, EnrollmentCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  enrollmentSerializer,
   enrollmentDeserializer,
   _enrollmentListResultDeserializer,
+  enrollmentCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -53,9 +53,7 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -110,9 +108,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -143,7 +139,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   usagePlanName: string,
   enrollmentName: string,
-  resource: Enrollment,
+  resource: EnrollmentCreateOrUpdate,
   options: EnrollmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -159,12 +155,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: enrollmentSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: enrollmentCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -173,9 +171,7 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }
@@ -189,7 +185,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   usagePlanName: string,
   enrollmentName: string,
-  resource: Enrollment,
+  resource: EnrollmentCreateOrUpdate,
   options: EnrollmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Enrollment>, Enrollment> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -239,9 +235,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
+    error.details = errorResponseDeserializer(result.body);
 
     throw error;
   }

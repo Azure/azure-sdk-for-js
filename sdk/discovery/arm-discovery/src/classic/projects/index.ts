@@ -16,7 +16,7 @@ import type {
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "../../api/projects/options.js";
-import type { Project, ProjectUpdate } from "../../models/models.js";
+import type { Project, ProjectUpdate, ProjectCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -48,7 +48,7 @@ export interface ProjectsOperations {
     resourceGroupName: string,
     workspaceName: string,
     projectName: string,
-    resource: Project,
+    resource: ProjectCreateOrUpdate,
     options?: ProjectsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Project>, Project>;
   /** Get a Project */
@@ -83,7 +83,7 @@ function _getProjects(context: DiscoveryContext) {
       resourceGroupName: string,
       workspaceName: string,
       projectName: string,
-      resource: Project,
+      resource: ProjectCreateOrUpdate,
       options?: ProjectsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, workspaceName, projectName, resource, options),
     get: (

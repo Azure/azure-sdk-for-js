@@ -22,6 +22,7 @@ import { SettingName } from "../../models/common/models.js";
 import {
   DefenderForStorageSetting,
   MalwareScan,
+  DefenderForStorageSettingCreateOrUpdate,
 } from "../../models/defenderForStorageAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -56,7 +57,7 @@ export interface DefenderForStorageOperations {
   create: (
     resourceId: string,
     settingName: SettingName,
-    defenderForStorageSetting: DefenderForStorageSetting,
+    defenderForStorageSetting: DefenderForStorageSettingCreateOrUpdate,
     options?: DefenderForStorageCreateOptionalParams,
   ) => Promise<DefenderForStorageSetting>;
   /** Gets the Defender for Storage settings for the specified storage account. */
@@ -91,7 +92,7 @@ function _getDefenderForStorage(context: SecurityCenterContext) {
     create: (
       resourceId: string,
       settingName: SettingName,
-      defenderForStorageSetting: DefenderForStorageSetting,
+      defenderForStorageSetting: DefenderForStorageSettingCreateOrUpdate,
       options?: DefenderForStorageCreateOptionalParams,
     ) => create(context, resourceId, settingName, defenderForStorageSetting, options),
     get: (
