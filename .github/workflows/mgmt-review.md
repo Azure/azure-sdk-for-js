@@ -9,6 +9,7 @@ on:
         description: PR number to run the review on
         required: true
         type: string
+  bots: [azure-sdk-automation]
   permissions:
     pull-requests: write
   steps:

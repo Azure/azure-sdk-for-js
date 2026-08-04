@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getDynamicMetricAlertMultipleResource.json
+ * x-ms-original-file: 2026-01-01/getDynamicMetricAlertMultipleResource.json
  */
 async function getADynamicAlertRuleForMultipleResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getADynamicAlertRuleForMultipleResources(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getDynamicMetricAlertSingleResource.json
+ * x-ms-original-file: 2026-01-01/getDynamicMetricAlertSingleResource.json
  */
 async function getADynamicAlertRuleForSingleResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getADynamicAlertRuleForSingleResource(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertMultipleResource.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertMultipleResource.json
  */
 async function getAnAlertRuleForMultipleResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getAnAlertRuleForMultipleResources(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertQuery.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertQuery.json
  */
 async function getAQueryBasedAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function getAQueryBasedAlertRule(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertResourceGroup.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertResourceGroup.json
  */
 async function getAnAlertRuleOnResourceGroupS(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function getAnAlertRuleOnResourceGroupS(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertSingleResource.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertSingleResource.json
  */
 async function getAnAlertRuleForSingleResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function getAnAlertRuleForSingleResource(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertSubscription.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertSubscription.json
  */
 async function getAnAlertRuleOnSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function getAnAlertRuleOnSubscription(): Promise<void> {
  * This sample demonstrates how to retrieve an alert rule definition.
  *
  * @summary retrieve an alert rule definition.
- * x-ms-original-file: 2024-03-01-preview/getWebTestMetricAlert.json
+ * x-ms-original-file: 2026-01-01/getWebTestMetricAlert.json
  */
 async function getAWebTestAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -32,6 +32,7 @@ export function packageNameFrom(rootDir: string): string {
 
 /**
  * Creates standard alias mappings for tests given a root directory and outputs.
+ * - Maps "<packageName>/package.json" to the real package.json at the package root
  * - Maps the package name (from package.json) to the given distDir/indexFile
  * - Maps "$internal/..." to the same distDir
  */
@@ -52,6 +53,14 @@ export function makeAliases(
   } = options;
 
   return [
+    // Must precede the package-name alias below: the first matching alias wins, and
+    // the bare package-name alias would otherwise shadow the "/package.json" subpath.
+    // Some generated clients import "<packageName>/package.json" to read their version
+    // at runtime; keep that resolving to the real file rather than the aliased entry point.
+    {
+      find: `${packageName}/package.json`,
+      replacement: resolve(rootDir, "package.json"),
+    },
     {
       find: packageName,
       replacement: resolve(rootDir, `${distDir}/${indexFile}`),

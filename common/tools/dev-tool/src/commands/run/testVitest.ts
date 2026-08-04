@@ -4,7 +4,7 @@
 import path from "node:path";
 import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
-import { runTestsWithProxyTool } from "../../util/testUtils.ts";
+import { runTestsWithProxyTool, summarizeCloseEvents } from "../../util/testUtils.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
 
@@ -48,15 +48,17 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
+  // Our browser tests only run on chromium (see vitest.browser.base.config.ts),
+  // so only install that browser instead of all supported browsers.
   const { result } = concurrently([
     {
-      command: "npx playwright install",
+      command: "npx playwright install chromium",
       name: "playwright install",
     },
   ]);
 
   await result;
-  log.info("playwright browsers installed");
+  log.info("playwright chromium browser installed");
 }
 
 export default leafCommand(commandInfo, async (options) => {
@@ -107,8 +109,13 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info("Running vitest without test-proxy");
-    await concurrently([command]).result;
-    return true;
+    try {
+      await concurrently([command]).result;
+      return true;
+    } catch (closeEvents: unknown) {
+      log.error(`vitest failed: ${summarizeCloseEvents(closeEvents)}`);
+      return false;
+    }
   } finally {
     stopRelayServer?.();
     if (typeof oldPath === "undefined") {

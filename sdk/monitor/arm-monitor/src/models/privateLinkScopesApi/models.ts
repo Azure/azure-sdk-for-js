@@ -3,9 +3,9 @@
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
+  ArmErrorDetail,
   PrivateLinkResourceProperties,
   Resource,
-  ArmErrorDetail,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
   PrivateEndpointConnectionProvisioningState,
@@ -13,9 +13,9 @@ import type {
   ProxyResource,
 } from "../models.js";
 import {
+  armErrorDetailDeserializer,
   privateLinkResourcePropertiesDeserializer,
   systemDataDeserializer,
-  armErrorDetailDeserializer,
   _privateEndpointConnectionPropertiesSerializer,
   _privateEndpointConnectionPropertiesDeserializer,
 } from "../models.js";

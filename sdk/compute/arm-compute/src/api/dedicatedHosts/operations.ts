@@ -70,7 +70,6 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Restart the dedicated host. The operation will complete successfully once the dedicated host has restarted and is running. To determine the health of VMs deployed on the dedicated host after the restart check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
 export function restart(
   context: Client,
@@ -125,7 +124,6 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
 
   return;
 }
-
 /** Redeploy the dedicated host. The operation will complete successfully once the dedicated host has migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host after the redeploy check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details. */
 export function redeploy(
   context: Client,
@@ -185,7 +183,6 @@ export async function _listAvailableSizesDeserialize(
 
   return _dedicatedHostSizeListResultDeserializer(result.body);
 }
-
 /** Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE: The dedicated host sizes provided can be used to only scale up the existing dedicated host. */
 export function listAvailableSizes(
   context: Client,
@@ -242,7 +239,6 @@ export async function _listByHostGroupDeserialize(
 
   return _dedicatedHostListResultDeserializer(result.body);
 }
-
 /** Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. */
 export function listByHostGroup(
   context: Client,
@@ -295,7 +291,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a dedicated host. */
 export function $delete(
   context: Client,
@@ -356,7 +351,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Update a dedicated host . */
 export function update(
   context: Client,
@@ -420,7 +414,6 @@ export async function _createOrUpdateDeserialize(
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Create or update a dedicated host . */
 export function createOrUpdate(
   context: Client,
@@ -480,7 +473,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return dedicatedHostDeserializer(result.body);
 }
-
 /** Retrieves information about a dedicated host. */
 export async function get(
   context: Client,

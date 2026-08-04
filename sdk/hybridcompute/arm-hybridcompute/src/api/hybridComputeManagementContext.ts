@@ -9,7 +9,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+/** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
 export interface HybridComputeManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +27,7 @@ export interface HybridComputeManagementClientOptionalParams extends ClientOptio
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** Azure Arc( Servers and K8s Clusters) API reference for Private Link's Scopes management. */
+/** Azure Arc API reference for managing connected machines, machine extensions, run commands, gateways, licenses, license profiles, private link scopes, and related HybridCompute resources. */
 export function createHybridComputeManagement(
   credential: TokenCredential,
   subscriptionId: string,

@@ -30,7 +30,7 @@ export function _listByPrivateLinkScopeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,7 @@ export function listByPrivateLinkScope(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-09-16-preview",
+      apiVersion: context.apiVersion ?? "2026-06-16-preview",
     },
   );
 }
@@ -92,7 +92,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       scopeName: scopeName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2025-09-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

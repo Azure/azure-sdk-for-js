@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import express from "express";
-import { ManagedIdentityCredential, WorkloadIdentityCredential, TokenCredential } from "@azure/identity";
+import {
+  DefaultAzureCredential,
+  ManagedIdentityCredential,
+  WorkloadIdentityCredential,
+  TokenCredential,
+} from "@azure/identity";
 import { BlobServiceClient } from "@azure/storage-blob";
 import dotenv from "dotenv";
 
@@ -56,6 +61,30 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
     });
   }
 });
+
+app.get(
+  "/default-azure-credential/user-assigned",
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const credential = new DefaultAzureCredential({
+        managedIdentityClientId: userAssignedClientId,
+      });
+      await testStorageAccess(credential, storageAccountUserAssigned);
+
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+        details: {
+          name: error.name,
+          code: error.code,
+          stack: error.stack,
+        },
+      });
+    }
+  },
+);
 
 app.get("/workload-identity", async (req: express.Request, res: express.Response) => {
   try {

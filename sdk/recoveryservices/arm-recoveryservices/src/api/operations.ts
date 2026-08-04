@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "./index.js";
+import type { RecoveryServicesContext as Client } from "./index.js";
+import type { OperationResource, Vault } from "../models/models.js";
 import {
-  OperationResource,
   operationResourceDeserializer,
   cloudErrorDeserializer,
-  Vault,
   vaultDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import { GetOperationResultOptionalParams, GetOperationStatusOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type {
+  GetOperationResultOptionalParams,
+  GetOperationStatusOptionalParams,
+} from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getOperationResultSend(
   context: Client,

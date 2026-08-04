@@ -31,7 +31,7 @@ export function _migrateBackupsSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,7 +57,6 @@ export async function _migrateBackupsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Migrate the backups under volume to backup vault */
 export function migrateBackups(
   context: Client,
@@ -82,6 +81,6 @@ export function migrateBackups(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }

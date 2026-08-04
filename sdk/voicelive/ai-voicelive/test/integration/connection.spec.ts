@@ -8,7 +8,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { VoiceLiveSession, ErrorEventArgs } from "../../src/index.js";
 import { VoiceLiveClient } from "../../src/index.js";
 
-const apiVersions = ["2025-10-01", "2026-04-10"];
+const apiVersions = ["2025-10-01", "2026-07-15"];
 
 describe.runIf(isLiveMode()).each(apiVersions)(
   "VoiceLive Integration - Connection Tests (api %s)",

@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { vi } from "vitest";
 
 export function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -10,7 +10,7 @@ export const generateTestNpmView = (
   latestVersionDate?: string,
   betaVersionDate?: string,
   nextVersion?: string,
-  nextVersionDate?: string
+  nextVersionDate?: string,
 ) => {
   const tags: Record<string, string> = {};
   if (latestVersion) tags.latest = latestVersion;
@@ -20,11 +20,11 @@ export const generateTestNpmView = (
     !latestVersion && !betaVersion && !nextVersion
       ? undefined
       : {
-          'dist-tags': tags,
+          "dist-tags": tags,
           time: {
-            [latestVersion ?? '']: latestVersionDate ?? '',
-            [betaVersion ?? '']: betaVersionDate ?? '',
-            [nextVersion ?? '']: nextVersionDate ?? '',
+            [latestVersion ?? ""]: latestVersionDate ?? "",
+            [betaVersion ?? ""]: betaVersionDate ?? "",
+            [nextVersion ?? ""]: nextVersionDate ?? "",
           },
         };
   return npmView;

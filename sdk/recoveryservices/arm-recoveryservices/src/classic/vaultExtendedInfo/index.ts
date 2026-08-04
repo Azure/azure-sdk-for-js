@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { update, createOrUpdate, get } from "../../api/vaultExtendedInfo/operations.js";
-import {
+import type {
   VaultExtendedInfoUpdateOptionalParams,
   VaultExtendedInfoCreateOrUpdateOptionalParams,
   VaultExtendedInfoGetOptionalParams,
 } from "../../api/vaultExtendedInfo/options.js";
-import { VaultExtendedInfoResource } from "../../models/models.js";
+import type { VaultExtendedInfoResource } from "../../models/models.js";
 
 /** Interface representing a VaultExtendedInfo operations. */
 export interface VaultExtendedInfoOperations {

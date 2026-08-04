@@ -1,10 +1,16 @@
 # Release History
 
-## 0.3.7 (Unreleased)
+## 0.3.8 (2026-07-29)
 
 ### Features Added
 
-### Breaking Changes
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
+
+### Other Changes
+
+`proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+
+## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
 

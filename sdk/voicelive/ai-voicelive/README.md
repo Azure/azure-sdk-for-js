@@ -183,6 +183,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Creating a basic voice assistant](#creating-a-basic-voice-assistant)
 - [Creating an agent-powered voice assistant](#creating-an-agent-powered-voice-assistant)
 - [Configuring session options](#configuring-session-options)
+- [Streaming text input](#streaming-text-input)
 - [Handling real-time events](#handling-real-time-events)
 - [Implementing function calling](#implementing-function-calling)
 
@@ -311,6 +312,47 @@ await session.updateSession({
     name: "ava",
   },
 });
+```
+
+### Streaming text input
+
+Instead of sending audio, you can stream text into a conversation item incrementally with `input_text.delta` events and finish with a single `input_text.done` event. This is useful when the text itself is produced token-by-token (for example, forwarded from another model):
+
+```ts snippet:ReadmeSampleStreamInputText
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("gpt-realtime-mini");
+
+// Create the conversation item that the streamed text is appended to
+const itemId = "user-message-1";
+await session.addConversationItem({
+  type: "message",
+  role: "user",
+  id: itemId,
+  content: [{ type: "input_text", text: "" }],
+});
+
+// Stream the text in chunks as `input_text.delta` events
+for (const chunk of ["Tell me ", "a fun fact ", "about the ocean."]) {
+  await session.sendEvent({
+    type: "input_text.delta",
+    id: itemId,
+    delta: chunk,
+  });
+}
+
+// Signal that the streamed text is complete with a single `input_text.done` event
+await session.sendEvent({
+  type: "input_text.done",
+  id: itemId,
+});
+
+// Ask the model to respond to the streamed text
+await session.sendEvent({ type: "response.create" });
 ```
 
 ### Handling real-time events
