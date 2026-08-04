@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added `sqlFilterCount` and `correlationFilterCount` to `TopicRuntimeProperties`, exposing the total number of SQL filters and correlation filters across all of a topic's subscriptions.
+- The ATOM administration client now sends `api-version=2024-05` (previously `2021-05`), which is required for the topic filter counts above.
+
 ### Breaking Changes
 
 ### Bugs Fixed

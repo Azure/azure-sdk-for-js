@@ -666,6 +666,47 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
       });
     });
 
+    describe("Atom management - Topic filter counts", function (): void {
+      // The topic-level sqlFilterCount / correlationFilterCount runtime properties are
+      // served by the 2024-05 service API version, so use an explicit 2024-05 client
+      // regardless of the suite's pinned serviceVersion.
+      const filterCountsClient = (): ServiceBusAdministrationClient =>
+        new ServiceBusAdministrationClient(getFullyQualifiedNamespace(), createTestCredential(), {
+          serviceVersion: "2024-05",
+        });
+
+      beforeEach(async () => {
+        await recreateTopic(managementTopic1);
+        await recreateSubscription(managementTopic1, managementSubscription1);
+      });
+
+      afterEach(async () => {
+        await deleteEntity(EntityType.TOPIC, managementTopic1);
+      });
+
+      it("Reports SQL and correlation filter counts on topic runtime properties", async () => {
+        const client = filterCountsClient();
+        // A new subscription carries a default $Default rule (a SQL TrueFilter). Add an
+        // explicit SQL rule and a correlation rule so the topic-level counts are non-zero.
+        await client.createRule(managementTopic1, managementSubscription1, "sqlRule", {
+          sqlExpression: "1=1",
+        });
+        await client.createRule(managementTopic1, managementSubscription1, "correlationRule", {
+          correlationId: "abc",
+        });
+
+        const runtimeProperties = await client.getTopicRuntimeProperties(managementTopic1);
+
+        // $Default (TrueFilter) + sqlRule = 2 SQL filters; correlationRule = 1 correlation filter.
+        should.equal(runtimeProperties.sqlFilterCount, 2, "Unexpected SQL filter count");
+        should.equal(
+          runtimeProperties.correlationFilterCount,
+          1,
+          "Unexpected correlation filter count",
+        );
+      });
+    });
+
     [
       {
         entityType: EntityType.QUEUE,
