@@ -4,8 +4,10 @@
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
+  proxyPolicy,
 } from "@azure/core-rest-pipeline";
 import { diag } from "@opentelemetry/api";
 import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Constants.js";
@@ -59,7 +61,13 @@ export async function makeOneSettingsRequest(
       headers: createHttpHeaders(headers),
       timeout: ONE_SETTINGS_REQUEST_TIMEOUT_MS,
     });
-    const response = await createDefaultHttpClient().sendRequest(request);
+    // Route the request through a minimal pipeline so proxyPolicy runs: it reads the standard
+    // HTTPS_PROXY/HTTP_PROXY/ALL_PROXY (honoring NO_PROXY) environment variables and sets the
+    // request agent accordingly. Sending through the bare HTTP client would skip all policies and
+    // silently ignore proxy configuration, breaking OneSettings polling behind a corporate proxy.
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(proxyPolicy());
+    const response = await pipeline.sendRequest(createDefaultHttpClient(), request);
     return parseOneSettingsResponse(response);
   } catch (error) {
     diag.debug("Failed to fetch configuration from OneSettings:", error);
