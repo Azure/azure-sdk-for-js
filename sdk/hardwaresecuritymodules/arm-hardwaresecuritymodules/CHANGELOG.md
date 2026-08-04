@@ -41,6 +41,8 @@ Compared with version 2.0.0
   - Operation CloudHsmClustersOperations.get has a new signature
   - Operation CloudHsmClustersOperations.listByResourceGroup has a new signature
   - Operation CloudHsmClustersOperations.listBySubscription has a new signature
+  - Operation CloudHsmClusterBackupStatusOperations.get now returns Promise instead of a poller
+  - Operation CloudHsmClusterRestoreStatusOperations.get now returns Promise instead of a poller
   - Interface CloudHsmClusterBackupStatusGetOptionalParams no longer has parameter updateIntervalInMs
   - Interface CloudHsmClusterRestoreStatusGetOptionalParams no longer has parameter updateIntervalInMs
   - Type alias "CloudHsmClusterSkuName" has been changed
