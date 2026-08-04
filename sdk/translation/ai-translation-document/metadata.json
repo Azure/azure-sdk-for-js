@@ -2,7 +2,7 @@
   "apiVersions": {
     "DocumentTranslation": "2026-03-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "DocumentTranslation",
     "CrossLanguageDefinitionId": {
@@ -33,11 +33,11 @@
       "@azure/ai-translation-document!KnownFileFormatType:enum": "DocumentTranslation.FileFormatType",
       "@azure/ai-translation-document!KnownVersions:enum": "DocumentTranslation.Versions",
       "@azure/ai-translation-document!DocumentTranslationClient#getSupportedFormats:member(1)": "ClientCustomizations.DocumentTranslationClient.getSupportedFormats",
-      "@azure/ai-translation-document!DocumentTranslationClient#getDocumentsStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getDocumentsStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#listDocumentStatuses:member(1)": "ClientCustomizations.DocumentTranslationClient.getDocumentsStatus",
       "@azure/ai-translation-document!DocumentTranslationClient#cancelTranslation:member(1)": "ClientCustomizations.DocumentTranslationClient.cancelTranslation",
       "@azure/ai-translation-document!DocumentTranslationClient#getTranslationStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getTranslationStatus",
       "@azure/ai-translation-document!DocumentTranslationClient#getDocumentStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getDocumentStatus",
-      "@azure/ai-translation-document!DocumentTranslationClient#getTranslationsStatus:member(1)": "ClientCustomizations.DocumentTranslationClient.getTranslationsStatus",
+      "@azure/ai-translation-document!DocumentTranslationClient#listTranslationStatuses:member(1)": "ClientCustomizations.DocumentTranslationClient.getTranslationsStatus",
       "@azure/ai-translation-document!DocumentTranslationClient#startTranslation:member(1)": "ClientCustomizations.DocumentTranslationClient.startTranslation",
       "@azure/ai-translation-document!SingleDocumentTranslationClient#translate:member(1)": "ClientCustomizations.SingleDocumentTranslationClient.documentTranslate"
     }
