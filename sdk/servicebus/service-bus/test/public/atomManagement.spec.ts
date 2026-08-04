@@ -666,10 +666,11 @@ describe.runIf(connectionString).each(["2021-05", "2017-04"])("Version [%s]", (s
       });
     });
 
-    describe("Atom management - Topic filter counts", function (): void {
-      // The topic-level sqlFilterCount / correlationFilterCount runtime properties are
-      // served by the 2024-05 service API version, so use an explicit 2024-05 client
-      // regardless of the suite's pinned serviceVersion.
+    // The topic-level sqlFilterCount / correlationFilterCount runtime properties are served by the
+    // 2024-05 service API version, so this block uses an explicit 2024-05 client and is independent
+    // of the suite's pinned serviceVersion. Gate it to a single outer iteration so the live setup,
+    // rule creation, assertion, and cleanup run once instead of once per parameterized version.
+    (serviceVersion === "2021-05" ? describe : describe.skip)("Atom management - Topic filter counts", function (): void {
       const filterCountsClient = (): ServiceBusAdministrationClient =>
         new ServiceBusAdministrationClient(getFullyQualifiedNamespace(), createTestCredential(), {
           serviceVersion: "2024-05",

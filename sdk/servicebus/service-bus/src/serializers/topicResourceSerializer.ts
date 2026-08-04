@@ -452,11 +452,17 @@ export interface TopicRuntimeProperties {
 
   /**
    * The total number of SQL filters across all of the topic's subscriptions.
+   *
+   * This is only reported by the service at api-version 2024-05 or later. It is `undefined` when the
+   * client targets an older service version, or in a region that has not yet deployed the feature.
    */
   sqlFilterCount?: number;
 
   /**
    * The total number of correlation filters across all of the topic's subscriptions.
+   *
+   * This is only reported by the service at api-version 2024-05 or later. It is `undefined` when the
+   * client targets an older service version, or in a region that has not yet deployed the feature.
    */
   correlationFilterCount?: number;
 

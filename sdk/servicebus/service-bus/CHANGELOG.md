@@ -5,8 +5,8 @@
 ### Features Added
 
 - Added `ServiceBusClient.listMessageSessions()` to list session IDs for session-enabled queues and subscriptions, including optional filtering by session-state update timestamp. Implements the `com.microsoft:get-message-sessions` management operation. ([#38323](https://github.com/Azure/azure-sdk-for-js/pull/38323))
-- Added `sqlFilterCount` and `correlationFilterCount` to `TopicRuntimeProperties`, exposing the total number of SQL filters and correlation filters across all of a topic's subscriptions.
-- The ATOM administration client now sends `api-version=2024-05` (previously `2021-05`), which is required for the topic filter counts above.
+- Added `sqlFilterCount` and `correlationFilterCount` to `TopicRuntimeProperties`, exposing the total number of SQL filters and correlation filters across all of a topic's subscriptions. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
+- The ATOM administration client now sends `api-version=2024-05` (previously `2021-05`), which is required for the topic filter counts above. ([#39500](https://github.com/Azure/azure-sdk-for-js/pull/39500))
 
 ### Breaking Changes
 
