@@ -16,6 +16,7 @@ import type {
   StatsbeatInstrumentations,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
+  ConsoleInstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
 import {
@@ -41,7 +42,12 @@ import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-convention
  */
 const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
 
-export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+};
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
