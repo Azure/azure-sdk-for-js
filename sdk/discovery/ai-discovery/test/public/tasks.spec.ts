@@ -50,7 +50,7 @@ describe("Tasks operations (WorkspaceClient)", () => {
 
   async function deleteTaskQuiet(taskName: string): Promise<void> {
     try {
-      await client.tasks.delete(projectName, investigationName, taskName);
+      await client.tasks.deleteTask(projectName, investigationName, taskName);
     } catch {
       // best-effort cleanup
     }
@@ -113,7 +113,7 @@ describe("Tasks operations (WorkspaceClient)", () => {
 
   it("delete removes a task", async () => {
     const created = await createTask("task-for-delete-test");
-    const result = await client.tasks.delete(projectName, investigationName, created.name);
+    const result = await client.tasks.deleteTask(projectName, investigationName, created.name);
     assert.isUndefined(result);
   });
 

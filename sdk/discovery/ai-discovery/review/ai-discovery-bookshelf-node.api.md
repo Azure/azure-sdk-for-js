@@ -64,7 +64,7 @@ export interface KnowledgeBasesListOptionalParams extends OperationOptions {
 export interface KnowledgeBasesOperations {
     cancelIndexing: (knowledgeBaseName: string, options?: KnowledgeBasesCancelIndexingOptionalParams) => PollerLike<OperationState<void>, void>;
     createOrUpdate: (knowledgeBaseName: string, resource: KnowledgeBaseCreateOrUpdateContent, options?: KnowledgeBasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<KnowledgeBase>, KnowledgeBase>;
-    delete: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteKnowledgeBase: (knowledgeBaseName: string, options?: KnowledgeBasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (knowledgeBaseName: string, options?: KnowledgeBasesGetOptionalParams) => Promise<KnowledgeBase>;
     getOperationStatus: (knowledgeBaseName: string, operationId: string, options?: KnowledgeBasesGetOperationStatusOptionalParams) => Promise<KnowledgeBaseOperationResponseUnion>;
     list: (options?: KnowledgeBasesListOptionalParams) => PagedAsyncIterableIterator<KnowledgeBase>;
