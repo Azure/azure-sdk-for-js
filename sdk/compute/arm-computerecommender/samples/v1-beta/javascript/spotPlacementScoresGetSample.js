@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeRecommenderManagementClient } from "@azure/arm-computerecommender";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeRecommenderManagementClient } = require("@azure/arm-computerecommender");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to gets Spot Placement Scores metadata.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets Spot Placement Scores metadata.
  * x-ms-original-file: 2026-05-05-preview/GetSpotPlacementScores.json
  */
-async function getsTheMetadataOfSpotPlacementScores(): Promise<void> {
+async function getsTheMetadataOfSpotPlacementScores() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeRecommenderManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function getsTheMetadataOfSpotPlacementScores(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getsTheMetadataOfSpotPlacementScores();
 }
 

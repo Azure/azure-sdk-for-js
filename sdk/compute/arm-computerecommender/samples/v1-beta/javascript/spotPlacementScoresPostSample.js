@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates placement scores for Spot VM skus.
  *
  * @summary generates placement scores for Spot VM skus.
- * x-ms-original-file: 2025-06-05/GenerateSpotPlacementScores.json
+ * x-ms-original-file: 2026-05-05-preview/GenerateSpotPlacementScores.json
  */
 async function returnsSpotVMPlacementScoresForGivenConfigurations() {
   const credential = new DefaultAzureCredential();

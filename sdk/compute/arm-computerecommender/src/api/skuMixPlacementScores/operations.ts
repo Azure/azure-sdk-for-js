@@ -3,20 +3,20 @@
 
 import type { ComputeRecommenderManagementContext as Client } from "../index.js";
 import type {
-  ComputeDiagnosticBase,
-  SpotPlacementScoresInput,
-  SpotPlacementScoresResponse,
+  SkuMixPlacementBase,
+  SkuMixPlacementRequest,
+  SkuMixPlacementResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  computeDiagnosticBaseDeserializer,
-  spotPlacementScoresInputSerializer,
-  spotPlacementScoresResponseDeserializer,
+  skuMixPlacementBaseDeserializer,
+  skuMixPlacementRequestSerializer,
+  skuMixPlacementResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  SpotPlacementScoresPostOptionalParams,
-  SpotPlacementScoresGetOptionalParams,
+  SkuMixPlacementScoresPostOptionalParams,
+  SkuMixPlacementScoresGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -24,11 +24,11 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _postSend(
   context: Client,
   location: string,
-  spotPlacementScoresInput: SpotPlacementScoresInput,
-  options: SpotPlacementScoresPostOptionalParams = { requestOptions: {} },
+  skuMixPlacementRequest: SkuMixPlacementRequest,
+  options: SkuMixPlacementScoresPostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/placementScores/spot/generate{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/skuMixPlacementScores/recommendations/generate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
@@ -42,13 +42,13 @@ export function _postSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: spotPlacementScoresInputSerializer(spotPlacementScoresInput),
+    body: skuMixPlacementRequestSerializer(skuMixPlacementRequest),
   });
 }
 
 export async function _postDeserialize(
   result: PathUncheckedResponse,
-): Promise<SpotPlacementScoresResponse> {
+): Promise<SkuMixPlacementResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -59,26 +59,26 @@ export async function _postDeserialize(
     throw error;
   }
 
-  return spotPlacementScoresResponseDeserializer(result.body);
+  return skuMixPlacementResponseDeserializer(result.body);
 }
-/** Generates placement scores for Spot VM skus. */
+/** Generates placement scores for VM SKU mix placement. */
 export async function post(
   context: Client,
   location: string,
-  spotPlacementScoresInput: SpotPlacementScoresInput,
-  options: SpotPlacementScoresPostOptionalParams = { requestOptions: {} },
-): Promise<SpotPlacementScoresResponse> {
-  const result = await _postSend(context, location, spotPlacementScoresInput, options);
+  skuMixPlacementRequest: SkuMixPlacementRequest,
+  options: SkuMixPlacementScoresPostOptionalParams = { requestOptions: {} },
+): Promise<SkuMixPlacementResponse> {
+  const result = await _postSend(context, location, skuMixPlacementRequest, options);
   return _postDeserialize(result);
 }
 
 export function _getSend(
   context: Client,
   location: string,
-  options: SpotPlacementScoresGetOptionalParams = { requestOptions: {} },
+  options: SkuMixPlacementScoresGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/placementScores/spot{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/skuMixPlacementScores/recommendations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
@@ -94,9 +94,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ComputeDiagnosticBase> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<SkuMixPlacementBase> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -107,14 +105,14 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return computeDiagnosticBaseDeserializer(result.body);
+  return skuMixPlacementBaseDeserializer(result.body);
 }
-/** Gets Spot Placement Scores metadata. */
+/** Gets SkuMixPlacement scoring metadata. */
 export async function get(
   context: Client,
   location: string,
-  options: SpotPlacementScoresGetOptionalParams = { requestOptions: {} },
-): Promise<ComputeDiagnosticBase> {
+  options: SkuMixPlacementScoresGetOptionalParams = { requestOptions: {} },
+): Promise<SkuMixPlacementBase> {
   const result = await _getSend(context, location, options);
   return _getDeserialize(result);
 }
