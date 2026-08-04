@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
-import type { ConsoleInstrumentationConfig } from "@opentelemetry/instrumentation-console";
+import type { SeverityNumber } from "@opentelemetry/api-logs";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -64,10 +64,17 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
-  /** Console Instrumentation Config. `logSeverity` takes precedence over the
-   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable,
-   * including when that variable is set to `NONE`. */
-  console?: ConsoleInstrumentationConfig;
+  /** Console Instrumentation Config */
+  console?: ConsoleInstrumentationOptions;
+}
+
+/**
+ * Console Instrumentation Configuration interface
+ */
+export interface ConsoleInstrumentationOptions extends InstrumentationConfig {
+  /** The minimum severity of `console` calls to collect. Defaults to the value derived from the
+   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. */
+  logSeverity?: SeverityNumber;
 }
 
 /**

@@ -5,12 +5,12 @@
 ```ts
 
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
-import type { ConsoleInstrumentationConfig } from '@opentelemetry/instrumentation-console';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import type { Resource } from '@opentelemetry/resources';
+import type { SeverityNumber } from '@opentelemetry/api-logs';
 import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import type { ViewOptions } from '@opentelemetry/sdk-metrics';
 
@@ -38,6 +38,11 @@ export interface BrowserSdkLoaderOptions {
     enabled?: boolean;
 }
 
+// @public
+export interface ConsoleInstrumentationOptions extends InstrumentationConfig {
+    logSeverity?: SeverityNumber;
+}
+
 // @internal
 export function _getSdkInstance(): NodeSDK | undefined;
 
@@ -45,7 +50,7 @@ export function _getSdkInstance(): NodeSDK | undefined;
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
-    console?: ConsoleInstrumentationConfig;
+    console?: ConsoleInstrumentationOptions;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;

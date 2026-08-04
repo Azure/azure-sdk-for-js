@@ -11,11 +11,7 @@ import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { AzureLogRecordProcessor } from "./logRecordProcessor.js";
 import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor.js";
-import {
-  isConsoleCollectionDisabled,
-  isLogCollectionDisabled,
-  logLevelToSeverityNumber,
-} from "../utils/logUtils.js";
+import { isLogCollectionDisabled, logLevelToSeverityNumber } from "../utils/logUtils.js";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -67,12 +63,14 @@ export class LogHandler {
    * Start auto collection of telemetry
    */
   private _initializeInstrumentations(): void {
-    const logCollectionDisabled = isLogCollectionDisabled();
-    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
-    const logSeverity =
-      logLevelEnv && !logCollectionDisabled ? logLevelToSeverityNumber(logLevelEnv) : undefined;
+    if (isLogCollectionDisabled()) {
+      return;
+    }
 
-    if (!logCollectionDisabled && this._config.instrumentationOptions.bunyan?.enabled) {
+    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+    const logSeverity = logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined;
+
+    if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
         new BunyanInstrumentation({
           ...this._config.instrumentationOptions.bunyan,
@@ -80,7 +78,7 @@ export class LogHandler {
         }),
       );
     }
-    if (!logCollectionDisabled && this._config.instrumentationOptions.winston?.enabled) {
+    if (this._config.instrumentationOptions.winston?.enabled) {
       this._instrumentations.push(
         new WinstonInstrumentation({
           ...this._config.instrumentationOptions.winston,
@@ -89,7 +87,7 @@ export class LogHandler {
       );
     }
     const consoleOptions = this._config.instrumentationOptions.console;
-    if (consoleOptions?.enabled && !isConsoleCollectionDisabled(consoleOptions.logSeverity)) {
+    if (consoleOptions?.enabled) {
       // Defer patching until registration so construction preserves the original methods.
       const consoleInstrumentation = new ConsoleInstrumentation({
         ...consoleOptions,

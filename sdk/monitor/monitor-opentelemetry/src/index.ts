@@ -16,6 +16,7 @@ import type {
   StatsbeatInstrumentations,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
+  ConsoleInstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
 import {
@@ -30,7 +31,7 @@ import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
-import { isConsoleCollectionDisabled, isLogCollectionDisabled } from "./utils/logUtils.js";
+import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
@@ -41,7 +42,12 @@ import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-convention
  */
 const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
 
-export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+};
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
@@ -78,9 +84,6 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   patchOpenTelemetryInstrumentationEnable();
   // Omit disabled log instrumentations from Statsbeat.
   const logInstrumentationsEnabled = !isLogCollectionDisabled();
-  const consoleInstrumentationEnabled = !isConsoleCollectionDisabled(
-    config.instrumentationOptions?.console?.logSeverity,
-  );
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
@@ -90,7 +93,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: logInstrumentationsEnabled && config.instrumentationOptions?.bunyan?.enabled,
     winston: logInstrumentationsEnabled && config.instrumentationOptions?.winston?.enabled,
-    console: consoleInstrumentationEnabled && config.instrumentationOptions?.console?.enabled,
+    console: logInstrumentationsEnabled && config.instrumentationOptions?.console?.enabled,
   };
   // Check if the AKS resource detector successfully populated specific resource attributes
   // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider
