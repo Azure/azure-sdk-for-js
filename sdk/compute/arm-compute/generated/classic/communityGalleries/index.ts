@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { get } from "../../api/communityGalleries/operations.js";
-import type { CommunityGalleriesGetOptionalParams } from "../../api/communityGalleries/options.js";
-import type { CommunityGallery } from "../../models/computeGallery/models.js";
+import { CommunityGalleriesGetOptionalParams } from "../../api/communityGalleries/options.js";
+import { CommunityGallery } from "../../models/computeGallery/models.js";
 
 /** Interface representing a CommunityGalleries operations. */
 export interface CommunityGalleriesOperations {

@@ -1,51 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  VirtualMachine,
-  StorageProfile,
-  VirtualMachineInstanceView,
-  VirtualMachineUpdate,
-  _VirtualMachineListResult,
-  VirtualMachineAssessPatchesResult,
-  AttachDetachDataDisksRequest,
-  VirtualMachineCaptureParameters,
-  VirtualMachineCaptureResult,
-  VirtualMachineInstallPatchesParameters,
-  VirtualMachineInstallPatchesResult,
-  RetrieveBootDiagnosticsDataResult,
-  _VirtualMachineSizeListResult,
-  VirtualMachineSize,
-  RunCommandInput,
-  RunCommandResult,
-} from "../../models/compute/models.js";
 import {
   virtualMachineReimageParametersSerializer,
+  VirtualMachine,
   virtualMachineSerializer,
   virtualMachineDeserializer,
+  StorageProfile,
   storageProfileDeserializer,
+  VirtualMachineInstanceView,
   virtualMachineInstanceViewDeserializer,
+  VirtualMachineUpdate,
   virtualMachineUpdateSerializer,
+  _VirtualMachineListResult,
   _virtualMachineListResultDeserializer,
+  VirtualMachineAssessPatchesResult,
   virtualMachineAssessPatchesResultDeserializer,
+  AttachDetachDataDisksRequest,
   attachDetachDataDisksRequestSerializer,
+  VirtualMachineCaptureParameters,
   virtualMachineCaptureParametersSerializer,
+  VirtualMachineCaptureResult,
   virtualMachineCaptureResultDeserializer,
+  VirtualMachineInstallPatchesParameters,
   virtualMachineInstallPatchesParametersSerializer,
+  VirtualMachineInstallPatchesResult,
   virtualMachineInstallPatchesResultDeserializer,
+  RetrieveBootDiagnosticsDataResult,
   retrieveBootDiagnosticsDataResultDeserializer,
+  _VirtualMachineSizeListResult,
   _virtualMachineSizeListResultDeserializer,
+  VirtualMachineSize,
+  RunCommandInput,
   runCommandInputSerializer,
+  RunCommandResult,
   runCommandResultDeserializer,
   migrateVMToVirtualMachineScaleSetInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualMachinesListByLocationOptionalParams,
   VirtualMachinesMigrateToVMScaleSetOptionalParams,
   VirtualMachinesRunCommandOptionalParams,
@@ -74,9 +74,13 @@ import type {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByLocationSend(
   context: Client,
@@ -94,10 +98,12 @@ export function _listByLocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByLocationDeserialize(
@@ -148,13 +154,15 @@ export function _migrateToVMScaleSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.parameters
-      ? options?.parameters
-      : migrateVMToVirtualMachineScaleSetInputSerializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.parameters
+        ? options?.parameters
+        : migrateVMToVirtualMachineScaleSetInputSerializer(options?.parameters),
+    });
 }
 
 export async function _migrateToVMScaleSetDeserialize(
@@ -207,12 +215,14 @@ export function _runCommandSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: runCommandInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: runCommandInputSerializer(parameters),
+    });
 }
 
 export async function _runCommandDeserialize(
@@ -266,10 +276,12 @@ export function _listAvailableSizesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAvailableSizesDeserialize(
@@ -417,10 +429,12 @@ export function _retrieveBootDiagnosticsDataSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _retrieveBootDiagnosticsDataDeserialize(
@@ -522,13 +536,15 @@ export function _reimageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.parameters
-      ? options?.parameters
-      : virtualMachineReimageParametersSerializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.parameters
+        ? options?.parameters
+        : virtualMachineReimageParametersSerializer(options?.parameters),
+    });
 }
 
 export async function _reimageDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -779,10 +795,12 @@ export function _instanceViewSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _instanceViewDeserialize(
@@ -830,12 +848,14 @@ export function _installPatchesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: virtualMachineInstallPatchesParametersSerializer(installPatchesInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: virtualMachineInstallPatchesParametersSerializer(installPatchesInput),
+    });
 }
 
 export async function _installPatchesDeserialize(
@@ -1046,12 +1066,14 @@ export function _captureSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: virtualMachineCaptureParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: virtualMachineCaptureParametersSerializer(parameters),
+    });
 }
 
 export async function _captureDeserialize(
@@ -1105,12 +1127,14 @@ export function _attachDetachDataDisksSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: attachDetachDataDisksRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: attachDetachDataDisksRequestSerializer(parameters),
+    });
 }
 
 export async function _attachDetachDataDisksDeserialize(
@@ -1164,10 +1188,12 @@ export function _assessPatchesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _assessPatchesDeserialize(
@@ -1224,10 +1250,12 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
@@ -1277,10 +1305,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -1383,17 +1413,19 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualMachineUpdateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: virtualMachineUpdateSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<VirtualMachine> {
@@ -1445,17 +1477,19 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualMachineSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: virtualMachineSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -1510,10 +1544,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<VirtualMachine> {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByLocation,
   migrateToVMScaleSet,
@@ -31,7 +31,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachines/operations.js";
-import type {
+import {
   VirtualMachinesListByLocationOptionalParams,
   VirtualMachinesMigrateToVMScaleSetOptionalParams,
   VirtualMachinesRunCommandOptionalParams,
@@ -60,7 +60,7 @@ import type {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesGetOptionalParams,
 } from "../../api/virtualMachines/options.js";
-import type {
+import {
   VirtualMachine,
   StorageProfile,
   VirtualMachineInstanceView,
@@ -76,10 +76,9 @@ import type {
   RunCommandInput,
   RunCommandResult,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachines operations. */
 export interface VirtualMachinesOperations {

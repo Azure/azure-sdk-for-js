@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RestorePointCollectionExpandOptions } from "../../models/compute/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { RestorePointCollectionExpandOptions } from "../../models/compute/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface RestorePointCollectionsListAllOptionalParams extends OperationOptions {}

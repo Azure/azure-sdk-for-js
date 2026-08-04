@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   tenantLevelGallerySharingReject,
   tenantLevelGallerySharingAccept,
 } from "../../api/tenantLevelSharedGalleryInvites/operations.js";
-import type {
+import {
   TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams,
   TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams,
 } from "../../api/tenantLevelSharedGalleryInvites/options.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TenantLevelSharedGalleryInvites operations. */
 export interface TenantLevelSharedGalleryInvitesOperations {

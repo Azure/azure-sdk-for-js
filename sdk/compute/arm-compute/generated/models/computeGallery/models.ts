@@ -8,20 +8,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
+import {
   OperatingSystemTypes,
   ResourceIdentityType,
+  userAssignedIdentitiesValueRecordSerializer,
+  userAssignedIdentitiesValueRecordDeserializer,
   UserAssignedIdentitiesValue,
   OperatingSystemStateTypes,
   HyperVGeneration,
   Architecture,
 } from "../common/models.js";
-import {
-  userAssignedIdentitiesValueRecordSerializer,
-  userAssignedIdentitiesValueRecordDeserializer,
-} from "../common/models.js";
-import type { TrackedResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { TrackedResource, systemDataDeserializer } from "../models.js";
 
 /** Specifies information about the Shared Image Gallery that you want to create or update. */
 export interface Gallery extends TrackedResource {

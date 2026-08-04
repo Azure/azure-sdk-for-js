@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetReimageParameters,
   ExpandTypesForGetVMScaleSets,
 } from "../../models/compute/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListByLocationOptionalParams extends OperationOptions {}

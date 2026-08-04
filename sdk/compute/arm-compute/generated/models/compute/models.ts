@@ -8,32 +8,29 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
+import {
   ApiError,
+  apiErrorDeserializer,
   SubResource,
+  subResourceSerializer,
+  subResourceDeserializer,
   OperatingSystemTypes,
+  subResourceArraySerializer,
+  subResourceArrayDeserializer,
   ResourceIdentityType,
+  userAssignedIdentitiesValueRecordSerializer,
+  userAssignedIdentitiesValueRecordDeserializer,
   UserAssignedIdentitiesValue,
   ExtendedLocation,
+  extendedLocationSerializer,
+  extendedLocationDeserializer,
   SubResourceReadOnly,
+  subResourceReadOnlyArrayDeserializer,
   OperatingSystemStateTypes,
   SnapshotAccessState,
   HyperVGeneration,
 } from "../common/models.js";
-import {
-  apiErrorDeserializer,
-  subResourceSerializer,
-  subResourceDeserializer,
-  subResourceArraySerializer,
-  subResourceArrayDeserializer,
-  userAssignedIdentitiesValueRecordSerializer,
-  userAssignedIdentitiesValueRecordDeserializer,
-  extendedLocationSerializer,
-  extendedLocationDeserializer,
-  subResourceReadOnlyArrayDeserializer,
-} from "../common/models.js";
-import type { TrackedResource, ProxyResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { TrackedResource, systemDataDeserializer, ProxyResource } from "../models.js";
 
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends TrackedResource {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/capacityReservationGroups/operations.js";
-import type {
+import {
   CapacityReservationGroupsListBySubscriptionOptionalParams,
   CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsDeleteOptionalParams,
@@ -18,11 +18,11 @@ import type {
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsGetOptionalParams,
 } from "../../api/capacityReservationGroups/options.js";
-import type {
+import {
   CapacityReservationGroup,
   CapacityReservationGroupUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CapacityReservationGroups operations. */
 export interface CapacityReservationGroupsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dedicatedHostGroups/operations.js";
-import type {
+import {
   DedicatedHostGroupsListBySubscriptionOptionalParams,
   DedicatedHostGroupsListByResourceGroupOptionalParams,
   DedicatedHostGroupsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   DedicatedHostGroupsCreateOrUpdateOptionalParams,
   DedicatedHostGroupsGetOptionalParams,
 } from "../../api/dedicatedHostGroups/options.js";
-import type { DedicatedHostGroup, DedicatedHostGroupUpdate } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DedicatedHostGroup, DedicatedHostGroupUpdate } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DedicatedHostGroups operations. */
 export interface DedicatedHostGroupsOperations {

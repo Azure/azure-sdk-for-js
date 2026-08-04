@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   getLatest,
   cancel,
   startOSUpgrade,
   startExtensionUpgrade,
 } from "../../api/virtualMachineScaleSetRollingUpgrades/operations.js";
-import type {
+import {
   VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams,
   VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams,
 } from "../../api/virtualMachineScaleSetRollingUpgrades/options.js";
-import type { RollingUpgradeStatusInfo } from "../../models/compute/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RollingUpgradeStatusInfo } from "../../models/compute/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachineScaleSetRollingUpgrades operations. */
 export interface VirtualMachineScaleSetRollingUpgradesOperations {

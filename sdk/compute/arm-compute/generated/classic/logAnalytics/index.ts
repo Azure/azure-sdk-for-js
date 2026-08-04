@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   exportThrottledRequests,
   exportRequestRateByInterval,
 } from "../../api/logAnalytics/operations.js";
-import type {
+import {
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
 } from "../../api/logAnalytics/options.js";
-import type {
+import {
   RequestRateByIntervalInput,
   LogAnalyticsOperationResult,
   ThrottledRequestsInput,
 } from "../../models/compute/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LogAnalytics operations. */
 export interface LogAnalyticsOperations {

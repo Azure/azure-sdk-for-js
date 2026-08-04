@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   generateKeyPair,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/sshPublicKeys/operations.js";
-import type {
+import {
   SshPublicKeysGenerateKeyPairOptionalParams,
   SshPublicKeysListBySubscriptionOptionalParams,
   SshPublicKeysListByResourceGroupOptionalParams,
@@ -20,12 +20,12 @@ import type {
   SshPublicKeysCreateOptionalParams,
   SshPublicKeysGetOptionalParams,
 } from "../../api/sshPublicKeys/options.js";
-import type {
+import {
   SshPublicKeyResource,
   SshPublicKeyUpdateResource,
   SshPublicKeyGenerateKeyPairResult,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SshPublicKeys operations. */
 export interface SshPublicKeysOperations {

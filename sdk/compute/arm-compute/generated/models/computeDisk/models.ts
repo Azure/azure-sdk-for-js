@@ -8,24 +8,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
+import {
   ApiError,
+  apiErrorDeserializer,
   OperatingSystemTypes,
+  userAssignedIdentitiesValueRecordSerializer,
+  userAssignedIdentitiesValueRecordDeserializer,
   UserAssignedIdentitiesValue,
   ExtendedLocation,
+  extendedLocationSerializer,
+  extendedLocationDeserializer,
   SnapshotAccessState,
   HyperVGeneration,
   Architecture,
 } from "../common/models.js";
-import {
-  apiErrorDeserializer,
-  userAssignedIdentitiesValueRecordSerializer,
-  userAssignedIdentitiesValueRecordDeserializer,
-  extendedLocationSerializer,
-  extendedLocationDeserializer,
-} from "../common/models.js";
-import type { TrackedResource, ProxyResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { TrackedResource, systemDataDeserializer, ProxyResource } from "../models.js";
 
 /** Disk resource. */
 export interface Disk extends TrackedResource {

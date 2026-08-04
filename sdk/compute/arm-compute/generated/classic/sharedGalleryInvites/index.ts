@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   gallerySharingReject,
   gallerySharingAccept,
 } from "../../api/sharedGalleryInvites/operations.js";
-import type {
+import {
   SharedGalleryInvitesGallerySharingRejectOptionalParams,
   SharedGalleryInvitesGallerySharingAcceptOptionalParams,
 } from "../../api/sharedGalleryInvites/options.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SharedGalleryInvites operations. */
 export interface SharedGalleryInvitesOperations {

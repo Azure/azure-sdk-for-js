@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
+import {
   _VirtualMachineSizeListResult,
+  _virtualMachineSizeListResultDeserializer,
   VirtualMachineSize,
   AvailabilitySet,
-  AvailabilitySetUpdate,
-  _AvailabilitySetListResult,
-  MigrateToVirtualMachineScaleSetInput,
-} from "../../models/compute/models.js";
-import {
-  _virtualMachineSizeListResultDeserializer,
   availabilitySetSerializer,
   availabilitySetDeserializer,
+  AvailabilitySetUpdate,
   availabilitySetUpdateSerializer,
+  _AvailabilitySetListResult,
   _availabilitySetListResultDeserializer,
+  MigrateToVirtualMachineScaleSetInput,
   migrateToVirtualMachineScaleSetInputSerializer,
   convertToVirtualMachineScaleSetInputSerializer,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams,
   AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams,
@@ -37,9 +37,13 @@ import type {
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _convertToVirtualMachineScaleSetSend(
   context: Client,
@@ -59,13 +63,15 @@ export function _convertToVirtualMachineScaleSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.parameters
-      ? options?.parameters
-      : convertToVirtualMachineScaleSetInputSerializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.parameters
+        ? options?.parameters
+        : convertToVirtualMachineScaleSetInputSerializer(options?.parameters),
+    });
 }
 
 export async function _convertToVirtualMachineScaleSetDeserialize(
@@ -131,11 +137,13 @@ export function _validateMigrationToVirtualMachineScaleSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: migrateToVirtualMachineScaleSetInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: migrateToVirtualMachineScaleSetInputSerializer(parameters),
+    });
 }
 
 export async function _validateMigrationToVirtualMachineScaleSetDeserialize(
@@ -250,11 +258,13 @@ export function _startMigrationToVirtualMachineScaleSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: migrateToVirtualMachineScaleSetInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: migrateToVirtualMachineScaleSetInputSerializer(parameters),
+    });
 }
 
 export async function _startMigrationToVirtualMachineScaleSetDeserialize(
@@ -310,10 +320,12 @@ export function _listAvailableSizesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAvailableSizesDeserialize(
@@ -362,10 +374,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -413,10 +427,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -513,12 +529,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: availabilitySetUpdateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: availabilitySetUpdateSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AvailabilitySet> {
@@ -571,12 +589,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: availabilitySetSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: availabilitySetSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -630,10 +650,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<AvailabilitySet> {

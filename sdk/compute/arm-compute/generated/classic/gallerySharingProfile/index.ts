@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { update } from "../../api/gallerySharingProfile/operations.js";
-import type { GallerySharingProfileUpdateOptionalParams } from "../../api/gallerySharingProfile/options.js";
-import type { SharingUpdate } from "../../models/computeGallery/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GallerySharingProfileUpdateOptionalParams } from "../../api/gallerySharingProfile/options.js";
+import { SharingUpdate } from "../../models/computeGallery/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GallerySharingProfile operations. */
 export interface GallerySharingProfileOperations {

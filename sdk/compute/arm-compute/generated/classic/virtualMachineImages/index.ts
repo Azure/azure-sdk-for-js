@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   get,
   listWithProperties,
@@ -11,7 +11,7 @@ import {
   listPublishers,
   listByEdgeZone,
 } from "../../api/virtualMachineImages/operations.js";
-import type {
+import {
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesListWithPropertiesOptionalParams,
   VirtualMachineImagesListOptionalParams,
@@ -20,7 +20,7 @@ import type {
   VirtualMachineImagesListPublishersOptionalParams,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
 } from "../../api/virtualMachineImages/options.js";
-import type {
+import {
   VirtualMachineImageResource,
   VirtualMachineImage,
   VmImagesInEdgeZoneListResult,

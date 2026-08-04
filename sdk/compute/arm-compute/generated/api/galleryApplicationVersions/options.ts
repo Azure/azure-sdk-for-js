@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReplicationStatusTypes } from "../../models/computeGallery/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { ReplicationStatusTypes } from "../../models/computeGallery/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams extends OperationOptions {}
