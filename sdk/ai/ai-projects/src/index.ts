@@ -10,6 +10,7 @@ export type { GenAITracingOptions } from "./tracing/configuration.js";
 export type {
   Agent,
   AgentState,
+  AgentStateSource,
   AgentVersion,
   AgentDefinition,
   AgentDefinitionUnion,
@@ -171,6 +172,7 @@ export type {
   ExternalAgentDefinition,
   AgentVersionStatus,
   AgentIdentity,
+  AgentIdentityStatus,
   AgentBlueprintReference,
   AgentBlueprintReferenceUnion,
   AgentBlueprintReferenceType,
@@ -292,6 +294,7 @@ export type {
   WorkIQPreviewToolboxTool,
   FabricIQPreviewToolboxTool,
   ToolboxSearchPreviewToolboxTool,
+  ToolSearchToolboxTool,
   EvaluationTaxonomy,
   EvaluationTaxonomyInput,
   EvaluationTaxonomyInputUnion,
@@ -322,6 +325,7 @@ export type {
   EndpointBasedEvaluatorDefinition,
   EvaluatorGenerationArtifacts,
   DatasetReference,
+  GenerationWarningType,
   EvaluatorCredentialRequest,
   EvaluatorGenerationJob,
   EvaluatorGenerationInputs,
@@ -333,6 +337,10 @@ export type {
   TracesEvaluatorGenerationJobSource,
   DatasetEvaluatorGenerationJobSource,
   EvaluatorGenerationTokenUsage,
+  RubricGenerationInputQualityWarning,
+  RubricGenerationInputQualityWarningCode,
+  RubricGenerationInputQualityWarningSeverity,
+  RubricGenerationInputQualityWarningSource,
   Insight,
   InsightsMetadata,
   OperationState,
@@ -480,6 +488,7 @@ export type {
   SimpleQnADataGenerationJobOptions,
   SimpleQnAFineTuningQuestionType,
   TracesDataGenerationJobOptions,
+  TaskGenerationDataGenerationJobOptions,
   ToolUseFineTuningDataGenerationJobOptions,
   DataGenerationJobScenario,
   DataGenerationJobOutputOptions,
@@ -505,6 +514,7 @@ export type {
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { FileContents } from "./static-helpers/multipartHelpers.js";
+export type { JobOperationState, JobPoller } from "./static-helpers/pollingHelpers.js";
 export type {
   AgentsDeleteSessionFileOptionalParams,
   AgentsListSessionFilesOptionalParams,
@@ -521,6 +531,7 @@ export type {
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsUpdateAgentObjectOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
