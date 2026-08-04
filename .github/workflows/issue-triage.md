@@ -273,7 +273,7 @@ The following accounts bypass the normal customer evaluation; they are routed th
 - `microsoft-github-policy-service[bot]`
 - `github-actions[bot]`
 
-If the author matches the bot allowlist, add the "bot" label and continue to Step 3
+If the author matches the bot allowlist, follow the bot branch in the Author Decision below
 
 ### Author Association Check
 
@@ -299,11 +299,13 @@ For team members, existing labels suppress automated triage only when the issue 
 
 If a team-member issue currently has labels:
 
-1. Confirm the issue number is a positive decimal integer, then retrieve its events using `web-fetch`:
-   `https://api.github.com/repos/Azure/azure-sdk-for-js/issues/<ISSUE_NUMBER>/events?per_page=100`
-2. For each currently applied label, find its most recent `labeled` event
-3. Treat the label as author-applied only when that event's `actor.login` matches the issue author's login (case-insensitive)
-4. Ignore events for labels that are no longer present
+1. Confirm the issue number is a positive decimal integer
+2. Retrieve its events using `web-fetch`, starting with:
+   `https://api.github.com/repos/Azure/azure-sdk-for-js/issues/<ISSUE_NUMBER>/events?per_page=100&page=1`
+3. If a page contains 100 events, increment the `page` parameter and retrieve the next page. Continue until a page contains fewer than 100 events, then combine all retrieved pages before evaluating attribution
+4. For each currently applied label, find the `labeled` event with the latest `created_at` across all pages
+5. Treat the label as author-applied only when that event's `actor.login` matches the issue author's login (case-insensitive)
+6. Ignore events for labels that are no longer present
 
 Labels applied by GitHub Actions, bots, or other collaborators do not suppress triage. If the events cannot be retrieved or no current author-applied label can be confirmed, continue with automated triage
 
