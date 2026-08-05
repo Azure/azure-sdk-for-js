@@ -295,6 +295,75 @@ await fileClient.uploadRange(content, 0, content.length);
 console.log(`Upload file range "${content}" to ${fileName} successfully`);
 ```
 
+### List ranges of a file
+
+Use `ShareFileClient.listRanges()` to enumerate the valid byte ranges of a file as a paginated
+async iterable. Each item is a `ShareFileRange` with `start`, `end`, and `isClear`. Use
+`ShareFileClient.listRangesDiff()` to list the ranges that changed since a previous share snapshot;
+cleared ranges are returned with `isClear` set to `true`.
+
+```ts snippet:ReadmeSampleListRanges
+import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new StorageSharedKeyCredential(account, accountKey);
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net`,
+  credential,
+);
+
+const shareName = "<share name>";
+const fileName = "<file name>";
+const fileClient = serviceClient
+  .getShareClient(shareName)
+  .rootDirectoryClient.getFileClient(fileName);
+
+// Each item is a ShareFileRange with start, end, and isClear
+for await (const range of fileClient.listRanges()) {
+  console.log(`Range: ${range.start}-${range.end}, isClear: ${range.isClear}`);
+}
+```
+
+Use `.byPage()` to control the page size and resume from a continuation token:
+
+```ts snippet:ReadmeSampleListRanges_ByPage
+import { StorageSharedKeyCredential, ShareServiceClient } from "@azure/storage-file-share";
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new StorageSharedKeyCredential(account, accountKey);
+const serviceClient = new ShareServiceClient(
+  `https://${account}.file.core.windows.net`,
+  credential,
+);
+
+const shareName = "<share name>";
+const fileName = "<file name>";
+const fileClient = serviceClient
+  .getShareClient(shareName)
+  .rootDirectoryClient.getFileClient(fileName);
+
+// Get the first page of ranges
+let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+let response = (await iterator.next()).value;
+for (const range of response.ranges || []) {
+  console.log(`Range: ${range.start}-${range.end}`);
+}
+
+// Gets next marker
+const marker = response.continuationToken;
+
+// Passing next marker as continuationToken
+iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+response = (await iterator.next()).value;
+for (const range of response.ranges || []) {
+  console.log(`Range: ${range.start}-${range.end}`);
+}
+```
+
 ### List files and directories under a directory
 
 Use `DirectoryClient.listFilesAndDirectories()` to iterator over files and directories,

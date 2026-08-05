@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _interconnectBlockListResultDeserializer(result.body);
 }
-
 /** Lists all of the Interconnect Blocks in the subscription. Use the nextLink property in the response to get the next page of Interconnect Blocks. */
 export function listBySubscription(
   context: Client,
@@ -117,7 +116,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _interconnectBlockListResultDeserializer(result.body);
 }
-
 /** Lists all of the Interconnect Blocks in the specified resource group. Use the nextLink property in the response to get the next page of Interconnect Blocks. */
 export function listByResourceGroup(
   context: Client,
@@ -167,7 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an Interconnect Block. The operation is only allowed when there are no virtual machines or VMSS VM instances associated with the Interconnect Block. */
 export function $delete(
   context: Client,
@@ -227,7 +224,6 @@ export async function _updateDeserialize(
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified. */
 export function update(
   context: Client,
@@ -288,7 +284,6 @@ export async function _createOrUpdateDeserialize(
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Creates or updates an Interconnect Block. When updating an Interconnect Block, only tags and sku.capacity may be modified. */
 export function createOrUpdate(
   context: Client,
@@ -345,7 +340,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return interconnectBlockDeserializer(result.body);
 }
-
 /** Retrieves information about an Interconnect Block. */
 export async function get(
   context: Client,

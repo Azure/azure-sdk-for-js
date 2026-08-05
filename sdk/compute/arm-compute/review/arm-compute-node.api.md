@@ -700,9 +700,11 @@ export class ComputeManagementClient {
     readonly sharedGalleries: SharedGalleriesOperations;
     readonly sharedGalleryImages: SharedGalleryImagesOperations;
     readonly sharedGalleryImageVersions: SharedGalleryImageVersionsOperations;
+    readonly sharedGalleryInvites: SharedGalleryInvitesOperations;
     readonly snapshots: SnapshotsOperations;
     readonly softDeletedResource: SoftDeletedResourceOperations;
     readonly sshPublicKeys: SshPublicKeysOperations;
+    readonly tenantLevelSharedGalleryInvites: TenantLevelSharedGalleryInvitesOperations;
     readonly usage: UsageOperations;
     readonly virtualMachineExtensionImages: VirtualMachineExtensionImagesOperations;
     readonly virtualMachineExtensions: VirtualMachineExtensionsOperations;
@@ -727,6 +729,9 @@ export interface ComputeManagementClientOptionalParams extends ClientOptions {
 
 // @public
 export type ConfidentialVMEncryptionType = string;
+
+// @public
+export type ConfidentialVMVersion = string;
 
 // @public
 export type ConsistencyModeTypes = string;
@@ -1404,6 +1409,7 @@ export interface DiskRestorePoint extends ProxyResource {
     purchasePlan?: DiskPurchasePlan;
     readonly replicationState?: string;
     securityProfile?: DiskSecurityProfile;
+    readonly snapshotAccessState?: SnapshotAccessState;
     readonly sourceResourceId?: string;
     readonly sourceResourceLocation?: string;
     readonly sourceUniqueId?: string;
@@ -1468,6 +1474,7 @@ export interface DiskRestorePointProperties {
     purchasePlan?: DiskPurchasePlan;
     readonly replicationState?: string;
     securityProfile?: DiskSecurityProfile;
+    readonly snapshotAccessState?: SnapshotAccessState;
     readonly sourceResourceId?: string;
     readonly sourceResourceLocation?: string;
     readonly sourceUniqueId?: string;
@@ -1499,6 +1506,7 @@ export interface DisksDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface DiskSecurityProfile {
+    readonly confidentialVMVersion?: ConfidentialVMVersion;
     secureVMDiskEncryptionSetId?: string;
     securityType?: DiskSecurityTypes;
 }
@@ -2870,6 +2878,30 @@ export interface ImageVersionSecurityProfile {
 }
 
 // @public
+export interface ImmutabilityPolicy {
+    readonly immutabilityDurationDays?: number;
+    readonly isPolicyExpired?: boolean;
+    readonly policyExpirationTime?: Date;
+    readonly policyStartTime?: Date;
+    readonly type?: ImmutabilityPolicyType;
+}
+
+// @public
+export interface ImmutabilityPolicyData {
+    immutabilityDurationDays: number;
+    type: ImmutabilityPolicyType;
+}
+
+// @public
+export interface ImmutabilityPolicyLockData {
+    immutabilityDurationDays: number;
+    type: ImmutabilityPolicyType;
+}
+
+// @public
+export type ImmutabilityPolicyType = string;
+
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
@@ -3102,6 +3134,12 @@ export enum KnownConfidentialVMEncryptionType {
     EncryptedWithCmk = "EncryptedWithCmk",
     EncryptedWithPmk = "EncryptedWithPmk",
     NonPersistedTPM = "NonPersistedTPM"
+}
+
+// @public
+export enum KnownConfidentialVMVersion {
+    V1 = "V1",
+    V2 = "V2"
 }
 
 // @public
@@ -3385,6 +3423,12 @@ export enum KnownImageState {
     Active = "Active",
     Deprecated = "Deprecated",
     ScheduledForDeprecation = "ScheduledForDeprecation"
+}
+
+// @public
+export enum KnownImmutabilityPolicyType {
+    Locked = "Locked",
+    Unlocked = "Unlocked"
 }
 
 // @public
@@ -5170,7 +5214,7 @@ export interface RollingUpgradeRunningStatus {
 }
 
 // @public
-export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type RollingUpgradeStatusCode = "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 
 // @public
 export interface RollingUpgradeStatusInfo extends TrackedResource {
@@ -5444,6 +5488,30 @@ export interface SharedGalleryImageVersionStorageProfile {
 }
 
 // @public
+export interface SharedGalleryInvitesGallerySharingAcceptOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SharedGalleryInvitesGallerySharingRejectOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SharedGalleryInvitesOperations {
+    // @deprecated (undocumented)
+    beginGallerySharingAccept: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingAcceptOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginGallerySharingAcceptAndWait: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingAcceptOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGallerySharingReject: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingRejectOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginGallerySharingRejectAndWait: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingRejectOptionalParams) => Promise<void>;
+    gallerySharingAccept: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingAcceptOptionalParams) => PollerLike<OperationState<void>, void>;
+    gallerySharingReject: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: SharedGalleryInvitesGallerySharingRejectOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
 export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
 }
 
@@ -5550,6 +5618,7 @@ export interface Snapshot extends TrackedResource {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
+    readonly immutabilityPolicy?: ImmutabilityPolicy;
     incremental?: boolean;
     readonly incrementalSnapshotFamilyId?: string;
     readonly managedBy?: string;
@@ -5583,6 +5652,7 @@ export interface SnapshotProperties {
     encryption?: Encryption;
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     hyperVGeneration?: HyperVGeneration;
+    readonly immutabilityPolicy?: ImmutabilityPolicy;
     incremental?: boolean;
     readonly incrementalSnapshotFamilyId?: string;
     networkAccessPolicy?: NetworkAccessPolicy;
@@ -5653,6 +5723,14 @@ export interface SnapshotsOperations {
     beginUpdate: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => Promise<Snapshot>;
+    // @deprecated (undocumented)
+    beginUpdateImmutabilityPolicy: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyData, options?: SnapshotsUpdateImmutabilityPolicyOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginUpdateImmutabilityPolicyAndWait: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyData, options?: SnapshotsUpdateImmutabilityPolicyOptionalParams) => Promise<Snapshot>;
+    // @deprecated (undocumented)
+    beginUpdateImmutabilityPolicyLock: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyLockData, options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams) => Promise<SimplePollerLike<OperationState<Snapshot>, Snapshot>>;
+    // @deprecated (undocumented)
+    beginUpdateImmutabilityPolicyLockAndWait: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyLockData, options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams) => Promise<Snapshot>;
     createOrUpdate: (resourceGroupName: string, snapshotName: string, snapshot: Snapshot, options?: SnapshotsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
     delete: (resourceGroupName: string, snapshotName: string, options?: SnapshotsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, snapshotName: string, options?: SnapshotsGetOptionalParams) => Promise<Snapshot>;
@@ -5661,6 +5739,8 @@ export interface SnapshotsOperations {
     listByResourceGroup: (resourceGroupName: string, options?: SnapshotsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
     revokeAccess: (resourceGroupName: string, snapshotName: string, options?: SnapshotsRevokeAccessOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, snapshotName: string, snapshot: SnapshotUpdate, options?: SnapshotsUpdateOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+    updateImmutabilityPolicy: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyData, options?: SnapshotsUpdateImmutabilityPolicyOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
+    updateImmutabilityPolicyLock: (resourceGroupName: string, snapshotName: string, immutabilityPolicyData: ImmutabilityPolicyLockData, options?: SnapshotsUpdateImmutabilityPolicyLockOptionalParams) => PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
 // @public
@@ -5670,6 +5750,16 @@ export interface SnapshotsRevokeAccessOptionalParams extends OperationOptions {
 
 // @public
 export type SnapshotStorageAccountTypes = string;
+
+// @public
+export interface SnapshotsUpdateImmutabilityPolicyLockOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SnapshotsUpdateImmutabilityPolicyOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SnapshotsUpdateOptionalParams extends OperationOptions {
@@ -5896,6 +5986,30 @@ export interface TargetRegion {
 }
 
 // @public
+export interface TenantLevelSharedGalleryInvitesOperations {
+    // @deprecated (undocumented)
+    beginTenantLevelGallerySharingAccept: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTenantLevelGallerySharingAcceptAndWait: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginTenantLevelGallerySharingReject: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTenantLevelGallerySharingRejectAndWait: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams) => Promise<void>;
+    tenantLevelGallerySharingAccept: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams) => PollerLike<OperationState<void>, void>;
+    tenantLevelGallerySharingReject: (location: string, sharedGallerySubscriptionId: string, sharedGalleryName: string, options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface TerminateNotificationProfile {
     enable?: boolean;
     notBeforeTimeout?: string;
@@ -5988,7 +6102,7 @@ export interface UpgradePolicy {
 }
 
 // @public
-export type UpgradeState = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+export type UpgradeState = "RollingForward" | "RollingBack" | "Cancelled" | "Completed" | "Faulted";
 
 // @public
 export interface Usage {

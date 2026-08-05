@@ -1,0 +1,4 @@
+directory: specification/translation/data-plane/DocumentTranslation
+commit: e7ef236186d1a72ce0f9cf41ce425d840568e477
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
