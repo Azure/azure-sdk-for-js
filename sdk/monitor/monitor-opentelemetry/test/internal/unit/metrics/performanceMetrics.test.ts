@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { MockInstance } from "vitest";
-import { afterEach, assert, beforeAll, afterAll, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeAll, beforeEach, afterAll, describe, it, vi } from "vitest";
 import { SpanKind } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { PerformanceCounterMetrics } from "../../../../src/metrics/performanceCounters.js";
@@ -12,10 +12,25 @@ import {
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../../../src/shared/config.js";
+import os from "node:os";
+import process from "node:process";
 
 describe("PerformanceCounterMetricsHandler", () => {
   let autoCollect: PerformanceCounterMetrics;
   let exportStub: MockInstance<(typeof autoCollect)["azureExporter"]["export"]>;
+
+  function stubExporter(
+    performanceCounters: PerformanceCounterMetrics,
+  ): MockInstance<(typeof autoCollect)["azureExporter"]["export"]> {
+    return vi
+      .spyOn(performanceCounters["azureExporter"], "export")
+      .mockImplementation((metrics: any, resultCallback) => {
+        resultCallback({
+          code: ExportResultCode.SUCCESS,
+        });
+        return Promise.resolve(metrics);
+      });
+  }
 
   beforeAll(() => {
     const config = new InternalConfig({});
@@ -24,24 +39,21 @@ describe("PerformanceCounterMetricsHandler", () => {
     autoCollect = new PerformanceCounterMetrics(config || config, {
       collectionInterval: 100,
     });
-    exportStub = vi.spyOn(autoCollect["azureExporter"], "export").mockImplementation(
-      (spans: any, resultCallback) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(spans);
-        }),
-    );
+  });
+
+  beforeEach(() => {
+    exportStub = stubExporter(autoCollect);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   afterAll(async () => {
-    vi.restoreAllMocks();
+    stubExporter(autoCollect);
     await autoCollect.shutdown();
+    vi.restoreAllMocks();
   });
 
   const resource = resourceFromAttributes({});
@@ -119,6 +131,85 @@ describe("PerformanceCounterMetricsHandler", () => {
       );
       assert.isFalse(Number.isNaN(metrics[6].dataPoints[0].value), "Value should not be NaN");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
+    });
+
+    it("should calculate the first request and exception rates from initialization", async () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2026-08-05T00:00:00.000Z"));
+      const config = new InternalConfig({});
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
+      const performanceCounters = new PerformanceCounterMetrics(config, {
+        collectionInterval: 60000,
+      });
+      stubExporter(performanceCounters);
+      const spanWithException = {
+        ...serverSpan,
+        events: [{ name: "exception", attributes: {} }],
+      };
+      performanceCounters.recordSpan(spanWithException);
+      vi.advanceTimersByTime(1000);
+
+      let requestRate = 0;
+      let exceptionRate = 0;
+      performanceCounters["getRequestRate"]({
+        observe: (value) => {
+          requestRate = value;
+        },
+      });
+      performanceCounters["getExceptionRate"]({
+        observe: (value) => {
+          exceptionRate = value;
+        },
+      });
+
+      assert.strictEqual(requestRate, 1);
+      assert.strictEqual(exceptionRate, 1);
+      await performanceCounters.shutdown();
+    });
+
+    it("should sample standard and normalized process CPU independently", async () => {
+      const fakeCpus = Array.from({ length: 4 }, (_, index): os.CpuInfo => ({
+        model: `fake-${index}`,
+        speed: 3000,
+        times: { user: 1000, nice: 0, sys: 1000, idle: 8000, irq: 0 },
+      }));
+      vi.spyOn(os, "cpus").mockReturnValue(fakeCpus);
+      vi.spyOn(process, "cpuUsage")
+        .mockReturnValueOnce({ user: 0, system: 0 })
+        .mockReturnValueOnce({ user: 0, system: 0 })
+        .mockReturnValueOnce({ user: 100000, system: 0 })
+        .mockReturnValueOnce({ user: 100500, system: 0 });
+      vi.spyOn(process, "hrtime")
+        .mockReturnValueOnce([0, 0])
+        .mockReturnValueOnce([0, 0])
+        .mockReturnValueOnce([1, 0])
+        .mockReturnValueOnce([1, 1000000]);
+
+      const config = new InternalConfig({});
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
+      const performanceCounters = new PerformanceCounterMetrics(config, {
+        collectionInterval: 60000,
+      });
+      stubExporter(performanceCounters);
+      let standardCpu = 0;
+      let normalizedCpu = 0;
+
+      performanceCounters["getProcessTime"]({
+        observe: (value) => {
+          standardCpu = value;
+        },
+      });
+      performanceCounters["getNormalizedProcessTime"]({
+        observe: (value) => {
+          normalizedCpu = value;
+        },
+      });
+
+      assert.strictEqual(standardCpu, 10);
+      assert.closeTo(normalizedCpu, 2.50999, 0.00001);
+      await performanceCounters.shutdown();
     });
   });
 });

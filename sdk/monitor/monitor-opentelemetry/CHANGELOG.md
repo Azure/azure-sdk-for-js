@@ -6,6 +6,10 @@
 
 - `instrumentationOptions.console` now accepts a `logSeverity` value, allowing the console log severity to be configured programmatically instead of only through the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
 
+### Bugs Fixed
+
+- Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time.
+
 ## 1.19.0 (2026-07-29)
 
 ### Features Added
