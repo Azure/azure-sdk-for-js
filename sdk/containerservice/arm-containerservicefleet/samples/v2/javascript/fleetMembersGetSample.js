@@ -1,0 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to get a FleetMember
+ *
+ * @summary get a FleetMember
+ * x-ms-original-file: 2026-06-01/FleetMembers_Get.json
+ */
+async function getsAFleetMemberResource() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceFleetClient(credential, subscriptionId);
+  const result = await client.fleetMembers.get("rgfleets", "fleet1", "member1");
+  console.log(result);
+}
+
+async function main() {
+  await getsAFleetMemberResource();
+}
+
+main().catch(console.error);
