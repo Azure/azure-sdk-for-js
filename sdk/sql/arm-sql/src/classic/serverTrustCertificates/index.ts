@@ -81,7 +81,6 @@ export interface ServerTrustCertificatesOperations {
     options?: ServerTrustCertificatesGetOptionalParams,
   ) => Promise<ServerTrustCertificate>;
 }
-
 function _getServerTrustCertificates(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -182,7 +181,6 @@ function _getServerTrustCertificates(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, certificateName, options),
   };
 }
-
 export function _getServerTrustCertificatesOperations(
   context: SqlManagementContext,
 ): ServerTrustCertificatesOperations {

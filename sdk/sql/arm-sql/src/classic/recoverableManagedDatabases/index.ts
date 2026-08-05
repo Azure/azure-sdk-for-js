@@ -26,7 +26,6 @@ export interface RecoverableManagedDatabasesOperations {
     options?: RecoverableManagedDatabasesGetOptionalParams,
   ) => Promise<RecoverableManagedDatabase>;
 }
-
 function _getRecoverableManagedDatabases(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -42,7 +41,6 @@ function _getRecoverableManagedDatabases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, recoverableDatabaseName, options),
   };
 }
-
 export function _getRecoverableManagedDatabasesOperations(
   context: SqlManagementContext,
 ): RecoverableManagedDatabasesOperations {

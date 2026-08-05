@@ -27,7 +27,6 @@ export interface DatabaseAutomaticTuningOperationsOperations {
     options?: DatabaseAutomaticTuningOperationsGetOptionalParams,
   ) => Promise<DatabaseAutomaticTuning>;
 }
-
 function _getDatabaseAutomaticTuningOperations(context: SqlManagementContext) {
   return {
     update: (
@@ -45,7 +44,6 @@ function _getDatabaseAutomaticTuningOperations(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getDatabaseAutomaticTuningOperationsOperations(
   context: SqlManagementContext,
 ): DatabaseAutomaticTuningOperationsOperations {

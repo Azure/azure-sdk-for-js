@@ -33,7 +33,7 @@ export function _listByInstancePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listByInstancePoolDeserialize(
 
   return _instancePoolOperationListResultDeserializer(result.body);
 }
-
 /** Gets a list of operations performed on the instance pool. */
 export function listByInstancePool(
   context: Client,
@@ -73,7 +72,11 @@ export function listByInstancePool(
     () => _listByInstancePoolSend(context, resourceGroupName, instancePoolName, options),
     _listByInstancePoolDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -91,7 +94,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +121,6 @@ export async function _getDeserialize(
 
   return instancePoolOperationDeserializer(result.body);
 }
-
 /** Gets a management operation on a instance pool. */
 export async function get(
   context: Client,

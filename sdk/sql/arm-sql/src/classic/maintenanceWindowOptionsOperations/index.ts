@@ -17,7 +17,6 @@ export interface MaintenanceWindowOptionsOperationsOperations {
     options?: MaintenanceWindowOptionsOperationsGetOptionalParams,
   ) => Promise<MaintenanceWindowOptions>;
 }
-
 function _getMaintenanceWindowOptionsOperations(context: SqlManagementContext) {
   return {
     get: (
@@ -37,7 +36,6 @@ function _getMaintenanceWindowOptionsOperations(context: SqlManagementContext) {
       ),
   };
 }
-
 export function _getMaintenanceWindowOptionsOperationsOperations(
   context: SqlManagementContext,
 ): MaintenanceWindowOptionsOperationsOperations {
