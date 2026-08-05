@@ -73,19 +73,12 @@ export async function makeOneSettingsRequest(
   query: Record<string, string> = {},
   headers: Record<string, string> = {},
 ): Promise<OneSettingsResponse> {
-  // A PipelineRequest.timeout only bounds the time to response headers: the Node transport clears
-  // it as soon as headers arrive, before the body is read. A server or proxy that sends headers and
-  // then stalls the body would otherwise hang this poll indefinitely. Drive the deadline with an
-  // AbortController timer that stays armed until sendRequest settles so the whole exchange (headers
-  // and body) is bounded, then clear it in the finally block.
-  const abortController = new AbortController();
-  const timeoutId = setTimeout(() => abortController.abort(), ONE_SETTINGS_REQUEST_TIMEOUT_MS);
   try {
     const request = createPipelineRequest({
       url: buildUrl(url, query),
       method: "GET",
       headers: createHttpHeaders(headers),
-      abortSignal: abortController.signal,
+      timeout: ONE_SETTINGS_REQUEST_TIMEOUT_MS,
     });
     const { pipeline, httpClient } = getOneSettingsSender();
     const response = await pipeline.sendRequest(httpClient, request);
@@ -98,8 +91,6 @@ export async function makeOneSettingsRequest(
       statusCode: 0,
       hasException: true,
     };
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 
