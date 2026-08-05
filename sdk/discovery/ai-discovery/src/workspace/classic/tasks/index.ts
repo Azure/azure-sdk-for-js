@@ -56,12 +56,7 @@ export interface TasksOperations {
     options?: TasksStartOptionalParams,
   ) => Promise<Task>;
   /** Delete a task by ID. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteTask: (
     projectName: string,
     investigationName: string,
     taskName: string,
@@ -118,7 +113,7 @@ function _getTasks(context: WorkspaceContext) {
       taskName: string,
       options?: TasksStartOptionalParams,
     ) => start(context, projectName, investigationName, taskName, options),
-    delete: (
+    deleteTask: (
       projectName: string,
       investigationName: string,
       taskName: string,

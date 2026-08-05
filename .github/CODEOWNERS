@@ -187,6 +187,12 @@
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/    @johngallardo @olivakar @sjiherzig
 
+# PRLabel: %Discovery
+/sdk/discovery/ai-discovery    @ahall-msft @mike-menaker
+
+# ServiceLabel: %Discovery
+# ServiceOwners: @ahall-msft @mike-menaker
+
 # PRLabel: %DocumentTranslator
 /sdk/documenttranslator/    @jeremymeng
 

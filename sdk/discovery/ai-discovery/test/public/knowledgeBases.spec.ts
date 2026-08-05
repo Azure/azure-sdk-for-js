@@ -223,7 +223,7 @@ describe("KnowledgeBases operations (BookshelfClient)", () => {
       })
       .pollUntilDone();
 
-    const poller = client.knowledgeBases.delete(sacrificialName);
+    const poller = client.knowledgeBases.deleteKnowledgeBase(sacrificialName);
     await poller.pollUntilDone();
     assert.equal(poller.operationState?.status, "succeeded");
 
