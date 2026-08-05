@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { afterEach, assert, describe, it } from "vitest";
+import { afterEach, assert, describe, it, vi } from "vitest";
 import nock from "nock";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../../src/Declarations/Constants.js";
@@ -113,6 +113,27 @@ describe("OneSettings utils", () => {
       assert.strictEqual(response.statusCode, 0);
       assert.strictEqual(response.refreshIntervalMs, ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS);
       assert.deepStrictEqual(response.settings, {});
+    });
+
+    it("reports a transient error when the response body stalls past the request deadline", async () => {
+      vi.useFakeTimers();
+      try {
+        // Headers arrive immediately, but the body is withheld far past the request deadline.
+        // This is the case a PipelineRequest.timeout does not cover, so the AbortController timer
+        // must fire and surface a transient error rather than hanging indefinitely.
+        nock(host).get(path).delayBody(600000).reply(200, JSON.stringify({ settings: {} }));
+
+        const responsePromise = makeOneSettingsRequest(url);
+        // Advance past the request deadline but well before the body would be delivered.
+        await vi.advanceTimersByTimeAsync(60000);
+        const response = await responsePromise;
+
+        assert.strictEqual(response.hasException, true);
+        assert.strictEqual(response.statusCode, 0);
+        assert.deepStrictEqual(response.settings, {});
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 });
