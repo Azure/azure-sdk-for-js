@@ -68,7 +68,6 @@ export interface OneSettingsResponse {
  * @returns A parsed {@link OneSettingsResponse}.
  * @internal
  */
-
 export async function makeOneSettingsRequest(
   url: string,
   query: Record<string, string> = {},
