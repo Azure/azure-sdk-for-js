@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time.
+- Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
 
 ## 1.19.0 (2026-07-29)
 
