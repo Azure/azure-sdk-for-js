@@ -61,13 +61,13 @@
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1",
     "@azure/core-lro": "^3.1.0",
-    "@azure/abort-controller": "^2.1.2"
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "^1.13.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
