@@ -1,11 +1,31 @@
 # Release History
 
-## 2.3.2 (Unreleased)
+## 2.4.1 (Unreleased)
 
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
 - Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+## 2.4.0 (2026-08-04)
+
+### Breaking Changes
+
+- Changed the beta job creation operations `project.beta.agents.createOptimizationJob`, `project.beta.datasets.createGenerationJob`, and `project.beta.evaluators.createGenerationJob` into long-running operations. Each now returns a poller instead of a promise, and resolves to the job result (`OptimizationJobResult`, `DataGenerationJobResult`, and `EvaluatorVersion` respectively) rather than the queued job. Call `pollUntilDone()` to await completion, or `submitted()` to continue once the job is queued. Each operation also accepts a new `updateIntervalInMs` option to control the polling interval. The queued job's id is available as `poller.operationState?.jobId` once `submitted()` resolves, so it can still be passed to the paired get, cancel, and delete operations.
+
+### Features Added
+
+- Added `JobOperationState` and `JobPoller` types, exposing the `jobId` of a queued job on the pollers returned by the beta job creation operations.
+- Added `project.agents.patchAgentObject` for merge-patching agent endpoint configuration and agent card metadata.
+- Added `ToolSearchToolboxTool` as a generally available `toolbox_search` tool type on `project.toolboxes`, letting an agent discover a toolbox's tools at run time instead of binding every tool up front.
+- Added `status` property and `AgentIdentityStatus` type on `AgentIdentity` to report whether an agent instance identity or agent blueprint is active or disabled.
+- Added `TaskGenerationDataGenerationJobOptions` as a `task_generation` job type on `project.beta.datasets` for generating multiturn evaluation test cases.
+- Added `max_stalls` to `OptimizationOptions` to cap the number of consecutive reflective minibatch rejections before an optimization job stops early.
+- Added generation provenance and input-quality advisories to `project.beta.evaluators`: `generation_job_id` and `warnings` on `EvaluatorVersion`, and `input_quality_warnings` on `EvaluatorGenerationJob`. The advisories are surfaced as `RubricGenerationInputQualityWarning` values.
+
+### Other Changes
+
+- Added the `toolboxes/toolboxToolSearch.ts` sample demonstrating the toolbox search tool end to end.
 
 ## 2.3.1 (2026-07-09)
 

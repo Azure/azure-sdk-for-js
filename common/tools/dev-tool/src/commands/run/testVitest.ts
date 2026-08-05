@@ -48,15 +48,17 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
+  // Our browser tests only run on chromium (see vitest.browser.base.config.ts),
+  // so only install that browser instead of all supported browsers.
   const { result } = concurrently([
     {
-      command: "npx playwright install",
+      command: "npx playwright install chromium",
       name: "playwright install",
     },
   ]);
 
   await result;
-  log.info("playwright browsers installed");
+  log.info("playwright chromium browser installed");
 }
 
 export default leafCommand(commandInfo, async (options) => {

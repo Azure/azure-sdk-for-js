@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or replaces the shared limit cap configuration for a VM family.
  *
  * @summary creates or replaces the shared limit cap configuration for a VM family.
- * x-ms-original-file: 2026-07-01/SharedLimitCaps_CreateOrUpdate.json
+ * x-ms-original-file: 2026-07-31/SharedLimitCaps_CreateOrUpdate.json
  */
 async function createOrUpdateASharedLimitCapForAVMFamily(): Promise<void> {
   const credential = new DefaultAzureCredential();

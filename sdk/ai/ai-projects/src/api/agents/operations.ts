@@ -59,6 +59,7 @@ import type {
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsUpdateAgentObjectOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -972,6 +973,15 @@ export async function updateAgentObject(
 ): Promise<Agent> {
   const result = await _patchAgentObjectSend(context, agentName, options);
   return _patchAgentObjectDeserialize(result);
+}
+
+/** Modifies an existing agent. */
+export async function patchAgentObject(
+  context: Client,
+  agentName: string,
+  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  return updateAgentObject(context, agentName, options);
 }
 
 export function _listVersionsSend(

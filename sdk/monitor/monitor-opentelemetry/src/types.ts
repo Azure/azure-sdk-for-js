@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import type { SeverityNumber } from "@opentelemetry/api-logs";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
@@ -63,6 +64,17 @@ export interface InstrumentationOptions {
   bunyan?: InstrumentationConfig;
   /** Winston Instrumentation Config */
   winston?: InstrumentationConfig;
+  /** Console Instrumentation Config */
+  console?: ConsoleInstrumentationOptions;
+}
+
+/**
+ * Console Instrumentation Configuration interface
+ */
+export interface ConsoleInstrumentationOptions extends InstrumentationConfig {
+  /** The minimum severity of `console` calls to collect. Defaults to the value derived from the
+   * `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. */
+  logSeverity?: SeverityNumber;
 }
 
 /**
@@ -110,6 +122,7 @@ export interface StatsbeatInstrumentations {
   redis?: boolean;
   bunyan?: boolean;
   winston?: boolean;
+  console?: boolean;
   /** OpenTelemetry Community Instrumentations */
   amqplib?: boolean;
   cucumber?: boolean;
@@ -160,11 +173,13 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.2";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.20.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 export const APPLICATION_INSIGHTS_SHIM_VERSION = "APPLICATION_INSIGHTS_SHIM_VERSION";
+export const APPLICATIONINSIGHTS_AUTHENTICATION_STRING =
+  "APPLICATIONINSIGHTS_AUTHENTICATION_STRING";
 
 export enum AttachTypePrefix {
   INTEGRATED_AUTO = "i",
@@ -223,8 +238,8 @@ export enum StatsbeatInstrumentation {
   POSTGRES = 16,
   BUNYAN = 32,
   WINSTON = 64,
+  CONSOLE = 128,
   /** OpenTelemetry Supported Instrumentations */
-  // Console instrumentation is not supported here - occupies 128
   CUCUMBER = 256,
   DATALOADER = 512,
   FS = 1024,
@@ -260,6 +275,7 @@ export enum StatsbeatInstrumentation {
  * @internal
  */
 export const StatsbeatInstrumentationMap = new Map<string, number>([
+  ["@opentelemetry/instrumentation-console", StatsbeatInstrumentation.CONSOLE],
   ["@opentelemetry/instrumentation-amqplib", StatsbeatInstrumentation.AMQPLIB],
   ["@opentelemetry/instrumentation-cucumber", StatsbeatInstrumentation.CUCUMBER],
   ["@opentelemetry/instrumentation-dataloader", StatsbeatInstrumentation.DATALOADER],
@@ -288,6 +304,49 @@ export const StatsbeatInstrumentationMap = new Map<string, number>([
   ["@opentelemetry/instrumentation-pino", StatsbeatInstrumentation.PINO],
   ["@opentelemetry/instrumentation-restify", StatsbeatInstrumentation.RESTIFY],
   ["@opentelemetry/instrumentation-router", StatsbeatInstrumentation.ROUTER],
+]);
+
+/**
+ * Maps Statsbeat instrumentation option names to their assigned bits.
+ * @internal
+ */
+export const StatsbeatInstrumentationsMap = new Map<string, number>([
+  ["azureSdk", StatsbeatInstrumentation.AZURE_CORE_TRACING],
+  ["mongoDb", StatsbeatInstrumentation.MONGODB],
+  ["mySql", StatsbeatInstrumentation.MYSQL],
+  ["postgreSql", StatsbeatInstrumentation.POSTGRES],
+  ["redis", StatsbeatInstrumentation.REDIS],
+  ["bunyan", StatsbeatInstrumentation.BUNYAN],
+  ["winston", StatsbeatInstrumentation.WINSTON],
+  ["console", StatsbeatInstrumentation.CONSOLE],
+  ["amqplib", StatsbeatInstrumentation.AMQPLIB],
+  ["cucumber", StatsbeatInstrumentation.CUCUMBER],
+  ["dataloader", StatsbeatInstrumentation.DATALOADER],
+  ["fs", StatsbeatInstrumentation.FS],
+  ["lruMemoizer", StatsbeatInstrumentation.LRU_MEMOIZER],
+  ["mongoose", StatsbeatInstrumentation.MONGOOSE],
+  ["runtimeNode", StatsbeatInstrumentation.RUNTIME_NODE],
+  ["socketIo", StatsbeatInstrumentation.SOCKET_IO],
+  ["tedious", StatsbeatInstrumentation.TEDIOUS],
+  ["undici", StatsbeatInstrumentation.UNDICI],
+  ["cassandra", StatsbeatInstrumentation.CASSANDRA],
+  ["connect", StatsbeatInstrumentation.CONNECT],
+  ["dns", StatsbeatInstrumentation.DNS],
+  ["express", StatsbeatInstrumentation.EXPRESS],
+  ["fastify", StatsbeatInstrumentation.FASTIFY],
+  ["genericPool", StatsbeatInstrumentation.GENERIC_POOL],
+  ["graphql", StatsbeatInstrumentation.GRAPHQL],
+  ["hapi", StatsbeatInstrumentation.HAPI],
+  ["ioredis", StatsbeatInstrumentation.IOREDIS],
+  ["knex", StatsbeatInstrumentation.KNEX],
+  ["koa", StatsbeatInstrumentation.KOA],
+  ["memcached", StatsbeatInstrumentation.MEMCACHED],
+  ["mysql2", StatsbeatInstrumentation.MYSQL2],
+  ["nestjsCore", StatsbeatInstrumentation.NESTJS_CORE],
+  ["net", StatsbeatInstrumentation.NET],
+  ["pino", StatsbeatInstrumentation.PINO],
+  ["restify", StatsbeatInstrumentation.RESTIFY],
+  ["router", StatsbeatInstrumentation.ROUTER],
 ]);
 
 export interface StatsbeatEnvironmentConfig {
