@@ -187,6 +187,12 @@
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/    @johngallardo @olivakar @sjiherzig
 
+# PRLabel: %Discovery
+/sdk/discovery/ai-discovery    @ahall-msft @mike-menaker
+
+# ServiceLabel: %Discovery
+# ServiceOwners: @ahall-msft @mike-menaker
+
 # PRLabel: %DocumentTranslator
 /sdk/documenttranslator/    @jeremymeng
 
@@ -455,14 +461,14 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt %mgmt-review-needed
-/sdk/containerservice/arm-containerservice/      @qiaozha @MaryGao @JialinHuang803
+# PRLabel: %Container Service %Mgmt %mgmt-review-needed
+/sdk/containerservice/arm-containerservice/      @elvazhu521 @FumingZhang
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerservice/arm-containerservicefleet/      @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
-/sdk/containerservice/arm-containerservice-rest/ @qiaozha @MaryGao @JialinHuang803
+# PRLabel: %Container Service %Mgmt
+/sdk/containerservice/arm-containerservice-rest/ @elvazhu521 @FumingZhang
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @MaryGao @JialinHuang803
@@ -596,7 +602,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1242,7 +1248,7 @@
 # ServiceOwners:          @toddysm @northtyphoon
 
 # ServiceLabel: %Container Service %Service Attention
-# ServiceOwners:          @qike-ms @jwilder @thomas1206 @seanmck
+# ServiceOwners:          @elvazhu521 @FumingZhang
 
 
 # ServiceLabel: %Customer Insights %Service Attention
@@ -1701,6 +1707,9 @@ sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

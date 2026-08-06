@@ -28,11 +28,6 @@ export interface BrokerListenerOperations {
     options?: BrokerListenerListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<BrokerListenerResource>;
   /** Delete a BrokerListenerResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -58,7 +53,6 @@ export interface BrokerListenerOperations {
     options?: BrokerListenerGetOptionalParams,
   ) => Promise<BrokerListenerResource>;
 }
-
 function _getBrokerListener(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -100,7 +94,6 @@ function _getBrokerListener(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, listenerName, options),
   };
 }
-
 export function _getBrokerListenerOperations(
   context: IoTOperationsContext,
 ): BrokerListenerOperations {

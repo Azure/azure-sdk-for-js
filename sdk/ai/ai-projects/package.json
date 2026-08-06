@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=22.0.0"
@@ -53,7 +53,7 @@
     "@azure/identity": "^4.13.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
-    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api": "^1.9.1",
     "openai": "^6.16.0",
     "tslib": "^2.6.2"
   },
@@ -68,9 +68,9 @@
     "@azure/monitor-opentelemetry": "^1.19.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0",
     "@modelcontextprotocol/sdk": "^1.25.1",
-    "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/instrumentation": "^0.57.0",
-    "@opentelemetry/sdk-trace-node": "^2.0.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/instrumentation": "^0.220.0",
+    "@opentelemetry/sdk-trace-node": "^2.9.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

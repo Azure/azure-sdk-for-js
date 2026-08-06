@@ -22,12 +22,13 @@ resources in your Microsoft Foundry Project. Use it to:
   - OpenAPI
   - Microsoft SharePoint (Preview)
   - Web Search (Preview)
+  - Tool Search
 
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 
 * **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
 * **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
-* **Manage toolboxes (preview)** for grouping tools into reusable collections, using the `.beta.toolboxes` operations.
+* **Manage toolboxes** for grouping tools into reusable collections, using the `.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
 * **Manage routines (preview)** for scheduling and dispatching automated workflows, using the `.beta.routines` operations.
 * **Manage model versions (preview)** for creating, updating, and managing custom model versions, using the `.beta.models` operations.
@@ -143,7 +144,7 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.toolboxes`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.agents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
 
 ## Examples
 
@@ -1245,7 +1246,7 @@ See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-f
 
 ### Toolboxes operations (preview)
 
-The `.beta.toolboxes` operations let you create and manage toolboxes — reusable collections of tools that can be shared across agents.
+The `.toolboxes` operations let you create and manage toolboxes — reusable collections of tools that can be shared across agents.
 
 ```ts snippet:toolboxes
 import { ToolUnion, MCPTool } from "@azure/ai-projects";

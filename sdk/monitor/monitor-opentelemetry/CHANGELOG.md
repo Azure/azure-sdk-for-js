@@ -1,5 +1,11 @@
 # Release History
 
+## 1.20.0 (Unreleased)
+
+### Features Added
+
+- `instrumentationOptions.console` now accepts a `logSeverity` value, allowing the console log severity to be configured programmatically instead of only through the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
+
 ## 1.19.0 (2026-07-29)
 
 ### Features Added

@@ -13,7 +13,7 @@ import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Consta
  * @internal
  */
 export type ConfigurationChangeCallback = (
-  settings: Readonly<Record<string, string>>,
+  settings: Readonly<Record<string, unknown>>,
 ) => void | Promise<void>;
 
 /**
@@ -68,7 +68,7 @@ export class ConfigurationManager {
    * Invoke every registered callback with the latest settings, isolating callback failures.
    * Both synchronous throws and rejected promises from async callbacks are caught and logged.
    */
-  protected notifyCallbacks(settings: Readonly<Record<string, string>>): void {
+  protected notifyCallbacks(settings: Readonly<Record<string, unknown>>): void {
     for (const callback of [...this.callbacks]) {
       try {
         // `try/catch` handles synchronous throws; `.catch` handles rejections from async callbacks.
