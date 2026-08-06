@@ -49,7 +49,6 @@ export interface AutoUpgradeProfilesOperations {
     options?: AutoUpgradeProfilesGetOptionalParams,
   ) => Promise<AutoUpgradeProfile>;
 }
-
 function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -86,7 +85,6 @@ function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
   };
 }
-
 export function _getAutoUpgradeProfilesOperations(
   context: ContainerServiceFleetContext,
 ): AutoUpgradeProfilesOperations {

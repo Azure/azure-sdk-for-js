@@ -16,6 +16,7 @@ import type {
   StatsbeatInstrumentations,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
+  ConsoleInstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
 import {
@@ -34,7 +35,12 @@ import { isLogCollectionDisabled } from "./utils/logUtils.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 
-export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  ConsoleInstrumentationOptions,
+  BrowserSdkLoaderOptions,
+};
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
