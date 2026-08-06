@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { MockInstance } from "vitest";
 import { afterEach, assert, beforeAll, beforeEach, afterAll, describe, it, vi } from "vitest";
 import { SpanKind } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
@@ -17,19 +16,21 @@ import process from "node:process";
 
 describe("PerformanceCounterMetricsHandler", () => {
   let autoCollect: PerformanceCounterMetrics;
-  let exportStub: MockInstance<(typeof autoCollect)["azureExporter"]["export"]>;
+  let exportedMetrics: any[];
 
   function stubExporter(
     performanceCounters: PerformanceCounterMetrics,
-  ): MockInstance<(typeof autoCollect)["azureExporter"]["export"]> {
-    return vi
-      .spyOn(performanceCounters["azureExporter"], "export")
-      .mockImplementation((metrics: any, resultCallback) => {
+    onExport?: (metrics: any) => void,
+  ): void {
+    vi.spyOn(performanceCounters["azureExporter"], "export").mockImplementation(
+      (metrics: any, resultCallback) => {
+        onExport?.(metrics);
         resultCallback({
           code: ExportResultCode.SUCCESS,
         });
         return Promise.resolve(metrics);
-      });
+      },
+    );
   }
 
   beforeAll(() => {
@@ -42,7 +43,8 @@ describe("PerformanceCounterMetricsHandler", () => {
   });
 
   beforeEach(() => {
-    exportStub = stubExporter(autoCollect);
+    exportedMetrics = [];
+    stubExporter(autoCollect, (metrics) => exportedMetrics.push(metrics));
   });
 
   afterEach(() => {
@@ -75,8 +77,8 @@ describe("PerformanceCounterMetricsHandler", () => {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 120));
-      assert.isTrue(exportStub.mock.calls.length > 0, "export called");
-      const resourceMetrics = exportStub.mock.calls[0][0];
+      assert.isTrue(exportedMetrics.length > 0, "export called");
+      const resourceMetrics = exportedMetrics[0];
       const scopeMetrics = resourceMetrics.scopeMetrics;
       assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
       const metrics = scopeMetrics[0].metrics;
