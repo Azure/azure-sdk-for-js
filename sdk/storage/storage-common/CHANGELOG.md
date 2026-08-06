@@ -1,5 +1,11 @@
 # Release History
 
+## 12.5.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed `BufferScheduler` letting a failed buffer allocation (`RangeError: Failed to allocate memory`) escape as an uncaught exception during large uploads. Allocation failures in the stream and internal event listeners are now routed through the scheduler's error handling so the upload promise rejects cleanly. Issue [#39102](https://github.com/Azure/azure-sdk-for-js/issues/39102).
+
 ## 12.5.0 (2026-08-03)
 
 ### Features Added
