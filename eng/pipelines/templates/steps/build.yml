@@ -52,9 +52,17 @@ steps:
     displayName: "Install library dependencies after setting dev version"
 
   # Update the package info file to include dev version
-  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
-    parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
+  - task: Powershell@2
+    displayName: Save package properties with dev version
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
+      arguments: >
+        -ServiceDirectory '${{parameters.ServiceDirectory}}'
+        -OutDirectory '$(Build.ArtifactStagingDirectory)/PackageInfo'
+        -AddDevVersion:($env:SETDEVVERSION -eq 'true')
+      pwsh: true
+      workingDirectory: $(Build.SourcesDirectory)
 
   - script: |
       pnpm install
