@@ -136,6 +136,134 @@ export function getSampleConfiguration(packageJson: PackageJson): SampleConfigur
 }
 
 /**
+ * A single problem discovered while validating a sample configuration against
+ * its expected schema.
+ */
+export interface SampleConfigurationProblem {
+  /**
+   * A dot-path to the offending property, relative to the sample configuration
+   * object. The root object itself is represented by ".".
+   */
+  path: string;
+  /**
+   * A human-readable, actionable description of the problem.
+   */
+  message: string;
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * A validator returns `undefined` when a value is acceptable, or a short
+ * message describing why it is not.
+ */
+type PropertyValidator = (value: unknown) => string | undefined;
+
+const isString: PropertyValidator = (value) =>
+  typeof value === "string" ? undefined : "must be a string";
+
+const isBoolean: PropertyValidator = (value) =>
+  typeof value === "boolean" ? undefined : "must be a boolean";
+
+const isStringArray: PropertyValidator = (value) =>
+  Array.isArray(value) && value.every((entry) => typeof entry === "string")
+    ? undefined
+    : "must be an array of strings";
+
+const isStringRecord: PropertyValidator = (value) =>
+  isPlainObject(value) && Object.values(value).every((entry) => typeof entry === "string")
+    ? undefined
+    : "must be an object mapping strings to strings";
+
+const isStringArrayRecord: PropertyValidator = (value) =>
+  isPlainObject(value) &&
+  Object.values(value).every(
+    (entry) => Array.isArray(entry) && entry.every((item) => typeof item === "string"),
+  )
+    ? undefined
+    : "must be an object mapping strings to arrays of strings";
+
+const KNOWN_CUSTOM_SNIPPET_KEYS = ["header", "prerequisites", "footer"];
+
+const isCustomSnippets: PropertyValidator = (value) => {
+  if (!isPlainObject(value)) {
+    return "must be an object";
+  }
+  for (const [key, entry] of Object.entries(value)) {
+    if (!KNOWN_CUSTOM_SNIPPET_KEYS.includes(key)) {
+      return `has unknown property "${key}" (known properties: ${KNOWN_CUSTOM_SNIPPET_KEYS.join(", ")})`;
+    }
+    if (typeof entry !== "string") {
+      return `property "${key}" must be a string`;
+    }
+  }
+  return undefined;
+};
+
+/**
+ * The expected schema for a sample configuration, derived from the
+ * {@link SampleConfiguration} interface. Every recognized property maps to a
+ * validator that checks the property's value.
+ */
+const SAMPLE_CONFIGURATION_SCHEMA: Record<keyof SampleConfiguration, PropertyValidator> = {
+  skipFolder: isBoolean,
+  skip: isStringArray,
+  productName: isString,
+  productSlugs: isStringArray,
+  disableDocsMs: isBoolean,
+  apiRefLink: isString,
+  dependencyOverrides: isStringRecord,
+  requiredResources: isStringRecord,
+  customSnippets: isCustomSnippets,
+  extraFiles: isStringArrayRecord,
+  overridePublicationLinkFragment: isString,
+};
+
+const KNOWN_SAMPLE_CONFIGURATION_KEYS = Object.keys(SAMPLE_CONFIGURATION_SCHEMA);
+
+/**
+ * Validates a sample configuration object against the {@link SampleConfiguration}
+ * schema, returning a list of problems.
+ *
+ * A misspelled or misplaced property (for example `skipFolders` instead of
+ * `skipFolder`) is silently ignored by {@link getSampleConfiguration}, which can
+ * cause samples to be generated or published incorrectly. This function makes
+ * such drift visible by rejecting unknown properties and values whose types do
+ * not match the schema.
+ *
+ * @param configuration - the value of a `sampleConfiguration` field to validate
+ * @returns an array of problems; an empty array means the configuration is valid
+ */
+export function validateSampleConfiguration(configuration: unknown): SampleConfigurationProblem[] {
+  const problems: SampleConfigurationProblem[] = [];
+
+  if (!isPlainObject(configuration)) {
+    problems.push({ path: ".", message: "sample configuration must be a JSON object" });
+    return problems;
+  }
+
+  for (const [key, value] of Object.entries(configuration)) {
+    const validator = SAMPLE_CONFIGURATION_SCHEMA[key as keyof SampleConfiguration];
+    if (!validator) {
+      problems.push({
+        path: key,
+        message: `unknown property "${key}" (known properties: ${KNOWN_SAMPLE_CONFIGURATION_KEYS.join(", ")})`,
+      });
+      continue;
+    }
+
+    const message = validator(value);
+    if (message) {
+      problems.push({ path: key, message: `"${key}" ${message}` });
+    }
+  }
+
+  return problems;
+}
+
+/**
  * A helper function for removing ".js"/".ts" from the end of a string
  */
 const removeJsTsExtensions = (name: string): string => name.replace(/\.[jt]s$/, "");
