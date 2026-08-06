@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating the span context via `runInSpanContext`.
 - Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
 
 ## 2.4.0 (2026-08-04)
