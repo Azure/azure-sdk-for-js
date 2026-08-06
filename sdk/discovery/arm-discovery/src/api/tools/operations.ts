@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DiscoveryContext as Client } from "../index.js";
-import type { Tool, ToolUpdate, _ToolListResult } from "../../models/models.js";
+import type { Tool, ToolUpdate, _ToolListResult, ToolCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  toolSerializer,
   toolDeserializer,
   toolUpdateSerializer,
   _toolListResultDeserializer,
+  toolCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -239,7 +239,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   toolName: string,
-  resource: Tool,
+  resource: ToolCreateOrUpdate,
   options: ToolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -254,12 +254,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: toolSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: toolCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Tool> {
@@ -280,7 +282,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   toolName: string,
-  resource: Tool,
+  resource: ToolCreateOrUpdate,
   options: ToolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Tool>, Tool> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

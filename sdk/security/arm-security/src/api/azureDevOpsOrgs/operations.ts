@@ -5,10 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import {
   AzureDevOpsOrg,
-  azureDevOpsOrgSerializer,
   azureDevOpsOrgDeserializer,
   AzureDevOpsOrgListResponse,
   azureDevOpsOrgListResponseDeserializer,
+  AzureDevOpsOrgCreateOrUpdate,
+  azureDevOpsOrgCreateOrUpdateSerializer,
+  AzureDevOpsOrgUpdate,
+  azureDevOpsOrgUpdateSerializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -144,7 +147,7 @@ export function _updateSend(
   resourceGroupName: string,
   securityConnectorName: string,
   orgName: string,
-  azureDevOpsOrg: AzureDevOpsOrg,
+  azureDevOpsOrg: AzureDevOpsOrgUpdate,
   options: AzureDevOpsOrgsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -160,12 +163,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: azureDevOpsOrgSerializer(azureDevOpsOrg),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: azureDevOpsOrgUpdateSerializer(azureDevOpsOrg),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AzureDevOpsOrg> {
@@ -186,7 +191,7 @@ export function update(
   resourceGroupName: string,
   securityConnectorName: string,
   orgName: string,
-  azureDevOpsOrg: AzureDevOpsOrg,
+  azureDevOpsOrg: AzureDevOpsOrgUpdate,
   options: AzureDevOpsOrgsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -211,7 +216,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   securityConnectorName: string,
   orgName: string,
-  azureDevOpsOrg: AzureDevOpsOrg,
+  azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
   options: AzureDevOpsOrgsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -227,12 +232,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: azureDevOpsOrgSerializer(azureDevOpsOrg),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: azureDevOpsOrgCreateOrUpdateSerializer(azureDevOpsOrg),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -255,7 +262,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   securityConnectorName: string,
   orgName: string,
-  azureDevOpsOrg: AzureDevOpsOrg,
+  azureDevOpsOrg: AzureDevOpsOrgCreateOrUpdate,
   options: AzureDevOpsOrgsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AzureDevOpsOrg>, AzureDevOpsOrg> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

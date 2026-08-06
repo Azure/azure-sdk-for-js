@@ -7,14 +7,15 @@ import type {
   PolicyUpdate,
   _PolicyListResult,
   ActivateBringYourOwnRootRequest,
+  PolicyCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  policySerializer,
   policyDeserializer,
   policyUpdateSerializer,
   _policyListResultDeserializer,
   activateBringYourOwnRootRequestSerializer,
+  policyCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -313,11 +314,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Policy */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -340,7 +336,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   namespaceName: string,
   policyName: string,
-  resource: Policy,
+  resource: PolicyCreateOrUpdate,
   options: PoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -356,12 +352,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policySerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policyCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Policy> {
@@ -382,7 +380,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   namespaceName: string,
   policyName: string,
-  resource: Policy,
+  resource: PolicyCreateOrUpdate,
   options: PoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Policy>, Policy> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

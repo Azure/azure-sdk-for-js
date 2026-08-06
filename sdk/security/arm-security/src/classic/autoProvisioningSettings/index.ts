@@ -8,7 +8,10 @@ import {
   AutoProvisioningSettingsCreateOptionalParams,
   AutoProvisioningSettingsGetOptionalParams,
 } from "../../api/autoProvisioningSettings/options.js";
-import { AutoProvisioningSetting } from "../../models/legacySettingsAPI/models.js";
+import {
+  AutoProvisioningSetting,
+  AutoProvisioningSettingCreateOrUpdate,
+} from "../../models/legacySettingsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutoProvisioningSettings operations. */
@@ -20,7 +23,7 @@ export interface AutoProvisioningSettingsOperations {
   /** Details of a specific setting */
   create: (
     settingName: string,
-    setting: AutoProvisioningSetting,
+    setting: AutoProvisioningSettingCreateOrUpdate,
     options?: AutoProvisioningSettingsCreateOptionalParams,
   ) => Promise<AutoProvisioningSetting>;
   /** Details of a specific setting */
@@ -35,7 +38,7 @@ function _getAutoProvisioningSettings(context: SecurityCenterContext) {
     list: (options?: AutoProvisioningSettingsListOptionalParams) => list(context, options),
     create: (
       settingName: string,
-      setting: AutoProvisioningSetting,
+      setting: AutoProvisioningSettingCreateOrUpdate,
       options?: AutoProvisioningSettingsCreateOptionalParams,
     ) => create(context, settingName, setting, options),
     get: (settingName: string, options?: AutoProvisioningSettingsGetOptionalParams) =>

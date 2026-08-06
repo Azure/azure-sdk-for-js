@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type { Asset, AssetUpdate, _AssetListResult } from "../../models/models.js";
+import type { Asset, AssetUpdate, _AssetListResult, AssetCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  assetSerializer,
   assetDeserializer,
   assetUpdateSerializer,
   _assetListResultDeserializer,
+  assetCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -167,11 +167,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Asset */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -248,7 +243,7 @@ export function _createOrReplaceSend(
   context: Client,
   resourceGroupName: string,
   assetName: string,
-  resource: Asset,
+  resource: AssetCreateOrUpdate,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -263,12 +258,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: assetSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: assetCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(result: PathUncheckedResponse): Promise<Asset> {
@@ -288,7 +285,7 @@ export function createOrReplace(
   context: Client,
   resourceGroupName: string,
   assetName: string,
-  resource: Asset,
+  resource: AssetCreateOrUpdate,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {

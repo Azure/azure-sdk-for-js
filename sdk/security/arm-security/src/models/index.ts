@@ -24,6 +24,9 @@ export type {
   ResourceIdentityType,
   OperationStatusResult,
   TrackedResource,
+  ProxyResourceCreateOrUpdate,
+  PrivateEndpointConnectionPropertiesCreateOrUpdate,
+  PrivateEndpointCreateOrUpdate,
 } from "./models.js";
 export {
   KnownCreatedByType,

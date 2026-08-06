@@ -18,7 +18,7 @@ import type {
   SupercomputersCreateOrUpdateOptionalParams,
   SupercomputersGetOptionalParams,
 } from "../../api/supercomputers/options.js";
-import type { Supercomputer, SupercomputerUpdate } from "../../models/models.js";
+import type { Supercomputer, SupercomputerUpdate, SupercomputerCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -50,7 +50,7 @@ export interface SupercomputersOperations {
   createOrUpdate: (
     resourceGroupName: string,
     supercomputerName: string,
-    resource: Supercomputer,
+    resource: SupercomputerCreateOrUpdate,
     options?: SupercomputersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Supercomputer>, Supercomputer>;
   /** Get a Supercomputer */
@@ -82,7 +82,7 @@ function _getSupercomputers(context: DiscoveryContext) {
     createOrUpdate: (
       resourceGroupName: string,
       supercomputerName: string,
-      resource: Supercomputer,
+      resource: SupercomputerCreateOrUpdate,
       options?: SupercomputersCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, supercomputerName, resource, options),
     get: (

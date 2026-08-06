@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   Standard,
-  standardSerializer,
   standardDeserializer,
   _StandardList,
   _standardListDeserializer,
+  StandardCreateOrUpdate,
+  standardCreateOrUpdateSerializer,
 } from "../../models/standardsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -174,7 +175,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   standardId: string,
-  standard: Standard,
+  standard: StandardCreateOrUpdate,
   options: StandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -189,12 +190,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: standardSerializer(standard),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: standardCreateOrUpdateSerializer(standard),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Standard> {
@@ -214,7 +217,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   standardId: string,
-  standard: Standard,
+  standard: StandardCreateOrUpdate,
   options: StandardsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Standard> {
   const result = await _createOrUpdateSend(

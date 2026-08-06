@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PrivateLinkGroupResource,
-  privateLinkGroupResourceArrayDeserializer,
-  PrivateEndpointConnection,
-  privateEndpointConnectionArrayDeserializer,
-} from "./privateLinksAPI/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import {
+  PrivateLinkGroupResource,
+  privateLinkGroupResourceArrayDeserializer,
+  PrivateEndpointConnection,
+  privateEndpointConnectionArrayDeserializer,
+  PrivateEndpointConnectionCreateOrUpdate,
+} from "./privateLinksAPI/models.js";
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -512,7 +513,7 @@ export function identityDeserializer(item: any): Identity {
   };
 }
 
-/** Type of ResourceIdentityType */
+/** Resource Identity Type */
 export type ResourceIdentityType = "SystemAssigned";
 
 /** The current status of an async operation. */
@@ -588,6 +589,71 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResourceCreateOrUpdate extends Resource {}
+
+export function proxyResourceCreateOrUpdateSerializer(_item: ProxyResourceCreateOrUpdate): any {
+  return {};
+}
+
+export function proxyResourceCreateOrUpdateDeserializer(item: any): ProxyResourceCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Properties of the private endpoint connection. */
+export interface PrivateEndpointConnectionPropertiesCreateOrUpdate {
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpointCreateOrUpdate;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+export function privateEndpointConnectionPropertiesCreateOrUpdateSerializer(
+  item: PrivateEndpointConnectionPropertiesCreateOrUpdate,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+export function privateEndpointConnectionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PrivateEndpointConnectionPropertiesCreateOrUpdate {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpointCreateOrUpdate {}
+
+export function privateEndpointCreateOrUpdateSerializer(_item: PrivateEndpointCreateOrUpdate): any {
+  return {};
+}
+
+export function privateEndpointCreateOrUpdateDeserializer(
+  item: any,
+): PrivateEndpointCreateOrUpdate {
+  return item;
+}
+
 export function _privateLinkGroupResourcePropertiesDeserializer(item: any) {
   return {
     groupId: item["groupId"],
@@ -631,5 +697,29 @@ export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
     provisioningState: item["provisioningState"],
+  };
+}
+
+export function _privateEndpointConnectionCreateOrUpdatePropertiesSerializer(
+  item: PrivateEndpointConnectionCreateOrUpdate,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+export function _privateEndpointConnectionCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
   };
 }

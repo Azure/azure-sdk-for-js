@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** The Advanced Threat Protection resource. */
 export interface AdvancedThreatProtectionSetting extends ExtensionResource {
   /** Indicates whether Advanced Threat Protection is enabled. */
@@ -22,7 +22,7 @@ export function advancedThreatProtectionSettingSerializer(
   return {
     properties: areAllPropsUndefined(item, ["isEnabled"])
       ? undefined
-      : _advancedThreatProtectionSettingPropertiesSerializer(item),
+      : _advancedThreatProtectionSettingCreateOrUpdatePropertiesSerializer(item),
   };
 }
 
@@ -38,7 +38,7 @@ export function advancedThreatProtectionSettingDeserializer(
       : systemDataDeserializer(item["systemData"]),
     ...(!item["properties"]
       ? item["properties"]
-      : _advancedThreatProtectionSettingPropertiesDeserializer(item["properties"])),
+      : _advancedThreatProtectionSettingCreateOrUpdatePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -62,13 +62,45 @@ export function advancedThreatProtectionPropertiesDeserializer(
   };
 }
 
-export function _advancedThreatProtectionSettingPropertiesSerializer(
-  item: AdvancedThreatProtectionSetting,
+/** The Advanced Threat Protection resource. */
+export interface AdvancedThreatProtectionSettingCreateOrUpdate extends ExtensionResource {
+  /** Indicates whether Advanced Threat Protection is enabled. */
+  isEnabled?: boolean;
+}
+
+export function advancedThreatProtectionSettingCreateOrUpdateSerializer(
+  item: AdvancedThreatProtectionSettingCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["isEnabled"])
+      ? undefined
+      : _advancedThreatProtectionSettingCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function advancedThreatProtectionSettingCreateOrUpdateDeserializer(
+  item: any,
+): AdvancedThreatProtectionSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _advancedThreatProtectionSettingCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+export function _advancedThreatProtectionSettingCreateOrUpdatePropertiesSerializer(
+  item: AdvancedThreatProtectionSettingCreateOrUpdate,
 ): any {
   return { isEnabled: item["isEnabled"] };
 }
 
-export function _advancedThreatProtectionSettingPropertiesDeserializer(item: any) {
+export function _advancedThreatProtectionSettingCreateOrUpdatePropertiesDeserializer(item: any) {
   return {
     isEnabled: item["isEnabled"],
   };

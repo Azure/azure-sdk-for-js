@@ -18,7 +18,7 @@ import type {
   UsagePlansCreateOrUpdateOptionalParams,
   UsagePlansGetOptionalParams,
 } from "../../api/usagePlans/options.js";
-import type { UsagePlan, UsagePlanTagsUpdate } from "../../models/models.js";
+import type { UsagePlan, UsagePlanTagsUpdate, UsagePlanCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -78,21 +78,21 @@ export interface UsagePlansOperations {
   createOrUpdate: (
     resourceGroupName: string,
     usagePlanName: string,
-    resource: UsagePlan,
+    resource: UsagePlanCreateOrUpdate,
     options?: UsagePlansCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<UsagePlan>, UsagePlan>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     usagePlanName: string,
-    resource: UsagePlan,
+    resource: UsagePlanCreateOrUpdate,
     options?: UsagePlansCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<UsagePlan>, UsagePlan>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     usagePlanName: string,
-    resource: UsagePlan,
+    resource: UsagePlanCreateOrUpdate,
     options?: UsagePlansCreateOrUpdateOptionalParams,
   ) => Promise<UsagePlan>;
   /** Get a UsagePlan */
@@ -159,13 +159,13 @@ function _getUsagePlans(context: AzureResilienceManagementContext) {
     createOrUpdate: (
       resourceGroupName: string,
       usagePlanName: string,
-      resource: UsagePlan,
+      resource: UsagePlanCreateOrUpdate,
       options?: UsagePlansCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, usagePlanName, resource, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       usagePlanName: string,
-      resource: UsagePlan,
+      resource: UsagePlanCreateOrUpdate,
       options?: UsagePlansCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(context, resourceGroupName, usagePlanName, resource, options);
@@ -175,7 +175,7 @@ function _getUsagePlans(context: AzureResilienceManagementContext) {
     beginCreateOrUpdateAndWait: async (
       resourceGroupName: string,
       usagePlanName: string,
-      resource: UsagePlan,
+      resource: UsagePlanCreateOrUpdate,
       options?: UsagePlansCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, resourceGroupName, usagePlanName, resource, options);

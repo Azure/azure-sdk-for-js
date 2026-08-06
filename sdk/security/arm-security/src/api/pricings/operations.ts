@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   Pricing,
-  pricingSerializer,
   pricingDeserializer,
   PricingList,
   pricingListDeserializer,
+  PricingCreateOrUpdate,
+  pricingCreateOrUpdateSerializer,
 } from "../../models/pricingsAPI/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -115,7 +116,7 @@ export function _updateSend(
   context: Client,
   scopeId: string,
   pricingName: string,
-  pricing: Pricing,
+  pricing: PricingCreateOrUpdate,
   options: PricingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -129,12 +130,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: pricingSerializer(pricing),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: pricingCreateOrUpdateSerializer(pricing),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Pricing> {
@@ -154,7 +157,7 @@ export async function update(
   context: Client,
   scopeId: string,
   pricingName: string,
-  pricing: Pricing,
+  pricing: PricingCreateOrUpdate,
   options: PricingsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Pricing> {
   const result = await _updateSend(context, scopeId, pricingName, pricing, options);

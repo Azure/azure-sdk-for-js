@@ -10,7 +10,7 @@ import type {
   RecoveryPlansCreateOrUpdateOptionalParams,
   RecoveryPlansGetOptionalParams,
 } from "../../api/recoveryPlans/options.js";
-import type { RecoveryPlan, RecoveryPlanUpdate } from "../../models/models.js";
+import type { RecoveryPlan, RecoveryPlanUpdate, RecoveryPlanCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -66,21 +66,21 @@ export interface RecoveryPlansOperations {
   createOrUpdate: (
     serviceGroupName: string,
     recoveryPlanName: string,
-    resource: RecoveryPlan,
+    resource: RecoveryPlanCreateOrUpdate,
     options?: RecoveryPlansCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<RecoveryPlan>, RecoveryPlan>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     serviceGroupName: string,
     recoveryPlanName: string,
-    resource: RecoveryPlan,
+    resource: RecoveryPlanCreateOrUpdate,
     options?: RecoveryPlansCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<RecoveryPlan>, RecoveryPlan>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     serviceGroupName: string,
     recoveryPlanName: string,
-    resource: RecoveryPlan,
+    resource: RecoveryPlanCreateOrUpdate,
     options?: RecoveryPlansCreateOrUpdateOptionalParams,
   ) => Promise<RecoveryPlan>;
   /** Get a RecoveryPlan */
@@ -143,13 +143,13 @@ function _getRecoveryPlans(context: AzureResilienceManagementContext) {
     createOrUpdate: (
       serviceGroupName: string,
       recoveryPlanName: string,
-      resource: RecoveryPlan,
+      resource: RecoveryPlanCreateOrUpdate,
       options?: RecoveryPlansCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, serviceGroupName, recoveryPlanName, resource, options),
     beginCreateOrUpdate: async (
       serviceGroupName: string,
       recoveryPlanName: string,
-      resource: RecoveryPlan,
+      resource: RecoveryPlanCreateOrUpdate,
       options?: RecoveryPlansCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(context, serviceGroupName, recoveryPlanName, resource, options);
@@ -159,7 +159,7 @@ function _getRecoveryPlans(context: AzureResilienceManagementContext) {
     beginCreateOrUpdateAndWait: async (
       serviceGroupName: string,
       recoveryPlanName: string,
-      resource: RecoveryPlan,
+      resource: RecoveryPlanCreateOrUpdate,
       options?: RecoveryPlansCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, serviceGroupName, recoveryPlanName, resource, options);

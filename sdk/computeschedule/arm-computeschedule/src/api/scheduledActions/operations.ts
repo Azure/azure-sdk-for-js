@@ -12,9 +12,7 @@ import type {
   ExecuteDeallocateRequest,
   ExecuteHibernateRequest,
   ExecuteStartRequest,
-  ExecuteCreateFlexRequest,
   CreateFlexResourceOperationResponse,
-  ExecuteCreateRequest,
   CreateResourceOperationResponse,
   ExecuteDeleteRequest,
   DeleteResourceOperationResponse,
@@ -29,12 +27,15 @@ import type {
   _ScheduledActionListResult,
   _ResourceListResponse,
   ScheduledActionResource,
-  ResourceAttachRequestInput,
   RecurringActionsResourceOperationResult,
   ResourceDetachRequest,
-  ResourcePatchRequestInput,
   CancelOccurrenceRequest,
   Occurrence,
+  ResourceAttachRequest,
+  ResourcePatchRequest,
+  ExecuteCreateFlexRequestCreate,
+  ExecuteCreateRequestCreate,
+  ScheduledActionCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -47,9 +48,7 @@ import {
   executeDeallocateRequestSerializer,
   executeHibernateRequestSerializer,
   executeStartRequestSerializer,
-  executeCreateFlexRequestSerializer,
   createFlexResourceOperationResponseDeserializer,
-  executeCreateRequestSerializer,
   createResourceOperationResponseDeserializer,
   executeDeleteRequestSerializer,
   deleteResourceOperationResponseDeserializer,
@@ -59,17 +58,19 @@ import {
   cancelOperationsResponseDeserializer,
   getOperationErrorsRequestSerializer,
   getOperationErrorsResponseDeserializer,
-  scheduledActionSerializer,
   scheduledActionDeserializer,
   scheduledActionUpdateSerializer,
   _scheduledActionListResultDeserializer,
   _resourceListResponseDeserializer,
-  resourceAttachRequestInputSerializer,
   recurringActionsResourceOperationResultDeserializer,
   resourceDetachRequestSerializer,
-  resourcePatchRequestInputSerializer,
   cancelOccurrenceRequestSerializer,
   occurrenceDeserializer,
+  resourceAttachRequestSerializer,
+  resourcePatchRequestSerializer,
+  executeCreateFlexRequestCreateSerializer,
+  executeCreateRequestCreateSerializer,
+  scheduledActionCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -312,7 +313,7 @@ export function _patchResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequestInput,
+  body: ResourcePatchRequest,
   options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -327,12 +328,14 @@ export function _patchResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourcePatchRequestInputSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourcePatchRequestSerializer(body),
+    });
 }
 
 export async function _patchResourcesDeserialize(
@@ -354,7 +357,7 @@ export async function patchResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequestInput,
+  body: ResourcePatchRequest,
   options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _patchResourcesSend(
@@ -430,7 +433,7 @@ export function _attachResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequestInput,
+  body: ResourceAttachRequest,
   options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -445,12 +448,14 @@ export function _attachResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourceAttachRequestInputSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourceAttachRequestSerializer(body),
+    });
 }
 
 export async function _attachResourcesDeserialize(
@@ -472,7 +477,7 @@ export async function attachResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequestInput,
+  body: ResourceAttachRequest,
   options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _attachResourcesSend(
@@ -761,7 +766,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  resource: ScheduledAction,
+  resource: ScheduledActionCreateOrUpdate,
   options: ScheduledActionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -776,12 +781,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: scheduledActionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: scheduledActionCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -803,7 +810,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  resource: ScheduledAction,
+  resource: ScheduledActionCreateOrUpdate,
   options: ScheduledActionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ScheduledAction>, ScheduledAction> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -1086,7 +1093,7 @@ export async function virtualMachinesExecuteDelete(
 export function _virtualMachinesExecuteCreateSend(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteCreateRequest,
+  requestBody: ExecuteCreateRequestCreate,
   options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1100,12 +1107,14 @@ export function _virtualMachinesExecuteCreateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeCreateRequestSerializer(requestBody),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: executeCreateRequestCreateSerializer(requestBody),
+    });
 }
 
 export async function _virtualMachinesExecuteCreateDeserialize(
@@ -1126,7 +1135,7 @@ export async function _virtualMachinesExecuteCreateDeserialize(
 export async function virtualMachinesExecuteCreate(
   context: Client,
   locationparameter: string,
-  requestBody: ExecuteCreateRequest,
+  requestBody: ExecuteCreateRequestCreate,
   options: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams = { requestOptions: {} },
 ): Promise<CreateResourceOperationResponse> {
   const result = await _virtualMachinesExecuteCreateSend(
@@ -1141,7 +1150,7 @@ export async function virtualMachinesExecuteCreate(
 export function _virtualMachinesExecuteCreateFlexSend(
   context: Client,
   locationparameter: string,
-  body: ExecuteCreateFlexRequest,
+  body: ExecuteCreateFlexRequestCreate,
   options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1155,12 +1164,14 @@ export function _virtualMachinesExecuteCreateFlexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeCreateFlexRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: executeCreateFlexRequestCreateSerializer(body),
+    });
 }
 
 export async function _virtualMachinesExecuteCreateFlexDeserialize(
@@ -1181,7 +1192,7 @@ export async function _virtualMachinesExecuteCreateFlexDeserialize(
 export async function virtualMachinesExecuteCreateFlex(
   context: Client,
   locationparameter: string,
-  body: ExecuteCreateFlexRequest,
+  body: ExecuteCreateFlexRequestCreate,
   options: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams = { requestOptions: {} },
 ): Promise<CreateFlexResourceOperationResponse> {
   const result = await _virtualMachinesExecuteCreateFlexSend(

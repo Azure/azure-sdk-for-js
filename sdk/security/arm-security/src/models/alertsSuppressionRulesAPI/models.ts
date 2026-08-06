@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
+import { ProxyResource, systemDataDeserializer } from "../models.js";
+
 /** Describes the suppression rule */
 export interface AlertsSuppressionRule extends ProxyResource {
   /** Type of the alert to automatically suppress. For all alert types, use '*' */
@@ -192,6 +192,105 @@ export function alertsSuppressionRuleArrayDeserializer(
   });
 }
 
+/** Describes the suppression rule */
+export interface AlertsSuppressionRuleCreateOrUpdate extends ProxyResource {
+  /** Type of the alert to automatically suppress. For all alert types, use '*' */
+  alertType?: string;
+  /** Expiration date of the rule, if value is not provided or provided as null there will no expiration at all */
+  expirationDateUtc?: Date;
+  /** The reason for dismissing the alert */
+  reason?: string;
+  /** Possible states of the rule */
+  state?: RuleState;
+  /** Any comment regarding the rule */
+  comment?: string;
+  /** The suppression conditions */
+  suppressionAlertsScope?: SuppressionAlertsScope;
+}
+
+export function alertsSuppressionRuleCreateOrUpdateSerializer(
+  item: AlertsSuppressionRuleCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "alertType",
+      "expirationDateUtc",
+      "reason",
+      "state",
+      "comment",
+      "suppressionAlertsScope",
+    ])
+      ? undefined
+      : _alertsSuppressionRuleCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function alertsSuppressionRuleCreateOrUpdateDeserializer(
+  item: any,
+): AlertsSuppressionRuleCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _alertsSuppressionRuleCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** describes AlertsSuppressionRule properties */
+export interface AlertsSuppressionRulePropertiesCreateOrUpdate {
+  /** Type of the alert to automatically suppress. For all alert types, use '*' */
+  alertType: string;
+  /** Expiration date of the rule, if value is not provided or provided as null there will no expiration at all */
+  expirationDateUtc?: Date;
+  /** The reason for dismissing the alert */
+  reason: string;
+  /** Possible states of the rule */
+  state: RuleState;
+  /** Any comment regarding the rule */
+  comment?: string;
+  /** The suppression conditions */
+  suppressionAlertsScope?: SuppressionAlertsScope;
+}
+
+export function alertsSuppressionRulePropertiesCreateOrUpdateSerializer(
+  item: AlertsSuppressionRulePropertiesCreateOrUpdate,
+): any {
+  return {
+    alertType: item["alertType"],
+    expirationDateUtc: !item["expirationDateUtc"]
+      ? item["expirationDateUtc"]
+      : item["expirationDateUtc"].toISOString(),
+    reason: item["reason"],
+    state: item["state"],
+    comment: item["comment"],
+    suppressionAlertsScope: !item["suppressionAlertsScope"]
+      ? item["suppressionAlertsScope"]
+      : suppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
+  };
+}
+
+export function alertsSuppressionRulePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AlertsSuppressionRulePropertiesCreateOrUpdate {
+  return {
+    alertType: item["alertType"],
+    expirationDateUtc: !item["expirationDateUtc"]
+      ? item["expirationDateUtc"]
+      : new Date(item["expirationDateUtc"]),
+    reason: item["reason"],
+    state: item["state"],
+    comment: item["comment"],
+    suppressionAlertsScope: !item["suppressionAlertsScope"]
+      ? item["suppressionAlertsScope"]
+      : suppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
+  };
+}
+
 export function _alertsSuppressionRulePropertiesSerializer(item: AlertsSuppressionRule): any {
   return {
     alertType: item["alertType"],
@@ -213,6 +312,38 @@ export function _alertsSuppressionRulePropertiesDeserializer(item: any) {
     lastModifiedUtc: !item["lastModifiedUtc"]
       ? item["lastModifiedUtc"]
       : new Date(item["lastModifiedUtc"]),
+    expirationDateUtc: !item["expirationDateUtc"]
+      ? item["expirationDateUtc"]
+      : new Date(item["expirationDateUtc"]),
+    reason: item["reason"],
+    state: item["state"],
+    comment: item["comment"],
+    suppressionAlertsScope: !item["suppressionAlertsScope"]
+      ? item["suppressionAlertsScope"]
+      : suppressionAlertsScopeDeserializer(item["suppressionAlertsScope"]),
+  };
+}
+
+export function _alertsSuppressionRuleCreateOrUpdatePropertiesSerializer(
+  item: AlertsSuppressionRuleCreateOrUpdate,
+): any {
+  return {
+    alertType: item["alertType"],
+    expirationDateUtc: !item["expirationDateUtc"]
+      ? item["expirationDateUtc"]
+      : item["expirationDateUtc"].toISOString(),
+    reason: item["reason"],
+    state: item["state"],
+    comment: item["comment"],
+    suppressionAlertsScope: !item["suppressionAlertsScope"]
+      ? item["suppressionAlertsScope"]
+      : suppressionAlertsScopeSerializer(item["suppressionAlertsScope"]),
+  };
+}
+
+export function _alertsSuppressionRuleCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    alertType: item["alertType"],
     expirationDateUtc: !item["expirationDateUtc"]
       ? item["expirationDateUtc"]
       : new Date(item["expirationDateUtc"]),

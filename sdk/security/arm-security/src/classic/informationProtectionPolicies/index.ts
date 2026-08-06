@@ -11,6 +11,7 @@ import {
 import {
   InformationProtectionPolicy,
   InformationProtectionPolicyName,
+  InformationProtectionPolicyCreateOrUpdate,
 } from "../../models/legacySettingsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -25,7 +26,7 @@ export interface InformationProtectionPoliciesOperations {
   createOrUpdate: (
     scope: string,
     informationProtectionPolicyName: InformationProtectionPolicyName,
-    informationProtectionPolicy: InformationProtectionPolicy,
+    informationProtectionPolicy: InformationProtectionPolicyCreateOrUpdate,
     options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<InformationProtectionPolicy>;
   /** Details of the information protection policy. */
@@ -43,7 +44,7 @@ function _getInformationProtectionPolicies(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       informationProtectionPolicyName: InformationProtectionPolicyName,
-      informationProtectionPolicy: InformationProtectionPolicy,
+      informationProtectionPolicy: InformationProtectionPolicyCreateOrUpdate,
       options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

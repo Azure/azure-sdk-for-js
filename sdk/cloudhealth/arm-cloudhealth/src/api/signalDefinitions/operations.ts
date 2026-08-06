@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { CloudHealthContext as Client } from "../index.js";
-import type { SignalDefinition, _SignalDefinitionListResult } from "../../models/models.js";
+import type { SignalDefinition, _SignalDefinitionListResult, SignalDefinitionCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  signalDefinitionSerializer,
   signalDefinitionDeserializer,
   _signalDefinitionListResultDeserializer,
+  signalDefinitionCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -144,7 +144,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   healthModelName: string,
   signalDefinitionName: string,
-  resource: SignalDefinition,
+  resource: SignalDefinitionCreateOrUpdate,
   options: SignalDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -160,12 +160,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: signalDefinitionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: signalDefinitionCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -190,7 +192,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   healthModelName: string,
   signalDefinitionName: string,
-  resource: SignalDefinition,
+  resource: SignalDefinitionCreateOrUpdate,
   options: SignalDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SignalDefinition>, SignalDefinition> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

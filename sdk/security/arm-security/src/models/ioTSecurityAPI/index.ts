@@ -66,6 +66,9 @@ export type {
   IoTSecurityAggregatedAlertPropertiesTopDevicesListItem,
   IoTSecurityAggregatedRecommendation,
   IoTSecurityAggregatedRecommendationProperties,
+  IoTSecuritySolutionModelCreateOrUpdate,
+  IoTSecuritySolutionPropertiesCreateOrUpdate,
+  DeviceSecurityGroupCreateOrUpdate,
 } from "./models.js";
 export {
   KnownValueType,

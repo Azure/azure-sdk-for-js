@@ -4,11 +4,12 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer, SettingName } from "../../models/common/models.js";
 import {
-  settingUnionSerializer,
   settingUnionDeserializer,
   SettingUnion,
   _SettingsList,
   _settingsListDeserializer,
+  settingCreateOrUpdateUnionSerializer,
+  SettingCreateOrUpdateUnion,
 } from "../../models/settingsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -76,7 +77,7 @@ export function list(
 export function _updateSend(
   context: Client,
   settingName: SettingName,
-  setting: SettingUnion,
+  setting: SettingCreateOrUpdateUnion,
   options: SettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -90,12 +91,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: settingUnionSerializer(setting),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: settingCreateOrUpdateUnionSerializer(setting),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SettingUnion> {
@@ -114,7 +117,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 export async function update(
   context: Client,
   settingName: SettingName,
-  setting: SettingUnion,
+  setting: SettingCreateOrUpdateUnion,
   options: SettingsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SettingUnion> {
   const result = await _updateSend(context, settingName, setting, options);

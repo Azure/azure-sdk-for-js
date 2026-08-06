@@ -21,6 +21,7 @@ import {
 import {
   IoTSecuritySolutionModel,
   UpdateIotSecuritySolutionData,
+  IoTSecuritySolutionModelCreateOrUpdate,
 } from "../../models/ioTSecurityAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -52,7 +53,7 @@ export interface IotSecuritySolutionOperations {
   createOrUpdate: (
     resourceGroupName: string,
     solutionName: string,
-    iotSecuritySolutionData: IoTSecuritySolutionModel,
+    iotSecuritySolutionData: IoTSecuritySolutionModelCreateOrUpdate,
     options?: IotSecuritySolutionCreateOrUpdateOptionalParams,
   ) => Promise<IoTSecuritySolutionModel>;
   /** User this method to get details of a specific IoT Security solution based on solution name */
@@ -85,7 +86,7 @@ function _getIotSecuritySolution(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       solutionName: string,
-      iotSecuritySolutionData: IoTSecuritySolutionModel,
+      iotSecuritySolutionData: IoTSecuritySolutionModelCreateOrUpdate,
       options?: IotSecuritySolutionCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, solutionName, iotSecuritySolutionData, options),
     get: (

@@ -6,16 +6,16 @@ import type {
   DrillRun,
   _DrillRunListResult,
   DrillRunFailoverRequest,
-  DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
+  DrillRunAddNotesRequestCreate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   drillRunDeserializer,
   _drillRunListResultDeserializer,
   drillRunFailoverRequestSerializer,
-  drillRunAddNotesRequestSerializer,
   markAsCompleteRequestSerializer,
+  drillRunAddNotesRequestCreateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -178,7 +178,7 @@ export function _addNotesSend(
   operationId: string,
   drillName: string,
   drillRunName: string,
-  body: DrillRunAddNotesRequest,
+  body: DrillRunAddNotesRequestCreate,
   options: DrillRunsAddNotesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -193,16 +193,18 @@ export function _addNotesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "operation-id": operationId,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: drillRunAddNotesRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "operation-id": operationId,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: drillRunAddNotesRequestCreateSerializer(body),
+    });
 }
 
 export async function _addNotesDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -226,7 +228,7 @@ export function addNotes(
   operationId: string,
   drillName: string,
   drillRunName: string,
-  body: DrillRunAddNotesRequest,
+  body: DrillRunAddNotesRequestCreate,
   options: DrillRunsAddNotesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _addNotesDeserialize, ["200", "202", "201"], {

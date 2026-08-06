@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DiscoveryContext as Client } from "../index.js";
-import type { Bookshelf, BookshelfUpdate, _BookshelfListResult } from "../../models/models.js";
+import type { Bookshelf, BookshelfUpdate, _BookshelfListResult, BookshelfCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  bookshelfSerializer,
   bookshelfDeserializer,
   bookshelfUpdateSerializer,
   _bookshelfListResultDeserializer,
+  bookshelfCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -239,7 +239,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   bookshelfName: string,
-  resource: Bookshelf,
+  resource: BookshelfCreateOrUpdate,
   options: BookshelvesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -254,12 +254,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: bookshelfSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: bookshelfCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -282,7 +284,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   bookshelfName: string,
-  resource: Bookshelf,
+  resource: BookshelfCreateOrUpdate,
   options: BookshelvesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Bookshelf>, Bookshelf> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

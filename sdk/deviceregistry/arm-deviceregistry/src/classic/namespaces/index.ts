@@ -20,7 +20,7 @@ import type {
   NamespacesCreateOrReplaceOptionalParams,
   NamespacesGetOptionalParams,
 } from "../../api/namespaces/options.js";
-import type { Namespace, NamespaceUpdate, NamespaceMigrateRequest } from "../../models/models.js";
+import type { Namespace, NamespaceMigrateRequest, SchemaRegistryUpdateUpdate, NamespaceCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -43,11 +43,6 @@ export interface NamespacesOperations {
     options?: NamespacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Namespace>;
   /** Delete a Namespace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -57,14 +52,14 @@ export interface NamespacesOperations {
   update: (
     resourceGroupName: string,
     namespaceName: string,
-    properties: NamespaceUpdate,
+    properties: SchemaRegistryUpdateUpdate,
     options?: NamespacesUpdateOptionalParams,
   ) => PollerLike<OperationState<Namespace>, Namespace>;
   /** Create a Namespace */
   createOrReplace: (
     resourceGroupName: string,
     namespaceName: string,
-    resource: Namespace,
+    resource: NamespaceCreateOrUpdate,
     options?: NamespacesCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<Namespace>, Namespace>;
   /** Get a Namespace */
@@ -97,13 +92,13 @@ function _getNamespaces(context: DeviceRegistryManagementContext) {
     update: (
       resourceGroupName: string,
       namespaceName: string,
-      properties: NamespaceUpdate,
+      properties: SchemaRegistryUpdateUpdate,
       options?: NamespacesUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, properties, options),
     createOrReplace: (
       resourceGroupName: string,
       namespaceName: string,
-      resource: Namespace,
+      resource: NamespaceCreateOrUpdate,
       options?: NamespacesCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, namespaceName, resource, options),
     get: (

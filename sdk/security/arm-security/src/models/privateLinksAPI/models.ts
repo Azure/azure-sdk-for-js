@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import { ProvisioningState } from "../common/models.js";
 import {
@@ -11,17 +17,14 @@ import {
   PrivateLinkServiceConnectionState,
   PrivateEndpointConnectionProvisioningState,
   TrackedResource,
+  PrivateEndpointCreateOrUpdate,
   _privateLinkGroupResourcePropertiesDeserializer,
   _privateEndpointConnectionPropertiesSerializer,
   _privateEndpointConnectionPropertiesDeserializer,
+  _privateEndpointConnectionCreateOrUpdatePropertiesSerializer,
+  _privateEndpointConnectionCreateOrUpdatePropertiesDeserializer,
 } from "../models.js";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A private link group resource that describes a grouping for the private link. */
 export interface PrivateLinkGroupResource extends ProxyResource {
   /** The private link resource group id. */
@@ -224,6 +227,94 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
   });
 }
 
+/** A private link resource that enables secure, private connectivity to Microsoft Defender for Cloud services. This resource manages the lifecycle of private endpoint connections and provides the necessary infrastructure for private connectivity. */
+export interface PrivateLinkResourceCreateOrUpdate extends TrackedResource {
+  /** This determines if traffic is allowed over public network. By default it is disabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function privateLinkResourceCreateOrUpdateSerializer(
+  item: PrivateLinkResourceCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: _privateLinkResourceCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function privateLinkResourceCreateOrUpdateDeserializer(
+  item: any,
+): PrivateLinkResourceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ..._privateLinkResourceCreateOrUpdatePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a private link resource. These properties control the behavior and configuration of private endpoint connectivity to Defender services. */
+export interface PrivateLinkPropertiesCreateOrUpdate {
+  /** This determines if traffic is allowed over public network. By default it is disabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function privateLinkPropertiesCreateOrUpdateSerializer(
+  item: PrivateLinkPropertiesCreateOrUpdate,
+): any {
+  return { publicNetworkAccess: item["publicNetworkAccess"] };
+}
+
+export function privateLinkPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PrivateLinkPropertiesCreateOrUpdate {
+  return {
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+/** The private endpoint connection resource. */
+export interface PrivateEndpointConnectionCreateOrUpdate extends Resource {
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpointCreateOrUpdate;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
+
+export function privateEndpointConnectionCreateOrUpdateSerializer(
+  item: PrivateEndpointConnectionCreateOrUpdate,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
+      ? undefined
+      : _privateEndpointConnectionCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function privateEndpointConnectionCreateOrUpdateDeserializer(
+  item: any,
+): PrivateEndpointConnectionCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _privateEndpointConnectionCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
 export function _privateLinkResourcePropertiesSerializer(item: PrivateLinkResource): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
@@ -237,6 +328,18 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
     privateLinkResources: !item["privateLinkResources"]
       ? item["privateLinkResources"]
       : privateLinkGroupResourceArrayDeserializer(item["privateLinkResources"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function _privateLinkResourceCreateOrUpdatePropertiesSerializer(
+  item: PrivateLinkResourceCreateOrUpdate,
+): any {
+  return { publicNetworkAccess: item["publicNetworkAccess"] };
+}
+
+export function _privateLinkResourceCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }

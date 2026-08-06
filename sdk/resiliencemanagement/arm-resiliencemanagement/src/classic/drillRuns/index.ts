@@ -23,8 +23,8 @@ import type {
 import type {
   DrillRun,
   DrillRunFailoverRequest,
-  DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
+  DrillRunAddNotesRequestCreate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -90,7 +90,7 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunAddNotesRequest,
+    body: DrillRunAddNotesRequestCreate,
     options?: DrillRunsAddNotesOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use addNotes instead */
@@ -99,7 +99,7 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunAddNotesRequest,
+    body: DrillRunAddNotesRequestCreate,
     options?: DrillRunsAddNotesOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use addNotes instead */
@@ -108,7 +108,7 @@ export interface DrillRunsOperations {
     operationId: string,
     drillName: string,
     drillRunName: string,
-    body: DrillRunAddNotesRequest,
+    body: DrillRunAddNotesRequestCreate,
     options?: DrillRunsAddNotesOptionalParams,
   ) => Promise<void>;
   /** This initiates a new Reprotect operation on this Drill Run. */
@@ -273,7 +273,7 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunAddNotesRequest,
+      body: DrillRunAddNotesRequestCreate,
       options?: DrillRunsAddNotesOptionalParams,
     ) => addNotes(context, serviceGroupName, operationId, drillName, drillRunName, body, options),
     beginAddNotes: async (
@@ -281,7 +281,7 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunAddNotesRequest,
+      body: DrillRunAddNotesRequestCreate,
       options?: DrillRunsAddNotesOptionalParams,
     ) => {
       const poller = addNotes(
@@ -301,7 +301,7 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
       operationId: string,
       drillName: string,
       drillRunName: string,
-      body: DrillRunAddNotesRequest,
+      body: DrillRunAddNotesRequestCreate,
       options?: DrillRunsAddNotesOptionalParams,
     ) => {
       return await addNotes(

@@ -9,7 +9,7 @@ import {
   PricingsUpdateOptionalParams,
   PricingsGetOptionalParams,
 } from "../../api/pricings/options.js";
-import { Pricing, PricingList } from "../../models/pricingsAPI/models.js";
+import { Pricing, PricingList, PricingCreateOrUpdate } from "../../models/pricingsAPI/models.js";
 
 /** Interface representing a Pricings operations. */
 export interface PricingsOperations {
@@ -25,7 +25,7 @@ export interface PricingsOperations {
   update: (
     scopeId: string,
     pricingName: string,
-    pricing: Pricing,
+    pricing: PricingCreateOrUpdate,
     options?: PricingsUpdateOptionalParams,
   ) => Promise<Pricing>;
   /** Get the Defender plans pricing configurations of the selected scope (valid scopes are resource id or a subscription id). At the resource level, supported resource types are 'VirtualMachines, VMSS and ARC Machines'. */
@@ -45,7 +45,7 @@ function _getPricings(context: SecurityCenterContext) {
     update: (
       scopeId: string,
       pricingName: string,
-      pricing: Pricing,
+      pricing: PricingCreateOrUpdate,
       options?: PricingsUpdateOptionalParams,
     ) => update(context, scopeId, pricingName, pricing, options),
     get: (scopeId: string, pricingName: string, options?: PricingsGetOptionalParams) =>

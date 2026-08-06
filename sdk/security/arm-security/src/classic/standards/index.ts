@@ -16,7 +16,7 @@ import {
   StandardsCreateOrUpdateOptionalParams,
   StandardsGetOptionalParams,
 } from "../../api/standards/options.js";
-import { Standard } from "../../models/standardsAPI/models.js";
+import { Standard, StandardCreateOrUpdate } from "../../models/standardsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Standards operations. */
@@ -40,7 +40,7 @@ export interface StandardsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     standardId: string,
-    standard: Standard,
+    standard: StandardCreateOrUpdate,
     options?: StandardsCreateOrUpdateOptionalParams,
   ) => Promise<Standard>;
   /** Get a specific security standard for the requested scope */
@@ -65,7 +65,7 @@ function _getStandards(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       standardId: string,
-      standard: Standard,
+      standard: StandardCreateOrUpdate,
       options?: StandardsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, standardId, standard, options),
     get: (resourceGroupName: string, standardId: string, options?: StandardsGetOptionalParams) =>

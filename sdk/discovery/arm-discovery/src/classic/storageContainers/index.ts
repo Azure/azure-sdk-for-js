@@ -18,7 +18,7 @@ import type {
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersGetOptionalParams,
 } from "../../api/storageContainers/options.js";
-import type { StorageContainer, StorageContainerUpdate } from "../../models/models.js";
+import type { StorageContainer, StorageContainerUpdate, StorageContainerCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -50,7 +50,7 @@ export interface StorageContainersOperations {
   createOrUpdate: (
     resourceGroupName: string,
     storageContainerName: string,
-    resource: StorageContainer,
+    resource: StorageContainerCreateOrUpdate,
     options?: StorageContainersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<StorageContainer>, StorageContainer>;
   /** Get a StorageContainer */
@@ -82,7 +82,7 @@ function _getStorageContainers(context: DiscoveryContext) {
     createOrUpdate: (
       resourceGroupName: string,
       storageContainerName: string,
-      resource: StorageContainer,
+      resource: StorageContainerCreateOrUpdate,
       options?: StorageContainersCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, storageContainerName, resource, options),
     get: (

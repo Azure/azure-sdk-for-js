@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type { Schema, _SchemaListResult } from "../../models/models.js";
+import type { Schema, _SchemaListResult, SchemaCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  schemaSerializer,
   schemaDeserializer,
   _schemaListResultDeserializer,
+  schemaCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -117,11 +117,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Schema */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -144,7 +139,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   schemaRegistryName: string,
   schemaName: string,
-  resource: Schema,
+  resource: SchemaCreateOrUpdate,
   options: SchemasCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -160,12 +155,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: schemaSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: schemaCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(result: PathUncheckedResponse): Promise<Schema> {
@@ -186,7 +183,7 @@ export async function createOrReplace(
   resourceGroupName: string,
   schemaRegistryName: string,
   schemaName: string,
-  resource: Schema,
+  resource: SchemaCreateOrUpdate,
   options: SchemasCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): Promise<Schema> {
   const result = await _createOrReplaceSend(

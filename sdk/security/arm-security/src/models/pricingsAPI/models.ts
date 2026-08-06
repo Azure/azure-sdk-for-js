@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
+import { systemDataDeserializer, ExtensionResource } from "../models.js";
+
 /** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
 export interface Pricing extends ExtensionResource {
   /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
@@ -287,6 +287,78 @@ export function pricingArrayDeserializer(result: Array<Pricing>): any[] {
   });
 }
 
+/** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+export interface PricingCreateOrUpdate extends ExtensionResource {
+  /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+  pricingTier?: PricingTier;
+  /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. For VirtualMachines plan, available sub plans are 'P1' & 'P2', where for resource level only 'P1' sub plan is supported. */
+  subPlan?: string;
+  /** If set to "False", it allows the descendants of this scope to override the pricing configuration set on this scope (allows setting inherited="False"). If set to "True", it prevents overrides and forces this pricing configuration on all the descendants of this scope. This field is only available for subscription-level pricing. */
+  enforce?: Enforce;
+  /** Optional. List of extensions offered under a plan. */
+  extensions?: Extension[];
+}
+
+export function pricingCreateOrUpdateSerializer(item: PricingCreateOrUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, ["pricingTier", "subPlan", "enforce", "extensions"])
+      ? undefined
+      : _pricingCreateOrUpdatePropertiesSerializer(item),
+  };
+}
+
+export function pricingCreateOrUpdateDeserializer(item: any): PricingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _pricingCreateOrUpdatePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Pricing properties for the relevant scope */
+export interface PricingPropertiesCreateOrUpdate {
+  /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+  pricingTier: PricingTier;
+  /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. For VirtualMachines plan, available sub plans are 'P1' & 'P2', where for resource level only 'P1' sub plan is supported. */
+  subPlan?: string;
+  /** If set to "False", it allows the descendants of this scope to override the pricing configuration set on this scope (allows setting inherited="False"). If set to "True", it prevents overrides and forces this pricing configuration on all the descendants of this scope. This field is only available for subscription-level pricing. */
+  enforce?: Enforce;
+  /** Optional. List of extensions offered under a plan. */
+  extensions?: Extension[];
+}
+
+export function pricingPropertiesCreateOrUpdateSerializer(
+  item: PricingPropertiesCreateOrUpdate,
+): any {
+  return {
+    pricingTier: item["pricingTier"],
+    subPlan: item["subPlan"],
+    enforce: item["enforce"],
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : extensionArraySerializer(item["extensions"]),
+  };
+}
+
+export function pricingPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PricingPropertiesCreateOrUpdate {
+  return {
+    pricingTier: item["pricingTier"],
+    subPlan: item["subPlan"],
+    enforce: item["enforce"],
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : extensionArrayDeserializer(item["extensions"]),
+  };
+}
+
 export function _pricingPropertiesSerializer(item: Pricing): any {
   return {
     pricingTier: item["pricingTier"],
@@ -319,5 +391,27 @@ export function _pricingPropertiesDeserializer(item: any) {
       : item["replacedBy"].map((p: any) => {
           return p;
         }),
+  };
+}
+
+export function _pricingCreateOrUpdatePropertiesSerializer(item: PricingCreateOrUpdate): any {
+  return {
+    pricingTier: item["pricingTier"],
+    subPlan: item["subPlan"],
+    enforce: item["enforce"],
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : extensionArraySerializer(item["extensions"]),
+  };
+}
+
+export function _pricingCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    pricingTier: item["pricingTier"],
+    subPlan: item["subPlan"],
+    enforce: item["enforce"],
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : extensionArrayDeserializer(item["extensions"]),
   };
 }

@@ -9,7 +9,10 @@ import {
   GovernanceAssignmentsCreateOrUpdateOptionalParams,
   GovernanceAssignmentsGetOptionalParams,
 } from "../../api/governanceAssignments/options.js";
-import { GovernanceAssignment } from "../../models/governanceAPI/models.js";
+import {
+  GovernanceAssignment,
+  GovernanceAssignmentCreateOrUpdate,
+} from "../../models/governanceAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GovernanceAssignments operations. */
@@ -32,7 +35,7 @@ export interface GovernanceAssignmentsOperations {
     scope: string,
     assessmentName: string,
     assignmentKey: string,
-    governanceAssignment: GovernanceAssignment,
+    governanceAssignment: GovernanceAssignmentCreateOrUpdate,
     options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
   ) => Promise<GovernanceAssignment>;
   /** Get a specific governanceAssignment for the requested scope by AssignmentKey */
@@ -61,7 +64,7 @@ function _getGovernanceAssignments(context: SecurityCenterContext) {
       scope: string,
       assessmentName: string,
       assignmentKey: string,
-      governanceAssignment: GovernanceAssignment,
+      governanceAssignment: GovernanceAssignmentCreateOrUpdate,
       options?: GovernanceAssignmentsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, scope, assessmentName, assignmentKey, governanceAssignment, options),

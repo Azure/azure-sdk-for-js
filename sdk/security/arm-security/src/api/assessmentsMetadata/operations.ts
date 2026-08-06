@@ -4,10 +4,11 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   SecurityAssessmentMetadataResponse,
-  securityAssessmentMetadataResponseSerializer,
   securityAssessmentMetadataResponseDeserializer,
   _SecurityAssessmentMetadataResponseList,
   _securityAssessmentMetadataResponseListDeserializer,
+  SecurityAssessmentMetadataResponseCreateOrUpdate,
+  securityAssessmentMetadataResponseCreateOrUpdateSerializer,
 } from "../../models/assessmentAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
@@ -216,7 +217,7 @@ export async function deleteInSubscription(
 export function _createInSubscriptionSend(
   context: Client,
   assessmentMetadataName: string,
-  assessmentMetadata: SecurityAssessmentMetadataResponse,
+  assessmentMetadata: SecurityAssessmentMetadataResponseCreateOrUpdate,
   options: AssessmentsMetadataCreateInSubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -230,12 +231,14 @@ export function _createInSubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: securityAssessmentMetadataResponseSerializer(assessmentMetadata),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: securityAssessmentMetadataResponseCreateOrUpdateSerializer(assessmentMetadata),
+    });
 }
 
 export async function _createInSubscriptionDeserialize(
@@ -256,7 +259,7 @@ export async function _createInSubscriptionDeserialize(
 export async function createInSubscription(
   context: Client,
   assessmentMetadataName: string,
-  assessmentMetadata: SecurityAssessmentMetadataResponse,
+  assessmentMetadata: SecurityAssessmentMetadataResponseCreateOrUpdate,
   options: AssessmentsMetadataCreateInSubscriptionOptionalParams = { requestOptions: {} },
 ): Promise<SecurityAssessmentMetadataResponse> {
   const result = await _createInSubscriptionSend(

@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   Assignment,
-  assignmentSerializer,
   assignmentDeserializer,
   _AssignmentList,
   _assignmentListDeserializer,
+  AssignmentCreateOrUpdate,
+  assignmentCreateOrUpdateSerializer,
 } from "../../models/standardsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -174,7 +175,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   assignmentId: string,
-  assignment: Assignment,
+  assignment: AssignmentCreateOrUpdate,
   options: AssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -189,12 +190,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: assignmentSerializer(assignment),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: assignmentCreateOrUpdateSerializer(assignment),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -216,7 +219,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   assignmentId: string,
-  assignment: Assignment,
+  assignment: AssignmentCreateOrUpdate,
   options: AssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Assignment> {
   const result = await _createOrUpdateSend(

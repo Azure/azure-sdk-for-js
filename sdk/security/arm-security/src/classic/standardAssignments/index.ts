@@ -9,7 +9,10 @@ import {
   StandardAssignmentsCreateOptionalParams,
   StandardAssignmentsGetOptionalParams,
 } from "../../api/standardAssignments/options.js";
-import { StandardAssignment } from "../../models/securityStandardsAPI/models.js";
+import {
+  StandardAssignment,
+  StandardAssignmentCreateOrUpdate,
+} from "../../models/securityStandardsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandardAssignments operations. */
@@ -29,7 +32,7 @@ export interface StandardAssignmentsOperations {
   create: (
     resourceId: string,
     standardAssignmentName: string,
-    standardAssignment: StandardAssignment,
+    standardAssignment: StandardAssignmentCreateOrUpdate,
     options?: StandardAssignmentsCreateOptionalParams,
   ) => Promise<StandardAssignment>;
   /** This operation retrieves a single standard assignment, given its name and the scope it was created at. */
@@ -52,7 +55,7 @@ function _getStandardAssignments(context: SecurityCenterContext) {
     create: (
       resourceId: string,
       standardAssignmentName: string,
-      standardAssignment: StandardAssignment,
+      standardAssignment: StandardAssignmentCreateOrUpdate,
       options?: StandardAssignmentsCreateOptionalParams,
     ) => create(context, resourceId, standardAssignmentName, standardAssignment, options),
     get: (

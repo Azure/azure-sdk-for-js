@@ -18,7 +18,7 @@ import type {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
-import type { Workspace, WorkspaceUpdate } from "../../models/models.js";
+import type { Workspace, WorkspaceUpdate, WorkspaceCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -50,7 +50,7 @@ export interface WorkspacesOperations {
   createOrUpdate: (
     resourceGroupName: string,
     workspaceName: string,
-    resource: Workspace,
+    resource: WorkspaceCreateOrUpdate,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Workspace>, Workspace>;
   /** Get a Workspace */
@@ -82,7 +82,7 @@ function _getWorkspaces(context: DiscoveryContext) {
     createOrUpdate: (
       resourceGroupName: string,
       workspaceName: string,
-      resource: Workspace,
+      resource: WorkspaceCreateOrUpdate,
       options?: WorkspacesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, workspaceName, resource, options),
     get: (

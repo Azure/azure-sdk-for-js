@@ -5,12 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer, SettingName } from "../../models/common/models.js";
 import {
   DefenderForStorageSetting,
-  defenderForStorageSettingSerializer,
   defenderForStorageSettingDeserializer,
   _DefenderForStorageSettingList,
   _defenderForStorageSettingListDeserializer,
   MalwareScan,
   malwareScanDeserializer,
+  DefenderForStorageSettingCreateOrUpdate,
+  defenderForStorageSettingCreateOrUpdateSerializer,
 } from "../../models/defenderForStorageAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -236,7 +237,7 @@ export function _createSend(
   context: Client,
   resourceId: string,
   settingName: SettingName,
-  defenderForStorageSetting: DefenderForStorageSetting,
+  defenderForStorageSetting: DefenderForStorageSettingCreateOrUpdate,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -250,12 +251,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: defenderForStorageSettingSerializer(defenderForStorageSetting),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: defenderForStorageSettingCreateOrUpdateSerializer(defenderForStorageSetting),
+    });
 }
 
 export async function _createDeserialize(
@@ -277,7 +280,7 @@ export async function create(
   context: Client,
   resourceId: string,
   settingName: SettingName,
-  defenderForStorageSetting: DefenderForStorageSetting,
+  defenderForStorageSetting: DefenderForStorageSettingCreateOrUpdate,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
 ): Promise<DefenderForStorageSetting> {
   const result = await _createSend(

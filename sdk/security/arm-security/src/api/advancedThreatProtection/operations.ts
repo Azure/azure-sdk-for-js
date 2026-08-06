@@ -4,8 +4,9 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   AdvancedThreatProtectionSetting,
-  advancedThreatProtectionSettingSerializer,
   advancedThreatProtectionSettingDeserializer,
+  AdvancedThreatProtectionSettingCreateOrUpdate,
+  advancedThreatProtectionSettingCreateOrUpdateSerializer,
 } from "../../models/atpSettingsAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -23,7 +24,7 @@ import {
 export function _createSend(
   context: Client,
   resourceId: string,
-  advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
+  advancedThreatProtectionSetting: AdvancedThreatProtectionSettingCreateOrUpdate,
   options: AdvancedThreatProtectionCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -37,12 +38,16 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: advancedThreatProtectionSettingSerializer(advancedThreatProtectionSetting),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: advancedThreatProtectionSettingCreateOrUpdateSerializer(
+        advancedThreatProtectionSetting,
+      ),
+    });
 }
 
 export async function _createDeserialize(
@@ -63,7 +68,7 @@ export async function _createDeserialize(
 export async function create(
   context: Client,
   resourceId: string,
-  advancedThreatProtectionSetting: AdvancedThreatProtectionSetting,
+  advancedThreatProtectionSetting: AdvancedThreatProtectionSettingCreateOrUpdate,
   options: AdvancedThreatProtectionCreateOptionalParams = { requestOptions: {} },
 ): Promise<AdvancedThreatProtectionSetting> {
   const result = await _createSend(context, resourceId, advancedThreatProtectionSetting, options);

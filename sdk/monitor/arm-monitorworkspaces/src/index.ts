@@ -40,8 +40,6 @@ export type {
   CreatedByType,
   TrackedResource,
   AzureMonitorWorkspaceResourceUpdate,
-  IssueResourceCreate,
-  IssuePayloadCreate,
   Status,
   Background,
   BackgroundDetails,
@@ -66,18 +64,26 @@ export type {
   PagedRelatedAlert,
   RelatedAlert,
   Relevance,
-  RelatedAlertsCreate,
-  RelatedAlertCreate,
   RelatedAlerts,
   PagedRelatedResource,
   RelatedResource,
-  RelatedResourcesCreate,
-  RelatedResourceCreate,
   RelatedResources,
   BackgroundVisualization,
   BackgroundVisualizationCreate,
   MetricsContainerResource,
   MetricsContainer,
+  MetricsContainerResourceCreateOrUpdate,
+  MetricsContainerCreateOrUpdate,
+  IssueResourceCreateOrUpdate,
+  IssuePropertiesCreateOrUpdate,
+  AzureMonitorWorkspaceResourceCreateOrUpdate,
+  AzureMonitorWorkspaceCreateOrUpdate,
+  AzureMonitorWorkspaceMetricsCreateOrUpdate,
+  ManagedServiceIdentityCreateOrUpdate,
+  AzureMonitorWorkspaceResourceUpdateUpdate,
+  ManagedServiceIdentityUpdate,
+  AzureMonitorWorkspaceUpdate,
+  AzureMonitorWorkspaceMetricsUpdate,
 } from "./models/index.js";
 export {
   KnownArmOrigin,
@@ -133,3 +139,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

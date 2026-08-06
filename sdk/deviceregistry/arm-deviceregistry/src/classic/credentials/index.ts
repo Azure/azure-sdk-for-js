@@ -18,7 +18,7 @@ import type {
   CredentialsCreateOrUpdateOptionalParams,
   CredentialsGetOptionalParams,
 } from "../../api/credentials/options.js";
-import type { Credential, CredentialUpdate } from "../../models/models.js";
+import type { Credential, SchemaRegistryUpdateUpdate, CredentialCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -40,15 +40,10 @@ export interface CredentialsOperations {
   update: (
     resourceGroupName: string,
     namespaceName: string,
-    properties: CredentialUpdate,
+    properties: SchemaRegistryUpdateUpdate,
     options?: CredentialsUpdateOptionalParams,
   ) => PollerLike<OperationState<Credential>, Credential>;
   /** Delete a Credential */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -58,7 +53,7 @@ export interface CredentialsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     namespaceName: string,
-    resource: Credential,
+    resource: CredentialCreateOrUpdate,
     options?: CredentialsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Credential>, Credential>;
   /** Get a Credential */
@@ -84,7 +79,7 @@ function _getCredentials(context: DeviceRegistryManagementContext) {
     update: (
       resourceGroupName: string,
       namespaceName: string,
-      properties: CredentialUpdate,
+      properties: SchemaRegistryUpdateUpdate,
       options?: CredentialsUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, properties, options),
     delete: (
@@ -95,7 +90,7 @@ function _getCredentials(context: DeviceRegistryManagementContext) {
     createOrUpdate: (
       resourceGroupName: string,
       namespaceName: string,
-      resource: Credential,
+      resource: CredentialCreateOrUpdate,
       options?: CredentialsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, namespaceName, resource, options),
     get: (

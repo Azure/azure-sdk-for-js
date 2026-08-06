@@ -9,7 +9,10 @@ import {
   DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   DeviceSecurityGroupsGetOptionalParams,
 } from "../../api/deviceSecurityGroups/options.js";
-import { DeviceSecurityGroup } from "../../models/ioTSecurityAPI/models.js";
+import {
+  DeviceSecurityGroup,
+  DeviceSecurityGroupCreateOrUpdate,
+} from "../../models/ioTSecurityAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeviceSecurityGroups operations. */
@@ -29,7 +32,7 @@ export interface DeviceSecurityGroupsOperations {
   createOrUpdate: (
     resourceId: string,
     deviceSecurityGroupName: string,
-    deviceSecurityGroup: DeviceSecurityGroup,
+    deviceSecurityGroup: DeviceSecurityGroupCreateOrUpdate,
     options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   ) => Promise<DeviceSecurityGroup>;
   /** Use this method to get the device security group for the specified IoT Hub resource. */
@@ -52,7 +55,7 @@ function _getDeviceSecurityGroups(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceId: string,
       deviceSecurityGroupName: string,
-      deviceSecurityGroup: DeviceSecurityGroup,
+      deviceSecurityGroup: DeviceSecurityGroupCreateOrUpdate,
       options?: DeviceSecurityGroupsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceId, deviceSecurityGroupName, deviceSecurityGroup, options),
     get: (

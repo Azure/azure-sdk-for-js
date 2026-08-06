@@ -8,7 +8,7 @@ import {
   ApplicationCreateOrUpdateOptionalParams,
   ApplicationGetOptionalParams,
 } from "../../api/application/options.js";
-import { Application } from "../../models/applicationsAPI/models.js";
+import { Application, ApplicationCreateOrUpdate } from "../../models/applicationsAPI/models.js";
 
 /** Interface representing a Application operations. */
 export interface ApplicationOperations {
@@ -17,7 +17,7 @@ export interface ApplicationOperations {
   /** Creates or update a security application on the given subscription. */
   createOrUpdate: (
     applicationId: string,
-    application: Application,
+    application: ApplicationCreateOrUpdate,
     options?: ApplicationCreateOrUpdateOptionalParams,
   ) => Promise<Application>;
   /** Get a specific application for the requested scope by applicationId */
@@ -30,7 +30,7 @@ function _getApplication(context: SecurityCenterContext) {
       $delete(context, applicationId, options),
     createOrUpdate: (
       applicationId: string,
-      application: Application,
+      application: ApplicationCreateOrUpdate,
       options?: ApplicationCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, applicationId, application, options),
     get: (applicationId: string, options?: ApplicationGetOptionalParams) =>

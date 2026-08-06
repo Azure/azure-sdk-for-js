@@ -18,7 +18,7 @@ import type {
   AssetEndpointProfilesCreateOrReplaceOptionalParams,
   AssetEndpointProfilesGetOptionalParams,
 } from "../../api/assetEndpointProfiles/options.js";
-import type { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
+import type { AssetEndpointProfile, AssetEndpointProfileUpdate, AssetEndpointProfileCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface AssetEndpointProfilesOperations {
     options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
   /** Delete a AssetEndpointProfile */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     assetEndpointProfileName: string,
@@ -55,7 +50,7 @@ export interface AssetEndpointProfilesOperations {
   createOrReplace: (
     resourceGroupName: string,
     assetEndpointProfileName: string,
-    resource: AssetEndpointProfile,
+    resource: AssetEndpointProfileCreateOrUpdate,
     options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
   /** Get a AssetEndpointProfile */
@@ -88,7 +83,7 @@ function _getAssetEndpointProfiles(context: DeviceRegistryManagementContext) {
     createOrReplace: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
-      resource: AssetEndpointProfile,
+      resource: AssetEndpointProfileCreateOrUpdate,
       options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, assetEndpointProfileName, resource, options),
     get: (

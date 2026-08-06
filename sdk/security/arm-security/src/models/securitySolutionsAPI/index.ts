@@ -49,6 +49,8 @@ export type {
   SecuritySolutionsReferenceDataList,
   SecuritySolutionsReferenceData,
   SecuritySolutionsReferenceDataProperties,
+  JitNetworkAccessPolicyCreateOrUpdate,
+  JitNetworkAccessPolicyPropertiesCreateOrUpdate,
 } from "./models.js";
 export {
   KnownSecurityFamily,

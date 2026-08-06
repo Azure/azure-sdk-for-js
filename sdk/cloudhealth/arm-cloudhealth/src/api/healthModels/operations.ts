@@ -4,15 +4,16 @@
 import type { CloudHealthContext as Client } from "../index.js";
 import type {
   HealthModel,
-  HealthModelUpdate,
   _HealthModelListResult,
+  HealthModelCreateOrUpdate,
+  HealthModelUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  healthModelSerializer,
   healthModelDeserializer,
-  healthModelUpdateSerializer,
   _healthModelListResultDeserializer,
+  healthModelCreateOrUpdateSerializer,
+  healthModelUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -196,7 +197,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  properties: HealthModelUpdate,
+  properties: HealthModelUpdateUpdate,
   options: HealthModelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -211,12 +212,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: healthModelUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: healthModelUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<HealthModel> {
@@ -238,7 +241,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  properties: HealthModelUpdate,
+  properties: HealthModelUpdateUpdate,
   options: HealthModelsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<HealthModel>, HealthModel> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -255,7 +258,7 @@ export function _createSend(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  resource: HealthModel,
+  resource: HealthModelCreateOrUpdate,
   options: HealthModelsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -270,12 +273,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: healthModelSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: healthModelCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<HealthModel> {
@@ -297,7 +302,7 @@ export function create(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  resource: HealthModel,
+  resource: HealthModelCreateOrUpdate,
   options: HealthModelsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<HealthModel>, HealthModel> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {

@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   AutoProvisioningSetting,
-  autoProvisioningSettingSerializer,
   autoProvisioningSettingDeserializer,
   _AutoProvisioningSettingList,
   _autoProvisioningSettingListDeserializer,
+  AutoProvisioningSettingCreateOrUpdate,
+  autoProvisioningSettingCreateOrUpdateSerializer,
 } from "../../models/legacySettingsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -78,7 +79,7 @@ export function list(
 export function _createSend(
   context: Client,
   settingName: string,
-  setting: AutoProvisioningSetting,
+  setting: AutoProvisioningSettingCreateOrUpdate,
   options: AutoProvisioningSettingsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -92,12 +93,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: autoProvisioningSettingSerializer(setting),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: autoProvisioningSettingCreateOrUpdateSerializer(setting),
+    });
 }
 
 export async function _createDeserialize(
@@ -118,7 +121,7 @@ export async function _createDeserialize(
 export async function create(
   context: Client,
   settingName: string,
-  setting: AutoProvisioningSetting,
+  setting: AutoProvisioningSettingCreateOrUpdate,
   options: AutoProvisioningSettingsCreateOptionalParams = { requestOptions: {} },
 ): Promise<AutoProvisioningSetting> {
   const result = await _createSend(context, settingName, setting, options);

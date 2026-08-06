@@ -22,6 +22,7 @@ import type {
   NamespaceDevice,
   NamespaceDeviceUpdate,
   DeviceCredentialsRevokeRequest,
+  NamespaceDeviceCreateOrUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -43,11 +44,6 @@ export interface NamespaceDevicesOperations {
     options?: NamespaceDevicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDevice>;
   /** Delete a NamespaceDevice */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -67,7 +63,7 @@ export interface NamespaceDevicesOperations {
     resourceGroupName: string,
     namespaceName: string,
     deviceName: string,
-    resource: NamespaceDevice,
+    resource: NamespaceDeviceCreateOrUpdate,
     options?: NamespaceDevicesCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
   /** Get a NamespaceDevice */
@@ -110,7 +106,7 @@ function _getNamespaceDevices(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       namespaceName: string,
       deviceName: string,
-      resource: NamespaceDevice,
+      resource: NamespaceDeviceCreateOrUpdate,
       options?: NamespaceDevicesCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, namespaceName, deviceName, resource, options),
     get: (

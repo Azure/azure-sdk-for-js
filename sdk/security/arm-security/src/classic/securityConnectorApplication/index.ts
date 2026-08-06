@@ -8,7 +8,7 @@ import {
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationGetOptionalParams,
 } from "../../api/securityConnectorApplication/options.js";
-import { Application } from "../../models/applicationsAPI/models.js";
+import { Application, ApplicationCreateOrUpdate } from "../../models/applicationsAPI/models.js";
 
 /** Interface representing a SecurityConnectorApplication operations. */
 export interface SecurityConnectorApplicationOperations {
@@ -24,7 +24,7 @@ export interface SecurityConnectorApplicationOperations {
     resourceGroupName: string,
     securityConnectorName: string,
     applicationId: string,
-    application: Application,
+    application: ApplicationCreateOrUpdate,
     options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   ) => Promise<Application>;
   /** Get a specific application for the requested scope by applicationId */
@@ -48,7 +48,7 @@ function _getSecurityConnectorApplication(context: SecurityCenterContext) {
       resourceGroupName: string,
       securityConnectorName: string,
       applicationId: string,
-      application: Application,
+      application: ApplicationCreateOrUpdate,
       options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

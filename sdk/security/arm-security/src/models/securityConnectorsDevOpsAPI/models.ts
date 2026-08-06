@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { ProxyResource, systemDataDeserializer } from "../models.js";
+
 /** Azure DevOps Organization resource. */
 export interface AzureDevOpsOrg extends ProxyResource {
   /** Azure DevOps Organization properties. */
@@ -1456,4 +1456,592 @@ export interface IssueCreationRequest {
 
 export function issueCreationRequestSerializer(item: IssueCreationRequest): any {
   return { securityAssessmentResourceId: item["securityAssessmentResourceId"] };
+}
+
+/** Azure DevOps Repository resource. */
+export interface AzureDevOpsRepositoryCreateOrUpdate extends ProxyResource {
+  /** Azure DevOps Repository properties. */
+  properties?: AzureDevOpsRepositoryPropertiesCreateOrUpdate;
+}
+
+export function azureDevOpsRepositoryCreateOrUpdateSerializer(
+  item: AzureDevOpsRepositoryCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsRepositoryPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsRepositoryCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsRepositoryCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsRepositoryPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Repository properties. */
+export interface AzureDevOpsRepositoryPropertiesCreateOrUpdate {
+  /** Gets or sets parent Azure DevOps Organization name. */
+  parentOrgName?: string;
+  /** Gets or sets parent Azure DevOps Project name. */
+  parentProjectName?: string;
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsRepositoryPropertiesCreateOrUpdateSerializer(
+  item: AzureDevOpsRepositoryPropertiesCreateOrUpdate,
+): any {
+  return {
+    parentOrgName: item["parentOrgName"],
+    parentProjectName: item["parentProjectName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsRepositoryPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsRepositoryPropertiesCreateOrUpdate {
+  return {
+    parentOrgName: item["parentOrgName"],
+    parentProjectName: item["parentProjectName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
+}
+
+/** Azure DevOps Repository resource. */
+export interface AzureDevOpsRepositoryUpdate extends ProxyResource {
+  /** Azure DevOps Repository properties. */
+  properties?: AzureDevOpsRepositoryPropertiesUpdate;
+}
+
+export function azureDevOpsRepositoryUpdateSerializer(item: AzureDevOpsRepositoryUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsRepositoryPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsRepositoryUpdateDeserializer(item: any): AzureDevOpsRepositoryUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsRepositoryPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Repository properties. */
+export interface AzureDevOpsRepositoryPropertiesUpdate {
+  /** Gets or sets parent Azure DevOps Organization name. */
+  parentOrgName?: string;
+  /** Gets or sets parent Azure DevOps Project name. */
+  parentProjectName?: string;
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsRepositoryPropertiesUpdateSerializer(
+  item: AzureDevOpsRepositoryPropertiesUpdate,
+): any {
+  return {
+    parentOrgName: item["parentOrgName"],
+    parentProjectName: item["parentProjectName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsRepositoryPropertiesUpdateDeserializer(
+  item: any,
+): AzureDevOpsRepositoryPropertiesUpdate {
+  return {
+    parentOrgName: item["parentOrgName"],
+    parentProjectName: item["parentProjectName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
+}
+
+/** Azure DevOps Project resource. */
+export interface AzureDevOpsProjectCreateOrUpdate extends ProxyResource {
+  /** Azure DevOps Project properties. */
+  properties?: AzureDevOpsProjectPropertiesCreateOrUpdate;
+}
+
+export function azureDevOpsProjectCreateOrUpdateSerializer(
+  item: AzureDevOpsProjectCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsProjectPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsProjectCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsProjectCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsProjectPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Project properties. */
+export interface AzureDevOpsProjectPropertiesCreateOrUpdate {
+  /** Gets or sets parent Azure DevOps Organization name. */
+  parentOrgName?: string;
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsProjectPropertiesCreateOrUpdateSerializer(
+  item: AzureDevOpsProjectPropertiesCreateOrUpdate,
+): any {
+  return {
+    parentOrgName: item["parentOrgName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsProjectPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsProjectPropertiesCreateOrUpdate {
+  return {
+    parentOrgName: item["parentOrgName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
+}
+
+/** Azure DevOps Project resource. */
+export interface AzureDevOpsProjectUpdate extends ProxyResource {
+  /** Azure DevOps Project properties. */
+  properties?: AzureDevOpsProjectPropertiesUpdate;
+}
+
+export function azureDevOpsProjectUpdateSerializer(item: AzureDevOpsProjectUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsProjectPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsProjectUpdateDeserializer(item: any): AzureDevOpsProjectUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsProjectPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Project properties. */
+export interface AzureDevOpsProjectPropertiesUpdate {
+  /** Gets or sets parent Azure DevOps Organization name. */
+  parentOrgName?: string;
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsProjectPropertiesUpdateSerializer(
+  item: AzureDevOpsProjectPropertiesUpdate,
+): any {
+  return {
+    parentOrgName: item["parentOrgName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsProjectPropertiesUpdateDeserializer(
+  item: any,
+): AzureDevOpsProjectPropertiesUpdate {
+  return {
+    parentOrgName: item["parentOrgName"],
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
+}
+
+/** DevOps Configuration resource. */
+export interface DevOpsConfigurationCreateOrUpdate extends ProxyResource {
+  /** DevOps Configuration properties. */
+  properties?: DevOpsConfigurationPropertiesCreateOrUpdate;
+}
+
+export function devOpsConfigurationCreateOrUpdateSerializer(
+  item: DevOpsConfigurationCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : devOpsConfigurationPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function devOpsConfigurationCreateOrUpdateDeserializer(
+  item: any,
+): DevOpsConfigurationCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : devOpsConfigurationPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** DevOps Configuration properties. */
+export interface DevOpsConfigurationPropertiesCreateOrUpdate {
+  /** Authorization payload. */
+  authorization?: Authorization;
+  /** AutoDiscovery states. */
+  autoDiscovery?: AutoDiscovery;
+  /**
+   * List of top-level inventory to select when AutoDiscovery is disabled.
+   * This field is ignored when AutoDiscovery is enabled.
+   */
+  topLevelInventoryList?: string[];
+  /** Details about Agentless configuration. */
+  agentlessConfiguration?: AgentlessConfiguration;
+}
+
+export function devOpsConfigurationPropertiesCreateOrUpdateSerializer(
+  item: DevOpsConfigurationPropertiesCreateOrUpdate,
+): any {
+  return {
+    authorization: !item["authorization"]
+      ? item["authorization"]
+      : authorizationSerializer(item["authorization"]),
+    autoDiscovery: item["autoDiscovery"],
+    topLevelInventoryList: !item["topLevelInventoryList"]
+      ? item["topLevelInventoryList"]
+      : item["topLevelInventoryList"].map((p: any) => {
+          return p;
+        }),
+    agentlessConfiguration: !item["agentlessConfiguration"]
+      ? item["agentlessConfiguration"]
+      : agentlessConfigurationSerializer(item["agentlessConfiguration"]),
+  };
+}
+
+export function devOpsConfigurationPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DevOpsConfigurationPropertiesCreateOrUpdate {
+  return {
+    authorization: !item["authorization"]
+      ? item["authorization"]
+      : authorizationDeserializer(item["authorization"]),
+    autoDiscovery: item["autoDiscovery"],
+    topLevelInventoryList: !item["topLevelInventoryList"]
+      ? item["topLevelInventoryList"]
+      : item["topLevelInventoryList"].map((p: any) => {
+          return p;
+        }),
+    agentlessConfiguration: !item["agentlessConfiguration"]
+      ? item["agentlessConfiguration"]
+      : agentlessConfigurationDeserializer(item["agentlessConfiguration"]),
+  };
+}
+
+/** DevOps Configuration resource. */
+export interface DevOpsConfigurationUpdate extends ProxyResource {
+  /** DevOps Configuration properties. */
+  properties?: DevOpsConfigurationPropertiesUpdate;
+}
+
+export function devOpsConfigurationUpdateSerializer(item: DevOpsConfigurationUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : devOpsConfigurationPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function devOpsConfigurationUpdateDeserializer(item: any): DevOpsConfigurationUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : devOpsConfigurationPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** DevOps Configuration properties. */
+export interface DevOpsConfigurationPropertiesUpdate {
+  /** Authorization payload. */
+  authorization?: Authorization;
+  /** AutoDiscovery states. */
+  autoDiscovery?: AutoDiscovery;
+  /**
+   * List of top-level inventory to select when AutoDiscovery is disabled.
+   * This field is ignored when AutoDiscovery is enabled.
+   */
+  topLevelInventoryList?: string[];
+  /** Details about Agentless configuration. */
+  agentlessConfiguration?: AgentlessConfiguration;
+}
+
+export function devOpsConfigurationPropertiesUpdateSerializer(
+  item: DevOpsConfigurationPropertiesUpdate,
+): any {
+  return {
+    authorization: !item["authorization"]
+      ? item["authorization"]
+      : authorizationSerializer(item["authorization"]),
+    autoDiscovery: item["autoDiscovery"],
+    topLevelInventoryList: !item["topLevelInventoryList"]
+      ? item["topLevelInventoryList"]
+      : item["topLevelInventoryList"].map((p: any) => {
+          return p;
+        }),
+    agentlessConfiguration: !item["agentlessConfiguration"]
+      ? item["agentlessConfiguration"]
+      : agentlessConfigurationSerializer(item["agentlessConfiguration"]),
+  };
+}
+
+export function devOpsConfigurationPropertiesUpdateDeserializer(
+  item: any,
+): DevOpsConfigurationPropertiesUpdate {
+  return {
+    authorization: !item["authorization"]
+      ? item["authorization"]
+      : authorizationDeserializer(item["authorization"]),
+    autoDiscovery: item["autoDiscovery"],
+    topLevelInventoryList: !item["topLevelInventoryList"]
+      ? item["topLevelInventoryList"]
+      : item["topLevelInventoryList"].map((p: any) => {
+          return p;
+        }),
+    agentlessConfiguration: !item["agentlessConfiguration"]
+      ? item["agentlessConfiguration"]
+      : agentlessConfigurationDeserializer(item["agentlessConfiguration"]),
+  };
+}
+
+/** Azure DevOps Organization resource. */
+export interface AzureDevOpsOrgCreateOrUpdate extends ProxyResource {
+  /** Azure DevOps Organization properties. */
+  properties?: AzureDevOpsOrgPropertiesCreateOrUpdate;
+}
+
+export function azureDevOpsOrgCreateOrUpdateSerializer(item: AzureDevOpsOrgCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsOrgPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsOrgCreateOrUpdateDeserializer(item: any): AzureDevOpsOrgCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsOrgPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Organization properties. */
+export interface AzureDevOpsOrgPropertiesCreateOrUpdate {
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsOrgPropertiesCreateOrUpdateSerializer(
+  item: AzureDevOpsOrgPropertiesCreateOrUpdate,
+): any {
+  return {
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsOrgPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AzureDevOpsOrgPropertiesCreateOrUpdate {
+  return {
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
+}
+
+/** Azure DevOps Organization resource. */
+export interface AzureDevOpsOrgUpdate extends ProxyResource {
+  /** Azure DevOps Organization properties. */
+  properties?: AzureDevOpsOrgPropertiesUpdate;
+}
+
+export function azureDevOpsOrgUpdateSerializer(item: AzureDevOpsOrgUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsOrgPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function azureDevOpsOrgUpdateDeserializer(item: any): AzureDevOpsOrgUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureDevOpsOrgPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Azure DevOps Organization properties. */
+export interface AzureDevOpsOrgPropertiesUpdate {
+  /**
+   * Details about resource onboarding status across all connectors.
+   *
+   * OnboardedByOtherConnector - this resource has already been onboarded to another connector. This is only applicable to top-level resources.
+   * Onboarded - this resource has already been onboarded by the specified connector.
+   * NotOnboarded - this resource has not been onboarded to any connector.
+   * NotApplicable - the onboarding state is not applicable to the current endpoint.
+   */
+  onboardingState?: OnboardingState;
+  /** Configuration payload for PR Annotations. */
+  actionableRemediation?: ActionableRemediation;
+}
+
+export function azureDevOpsOrgPropertiesUpdateSerializer(
+  item: AzureDevOpsOrgPropertiesUpdate,
+): any {
+  return {
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationSerializer(item["actionableRemediation"]),
+  };
+}
+
+export function azureDevOpsOrgPropertiesUpdateDeserializer(
+  item: any,
+): AzureDevOpsOrgPropertiesUpdate {
+  return {
+    onboardingState: item["onboardingState"],
+    actionableRemediation: !item["actionableRemediation"]
+      ? item["actionableRemediation"]
+      : actionableRemediationDeserializer(item["actionableRemediation"]),
+  };
 }

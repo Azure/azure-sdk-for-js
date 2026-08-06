@@ -6,13 +6,14 @@ import type {
   Supercomputer,
   SupercomputerUpdate,
   _SupercomputerListResult,
+  SupercomputerCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  supercomputerSerializer,
   supercomputerDeserializer,
   supercomputerUpdateSerializer,
   _supercomputerListResultDeserializer,
+  supercomputerCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -243,7 +244,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   supercomputerName: string,
-  resource: Supercomputer,
+  resource: SupercomputerCreateOrUpdate,
   options: SupercomputersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -258,12 +259,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: supercomputerSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: supercomputerCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -286,7 +289,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   supercomputerName: string,
-  resource: Supercomputer,
+  resource: SupercomputerCreateOrUpdate,
   options: SupercomputersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Supercomputer>, Supercomputer> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

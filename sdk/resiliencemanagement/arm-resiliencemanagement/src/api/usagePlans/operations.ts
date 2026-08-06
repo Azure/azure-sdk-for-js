@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { AzureResilienceManagementContext as Client } from "../index.js";
-import type { UsagePlan, UsagePlanTagsUpdate, _UsagePlanListResult } from "../../models/models.js";
+import type { UsagePlan, UsagePlanTagsUpdate, _UsagePlanListResult, UsagePlanCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  usagePlanSerializer,
   usagePlanDeserializer,
   usagePlanTagsUpdateSerializer,
   _usagePlanListResultDeserializer,
+  usagePlanCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -251,7 +251,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   usagePlanName: string,
-  resource: UsagePlan,
+  resource: UsagePlanCreateOrUpdate,
   options: UsagePlansCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -266,12 +266,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: usagePlanSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: usagePlanCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -295,7 +297,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   usagePlanName: string,
-  resource: UsagePlan,
+  resource: UsagePlanCreateOrUpdate,
   options: UsagePlansCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UsagePlan>, UsagePlan> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

@@ -4,8 +4,6 @@
 import { MonitorContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  IssueResourceCreate,
-  issueResourceCreateSerializer,
   IssueResource,
   issueResourceDeserializer,
   IssueResourceUpdate,
@@ -21,18 +19,18 @@ import {
   listParameterSerializer,
   PagedRelatedAlert,
   pagedRelatedAlertDeserializer,
-  RelatedAlertsCreate,
-  relatedAlertsCreateSerializer,
   RelatedAlerts,
+  relatedAlertsSerializer,
   relatedAlertsDeserializer,
   PagedRelatedResource,
   pagedRelatedResourceDeserializer,
-  RelatedResourcesCreate,
-  relatedResourcesCreateSerializer,
   RelatedResources,
+  relatedResourcesSerializer,
   relatedResourcesDeserializer,
   BackgroundVisualization,
   backgroundVisualizationDeserializer,
+  IssueResourceCreateOrUpdate,
+  issueResourceCreateOrUpdateSerializer,
   BackgroundVisualizationCreate,
   backgroundVisualizationCreateSerializer,
 } from "../../models/models.js";
@@ -188,7 +186,7 @@ export function _addOrUpdateResourcesSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedResourcesCreate,
+  body: RelatedResources,
   options: IssueAddOrUpdateResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -204,12 +202,14 @@ export function _addOrUpdateResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: relatedResourcesCreateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: relatedResourcesSerializer(body),
+    });
 }
 
 export async function _addOrUpdateResourcesDeserialize(
@@ -232,7 +232,7 @@ export async function addOrUpdateResources(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedResourcesCreate,
+  body: RelatedResources,
   options: IssueAddOrUpdateResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RelatedResources> {
   const result = await _addOrUpdateResourcesSend(
@@ -314,7 +314,7 @@ export function _addOrUpdateAlertsSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedAlertsCreate,
+  body: RelatedAlerts,
   options: IssueAddOrUpdateAlertsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -330,12 +330,14 @@ export function _addOrUpdateAlertsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: relatedAlertsCreateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: relatedAlertsSerializer(body),
+    });
 }
 
 export async function _addOrUpdateAlertsDeserialize(
@@ -358,7 +360,7 @@ export async function addOrUpdateAlerts(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedAlertsCreate,
+  body: RelatedAlerts,
   options: IssueAddOrUpdateAlertsOptionalParams = { requestOptions: {} },
 ): Promise<RelatedAlerts> {
   const result = await _addOrUpdateAlertsSend(
@@ -790,7 +792,7 @@ export function _createSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  resource: IssueResourceCreate,
+  resource: IssueResourceCreateOrUpdate,
   options: IssueCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -807,12 +809,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: issueResourceCreateSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: issueResourceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<IssueResource> {
@@ -833,7 +837,7 @@ export async function create(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  resource: IssueResourceCreate,
+  resource: IssueResourceCreateOrUpdate,
   options: IssueCreateOptionalParams = { requestOptions: {} },
 ): Promise<IssueResource> {
   const result = await _createSend(

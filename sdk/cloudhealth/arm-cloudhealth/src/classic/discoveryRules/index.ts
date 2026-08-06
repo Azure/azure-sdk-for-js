@@ -14,7 +14,7 @@ import type {
   DiscoveryRulesCreateOrUpdateOptionalParams,
   DiscoveryRulesGetOptionalParams,
 } from "../../api/discoveryRules/options.js";
-import type { DiscoveryRule, DiscoveryRuleResourceCreate } from "../../models/models.js";
+import type { DiscoveryRule, DiscoveryRuleCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface DiscoveryRulesOperations {
     resourceGroupName: string,
     healthModelName: string,
     discoveryRuleName: string,
-    resource: DiscoveryRuleResourceCreate,
+    resource: DiscoveryRuleCreateOrUpdate,
     options?: DiscoveryRulesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DiscoveryRule>, DiscoveryRule>;
   /** Get a DiscoveryRule */
@@ -67,7 +67,7 @@ function _getDiscoveryRules(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       discoveryRuleName: string,
-      resource: DiscoveryRuleResourceCreate,
+      resource: DiscoveryRuleCreateOrUpdate,
       options?: DiscoveryRulesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

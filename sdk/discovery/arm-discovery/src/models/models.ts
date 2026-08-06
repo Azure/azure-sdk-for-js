@@ -700,54 +700,6 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
-/** The type used for update operations of the Bookshelf. */
-export interface BookshelfUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: BookshelfUpdateProperties;
-}
-
-export function bookshelfUpdateSerializer(item: BookshelfUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : bookshelfUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the Bookshelf. */
-export interface BookshelfUpdateProperties {
-  /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
-  keyVaultProperties?: BookshelfKeyVaultUpdateProperties;
-  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess;
-}
-
-export function bookshelfUpdatePropertiesSerializer(item: BookshelfUpdateProperties): any {
-  return {
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : bookshelfKeyVaultUpdatePropertiesSerializer(item["keyVaultProperties"]),
-    publicNetworkAccess: item["publicNetworkAccess"],
-  };
-}
-
-/** Key Vault update properties for Bookshelf (all fields optional for PATCH) */
-export interface BookshelfKeyVaultUpdateProperties {
-  /** The Key Name in Key Vault */
-  keyName?: string;
-  /** The Key Version in Key Vault */
-  keyVersion?: string;
-}
-
-export function bookshelfKeyVaultUpdatePropertiesSerializer(
-  item: BookshelfKeyVaultUpdateProperties,
-): any {
-  return { keyName: item["keyName"], keyVersion: item["keyVersion"] };
-}
-
 /** The response of a Bookshelf list operation. */
 export interface _BookshelfListResult {
   /** The Bookshelf items on this page */
@@ -1000,43 +952,6 @@ export function toolPropertiesDeserializer(item: any): ToolProperties {
   };
 }
 
-/** Tool tracked resource */
-export interface ToolUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: ToolUpdateProperties;
-}
-
-export function toolUpdateSerializer(item: ToolUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : toolUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Discovery Tool list item properties */
-export interface ToolUpdateProperties {
-  /** The status of the last operation. */
-  readonly provisioningState?: ProvisioningState;
-  /** The version of a resource definition */
-  version: string;
-  /** Environment variables to make available */
-  environmentVariables?: Record<string, string>;
-  /** The JSON content for defining a resource */
-  definitionContent: Record<string, any>;
-}
-
-export function toolUpdatePropertiesSerializer(item: ToolUpdateProperties): any {
-  return {
-    version: item["version"],
-    environmentVariables: item["environmentVariables"],
-    definitionContent: item["definitionContent"],
-  };
-}
-
 /** The response of a Tool list operation. */
 export interface _ToolListResult {
   /** The Tool items on this page */
@@ -1147,35 +1062,6 @@ export function projectSettingsSerializer(item: ProjectSettings): any {
 export function projectSettingsDeserializer(item: any): ProjectSettings {
   return {
     behaviorPreferences: item["behaviorPreferences"],
-  };
-}
-
-/** Project tracked resource */
-export interface ProjectUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: ProjectUpdateProperties;
-}
-
-export function projectUpdateSerializer(item: ProjectUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : projectUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Project properties */
-export interface ProjectUpdateProperties {
-  /** Settings for the project. */
-  settings?: ProjectSettings;
-}
-
-export function projectUpdatePropertiesSerializer(item: ProjectUpdateProperties): any {
-  return {
-    settings: !item["settings"] ? item["settings"] : projectSettingsSerializer(item["settings"]),
   };
 }
 
@@ -1372,59 +1258,6 @@ export function keyVaultPropertiesDeserializer(item: any): KeyVaultProperties {
   };
 }
 
-/** Update model for Workspace PATCH operations */
-export interface WorkspaceUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: WorkspaceUpdateProperties;
-}
-
-export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : workspaceUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Updatable properties for Workspace (all fields optional for PATCH) */
-export interface WorkspaceUpdateProperties {
-  /** List of linked SuperComputers. */
-  supercomputerIds?: string[];
-  /** The key to use for encrypting data at rest when customer managed keys are enabled. */
-  keyVaultProperties?: KeyVaultUpdateProperties;
-  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess;
-}
-
-export function workspaceUpdatePropertiesSerializer(item: WorkspaceUpdateProperties): any {
-  return {
-    supercomputerIds: !item["supercomputerIds"]
-      ? item["supercomputerIds"]
-      : item["supercomputerIds"].map((p: any) => {
-          return p;
-        }),
-    keyVaultProperties: !item["keyVaultProperties"]
-      ? item["keyVaultProperties"]
-      : keyVaultUpdatePropertiesSerializer(item["keyVaultProperties"]),
-    publicNetworkAccess: item["publicNetworkAccess"],
-  };
-}
-
-/** For Key Vault Key references */
-export interface KeyVaultUpdateProperties {
-  /** The Key Name in Key Vault */
-  keyName?: string;
-  /** The Key Version in Key Vault */
-  keyVersion?: string;
-}
-
-export function keyVaultUpdatePropertiesSerializer(item: KeyVaultUpdateProperties): any {
-  return { keyName: item["keyName"], keyVersion: item["keyVersion"] };
-}
-
 /** The response of a Workspace list operation. */
 export interface _WorkspaceListResult {
   /** The Workspace items on this page */
@@ -1588,16 +1421,6 @@ export function chatModelDeploymentPropertiesDeserializer(
     skuName: item["skuName"],
     capacity: item["capacity"],
   };
-}
-
-/** Represents a deployment that ties a specific model family to a user defined deployment name used when invoking the chat model. */
-export interface ChatModelDeploymentUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function chatModelDeploymentUpdateSerializer(item: ChatModelDeploymentUpdate): any {
-  return { tags: item["tags"] };
 }
 
 /** The response of a ChatModelDeployment list operation. */
@@ -1828,35 +1651,6 @@ export enum KnownScaleSetPriority {
  * **Spot**: Spot priority Virtual Machine Scale Set.
  */
 export type ScaleSetPriority = string;
-
-/** NodePool tracked resource */
-export interface NodePoolUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: NodePoolUpdateProperties;
-}
-
-export function nodePoolUpdateSerializer(item: NodePoolUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : nodePoolUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** NodePool properties */
-export interface NodePoolUpdateProperties {
-  /** The maximum number of nodes. */
-  maxNodeCount?: number;
-  /** The minimum number of nodes. */
-  minNodeCount?: number;
-}
-
-export function nodePoolUpdatePropertiesSerializer(item: NodePoolUpdateProperties): any {
-  return { maxNodeCount: item["maxNodeCount"], minNodeCount: item["minNodeCount"] };
-}
 
 /** The response of a NodePool list operation. */
 export interface _NodePoolListResult {
@@ -2112,47 +1906,6 @@ export enum KnownSystemAssignedServiceIdentityType {
  */
 export type SystemAssignedServiceIdentityType = string;
 
-/** Update model for Supercomputer PATCH operations */
-export interface SupercomputerUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: SupercomputerUpdateProperties;
-}
-
-export function supercomputerUpdateSerializer(item: SupercomputerUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : supercomputerUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Updatable properties for Supercomputer (all fields optional for PATCH) */
-export interface SupercomputerUpdateProperties {
-  /** Dictionary of identity properties. */
-  identities?: SupercomputerIdentitiesUpdate;
-}
-
-export function supercomputerUpdatePropertiesSerializer(item: SupercomputerUpdateProperties): any {
-  return {
-    identities: !item["identities"]
-      ? item["identities"]
-      : supercomputerIdentitiesUpdateSerializer(item["identities"]),
-  };
-}
-
-/** Dictionary of identity properties for the Supercomputer. */
-export interface SupercomputerIdentitiesUpdate {
-  /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-export function supercomputerIdentitiesUpdateSerializer(item: SupercomputerIdentitiesUpdate): any {
-  return { workloadIdentities: item["workloadIdentities"] };
-}
-
 /** The response of a Supercomputer list operation. */
 export interface _SupercomputerListResult {
   /** The Supercomputer items on this page */
@@ -2234,33 +1987,6 @@ export function storageAssetPropertiesDeserializer(item: any): StorageAssetPrope
     provisioningState: item["provisioningState"],
     path: item["path"],
   };
-}
-
-/** Storage Asset tracked resource */
-export interface StorageAssetUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: StorageAssetUpdateProperties;
-}
-
-export function storageAssetUpdateSerializer(item: StorageAssetUpdate): any {
-  return {
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : storageAssetUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Storage Asset properties */
-export interface StorageAssetUpdateProperties {
-  /** The description */
-  description?: string;
-}
-
-export function storageAssetUpdatePropertiesSerializer(item: StorageAssetUpdateProperties): any {
-  return { description: item["description"] };
 }
 
 /** The response of a StorageAsset list operation. */
@@ -2492,16 +2218,6 @@ export enum KnownNetAppMountProtocol {
  */
 export type NetAppMountProtocol = string;
 
-/** Storage Container tracked resource */
-export interface StorageContainerUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function storageContainerUpdateSerializer(item: StorageContainerUpdate): any {
-  return { tags: item["tags"] };
-}
-
 /** The response of a StorageContainer list operation. */
 export interface _StorageContainerListResult {
   /** The StorageContainer items on this page */
@@ -2527,6 +2243,1499 @@ export function storageContainerArrayDeserializer(result: Array<StorageContainer
   return result.map((item) => {
     return storageContainerDeserializer(item);
   });
+}
+
+/** Storage Container tracked resource */
+export interface StorageContainerCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: StorageContainerPropertiesCreateOrUpdate;
+}
+
+export function storageContainerCreateOrUpdateSerializer(
+  item: StorageContainerCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageContainerPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function storageContainerCreateOrUpdateDeserializer(
+  item: any,
+): StorageContainerCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageContainerPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Storage Container properties */
+export interface StorageContainerPropertiesCreateOrUpdate {
+  /** Storage store properties */
+  storageStore: StorageStoreUnion;
+}
+
+export function storageContainerPropertiesCreateOrUpdateSerializer(
+  item: StorageContainerPropertiesCreateOrUpdate,
+): any {
+  return { storageStore: storageStoreUnionSerializer(item["storageStore"]) };
+}
+
+export function storageContainerPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): StorageContainerPropertiesCreateOrUpdate {
+  return {
+    storageStore: storageStoreUnionDeserializer(item["storageStore"]),
+  };
+}
+
+/** Storage Container tracked resource */
+export interface StorageContainerUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: StorageContainerPropertiesUpdate;
+}
+
+export function storageContainerUpdateSerializer(item: StorageContainerUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageContainerPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function storageContainerUpdateDeserializer(item: any): StorageContainerUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageContainerPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Storage Container properties */
+export interface StorageContainerPropertiesUpdate {}
+
+export function storageContainerPropertiesUpdateSerializer(
+  _item: StorageContainerPropertiesUpdate,
+): any {
+  return {};
+}
+
+export function storageContainerPropertiesUpdateDeserializer(
+  item: any,
+): StorageContainerPropertiesUpdate {
+  return item;
+}
+
+/** Storage Asset tracked resource */
+export interface StorageAssetCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: StorageAssetPropertiesCreateOrUpdate;
+}
+
+export function storageAssetCreateOrUpdateSerializer(item: StorageAssetCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageAssetPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function storageAssetCreateOrUpdateDeserializer(item: any): StorageAssetCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageAssetPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Storage Asset properties */
+export interface StorageAssetPropertiesCreateOrUpdate {
+  /** The description */
+  description: string;
+  /** The path to the data within its parent container. This should be relative to the root of the parent container. */
+  path?: string;
+}
+
+export function storageAssetPropertiesCreateOrUpdateSerializer(
+  item: StorageAssetPropertiesCreateOrUpdate,
+): any {
+  return { description: item["description"], path: item["path"] };
+}
+
+export function storageAssetPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): StorageAssetPropertiesCreateOrUpdate {
+  return {
+    description: item["description"],
+    path: item["path"],
+  };
+}
+
+/** Storage Asset tracked resource */
+export interface StorageAssetUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: StorageAssetPropertiesUpdate;
+}
+
+export function storageAssetUpdateSerializer(item: StorageAssetUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageAssetPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function storageAssetUpdateDeserializer(item: any): StorageAssetUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : storageAssetPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Storage Asset properties */
+export interface StorageAssetPropertiesUpdate {
+  /** The description */
+  description: string;
+}
+
+export function storageAssetPropertiesUpdateSerializer(item: StorageAssetPropertiesUpdate): any {
+  return { description: item["description"] };
+}
+
+export function storageAssetPropertiesUpdateDeserializer(item: any): StorageAssetPropertiesUpdate {
+  return {
+    description: item["description"],
+  };
+}
+
+/** Supercomputer tracked resource */
+export interface SupercomputerCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SupercomputerPropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityCreateOrUpdate;
+}
+
+export function supercomputerCreateOrUpdateSerializer(item: SupercomputerCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : supercomputerPropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function supercomputerCreateOrUpdateDeserializer(item: any): SupercomputerCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : supercomputerPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Supercomputer properties */
+export interface SupercomputerPropertiesCreateOrUpdate {
+  /**
+   * System Subnet ID associated with managed NodePool for system resources.
+   *     It should have connectivity to the child NodePool subnets.
+   */
+  subnetId: string;
+  /**
+   * System Subnet ID associated with AKS apiserver. Must be delegated to Microsoft.ContainerService/managedClusters.
+   *     It should have connectivity to the system subnet and nodepool subnets.
+   */
+  managementSubnetId?: string;
+  /**
+   * Network egress type provisioned for the supercomputer workloads.
+   *     Defaults to LoadBalancer if not specified.
+   *     If None is specified, the customer is responsible for providing outbound connectivity for Supercomputer functionality.
+   */
+  outboundType?: NetworkEgressType;
+  /** The SKU to use for the system node pool. */
+  systemSku?: SystemSku;
+  /** Dictionary of identity properties. */
+  identities: SupercomputerIdentitiesCreateOrUpdate;
+  /** Whether or not to use a customer managed key when encrypting data at rest */
+  customerManagedKeys?: CustomerManagedKeys;
+  /** Disk Encryption Set ID to use for Customer Managed Keys encryption. Required if Customer Managed Keys is enabled. */
+  diskEncryptionSetId?: string;
+  /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
+  logAnalyticsClusterId?: string;
+}
+
+export function supercomputerPropertiesCreateOrUpdateSerializer(
+  item: SupercomputerPropertiesCreateOrUpdate,
+): any {
+  return {
+    subnetId: item["subnetId"],
+    managementSubnetId: item["managementSubnetId"],
+    outboundType: item["outboundType"],
+    systemSku: item["systemSku"],
+    identities: supercomputerIdentitiesCreateOrUpdateSerializer(item["identities"]),
+    customerManagedKeys: item["customerManagedKeys"],
+    diskEncryptionSetId: item["diskEncryptionSetId"],
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+  };
+}
+
+export function supercomputerPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SupercomputerPropertiesCreateOrUpdate {
+  return {
+    subnetId: item["subnetId"],
+    managementSubnetId: item["managementSubnetId"],
+    outboundType: item["outboundType"],
+    systemSku: item["systemSku"],
+    identities: supercomputerIdentitiesCreateOrUpdateDeserializer(item["identities"]),
+    customerManagedKeys: item["customerManagedKeys"],
+    diskEncryptionSetId: item["diskEncryptionSetId"],
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+  };
+}
+
+/** Dictionary of identity properties for the Supercomputer. */
+export interface SupercomputerIdentitiesCreateOrUpdate {
+  /** Cluster identity ID. */
+  clusterIdentity: IdentityCreateOrUpdate;
+  /**
+   * Kubelet identity ID used by the supercomputer.
+   *       This identity is used by the supercomputer at node level to access Azure resources.
+   *       This identity must have ManagedIdentityOperator role on the clusterIdentity.
+   */
+  kubeletIdentity: IdentityCreateOrUpdate;
+  /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
+  workloadIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function supercomputerIdentitiesCreateOrUpdateSerializer(
+  item: SupercomputerIdentitiesCreateOrUpdate,
+): any {
+  return {
+    clusterIdentity: identityCreateOrUpdateSerializer(item["clusterIdentity"]),
+    kubeletIdentity: identityCreateOrUpdateSerializer(item["kubeletIdentity"]),
+    workloadIdentities: item["workloadIdentities"],
+  };
+}
+
+export function supercomputerIdentitiesCreateOrUpdateDeserializer(
+  item: any,
+): SupercomputerIdentitiesCreateOrUpdate {
+  return {
+    clusterIdentity: identityCreateOrUpdateDeserializer(item["clusterIdentity"]),
+    kubeletIdentity: identityCreateOrUpdateDeserializer(item["kubeletIdentity"]),
+    workloadIdentities: !item["workloadIdentities"]
+      ? item["workloadIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["workloadIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** For user assigned identity resource property. */
+export interface IdentityCreateOrUpdate {
+  /** The resource ID of the user assigned identity. */
+  id: string;
+}
+
+export function identityCreateOrUpdateSerializer(item: IdentityCreateOrUpdate): any {
+  return { id: item["id"] };
+}
+
+export function identityCreateOrUpdateDeserializer(item: any): IdentityCreateOrUpdate {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentityCreateOrUpdateSerializer(
+  item: SystemAssignedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityCreateOrUpdateDeserializer(
+  item: any,
+): SystemAssignedServiceIdentityCreateOrUpdate {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Supercomputer tracked resource */
+export interface SupercomputerUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SupercomputerPropertiesUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityUpdate;
+}
+
+export function supercomputerUpdateSerializer(item: SupercomputerUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : supercomputerPropertiesUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityUpdateSerializer(item["identity"]),
+  };
+}
+
+export function supercomputerUpdateDeserializer(item: any): SupercomputerUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : supercomputerPropertiesUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Supercomputer properties */
+export interface SupercomputerPropertiesUpdate {
+  /** Dictionary of identity properties. */
+  identities: SupercomputerIdentitiesUpdate;
+}
+
+export function supercomputerPropertiesUpdateSerializer(item: SupercomputerPropertiesUpdate): any {
+  return { identities: supercomputerIdentitiesUpdateSerializer(item["identities"]) };
+}
+
+export function supercomputerPropertiesUpdateDeserializer(
+  item: any,
+): SupercomputerPropertiesUpdate {
+  return {
+    identities: supercomputerIdentitiesUpdateDeserializer(item["identities"]),
+  };
+}
+
+/** Dictionary of identity properties for the Supercomputer. */
+export interface SupercomputerIdentitiesUpdate {
+  /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
+  workloadIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function supercomputerIdentitiesUpdateSerializer(item: SupercomputerIdentitiesUpdate): any {
+  return { workloadIdentities: item["workloadIdentities"] };
+}
+
+export function supercomputerIdentitiesUpdateDeserializer(
+  item: any,
+): SupercomputerIdentitiesUpdate {
+  return {
+    workloadIdentities: !item["workloadIdentities"]
+      ? item["workloadIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["workloadIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentityUpdateSerializer(
+  item: SystemAssignedServiceIdentityUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityUpdateDeserializer(
+  item: any,
+): SystemAssignedServiceIdentityUpdate {
+  return {
+    type: item["type"],
+  };
+}
+
+/** NodePool tracked resource */
+export interface NodePoolCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolPropertiesCreateOrUpdate;
+}
+
+export function nodePoolCreateOrUpdateSerializer(item: NodePoolCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : nodePoolPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function nodePoolCreateOrUpdateDeserializer(item: any): NodePoolCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : nodePoolPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** NodePool properties */
+export interface NodePoolPropertiesCreateOrUpdate {
+  /** The node pool subnet. */
+  subnetId: string;
+  /** The size of the underlying Azure VM. */
+  vmSize: VmSize;
+  /** The maximum number of nodes. */
+  maxNodeCount: number;
+  /** The minimum number of nodes. */
+  minNodeCount?: number;
+  /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
+  scaleSetPriority?: ScaleSetPriority;
+  /** The size of the OS disk in GB. If not specified, the default is 120 GB. */
+  osDiskSizeGb?: number;
+  /** The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageCacheUpperThreshold. The default is 40% */
+  imageCacheLowerThreshold?: number;
+  /** The percent of disk usage after which image garbage collection is guaranteed to run. The default is 60% */
+  imageCacheUpperThreshold?: number;
+}
+
+export function nodePoolPropertiesCreateOrUpdateSerializer(
+  item: NodePoolPropertiesCreateOrUpdate,
+): any {
+  return {
+    subnetId: item["subnetId"],
+    vmSize: item["vmSize"],
+    maxNodeCount: item["maxNodeCount"],
+    minNodeCount: item["minNodeCount"],
+    scaleSetPriority: item["scaleSetPriority"],
+    osDiskSizeGb: item["osDiskSizeGb"],
+    imageCacheLowerThreshold: item["imageCacheLowerThreshold"],
+    imageCacheUpperThreshold: item["imageCacheUpperThreshold"],
+  };
+}
+
+export function nodePoolPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NodePoolPropertiesCreateOrUpdate {
+  return {
+    subnetId: item["subnetId"],
+    vmSize: item["vmSize"],
+    maxNodeCount: item["maxNodeCount"],
+    minNodeCount: item["minNodeCount"],
+    scaleSetPriority: item["scaleSetPriority"],
+    osDiskSizeGb: item["osDiskSizeGb"],
+    imageCacheLowerThreshold: item["imageCacheLowerThreshold"],
+    imageCacheUpperThreshold: item["imageCacheUpperThreshold"],
+  };
+}
+
+/** NodePool tracked resource */
+export interface NodePoolUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NodePoolPropertiesUpdate;
+}
+
+export function nodePoolUpdateSerializer(item: NodePoolUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : nodePoolPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function nodePoolUpdateDeserializer(item: any): NodePoolUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : nodePoolPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** NodePool properties */
+export interface NodePoolPropertiesUpdate {
+  /** The maximum number of nodes. */
+  maxNodeCount: number;
+  /** The minimum number of nodes. */
+  minNodeCount?: number;
+}
+
+export function nodePoolPropertiesUpdateSerializer(item: NodePoolPropertiesUpdate): any {
+  return { maxNodeCount: item["maxNodeCount"], minNodeCount: item["minNodeCount"] };
+}
+
+export function nodePoolPropertiesUpdateDeserializer(item: any): NodePoolPropertiesUpdate {
+  return {
+    maxNodeCount: item["maxNodeCount"],
+    minNodeCount: item["minNodeCount"],
+  };
+}
+
+/** Represents a deployment that ties a specific model family to a user defined deployment name used when invoking the chat model. */
+export interface ChatModelDeploymentCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ChatModelDeploymentPropertiesCreateOrUpdate;
+}
+
+export function chatModelDeploymentCreateOrUpdateSerializer(
+  item: ChatModelDeploymentCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : chatModelDeploymentPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function chatModelDeploymentCreateOrUpdateDeserializer(
+  item: any,
+): ChatModelDeploymentCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : chatModelDeploymentPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Defines a deployment binding a specific model family to a user-defined deployment name for chat inference. */
+export interface ChatModelDeploymentPropertiesCreateOrUpdate {
+  /** Model format as published by the provider. Verify supported formats per region using the Model Catalog API. */
+  modelFormat: string;
+  /** Canonical provider model name available in the selected region. Verify supported values per region using the Model Catalog API. */
+  modelName: string;
+  /** Provider-published version of the selected model. */
+  modelVersion?: string;
+  /** SKU tier used by this chat model deployment. */
+  skuName?: string;
+  /** Provisioned SKU capacity units for this chat model deployment. */
+  capacity?: number;
+}
+
+export function chatModelDeploymentPropertiesCreateOrUpdateSerializer(
+  item: ChatModelDeploymentPropertiesCreateOrUpdate,
+): any {
+  return {
+    modelFormat: item["modelFormat"],
+    modelName: item["modelName"],
+    modelVersion: item["modelVersion"],
+    skuName: item["skuName"],
+    capacity: item["capacity"],
+  };
+}
+
+export function chatModelDeploymentPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ChatModelDeploymentPropertiesCreateOrUpdate {
+  return {
+    modelFormat: item["modelFormat"],
+    modelName: item["modelName"],
+    modelVersion: item["modelVersion"],
+    skuName: item["skuName"],
+    capacity: item["capacity"],
+  };
+}
+
+/** Represents a deployment that ties a specific model family to a user defined deployment name used when invoking the chat model. */
+export interface ChatModelDeploymentUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ChatModelDeploymentPropertiesUpdate;
+}
+
+export function chatModelDeploymentUpdateSerializer(item: ChatModelDeploymentUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : chatModelDeploymentPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function chatModelDeploymentUpdateDeserializer(item: any): ChatModelDeploymentUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : chatModelDeploymentPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Defines a deployment binding a specific model family to a user-defined deployment name for chat inference. */
+export interface ChatModelDeploymentPropertiesUpdate {
+  /** Provisioned SKU capacity units for this chat model deployment. */
+  capacity?: number;
+}
+
+export function chatModelDeploymentPropertiesUpdateSerializer(
+  item: ChatModelDeploymentPropertiesUpdate,
+): any {
+  return { capacity: item["capacity"] };
+}
+
+export function chatModelDeploymentPropertiesUpdateDeserializer(
+  item: any,
+): ChatModelDeploymentPropertiesUpdate {
+  return {
+    capacity: item["capacity"],
+  };
+}
+
+/** The Private Endpoint Connection resource for Workspace. */
+export interface WorkspacePrivateEndpointConnectionCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionPropertiesCreateOrUpdate;
+}
+
+export function workspacePrivateEndpointConnectionCreateOrUpdateSerializer(
+  item: WorkspacePrivateEndpointConnectionCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function workspacePrivateEndpointConnectionCreateOrUpdateDeserializer(
+  item: any,
+): WorkspacePrivateEndpointConnectionCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the private endpoint connection. */
+export interface PrivateEndpointConnectionPropertiesCreateOrUpdate {
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpointCreateOrUpdate;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+export function privateEndpointConnectionPropertiesCreateOrUpdateSerializer(
+  item: PrivateEndpointConnectionPropertiesCreateOrUpdate,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+export function privateEndpointConnectionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PrivateEndpointConnectionPropertiesCreateOrUpdate {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointCreateOrUpdateDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpointCreateOrUpdate {}
+
+export function privateEndpointCreateOrUpdateSerializer(_item: PrivateEndpointCreateOrUpdate): any {
+  return {};
+}
+
+export function privateEndpointCreateOrUpdateDeserializer(
+  item: any,
+): PrivateEndpointCreateOrUpdate {
+  return item;
+}
+
+/** Workspace tracked resource */
+export interface WorkspaceCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspacePropertiesCreateOrUpdate;
+}
+
+export function workspaceCreateOrUpdateSerializer(item: WorkspaceCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspacePropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function workspaceCreateOrUpdateDeserializer(item: any): WorkspaceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspacePropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Workspace properties */
+export interface WorkspacePropertiesCreateOrUpdate {
+  /** List of linked SuperComputers. */
+  supercomputerIds?: string[];
+  /** Identity IDs used for leveraging Workspace resources. */
+  workspaceIdentity: IdentityCreateOrUpdate;
+  /** Whether or not to use a customer managed key when encrypting data at rest */
+  customerManagedKeys?: CustomerManagedKeys;
+  /** The key to use for encrypting data at rest when customer managed keys are enabled. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
+  logAnalyticsClusterId?: string;
+  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Agent Subnet ID for agent resources. */
+  agentSubnetId?: string;
+  /** Private Endpoint Subnet ID for private endpoint connections. */
+  privateEndpointSubnetId?: string;
+  /** Function Subnet ID for workspace resources. */
+  workspaceSubnetId?: string;
+}
+
+export function workspacePropertiesCreateOrUpdateSerializer(
+  item: WorkspacePropertiesCreateOrUpdate,
+): any {
+  return {
+    supercomputerIds: !item["supercomputerIds"]
+      ? item["supercomputerIds"]
+      : item["supercomputerIds"].map((p: any) => {
+          return p;
+        }),
+    workspaceIdentity: identityCreateOrUpdateSerializer(item["workspaceIdentity"]),
+    customerManagedKeys: item["customerManagedKeys"],
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : keyVaultPropertiesSerializer(item["keyVaultProperties"]),
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    agentSubnetId: item["agentSubnetId"],
+    privateEndpointSubnetId: item["privateEndpointSubnetId"],
+    workspaceSubnetId: item["workspaceSubnetId"],
+  };
+}
+
+export function workspacePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): WorkspacePropertiesCreateOrUpdate {
+  return {
+    supercomputerIds: !item["supercomputerIds"]
+      ? item["supercomputerIds"]
+      : item["supercomputerIds"].map((p: any) => {
+          return p;
+        }),
+    workspaceIdentity: identityCreateOrUpdateDeserializer(item["workspaceIdentity"]),
+    customerManagedKeys: item["customerManagedKeys"],
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : keyVaultPropertiesDeserializer(item["keyVaultProperties"]),
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    agentSubnetId: item["agentSubnetId"],
+    privateEndpointSubnetId: item["privateEndpointSubnetId"],
+    workspaceSubnetId: item["workspaceSubnetId"],
+  };
+}
+
+/** Workspace tracked resource */
+export interface WorkspaceUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspacePropertiesUpdate;
+}
+
+export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspacePropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function workspaceUpdateDeserializer(item: any): WorkspaceUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : workspacePropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Workspace properties */
+export interface WorkspacePropertiesUpdate {
+  /** List of linked SuperComputers. */
+  supercomputerIds?: string[];
+  /** The key to use for encrypting data at rest when customer managed keys are enabled. */
+  keyVaultProperties?: KeyVaultPropertiesUpdate;
+  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function workspacePropertiesUpdateSerializer(item: WorkspacePropertiesUpdate): any {
+  return {
+    supercomputerIds: !item["supercomputerIds"]
+      ? item["supercomputerIds"]
+      : item["supercomputerIds"].map((p: any) => {
+          return p;
+        }),
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : keyVaultPropertiesUpdateSerializer(item["keyVaultProperties"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function workspacePropertiesUpdateDeserializer(item: any): WorkspacePropertiesUpdate {
+  return {
+    supercomputerIds: !item["supercomputerIds"]
+      ? item["supercomputerIds"]
+      : item["supercomputerIds"].map((p: any) => {
+          return p;
+        }),
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : keyVaultPropertiesUpdateDeserializer(item["keyVaultProperties"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+/** For Key Vault Key references */
+export interface KeyVaultPropertiesUpdate {
+  /** The Key Name in Key Vault */
+  keyName: string;
+  /** The Key Version in Key Vault */
+  keyVersion?: string;
+}
+
+export function keyVaultPropertiesUpdateSerializer(item: KeyVaultPropertiesUpdate): any {
+  return { keyName: item["keyName"], keyVersion: item["keyVersion"] };
+}
+
+export function keyVaultPropertiesUpdateDeserializer(item: any): KeyVaultPropertiesUpdate {
+  return {
+    keyName: item["keyName"],
+    keyVersion: item["keyVersion"],
+  };
+}
+
+/** Project tracked resource */
+export interface ProjectCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ProjectPropertiesCreateOrUpdate;
+}
+
+export function projectCreateOrUpdateSerializer(item: ProjectCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function projectCreateOrUpdateDeserializer(item: any): ProjectCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Project properties */
+export interface ProjectPropertiesCreateOrUpdate {
+  /** Allowed StorageContainers (Control plane resource references). */
+  storageContainerIds?: string[];
+  /** Settings for the project. */
+  settings?: ProjectSettings;
+}
+
+export function projectPropertiesCreateOrUpdateSerializer(
+  item: ProjectPropertiesCreateOrUpdate,
+): any {
+  return {
+    storageContainerIds: !item["storageContainerIds"]
+      ? item["storageContainerIds"]
+      : item["storageContainerIds"].map((p: any) => {
+          return p;
+        }),
+    settings: !item["settings"] ? item["settings"] : projectSettingsSerializer(item["settings"]),
+  };
+}
+
+export function projectPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ProjectPropertiesCreateOrUpdate {
+  return {
+    storageContainerIds: !item["storageContainerIds"]
+      ? item["storageContainerIds"]
+      : item["storageContainerIds"].map((p: any) => {
+          return p;
+        }),
+    settings: !item["settings"] ? item["settings"] : projectSettingsDeserializer(item["settings"]),
+  };
+}
+
+/** Project tracked resource */
+export interface ProjectUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ProjectPropertiesUpdate;
+}
+
+export function projectUpdateSerializer(item: ProjectUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function projectUpdateDeserializer(item: any): ProjectUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Project properties */
+export interface ProjectPropertiesUpdate {
+  /** Settings for the project. */
+  settings?: ProjectSettings;
+}
+
+export function projectPropertiesUpdateSerializer(item: ProjectPropertiesUpdate): any {
+  return {
+    settings: !item["settings"] ? item["settings"] : projectSettingsSerializer(item["settings"]),
+  };
+}
+
+export function projectPropertiesUpdateDeserializer(item: any): ProjectPropertiesUpdate {
+  return {
+    settings: !item["settings"] ? item["settings"] : projectSettingsDeserializer(item["settings"]),
+  };
+}
+
+/** Tool tracked resource */
+export interface ToolCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ToolPropertiesCreateOrUpdate;
+}
+
+export function toolCreateOrUpdateSerializer(item: ToolCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : toolPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function toolCreateOrUpdateDeserializer(item: any): ToolCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : toolPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Discovery Tool list item properties */
+export interface ToolPropertiesCreateOrUpdate {
+  /** The version of a resource definition */
+  version: string;
+  /** Environment variables to make available */
+  environmentVariables?: Record<string, string>;
+  /** The JSON content for defining a resource */
+  definitionContent: Record<string, any>;
+}
+
+export function toolPropertiesCreateOrUpdateSerializer(item: ToolPropertiesCreateOrUpdate): any {
+  return {
+    version: item["version"],
+    environmentVariables: item["environmentVariables"],
+    definitionContent: item["definitionContent"],
+  };
+}
+
+export function toolPropertiesCreateOrUpdateDeserializer(item: any): ToolPropertiesCreateOrUpdate {
+  return {
+    version: item["version"],
+    environmentVariables: !item["environmentVariables"]
+      ? item["environmentVariables"]
+      : Object.fromEntries(
+          Object.entries(item["environmentVariables"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    definitionContent: Object.fromEntries(
+      Object.entries(item["definitionContent"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** Tool tracked resource */
+export interface ToolUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ToolPropertiesUpdate;
+}
+
+export function toolUpdateSerializer(item: ToolUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : toolPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function toolUpdateDeserializer(item: any): ToolUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : toolPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Discovery Tool list item properties */
+export interface ToolPropertiesUpdate {
+  /** The version of a resource definition */
+  version: string;
+  /** Environment variables to make available */
+  environmentVariables?: Record<string, string>;
+  /** The JSON content for defining a resource */
+  definitionContent: Record<string, any>;
+}
+
+export function toolPropertiesUpdateSerializer(item: ToolPropertiesUpdate): any {
+  return {
+    version: item["version"],
+    environmentVariables: item["environmentVariables"],
+    definitionContent: item["definitionContent"],
+  };
+}
+
+export function toolPropertiesUpdateDeserializer(item: any): ToolPropertiesUpdate {
+  return {
+    version: item["version"],
+    environmentVariables: !item["environmentVariables"]
+      ? item["environmentVariables"]
+      : Object.fromEntries(
+          Object.entries(item["environmentVariables"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    definitionContent: Object.fromEntries(
+      Object.entries(item["definitionContent"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** The Private Endpoint Connection resource for Bookshelf. */
+export interface BookshelfPrivateEndpointConnectionCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionPropertiesCreateOrUpdate;
+}
+
+export function bookshelfPrivateEndpointConnectionCreateOrUpdateSerializer(
+  item: BookshelfPrivateEndpointConnectionCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function bookshelfPrivateEndpointConnectionCreateOrUpdateDeserializer(
+  item: any,
+): BookshelfPrivateEndpointConnectionCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Bookshelf tracked resource */
+export interface BookshelfCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BookshelfPropertiesCreateOrUpdate;
+}
+
+export function bookshelfCreateOrUpdateSerializer(item: BookshelfCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : bookshelfPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function bookshelfCreateOrUpdateDeserializer(item: any): BookshelfCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : bookshelfPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Bookshelf properties */
+export interface BookshelfPropertiesCreateOrUpdate {
+  /** User assigned identity IDs to be used by knowledgebase workloads. The key value must be the resource ID of the identity resource. */
+  workloadIdentities?: Record<string, UserAssignedIdentity>;
+  /** Whether or not to use a customer managed key when encrypting data at rest */
+  customerManagedKeys?: CustomerManagedKeys;
+  /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
+  keyVaultProperties?: BookshelfKeyVaultProperties;
+  /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
+  logAnalyticsClusterId?: string;
+  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Private Endpoint Subnet ID for private endpoint connections. */
+  privateEndpointSubnetId?: string;
+  /** Search Subnet ID for search resources. */
+  searchSubnetId?: string;
+}
+
+export function bookshelfPropertiesCreateOrUpdateSerializer(
+  item: BookshelfPropertiesCreateOrUpdate,
+): any {
+  return {
+    workloadIdentities: item["workloadIdentities"],
+    customerManagedKeys: item["customerManagedKeys"],
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : bookshelfKeyVaultPropertiesSerializer(item["keyVaultProperties"]),
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    privateEndpointSubnetId: item["privateEndpointSubnetId"],
+    searchSubnetId: item["searchSubnetId"],
+  };
+}
+
+export function bookshelfPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): BookshelfPropertiesCreateOrUpdate {
+  return {
+    workloadIdentities: !item["workloadIdentities"]
+      ? item["workloadIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["workloadIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+    customerManagedKeys: item["customerManagedKeys"],
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : bookshelfKeyVaultPropertiesDeserializer(item["keyVaultProperties"]),
+    logAnalyticsClusterId: item["logAnalyticsClusterId"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    privateEndpointSubnetId: item["privateEndpointSubnetId"],
+    searchSubnetId: item["searchSubnetId"],
+  };
+}
+
+/** Bookshelf tracked resource */
+export interface BookshelfUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BookshelfPropertiesUpdate;
+}
+
+export function bookshelfUpdateSerializer(item: BookshelfUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : bookshelfPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function bookshelfUpdateDeserializer(item: any): BookshelfUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : bookshelfPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Bookshelf properties */
+export interface BookshelfPropertiesUpdate {
+  /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
+  keyVaultProperties?: BookshelfKeyVaultPropertiesUpdate;
+  /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function bookshelfPropertiesUpdateSerializer(item: BookshelfPropertiesUpdate): any {
+  return {
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : bookshelfKeyVaultPropertiesUpdateSerializer(item["keyVaultProperties"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function bookshelfPropertiesUpdateDeserializer(item: any): BookshelfPropertiesUpdate {
+  return {
+    keyVaultProperties: !item["keyVaultProperties"]
+      ? item["keyVaultProperties"]
+      : bookshelfKeyVaultPropertiesUpdateDeserializer(item["keyVaultProperties"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+/** Key Vault Properties with clientId selection */
+export interface BookshelfKeyVaultPropertiesUpdate {
+  /** The Key Name in Key Vault */
+  keyName: string;
+  /** The Key Version in Key Vault */
+  keyVersion?: string;
+}
+
+export function bookshelfKeyVaultPropertiesUpdateSerializer(
+  item: BookshelfKeyVaultPropertiesUpdate,
+): any {
+  return { keyName: item["keyName"], keyVersion: item["keyVersion"] };
+}
+
+export function bookshelfKeyVaultPropertiesUpdateDeserializer(
+  item: any,
+): BookshelfKeyVaultPropertiesUpdate {
+  return {
+    keyName: item["keyName"],
+    keyVersion: item["keyVersion"],
+  };
 }
 
 /** The available API versions. */

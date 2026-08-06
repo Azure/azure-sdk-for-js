@@ -14,18 +14,13 @@ import type {
   HardwareSettingsGetOptionalParams,
   HardwareSettingsListByParentOptionalParams,
 } from "../../api/hardwareSettings/options.js";
-import type { HardwareSetting } from "../../models/models.js";
+import type { HardwareSetting, HardwareSettingCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HardwareSettings operations. */
 export interface HardwareSettingsOperations {
   /** Delete hardware settings */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,
@@ -37,7 +32,7 @@ export interface HardwareSettingsOperations {
     resourceGroupName: string,
     name: string,
     hardwareSettingName: string,
-    resource: HardwareSetting,
+    resource: HardwareSettingCreateOrUpdate,
     options?: HardwareSettingsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<HardwareSetting>, HardwareSetting>;
   /** Get the hardware settings resource */
@@ -67,7 +62,7 @@ function _getHardwareSettings(context: DisconnectedOperationsManagementContext) 
       resourceGroupName: string,
       name: string,
       hardwareSettingName: string,
-      resource: HardwareSetting,
+      resource: HardwareSettingCreateOrUpdate,
       options?: HardwareSettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, hardwareSettingName, resource, options),
     get: (

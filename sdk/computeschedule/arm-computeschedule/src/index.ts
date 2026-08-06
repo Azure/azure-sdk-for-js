@@ -190,13 +190,10 @@ export type {
   ScheduledActionUpdate,
   ScheduledActionUpdateProperties,
   ScheduledActionResource,
-  ResourceAttachRequestInput,
-  ScheduledActionResourceInput,
   RecurringActionsResourceOperationResult,
   ResourceStatus,
   ResourceOperationStatus,
   ResourceDetachRequest,
-  ResourcePatchRequestInput,
   CancelOccurrenceRequest,
   Occurrence,
   OccurrenceProperties,
@@ -211,6 +208,16 @@ export type {
   DelayRequest,
   OccurrenceExtensionResource,
   OccurrenceExtensionProperties,
+  ResourceAttachRequest,
+  ResourcePatchRequest,
+  ExecuteCreateFlexRequestCreate,
+  ResourceProvisionFlexPayloadCreate,
+  BulkVMConfigurationCreate,
+  VirtualMachineIdentityCreate,
+  ExecuteCreateRequestCreate,
+  ResourceProvisionPayloadCreate,
+  ScheduledActionCreateOrUpdate,
+  ScheduledActionPropertiesCreateOrUpdate,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -317,3 +324,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
