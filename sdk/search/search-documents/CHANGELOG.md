@@ -4,9 +4,22 @@
 
 ### Features Added
 
+- Regenerated from the `2026-08-01-preview` Search service API.
+- Added `KnowledgeRetrievalAutoReasoningEffort` reasoning effort variant for knowledge retrieval.
+- Added `citationUrl` on knowledge base activity/reference response types.
+- Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
+
 ### Breaking Changes
 
+- Removed `WorkIQAttribution`, along with the `attributions` property that referenced it, from knowledge base response types.
+- Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`.
+- Renamed the `elapsedInMs` property to `elapsedMs` on activity record types.
+- Renamed the `modelName` property to `model` (now typed as `KnowledgeBaseActivityRecordModel`) on model activity record types.
+- Renamed the `totalSynchronizations` property to `totalSynchronization` on indexer status types.
+
 ### Bugs Fixed
+
+- Fixed `SearchIndexerClient.resetDocuments` so that the `dataSourceDocumentIds` option is correctly forwarded to the service.
 
 ### Other Changes
 

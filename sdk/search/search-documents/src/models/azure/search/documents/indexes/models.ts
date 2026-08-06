@@ -1,37 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { buildNewlineCollection } from "../../../../../static-helpers/serialization/build-newline-collection.js";
 import { buildPipeCollection } from "../../../../../static-helpers/serialization/build-pipe-collection.js";
 import { areAllPropsUndefined } from "../../../../../static-helpers/serialization/check-prop-undefined.js";
 import { parseNewlineCollection } from "../../../../../static-helpers/serialization/parse-newline-collection.js";
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
-import type {
-  KnowledgeSourceIngestionParameters,
-  KnowledgeRetrievalReasoningEffortUnion,
-  KnowledgeRetrievalOutputMode,
-} from "../knowledgeBases/models.js";
-import type {
-  SharePointConnectorAppRegistration,
-  ContentUnderstandingSkillChunkingMethod,
-} from "../../../../models.js";
 import {
-  sharePointConnectorAppRegistrationSerializer,
-  sharePointConnectorAppRegistrationDeserializer,
+  KnowledgeBaseRetrieveDefaults,
+  knowledgeBaseRetrieveDefaultsSerializer,
+  knowledgeBaseRetrieveDefaultsDeserializer,
+  WorkIQKnowledgeSourceParameters,
+  workIQKnowledgeSourceParametersSerializer,
+  workIQKnowledgeSourceParametersDeserializer,
+  FileKnowledgeSourceExtractionMode,
 } from "../../../../models.js";
 import {
   knowledgeRetrievalReasoningEffortUnionSerializer,
   knowledgeRetrievalReasoningEffortUnionDeserializer,
+  KnowledgeRetrievalReasoningEffortUnion,
+  KnowledgeRetrievalOutputMode,
+  KnowledgeSourceIngestionParameters,
   knowledgeSourceIngestionParametersSerializer,
   knowledgeSourceIngestionParametersDeserializer,
 } from "../knowledgeBases/models.js";
-
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
 
 /** Represents a synonym map definition. */
 export interface SynonymMap {
@@ -253,11 +252,14 @@ export function searchIndexerDataUserAssignedIdentityDeserializer(
 export interface ListSynonymMapsResult {
   /** The synonym maps in the Search service. */
   readonly synonymMaps: SynonymMap[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function listSynonymMapsResultDeserializer(item: any): ListSynonymMapsResult {
   return {
     synonymMaps: synonymMapArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -4589,6 +4591,14 @@ export enum KnownAzureOpenAIModelName {
   Gpt54Mini = "gpt-5.4-mini",
   /** Gpt54Nano model. */
   Gpt54Nano = "gpt-5.4-nano",
+  /** Gpt55 model. */
+  Gpt55 = "gpt-5.5",
+  /** Gpt56Sol model. */
+  Gpt56Sol = "gpt-5.6-sol",
+  /** Gpt56Terra model. */
+  Gpt56Terra = "gpt-5.6-terra",
+  /** Gpt56Luna model. */
+  Gpt56Luna = "gpt-5.6-luna",
 }
 
 /**
@@ -4611,7 +4621,11 @@ export enum KnownAzureOpenAIModelName {
  * **gpt-5.2**: Gpt52 model. \
  * **gpt-5.4**: Gpt54 model. \
  * **gpt-5.4-mini**: Gpt54Mini model. \
- * **gpt-5.4-nano**: Gpt54Nano model.
+ * **gpt-5.4-nano**: Gpt54Nano model. \
+ * **gpt-5.5**: Gpt55 model. \
+ * **gpt-5.6-sol**: Gpt56Sol model. \
+ * **gpt-5.6-terra**: Gpt56Terra model. \
+ * **gpt-5.6-luna**: Gpt56Luna model.
  */
 export type AzureOpenAIModelName = string;
 
@@ -5118,6 +5132,36 @@ export enum KnownSearchIndexPermissionFilterOption {
  */
 export type SearchIndexPermissionFilterOption = string;
 
+/** Configures a SharePoint connector app registration for the index, enabling document-level permissions from SharePoint. */
+export interface SharePointConnectorAppRegistration {
+  /** The application (client) ID of the app registration used to connect to SharePoint. */
+  applicationId: string;
+  /** The federated credential ID configured on the app registration. */
+  federatedCredentialId: string;
+  /** The tenant ID of the app registration. If not specified, the tenant of the search service is used. */
+  tenantId?: string;
+}
+
+export function sharePointConnectorAppRegistrationSerializer(
+  item: SharePointConnectorAppRegistration,
+): any {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function sharePointConnectorAppRegistrationDeserializer(
+  item: any,
+): SharePointConnectorAppRegistration {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesResult {
   /** The total count of indexes in the service, or null if the count was not requested. */
@@ -5388,11 +5432,14 @@ export function searchAliasDeserializer(item: any): SearchAlias {
 export interface _ListAliasesResult {
   /** The aliases in the Search service. */
   readonly aliases: SearchAlias[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function _listAliasesResultDeserializer(item: any): _ListAliasesResult {
   return {
     aliases: searchAliasArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -5426,12 +5473,16 @@ export interface KnowledgeBase {
   encryptionKey?: SearchResourceEncryptionKey;
   /** The description of the knowledge base. */
   description?: string;
+  /** User-defined key-value pairs for categorizing the knowledge base and attributing its usage and costs. */
+  tags?: Record<string, string>;
   /** Instructions considered by the knowledge base when developing query plan. */
   retrievalInstructions?: string;
   /** Instructions considered by the knowledge base when generating answers. */
   answerInstructions?: string;
   /** Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base. */
   corsOptions?: CorsOptions;
+  /** Persisted request-wide retrieve defaults for this knowledge base. These values apply to retrieve requests that omit the corresponding fields; request-time values take precedence when present. */
+  retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
 }
 
 export function knowledgeBaseSerializer(item: KnowledgeBase): any {
@@ -5450,11 +5501,15 @@ export function knowledgeBaseSerializer(item: KnowledgeBase): any {
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
     description: item["description"],
+    tags: item["tags"],
     retrievalInstructions: item["retrievalInstructions"],
     answerInstructions: item["answerInstructions"],
     corsOptions: !item["corsOptions"]
       ? item["corsOptions"]
       : corsOptionsSerializer(item["corsOptions"]),
+    retrieveDefaults: !item["retrieveDefaults"]
+      ? item["retrieveDefaults"]
+      : knowledgeBaseRetrieveDefaultsSerializer(item["retrieveDefaults"]),
   };
 }
 
@@ -5474,11 +5529,17 @@ export function knowledgeBaseDeserializer(item: any): KnowledgeBase {
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
     description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     retrievalInstructions: item["retrievalInstructions"],
     answerInstructions: item["answerInstructions"],
     corsOptions: !item["corsOptions"]
       ? item["corsOptions"]
       : corsOptionsDeserializer(item["corsOptions"]),
+    retrieveDefaults: !item["retrieveDefaults"]
+      ? item["retrieveDefaults"]
+      : knowledgeBaseRetrieveDefaultsDeserializer(item["retrieveDefaults"]),
   };
 }
 
@@ -5624,11 +5685,14 @@ export function knowledgeBaseAzureOpenAIModelDeserializer(
 export interface _ListKnowledgeBasesResult {
   /** The knowledge bases in the service. */
   value: KnowledgeBase[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function _listKnowledgeBasesResultDeserializer(item: any): _ListKnowledgeBasesResult {
   return {
     value: knowledgeBaseArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -5653,6 +5717,8 @@ export interface KnowledgeSource {
   /** The type of the knowledge source. */
   /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, indexedSql, file, web, remoteSharePoint, workIQ, mcpServer, fabricDataAgent, fabricOntology */
   kind: KnowledgeSourceKind;
+  /** Controls whether results from this knowledge source are reranked before they are included in the final result set. Defaults to 'rerank' when not specified. */
+  resultsProcessing?: KnowledgeSourceResultsProcessing;
   /** The ETag of the knowledge source. */
   eTag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your knowledge source definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your knowledge source definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your knowledge source definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
@@ -5664,6 +5730,7 @@ export function knowledgeSourceSerializer(item: KnowledgeSource): any {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5676,6 +5743,7 @@ export function knowledgeSourceDeserializer(item: any): KnowledgeSource {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5833,6 +5901,24 @@ export enum KnownKnowledgeSourceKind {
  */
 export type KnowledgeSourceKind = string;
 
+/** Controls whether a knowledge source's results are reranked. */
+export enum KnownKnowledgeSourceResultsProcessing {
+  /** Results from this knowledge source go through the reranking pipeline. This is the default behavior. */
+  Rerank = "rerank",
+  /** Results from this knowledge source bypass reranking and preserve their underlying order. */
+  None = "none",
+}
+
+/**
+ * Controls whether a knowledge source's results are reranked. \
+ * {@link KnownKnowledgeSourceResultsProcessing} can be used interchangeably with KnowledgeSourceResultsProcessing,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **rerank**: Results from this knowledge source go through the reranking pipeline. This is the default behavior. \
+ * **none**: Results from this knowledge source bypass reranking and preserve their underlying order.
+ */
+export type KnowledgeSourceResultsProcessing = string;
+
 /** Knowledge Source targeting a search index. */
 export interface SearchIndexKnowledgeSource extends KnowledgeSource {
   kind: "searchIndex";
@@ -5845,6 +5931,7 @@ export function searchIndexKnowledgeSourceSerializer(item: SearchIndexKnowledgeS
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5860,6 +5947,7 @@ export function searchIndexKnowledgeSourceDeserializer(item: any): SearchIndexKn
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5882,6 +5970,8 @@ export interface SearchIndexKnowledgeSourceParameters {
   semanticConfigurationName?: string;
   /** A default filter condition applied to the index at retrieval time (e.g., 'State eq VA'). Can be overridden at query time via knowledge source runtime parameters. */
   baseFilter?: string;
+  /** Default hints that guide query planning toward useful filters and boosts for this search index knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 export function searchIndexKnowledgeSourceParametersSerializer(
@@ -5897,6 +5987,9 @@ export function searchIndexKnowledgeSourceParametersSerializer(
       : searchIndexFieldReferenceArraySerializer(item["searchFields"]),
     semanticConfigurationName: item["semanticConfigurationName"],
     baseFilter: item["baseFilter"],
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -5913,6 +6006,9 @@ export function searchIndexKnowledgeSourceParametersDeserializer(
       : searchIndexFieldReferenceArrayDeserializer(item["searchFields"]),
     semanticConfigurationName: item["semanticConfigurationName"],
     baseFilter: item["baseFilter"],
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
   };
 }
 
@@ -5948,6 +6044,276 @@ export function searchIndexFieldReferenceDeserializer(item: any): SearchIndexFie
   };
 }
 
+/** Hints that guide query planning toward useful filters and boosts for a search index knowledge source. */
+export interface SearchIndexKnowledgeSourceQueryHints {
+  /** Filter hints that identify fields and representative values the query planner can use when constructing filters. */
+  filters?: SearchIndexKnowledgeSourceFilterHint[];
+  /** Boost hints that identify conditions the query planner can use to influence document ranking. */
+  boosts?: SearchIndexKnowledgeSourceBoostUnion[];
+}
+
+export function searchIndexKnowledgeSourceQueryHintsSerializer(
+  item: SearchIndexKnowledgeSourceQueryHints,
+): any {
+  return {
+    filters: !item["filters"]
+      ? item["filters"]
+      : searchIndexKnowledgeSourceFilterHintArraySerializer(item["filters"]),
+    boosts: !item["boosts"]
+      ? item["boosts"]
+      : searchIndexKnowledgeSourceBoostUnionArraySerializer(item["boosts"]),
+  };
+}
+
+export function searchIndexKnowledgeSourceQueryHintsDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceQueryHints {
+  return {
+    filters: !item["filters"]
+      ? item["filters"]
+      : searchIndexKnowledgeSourceFilterHintArrayDeserializer(item["filters"]),
+    boosts: !item["boosts"]
+      ? item["boosts"]
+      : searchIndexKnowledgeSourceBoostUnionArrayDeserializer(item["boosts"]),
+  };
+}
+
+export function searchIndexKnowledgeSourceFilterHintArraySerializer(
+  result: Array<SearchIndexKnowledgeSourceFilterHint>,
+): any[] {
+  return result.map((item) => {
+    return searchIndexKnowledgeSourceFilterHintSerializer(item);
+  });
+}
+
+export function searchIndexKnowledgeSourceFilterHintArrayDeserializer(
+  result: Array<SearchIndexKnowledgeSourceFilterHint>,
+): any[] {
+  return result.map((item) => {
+    return searchIndexKnowledgeSourceFilterHintDeserializer(item);
+  });
+}
+
+/** A hint that identifies a field and representative values the query planner can use when constructing a filter. */
+export interface SearchIndexKnowledgeSourceFilterHint {
+  /** The name of the filterable search index field. */
+  field: string;
+  /** Representative values for the field. */
+  fieldValues: string[];
+  /** Natural-language instructions that explain when and how to filter on the field. */
+  filterInstructions?: string;
+}
+
+export function searchIndexKnowledgeSourceFilterHintSerializer(
+  item: SearchIndexKnowledgeSourceFilterHint,
+): any {
+  return {
+    field: item["field"],
+    fieldValues: item["fieldValues"].map((p: any) => {
+      return p;
+    }),
+    filterInstructions: item["filterInstructions"],
+  };
+}
+
+export function searchIndexKnowledgeSourceFilterHintDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceFilterHint {
+  return {
+    field: item["field"],
+    fieldValues: item["fieldValues"].map((p: any) => {
+      return p;
+    }),
+    filterInstructions: item["filterInstructions"],
+  };
+}
+
+export function searchIndexKnowledgeSourceBoostUnionArraySerializer(
+  result: Array<SearchIndexKnowledgeSourceBoostUnion>,
+): any[] {
+  return result.map((item) => {
+    return searchIndexKnowledgeSourceBoostUnionSerializer(item);
+  });
+}
+
+export function searchIndexKnowledgeSourceBoostUnionArrayDeserializer(
+  result: Array<SearchIndexKnowledgeSourceBoostUnion>,
+): any[] {
+  return result.map((item) => {
+    return searchIndexKnowledgeSourceBoostUnionDeserializer(item);
+  });
+}
+
+/** A hint that identifies a condition the query planner can use to influence document ranking. */
+export interface SearchIndexKnowledgeSourceBoost {
+  /** The kind of boost hint. */
+  /** The discriminator possible values: fieldValue, multiWordExpression */
+  kind: SearchIndexKnowledgeSourceBoostKind;
+  /** Natural-language instructions that explain when and how to apply the boost. */
+  boostInstructions?: string;
+}
+
+export function searchIndexKnowledgeSourceBoostSerializer(
+  item: SearchIndexKnowledgeSourceBoost,
+): any {
+  return { kind: item["kind"], boostInstructions: item["boostInstructions"] };
+}
+
+export function searchIndexKnowledgeSourceBoostDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceBoost {
+  return {
+    kind: item["kind"],
+    boostInstructions: item["boostInstructions"],
+  };
+}
+
+/** Alias for SearchIndexKnowledgeSourceBoostUnion */
+export type SearchIndexKnowledgeSourceBoostUnion =
+  | SearchIndexKnowledgeSourceFieldValueBoost
+  | SearchIndexKnowledgeSourceMultiWordExpressionBoost
+  | SearchIndexKnowledgeSourceBoost;
+
+export function searchIndexKnowledgeSourceBoostUnionSerializer(
+  item: SearchIndexKnowledgeSourceBoostUnion,
+): any {
+  switch (item.kind) {
+    case "fieldValue":
+      return searchIndexKnowledgeSourceFieldValueBoostSerializer(
+        item as SearchIndexKnowledgeSourceFieldValueBoost,
+      );
+
+    case "multiWordExpression":
+      return searchIndexKnowledgeSourceMultiWordExpressionBoostSerializer(
+        item as SearchIndexKnowledgeSourceMultiWordExpressionBoost,
+      );
+
+    default:
+      return searchIndexKnowledgeSourceBoostSerializer(item);
+  }
+}
+
+export function searchIndexKnowledgeSourceBoostUnionDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceBoostUnion {
+  switch (item["kind"]) {
+    case "fieldValue":
+      return searchIndexKnowledgeSourceFieldValueBoostDeserializer(
+        item as SearchIndexKnowledgeSourceFieldValueBoost,
+      );
+
+    case "multiWordExpression":
+      return searchIndexKnowledgeSourceMultiWordExpressionBoostDeserializer(
+        item as SearchIndexKnowledgeSourceMultiWordExpressionBoost,
+      );
+
+    default:
+      return searchIndexKnowledgeSourceBoostDeserializer(item);
+  }
+}
+
+/** The kind of boost hint for a search index knowledge source. */
+export enum KnownSearchIndexKnowledgeSourceBoostKind {
+  /** Boost documents based on a field value. */
+  FieldValue = "fieldValue",
+  /** Boost documents based on a multi-word expression. */
+  MultiWordExpression = "multiWordExpression",
+}
+
+/**
+ * The kind of boost hint for a search index knowledge source. \
+ * {@link KnownSearchIndexKnowledgeSourceBoostKind} can be used interchangeably with SearchIndexKnowledgeSourceBoostKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fieldValue**: Boost documents based on a field value. \
+ * **multiWordExpression**: Boost documents based on a multi-word expression.
+ */
+export type SearchIndexKnowledgeSourceBoostKind = string;
+
+/** A hint that boosts documents based on a field value. */
+export interface SearchIndexKnowledgeSourceFieldValueBoost extends SearchIndexKnowledgeSourceBoost {
+  /** The discriminator value. */
+  kind: "fieldValue";
+  /** The name of the search index field. */
+  field: string;
+  /** Representative values for the field. */
+  fieldValues?: string[];
+  /** A multiplier for the document score. Must be a positive number not equal to 1.0. */
+  boost: number;
+}
+
+export function searchIndexKnowledgeSourceFieldValueBoostSerializer(
+  item: SearchIndexKnowledgeSourceFieldValueBoost,
+): any {
+  return {
+    kind: item["kind"],
+    boostInstructions: item["boostInstructions"],
+    field: item["field"],
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    boost: item["boost"],
+  };
+}
+
+export function searchIndexKnowledgeSourceFieldValueBoostDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceFieldValueBoost {
+  return {
+    kind: item["kind"],
+    boostInstructions: item["boostInstructions"],
+    field: item["field"],
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    boost: item["boost"],
+  };
+}
+
+/** A hint that boosts documents based on a multi-word expression. */
+export interface SearchIndexKnowledgeSourceMultiWordExpressionBoost extends SearchIndexKnowledgeSourceBoost {
+  /** The discriminator value. */
+  kind: "multiWordExpression";
+  /** Representative values for the boost. */
+  fieldValues?: string[];
+  /** A multiplier for the document score. Must be a positive number not equal to 1.0. */
+  boost: number;
+}
+
+export function searchIndexKnowledgeSourceMultiWordExpressionBoostSerializer(
+  item: SearchIndexKnowledgeSourceMultiWordExpressionBoost,
+): any {
+  return {
+    kind: item["kind"],
+    boostInstructions: item["boostInstructions"],
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    boost: item["boost"],
+  };
+}
+
+export function searchIndexKnowledgeSourceMultiWordExpressionBoostDeserializer(
+  item: any,
+): SearchIndexKnowledgeSourceMultiWordExpressionBoost {
+  return {
+    kind: item["kind"],
+    boostInstructions: item["boostInstructions"],
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    boost: item["boost"],
+  };
+}
+
 /** Configuration for Azure Blob Storage knowledge source. */
 export interface AzureBlobKnowledgeSource extends KnowledgeSource {
   kind: "azureBlob";
@@ -5960,6 +6326,7 @@ export function azureBlobKnowledgeSourceSerializer(item: AzureBlobKnowledgeSourc
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5973,6 +6340,7 @@ export function azureBlobKnowledgeSourceDeserializer(item: any): AzureBlobKnowle
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -5995,6 +6363,8 @@ export interface AzureBlobKnowledgeSourceParameters {
   isAdlsGen2?: boolean;
   /** Consolidates all general ingestion settings. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Default hints that guide query planning toward useful filters and boosts for this index-backed knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6010,6 +6380,9 @@ export function azureBlobKnowledgeSourceParametersSerializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -6024,6 +6397,9 @@ export function azureBlobKnowledgeSourceParametersDeserializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
     createdResources: !item["createdResources"]
       ? item["createdResources"]
       : createdResourcesDeserializer(item["createdResources"]),
@@ -6120,6 +6496,7 @@ export function indexedSharePointKnowledgeSourceSerializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6137,6 +6514,7 @@ export function indexedSharePointKnowledgeSourceDeserializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6157,6 +6535,8 @@ export interface IndexedSharePointKnowledgeSourceParameters {
   query?: string;
   /** Consolidates all general ingestion settings. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Default hints that guide query planning toward useful filters and boosts for this index-backed knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6171,6 +6551,9 @@ export function indexedSharePointKnowledgeSourceParametersSerializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -6184,6 +6567,9 @@ export function indexedSharePointKnowledgeSourceParametersDeserializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
     createdResources: !item["createdResources"]
       ? item["createdResources"]
       : createdResourcesDeserializer(item["createdResources"]),
@@ -6223,6 +6609,7 @@ export function indexedOneLakeKnowledgeSourceSerializer(item: IndexedOneLakeKnow
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6240,6 +6627,7 @@ export function indexedOneLakeKnowledgeSourceDeserializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6260,6 +6648,8 @@ export interface IndexedOneLakeKnowledgeSourceParameters {
   targetPath?: string;
   /** Consolidates all general ingestion settings. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Default hints that guide query planning toward useful filters and boosts for this index-backed knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6274,6 +6664,9 @@ export function indexedOneLakeKnowledgeSourceParametersSerializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -6287,6 +6680,9 @@ export function indexedOneLakeKnowledgeSourceParametersDeserializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
     createdResources: !item["createdResources"]
       ? item["createdResources"]
       : createdResourcesDeserializer(item["createdResources"]),
@@ -6306,6 +6702,7 @@ export function indexedSqlKnowledgeSourceSerializer(item: IndexedSqlKnowledgeSou
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6321,6 +6718,7 @@ export function indexedSqlKnowledgeSourceDeserializer(item: any): IndexedSqlKnow
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6345,6 +6743,8 @@ export interface IndexedSqlKnowledgeSourceParameters {
   embeddingColumns?: EmbeddingColumnMapping[];
   /** Consolidates all general ingestion settings including embedding model, schedule, and identity. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Default hints that guide query planning toward useful filters and boosts for this index-backed knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Resources created by the knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6365,6 +6765,9 @@ export function indexedSqlKnowledgeSourceParametersSerializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -6384,6 +6787,9 @@ export function indexedSqlKnowledgeSourceParametersDeserializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
     createdResources: !item["createdResources"]
       ? item["createdResources"]
       : createdResourcesDeserializer(item["createdResources"]),
@@ -6465,9 +6871,12 @@ export function embeddingColumnMappingDeserializer(item: any): EmbeddingColumnMa
 
 /** Configuration for File knowledge source that supports direct file upload and indexing. */
 export interface FileKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
   kind: "file";
   /** The parameters for the File knowledge source. */
   fileParameters: FileKnowledgeSourceParameters;
+  /** Options to control Cross-Origin Resource Sharing (CORS) for the File knowledge source's file endpoints (upload, list, update, delete). */
+  corsOptions?: CorsOptions;
 }
 
 export function fileKnowledgeSourceSerializer(item: FileKnowledgeSource): any {
@@ -6475,11 +6884,15 @@ export function fileKnowledgeSourceSerializer(item: FileKnowledgeSource): any {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
     fileParameters: fileKnowledgeSourceParametersSerializer(item["fileParameters"]),
+    corsOptions: !item["corsOptions"]
+      ? item["corsOptions"]
+      : corsOptionsSerializer(item["corsOptions"]),
   };
 }
 
@@ -6488,18 +6901,24 @@ export function fileKnowledgeSourceDeserializer(item: any): FileKnowledgeSource 
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
     fileParameters: fileKnowledgeSourceParametersDeserializer(item["fileParameters"]),
+    corsOptions: !item["corsOptions"]
+      ? item["corsOptions"]
+      : corsOptionsDeserializer(item["corsOptions"]),
   };
 }
 
 /** Parameters for File knowledge source. */
 export interface FileKnowledgeSourceParameters {
-  /** Consolidates all general ingestion settings. Only 'minimal' content extraction mode and embeddingModel are supported for file knowledge sources. */
+  /** Consolidates all general ingestion settings for the File knowledge source, including the content extraction mode and an optional embeddingModel. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Default hints that guide query planning toward useful filters and boosts for this index-backed knowledge source. Request-time query hints replace these defaults as a complete object. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Resources created by the file knowledge source. */
   readonly createdResources?: CreatedResources;
 }
@@ -6509,6 +6928,9 @@ export function fileKnowledgeSourceParametersSerializer(item: FileKnowledgeSourc
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersSerializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsSerializer(item["queryHints"]),
   };
 }
 
@@ -6519,56 +6941,12 @@ export function fileKnowledgeSourceParametersDeserializer(
     ingestionParameters: !item["ingestionParameters"]
       ? item["ingestionParameters"]
       : knowledgeSourceIngestionParametersDeserializer(item["ingestionParameters"]),
+    queryHints: !item["queryHints"]
+      ? item["queryHints"]
+      : searchIndexKnowledgeSourceQueryHintsDeserializer(item["queryHints"]),
     createdResources: !item["createdResources"]
       ? item["createdResources"]
       : createdResourcesDeserializer(item["createdResources"]),
-  };
-}
-
-/** Metadata for a file uploaded to a File knowledge source. */
-export interface KnowledgeSourceFile {
-  /** The unique identifier for the file. */
-  readonly fileId?: string;
-  /** The original file name. */
-  readonly fileName?: string;
-  /** The file size in bytes. */
-  readonly fileSizeBytes?: number;
-  /** The timestamp when the file was created. */
-  readonly createdAt?: Date;
-  /** The timestamp when the file was last updated. */
-  readonly lastUpdatedAt?: Date;
-  /** The error message if file processing failed, null otherwise. */
-  readonly errorMessage?: string | null;
-}
-
-export function knowledgeSourceFileDeserializer(item: any): KnowledgeSourceFile {
-  return {
-    fileId: item["fileId"],
-    fileName: item["fileName"],
-    fileSizeBytes: item["fileSizeBytes"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
-    errorMessage: item["errorMessage"],
-  };
-}
-
-export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSourceFile>): any[] {
-  return result.map((item) => {
-    return knowledgeSourceFileDeserializer(item);
-  });
-}
-
-/** Response from a List Files request. */
-export interface _ListKnowledgeSourceFilesResult {
-  /** The list of files. */
-  value: KnowledgeSourceFile[];
-}
-
-export function _listKnowledgeSourceFilesResultDeserializer(
-  item: any,
-): _ListKnowledgeSourceFilesResult {
-  return {
-    value: knowledgeSourceFileArrayDeserializer(item["value"]),
   };
 }
 
@@ -6584,6 +6962,7 @@ export function webKnowledgeSourceSerializer(item: WebKnowledgeSource): any {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6599,6 +6978,7 @@ export function webKnowledgeSourceDeserializer(item: any): WebKnowledgeSource {
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6726,6 +7106,7 @@ export function remoteSharePointKnowledgeSourceSerializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6743,6 +7124,7 @@ export function remoteSharePointKnowledgeSourceDeserializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6793,7 +7175,10 @@ export function remoteSharePointKnowledgeSourceParametersDeserializer(
 
 /** Configuration for WorkIQ knowledge source. */
 export interface WorkIQKnowledgeSource extends KnowledgeSource {
+  /** The discriminator value. */
   kind: "workIQ";
+  /** The parameters for the WorkIQ knowledge source, including the customer-owned Entra app configuration used for on-behalf-of authentication. */
+  workIQParameters: WorkIQKnowledgeSourceParameters;
 }
 
 export function workIQKnowledgeSourceSerializer(item: WorkIQKnowledgeSource): any {
@@ -6801,10 +7186,12 @@ export function workIQKnowledgeSourceSerializer(item: WorkIQKnowledgeSource): an
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeySerializer(item["encryptionKey"]),
+    workIQParameters: workIQKnowledgeSourceParametersSerializer(item["workIQParameters"]),
   };
 }
 
@@ -6813,10 +7200,12 @@ export function workIQKnowledgeSourceDeserializer(item: any): WorkIQKnowledgeSou
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
       : searchResourceEncryptionKeyDeserializer(item["encryptionKey"]),
+    workIQParameters: workIQKnowledgeSourceParametersDeserializer(item["workIQParameters"]),
   };
 }
 
@@ -6833,6 +7222,7 @@ export function mcpServerKnowledgeSourceSerializer(item: McpServerKnowledgeSourc
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -6846,6 +7236,7 @@ export function mcpServerKnowledgeSourceDeserializer(item: any): McpServerKnowle
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -7101,8 +7492,8 @@ export interface McpServerTool {
   name?: string;
   /** Optional configuration for parsing the tool's output. */
   outputParsing?: McpServerOutputParsingUnion;
-  /** Controls how the parsed results from this tool are integrated into the final result set. Defaults to 'reranked' when not specified. */
-  inclusionMode?: McpServerToolInclusionMode;
+  /** Controls whether the parsed results from this tool are reranked. Defaults to 'rerank' when not specified. */
+  resultsProcessing?: KnowledgeSourceResultsProcessing;
   /** Optional post-parsing token cap for this tool's output. Must be greater than 0 when specified. */
   maxOutputTokens?: number;
 }
@@ -7113,7 +7504,7 @@ export function mcpServerToolSerializer(item: McpServerTool): any {
     outputParsing: !item["outputParsing"]
       ? item["outputParsing"]
       : mcpServerOutputParsingUnionSerializer(item["outputParsing"]),
-    inclusionMode: item["inclusionMode"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputTokens: item["maxOutputTokens"],
   };
 }
@@ -7124,7 +7515,7 @@ export function mcpServerToolDeserializer(item: any): McpServerTool {
     outputParsing: !item["outputParsing"]
       ? item["outputParsing"]
       : mcpServerOutputParsingUnionDeserializer(item["outputParsing"]),
-    inclusionMode: item["inclusionMode"],
+    resultsProcessing: item["resultsProcessing"],
     maxOutputTokens: item["maxOutputTokens"],
   };
 }
@@ -7486,24 +7877,6 @@ export function mcpServerNoneOutputParsingDeserializer(item: any): McpServerNone
   };
 }
 
-/** Controls how parsed MCP tool results are integrated into the final result set. */
-export enum KnownMcpServerToolInclusionMode {
-  /** Tool results go through the reranking and aggregation pipeline alongside results from other knowledge sources. This is the default behavior. */
-  Reranked = "reranked",
-  /** Tool results bypass reranking and are always included in the agent context. */
-  Always = "always",
-}
-
-/**
- * Controls how parsed MCP tool results are integrated into the final result set. \
- * {@link KnownMcpServerToolInclusionMode} can be used interchangeably with McpServerToolInclusionMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **reranked**: Tool results go through the reranking and aggregation pipeline alongside results from other knowledge sources. This is the default behavior. \
- * **always**: Tool results bypass reranking and are always included in the agent context.
- */
-export type McpServerToolInclusionMode = string;
-
 /** Configuration for Fabric Data Agent knowledge source. */
 export interface FabricDataAgentKnowledgeSource extends KnowledgeSource {
   /** The discriminator value. */
@@ -7519,6 +7892,7 @@ export function fabricDataAgentKnowledgeSourceSerializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -7536,6 +7910,7 @@ export function fabricDataAgentKnowledgeSourceDeserializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -7582,6 +7957,7 @@ export function fabricOntologyKnowledgeSourceSerializer(item: FabricOntologyKnow
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     "@odata.etag": item["eTag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -7599,6 +7975,7 @@ export function fabricOntologyKnowledgeSourceDeserializer(
     name: item["name"],
     description: item["description"],
     kind: item["kind"],
+    resultsProcessing: item["resultsProcessing"],
     eTag: item["@odata.etag"],
     encryptionKey: !item["encryptionKey"]
       ? item["encryptionKey"]
@@ -7636,11 +8013,14 @@ export function fabricOntologyKnowledgeSourceParametersDeserializer(
 export interface _ListKnowledgeSourcesResult {
   /** The knowledge sources in the service. */
   value: KnowledgeSourceUnion[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function _listKnowledgeSourcesResultDeserializer(item: any): _ListKnowledgeSourcesResult {
   return {
     value: knowledgeSourceUnionArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -7676,6 +8056,103 @@ export enum KnownKnowledgeSourceSynchronizationStatus {
  * **deleting**: The knowledge source is being deleted and synchronization is paused.
  */
 export type KnowledgeSourceSynchronizationStatus = string;
+
+/** Metadata for a file uploaded to a File knowledge source. */
+export interface KnowledgeSourceFile {
+  /** The unique identifier for the file. */
+  readonly fileId?: string;
+  /** The original file name. */
+  readonly fileName?: string;
+  /** The file size in bytes. */
+  readonly fileSizeBytes?: number;
+  /** The timestamp when the file was created. */
+  readonly createdAt?: Date;
+  /** The timestamp when the file was last updated. */
+  readonly lastUpdatedAt?: Date;
+  /** The error message if file processing failed, null otherwise. */
+  readonly errorMessage?: string;
+  /** The prefix (directory-like path) derived from the full file name. */
+  readonly prefix?: string;
+  /** Custom key/value metadata stored with the file. Returned but not searchable or filterable. */
+  readonly metadata?: Record<string, string>;
+  /** The parsing mode applied to the file (auto-detected from the file). */
+  readonly parsingMode?: BlobIndexerParsingMode;
+  /** The extraction mode applied to the file. */
+  readonly extractionMode?: FileKnowledgeSourceExtractionMode;
+}
+
+export function knowledgeSourceFileDeserializer(item: any): KnowledgeSourceFile {
+  return {
+    fileId: item["fileId"],
+    fileName: item["fileName"],
+    fileSizeBytes: item["fileSizeBytes"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastUpdatedAt: !item["lastUpdatedAt"] ? item["lastUpdatedAt"] : new Date(item["lastUpdatedAt"]),
+    errorMessage: item["errorMessage"],
+    prefix: item["prefix"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    parsingMode: item["parsingMode"],
+    extractionMode: item["extractionMode"],
+  };
+}
+
+/** Represents the parsing mode for indexing from an Azure blob data source. */
+export enum KnownBlobIndexerParsingMode {
+  /** Set to default for normal file processing. */
+  Default = "default",
+  /** Set to text to improve indexing performance on plain text files in blob storage. */
+  Text = "text",
+  /** Set to delimitedText when blobs are plain CSV files. */
+  DelimitedText = "delimitedText",
+  /** Set to json to extract structured content from JSON files. */
+  Json = "json",
+  /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
+  JsonArray = "jsonArray",
+  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
+  JsonLines = "jsonLines",
+  /** Set to markdown to extract content from markdown files. */
+  Markdown = "markdown",
+}
+
+/**
+ * Represents the parsing mode for indexing from an Azure blob data source. \
+ * {@link KnownBlobIndexerParsingMode} can be used interchangeably with BlobIndexerParsingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: Set to default for normal file processing. \
+ * **text**: Set to text to improve indexing performance on plain text files in blob storage. \
+ * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
+ * **json**: Set to json to extract structured content from JSON files. \
+ * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
+ * **markdown**: Set to markdown to extract content from markdown files.
+ */
+export type BlobIndexerParsingMode = string;
+
+/** Response from a List Files request. */
+export interface _ListKnowledgeSourceFilesResult {
+  /** The list of files. */
+  value: KnowledgeSourceFile[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
+}
+
+export function _listKnowledgeSourceFilesResultDeserializer(
+  item: any,
+): _ListKnowledgeSourceFilesResult {
+  return {
+    value: knowledgeSourceFileArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
+  };
+}
+
+export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSourceFile>): any[] {
+  return result.map((item) => {
+    return knowledgeSourceFileDeserializer(item);
+  });
+}
 
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface SearchServiceStatistics {
@@ -7766,6 +8243,8 @@ export interface ServiceLimits {
   maxStoragePerIndexInBytes?: number;
   /** The maximum cumulative indexer runtime in seconds allowed for the service. */
   maxCumulativeIndexerRuntimeSeconds?: number;
+  /** The maximum vector index size (vector memory quota) allowed per index in bytes. */
+  maxVectorIndexSizePerIndexInBytes?: number;
 }
 
 export function serviceLimitsDeserializer(item: any): ServiceLimits {
@@ -7776,6 +8255,7 @@ export function serviceLimitsDeserializer(item: any): ServiceLimits {
     maxComplexObjectsInCollectionsPerDocument: item["maxComplexObjectsInCollectionsPerDocument"],
     maxStoragePerIndexInBytes: item["maxStoragePerIndex"],
     maxCumulativeIndexerRuntimeSeconds: item["maxCumulativeIndexerRuntimeSeconds"],
+    maxVectorIndexSizePerIndexInBytes: item["maxVectorIndexSizePerIndexInBytes"],
   };
 }
 
@@ -8248,11 +8728,14 @@ export function nativeBlobSoftDeleteDeletionDetectionPolicyDeserializer(
 export interface ListDataSourcesResult {
   /** The datasources in the Search service. */
   readonly dataSources: SearchIndexerDataSourceConnection[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function listDataSourcesResultDeserializer(item: any): ListDataSourcesResult {
   return {
     dataSources: searchIndexerDataSourceConnectionArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -8308,7 +8791,7 @@ export interface DocumentKeysOrIds {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
-  dataSourceDocumentIds?: string[];
+  datasourceDocumentIds?: string[];
 }
 
 export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
@@ -8318,9 +8801,9 @@ export function documentKeysOrIdsSerializer(item: DocumentKeysOrIds): any {
       : item["documentKeys"].map((p: any) => {
           return p;
         }),
-    datasourceDocumentIds: !item["dataSourceDocumentIds"]
-      ? item["dataSourceDocumentIds"]
-      : item["dataSourceDocumentIds"].map((p: any) => {
+    datasourceDocumentIds: !item["datasourceDocumentIds"]
+      ? item["datasourceDocumentIds"]
+      : item["datasourceDocumentIds"].map((p: any) => {
           return p;
         }),
   };
@@ -8557,39 +9040,6 @@ export function indexingParametersConfigurationDeserializer(
   };
 }
 
-/** Represents the parsing mode for indexing from an Azure blob data source. */
-export enum KnownBlobIndexerParsingMode {
-  /** Set to default for normal file processing. */
-  Default = "default",
-  /** Set to text to improve indexing performance on plain text files in blob storage. */
-  Text = "text",
-  /** Set to delimitedText when blobs are plain CSV files. */
-  DelimitedText = "delimitedText",
-  /** Set to json to extract structured content from JSON files. */
-  Json = "json",
-  /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
-  JsonArray = "jsonArray",
-  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
-  JsonLines = "jsonLines",
-  /** Set to markdown to extract content from markdown files. */
-  Markdown = "markdown",
-}
-
-/**
- * Represents the parsing mode for indexing from an Azure blob data source. \
- * {@link KnownBlobIndexerParsingMode} can be used interchangeably with BlobIndexerParsingMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**: Set to default for normal file processing. \
- * **text**: Set to text to improve indexing performance on plain text files in blob storage. \
- * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
- * **json**: Set to json to extract structured content from JSON files. \
- * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
- * **markdown**: Set to markdown to extract content from markdown files.
- */
-export type BlobIndexerParsingMode = string;
-
 /** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
 export enum KnownMarkdownParsingSubmode {
   /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
@@ -8819,11 +9269,14 @@ export function searchIndexerCacheDeserializer(item: any): SearchIndexerCache {
 export interface ListIndexersResult {
   /** The indexers in the Search service. */
   readonly indexers: SearchIndexer[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function listIndexersResultDeserializer(item: any): ListIndexersResult {
   return {
     indexers: searchIndexerArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 
@@ -12140,6 +12593,24 @@ export function contentUnderstandingSkillChunkingPropertiesDeserializer(
   };
 }
 
+/** The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. */
+export enum KnownContentUnderstandingSkillChunkingMethod {
+  /** Fixed-size character-based windowed chunking. */
+  FixedSize = "fixedSize",
+  /** Layout-aware, paragraph-boundary-respecting chunking. */
+  Semantic = "semantic",
+}
+
+/**
+ * The chunking strategy used by the Content Understanding skill. Default is 'fixedSize'. \
+ * {@link KnownContentUnderstandingSkillChunkingMethod} can be used interchangeably with ContentUnderstandingSkillChunkingMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **fixedSize**: Fixed-size character-based windowed chunking. \
+ * **semantic**: Layout-aware, paragraph-boundary-respecting chunking.
+ */
+export type ContentUnderstandingSkillChunkingMethod = string;
+
 /** Controls the cardinality of the chunk unit. Default is 'characters' */
 export enum KnownContentUnderstandingSkillChunkingUnit {
   /** Specifies chunk by characters. */
@@ -13065,11 +13536,14 @@ export function searchIndexerKnowledgeStoreBlobProjectionSelectorDeserializer(
 export interface ListSkillsetsResult {
   /** The skillsets defined in the Search service. */
   readonly skillsets: SearchIndexerSkillset[];
+  /** The URL that can be used to fetch the next set of results. */
+  readonly odataNextLink?: string;
 }
 
 export function listSkillsetsResultDeserializer(item: any): ListSkillsetsResult {
   return {
     skillsets: searchIndexerSkillsetArrayDeserializer(item["value"]),
+    odataNextLink: item["@odata.nextLink"],
   };
 }
 

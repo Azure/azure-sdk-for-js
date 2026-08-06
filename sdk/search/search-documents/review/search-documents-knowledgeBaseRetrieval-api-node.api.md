@@ -32,6 +32,17 @@ export interface RetrieveOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
+}
+
+// @public
+export function retrieveStream(context: KnowledgeBaseRetrievalContext, retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptionalParams): Promise<Uint8Array>;
+
+// @public
+export interface RetrieveStreamOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

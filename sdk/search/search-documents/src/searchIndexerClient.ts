@@ -658,7 +658,7 @@ export class SearchIndexerClient {
           overwrite,
           keysOrIds:
             documentKeys || dataSourceDocumentIds
-              ? { documentKeys, dataSourceDocumentIds }
+              ? { documentKeys, datasourceDocumentIds: dataSourceDocumentIds }
               : undefined,
         });
       },

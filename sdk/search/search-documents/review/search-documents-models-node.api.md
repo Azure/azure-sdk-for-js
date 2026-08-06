@@ -5,34 +5,62 @@
 ```ts
 
 // @public
-export type ContentUnderstandingSkillChunkingMethod = string;
-
-// @public
-export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
-    inputTokensCount?: number;
-    modelName?: string;
-    outputTokensCount?: number;
-    type: "modelWebSummarization";
+export interface EntraAppAuthentication {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
 }
 
 // @public
-export enum KnownContentUnderstandingSkillChunkingMethod {
-    FixedSize = "fixedSize",
-    Semantic = "semantic"
+export type FileKnowledgeSourceExtractionMode = string;
+
+// @public
+export interface FileUploadMetadata {
+    fileName?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface KnowledgeBaseRetrieveDefaults {
+    maxOutputDocuments?: number;
+    maxOutputSizeInTokens?: number;
+    maxRuntimeInSeconds?: number;
+}
+
+// @public
+export type KnowledgeSourceNetworkAccessMode = string;
+
+// @public
+export enum KnownFileKnowledgeSourceExtractionMode {
+    Minimal = "minimal",
+    Standard = "standard"
+}
+
+// @public
+export enum KnownKnowledgeSourceNetworkAccessMode {
+    Private = "private",
+    Public = "public"
+}
+
+// @public
+export enum KnownListingSearchType {
+    Prefix = "prefix"
 }
 
 // @public
 export enum KnownVersions {
     V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
-    V20260501Preview = "2026-05-01-preview"
+    V20260501Preview = "2026-05-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // @public
-export interface SharePointConnectorAppRegistration {
-    applicationId: string;
-    federatedCredentialId: string;
-    tenantId?: string;
+export type ListingSearchType = string;
+
+// @public
+export interface WorkIQKnowledgeSourceParameters {
+    entraAppAuthentication: EntraAppAuthentication;
 }
 
 // (No @packageDocumentation comment for this package)

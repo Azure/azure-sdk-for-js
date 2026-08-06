@@ -134,6 +134,8 @@ export interface AzureBlobKnowledgeSourceParameters {
 // @public
 export interface AzureBlobKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "azureBlob";
+    // Warning: (ae-forgotten-export) The symbol "SearchIndexKnowledgeSourceQueryHints" needs to be exported by the entry point index.d.ts
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 export { AzureKeyCredential }
@@ -207,7 +209,7 @@ export interface BaseDataDeletionDetectionPolicy {
 
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
-    elapsedInMs?: number;
+    elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
     type: KnowledgeBaseActivityRecordType;
@@ -229,7 +231,7 @@ export interface BaseKnowledgeBaseReference {
     activitySource: number;
     id: string;
     rerankerScore?: number;
-    sourceData?: Record<string, unknown>;
+    sourceData?: Record<string, any>;
     type: KnowledgeBaseReferenceType;
 }
 
@@ -260,7 +262,10 @@ export interface BaseKnowledgeSourceParams {
     kind: KnowledgeSourceKind;
     knowledgeSourceName: string;
     maxOutputDocuments?: number;
+    neverQuerySource?: boolean;
     rerankerThreshold?: number;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceResultsProcessing" needs to be exported by the entry point index.d.ts
+    resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
 
 // @public
@@ -1005,11 +1010,13 @@ export interface FileKnowledgeSourceParameters {
     readonly createdResources?: CreatedResources;
     // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceIngestionParameters_2" needs to be exported by the entry point index.d.ts
     ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
 export interface FileKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "file";
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -1196,6 +1203,7 @@ export interface IndexedOneLakeKnowledgeSourceParameters {
 // @public
 export interface IndexedOneLakeKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedOneLake";
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -1221,6 +1229,7 @@ export interface IndexedSharePointKnowledgeSourceParameters {
 // @public
 export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedSharePoint";
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -1237,12 +1246,14 @@ export interface IndexedSqlKnowledgeSourceParameters {
     embeddingColumns?: EmbeddingColumnMapping[];
     highWaterMarkColumnName?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
     tableOrView: string;
 }
 
 // @public
 export interface IndexedSqlKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "indexedSql";
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -1459,6 +1470,7 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends BaseKnowled
 // @public
 export interface KnowledgeBaseAzureBlobReference extends BaseKnowledgeBaseReference {
     blobUrl?: string;
+    citationUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "azureBlob";
 }
@@ -1471,7 +1483,7 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 
 // @public
 export interface KnowledgeBaseErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -1500,12 +1512,14 @@ export interface KnowledgeBaseFabricOntologyReference extends BaseKnowledgeBaseR
 
 // @public
 export interface KnowledgeBaseFileReference extends BaseKnowledgeBaseReference {
+    citationUrl?: string;
     docName?: string;
     type: "file";
 }
 
 // @public
 export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedOneLake";
@@ -1513,6 +1527,7 @@ export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseR
 
 // @public
 export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedSharePoint";
@@ -1520,6 +1535,7 @@ export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBa
 
 // @public
 export interface KnowledgeBaseIndexedSqlReference extends BaseKnowledgeBaseReference {
+    citationUrl?: string;
     docUrl?: string;
     type: "indexedSql";
 }
@@ -1569,7 +1585,8 @@ export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 // @public
 export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKnowledgeBaseActivityRecord {
     inputTokens?: number;
-    modelName?: string;
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseActivityRecordModel" needs to be exported by the entry point index.d.ts
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokens?: number;
     type: "modelAnswerSynthesis";
 }
@@ -1580,7 +1597,7 @@ export type KnowledgeBaseModelKind = string;
 // @public
 export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowledgeBaseActivityRecord {
     inputTokens?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokens?: number;
     type: "modelQueryPlanning";
 }
@@ -1588,7 +1605,7 @@ export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowl
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKnowledgeBaseActivityRecord {
     inputTokensCount?: number;
-    modelName?: string;
+    model?: KnowledgeBaseActivityRecordModel;
     outputTokensCount?: number;
     type: "modelWebSummarization";
 }
@@ -1630,6 +1647,7 @@ export interface KnowledgeBaseRetrievalResponse {
 
 // @public
 export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseReference {
+    citationUrl?: string;
     docKey?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "searchIndex";
@@ -1644,7 +1662,7 @@ export interface KnowledgeBaseWebReference extends BaseKnowledgeBaseReference {
 
 // @public
 export interface KnowledgeBaseWorkIQReference extends BaseKnowledgeBaseReference {
-    attributions?: WorkIQAttribution[];
+    searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "workIQ";
 }
 
@@ -1694,8 +1712,10 @@ export type KnowledgeRetrievalOutputMode = string;
 // @public
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
+// Warning: (ae-forgotten-export) The symbol "KnowledgeRetrievalAutoReasoningEffort" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
+export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | KnowledgeRetrievalAutoReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
 
 // @public
 export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalIntent {
@@ -1718,11 +1738,17 @@ export type KnowledgeSourceContentExtractionMode = string;
 // @public
 export interface KnowledgeSourceFile {
     readonly createdAt?: Date;
-    readonly errorMessage?: string | null;
+    readonly errorMessage?: string;
+    // Warning: (ae-forgotten-export) The symbol "FileKnowledgeSourceExtractionMode" needs to be exported by the entry point index.d.ts
+    readonly extractionMode?: FileKnowledgeSourceExtractionMode;
     readonly fileId?: string;
     readonly fileName?: string;
     readonly fileSizeBytes?: number;
     readonly lastUpdatedAt?: Date;
+    readonly metadata?: Record<string, string>;
+    // Warning: (ae-forgotten-export) The symbol "BlobIndexerParsingMode_2" needs to be exported by the entry point index.d.ts
+    readonly parsingMode?: BlobIndexerParsingMode_2;
+    readonly prefix?: string;
 }
 
 // @public
@@ -1762,7 +1788,7 @@ export interface KnowledgeSourceReference {
 export interface KnowledgeSourceStatistics {
     averageItemsProcessedPerSynchronization: number;
     averageSynchronizationDuration: string;
-    totalSynchronizations: number;
+    totalSynchronization: number;
 }
 
 // @public
@@ -1912,6 +1938,10 @@ export enum KnownAzureOpenAIModelName {
     Gpt54 = "gpt-5.4",
     Gpt54Mini = "gpt-5.4-mini",
     Gpt54Nano = "gpt-5.4-nano",
+    Gpt55 = "gpt-5.5",
+    Gpt56Luna = "gpt-5.6-luna",
+    Gpt56Sol = "gpt-5.6-sol",
+    Gpt56Terra = "gpt-5.6-terra",
     Gpt5Mini = "gpt-5-mini",
     Gpt5Nano = "gpt-5-nano",
     TextEmbedding3Large = "text-embedding-3-large",
@@ -2196,6 +2226,7 @@ export enum KnownKnowledgeRetrievalOutputMode {
 
 // @public
 export enum KnownKnowledgeRetrievalReasoningEffortKind {
+    Auto = "auto",
     Low = "low",
     Medium = "medium",
     Minimal = "minimal"
@@ -2361,12 +2392,6 @@ export enum KnownMcpServerOutputParsingKind {
     Json = "json",
     None = "none",
     Split = "split"
-}
-
-// @public
-export enum KnownMcpServerToolInclusionMode {
-    Always = "always",
-    Reranked = "reranked"
 }
 
 // @public
@@ -3165,14 +3190,11 @@ export interface McpServerStoredHeadersParameters {
 
 // @public
 export interface McpServerTool {
-    inclusionMode?: McpServerToolInclusionMode;
     maxOutputTokens?: number;
     name?: string;
     outputParsing?: McpServerOutputParsingUnion;
+    resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
-
-// @public
-export type McpServerToolInclusionMode = string;
 
 // @public
 export type MergeDocumentsOptions = IndexDocumentsOptions;
@@ -3965,6 +3987,7 @@ export interface SearchIndexKnowledgeSource extends BaseKnowledgeSource {
 // @public
 export interface SearchIndexKnowledgeSourceParameters {
     baseFilter?: string;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
     searchFields?: SearchIndexFieldReference[];
     searchIndexName: string;
     semanticConfigurationName?: string;
@@ -3975,6 +3998,7 @@ export interface SearchIndexKnowledgeSourceParameters {
 export interface SearchIndexKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     filterAddOn?: string;
     kind: "searchIndex";
+    queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -4158,6 +4182,7 @@ export interface ServiceLimits {
     maxFieldNestingDepthPerIndex?: number;
     maxFieldsPerIndex?: number;
     maxStoragePerIndexInBytes?: number;
+    maxVectorIndexSizePerIndexInBytes?: number;
 }
 
 // @public
@@ -4617,11 +4642,6 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
     splitOnCaseChange?: boolean;
     splitOnNumerics?: boolean;
     stemEnglishPossessive?: boolean;
-}
-
-// @public
-export interface WorkIQAttribution {
-    seeMoreWebUrl?: string;
 }
 
 // @public

@@ -2,8 +2,17 @@
 // Licensed under the MIT License.
 
 export type {
-  SharePointConnectorAppRegistration,
-  ContentUnderstandingSkillChunkingMethod,
+  KnowledgeBaseRetrieveDefaults,
+  KnowledgeSourceNetworkAccessMode,
+  WorkIQKnowledgeSourceParameters,
+  EntraAppAuthentication,
+  FileKnowledgeSourceExtractionMode,
+  FileUploadMetadata,
+  ListingSearchType,
 } from "./models.js";
-export { KnownContentUnderstandingSkillChunkingMethod, KnownVersions } from "./models.js";
-export type { KnowledgeBaseModelWebSummarizationActivityRecord } from "./azure/search/documents/knowledgeBases/models.js";
+export {
+  KnownKnowledgeSourceNetworkAccessMode,
+  KnownFileKnowledgeSourceExtractionMode,
+  KnownListingSearchType,
+  KnownVersions,
+} from "./models.js";
