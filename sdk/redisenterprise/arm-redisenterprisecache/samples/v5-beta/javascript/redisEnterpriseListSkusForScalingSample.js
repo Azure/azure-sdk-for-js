@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the available SKUs for scaling the Redis Enterprise cluster.
  *
  * @summary lists the available SKUs for scaling the Redis Enterprise cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseListSkusForScaling.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseListSkusForScaling.json
  */
 async function redisEnterpriseListSkusForScaling() {
   const credential = new DefaultAzureCredential();
