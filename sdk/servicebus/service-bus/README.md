@@ -532,6 +532,17 @@ const queueRuntimeProperties =
   await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
 console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMessageCount}`);
 
+// Topic runtime properties additionally report the total number of SQL and correlation filters
+// across all of the topic's subscriptions. These counts are served by the 2024-05 service API
+// version and later; on an older version they are `undefined`.
+const topicName = "my-topic";
+await serviceBusAdministrationClient.createTopic(topicName);
+const topicRuntimeProperties =
+  await serviceBusAdministrationClient.getTopicRuntimeProperties(topicName);
+console.log(`SQL filter count = ${topicRuntimeProperties.sqlFilterCount}`);
+console.log(`Correlation filter count = ${topicRuntimeProperties.correlationFilterCount}`);
+
+await serviceBusAdministrationClient.deleteTopic(topicName);
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
