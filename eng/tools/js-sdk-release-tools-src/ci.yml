@@ -65,26 +65,3 @@ extends:
                   npm run test
                 displayName: "npm run test"
                 workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
-
-              - script: |
-                  npm pack
-                displayName: "npm pack"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
-
-              - script: "cp azure-tools-js-sdk-release-tools-*.tgz $(Build.ArtifactStagingDirectory)"
-                displayName: "copy to staging dir"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
-
-              - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-                parameters:
-                  ArtifactName: drop
-                  ArtifactPath: $(Build.ArtifactStagingDirectory)
-
-      - ${{ if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal')) }}:
-          - stage: Publish
-            displayName: Publish
-            dependsOn: InstallAndBuild
-            jobs:
-              - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
-                parameters:
-                  ArtifactName: drop
