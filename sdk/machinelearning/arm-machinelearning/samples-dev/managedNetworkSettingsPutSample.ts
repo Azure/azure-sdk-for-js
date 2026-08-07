@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to pUT API for managed network settings of a machine learning workspace.
  *
  * @summary pUT API for managed network settings of a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/createOrUpdateManagedNetworkV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/createOrUpdateManagedNetworkV2.json
  */
 async function putManagedNetworkSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

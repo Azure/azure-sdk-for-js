@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       environmentName: environmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24orderBy": options?.orderBy,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -71,7 +71,6 @@ export async function _listDeserialize(
 
   return _environmentVersionResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List versions. */
 export function list(
   context: Client,
@@ -88,7 +87,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -109,7 +108,7 @@ export function _$deleteSend(
       registryName: registryName,
       environmentName: environmentName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete version. */
 export function $delete(
   context: Client,
@@ -147,7 +145,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, environmentName, version, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -168,7 +166,7 @@ export function _createOrUpdateSend(
       registryName: registryName,
       environmentName: environmentName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +195,6 @@ export async function _createOrUpdateDeserialize(
 
   return environmentVersionDeserializer(result.body);
 }
-
 /** Create or update version. */
 export function createOrUpdate(
   context: Client,
@@ -222,7 +219,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<EnvironmentVersion>, EnvironmentVersion>;
 }
 
@@ -242,7 +239,7 @@ export function _getSend(
       registryName: registryName,
       environmentName: environmentName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +264,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<En
 
   return environmentVersionDeserializer(result.body);
 }
-
 /** Get version. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get container.
  *
  * @summary get container.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturesetContainer/getEntity.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/FeaturesetContainer/getEntity.json
  */
 async function getEntityWorkspaceFeaturesetContainer() {
   const credential = new DefaultAzureCredential();

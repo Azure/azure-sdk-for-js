@@ -81,7 +81,6 @@ export interface MarketplaceSubscriptionsOperations {
     options?: MarketplaceSubscriptionsGetOptionalParams,
   ) => Promise<MarketplaceSubscription>;
 }
-
 function _getMarketplaceSubscriptions(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -148,7 +147,6 @@ function _getMarketplaceSubscriptions(context: AzureMachineLearningServicesManag
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getMarketplaceSubscriptionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): MarketplaceSubscriptionsOperations {

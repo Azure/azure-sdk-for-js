@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to resync all the keys associated with this workspace.This includes keys for the storage account, app insights and password for container registry
  *
  * @summary resync all the keys associated with this workspace.This includes keys for the storage account, app insights and password for container registry
- * x-ms-original-file: 2026-03-15-preview/Workspace/resyncKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/resyncKeys.json
  */
 async function resyncWorkspaceKeys() {
   const credential = new DefaultAzureCredential();

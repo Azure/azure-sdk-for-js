@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets endpoint resource
  *
  * @summary gets endpoint resource
- * x-ms-original-file: 2026-03-15-preview/Endpoint/get.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/get.json
  */
 async function getEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Code container.
  *
  * @summary create or update Code container.
- * x-ms-original-file: 2026-03-15-preview/Registry/CodeContainer/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/CodeContainer/createOrUpdate.json
  */
 async function createOrUpdateRegistryCodeContainer() {
   const credential = new DefaultAzureCredential();

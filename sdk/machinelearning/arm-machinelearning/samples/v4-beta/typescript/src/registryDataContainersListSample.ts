@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Data containers.
  *
  * @summary list Data containers.
- * x-ms-original-file: 2026-03-15-preview/Registry/DataContainer/registryList.json
+ * x-ms-original-file: 2026-05-15-preview/Registry/DataContainer/registryList.json
  */
 async function registryListRegistryDataContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

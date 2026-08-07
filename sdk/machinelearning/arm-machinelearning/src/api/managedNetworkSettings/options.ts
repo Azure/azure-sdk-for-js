@@ -6,7 +6,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ManagedNetworkSettingsListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedNetworkSettingsPatchOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -14,12 +13,10 @@ export interface ManagedNetworkSettingsPatchOptionalParams extends OperationOpti
   /** The Managed Network Settings object of the workspace. */
   body?: ManagedNetworkSettingsPropertiesBasicResource;
 }
-
 /** Optional parameters. */
 export interface ManagedNetworkSettingsPutOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ManagedNetworkSettingsGetOptionalParams extends OperationOptions {}

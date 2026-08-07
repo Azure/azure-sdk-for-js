@@ -46,7 +46,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,6 @@ export async function _listKeysDeserialize(
 
   return endpointAuthKeysDeserializer(result.body);
 }
-
 /** Lists batch Inference Endpoint keys. */
 export async function listKeys(
   context: Client,
@@ -104,7 +103,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       count: options?.count,
       "%24skip": options?.skip,
     },
@@ -133,7 +132,6 @@ export async function _listDeserialize(
 
   return _batchEndpointTrackedResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists Batch inference endpoint in the workspace. */
 export function list(
   context: Client,
@@ -149,7 +147,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -168,7 +166,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +188,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Batch Inference Endpoint (asynchronous). */
 export function $delete(
   context: Client,
@@ -205,7 +202,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, workspaceName, endpointName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -224,7 +221,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +248,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return batchEndpointDeserializer(result.body);
 }
-
 /** Update a batch inference endpoint (asynchronous). */
 export function update(
   context: Client,
@@ -267,7 +263,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BatchEndpoint>, BatchEndpoint>;
 }
 
@@ -286,7 +282,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,7 +311,6 @@ export async function _createOrUpdateDeserialize(
 
   return batchEndpointDeserializer(result.body);
 }
-
 /** Creates a batch inference endpoint (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -331,7 +326,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, workspaceName, endpointName, body, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BatchEndpoint>, BatchEndpoint>;
 }
 
@@ -349,7 +344,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -374,7 +369,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ba
 
   return batchEndpointDeserializer(result.body);
 }
-
 /** Gets a batch inference endpoint by name. */
 export async function get(
   context: Client,

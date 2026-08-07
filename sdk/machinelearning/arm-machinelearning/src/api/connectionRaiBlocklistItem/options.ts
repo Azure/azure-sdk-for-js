@@ -10,7 +10,6 @@ export interface ConnectionRaiBlocklistItemDeleteOptionalParams extends Operatio
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistItemCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -18,16 +17,13 @@ export interface ConnectionRaiBlocklistItemCreateOptionalParams extends Operatio
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistItemGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistItemDeleteBulkOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ConnectionRaiBlocklistItemAddBulkOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

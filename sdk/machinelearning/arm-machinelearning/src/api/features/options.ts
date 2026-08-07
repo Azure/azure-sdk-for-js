@@ -19,6 +19,5 @@ export interface FeaturesListOptionalParams extends OperationOptions {
   /** Page size. */
   pageSize?: number;
 }
-
 /** Optional parameters. */
 export interface FeaturesGetOptionalParams extends OperationOptions {}

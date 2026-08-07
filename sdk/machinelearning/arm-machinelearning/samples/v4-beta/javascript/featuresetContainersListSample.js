@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list featurestore entity containers.
  *
  * @summary list featurestore entity containers.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturesetContainer/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/FeaturesetContainer/list.json
  */
 async function listWorkspaceFeaturesetContainer() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EndpointAuthKeys for an Endpoint using Key-based authentication.
  *
  * @summary list EndpointAuthKeys for an Endpoint using Key-based authentication.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ServerlessEndpoint/listKeys.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ServerlessEndpoint/listKeys.json
  */
 async function listKeysWorkspaceServerlessEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -39,7 +39,7 @@ export function _getInWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       endpointType: options?.endpointType,
       "%24skip": options?.skip,
     },
@@ -70,7 +70,6 @@ export async function _getInWorkspaceDeserialize(
     result.body,
   );
 }
-
 /** Get all the deployments under the workspace scope. */
 export function getInWorkspace(
   context: Client,
@@ -86,7 +85,7 @@ export function getInWorkspace(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -105,7 +104,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +133,6 @@ export async function _listDeserialize(
     result.body,
   );
 }
-
 /** Get all the deployments under the endpoint resource scope */
 export function list(
   context: Client,
@@ -151,7 +149,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -172,7 +170,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "proxy%2Dapi%2Dversion": options?.proxyApiVersion,
     },
     {
@@ -195,7 +193,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete  endpoint deployment resource by name */
 export function $delete(
   context: Client,
@@ -218,7 +215,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -239,7 +236,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +265,6 @@ export async function _createOrUpdateDeserialize(
 
   return endpointDeploymentResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Create or update endpoint deployment resource with the specified parameters */
 export function createOrUpdate(
   context: Client,
@@ -296,7 +292,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<
     OperationState<EndpointDeploymentResourcePropertiesBasicResource>,
     EndpointDeploymentResourcePropertiesBasicResource
@@ -319,7 +315,7 @@ export function _getSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +342,6 @@ export async function _getDeserialize(
 
   return endpointDeploymentResourcePropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Get deployments under endpoint resource by name */
 export async function get(
   context: Client,

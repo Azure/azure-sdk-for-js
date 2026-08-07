@@ -9,7 +9,6 @@ export interface JobsCancelOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface JobsListOptionalParams extends OperationOptions {
   /** Continuation token for pagination. */
@@ -23,15 +22,12 @@ export interface JobsListOptionalParams extends OperationOptions {
   /** Comma-separated list of user property names (and optionally values). Example: prop1,prop2=value2 */
   properties?: string;
 }
-
 /** Optional parameters. */
 export interface JobsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface JobsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface JobsGetOptionalParams extends OperationOptions {}

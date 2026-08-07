@@ -6,7 +6,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface RegistryDataVersionsCreateOrGetStartPendingUploadOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RegistryDataVersionsListOptionalParams extends OperationOptions {
   /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
@@ -23,18 +22,15 @@ export interface RegistryDataVersionsListOptionalParams extends OperationOptions
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
   listViewType?: ListViewType;
 }
-
 /** Optional parameters. */
 export interface RegistryDataVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryDataVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface RegistryDataVersionsGetOptionalParams extends OperationOptions {}
