@@ -35,7 +35,7 @@ export function _listByTopicSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       topicName: topicName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       "%24skip": options?.skip,
       "%24top": options?.top,
     },
@@ -64,7 +64,6 @@ export async function _listByTopicDeserialize(
 
   return _sbSubscriptionListResultDeserializer(result.body);
 }
-
 /** List all the subscriptions under a specified topic. */
 export function listByTopic(
   context: Client,
@@ -78,7 +77,11 @@ export function listByTopic(
     () => _listByTopicSend(context, resourceGroupName, namespaceName, topicName, options),
     _listByTopicDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -98,7 +101,7 @@ export function _$deleteSend(
       namespaceName: namespaceName,
       topicName: topicName,
       subscriptionName: subscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a subscription from the specified topic. */
 export async function $delete(
   context: Client,
@@ -158,7 +160,7 @@ export function _createOrUpdateSend(
       namespaceName: namespaceName,
       topicName: topicName,
       subscriptionName: subscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +189,6 @@ export async function _createOrUpdateDeserialize(
 
   return sbSubscriptionDeserializer(result.body);
 }
-
 /** Creates a topic subscription. */
 export async function createOrUpdate(
   context: Client,
@@ -226,7 +227,7 @@ export function _getSend(
       namespaceName: namespaceName,
       topicName: topicName,
       subscriptionName: subscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +252,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<SB
 
   return sbSubscriptionDeserializer(result.body);
 }
-
 /** Returns a subscription description for the specified topic. */
 export async function get(
   context: Client,

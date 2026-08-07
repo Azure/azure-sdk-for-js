@@ -114,7 +114,6 @@ export interface TopicsOperations {
     options?: TopicsGetAuthorizationRuleOptionalParams,
   ) => Promise<SBAuthorizationRule>;
 }
-
 function _getTopics(context: ServiceBusManagementContext) {
   return {
     listByNamespace: (
@@ -228,7 +227,6 @@ function _getTopics(context: ServiceBusManagementContext) {
       ),
   };
 }
-
 export function _getTopicsOperations(context: ServiceBusManagementContext): TopicsOperations {
   return {
     ..._getTopics(context),

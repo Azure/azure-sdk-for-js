@@ -29,7 +29,7 @@ export function _reconcileSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       resourceAssociationName: resourceAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +51,6 @@ export async function _reconcileDeserialize(result: PathUncheckedResponse): Prom
 
   return;
 }
-
 /** Refreshes any information about the association. */
 export async function reconcile(
   context: Client,
@@ -86,7 +85,7 @@ export function _getResourceAssociationNameSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       resourceAssociationName: resourceAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +112,6 @@ export async function _getResourceAssociationNameDeserialize(
 
   return networkSecurityPerimeterConfigurationDeserializer(result.body);
 }
-
 /** Return a NetworkSecurityPerimeterConfigurations resourceAssociationName */
 export async function getResourceAssociationName(
   context: Client,

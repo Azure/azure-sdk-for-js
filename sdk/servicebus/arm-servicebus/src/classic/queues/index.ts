@@ -114,7 +114,6 @@ export interface QueuesOperations {
     options?: QueuesGetAuthorizationRuleOptionalParams,
   ) => Promise<SBAuthorizationRule>;
 }
-
 function _getQueues(context: ServiceBusManagementContext) {
   return {
     listByNamespace: (
@@ -228,7 +227,6 @@ function _getQueues(context: ServiceBusManagementContext) {
       ),
   };
 }
-
 export function _getQueuesOperations(context: ServiceBusManagementContext): QueuesOperations {
   return {
     ..._getQueues(context),
