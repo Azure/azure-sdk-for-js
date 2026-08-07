@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DataflowGraphResource resources by DataflowProfileResource
  *
  * @summary list DataflowGraphResource resources by DataflowProfileResource
- * x-ms-original-file: 2026-03-01/DataflowGraph_ListByDataflowProfile_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/DataflowGraph_ListByDataflowProfile_MaximumSet_Gen.json
  */
 async function dataflowGraphListByDataflowProfileMaximumSet() {
   const credential = new DefaultAzureCredential();

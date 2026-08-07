@@ -70,7 +70,7 @@ export async function _updateDeserialize(
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Update an evaluation taxonomy. */
+/** Modifies the specified evaluation taxonomy with the provided changes. */
 export async function update(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",

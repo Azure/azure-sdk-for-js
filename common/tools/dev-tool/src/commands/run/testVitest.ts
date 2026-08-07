@@ -50,11 +50,12 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
+  // Browser tests only run on Chromium, so avoid downloading unused browsers.
   const playwrightCli = resolveNodeModuleBin("playwright", "playwright", process.cwd());
-  await run([process.execPath, "--", playwrightCli, "install"], {
+  await run([process.execPath, "--", playwrightCli, "install", "chromium"], {
     stdio: "inherit",
   });
-  log.info("playwright browsers installed");
+  log.info("playwright chromium browser installed");
 }
 
 export default leafCommand(commandInfo, async (options) => {

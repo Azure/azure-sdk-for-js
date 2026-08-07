@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.9 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
+
+### Other Changes
+
 ## 0.3.8 (2026-07-29)
 
 ### Features Added

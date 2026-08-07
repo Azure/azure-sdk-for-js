@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createAzureDedicatedHSMResourceProvider,
-  type AzureDedicatedHSMResourceProviderContext,
-  type AzureDedicatedHSMResourceProviderOptionalParams,
+export type {
+  AzureDedicatedHSMResourceProviderContext,
+  AzureDedicatedHSMResourceProviderOptionalParams,
 } from "./azureDedicatedHSMResourceProviderContext.js";
+export { createAzureDedicatedHSMResourceProvider } from "./azureDedicatedHSMResourceProviderContext.js";
