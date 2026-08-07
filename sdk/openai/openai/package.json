@@ -115,7 +115,7 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
-    "openai": "^6.16.0",
+    "openai": "^7.1.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "react-native": "catalog:testing",
