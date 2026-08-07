@@ -13,6 +13,7 @@
 - Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
 - Fixed CBS token renewal stopping permanently after a single failed renewal. A transient credential error (for example a failed AAD `getToken` during a workload-identity rotation) no longer leaves the link's token un-renewed; renewal now retries with a capped exponential backoff until it succeeds or the link closes. [#38467](https://github.com/Azure/azure-sdk-for-js/issues/38467)
+- Fixed three unreachable error-handling guards that compared an error code against its un-normalized name after `translateServiceBusError` had already normalized it: `peekMessages` / `peekMessagesBySession` now return an empty result instead of throwing when the service reports the requested messages are not found (matching .NET); the streaming receiver no longer attempts a doomed abandon when a message's lock is already lost; and a session-lock-expired error now carries its descriptive message. [#39312](https://github.com/Azure/azure-sdk-for-js/pull/39312)
 
 ### Other Changes
 

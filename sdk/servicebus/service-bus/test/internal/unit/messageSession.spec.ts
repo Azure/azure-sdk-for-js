@@ -405,6 +405,27 @@ describe("Message session unit tests - errors", () => {
     );
   });
 
+  it("enriches the session-lock-lost error message in the receiver error handler", () => {
+    // A session-lock-lost receiver error is translated to a ServiceBusError whose
+    // code normalizes to "SessionLockLost"; the handler must enrich the message.
+    // Built through the real AMQP condition so this fails if the guard compares
+    // against the un-normalized "SessionLockLostError".
+    messageSession["_onAmqpError"]({
+      receiver: {
+        error: {
+          condition: "com.microsoft:session-lock-lost",
+          description: "The lock has expired.",
+        },
+      },
+    } as any);
+    const stored = messageSession["_lastSBError"] as any;
+    assert.equal(stored.code, "SessionLockLost");
+    assert.include(
+      stored.message,
+      "The session lock has expired on the session with id session id",
+    );
+  });
+
   it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
     let errorArgs: ProcessErrorArgs | undefined;
 
