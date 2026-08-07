@@ -2,6 +2,10 @@
 
 ## 2.4.1 (Unreleased)
 
+### Other Changes
+
+- Updated the `openai` dependency to `^7.1.0`. This version requires Node.js 22 or later, which is already the minimum supported Node.js version for this package.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
