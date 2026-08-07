@@ -22285,8 +22285,8 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       pako:
-        specifier: ^2.1.0
-        version: 2.2.0
+        specifier: ^3.0.1
+        version: 3.0.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22315,9 +22315,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
-      '@types/pako':
-        specifier: ^2.0.0
-        version: 2.0.4
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.10(playwright@1.62.0)(vite@7.3.3(@types/node@22.20.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
@@ -37915,9 +37912,6 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha1-VuLMJsOXwDj6sOOpF6EtXFkJ6QE=}
 
-  '@types/pako@2.0.4':
-    resolution: {integrity: sha1-w1de+BJeF2w0X6DnswHB20EXDBU=}
-
   '@types/pg-pool@2.0.7':
     resolution: {integrity: sha1-wXlFp0Ry2aO+r45m1apvyTgyhzQ=}
 
@@ -40501,8 +40495,8 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha1-TxRxoBCCeob5TP2bByfjbSZ95QU=}
 
-  pako@2.2.0:
-    resolution: {integrity: sha1-JGudTIQajTCOSEwNA3hmUbFD5jo=}
+  pako@3.0.1:
+    resolution: {integrity: sha1-MVb4+objzCrlo2NpR1sU1PBWls4=}
 
   parent-module@1.0.1:
     resolution: {integrity: sha1-aR0nCeeMefrjoVZiJFLQB2LKqqI=}
@@ -44526,8 +44520,6 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/pako@2.0.4': {}
-
   '@types/pg-pool@2.0.7':
     dependencies:
       '@types/pg': 8.15.6
@@ -47622,7 +47614,7 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
-  pako@2.2.0: {}
+  pako@3.0.1: {}
 
   parent-module@1.0.1:
     dependencies:
