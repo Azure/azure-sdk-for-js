@@ -60,6 +60,7 @@ export interface AzureFileVolume {
     storageAccountKey?: string;
     storageAccountKeyReference?: string;
     storageAccountName: string;
+    userAssignedIdentityClientId?: string;
 }
 
 // @public
@@ -893,7 +894,7 @@ export enum KnownScheme {
 // @public
 export enum KnownVersions {
     V20250901 = "2025-09-01",
-    V20260601Preview = "2026-06-01-preview"
+    V20260701 = "2026-07-01"
 }
 
 // @public
