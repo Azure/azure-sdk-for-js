@@ -5,12 +5,10 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface LongTermRetentionPoliciesListByDatabaseOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface LongTermRetentionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface LongTermRetentionPoliciesGetOptionalParams extends OperationOptions {}

@@ -26,7 +26,6 @@ export interface RestorableDroppedDatabasesOperations {
     options?: RestorableDroppedDatabasesGetOptionalParams,
   ) => Promise<RestorableDroppedDatabase>;
 }
-
 function _getRestorableDroppedDatabases(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -42,7 +41,6 @@ function _getRestorableDroppedDatabases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, restorableDroppedDatabaseId, options),
   };
 }
-
 export function _getRestorableDroppedDatabasesOperations(
   context: SqlManagementContext,
 ): RestorableDroppedDatabasesOperations {

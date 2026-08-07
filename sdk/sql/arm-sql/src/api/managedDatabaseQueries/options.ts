@@ -13,6 +13,5 @@ export interface ManagedDatabaseQueriesListByQueryOptionalParams extends Operati
   /** The time step to be used to summarize the metric values. */
   interval?: QueryTimeGrainType;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseQueriesGetOptionalParams extends OperationOptions {}

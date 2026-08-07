@@ -38,7 +38,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,6 @@ export async function _listByServerDeserialize(
 
   return _serverConnectionPolicyListResultDeserializer(result.body);
 }
-
 /** Lists connection policy */
 export function listByServer(
   context: Client,
@@ -78,7 +77,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -97,7 +100,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       connectionPolicyName: connectionPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +129,6 @@ export async function _createOrUpdateDeserialize(
 
   return serverConnectionPolicyDeserializer(result.body);
 }
-
 /** Updates a server connection policy */
 export function createOrUpdate(
   context: Client,
@@ -149,7 +151,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ServerConnectionPolicy>, ServerConnectionPolicy>;
 }
 
@@ -167,7 +169,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       connectionPolicyName: connectionPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +196,6 @@ export async function _getDeserialize(
 
   return serverConnectionPolicyDeserializer(result.body);
 }
-
 /** Gets a server connection policy */
 export async function get(
   context: Client,
