@@ -36,6 +36,8 @@ export interface RoleAssignment extends ExtensionResource {
   readonly updatedBy?: string;
   /** Id of the delegated managed identity resource */
   delegatedManagedIdentityResourceId?: string;
+  /** Time at which the role assignment expires */
+  readonly expirationTime?: string;
 }
 
 export function roleAssignmentDeserializer(item: any): RoleAssignment {
@@ -78,6 +80,8 @@ export interface RoleAssignmentProperties {
   readonly updatedBy?: string;
   /** Id of the delegated managed identity resource */
   delegatedManagedIdentityResourceId?: string;
+  /** Time at which the role assignment expires */
+  readonly expirationTime?: string;
 }
 
 export function roleAssignmentPropertiesSerializer(item: RoleAssignmentProperties): any {
@@ -106,6 +110,7 @@ export function roleAssignmentPropertiesDeserializer(item: any): RoleAssignmentP
     createdBy: item["createdBy"],
     updatedBy: item["updatedBy"],
     delegatedManagedIdentityResourceId: item["delegatedManagedIdentityResourceId"],
+    expirationTime: item["expirationTime"],
   };
 }
 
@@ -190,6 +195,7 @@ export function _roleAssignmentPropertiesDeserializer(item: any) {
     createdBy: item["createdBy"],
     updatedBy: item["updatedBy"],
     delegatedManagedIdentityResourceId: item["delegatedManagedIdentityResourceId"],
+    expirationTime: item["expirationTime"],
   };
 }
 
