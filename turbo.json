@@ -51,14 +51,17 @@
       "cache": false
     },
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "env": ["AZURE_SDK_NODE_VERSION"]
     },
     "test:browser": {
       "dependsOn": ["build"],
+      "env": ["AZURE_SDK_NODE_VERSION"],
       "passThroughEnv": ["PUBLISHCODECOVERAGE", "PublishCodeCoverage"]
     },
     "test:node": {
       "dependsOn": ["build"],
+      "env": ["AZURE_SDK_NODE_VERSION"],
       "passThroughEnv": ["PUBLISHCODECOVERAGE", "PublishCodeCoverage"]
     },
     "update-snippets": {
