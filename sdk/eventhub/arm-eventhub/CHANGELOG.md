@@ -1,5 +1,45 @@
 # Release History
 
+## 7.0.0-beta.1 (2026-07-29)
+Compared with version 6.0.0
+
+### Features Added
+  - Added operation group FabricShortcutsOperations
+  - Added operation group UpgradePreferencesOperationsOperations
+  - Added Interface ExceptionWindow
+  - Added Interface FabricShortcut
+  - Added Interface FabricShortcutConfiguration
+  - Added Interface FabricShortcutProperties
+  - Added Interface FabricShortcutsApproveOptionalParams
+  - Added Interface FabricShortcutsCreateOrUpdateOptionalParams
+  - Added Interface FabricShortcutsDeleteOptionalParams
+  - Added Interface FabricShortcutsGetOptionalParams
+  - Added Interface FabricShortcutsListByEventHubOptionalParams
+  - Added Interface FabricShortcutsRejectOptionalParams
+  - Added Interface MaintenanceWindow
+  - Added Interface UpgradePreferences
+  - Added Interface UpgradePreferencesOperationsCreateOrUpdateOptionalParams
+  - Added Interface UpgradePreferencesOperationsGetOptionalParams
+  - Added Interface UpgradePreferencesOperationsUpgradeNowOptionalParams
+  - Added Interface UpgradePreferencesProperties
+  - Added Interface UpgradeStatus
+  - Interface EHNamespace has a new optional parameter ipAddressType
+  - Interface EHNamespaceProperties has a new optional parameter ipAddressType
+  - Added Type Alias ExceptionWindowAction
+  - Added Type Alias FabricShortcutStatus
+  - Added Type Alias FabricShortcutType
+  - Added Type Alias IpAddressType
+  - Added Type Alias UpgradePreferenceDayOfWeek
+  - Added Enum KnownIpAddressType
+  - Enum KnownVersions has a new value V20250501Preview
+  - Enum KnownVersions has a new value V20260701Preview
+
+### Breaking Changes
+  - Operation ConfigurationOperations.patch has a new signature
+  - Operation NamespacesOperations.update has a new signature
+  - Interface EHNamespace no longer has parameter ipV6Enabled
+  - Interface EHNamespaceProperties no longer has parameter ipV6Enabled
+
 ## 6.0.0 (2026-07-27)
 
 ### Features Added

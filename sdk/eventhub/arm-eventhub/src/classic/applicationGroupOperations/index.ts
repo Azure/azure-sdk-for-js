@@ -48,7 +48,6 @@ export interface ApplicationGroupOperationsOperations {
     options?: ApplicationGroupOperationsGetOptionalParams,
   ) => Promise<ApplicationGroup>;
 }
-
 function _getApplicationGroupOperations(context: EventHubManagementContext) {
   return {
     listByNamespace: (
@@ -85,7 +84,6 @@ function _getApplicationGroupOperations(context: EventHubManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, applicationGroupName, options),
   };
 }
-
 export function _getApplicationGroupOperationsOperations(
   context: EventHubManagementContext,
 ): ApplicationGroupOperationsOperations {
