@@ -1,6 +1,6 @@
 # Release History
 
-## 25.0.0 (2026-07-22)
+## 25.0.0 (2026-08-04)
 
 ### Features Added
   - Added operation group SharedGalleryInvitesOperations
@@ -27,6 +27,7 @@
   - Interface SnapshotProperties has a new optional parameter immutabilityPolicy
   - Added Type Alias ConfidentialVMVersion
   - Added Type Alias ImmutabilityPolicyType
+  - Added function getArmComputeCustomizationMarker
   - Added Enum KnownConfidentialVMVersion
   - Added Enum KnownImmutabilityPolicyType
 

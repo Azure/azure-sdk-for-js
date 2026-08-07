@@ -2698,6 +2698,9 @@ export interface GenericGalleryParameter {
 }
 
 // @public
+export function getArmComputeCustomizationMarker(): string;
+
+// @public
 export interface GrantAccessData {
     access: AccessLevel;
     durationInSeconds: number;
