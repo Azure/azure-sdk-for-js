@@ -1295,7 +1295,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
-        `${this.logPrefix} An error occurred while sending the renew lock request to $management endpoint`,
+        `${this.logPrefix} An error occurred while sending the list message sessions request to $management endpoint`,
       );
       throw error;
     }
