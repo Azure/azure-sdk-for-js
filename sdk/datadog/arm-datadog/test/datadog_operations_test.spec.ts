@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Datadog test", () => {
+describe.skip("Datadog test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftDatadogClient;

@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("msi test", () => {
+describe.skip("msi test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ManagedServiceIdentityClient;

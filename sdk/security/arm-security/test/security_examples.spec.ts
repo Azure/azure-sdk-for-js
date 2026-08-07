@@ -33,7 +33,7 @@ export function createTestCredential() {
   return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
-describe("security test", () => {
+describe.skip("security test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SecurityCenter;

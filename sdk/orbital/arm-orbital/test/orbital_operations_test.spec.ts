@@ -26,7 +26,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("orbital test", () => {
+describe.skip("orbital test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureOrbital;

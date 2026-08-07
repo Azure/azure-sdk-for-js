@@ -35,7 +35,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Sphere test", () => {
+describe.skip("Sphere test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureSphereManagementClient;

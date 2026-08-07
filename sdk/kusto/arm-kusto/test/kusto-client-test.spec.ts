@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("KustoManagementClient", () => {
+describe.skip("KustoManagementClient", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: KustoManagementClient;

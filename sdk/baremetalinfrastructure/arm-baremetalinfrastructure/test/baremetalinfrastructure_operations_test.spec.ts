@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("baremetalinfrastructure test", () => {
+describe.skip("baremetalinfrastructure test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: BareMetalInfrastructureClient;

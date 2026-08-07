@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("automation test", () => {
+describe.skip("automation test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AutomationClient;

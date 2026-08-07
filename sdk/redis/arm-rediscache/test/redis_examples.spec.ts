@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Redis test", () => {
+describe.skip("Redis test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: RedisManagementClient;

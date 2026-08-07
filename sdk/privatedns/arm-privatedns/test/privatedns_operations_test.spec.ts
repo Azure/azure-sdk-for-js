@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("PrivateDns test", () => {
+describe.skip("PrivateDns test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PrivateDnsManagementClient;

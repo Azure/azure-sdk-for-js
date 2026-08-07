@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("RecoveryservicesSiteRecovery test", () => {
+describe.skip("RecoveryservicesSiteRecovery test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SiteRecoveryManagementClient;

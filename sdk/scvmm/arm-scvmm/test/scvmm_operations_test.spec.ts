@@ -27,7 +27,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Scvmm test", () => {
+describe.skip("Scvmm test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ScVmm;

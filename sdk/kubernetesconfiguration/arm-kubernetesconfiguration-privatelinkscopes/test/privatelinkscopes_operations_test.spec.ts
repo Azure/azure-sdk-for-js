@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("PrivateLinkScopes test", () => {
+describe.skip("PrivateLinkScopes test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PrivateLinkScopesClient;

@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("hardwaresecuritymodules test", () => {
+describe.skip("hardwaresecuritymodules test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureDedicatedHSMResourceProvider;

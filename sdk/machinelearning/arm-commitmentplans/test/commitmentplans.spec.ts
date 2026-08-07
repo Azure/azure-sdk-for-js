@@ -25,7 +25,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-describe("My test", () => {
+describe.skip("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {

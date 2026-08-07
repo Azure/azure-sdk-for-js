@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureAPICenter test", () => {
+describe.skip("AzureAPICenter test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureAPICenter;

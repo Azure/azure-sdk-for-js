@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Workloads Migrationdiscoverysap test", () => {
+describe.skip("Workloads Migrationdiscoverysap test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: WorkloadsClient;

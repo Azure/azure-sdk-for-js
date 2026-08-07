@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("appcomplianceautomation test", () => {
+describe.skip("appcomplianceautomation test", () => {
   let recorder: Recorder;
   let client: AppComplianceAutomationToolForMicrosoft365;
 

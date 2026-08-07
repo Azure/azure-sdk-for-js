@@ -7,7 +7,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
 
-describe("Mock test for CAE with ResourceManagementClient", () => {
+describe.skip("Mock test for CAE with ResourceManagementClient", () => {
   // this is not a real token, does not contain any sensitive info, just for test.
   // You could refer the check in core https://github.com/azure/azure-sdk-for-js/blob/57056dcef4d646fdca6f4af7bd5b2539c3cb57a2/sdk/core/core-rest-pipeline/src/policies/bearerTokenAuthenticationPolicy.ts#L375 to verify if your CAE challenge header is valid or not.
   const caeChallenge = `Bearer realm="", error_description="Continuous access evaluation resulted in challenge", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=" `;

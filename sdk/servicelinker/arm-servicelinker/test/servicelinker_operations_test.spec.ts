@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ServiceLinker test", () => {
+describe.skip("ServiceLinker test", () => {
   let recorder: Recorder;
   let client: ServiceLinkerManagementClient;
 

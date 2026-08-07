@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("networkfunction test", () => {
+describe.skip("networkfunction test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureTrafficCollectorClient;

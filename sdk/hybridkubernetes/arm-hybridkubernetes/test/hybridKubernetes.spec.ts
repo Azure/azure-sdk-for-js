@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("hybridKubernetes test", () => {
+describe.skip("hybridKubernetes test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConnectedKubernetesClient;

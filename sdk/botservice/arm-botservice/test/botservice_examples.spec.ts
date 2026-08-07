@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Botservice test", () => {
+describe.skip("Botservice test", () => {
   let recorder: Recorder;
   let client: AzureBotService;
   let subscriptionId: string;

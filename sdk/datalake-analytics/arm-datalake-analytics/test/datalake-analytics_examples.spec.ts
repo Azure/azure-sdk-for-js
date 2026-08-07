@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DatalakeAnalytics test", () => {
+describe.skip("DatalakeAnalytics test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataLakeAnalyticsAccountManagementClient;

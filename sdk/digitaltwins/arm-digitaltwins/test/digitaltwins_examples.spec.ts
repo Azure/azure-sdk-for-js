@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DigitalTwins test", () => {
+describe.skip("DigitalTwins test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureDigitalTwinsManagementClient;

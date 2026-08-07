@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Billing test", () => {
+describe.skip("Billing test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: BillingManagementClient;

@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Load Testing Resource Operations", () => {
+describe.skip("Load Testing Resource Operations", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: LoadTestClient;

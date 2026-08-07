@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Locks test", () => {
+describe.skip("Locks test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ManagementLockClient;

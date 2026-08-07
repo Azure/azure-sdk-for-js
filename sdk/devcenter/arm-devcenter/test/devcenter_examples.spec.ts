@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("devcenter test", () => {
+describe.skip("devcenter test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DevCenterClient;

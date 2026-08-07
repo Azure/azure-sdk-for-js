@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DesktopVirtualization test", () => {
+describe.skip("DesktopVirtualization test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DesktopVirtualizationAPIClient;

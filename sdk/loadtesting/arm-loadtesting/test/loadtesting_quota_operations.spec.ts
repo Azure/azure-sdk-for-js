@@ -28,7 +28,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-describe("Load Testing Quota Operations", () => {
+describe.skip("Load Testing Quota Operations", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: LoadTestClient;

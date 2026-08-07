@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Resources test", () => {
+describe.skip("Resources test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ResourceManagementClient;

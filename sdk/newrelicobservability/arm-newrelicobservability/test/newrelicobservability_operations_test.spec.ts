@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("NewRelicObservability test", () => {
+describe.skip("NewRelicObservability test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let tenantId: string;

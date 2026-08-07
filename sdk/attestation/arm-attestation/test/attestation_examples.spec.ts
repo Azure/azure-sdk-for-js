@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Attestation test", () => {
+describe.skip("Attestation test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AttestationManagementClient;

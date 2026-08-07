@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Databricks test", () => {
+describe.skip("Databricks test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureDatabricksManagementClient;

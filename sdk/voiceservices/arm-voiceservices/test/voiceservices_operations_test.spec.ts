@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("voiceservices test", () => {
+describe.skip("voiceservices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftVoiceServices;

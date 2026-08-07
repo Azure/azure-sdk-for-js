@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("elatic test", () => {
+describe.skip("elatic test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftElastic;

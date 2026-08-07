@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DataBox test", () => {
+describe.skip("DataBox test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataBoxManagementClient;

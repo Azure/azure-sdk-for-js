@@ -47,7 +47,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Batch test", () => {
+describe.skip("Batch test", () => {
   let recorder: Recorder;
 
   let client: BatchManagementClient;

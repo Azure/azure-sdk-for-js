@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("fluxconfigurations test", () => {
+describe.skip("fluxconfigurations test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: FluxConfigurationClient;

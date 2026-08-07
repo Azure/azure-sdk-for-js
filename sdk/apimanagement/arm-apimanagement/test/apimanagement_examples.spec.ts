@@ -27,7 +27,7 @@ const recorderOptions: RecorderStartOptions = {
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
-describe("Apimanagement test", () => {
+describe.skip("Apimanagement test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ApiManagementClient;

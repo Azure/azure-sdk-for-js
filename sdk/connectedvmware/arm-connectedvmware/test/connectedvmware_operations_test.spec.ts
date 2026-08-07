@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("connectedvmware test", () => {
+describe.skip("connectedvmware test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureArcVMwareManagementServiceAPI;

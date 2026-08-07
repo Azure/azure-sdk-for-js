@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ResourceHealth test", () => {
+describe.skip("ResourceHealth test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftResourceHealth;

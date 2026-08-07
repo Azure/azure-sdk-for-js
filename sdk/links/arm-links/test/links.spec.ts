@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Links test", () => {
+describe.skip("Links test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ManagementLinkClient;

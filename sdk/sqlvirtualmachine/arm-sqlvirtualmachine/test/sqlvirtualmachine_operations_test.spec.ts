@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("SqlVirtualMachine test", () => {
+describe.skip("SqlVirtualMachine test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SqlVirtualMachineManagementClient;

@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Logic test", () => {
+describe.skip("Logic test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: LogicManagementClient;

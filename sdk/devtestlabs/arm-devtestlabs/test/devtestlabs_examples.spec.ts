@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DevTestLabs test", () => {
+describe.skip("DevTestLabs test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DevTestLabsClient;

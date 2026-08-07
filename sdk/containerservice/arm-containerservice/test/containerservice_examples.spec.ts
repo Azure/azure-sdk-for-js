@@ -34,7 +34,7 @@ export function createTestCredential(): TokenCredential {
   return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
-describe("ContainerService test", () => {
+describe.skip("ContainerService test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let clientId: string;

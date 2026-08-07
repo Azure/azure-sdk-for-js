@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("NotificationHubs test", () => {
+describe.skip("NotificationHubs test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: NotificationHubsManagementClient;

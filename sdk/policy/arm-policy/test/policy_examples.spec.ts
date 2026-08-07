@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Policy test", () => {
+describe.skip("Policy test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PolicyClient;

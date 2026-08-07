@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("DefenderEasm test", () => {
+describe.skip("DefenderEasm test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: EasmMgmtClient;

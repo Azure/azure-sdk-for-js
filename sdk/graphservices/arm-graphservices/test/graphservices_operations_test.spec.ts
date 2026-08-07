@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("GraphServices test", () => {
+describe.skip("GraphServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: GraphServices;

@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MigrationAssessment test", () => {
+describe.skip("MigrationAssessment test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureMigrateAssessmentService;

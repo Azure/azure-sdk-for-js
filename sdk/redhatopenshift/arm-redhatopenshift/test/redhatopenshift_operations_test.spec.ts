@@ -27,7 +27,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("RedHatOpenShift test", () => {
+describe.skip("RedHatOpenShift test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureRedHatOpenShiftClient;

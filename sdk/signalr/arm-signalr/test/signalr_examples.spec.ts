@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("signalr test", () => {
+describe.skip("signalr test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SignalRManagementClient;

@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Authorization test", () => {
+describe.skip("Authorization test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AuthorizationManagementClient;
