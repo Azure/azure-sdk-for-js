@@ -17,6 +17,22 @@ import {
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
 
+/**
+ * Tests a flag without 32-bit coercion.
+ * @internal
+ */
+export function hasNumberFlag(mask: number, flag: number): boolean {
+  return flag > 0 && Math.floor(mask / flag) % 2 === 1;
+}
+
+/**
+ * Sets a flag without 32-bit coercion.
+ * @internal
+ */
+export function addNumberFlag(mask: number, flag: number): number {
+  return flag > 0 && !hasNumberFlag(mask, flag) ? mask + flag : mask;
+}
+
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
   if (request && request.headers && !Array.isArray(request.headers)) {
     const outgoingHeaders = request.headers as http.OutgoingHttpHeaders;

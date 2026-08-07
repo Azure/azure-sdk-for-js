@@ -34,11 +34,6 @@ export interface InstanceOperations {
     options?: InstanceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<InstanceResource>;
   /** Delete a InstanceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -65,7 +60,6 @@ export interface InstanceOperations {
     options?: InstanceGetOptionalParams,
   ) => Promise<InstanceResource>;
 }
-
 function _getInstance(context: IoTOperationsContext) {
   return {
     listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
@@ -95,7 +89,6 @@ function _getInstance(context: IoTOperationsContext) {
       get(context, resourceGroupName, instanceName, options),
   };
 }
-
 export function _getInstanceOperations(context: IoTOperationsContext): InstanceOperations {
   return {
     ..._getInstance(context),

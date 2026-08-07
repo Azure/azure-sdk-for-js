@@ -24,7 +24,6 @@ export interface VmFamiliesOperations {
     options?: VmFamiliesGetOptionalParams,
   ) => Promise<VmFamily>;
 }
-
 function _getVmFamilies(context: ComputeLimitContext) {
   return {
     listBySubscriptionLocationResource: (
@@ -35,7 +34,6 @@ function _getVmFamilies(context: ComputeLimitContext) {
       get(context, location, vmFamilyName, options),
   };
 }
-
 export function _getVmFamiliesOperations(context: ComputeLimitContext): VmFamiliesOperations {
   return {
     ..._getVmFamilies(context),

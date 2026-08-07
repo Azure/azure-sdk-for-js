@@ -17,7 +17,7 @@ import {
   patchRoutes,
   patchTypeAlias,
   patchFunction,
-} from "typescript-codegen-breaking-change-detector";
+} from "../breaking-change-detector/index.js";
 
 import { IntersectionDeclaration } from "parse-ts-to-ast/build/declarations/IntersectionDeclaration.js";
 import { TypeLiteralDeclaration } from "parse-ts-to-ast/build/declarations/TypeLiteralDeclaration.js";

@@ -72,12 +72,16 @@ import type { SharedGalleryImageVersionsOperations } from "./classic/sharedGalle
 import { _getSharedGalleryImageVersionsOperations } from "./classic/sharedGalleryImageVersions/index.js";
 import type { SharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
 import { _getSharedGalleryImagesOperations } from "./classic/sharedGalleryImages/index.js";
+import type { SharedGalleryInvitesOperations } from "./classic/sharedGalleryInvites/index.js";
+import { _getSharedGalleryInvitesOperations } from "./classic/sharedGalleryInvites/index.js";
 import type { SnapshotsOperations } from "./classic/snapshots/index.js";
 import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { SoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
 import { _getSoftDeletedResourceOperations } from "./classic/softDeletedResource/index.js";
 import type { SshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
 import { _getSshPublicKeysOperations } from "./classic/sshPublicKeys/index.js";
+import type { TenantLevelSharedGalleryInvitesOperations } from "./classic/tenantLevelSharedGalleryInvites/index.js";
+import { _getTenantLevelSharedGalleryInvitesOperations } from "./classic/tenantLevelSharedGalleryInvites/index.js";
 import type { UsageOperations } from "./classic/usage/index.js";
 import { _getUsageOperations } from "./classic/usage/index.js";
 import type { VirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
@@ -139,14 +143,7 @@ export class ComputeManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createComputeManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createComputeManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.gallerySharingProfile = _getGallerySharingProfileOperations(this._client);
     this.softDeletedResource = _getSoftDeletedResourceOperations(this._client);
@@ -161,6 +158,10 @@ export class ComputeManagementClient {
     this.virtualMachineScaleSetRollingUpgrades =
       _getVirtualMachineScaleSetRollingUpgradesOperations(this._client);
     this.resourceSkus = _getResourceSkusOperations(this._client);
+    this.tenantLevelSharedGalleryInvites = _getTenantLevelSharedGalleryInvitesOperations(
+      this._client,
+    );
+    this.sharedGalleryInvites = _getSharedGalleryInvitesOperations(this._client);
     this.communityGalleryImageVersions = _getCommunityGalleryImageVersionsOperations(this._client);
     this.communityGalleryImages = _getCommunityGalleryImagesOperations(this._client);
     this.communityGalleries = _getCommunityGalleriesOperations(this._client);
@@ -236,6 +237,10 @@ export class ComputeManagementClient {
   public readonly virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgradesOperations;
   /** The operation groups for resourceSkus */
   public readonly resourceSkus: ResourceSkusOperations;
+  /** The operation groups for tenantLevelSharedGalleryInvites */
+  public readonly tenantLevelSharedGalleryInvites: TenantLevelSharedGalleryInvitesOperations;
+  /** The operation groups for sharedGalleryInvites */
+  public readonly sharedGalleryInvites: SharedGalleryInvitesOperations;
   /** The operation groups for communityGalleryImageVersions */
   public readonly communityGalleryImageVersions: CommunityGalleryImageVersionsOperations;
   /** The operation groups for communityGalleryImages */

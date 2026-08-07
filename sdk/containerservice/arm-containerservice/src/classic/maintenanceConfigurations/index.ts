@@ -48,7 +48,6 @@ export interface MaintenanceConfigurationsOperations {
     options?: MaintenanceConfigurationsGetOptionalParams,
   ) => Promise<MaintenanceConfiguration>;
 }
-
 function _getMaintenanceConfigurations(context: ContainerServiceContext) {
   return {
     listByManagedCluster: (
@@ -77,7 +76,6 @@ function _getMaintenanceConfigurations(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, configName, options),
   };
 }
-
 export function _getMaintenanceConfigurationsOperations(
   context: ContainerServiceContext,
 ): MaintenanceConfigurationsOperations {

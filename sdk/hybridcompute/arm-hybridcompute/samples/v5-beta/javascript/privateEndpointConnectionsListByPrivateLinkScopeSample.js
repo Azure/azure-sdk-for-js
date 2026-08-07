@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all private endpoint connections on a private link scope.
  *
  * @summary gets all private endpoint connections on a private link scope.
- * x-ms-original-file: 2025-09-16-preview/privateEndpoint/PrivateEndpointConnection_List.json
+ * x-ms-original-file: 2026-06-16-preview/privateEndpoint/PrivateEndpointConnection_List.json
  */
 async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
   const credential = new DefaultAzureCredential();

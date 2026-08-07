@@ -7,6 +7,8 @@ import {
   DataGenerationJob,
   dataGenerationJobSerializer,
   dataGenerationJobDeserializer,
+  DataGenerationJobResult,
+  dataGenerationJobResultDeserializer,
   _AgentsPagedResultDataGenerationJob,
   _agentsPagedResultDataGenerationJobDeserializer,
 } from "../../../models/models.js";
@@ -14,6 +16,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -28,6 +31,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteGenerationJobSend(
   context: Client,
@@ -63,16 +67,10 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -124,16 +122,10 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -183,34 +175,40 @@ export function _createGenerationJobSend(
 
 export async function _createGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
-  const expectedStatuses = ["201"];
+): Promise<DataGenerationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return dataGenerationJobResultDeserializer(result.body.result);
 }
 
 /** Submits a new data generation job for asynchronous execution. */
-export async function createGenerationJob(
+export function createGenerationJob(
   context: Client,
   job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
-  const result = await _createGenerationJobSend(context, job, options);
-  return _createGenerationJobDeserialize(result);
+): PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult> {
+  return getLongRunningPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+  }) as PollerLike<OperationState<DataGenerationJobResult>, DataGenerationJobResult>;
 }
 
 export function _listGenerationJobsSend(
@@ -250,16 +248,10 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -315,16 +307,10 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 

@@ -1,7 +1,6 @@
 # Release History
 
-## 7.0.0-beta.2 (2026-07-22)
-Compared with version 6.1.0
+## 7.0.0 (2026-07-27)
 
 ### Features Added
   - Added operation group NetworkSecurityPerimeterConfigurationOperations
@@ -55,7 +54,7 @@ Compared with version 6.1.0
   - Interface Resource has a new optional parameter systemData
   - Interface ResourceNamespacePatch has a new optional parameter systemData
   - Interface SBNamespace has a new optional parameter geoDataReplication
-  - Interface SBNamespace has a new optional parameter ipAddressType
+  - Interface SBNamespace has a new optional parameter ipV6Enabled
   - Interface SBNamespace has a new optional parameter minimumTlsVersion
   - Interface SBNamespace has a new optional parameter platformCapabilities
   - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
@@ -67,7 +66,6 @@ Compared with version 6.1.0
   - Interface TrackedResource has a new optional parameter systemData
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias GeoDRRoleType
-  - Added Type Alias IpAddressType
   - Added Type Alias KeyType
   - Added Type Alias Mode
   - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
@@ -77,7 +75,6 @@ Compared with version 6.1.0
   - Added Type Alias TlsVersion
   - Added Enum AzureClouds
   - Added Enum KnownGeoDRRoleType
-  - Added Enum KnownIpAddressType
   - Added Enum KnownMode
   - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
   - Added Enum KnownNspAccessRuleDirection
@@ -87,7 +84,6 @@ Compared with version 6.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Operation Namespaces.update has a new signature
   - Removed Interface SqlRuleAction
   - Interface ProxyResource no longer has parameter location
   - Parameter value of interface PrivateLinkResourcesListResult is now required

@@ -1,5 +1,36 @@
 # Release History
 
+## 1.20.0 (Unreleased)
+
+### Features Added
+
+- `instrumentationOptions.console` now accepts a `logSeverity` value, allowing the console log severity to be configured programmatically instead of only through the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
+
+### Bugs Fixed
+
+- Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.45.
+
+## 1.19.0 (2026-07-29)
+
+### Features Added
+
+- Live Metrics (QuickPulse) now honors the `APPLICATIONINSIGHTS_AUTHENTICATION_STRING` environment variable for Azure Active Directory (AAD) authentication as a fallback when no explicit credential is supplied. [#39445](https://github.com/Azure/azure-sdk-for-js/pull/39445)
+- Added support for collecting `console` logs via the `@opentelemetry/instrumentation-console` package. Enable it with `instrumentationOptions: { console: { enabled: true } }` (disabled by default). [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+### Bugs Fixed
+
+- Fixed `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL=NONE` not disabling log collection. `NONE` now skips registering the log instrumentations entirely, so no logs are collected. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+### Other Changes
+
+- Fixed Statsbeat instrumentation encoding so adding an instrumentation no longer shifts the reported bits of others, and flags above `2 ** 32` (such as `pino`, `restify`, `router`, and `amqplib`) are no longer dropped. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`, `@opentelemetry/sdk-logs`, `@opentelemetry/sdk-node`, `@opentelemetry/exporter-metrics-otlp-http`, `@opentelemetry/exporter-trace-otlp-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). Updated the bundled contrib instrumentations and resource detector to their latest versions. [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Updated to using exporter version 1.0.0-beta.44.
+
 ## 1.18.2 (2026-07-01)
 
 ### Bugs Fixed
@@ -184,6 +215,7 @@
 ## 1.8.0 (2024-10-23)
 
 ### Features Added
+
 - Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
 - Support for Live Metrics Filtering.
 - Support parsing AAD Audience from the connection string for live metrics.
@@ -195,6 +227,7 @@
 ## 1.7.1 (2024-09-13)
 
 ### Bugs Fixed
+
 - Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes
