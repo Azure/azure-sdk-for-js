@@ -96,6 +96,7 @@ steps:
   - script: df -H /home/cloudtest
   - script: du -hs /home/cloudtest
   - script: du -hs /home/cloudtest/.* || true
+  - script: du -hs /home/cloudtest/.cache/* || true
   - script: df -H .
 
   - ${{ if eq(parameters.TestProxy, true) }}:
