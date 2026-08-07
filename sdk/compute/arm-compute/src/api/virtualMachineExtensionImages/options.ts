@@ -10,9 +10,7 @@ export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends
   top?: number;
   orderby?: string;
 }
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesListTypesOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesGetOptionalParams extends OperationOptions {}

@@ -1,14 +1,15 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (2026-07-28)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added Interface AkriConnectorTemplateExecAction
+  - Added Interface AkriConnectorTemplateReadinessProbe
+  - Interface AkriConnectorTemplateRuntimeImageConfigurationSettings has a new optional parameter readinessProbe
+  - Interface BrokerProperties has a new optional parameter highPriorityMessagesBackpressureHandling
+  - Added Type Alias HighPriorityMessagesBackpressureHandling
+  - Added Enum KnownHighPriorityMessagesBackpressureHandling
+  - Enum KnownVersions has a new value V20260701
 
 ## 2.0.0 (2026-04-16)
 

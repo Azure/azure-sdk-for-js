@@ -26,7 +26,6 @@ export interface BookshelfPrivateLinkResourcesOperations {
     options?: BookshelfPrivateLinkResourcesGetOptionalParams,
   ) => Promise<BookshelfPrivateLinkResource>;
 }
-
 function _getBookshelfPrivateLinkResources(context: DiscoveryContext) {
   return {
     listByBookshelf: (
@@ -42,7 +41,6 @@ function _getBookshelfPrivateLinkResources(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, bookshelfName, privateLinkResourceName, options),
   };
 }
-
 export function _getBookshelfPrivateLinkResourcesOperations(
   context: DiscoveryContext,
 ): BookshelfPrivateLinkResourcesOperations {

@@ -1,12 +1,10 @@
 # Release History
 
-## 0.3.8 (Unreleased)
+## 0.3.8 (2026-07-29)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
 
 ### Other Changes
 

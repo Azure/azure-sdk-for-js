@@ -128,7 +128,8 @@
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts",
       "FullTextSearch.ts",
-      "ClientSideEncryption.ts"
+      "ClientSideEncryption.ts",
+      "SemanticRerank.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

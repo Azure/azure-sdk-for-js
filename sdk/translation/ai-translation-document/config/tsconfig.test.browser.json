@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/ai-translation-document": ["../src/index.ts"],
+      "@azure/ai-translation-document/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

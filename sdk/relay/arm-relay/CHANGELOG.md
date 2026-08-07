@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-07-25)
+## 4.0.0 (2026-07-27)
 
 ### Features Added
   - Added operation group PrivateEndpointConnectionsOperations
@@ -59,12 +59,10 @@
   - Interface Operation has a new optional parameter isDataAction
   - Interface Operation has a new optional parameter origin
   - Interface OperationDisplay has a new optional parameter description
-  - Interface RelayNamespace has a new optional parameter minimumTlsVersion
   - Interface RelayNamespace has a new optional parameter privateEndpointConnections
   - Interface RelayNamespace has a new optional parameter publicNetworkAccess
   - Interface RelayNamespace has a new optional parameter status
   - Interface RelayNamespace has a new optional parameter systemData
-  - Interface RelayUpdateParameters has a new optional parameter minimumTlsVersion
   - Interface RelayUpdateParameters has a new optional parameter privateEndpointConnections
   - Interface RelayUpdateParameters has a new optional parameter publicNetworkAccess
   - Interface RelayUpdateParameters has a new optional parameter status
@@ -86,7 +84,6 @@
   - Added Type Alias PublicNetworkAccess
   - Added Type Alias SkuName
   - Added Type Alias SkuTier
-  - Added Type Alias TlsVersion
   - Added Enum AzureClouds
   - Added Enum KnownAccessRights
   - Added Enum KnownActionType
@@ -100,7 +97,6 @@
   - Added Enum KnownPublicNetworkAccess
   - Added Enum KnownSkuName
   - Added Enum KnownSkuTier
-  - Added Enum KnownTlsVersion
   - Added Enum KnownUnavailableReason
   - Added Enum KnownVersions
 

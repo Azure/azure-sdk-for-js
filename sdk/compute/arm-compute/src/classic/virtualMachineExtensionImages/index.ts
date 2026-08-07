@@ -38,7 +38,6 @@ export interface VirtualMachineExtensionImagesOperations {
     options?: VirtualMachineExtensionImagesGetOptionalParams,
   ) => Promise<VirtualMachineExtensionImage>;
 }
-
 function _getVirtualMachineExtensionImages(context: ComputeManagementContext) {
   return {
     listVersions: (
@@ -61,7 +60,6 @@ function _getVirtualMachineExtensionImages(context: ComputeManagementContext) {
     ) => get(context, location, publisherName, typeParam, version, options),
   };
 }
-
 export function _getVirtualMachineExtensionImagesOperations(
   context: ComputeManagementContext,
 ): VirtualMachineExtensionImagesOperations {
