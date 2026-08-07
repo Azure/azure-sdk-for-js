@@ -51,7 +51,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,6 @@ export async function _listByNamespaceDeserialize(
 
   return _wcfRelaysListResultDeserializer(result.body);
 }
-
 /** Lists the WCF relays within the namespace. */
 export function listByNamespace(
   context: Client,
@@ -91,7 +90,7 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -109,7 +108,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a WCF relay. */
 export async function $delete(
   context: Client,
@@ -159,7 +157,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +184,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return wcfRelayDeserializer(result.body);
 }
-
 /** Creates or updates a WCF relay. This operation is idempotent. */
 export async function createOrUpdate(
   context: Client,
@@ -221,7 +218,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,9 +230,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<WcfRelay | undefined> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<WcfRelay | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -246,9 +241,12 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return result.body ? wcfRelayDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return wcfRelayDeserializer(result.body);
+}
 /** Returns the description for the specified WCF relay. */
 export async function get(
   context: Client,
@@ -256,7 +254,7 @@ export async function get(
   namespaceName: string,
   relayName: string,
   options: wCFRelaysGetOptionalParams = { requestOptions: {} },
-): Promise<WcfRelay | undefined> {
+): Promise<WcfRelay | void> {
   const result = await _getSend(context, resourceGroupName, namespaceName, relayName, options);
   return _getDeserialize(result);
 }
@@ -278,7 +276,7 @@ export function _regenerateKeysSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -307,7 +305,6 @@ export async function _regenerateKeysDeserialize(
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Regenerates the primary or secondary connection strings to the WCF relay. */
 export async function regenerateKeys(
   context: Client,
@@ -346,7 +343,7 @@ export function _listKeysSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +368,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Primary and secondary connection strings to the WCF relay. */
 export async function listKeys(
   context: Client,
@@ -406,7 +402,7 @@ export function _listAuthorizationRulesSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       relayName: relayName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +429,6 @@ export async function _listAuthorizationRulesDeserialize(
 
   return _authorizationRuleListResultDeserializer(result.body);
 }
-
 /** Authorization rules for a WCF relay. */
 export function listAuthorizationRules(
   context: Client,
@@ -448,7 +443,7 @@ export function listAuthorizationRules(
       _listAuthorizationRulesSend(context, resourceGroupName, namespaceName, relayName, options),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -468,7 +463,7 @@ export function _deleteAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,7 +487,6 @@ export async function _deleteAuthorizationRuleDeserialize(
 
   return;
 }
-
 /** Deletes a WCF relay authorization rule. */
 export async function deleteAuthorizationRule(
   context: Client,
@@ -530,7 +524,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -559,7 +553,6 @@ export async function _createOrUpdateAuthorizationRuleDeserialize(
 
   return authorizationRuleDeserializer(result.body);
 }
-
 /** Creates or updates an authorization rule for a WCF relay. */
 export async function createOrUpdateAuthorizationRule(
   context: Client,
@@ -598,7 +591,7 @@ export function _getAuthorizationRuleSend(
       namespaceName: namespaceName,
       relayName: relayName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -625,7 +618,6 @@ export async function _getAuthorizationRuleDeserialize(
 
   return authorizationRuleDeserializer(result.body);
 }
-
 /** Get authorizationRule for a WCF relay by name. */
 export async function getAuthorizationRule(
   context: Client,
