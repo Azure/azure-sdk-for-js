@@ -3,10 +3,13 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createRecorder, createClient } from "./utils/recordedClient.js";
-import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
-import { isUnexpected, paginate } from "../../src/index.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { createRecorder, createClient, createBlocklistClient } from "./utils/recordedClient.js";
+import type {
+  BlocklistClient,
+  ContentSafetyClient,
+  TextBlocklist,
+  TextBlocklistItem,
+} from "../../src/index.js";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isBrowser, delay } from "@azure/core-util";
@@ -15,13 +18,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
   let client: ContentSafetyClient;
-  function uint8ArrayToBase64(binary: Uint8Array): string {
-    let binaryString = "";
-    binary.forEach((byte) => {
-      binaryString += String.fromCharCode(byte);
-    });
-    return globalThis.btoa(binaryString);
-  }
+  let blocklistClient: BlocklistClient;
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "sample";
   const blockItemText2 = "text";
@@ -31,6 +28,7 @@ describe("Content Safety Client Test", () => {
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = createClient(recorder);
+    blocklistClient = createBlocklistClient(recorder);
   });
 
   afterEach(async () => {
@@ -38,93 +36,64 @@ describe("Content Safety Client Test", () => {
   });
 
   it("analyze text", async () => {
-    const response = await client.path("/text:analyze").post({
-      body: {
-        text: "This is a sample text",
-        categories: ["Hate"],
-        outputType: "FourSeverityLevels",
-      },
+    const result = await client.analyzeText({
+      text: "This is a sample text",
+      categories: ["Hate"],
+      outputType: "FourSeverityLevels",
     });
-    if (isUnexpected(response)) {
-      throw new Error(response.body?.error.message);
-    }
-    assert.strictEqual(response.status, "200");
-    assert.equal(response.body.categoriesAnalysis[0]?.category, "Hate");
-    assert.notExists(response.body.categoriesAnalysis[1]);
+    assert.equal(result.categoriesAnalysis[0]?.category, "Hate");
+    assert.notExists(result.categoriesAnalysis[1]);
   });
 
   it("analyze image", async () => {
-    let base64Image: string;
+    let imageContent: Uint8Array;
     if (isBrowser) {
       const imagePath = "../../../samples-dev/example-data/image.png";
       const response = await globalThis.fetch(imagePath);
-      const buffer = await response.arrayBuffer();
-      const binary = new Uint8Array(buffer);
-      base64Image = uint8ArrayToBase64(binary);
+      imageContent = new Uint8Array(await response.arrayBuffer());
     } else {
       const imagePath = join("samples-dev", "example-data", "image.png");
-      const buffer = readFileSync(imagePath);
-      base64Image = buffer.toString("base64");
+      imageContent = readFileSync(imagePath);
     }
-    const response = await client.path("/image:analyze").post({
-      body: {
-        image: {
-          content: base64Image,
-        },
-        categories: ["Sexual"],
-        outputType: "FourSeverityLevels",
+    const result = await client.analyzeImage({
+      image: {
+        content: imageContent,
       },
+      categories: ["Sexual"],
+      outputType: "FourSeverityLevels",
     });
-    if (isUnexpected(response)) {
-      throw new Error(response.body?.error.message);
-    }
-    assert.strictEqual(response.status, "200");
-    assert.equal(response.body.categoriesAnalysis[0]?.category, "Sexual");
-    assert.notExists(response.body.categoriesAnalysis[1]);
+    assert.equal(result.categoriesAnalysis[0]?.category, "Sexual");
+    assert.notExists(result.categoriesAnalysis[1]);
   });
 
   it("create blocklist", async () => {
-    const createBlockListResponse = await client
-      .path("/text/blocklists/{blocklistName}", blocklistName)
-      .patch({
-        contentType: "application/merge-patch+json",
-        body: {
-          description: "test",
-        },
-      });
-    if (isUnexpected(createBlockListResponse)) {
-      throw new Error(createBlockListResponse.body?.error.message);
-    }
-    assert.strictEqual(createBlockListResponse.status, "201");
-    assert.equal(createBlockListResponse.body.blocklistName, blocklistName);
+    const result = await blocklistClient.createOrUpdateTextBlocklist(blocklistName, {
+      blocklistName,
+      description: "test",
+    });
+    assert.equal(result.blocklistName, blocklistName);
   });
 
   it("add block items", async () => {
-    const addBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
-      .post({
-        body: {
-          blocklistItems: [
-            {
-              description: "Test block item 1",
-              text: blockItemText1,
-            },
-            {
-              description: "Test block item 2",
-              text: blockItemText2,
-            },
-            {
-              description: "Test block item 3",
-              text: blockItemText3,
-            },
-          ],
+    const result = await blocklistClient.addOrUpdateBlocklistItems(blocklistName, {
+      // blocklistItemId is server-generated but typed as required, so the
+      // request-side literals are asserted to the model type.
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText1,
         },
-      });
-    if (isUnexpected(addBlockItemsResponse)) {
-      throw new Error(addBlockItemsResponse.body?.error.message);
-    }
-    assert.strictEqual(addBlockItemsResponse.status, "200");
-    assert.isArray(addBlockItemsResponse.body.blocklistItems);
+        {
+          description: "Test block item 2",
+          text: blockItemText2,
+        },
+        {
+          description: "Test block item 3",
+          text: blockItemText3,
+        },
+      ] as TextBlocklistItem[],
+    });
+    assert.isArray(result.blocklistItems);
 
     if (!isPlaybackMode()) {
       await delay(30000);
@@ -132,165 +101,82 @@ describe("Content Safety Client Test", () => {
   });
 
   it("analyze text with blocklist", async () => {
-    const analyzeTextResponse = await client.path("/text:analyze").post({
-      body: {
-        text: "This is a sample to test.",
-        blocklistNames: [blocklistName],
-        haltOnBlocklistHit: true,
-      },
+    const result = await client.analyzeText({
+      text: "This is a sample to test.",
+      blocklistNames: [blocklistName],
+      haltOnBlocklistHit: true,
     });
-    if (isUnexpected(analyzeTextResponse)) {
-      throw new Error(analyzeTextResponse.body?.error.message);
-    }
-    assert.strictEqual(analyzeTextResponse.status, "200");
-    assert.isArray(analyzeTextResponse.body.blocklistsMatch);
+    assert.isArray(result.blocklistsMatch);
   });
 
   it("list text blocklists", async () => {
-    const listTextBlocklistsResponse = await client.path("/text/blocklists").get();
-    if (isUnexpected(listTextBlocklistsResponse)) {
-      throw new Error(listTextBlocklistsResponse.body?.error.message);
+    const items: TextBlocklist[] = [];
+    for await (const item of blocklistClient.listTextBlocklists()) {
+      items.push(item);
     }
-    assert.strictEqual(listTextBlocklistsResponse.status, "200");
-    assert.isArray(listTextBlocklistsResponse.body.value);
+    assert.isArray(items);
   });
 
   it("get text blocklist", async () => {
-    const getTextBlocklistResponse = await client
-      .path("/text/blocklists/{blocklistName}", blocklistName)
-      .get();
-    if (isUnexpected(getTextBlocklistResponse)) {
-      throw new Error(getTextBlocklistResponse.body?.error.message);
-    }
-    assert.strictEqual(getTextBlocklistResponse.status, "200");
-    assert.equal(getTextBlocklistResponse.body.blocklistName, blocklistName);
+    const result = await blocklistClient.getTextBlocklist(blocklistName);
+    assert.equal(result.blocklistName, blocklistName);
   });
 
   it("list block items", async () => {
-    const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
-      .get();
-    if (isUnexpected(listBlockItemsResponse)) {
-      throw new Error(listBlockItemsResponse.body?.error.message);
+    const items: TextBlocklistItem[] = [];
+    for await (const item of blocklistClient.listTextBlocklistItems(blocklistName)) {
+      items.push(item);
     }
-    assert.strictEqual(listBlockItemsResponse.status, "200");
-    assert.isArray(listBlockItemsResponse.body.value);
-    blockItemId = listBlockItemsResponse.body.value[1].blocklistItemId;
+    assert.isArray(items);
+    blockItemId = items[1].blocklistItemId;
   });
 
   it("list block items with pagination helper", async () => {
-    const dataSources = await client
-      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
-      .get();
-    if (isUnexpected(dataSources)) {
-      throw new Error(dataSources.body?.error.message);
-    }
-    const iter = paginate(client, dataSources);
-    const items: TextBlocklistItemOutput[] = [];
-    for await (const item of <
-      PagedAsyncIterableIterator<TextBlocklistItemOutput, TextBlocklistItemOutput[], PageSettings>
-    >iter) {
+    const items: TextBlocklistItem[] = [];
+    for await (const item of blocklistClient.listTextBlocklistItems(blocklistName)) {
       items.push(item);
     }
     assert.equal(items[1].blocklistItemId, blockItemId);
   });
 
   it("list block items with pagination 1", async () => {
-    const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
-      .get({
-        queryParameters: {
-          top: 10,
-          skip: 0,
-          maxpagesize: 1,
-        },
-      });
-    if (isUnexpected(listBlockItemsResponse)) {
-      throw new Error(listBlockItemsResponse.body?.error.message);
-    }
-    assert.strictEqual(listBlockItemsResponse.status, "200");
-    assert.equal(listBlockItemsResponse.body.value.length, 1);
-    const nextLink = listBlockItemsResponse.body.nextLink;
-    const skip = nextLink?.split("skip=")[1].split("&")[0];
-    assert.equal(skip, "1");
+    const iter = blocklistClient
+      .listTextBlocklistItems(blocklistName, { top: 10, skip: 0, maxpagesize: 1 })
+      .byPage();
+    const firstPage = (await iter.next()).value ?? [];
+    assert.equal(firstPage.length, 1);
   });
 
   it("list block items with pagination 2", async () => {
-    const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
-      .get({
-        queryParameters: {
-          top: 10,
-          skip: 1,
-          maxpagesize: 1,
-        },
-      });
-    if (isUnexpected(listBlockItemsResponse)) {
-      throw new Error(listBlockItemsResponse.body?.error.message);
-    }
-    assert.strictEqual(listBlockItemsResponse.status, "200");
-    assert.equal(listBlockItemsResponse.body.value.length, 1);
-    assert.equal(listBlockItemsResponse.body.value[0].blocklistItemId, blockItemId);
-    const nextLink = listBlockItemsResponse.body.nextLink;
-    const skip = nextLink?.split("skip=")[1].split("&")[0];
-    assert.equal(skip, "2");
+    const iter = blocklistClient
+      .listTextBlocklistItems(blocklistName, { top: 10, skip: 1, maxpagesize: 1 })
+      .byPage();
+    const firstPage = (await iter.next()).value ?? [];
+    assert.equal(firstPage.length, 1);
+    assert.equal(firstPage[0].blocklistItemId, blockItemId);
   });
 
   it("list block items with pagination 3", async () => {
-    const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
-      .get({
-        queryParameters: {
-          top: 10,
-          skip: 0,
-          maxpagesize: 3,
-        },
-      });
-    if (isUnexpected(listBlockItemsResponse)) {
-      throw new Error(listBlockItemsResponse.body?.error.message);
-    }
-    assert.strictEqual(listBlockItemsResponse.status, "200");
-    assert.equal(listBlockItemsResponse.body.value.length, 3);
-    assert.equal(listBlockItemsResponse.body.value[1].blocklistItemId, blockItemId);
-    assert.notExists(listBlockItemsResponse.body.nextLink);
+    const iter = blocklistClient
+      .listTextBlocklistItems(blocklistName, { top: 10, skip: 0, maxpagesize: 3 })
+      .byPage();
+    const firstPage = (await iter.next()).value ?? [];
+    assert.equal(firstPage.length, 3);
+    assert.equal(firstPage[1].blocklistItemId, blockItemId);
   });
 
   it("get block item", async () => {
-    const getBlockItemResponse = await client
-      .path(
-        "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
-        blocklistName,
-        blockItemId,
-      )
-      .get();
-    if (isUnexpected(getBlockItemResponse)) {
-      throw new Error(getBlockItemResponse.body?.error.message);
-    }
-    assert.strictEqual(getBlockItemResponse.status, "200");
-    assert.equal(getBlockItemResponse.body.blocklistItemId, blockItemId);
+    const result = await blocklistClient.getTextBlocklistItem(blocklistName, blockItemId);
+    assert.equal(result.blocklistItemId, blockItemId);
   });
 
   it("remove block item", async () => {
-    const removeBlockItemResponse = await client
-      .path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName)
-      .post({
-        body: {
-          blocklistItemIds: [blockItemId],
-        },
-      });
-    if (isUnexpected(removeBlockItemResponse)) {
-      throw new Error(removeBlockItemResponse.body?.error.message);
-    }
-    assert.strictEqual(removeBlockItemResponse.status, "204");
+    await blocklistClient.removeBlocklistItems(blocklistName, {
+      blocklistItemIds: [blockItemId],
+    });
   });
 
   it("delete blocklist", async () => {
-    const deleteBlockListResponse = await client
-      .path("/text/blocklists/{blocklistName}", blocklistName)
-      .delete();
-    if (isUnexpected(deleteBlockListResponse)) {
-      throw new Error(deleteBlockListResponse.body?.error.message);
-    }
-    assert.strictEqual(deleteBlockListResponse.status, "204");
+    await blocklistClient.deleteTextBlocklist(blocklistName);
   });
 });

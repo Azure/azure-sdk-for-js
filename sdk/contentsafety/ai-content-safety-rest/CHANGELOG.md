@@ -1,14 +1,21 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
+- Added support for the `2026-07-01-preview` API version.
+- Added `ContentProvenanceClient` for Content Provenance detection, which determines whether media was generated or modified by an AI system.
+- Added `shieldPrompt` and `detectTextProtectedMaterial` to `ContentSafetyClient`.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- This package is now generated as a Modular client library instead of a REST-level client (RLC). Consumers upgrading from 1.x must migrate:
+  - Operations are now methods on the clients (`client.analyzeText(...)`) instead of `client.path("/text:analyze").post(...)`.
+  - `isUnexpected` has been removed; operations throw on error responses.
+  - `paginate` has been removed; list operations return a `PagedAsyncIterableIterator` directly.
+  - The `*Output` type suffix has been removed (for example `TextBlocklistItemOutput` is now `TextBlocklistItem`).
+  - The default export has been removed; use the named `ContentSafetyClient`, `BlocklistClient` and `ContentProvenanceClient` exports.
 
 ## 1.0.2 (2025-08-22)
 

@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-content-safety",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.3",
+  "version": "2.0.0-beta.1",
   "description": "ContentSafety Service",
   "keywords": [
     "node",
@@ -59,13 +59,15 @@
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "^1.13.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/core-util": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
@@ -88,7 +90,15 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/contentSafetyClient.ts",
+        "path": "src/contentSafety/api/contentSafetyContext.ts",
+        "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/contentProvenance/api/contentProvenanceContext.ts",
+        "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/blocklist/api/blocklistContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
@@ -115,10 +125,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -127,11 +133,108 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./contentSafety": {
+      "browser": {
+        "types": "./dist/browser/contentSafety/index.d.ts",
+        "default": "./dist/browser/contentSafety/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/contentSafety/index.d.ts",
+        "default": "./dist/esm/contentSafety/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/contentSafety/index.d.ts",
+        "default": "./dist/commonjs/contentSafety/index.js"
+      }
+    },
+    "./contentSafety/api": {
+      "browser": {
+        "types": "./dist/browser/contentSafety/api/index.d.ts",
+        "default": "./dist/browser/contentSafety/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/contentSafety/api/index.d.ts",
+        "default": "./dist/esm/contentSafety/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/contentSafety/api/index.d.ts",
+        "default": "./dist/commonjs/contentSafety/api/index.js"
+      }
+    },
+    "./contentProvenance": {
+      "browser": {
+        "types": "./dist/browser/contentProvenance/index.d.ts",
+        "default": "./dist/browser/contentProvenance/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/contentProvenance/index.d.ts",
+        "default": "./dist/esm/contentProvenance/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/contentProvenance/index.d.ts",
+        "default": "./dist/commonjs/contentProvenance/index.js"
+      }
+    },
+    "./contentProvenance/api": {
+      "browser": {
+        "types": "./dist/browser/contentProvenance/api/index.d.ts",
+        "default": "./dist/browser/contentProvenance/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/contentProvenance/api/index.d.ts",
+        "default": "./dist/esm/contentProvenance/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/contentProvenance/api/index.d.ts",
+        "default": "./dist/commonjs/contentProvenance/api/index.js"
+      }
+    },
+    "./blocklist": {
+      "browser": {
+        "types": "./dist/browser/blocklist/index.d.ts",
+        "default": "./dist/browser/blocklist/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/blocklist/index.d.ts",
+        "default": "./dist/esm/blocklist/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/blocklist/index.d.ts",
+        "default": "./dist/commonjs/blocklist/index.js"
+      }
+    },
+    "./blocklist/api": {
+      "browser": {
+        "types": "./dist/browser/blocklist/api/index.d.ts",
+        "default": "./dist/browser/blocklist/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/blocklist/api/index.d.ts",
+        "default": "./dist/esm/blocklist/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/blocklist/api/index.d.ts",
+        "default": "./dist/commonjs/blocklist/api/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

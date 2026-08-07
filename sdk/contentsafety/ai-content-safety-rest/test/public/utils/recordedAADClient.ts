@@ -4,11 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import "./env.js";
-import type { ContentSafetyClient } from "../../../src/index.js";
-import ContentSafety from "../../../src/index.js";
+import { ContentSafetyClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-// import { AzureKeyCredential } from "@azure/core-auth";
-// import { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   CONTENT_SAFETY_ENDPOINT: "https://endpoint/",
@@ -36,6 +33,6 @@ export async function createAADRecorder(context: TestInfo): Promise<Recorder> {
 export function createAADClient(recorder: Recorder): ContentSafetyClient {
   const endpoint = assertEnvironmentVariable("CONTENT_SAFETY_ENDPOINT");
   const credential = createTestCredential();
-  const client = ContentSafety(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new ContentSafetyClient(endpoint, credential, recorder.configureClientOptions({}));
   return client;
 }
