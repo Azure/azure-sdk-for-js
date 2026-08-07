@@ -71,18 +71,10 @@
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "browser": "./dist/browser/index.js",
+  "browser": "./dist/esm/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
