@@ -8,12 +8,9 @@ export interface SecretsListOptionalParams extends OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface SecretsUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SecretsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SecretsGetOptionalParams extends OperationOptions {}

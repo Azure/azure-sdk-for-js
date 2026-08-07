@@ -1,14 +1,39 @@
 # Release History
 
-## 5.0.1 (Unreleased)
+## 6.0.0 (2026-07-21)
 
 ### Features Added
+  - Added Interface TokenBindingParameters
+  - Interface VaultPatchProperties has a new optional parameter tokenBindingParameters
+  - Interface VaultProperties has a new optional parameter tokenBindingParameters
+  - Added Type Alias ManagedHsmSkuNameV2
+  - Added Type Alias TokenBindingMode
+  - Added Type Alias TokenBindingStrength
+  - Added Enum KnownManagedHsmSkuNameV2
+  - Added Enum KnownTokenBindingMode
+  - Added Enum KnownTokenBindingStrength
+  - Enum KnownJsonWebKeyType has a new value OctHSM
+  - Enum KnownVersions has a new value V20260301Preview
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation ManagedHsmsOperations.beginCreateOrUpdate has a new signature
+  - Operation ManagedHsmsOperations.beginCreateOrUpdateAndWait has a new signature
+  - Operation ManagedHsmsOperations.beginUpdate has a new signature
+  - Operation ManagedHsmsOperations.beginUpdateAndWait has a new signature
+  - Operation ManagedHsmsOperations.createOrUpdate has a new signature
+  - Operation ManagedHsmsOperations.get has a new signature
+  - Operation ManagedHsmsOperations.listByResourceGroup has a new signature
+  - Operation ManagedHsmsOperations.listBySubscription has a new signature
+  - Operation ManagedHsmsOperations.update has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.beginDelete has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.beginDeleteAndWait has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.get has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.listByResource has a new signature
+  - Operation MhsmPrivateEndpointConnectionsOperations.put has a new signature
+  - Operation MhsmPrivateLinkResourcesOperations.listByMhsmResource has a new signature
+  - Operation PrivateEndpointConnectionsOperations.get has a new signature
+  - Type of parameter name of interface ManagedHsmSku is changed from ManagedHsmSkuName to ManagedHsmSkuNameV2
+  - Removed Type Alias ManagedHsmSkuName
 
 ## 5.0.0 (2026-03-17)
 

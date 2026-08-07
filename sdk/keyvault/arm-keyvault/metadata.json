@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.KeyVault": "2026-02-01"
+    "Microsoft.KeyVault": "2026-03-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.KeyVault",
     "CrossLanguageDefinitionId": {
@@ -28,6 +28,7 @@
       "@azure/arm-keyvault!PrivateEndpointConnectionProperties:interface": "Microsoft.KeyVault.PrivateEndpointConnectionProperties",
       "@azure/arm-keyvault!PrivateEndpoint:interface": "Microsoft.KeyVault.PrivateEndpoint",
       "@azure/arm-keyvault!PrivateLinkServiceConnectionState:interface": "Microsoft.KeyVault.PrivateLinkServiceConnectionState",
+      "@azure/arm-keyvault!TokenBindingParameters:interface": "Microsoft.KeyVault.TokenBindingParameters",
       "@azure/arm-keyvault!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-keyvault!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-keyvault!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
@@ -124,6 +125,8 @@
       "@azure/arm-keyvault!KnownPrivateEndpointServiceConnectionStatus:enum": "Microsoft.KeyVault.PrivateEndpointServiceConnectionStatus",
       "@azure/arm-keyvault!KnownActionsRequired:enum": "Microsoft.KeyVault.ActionsRequired",
       "@azure/arm-keyvault!KnownPrivateEndpointConnectionProvisioningState:enum": "Microsoft.KeyVault.PrivateEndpointConnectionProvisioningState",
+      "@azure/arm-keyvault!KnownTokenBindingMode:enum": "Microsoft.KeyVault.TokenBindingMode",
+      "@azure/arm-keyvault!KnownTokenBindingStrength:enum": "Microsoft.KeyVault.TokenBindingStrength",
       "@azure/arm-keyvault!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-keyvault!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-keyvault!KnownAccessPolicyUpdateKind:enum": "Microsoft.KeyVault.AccessPolicyUpdateKind",
@@ -133,7 +136,7 @@
       "@azure/arm-keyvault!KnownPublicNetworkAccess:enum": "Microsoft.KeyVault.PublicNetworkAccess",
       "@azure/arm-keyvault!KnownActivationStatus:enum": "Microsoft.KeyVault.ActivationStatus",
       "@azure/arm-keyvault!KnownManagedHsmSkuFamily:enum": "Microsoft.KeyVault.ManagedHsmSkuFamily",
-      "@azure/arm-keyvault!KnownManagedHsmSkuName:enum": "Microsoft.KeyVault.ManagedHsmSkuName",
+      "@azure/arm-keyvault!KnownManagedHsmSkuNameV2:enum": "Microsoft.KeyVault.ManagedHsmSkuNameV2",
       "@azure/arm-keyvault!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-keyvault!KnownDeletionRecoveryLevel:enum": "Microsoft.KeyVault.DeletionRecoveryLevel",
       "@azure/arm-keyvault!KnownJsonWebKeyType:enum": "Microsoft.KeyVault.JsonWebKeyType",
