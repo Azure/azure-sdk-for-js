@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll,
@@ -70,7 +70,6 @@ export async function _listDeserialize(
 
   return _connectionPropertiesV2BasicResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists all the available Cognitive Services project connections under the specified project. */
 export function list(
   context: Client,
@@ -84,11 +83,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, projectName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -108,7 +103,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +125,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Cognitive Services project connection by name. */
 export async function $delete(
   context: Client,
@@ -167,7 +161,7 @@ export function _updateSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +192,6 @@ export async function _updateDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Update Cognitive Services project connection under the specified project. */
 export async function update(
   context: Client,
@@ -235,7 +228,7 @@ export function _createSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,7 +259,6 @@ export async function _createDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Create or update Cognitive Services project connection under the specified project. */
 export async function create(
   context: Client,
@@ -303,7 +295,7 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,7 +322,6 @@ export async function _getDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Lists Cognitive Services project connection by name. */
 export async function get(
   context: Client,

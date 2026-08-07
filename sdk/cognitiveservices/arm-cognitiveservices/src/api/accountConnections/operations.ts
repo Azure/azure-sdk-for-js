@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       target: options?.target,
       category: options?.category,
       includeAll: options?.includeAll,
@@ -68,7 +68,6 @@ export async function _listDeserialize(
 
   return _connectionPropertiesV2BasicResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists all the available  Cognitive Services account connections under the specified account. */
 export function list(
   context: Client,
@@ -81,11 +80,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -103,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +120,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Cognitive Services account connection by name. */
 export async function $delete(
   context: Client,
@@ -158,7 +152,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +183,6 @@ export async function _updateDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Update Cognitive Services account connection under the specified account. */
 export async function update(
   context: Client,
@@ -222,7 +215,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,7 +246,6 @@ export async function _createDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Create or update Cognitive Services account connection under the specified account. */
 export async function create(
   context: Client,
@@ -286,7 +278,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       connectionName: connectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,7 +305,6 @@ export async function _getDeserialize(
 
   return connectionPropertiesV2BasicResourceDeserializer(result.body);
 }
-
 /** Lists Cognitive Services account connection by name. */
 export async function get(
   context: Client,

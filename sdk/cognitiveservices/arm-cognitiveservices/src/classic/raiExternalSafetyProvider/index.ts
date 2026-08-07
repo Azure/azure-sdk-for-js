@@ -42,7 +42,6 @@ export interface RaiExternalSafetyProviderOperations {
     options?: RaiExternalSafetyProviderGetOptionalParams,
   ) => Promise<RaiExternalSafetyProviderSchema>;
 }
-
 function _getRaiExternalSafetyProvider(context: CognitiveServicesManagementContext) {
   return {
     delete: (safetyProviderName: string, options?: RaiExternalSafetyProviderDeleteOptionalParams) =>
@@ -70,7 +69,6 @@ function _getRaiExternalSafetyProvider(context: CognitiveServicesManagementConte
       get(context, safetyProviderName, options),
   };
 }
-
 export function _getRaiExternalSafetyProviderOperations(
   context: CognitiveServicesManagementContext,
 ): RaiExternalSafetyProviderOperations {

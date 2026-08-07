@@ -5,18 +5,15 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AccountCapabilityHostsListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AccountCapabilityHostsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface AccountCapabilityHostsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface AccountCapabilityHostsGetOptionalParams extends OperationOptions {}

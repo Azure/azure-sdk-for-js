@@ -14,13 +14,11 @@ export interface RaiExternalSafetyProvidersOperations {
     options?: RaiExternalSafetyProvidersListOptionalParams,
   ) => PagedAsyncIterableIterator<RaiExternalSafetyProviderSchema>;
 }
-
 function _getRaiExternalSafetyProviders(context: CognitiveServicesManagementContext) {
   return {
     list: (options?: RaiExternalSafetyProvidersListOptionalParams) => list(context, options),
   };
 }
-
 export function _getRaiExternalSafetyProvidersOperations(
   context: CognitiveServicesManagementContext,
 ): RaiExternalSafetyProvidersOperations {

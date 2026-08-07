@@ -47,7 +47,7 @@ export function _disableSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,7 +69,6 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Disables an Agent Application. */
 export async function disable(
   context: Client,
@@ -106,7 +105,7 @@ export function _enableSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +127,6 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Enables an Agent Application. */
 export async function enable(
   context: Client,
@@ -165,7 +163,7 @@ export function _listAgentsSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +190,6 @@ export async function _listAgentsDeserialize(
 
   return agentReferenceResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists agents for an Agent Application. */
 export async function listAgents(
   context: Client,
@@ -227,7 +224,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       count: options?.count,
       "%24skip": options?.skip,
       "%24skipToken": options?.skipToken,
@@ -265,7 +262,6 @@ export async function _listDeserialize(
 
   return _agentApplicationResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists Agent Applications in the project. */
 export function list(
   context: Client,
@@ -279,11 +275,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, projectName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -303,7 +295,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -325,7 +317,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Agent Application. */
 export function $delete(
   context: Client,
@@ -341,7 +332,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, projectName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -362,7 +353,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -391,7 +382,6 @@ export async function _createOrUpdateDeserialize(
 
   return agentApplicationDeserializer(result.body);
 }
-
 /** Creates or updates an Agent Application (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -416,7 +406,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<AgentApplication>, AgentApplication>;
 }
 
@@ -436,7 +426,7 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -461,7 +451,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 
   return agentApplicationDeserializer(result.body);
 }
-
 /** Gets an Agent Application by name. */
 export async function get(
   context: Client,

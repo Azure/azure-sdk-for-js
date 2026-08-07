@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _listDeserialize(
 
   return _projectCapabilityHostResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** List capabilityHost. */
 export function list(
   context: Client,
@@ -81,11 +80,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, projectName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -105,7 +100,7 @@ export function _$deleteSend(
       accountName: accountName,
       projectName: projectName,
       capabilityHostName: capabilityHostName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +122,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete project capabilityHost. */
 export function $delete(
   context: Client,
@@ -150,7 +144,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -171,7 +165,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       projectName: projectName,
       capabilityHostName: capabilityHostName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +194,6 @@ export async function _createOrUpdateDeserialize(
 
   return projectCapabilityHostDeserializer(result.body);
 }
-
 /** Create or update project capabilityHost. */
 export function createOrUpdate(
   context: Client,
@@ -225,7 +218,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<ProjectCapabilityHost>, ProjectCapabilityHost>;
 }
 
@@ -245,7 +238,7 @@ export function _getSend(
       accountName: accountName,
       projectName: projectName,
       capabilityHostName: capabilityHostName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,7 +265,6 @@ export async function _getDeserialize(
 
   return projectCapabilityHostDeserializer(result.body);
 }
-
 /** Get project capabilityHost. */
 export async function get(
   context: Client,

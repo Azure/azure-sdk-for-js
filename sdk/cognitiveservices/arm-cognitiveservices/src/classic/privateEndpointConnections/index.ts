@@ -85,7 +85,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -186,7 +185,6 @@ function _getPrivateEndpointConnections(context: CognitiveServicesManagementCont
     ) => get(context, resourceGroupName, accountName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: CognitiveServicesManagementContext,
 ): PrivateEndpointConnectionsOperations {

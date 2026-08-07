@@ -39,7 +39,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,6 @@ export async function _listDeserialize(
 
   return _managedNetworkListResultDeserializer(result.body);
 }
-
 /** List API for managed network settings of a cognitive services account. */
 export function list(
   context: Client,
@@ -79,11 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -101,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete API for managed network settings of a cognitive services account. */
 export function $delete(
   context: Client,
@@ -138,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, managedNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +150,7 @@ export function _patchSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +181,6 @@ export async function _patchDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Patch API for managed network settings of a cognitive services account. */
 export function patch(
   context: Client,
@@ -205,7 +198,7 @@ export function patch(
     getInitialResponse: () =>
       _patchSend(context, resourceGroupName, accountName, managedNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -227,7 +220,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +249,6 @@ export async function _putDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** PUT API for managed network settings of a cognitive services account. */
 export function put(
   context: Client,
@@ -275,7 +267,7 @@ export function put(
     getInitialResponse: () =>
       _putSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -296,7 +288,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,7 +315,6 @@ export async function _getDeserialize(
 
   return managedNetworkSettingsPropertiesBasicResourceDeserializer(result.body);
 }
-
 /** Get API for managed network settings of a cognitive services account. */
 export async function get(
   context: Client,

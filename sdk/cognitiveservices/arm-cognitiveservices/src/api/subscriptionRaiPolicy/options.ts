@@ -8,9 +8,7 @@ export interface SubscriptionRaiPolicyDeleteOptionalParams extends OperationOpti
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface SubscriptionRaiPolicyCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface SubscriptionRaiPolicyGetOptionalParams extends OperationOptions {}

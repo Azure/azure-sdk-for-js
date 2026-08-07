@@ -32,7 +32,7 @@ export function _calculateModelCapacitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/calculateModelCapacity{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _calculateModelCapacityDeserialize(
 
   return calculateModelCapacityResultDeserializer(result.body);
 }
-
 /** Model capacity calculator. */
 export async function calculateModelCapacity(
   context: Client,
@@ -87,7 +86,7 @@ export function _checkDomainAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +115,6 @@ export async function _checkDomainAvailabilityDeserialize(
 
   return domainAvailabilityDeserializer(result.body);
 }
-
 /** Check whether a domain is available. */
 export async function checkDomainAvailability(
   context: Client,
@@ -141,7 +139,7 @@ export function _checkSkuAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +174,6 @@ export async function _checkSkuAvailabilityDeserialize(
 
   return skuAvailabilityListResultDeserializer(result.body);
 }
-
 /** Check available SKUs. */
 export async function checkSkuAvailability(
   context: Client,

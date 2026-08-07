@@ -60,7 +60,6 @@ export interface RaiTopicsOperations {
     options?: RaiTopicsGetOptionalParams,
   ) => Promise<RaiTopic>;
 }
-
 function _getRaiTopics(context: CognitiveServicesManagementContext) {
   return {
     list: (resourceGroupName: string, accountName: string, options?: RaiTopicsListOptionalParams) =>
@@ -104,7 +103,6 @@ function _getRaiTopics(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, raiTopicName, options),
   };
 }
-
 export function _getRaiTopicsOperations(
   context: CognitiveServicesManagementContext,
 ): RaiTopicsOperations {

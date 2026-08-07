@@ -47,7 +47,6 @@ export interface DeletedAccountsOperations {
   /** Returns all the resources of a particular type belonging to a subscription. */
   list: (options?: DeletedAccountsListOptionalParams) => PagedAsyncIterableIterator<Account>;
 }
-
 function _getDeletedAccounts(context: CognitiveServicesManagementContext) {
   return {
     purge: (
@@ -83,7 +82,6 @@ function _getDeletedAccounts(context: CognitiveServicesManagementContext) {
     list: (options?: DeletedAccountsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getDeletedAccountsOperations(
   context: CognitiveServicesManagementContext,
 ): DeletedAccountsOperations {

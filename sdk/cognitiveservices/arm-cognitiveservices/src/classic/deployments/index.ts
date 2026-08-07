@@ -134,7 +134,6 @@ export interface DeploymentsOperations {
     options?: DeploymentsGetOptionalParams,
   ) => Promise<Deployment>;
 }
-
 function _getDeployments(context: CognitiveServicesManagementContext) {
   return {
     resume: (
@@ -275,7 +274,6 @@ function _getDeployments(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, deploymentName, options),
   };
 }
-
 export function _getDeploymentsOperations(
   context: CognitiveServicesManagementContext,
 ): DeploymentsOperations {

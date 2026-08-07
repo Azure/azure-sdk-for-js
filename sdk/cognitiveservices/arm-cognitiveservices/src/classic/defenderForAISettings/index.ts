@@ -44,7 +44,6 @@ export interface DefenderForAISettingsOperations {
     options?: DefenderForAISettingsGetOptionalParams,
   ) => Promise<DefenderForAISetting>;
 }
-
 function _getDefenderForAISettings(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -90,7 +89,6 @@ function _getDefenderForAISettings(context: CognitiveServicesManagementContext) 
     ) => get(context, resourceGroupName, accountName, defenderForAISettingName, options),
   };
 }
-
 export function _getDefenderForAISettingsOperations(
   context: CognitiveServicesManagementContext,
 ): DefenderForAISettingsOperations {
