@@ -28,7 +28,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _listDeserialize(
 
   return privateLinkResourcesListResultDeserializer(result.body);
 }
-
 /** Lists the private link resources for a container registry. */
 export async function list(
   context: Client,
@@ -81,7 +80,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       privateLinkResourceName: privateLinkResourceName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +105,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return privateLinkResourceDeserializer(result.body);
 }
-
 /** Gets a private link resource by a specified group name for a container registry. */
 export async function get(
   context: Client,

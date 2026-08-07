@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-relay",
-  "version": "4.0.0",
+  "version": "5.0.0-beta.1",
   "description": "A generated SDK for RelayAPI.",
   "engines": {
     "node": ">=22.0.0"
@@ -60,6 +60,20 @@
       "require": {
         "types": "./dist/commonjs/api/namespaces/index.d.ts",
         "default": "./dist/commonjs/api/namespaces/index.js"
+      }
+    },
+    "./api/clusters": {
+      "browser": {
+        "types": "./dist/browser/api/clusters/index.d.ts",
+        "default": "./dist/browser/api/clusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusters/index.d.ts",
+        "default": "./dist/esm/api/clusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusters/index.d.ts",
+        "default": "./dist/commonjs/api/clusters/index.js"
       }
     },
     "./api/privateLinkResources": {
@@ -234,6 +248,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-relay"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview"
   }
 }
