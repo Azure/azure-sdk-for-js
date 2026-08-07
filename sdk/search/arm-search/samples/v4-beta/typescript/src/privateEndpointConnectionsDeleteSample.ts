@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary disconnects the private endpoint connection and deletes it from the search service.
  * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
  * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
- * x-ms-original-file: 2026-03-01-preview/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-09-01-preview/DeletePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

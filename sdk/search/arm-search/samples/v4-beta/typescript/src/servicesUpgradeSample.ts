@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upgrades the Azure AI Search service to the latest version available.
  *
  * @summary upgrades the Azure AI Search service to the latest version available.
- * x-ms-original-file: 2026-03-01-preview/UpgradeSearchServiceToLatestVersion.json
+ * x-ms-original-file: 2026-09-01-preview/UpgradeSearchServiceToLatestVersion.json
  */
 async function upgradeSearchServiceToLatestVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

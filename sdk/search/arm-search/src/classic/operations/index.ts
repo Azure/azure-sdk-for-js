@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** Lists all of the available REST API operations of the Microsoft.Search provider. */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: SearchManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: SearchManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),

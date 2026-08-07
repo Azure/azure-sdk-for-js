@@ -21,7 +21,7 @@ export function _usageBySubscriptionSkuSend(
       location: location,
       subscriptionId: context.subscriptionId,
       skuName: skuName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,14 +45,15 @@ export async function _usageBySubscriptionSkuDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return quotaUsageResultDeserializer(result.body);
 }
-
 /** Gets the quota usage for a search SKU in the given subscription. */
 export async function usageBySubscriptionSku(
   context: Client,
