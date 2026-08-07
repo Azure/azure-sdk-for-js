@@ -9,7 +9,16 @@ export default [
         "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
         "@azure/azure-sdk/ts-package-json-files-required": "off",
         "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-        "tsdoc/syntax": "warn",
+        // Keep type-only export enforcement as an error: it prevents the
+        // Node ESM import break where interfaces are re-exported as runtime values.
+        "@azure/azure-sdk/ts-consistent-type-exports": "error",
+        // Generated reference docs contain characters TSDoc dislikes; not fixable in generated output.
+        "tsdoc/syntax": "off",
+        // The following originate from generator-emitted static-helper templates
+        // (src/static-helpers/**) and are downgraded until fixed in the generator.
+        "@typescript-eslint/explicit-module-boundary-types": "warn",
+        "@typescript-eslint/no-shadow": "warn",
+        "no-useless-escape": "warn",
       },
     },
   ]),
