@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
       "%24expand": options?.expand,
     },
     {
@@ -63,7 +63,6 @@ export async function _listDeserialize(
 
   return _machineRunCommandsListResultDeserializer(result.body);
 }
-
 /** The operation to get all the run commands of a non-Azure machine. */
 export function list(
   context: Client,
@@ -76,11 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, machineName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -98,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       runCommandName: runCommandName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +115,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a run command. */
 export function $delete(
   context: Client,
@@ -135,7 +129,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, machineName, runCommandName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-16-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +148,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       runCommandName: runCommandName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +177,6 @@ export async function _createOrUpdateDeserialize(
 
   return machineRunCommandDeserializer(result.body);
 }
-
 /** The operation to create or update a run command. */
 export function createOrUpdate(
   context: Client,
@@ -206,7 +199,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-16-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<MachineRunCommand>, MachineRunCommand>;
 }
 
@@ -224,7 +217,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       runCommandName: runCommandName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +242,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return machineRunCommandDeserializer(result.body);
 }
-
 /** The operation to get a run command. */
 export async function get(
   context: Client,
