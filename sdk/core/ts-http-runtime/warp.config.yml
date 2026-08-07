@@ -8,6 +8,13 @@ exports:
   "./internal/policies": "./src/policies/internal.ts"
 
 targets:
+  # workerd must precede browser: the Cloudflare Workers runtime activates the
+  # "browser", "import" and "workerd" conditions simultaneously, and exports
+  # conditions are matched in declaration order. Listing workerd first ensures
+  # workerd resolves to this Node-compatible build instead of the browser build.
+  - name: workerd
+    tsconfig: "./config/tsconfig.src.workerd.json"
+
   - name: browser
     tsconfig: "./config/tsconfig.src.browser.json"
 
