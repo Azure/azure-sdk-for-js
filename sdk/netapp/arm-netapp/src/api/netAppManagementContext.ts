@@ -36,7 +36,7 @@ export function createNetAppManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-netapp/24.2.0`;
+  const userAgentInfo = `azsdk-js-arm-netapp/25.0.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

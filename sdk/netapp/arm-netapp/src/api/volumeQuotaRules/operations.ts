@@ -45,7 +45,7 @@ export function _listByVolumeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,7 +86,11 @@ export function listByVolume(
     () => _listByVolumeSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listByVolumeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    },
   );
 }
 
@@ -108,7 +112,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,7 +158,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -177,7 +181,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +234,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -253,7 +257,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +310,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<VolumeQuotaRule>, VolumeQuotaRule>;
 }
 
@@ -328,7 +332,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       volumeQuotaRuleName: volumeQuotaRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
