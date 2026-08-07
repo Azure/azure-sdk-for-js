@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the list of cached images on specific OS type for a subscription in a region.
  *
  * @summary get the list of cached images on specific OS type for a subscription in a region.
- * x-ms-original-file: 2026-06-01-preview/CachedImagesList.json
+ * x-ms-original-file: 2026-08-01-preview/CachedImagesList.json
  */
 async function cachedImages(): Promise<void> {
   const credential = new DefaultAzureCredential();
