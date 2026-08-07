@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type {
+  ServiceClassificationRequest,
+  ServiceClassificationOutput,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ServiceClassificationRequest,
   serviceClassificationRequestSerializer,
-  ServiceClassificationOutput,
   serviceClassificationOutputDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ClassifyServicesNoSubscriptionClassifyServicesOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ClassifyServicesNoSubscriptionClassifyServicesOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _classifyServicesSend(
   context: Client,
@@ -26,7 +24,7 @@ export function _classifyServicesSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Support/classifyServices{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

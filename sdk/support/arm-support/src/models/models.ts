@@ -473,6 +473,8 @@ export interface ProblemClassificationsClassificationResult {
   readonly problemClassificationId?: string;
   /** Related service. */
   relatedService?: ClassificationService;
+  /** Identifier of the article associated with this problem classification result. This value is populated only when a related article is available; otherwise it is omitted. */
+  readonly articleId?: string;
 }
 
 export function problemClassificationsClassificationResultDeserializer(
@@ -487,6 +489,7 @@ export function problemClassificationsClassificationResultDeserializer(
     relatedService: !item["relatedService"]
       ? item["relatedService"]
       : classificationServiceDeserializer(item["relatedService"]),
+    articleId: item["articleId"],
   };
 }
 
@@ -802,6 +805,10 @@ export interface SupportTicketDetails extends ProxyResource {
   directConnectEscalation?: DirectConnectEscalation;
   /** Contains a link to the post on the community forum. */
   communityForumPost?: string;
+  /** Support channel type for the support ticket. */
+  readonly supportChannel?: SupportChannel;
+  /** Status of the chat conversation associated with the support ticket. */
+  readonly chatConversationStatus?: ChatConversationStatus;
 }
 
 export function supportTicketDetailsSerializer(item: SupportTicketDetails): any {
@@ -880,6 +887,10 @@ export interface SupportTicketDetailsProperties {
   directConnectEscalation?: DirectConnectEscalation;
   /** Contains a link to the post on the community forum. */
   communityForumPost?: string;
+  /** Support channel type for the support ticket. */
+  readonly supportChannel?: SupportChannel;
+  /** Status of the chat conversation associated with the support ticket. */
+  readonly chatConversationStatus?: ChatConversationStatus;
 }
 
 export function supportTicketDetailsPropertiesSerializer(
@@ -971,6 +982,8 @@ export function supportTicketDetailsPropertiesDeserializer(
       ? item["directConnectEscalation"]
       : directConnectEscalationDeserializer(item["directConnectEscalation"]),
     communityForumPost: item["communityForumPost"],
+    supportChannel: item["supportChannel"],
+    chatConversationStatus: item["chatConversationStatus"],
   };
 }
 
@@ -1336,6 +1349,42 @@ export enum KnownEscalationStatus {
  * **EscalationUnavailable**: Escalation is unavailable and cannot be initiated due to customer not being enrolled to direct escalation
  */
 export type EscalationStatus = string;
+
+/** Support channel type for the support ticket. */
+export enum KnownSupportChannel {
+  /** Chat support channel. */
+  Chat = "Chat",
+  /** Web support channel. */
+  Web = "Web",
+}
+
+/**
+ * Support channel type for the support ticket. \
+ * {@link KnownSupportChannel} can be used interchangeably with SupportChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Chat**: Chat support channel. \
+ * **Web**: Web support channel.
+ */
+export type SupportChannel = string;
+
+/** Status of the chat conversation associated with the support ticket. */
+export enum KnownChatConversationStatus {
+  /** Chat conversation is currently active. */
+  Active = "Active",
+  /** Chat conversation has been closed. */
+  Closed = "Closed",
+}
+
+/**
+ * Status of the chat conversation associated with the support ticket. \
+ * {@link KnownChatConversationStatus} can be used interchangeably with ChatConversationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Chat conversation is currently active. \
+ * **Closed**: Chat conversation has been closed.
+ */
+export type ChatConversationStatus = string;
 
 /** Updates severity, ticket status, contact details, advanced diagnostic consent and secondary consent in the support ticket. */
 export interface UpdateSupportTicket {
@@ -1720,8 +1769,10 @@ export function uploadFileSerializer(item: UploadFile): any {
 export enum KnownVersions {
   /** The 2024-04-01 API version. */
   V20240401 = "2024-04-01",
-  /** The 2025-06-01-preview API version. */
-  V20250601Preview = "2025-06-01-preview",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _servicePropertiesDeserializer(item: any) {
@@ -1844,6 +1895,8 @@ export function _supportTicketDetailsPropertiesDeserializer(item: any) {
       ? item["directConnectEscalation"]
       : directConnectEscalationDeserializer(item["directConnectEscalation"]),
     communityForumPost: item["communityForumPost"],
+    supportChannel: item["supportChannel"],
+    chatConversationStatus: item["chatConversationStatus"],
   };
 }
 
