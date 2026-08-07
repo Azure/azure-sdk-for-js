@@ -2,20 +2,21 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-fabric in some common scenarios.
 
-| **File Name**                                                                                 | **Description**                                                                                                              |
-| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [fabricCapacitiesCheckNameAvailabilitySample.ts][fabriccapacitieschecknameavailabilitysample] | implements local CheckNameAvailability operations x-ms-original-file: 2023-11-01/FabricCapacities_CheckNameAvailability.json |
-| [fabricCapacitiesCreateOrUpdateSample.ts][fabriccapacitiescreateorupdatesample]               | create a FabricCapacity x-ms-original-file: 2023-11-01/FabricCapacities_CreateOrUpdate.json                                  |
-| [fabricCapacitiesDeleteSample.ts][fabriccapacitiesdeletesample]                               | delete a FabricCapacity x-ms-original-file: 2023-11-01/FabricCapacities_Delete.json                                          |
-| [fabricCapacitiesGetSample.ts][fabriccapacitiesgetsample]                                     | get a FabricCapacity x-ms-original-file: 2023-11-01/FabricCapacities_Get.json                                                |
-| [fabricCapacitiesListByResourceGroupSample.ts][fabriccapacitieslistbyresourcegroupsample]     | list FabricCapacity resources by resource group x-ms-original-file: 2023-11-01/FabricCapacities_ListByResourceGroup.json     |
-| [fabricCapacitiesListBySubscriptionSample.ts][fabriccapacitieslistbysubscriptionsample]       | list FabricCapacity resources by subscription ID x-ms-original-file: 2023-11-01/FabricCapacities_ListBySubscription.json     |
-| [fabricCapacitiesListSkusForCapacitySample.ts][fabriccapacitieslistskusforcapacitysample]     | list eligible SKUs for a Microsoft Fabric resource x-ms-original-file: 2023-11-01/FabricCapacities_ListSkusForCapacity.json  |
-| [fabricCapacitiesListSkusSample.ts][fabriccapacitieslistskussample]                           | list eligible SKUs for Microsoft Fabric resource provider x-ms-original-file: 2023-11-01/FabricCapacities_ListSkus.json      |
-| [fabricCapacitiesResumeSample.ts][fabriccapacitiesresumesample]                               | resume operation of the specified Fabric capacity instance. x-ms-original-file: 2023-11-01/FabricCapacities_Resume.json      |
-| [fabricCapacitiesSuspendSample.ts][fabriccapacitiessuspendsample]                             | suspend operation of the specified Fabric capacity instance. x-ms-original-file: 2023-11-01/FabricCapacities_Suspend.json    |
-| [fabricCapacitiesUpdateSample.ts][fabriccapacitiesupdatesample]                               | update a FabricCapacity x-ms-original-file: 2023-11-01/FabricCapacities_Update.json                                          |
-| [operationsListSample.ts][operationslistsample]                                               | list the operations for the provider x-ms-original-file: 2023-11-01/Operations_List.json                                     |
+| **File Name**                                                                                 | **Description**                                                                                                                                                             |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [fabricCapacitiesCheckNameAvailabilitySample.ts][fabriccapacitieschecknameavailabilitysample] | implements local CheckNameAvailability operations x-ms-original-file: 2026-08-01-preview/FabricCapacities_CheckNameAvailability.json                                        |
+| [fabricCapacitiesCreateOrUpdateSample.ts][fabriccapacitiescreateorupdatesample]               | create a FabricCapacity x-ms-original-file: 2026-08-01-preview/FabricCapacities_CreateOrUpdate.json                                                                         |
+| [fabricCapacitiesDeleteSample.ts][fabriccapacitiesdeletesample]                               | delete a FabricCapacity x-ms-original-file: 2026-08-01-preview/FabricCapacities_Delete.json                                                                                 |
+| [fabricCapacitiesGetSample.ts][fabriccapacitiesgetsample]                                     | get a FabricCapacity x-ms-original-file: 2026-08-01-preview/FabricCapacities_Get.json                                                                                       |
+| [fabricCapacitiesListByResourceGroupSample.ts][fabriccapacitieslistbyresourcegroupsample]     | list FabricCapacity resources by resource group x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListByResourceGroup.json                                            |
+| [fabricCapacitiesListBySubscriptionSample.ts][fabriccapacitieslistbysubscriptionsample]       | list FabricCapacity resources by subscription ID x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListBySubscription.json                                            |
+| [fabricCapacitiesListSkusForCapacitySample.ts][fabriccapacitieslistskusforcapacitysample]     | list eligible SKUs for a Microsoft Fabric resource x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListSkusForCapacity.json                                         |
+| [fabricCapacitiesListSkusSample.ts][fabriccapacitieslistskussample]                           | list eligible SKUs for Microsoft Fabric resource provider x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListSkus.json                                             |
+| [fabricCapacitiesListUsagesSample.ts][fabriccapacitieslistusagessample]                       | list the current consumption and limit in this location for the provided subscription x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListUsagesBySubscription.json |
+| [fabricCapacitiesResumeSample.ts][fabriccapacitiesresumesample]                               | resume operation of the specified Fabric capacity instance. x-ms-original-file: 2026-08-01-preview/FabricCapacities_Resume.json                                             |
+| [fabricCapacitiesSuspendSample.ts][fabriccapacitiessuspendsample]                             | suspend operation of the specified Fabric capacity instance. x-ms-original-file: 2026-08-01-preview/FabricCapacities_Suspend.json                                           |
+| [fabricCapacitiesUpdateSample.ts][fabriccapacitiesupdatesample]                               | update a FabricCapacity x-ms-original-file: 2026-08-01-preview/FabricCapacities_Update.json                                                                                 |
+| [operationsListSample.ts][operationslistsample]                                               | list the operations for the provider x-ms-original-file: 2026-08-01-preview/Operations_List.json                                                                            |
 
 ## Prerequisites
 
@@ -57,10 +58,10 @@ npm run build
 node dist/fabricCapacitiesCheckNameAvailabilitySample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env node dist/fabricCapacitiesCheckNameAvailabilitySample.js
+node dist/fabricCapacitiesCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -75,11 +76,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [fabriccapacitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesListBySubscriptionSample.ts
 [fabriccapacitieslistskusforcapacitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesListSkusForCapacitySample.ts
 [fabriccapacitieslistskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesListSkusSample.ts
+[fabriccapacitieslistusagessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesListUsagesSample.ts
 [fabriccapacitiesresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesResumeSample.ts
 [fabriccapacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesSuspendSample.ts
 [fabriccapacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/fabricCapacitiesUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/typescript/src/operationsListSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fabric
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

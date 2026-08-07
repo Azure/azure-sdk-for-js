@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resume operation of the specified Fabric capacity instance.
  *
  * @summary resume operation of the specified Fabric capacity instance.
- * x-ms-original-file: 2023-11-01/FabricCapacities_Resume.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Resume.json
  */
 async function resumeCapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function resumeCapacity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resumeCapacity();
+  await resumeCapacity();
 }
 
 main().catch(console.error);

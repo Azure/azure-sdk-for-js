@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to suspend operation of the specified Fabric capacity instance.
  *
  * @summary suspend operation of the specified Fabric capacity instance.
- * x-ms-original-file: 2023-11-01/FabricCapacities_Suspend.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Suspend.json
  */
 async function suspendCapacity() {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function suspendCapacity() {
 }
 
 async function main() {
-  suspendCapacity();
+  await suspendCapacity();
 }
 
 main().catch(console.error);
