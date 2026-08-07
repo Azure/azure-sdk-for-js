@@ -1,5 +1,22 @@
 # Release History
 
+## 8.0.0-beta.1 (2026-08-07)
+Compared with version 7.0.0
+
+### Features Added
+  - Interface SBNamespace has a new optional parameter ipAddressType
+  - Interface SBNamespaceProperties has a new optional parameter ipAddressType
+  - Added Type Alias IpAddressType
+  - Added Enum KnownIpAddressType
+  - Enum KnownVersions has a new value V20250501Preview
+  - Enum KnownVersions has a new value V20260701Preview
+
+### Breaking Changes
+  - Operation NamespacesOperations.update has a new signature
+  - Interface NamespaceReplicaLocation no longer has parameter clusterArmId
+  - Interface SBNamespace no longer has parameter ipV6Enabled
+  - Interface SBNamespaceProperties no longer has parameter ipV6Enabled
+
 ## 7.0.0 (2026-07-27)
 
 ### Features Added

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ServiceBus": "2026-07-01-preview"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ServiceBus",
     "CrossLanguageDefinitionId": {
