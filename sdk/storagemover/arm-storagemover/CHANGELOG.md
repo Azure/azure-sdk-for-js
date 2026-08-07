@@ -32,7 +32,7 @@
   - Enum KnownNfsVersion has a new value NFSv41
   - Enum KnownVersions has a new value V20260501
 
-## 3.1.0 (2026-04-06)
+## 3.1.0 (2026-06-12)
 
 ### Features Added
   - Added operation group ConnectionsOperations
