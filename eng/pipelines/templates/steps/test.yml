@@ -5,6 +5,7 @@ parameters:
   OSName: ''
 
 steps:
+  - script: df -H
   - script: df -H .
       
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -90,6 +91,7 @@ steps:
     condition: always()
     displayName: "Purge dependencies"
 
+  - script: df -H
   - script: df -H .
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
