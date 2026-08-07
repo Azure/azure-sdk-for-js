@@ -6,7 +6,8 @@ parameters:
 
 steps:
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: df -H /home/cloudtest
+  - script: du -hs /home/cloudtest
   - script: df -H .
       
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -74,7 +75,8 @@ steps:
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: df -H /home/cloudtest
+  - script: du -hs /home/cloudtest
   - script: df -H .
 
   - script: |
@@ -85,7 +87,8 @@ steps:
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: df -H /home/cloudtest
+  - script: du -hs /home/cloudtest
   - script: df -H .
 
   - ${{ if eq(parameters.TestProxy, true) }}:
@@ -105,7 +108,8 @@ steps:
     displayName: "Purge dependencies"
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: df -H /home/cloudtest
+  - script: du -hs /home/cloudtest
   - script: df -H .
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
