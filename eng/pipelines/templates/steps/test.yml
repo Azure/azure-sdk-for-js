@@ -8,6 +8,7 @@ steps:
   - script: df -H
   - script: df -H /home/cloudtest
   - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
       
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -15,7 +16,8 @@ steps:
       AgentImage: ${{ parameters.OSName}}
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
@@ -23,13 +25,15 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - script: |
@@ -37,7 +41,8 @@ steps:
     displayName: "Install library dependencies"
 
   - script: df -H
-  - script: df -H /home/cloudtest  
+  - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
@@ -77,6 +82,7 @@ steps:
   - script: df -H
   - script: df -H /home/cloudtest
   - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - script: |
@@ -89,6 +95,7 @@ steps:
   - script: df -H
   - script: df -H /home/cloudtest
   - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   - ${{ if eq(parameters.TestProxy, true) }}:
@@ -110,6 +117,7 @@ steps:
   - script: df -H
   - script: df -H /home/cloudtest
   - script: du -hs /home/cloudtest
+  - script: du -hs /home/cloudtest/*
   - script: df -H .
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
