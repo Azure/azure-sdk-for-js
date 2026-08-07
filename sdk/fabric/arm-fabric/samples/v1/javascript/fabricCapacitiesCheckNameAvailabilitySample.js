@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to implements local CheckNameAvailability operations
  *
  * @summary implements local CheckNameAvailability operations
- * x-ms-original-file: 2023-11-01/FabricCapacities_CheckNameAvailability.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_CheckNameAvailability.json
  */
 async function checkNameAvailabilityOfACapacity() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function checkNameAvailabilityOfACapacity() {
 }
 
 async function main() {
-  checkNameAvailabilityOfACapacity();
+  await checkNameAvailabilityOfACapacity();
 }
 
 main().catch(console.error);

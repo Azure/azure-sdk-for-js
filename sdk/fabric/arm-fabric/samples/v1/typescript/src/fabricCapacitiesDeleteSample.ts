@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a FabricCapacity
  *
  * @summary delete a FabricCapacity
- * x-ms-original-file: 2023-11-01/FabricCapacities_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Delete.json
  */
 async function deleteACapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function deleteACapacity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteACapacity();
+  await deleteACapacity();
 }
 
 main().catch(console.error);

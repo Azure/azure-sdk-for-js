@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FabricCapacity
  *
  * @summary create a FabricCapacity
- * x-ms-original-file: 2023-11-01/FabricCapacities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_CreateOrUpdate.json
  */
 async function createOrUpdateACapacity() {
   const credential = new DefaultAzureCredential();
@@ -16,9 +16,8 @@ async function createOrUpdateACapacity() {
   const client = new FabricClient(credential, subscriptionId);
   const result = await client.fabricCapacities.createOrUpdate("TestRG", "azsdktest", {
     properties: {
-      administration: {
-        members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"],
-      },
+      overage: { state: "Enabled", thresholdCapacityUnitHours: 4 },
+      administration: { members: ["azsdktest@microsoft.com", "azsdktest2@microsoft.com"] },
     },
     sku: { name: "F2", tier: "Fabric" },
     location: "westcentralus",
@@ -27,7 +26,7 @@ async function createOrUpdateACapacity() {
 }
 
 async function main() {
-  createOrUpdateACapacity();
+  await createOrUpdateACapacity();
 }
 
 main().catch(console.error);
