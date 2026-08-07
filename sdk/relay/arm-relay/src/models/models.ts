@@ -914,397 +914,6 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
   });
 }
 
-/** A Relay dedicated cluster. */
-export interface RelayCluster extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: RelayClusterProperties;
-  /** The Relay cluster SKU. */
-  sku: RelayClusterSku;
-}
-
-export function relayClusterSerializer(item: RelayCluster): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : relayClusterPropertiesSerializer(item["properties"]),
-    sku: relayClusterSkuSerializer(item["sku"]),
-  };
-}
-
-export function relayClusterDeserializer(item: any): RelayCluster {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : relayClusterPropertiesDeserializer(item["properties"]),
-    sku: relayClusterSkuDeserializer(item["sku"]),
-  };
-}
-
-/** Relay cluster properties. */
-export interface RelayClusterProperties {
-  /** The provisioning state of the Relay cluster. */
-  readonly provisioningState?: RelayClusterProvisioningState;
-  /** The metric ID of the Relay cluster. */
-  readonly metricId?: string;
-  /** The status of the Relay cluster. */
-  readonly status?: string;
-  /** Indicates whether the Relay cluster supports capacity scaling. */
-  readonly supportsScaling?: boolean;
-  /** Indicates whether the Relay cluster was created as zone redundant. */
-  zoneRedundant?: boolean;
-}
-
-export function relayClusterPropertiesSerializer(item: RelayClusterProperties): any {
-  return { zoneRedundant: item["zoneRedundant"] };
-}
-
-export function relayClusterPropertiesDeserializer(item: any): RelayClusterProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    metricId: item["metricId"],
-    status: item["status"],
-    supportsScaling: item["supportsScaling"],
-    zoneRedundant: item["zoneRedundant"],
-  };
-}
-
-/** Provisioning state of a Relay cluster. */
-export enum KnownRelayClusterProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-  /** The cluster is being created. */
-  Creating = "Creating",
-  /** The cluster is being deleted. */
-  Deleting = "Deleting",
-  /** The cluster is being scaled. */
-  Scaling = "Scaling",
-}
-
-/**
- * Provisioning state of a Relay cluster. \
- * {@link KnownRelayClusterProvisioningState} can be used interchangeably with RelayClusterProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled. \
- * **Creating**: The cluster is being created. \
- * **Deleting**: The cluster is being deleted. \
- * **Scaling**: The cluster is being scaled.
- */
-export type RelayClusterProvisioningState = string;
-
-/** SKU parameters for a Relay cluster. */
-export interface RelayClusterSku {
-  /** Name of the Relay cluster SKU. */
-  name: RelayClusterSkuName;
-  /** Tier of the Relay cluster SKU. */
-  tier?: RelayClusterSkuTier;
-  /** The number of capacity units assigned to the Relay cluster. */
-  capacity?: number;
-}
-
-export function relayClusterSkuSerializer(item: RelayClusterSku): any {
-  return { name: item["name"], tier: item["tier"], capacity: item["capacity"] };
-}
-
-export function relayClusterSkuDeserializer(item: any): RelayClusterSku {
-  return {
-    name: item["name"],
-    tier: item["tier"],
-    capacity: item["capacity"],
-  };
-}
-
-/** Name of the Relay cluster SKU. */
-export enum KnownRelayClusterSkuName {
-  /** The dedicated Relay cluster SKU. */
-  Dedicated = "Dedicated",
-}
-
-/**
- * Name of the Relay cluster SKU. \
- * {@link KnownRelayClusterSkuName} can be used interchangeably with RelayClusterSkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Dedicated**: The dedicated Relay cluster SKU.
- */
-export type RelayClusterSkuName = string;
-
-/** Tier of the Relay cluster SKU. */
-export enum KnownRelayClusterSkuTier {
-  /** The dedicated Relay cluster SKU tier. */
-  Dedicated = "Dedicated",
-}
-
-/**
- * Tier of the Relay cluster SKU. \
- * {@link KnownRelayClusterSkuTier} can be used interchangeably with RelayClusterSkuTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Dedicated**: The dedicated Relay cluster SKU tier.
- */
-export type RelayClusterSkuTier = string;
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
-}
-
-export function trackedResourceDeserializer(item: any): TrackedResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-  };
-}
-
-/** Parameters for updating a Relay cluster. */
-export interface RelayClusterUpdate {
-  /** The Relay cluster SKU. */
-  sku?: RelayClusterSkuUpdate;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-}
-
-export function relayClusterUpdateSerializer(item: RelayClusterUpdate): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : relayClusterSkuUpdateSerializer(item["sku"]),
-    tags: item["tags"],
-  };
-}
-
-/** Mutable Relay cluster SKU parameters. */
-export interface RelayClusterSkuUpdate {
-  /** Name of the Relay cluster SKU. */
-  name?: RelayClusterSkuName;
-  /** Tier of the Relay cluster SKU. */
-  tier?: RelayClusterSkuTier;
-  /** The number of capacity units assigned to the Relay cluster. */
-  capacity?: number;
-}
-
-export function relayClusterSkuUpdateSerializer(item: RelayClusterSkuUpdate): any {
-  return { name: item["name"], tier: item["tier"], capacity: item["capacity"] };
-}
-
-/** The response of a RelayCluster list operation. */
-export interface _RelayClusterListResult {
-  /** The RelayCluster items on this page */
-  value: RelayCluster[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _relayClusterListResultDeserializer(item: any): _RelayClusterListResult {
-  return {
-    value: relayClusterArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function relayClusterArraySerializer(result: Array<RelayCluster>): any[] {
-  return result.map((item) => {
-    return relayClusterSerializer(item);
-  });
-}
-
-export function relayClusterArrayDeserializer(result: Array<RelayCluster>): any[] {
-  return result.map((item) => {
-    return relayClusterDeserializer(item);
-  });
-}
-
-/** The response from listing Relay namespace references in a cluster. */
-export interface RelayNamespaceIdListResult {
-  /** Relay namespace references assigned to the cluster. */
-  value: RelayNamespaceReference[];
-}
-
-export function relayNamespaceIdListResultDeserializer(item: any): RelayNamespaceIdListResult {
-  return {
-    value: relayNamespaceReferenceArrayDeserializer(item["value"]),
-  };
-}
-
-export function relayNamespaceReferenceArrayDeserializer(
-  result: Array<RelayNamespaceReference>,
-): any[] {
-  return result.map((item) => {
-    return relayNamespaceReferenceDeserializer(item);
-  });
-}
-
-/** A reference to a Relay namespace assigned to a cluster. */
-export interface RelayNamespaceReference {
-  /** The full Azure resource ID of the Relay namespace. */
-  readonly id?: string;
-}
-
-export function relayNamespaceReferenceDeserializer(item: any): RelayNamespaceReference {
-  return {
-    id: item["id"],
-  };
-}
-
-/** The response from listing supported SKUs for a Relay cluster. */
-export interface RelayClusterSkuListResult {
-  /** The SKUs supported by the Relay cluster. */
-  value: RelayClusterSkuInfo[];
-}
-
-export function relayClusterSkuListResultDeserializer(item: any): RelayClusterSkuListResult {
-  return {
-    value: relayClusterSkuInfoArrayDeserializer(item["value"]),
-  };
-}
-
-export function relayClusterSkuInfoArrayDeserializer(result: Array<RelayClusterSkuInfo>): any[] {
-  return result.map((item) => {
-    return relayClusterSkuInfoDeserializer(item);
-  });
-}
-
-/** A SKU supported by a Relay cluster. */
-export interface RelayClusterSkuInfo {
-  /** The resource type to which the SKU applies. */
-  readonly resourceType?: string;
-  /** The SKU name and tier. */
-  readonly sku?: RelayClusterSkuDetails;
-  /** Capacity information for the SKU. */
-  readonly capacity?: RelayClusterSkuCapacity;
-}
-
-export function relayClusterSkuInfoDeserializer(item: any): RelayClusterSkuInfo {
-  return {
-    resourceType: item["resourceType"],
-    sku: !item["sku"] ? item["sku"] : relayClusterSkuDetailsDeserializer(item["sku"]),
-    capacity: !item["capacity"]
-      ? item["capacity"]
-      : relayClusterSkuCapacityDeserializer(item["capacity"]),
-  };
-}
-
-/** Relay cluster SKU name and tier. */
-export interface RelayClusterSkuDetails {
-  /** The SKU name. */
-  readonly name?: RelayClusterSkuName;
-  /** The SKU tier. */
-  readonly tier?: RelayClusterSkuTier;
-}
-
-export function relayClusterSkuDetailsDeserializer(item: any): RelayClusterSkuDetails {
-  return {
-    name: item["name"],
-    tier: item["tier"],
-  };
-}
-
-/** Relay cluster SKU capacity information. */
-export interface RelayClusterSkuCapacity {
-  /** The minimum supported capacity. */
-  readonly minimum?: number;
-  /** The maximum supported capacity. */
-  readonly maximum?: number;
-  /** The allowed capacity values. */
-  readonly allowedValues?: number[];
-  /** The default capacity. */
-  readonly default?: number;
-  /** The supported scaling mode. */
-  readonly scaleType?: RelayClusterSkuScaleType;
-}
-
-export function relayClusterSkuCapacityDeserializer(item: any): RelayClusterSkuCapacity {
-  return {
-    minimum: item["minimum"],
-    maximum: item["maximum"],
-    allowedValues: !item["allowedValues"]
-      ? item["allowedValues"]
-      : item["allowedValues"].map((p: any) => {
-          return p;
-        }),
-    default: item["default"],
-    scaleType: item["scaleType"],
-  };
-}
-
-/** Scaling mode supported by a Relay cluster SKU. */
-export enum KnownRelayClusterSkuScaleType {
-  /** Capacity can be scaled automatically. */
-  Automatic = "Automatic",
-}
-
-/**
- * Scaling mode supported by a Relay cluster SKU. \
- * {@link KnownRelayClusterSkuScaleType} can be used interchangeably with RelayClusterSkuScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Automatic**: Capacity can be scaled automatically.
- */
-export type RelayClusterSkuScaleType = string;
-
-/** The response from listing regions that have available Relay cluster capacity. */
-export interface AvailableRelayClustersList {
-  /** Regions containing available Relay cluster capacity. */
-  value: AvailableRelayClusterRegion[];
-}
-
-export function availableRelayClustersListDeserializer(item: any): AvailableRelayClustersList {
-  return {
-    value: availableRelayClusterRegionArrayDeserializer(item["value"]),
-  };
-}
-
-export function availableRelayClusterRegionArrayDeserializer(
-  result: Array<AvailableRelayClusterRegion>,
-): any[] {
-  return result.map((item) => {
-    return availableRelayClusterRegionDeserializer(item);
-  });
-}
-
-/** A region with available Relay cluster capacity. */
-export interface AvailableRelayClusterRegion {
-  /** The Azure region location. */
-  readonly location?: string;
-}
-
-export function availableRelayClusterRegionDeserializer(item: any): AvailableRelayClusterRegion {
-  return {
-    location: item["location"],
-  };
-}
-
 /** Description of a namespace resource. */
 export interface RelayNamespace extends TrackedResource {
   /** SKU of the namespace. */
@@ -1508,6 +1117,33 @@ export enum KnownSkuTier {
  * **Standard**
  */
 export type SkuTier = string;
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
 
 /** Description of a namespace resource. */
 export interface RelayUpdateParameters extends ResourceNamespacePatch {
@@ -1788,8 +1424,6 @@ export enum KnownVersions {
   V20240101 = "2024-01-01",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
-  /** The 2026-07-01-preview API version. */
-  V20260701Preview = "2026-07-01-preview",
 }
 
 export function _authorizationRulePropertiesSerializer(item: AuthorizationRule): any {

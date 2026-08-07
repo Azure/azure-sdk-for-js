@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to authorization rules for a WCF relay.
  *
  * @summary authorization rules for a WCF relay.
- * x-ms-original-file: 2026-07-01-preview/Relay/RelayAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-01-01/Relay/RelayAuthorizationRuleListAll.json
  */
 async function relayAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to authorization rules for a hybrid connection.
  *
  * @summary authorization rules for a hybrid connection.
- * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridConnectionAuthorizationRuleListAll.json
  */
 async function relayHybridConnectionAuthorizationRuleListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to primary and secondary connection strings to the WCF relay.
  *
  * @summary primary and secondary connection strings to the WCF relay.
- * x-ms-original-file: 2026-07-01-preview/Relay/RelayAuthorizationRuleListKey.json
+ * x-ms-original-file: 2026-01-01/Relay/RelayAuthorizationRuleListKey.json
  */
 async function relayAuthorizationRuleListKeyJson(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a WCF relay authorization rule.
  *
  * @summary deletes a WCF relay authorization rule.
- * x-ms-original-file: 2026-07-01-preview/Relay/RelayAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-01-01/Relay/RelayAuthorizationRuleDelete.json
  */
 async function relayAuthorizationRuleDelete() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the hybrid connection within the namespace.
  *
  * @summary lists the hybrid connection within the namespace.
- * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridConnectionListAll.json
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridConnectionListAll.json
  */
 async function relayHybridConnectionListAll() {
   const credential = new DefaultAzureCredential();

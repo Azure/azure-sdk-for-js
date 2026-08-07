@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a hybrid connection.
  *
  * @summary deletes a hybrid connection.
- * x-ms-original-file: 2026-07-01-preview/HybridConnection/RelayHybridconnectionDelete.json
+ * x-ms-original-file: 2026-01-01/HybridConnection/RelayHybridconnectionDelete.json
  */
 async function relayHybridconnectionDelete() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the available namespaces within the ResourceGroup.
  *
  * @summary lists all the available namespaces within the ResourceGroup.
- * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceListByResourceGroup.json
+ * x-ms-original-file: 2026-01-01/NameSpaces/RelayNameSpaceListByResourceGroup.json
  */
 async function relayNameSpaceListByResourceGroup() {
   const credential = new DefaultAzureCredential();
