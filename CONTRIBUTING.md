@@ -1,3 +1,5 @@
+<!-- cspell:ignore SOURCECOMMITID -->
+
 # Contributing
 
 ## How to contribute to the Azure SDK for JavaScript
@@ -57,7 +59,8 @@ With GitHub's Codespaces, the container already has all prerequisites installed.
 If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
-- Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Node.js 22.13 or later. If you use nvm, run `nvm use` to select the version
+  configured in this repository's `.nvmrc`.
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
@@ -80,7 +83,7 @@ If you prefer to setup your own environment instead, make sure you have these pr
 To build all packages:
 
 4. Install and link all dependencies (`pnpm install`)
-5. Build the code base (`pnpm build`)
+5. Build the code base (`pnpm build --token 1`)
 
 You rarely need to build all packages though, as it takes over one hour to finish. Instead, you can build selected packages impacted by your changes. To build specific package(s), use the `--filter=@azure/package-name...` command-line option:
 
@@ -88,7 +91,79 @@ You rarely need to build all packages though, as it takes over one hour to finis
 
 ## Development Workflows
 
-#### Authenticating to the Azure DevOps npm feed
+### Reproducing pull request checks
+
+Pull request validation uses both Azure Pipelines and GitHub Actions. Run the
+checks below locally after `pnpm install`; they supplement the package-specific
+build, lint, and test commands described in the rest of this guide.
+
+#### Formatting
+
+Azure Pipelines runs the `check-format` package script for affected libraries.
+From each affected pnpm workspace package directory, run:
+
+```shell
+pnpm check-format
+pnpm format
+pnpm check-format
+```
+
+The first command reproduces the CI check, `pnpm format` applies Prettier fixes,
+and the final command confirms the fixes. From the repository root, the
+equivalent commands for one or more packages are:
+
+```shell
+pnpm turbo run check-format --filter=<package-name>
+pnpm turbo run format --filter=<package-name>
+```
+
+Repeat `--filter` for each affected package. The format auto-fix workflow does
+not push changes to pull requests from forks, so fork contributors need to run
+these commands and push the result.
+
+#### Markdown links
+
+The **Verify Links** GitHub Actions check validates Markdown files changed by a
+pull request. It uses PowerShell 7 and the repository's
+`get-markdown-files-from-changed-files.ps1` and `Verify-Links.ps1` scripts.
+
+If your clone does not already have an `upstream` remote, add one:
+
+```shell
+git remote add upstream https://github.com/Azure/azure-sdk-for-js.git
+```
+
+Update its `main` branch:
+
+```shell
+git fetch upstream main
+```
+
+After committing your Markdown changes, run this from the repository root:
+
+```powershell
+$env:SYSTEM_PULLREQUEST_SOURCECOMMITID = "HEAD"
+$markdownFiles = ./eng/common/scripts/get-markdown-files-from-changed-files.ps1 `
+  -targetBranch upstream/main
+
+if ($markdownFiles) {
+  $repoRoot = (Resolve-Path .).Path
+  $rootUrl = [System.Uri]::new($repoRoot + [IO.Path]::DirectorySeparatorChar).AbsoluteUri
+
+  ./eng/common/scripts/Verify-Links.ps1 `
+    -urls $markdownFiles `
+    -rootUrl $rootUrl `
+    -recursive:$false `
+    -ignoreLinksFile "$repoRoot/eng/ignore-links.txt" `
+    -checkLinkGuidance:$true `
+    -localBuildRepoName "Azure/azure-sdk-for-js" `
+    -localBuildRepoPath $repoRoot `
+    -inputCacheFile "https://azuresdkartifacts.blob.core.windows.net/verify-links-cache/verify-links-cache.txt" `
+    -allowRelativeLinksFile "$repoRoot/eng/common/scripts/allow-relative-links.txt"
+}
+```
+
+### Authenticating to the Azure DevOps npm feed
 
 Before installing new dependencies, authenticate to the Azure Artifacts feed used by this repo by running the command below at the root
 of the repo.
@@ -96,6 +171,7 @@ of the repo.
 ```
   npx artifacts-npm-credprovider
 ```
+
 [more details](https://eng.ms/docs/coreai/devdiv/one-engineering-system-1es/1es-docs/azure-artifacts/npm-credprovider)
 
 ### Installing and managing dependencies
@@ -128,7 +204,7 @@ On the other hand, if you know your library does not work with the existing vers
 
 Run `pnpm build --token 1` from repo root directory to build any projects that have been modified since the last build.
 
-Run `pnpm turbo build --filter=<packagename>... --token 1` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat... --token 1`.  Alternatively, you can run `npx turbo build --token 1` to build current package's dependencies then the package itself.
+Run `pnpm turbo build --filter=<packagename>... --token 1` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`. To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm turbo build --filter=@azure/communication-chat... --token 1`. Alternatively, you can run `npx turbo build --token 1` to build current package's dependencies then the package itself.
 
 ### Testing
 
@@ -146,7 +222,7 @@ Some shells (e.g. PowerShell) process command-line options differently and requi
 pnpm run test:node -- -- test/myTest.spec.ts -t "should handle basic operations"
 ```
 
-By default, these npm scripts run previously recorded tests. The recordings have been generated by using a custom recording library called [test-recorder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md). We will examine how to run recorded tests and live tests in the following sections.
+By default, these package scripts run previously recorded tests. The recordings have been generated by using a custom recording library called [test-recorder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md). We will examine how to run recorded tests and live tests in the following sections.
 
 #### Recorded tests
 
@@ -174,7 +250,7 @@ You can create the necessary Azure resources on your own, or automate this proce
 
 If you modify the network calls (both the number of calls or their shape) either by changing the tests or source code of the project you're working on, the recordings will need to be re-generated.
 
-Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
+Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` package script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
 
 For more information about the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
@@ -187,9 +263,10 @@ After recording tests, you can review what changed before pushing:
 
 Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/golden-testing-commands.md) that can be handy while testing your SDKs.
 
-### Other NPM scripts
+### Other package scripts
 
-Most package scripts are exposed as pnpm commands. Use `pnpm <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Run `pnpm <scriptname> --help` for more information about each script.
+Package scripts are exposed as pnpm commands. Use `pnpm <scriptname>` to run a
+script and `pnpm <scriptname> --help` for more information.
 
 All projects have at least the following scripts:
 
@@ -214,24 +291,24 @@ Projects may optionally have the following scripts:
 
 If you're having problems and want to restore your repo to a clean state without any packages installed, run `pnpm clean`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `pnpm install`. This will not make any changes to any other files in your working directory.
 
-### PNPM for NPM users
+### pnpm for npm users
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | pnpm command                                  | Where to run      | pnpm command effect                                              |
-|--------------------------------------|-----------------------------------------------|-------------------|------------------------------------------------------------------|
-| `npm install`                        | `pnpm install`                                | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
-| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Package directory | Add or update a dependency in the current project                |
+| NPM command                          | pnpm command                                       | Where to run      | pnpm command effect                                              |
+| ------------------------------------ | -------------------------------------------------- | ----------------- | ---------------------------------------------------------------- |
+| `npm install`                        | `pnpm install`                                     | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
+| `npm install --save[-dev] <package>` | `pnpm add <package> [-D]`                          | Package directory | Add or update a dependency in the current project                |
 | `npm build`                          | `pnpm build --token 1`                             | Repo root         | Build all projects in the pnpm workspace                         |
 |                                      | `pnpm turbo build --filter=<package>... --token 1` | Anywhere in repo  | Build named project and any projects it depends on               |
 |                                      | `pnpm turbo build --token 1`                       | Package directory | Build the current project                                        |
-| `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
-|                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |
-|                                      | `pnpm test`                                   | Package directory | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Repo root         | Run named script in all projects in the pnpm workspace           |
-|                                      | `pnpm <scriptname> --filter=<packagename>...` | Repo root         | Run named script in named project and any projects it depends on |
-|                                      | `pnpm <scriptname>`                           | Package directory | Run named script in the current project only                     |
-| `npx <command>`                      | `npx <command>`                               | Anywhere          | Run named command provided by installed dependency package       |
+| `npm test`                           | `pnpm test`                                        | Repo root         | Run dev tests in all projects in the pnpm workspace              |
+|                                      | `pnpm test --filter=<packagename>...`              | Repo root         | Run dev tests in named project and any projects it depends on    |
+|                                      | `pnpm test`                                        | Package directory | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `pnpm <scriptname>`                                | Repo root         | Run named script in all projects in the pnpm workspace           |
+|                                      | `pnpm <scriptname> --filter=<packagename>...`      | Repo root         | Run named script in named project and any projects it depends on |
+|                                      | `pnpm <scriptname>`                                | Package directory | Run named script in the current project only                     |
+| `npx <command>`                      | `npx <command>`                                    | Anywhere          | Run named command provided by installed dependency package       |
 
 Similarly other monorepo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
 
@@ -266,17 +343,13 @@ To maintain the quality of the documentation, the following two facilities are p
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
-### Formatting changed files
-
-We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `pnpm install` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `pnpm format` under your package directory.
-
 ### Enforcing Azure SDK design guidelines
 
 Our libraries follow the [TypeScript SDK design guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) to enhance the productivity of developers connecting to Azure services. These guidelines are enforced by our custom [ESLint plugin](https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk). Follow these instruction to use the plugin:
 
 - [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
 - [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
-- add a linting npm script as follows:
+- add a linting package script as follows:
   - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
 You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm turbo build --filter @azure-tools/eslint-plugin-azure-sdk... --token 1`, or indirectly as your package's dependency by `pnpm turbo build --token 1` under your package directory.
@@ -291,7 +364,7 @@ export default [...azsdkEslint.configs.internal];
 
 ## Onboarding a new library
 
-All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-npm-scripts).
+All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-package-scripts).
 
 The repository contains two different sets of libraries, each follows different rules for development and maintaining. The first type is generated automatically from the [swagger specifications](https://github.com/Azure/azure-rest-api-specs) and their code should not be edited by hand. Onboarding such library is just a matter of pushing its auto-generated directory to the right location in the repository.
 
