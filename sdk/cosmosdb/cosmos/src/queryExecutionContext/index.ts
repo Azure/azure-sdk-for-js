@@ -12,6 +12,7 @@ export * from "./parallelQueryExecutionContextBase.js";
 export * from "./parallelQueryExecutionContext.js";
 export * from "./orderByQueryExecutionContext.js";
 export * from "./pipelinedQueryExecutionContext.js";
+export * from "./executionContextFactory.js";
 export * from "./orderByComparator.js";
 
 // Query Filtering Strategy - Direct exports
