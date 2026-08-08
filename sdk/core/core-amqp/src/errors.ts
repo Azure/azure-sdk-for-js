@@ -528,6 +528,8 @@ export class MessagingError extends Error {
    */
   info?: any;
   /**
+   * Creates a new `MessagingError`.
+   *
    * @param message - The error message that provides more information about the error.
    * @param originalError - An error whose properties will be copied to the MessagingError if the
    * property matches one found on the Node.js `SystemError`.
