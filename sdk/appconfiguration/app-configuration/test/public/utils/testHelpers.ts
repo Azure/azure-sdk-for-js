@@ -8,7 +8,7 @@ import type {
   SettingLabel,
   ListLabelsPage,
 } from "../../../src/index.js";
-import { AppConfigurationClient } from "../../../src/index.js";
+import { AppConfigurationClient, FeatureFlagClient } from "../../../src/index.js";
 import type {
   ConfigurationSetting,
   ListConfigurationSettingPage,
@@ -53,7 +53,23 @@ export function createAppConfigurationClientForTests(
 ): AppConfigurationClient {
   const endpoint = assertEnvironmentVariable("AZ_CONFIG_ENDPOINT");
   const credential = options?.testCredential ?? createTestCredential();
-  return new AppConfigurationClient(endpoint, credential, options);
+  // Allow targeting non-public clouds / staging environments by setting the
+  // AZ_CONFIG_AUDIENCE environment variable (e.g. when recording against staging).
+  const audience = options?.audience ?? process.env["AZ_CONFIG_AUDIENCE"];
+  return new AppConfigurationClient(endpoint, credential, { ...options, audience });
+}
+
+export function createFeatureFlagClientForTests(
+  options?: AppConfigurationClientOptions & {
+    testCredential?: TokenCredential;
+  },
+): FeatureFlagClient {
+  const endpoint = assertEnvironmentVariable("AZ_CONFIG_ENDPOINT");
+  const credential = options?.testCredential ?? createTestCredential();
+  // Allow targeting non-public clouds / staging environments by setting the
+  // AZ_CONFIG_AUDIENCE environment variable (e.g. when recording against staging).
+  const audience = options?.audience ?? process.env["AZ_CONFIG_AUDIENCE"];
+  return new FeatureFlagClient(endpoint, credential, { ...options, audience });
 }
 
 export async function deleteKeyCompletely(

@@ -17,6 +17,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
+  formatFeatureFlagFieldsForSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
   makeConfigurationSettingEmpty,
@@ -25,10 +26,12 @@ import {
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
+  toFeatureFlagCompatResponse,
   getScope,
 } from "../../src/internal/helpers.js";
 import type { FeatureFlagValue } from "../../src/featureFlag.js";
 import type { WebResourceLike } from "@azure/core-http-compat";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { SecretReferenceValue } from "../../src/secretReference.js";
 import { describe, it, assert } from "vitest";
 
@@ -330,6 +333,29 @@ describe("helper methods", () => {
 
     assert.ok(formatFieldsForSelect(undefined) === undefined);
     assert.deepEqual(formatFieldsForSelect([]), []);
+  });
+
+  it("normalizes feature flag fields", () => {
+    assert.deepEqual(formatFeatureFlagFieldsForSelect(["name", "lastModified", "etag"]), [
+      "name",
+      "last_modified",
+      "etag",
+    ]);
+    assert.isUndefined(formatFeatureFlagFieldsForSelect(undefined));
+  });
+
+  it("converts feature flag responses to compatibility responses", () => {
+    const response = toFeatureFlagCompatResponse({
+      request: createPipelineRequest({ url: "https://example.azconfig.io/ff/test" }),
+      status: "200",
+      headers: { "sync-token": "sync-token-value" },
+      body: { name: "test", enabled: true },
+    });
+
+    assert.equal(response.status, 200);
+    assert.equal(response.parsedHeaders.syncToken, "sync-token-value");
+    assert.equal(response.bodyAsText, JSON.stringify({ name: "test", enabled: true }));
+    assert.equal(response.request.url, "https://example.azconfig.io/ff/test");
   });
 
   /**

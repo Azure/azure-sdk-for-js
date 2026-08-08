@@ -44,7 +44,6 @@ export interface CheckRevisionsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetRevisionsOptionalParams extends OperationOptions {
   /**
@@ -79,7 +78,6 @@ export interface GetRevisionsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteLockOptionalParams extends OperationOptions {
   /** The label, if any, of the key-value to unlock. */
@@ -99,7 +97,6 @@ export interface DeleteLockOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface PutLockOptionalParams extends OperationOptions {
   /** The label, if any, of the key-value to lock. */
@@ -119,7 +116,6 @@ export interface PutLockOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CheckLabelsOptionalParams extends OperationOptions {
   /** A filter for the name of the returned labels. */
@@ -140,8 +136,9 @@ export interface CheckLabelsOptionalParams extends OperationOptions {
   select?: LabelFields[];
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** A filter used to indicate the resource type of the labels. Accepted values: 'kv' for key-value labels, 'ff' for feature flag labels. */
+  resourceType?: string;
 }
-
 /** Optional parameters. */
 export interface GetLabelsOptionalParams extends OperationOptions {
   /** A filter for the name of the returned labels. */
@@ -162,8 +159,9 @@ export interface GetLabelsOptionalParams extends OperationOptions {
   select?: LabelFields[];
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** A filter used to indicate the resource type of the labels. Accepted values: 'kv' for key-value labels, 'ff' for feature flag labels. */
+  resourceType?: string;
 }
-
 /** Optional parameters. */
 export interface CheckSnapshotOptionalParams extends OperationOptions {
   /** Used to guarantee real-time consistency between requests. */
@@ -181,7 +179,6 @@ export interface CheckSnapshotOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface UpdateSnapshotOptionalParams extends OperationOptions {
   /** Used to guarantee real-time consistency between requests. */
@@ -199,7 +196,6 @@ export interface UpdateSnapshotOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateSnapshotOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -207,13 +203,11 @@ export interface CreateSnapshotOptionalParams extends OperationOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;
 }
-
 /** Optional parameters. */
 export interface GetOperationDetailsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSnapshotOptionalParams extends OperationOptions {
   /** Used to select what fields are present in the returned resource(s). */
@@ -233,7 +227,6 @@ export interface GetSnapshotOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CheckSnapshotsOptionalParams extends OperationOptions {
   /** Used to guarantee real-time consistency between requests. */
@@ -246,7 +239,6 @@ export interface CheckSnapshotsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSnapshotsOptionalParams extends OperationOptions {
   /** A filter for the name of the returned snapshots. */
@@ -263,7 +255,6 @@ export interface GetSnapshotsOptionalParams extends OperationOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;
 }
-
 /** Optional parameters. */
 export interface CheckKeyValueOptionalParams extends OperationOptions {
   /** The label of the key-value to retrieve. */
@@ -295,7 +286,6 @@ export interface CheckKeyValueOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteKeyValueOptionalParams extends OperationOptions {
   /** The label of the key-value to delete. */
@@ -310,7 +300,6 @@ export interface DeleteKeyValueOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface PutKeyValueOptionalParams extends OperationOptions {
   /** The label of the key-value to create. */
@@ -332,7 +321,6 @@ export interface PutKeyValueOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKeyValueOptionalParams extends OperationOptions {
   /** The label of the key-value to retrieve. */
@@ -364,7 +352,6 @@ export interface GetKeyValueOptionalParams extends OperationOptions {
    */
   tags?: string[];
 }
-
 /** Optional parameters. */
 export interface CheckKeyValuesOptionalParams extends OperationOptions {
   /**
@@ -414,7 +401,6 @@ export interface CheckKeyValuesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKeyValuesOptionalParams extends OperationOptions {
   /**
@@ -462,7 +448,6 @@ export interface GetKeyValuesOptionalParams extends OperationOptions {
    */
   tags?: string[];
 }
-
 /** Optional parameters. */
 export interface CheckKeysOptionalParams extends OperationOptions {
   /** A filter for the name of the returned keys. */
@@ -482,7 +467,6 @@ export interface CheckKeysOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKeysOptionalParams extends OperationOptions {
   /** A filter for the name of the returned keys. */
