@@ -57,9 +57,13 @@ vi.mock("../../utils/logger.js", () => ({
   },
 }));
 
-vi.mock("fs-extra", () => ({
-  exists: vi.fn(async () => false),
-}));
+vi.mock("fs-extra", () => {
+  const exists = vi.fn(async () => false);
+  return {
+    default: { exists },
+    exists,
+  };
+});
 
 vi.mock("../../common/codeOwnersAndIgnoreLink/codeOwnersAndIgnoreLinkGenerator.js", () => ({
   codeOwnersAndIgnoreLinkGenerator: vi.fn(),
