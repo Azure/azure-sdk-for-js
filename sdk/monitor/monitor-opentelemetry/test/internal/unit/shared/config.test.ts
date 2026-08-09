@@ -520,6 +520,19 @@ describe("OpenTelemetry Resource", () => {
       expect(detect).not.toHaveBeenCalled();
     });
 
+    it("skips the IMDS probe on Container Apps", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CONTAINER_APP_NAME: "test-app",
+        CONTAINER_APP_REVISION: "test-app--rev1",
+        CONTAINER_APP_HOSTNAME: "test-app.internal",
+        CONTAINER_APP_ENV_DNS_SUFFIX: "test.azurecontainerapps.io",
+        CONTAINER_APP_PORT: "80",
+        CONTAINER_APP_REPLICA_NAME: "test-app--rev1-abc",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
     it("probes IMDS when no platform is detected", () => {
       const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
       createConfigWithEnv({});

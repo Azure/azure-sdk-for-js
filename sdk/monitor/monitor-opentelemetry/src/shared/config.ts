@@ -22,6 +22,7 @@ import { isAksResourceDetectorPopulated } from "../utils/common.js";
 import {
   azureAksDetector,
   azureAppServiceDetector,
+  azureContainerAppsDetector,
   azureFunctionsDetector,
   azureVmDetector,
 } from "@opentelemetry/resource-detector-azure";
@@ -215,12 +216,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this._aksResourceDetectorPopulated = isAksResourceDetectorPopulated(aksResource.attributes);
 
     const azureResource: Resource = detectResources({
-      detectors: [azureAppServiceDetector, azureFunctionsDetector],
+      detectors: [azureAppServiceDetector, azureContainerAppsDetector, azureFunctionsDetector],
     });
     this._resource = resource.merge(aksResource).merge(azureResource);
 
-    // The IMDS probe fails on App Service and Functions, and on AKS it describes
-    // the node VM rather than the cluster.
+    // The IMDS probe fails on App Service, Functions, and Container Apps, and on AKS
+    // it describes the node VM rather than the cluster.
     const platformDetected =
       aksResource.attributes[SEMRESATTRS_CLOUD_PLATFORM] ??
       azureResource.attributes[SEMRESATTRS_CLOUD_PLATFORM];

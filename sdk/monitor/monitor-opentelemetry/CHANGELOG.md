@@ -5,11 +5,12 @@
 ### Features Added
 
 - `instrumentationOptions.console` now accepts a `logSeverity` value, allowing the console log severity to be configured programmatically instead of only through the `APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable. [#39483](https://github.com/Azure/azure-sdk-for-js/pull/39483)
+- Added support for the Azure Container Apps resource detector from `@opentelemetry/resource-detector-azure`. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
 
 ### Bugs Fixed
 
 - Fixed incorrect performance-counter sampling by giving standard and normalized process CPU counters independent state and initializing the first request and exception rate intervals with the current time. [#39520](https://github.com/Azure/azure-sdk-for-js/pull/39520)
-- Fixed a failed IMDS request being recorded as a dependency when running on App Service and Functions. The Azure VM resource detector now runs only when no other detector has identified the platform. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
+- Fixed a failed IMDS request being recorded as a dependency when running on App Service, Functions, and Container Apps. The Azure VM resource detector now runs only when no other detector has identified the platform. [#39510](https://github.com/Azure/azure-sdk-for-js/issues/39510)
 
 ### Other Changes
 
