@@ -480,6 +480,53 @@ describe("OpenTelemetry Resource", () => {
     }, 1000);
   });
 
+  describe("VM resource detection", () => {
+    // This describe has no afterEach, so spies survive between tests and an earlier test's
+    // calls would otherwise be visible on the ones created here.
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
+    // Swap in a clean environment so ambient App Service variables on the machine running
+    // the tests cannot decide the outcome.
+    function createConfigWithEnv(env: { [id: string]: string }): InternalConfig {
+      const originalEnv = process.env;
+      process.env = env;
+      try {
+        return new InternalConfig();
+      } finally {
+        process.env = originalEnv;
+      }
+    }
+
+    it("skips the IMDS probe on App Service", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on Azure Functions", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({ WEBSITE_SITE_NAME: "test-site", FUNCTIONS_EXTENSION_VERSION: "~4" });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("skips the IMDS probe on AKS", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({
+        CLUSTER_RESOURCE_ID:
+          "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster",
+      });
+      expect(detect).not.toHaveBeenCalled();
+    });
+
+    it("probes IMDS when no platform is detected", () => {
+      const detect = vi.spyOn(azureVmDetector, "detect").mockReturnValue({ attributes: {} });
+      createConfigWithEnv({});
+      expect(detect).toHaveBeenCalled();
+    });
+  });
+
   it("OTEL_RESOURCE_ATTRIBUTES", () => {
     vi.stubEnv(
       "OTEL_RESOURCE_ATTRIBUTES",
