@@ -3,11 +3,12 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
-/** Provides NSP operations for working with Log Analytics. */
 export interface OperationalInsightsManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -25,7 +26,6 @@ export interface OperationalInsightsManagementClientOptionalParams extends Clien
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** Provides NSP operations for working with Log Analytics. */
 export function createOperationalInsightsManagement(
   credential: TokenCredential,
   subscriptionId: string,
@@ -34,10 +34,10 @@ export function createOperationalInsightsManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-operationalinsights/11.0.0`;
+  const userAgentInfo = `azsdk-js-arm-operationalinsights/11.1.0`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

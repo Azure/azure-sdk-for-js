@@ -1,27 +1,91 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type {
+  WorkspacePurgeBody,
+  WorkspacePurgeResponse,
+  WorkspacePurgeStatusResponse,
+  WorkspacePurgeLakeDataBody,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  WorkspacePurgeBody,
   workspacePurgeBodySerializer,
-  WorkspacePurgeResponse,
   workspacePurgeResponseDeserializer,
-  WorkspacePurgeStatusResponse,
   workspacePurgeStatusResponseDeserializer,
+  workspacePurgeLakeDataBodySerializer,
 } from "../../models/models.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
+  WorkspacePurgePurgeLakeDataOptionalParams,
   WorkspacePurgeGetPurgeStatusOptionalParams,
   WorkspacePurgePurgeOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _purgeLakeDataSend(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  body: WorkspacePurgeLakeDataBody,
+  options: WorkspacePurgePurgeLakeDataOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purgeLakeData{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      workspaceName: workspaceName,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: workspacePurgeLakeDataBodySerializer(body),
+  });
+}
+
+export async function _purgeLakeDataDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+/**
+ * Purges data lake data in a Log Analytics workspace for a table over a specified time range.
+ *
+ * This operation deletes data lake data (Auxiliary tables, or Analytics tables mirrored to the data lake) for the specified table within the given time range. The operation is long-running; poll the URL returned in the Azure-AsyncOperation response header to track its status.
+ */
+export function purgeLakeData(
+  context: Client,
+  resourceGroupName: string,
+  workspaceName: string,
+  body: WorkspacePurgeLakeDataBody,
+  options: WorkspacePurgePurgeLakeDataOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _purgeLakeDataDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _purgeLakeDataSend(context, resourceGroupName, workspaceName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-03-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _getPurgeStatusSend(
   context: Client,
@@ -37,7 +101,7 @@ export function _getPurgeStatusSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       purgeId: purgeId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,14 +119,15 @@ export async function _getPurgeStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspacePurgeStatusResponseDeserializer(result.body);
 }
-
 /** Gets status of an ongoing purge operation. */
 export async function getPurgeStatus(
   context: Client,
@@ -94,7 +159,7 @@ export function _purgeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,14 +179,15 @@ export async function _purgeDeserialize(
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspacePurgeResponseDeserializer(result.body);
 }
-
 /**
  * Purges data in an Log Analytics workspace by a set of user-defined filters.
  *

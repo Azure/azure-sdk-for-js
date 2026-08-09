@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { DataExport, _DataExportListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DataExport,
   dataExportSerializer,
   dataExportDeserializer,
-  _DataExportListResult,
   _dataExportListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DataExportsListByWorkspaceOptionalParams,
   DataExportsDeleteOptionalParams,
   DataExportsCreateOrUpdateOptionalParams,
   DataExportsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByWorkspaceSend(
   context: Client,
@@ -40,7 +33,7 @@ export function _listByWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,14 +51,15 @@ export async function _listByWorkspaceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _dataExportListResultDeserializer(result.body);
 }
-
 /** Lists the data export instances within a workspace. */
 export function listByWorkspace(
   context: Client,
@@ -78,7 +72,7 @@ export function listByWorkspace(
     () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
     _listByWorkspaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -96,7 +90,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       dataExportName: dataExportName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,14 +103,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes the specified data export in a given workspace.. */
 export async function $delete(
   context: Client,
@@ -150,7 +145,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       dataExportName: dataExportName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,14 +165,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return dataExportDeserializer(result.body);
 }
-
 /** Create or update a data export. */
 export async function createOrUpdate(
   context: Client,
@@ -212,7 +208,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       dataExportName: dataExportName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,14 +224,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return dataExportDeserializer(result.body);
 }
-
 /** Gets a data export instance. */
 export async function get(
   context: Client,

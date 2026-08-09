@@ -1,20 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
-import { getPurgeStatus, purge } from "../../api/workspacePurge/operations.js";
-import {
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import { purgeLakeData, getPurgeStatus, purge } from "../../api/workspacePurge/operations.js";
+import type {
+  WorkspacePurgePurgeLakeDataOptionalParams,
   WorkspacePurgeGetPurgeStatusOptionalParams,
   WorkspacePurgePurgeOptionalParams,
 } from "../../api/workspacePurge/options.js";
-import {
+import type {
   WorkspacePurgeBody,
   WorkspacePurgeResponse,
   WorkspacePurgeStatusResponse,
+  WorkspacePurgeLakeDataBody,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspacePurge operations. */
 export interface WorkspacePurgeOperations {
+  /**
+   * Purges data lake data in a Log Analytics workspace for a table over a specified time range.
+   *
+   * This operation deletes data lake data (Auxiliary tables, or Analytics tables mirrored to the data lake) for the specified table within the given time range. The operation is long-running; poll the URL returned in the Azure-AsyncOperation response header to track its status.
+   */
+  purgeLakeData: (
+    resourceGroupName: string,
+    workspaceName: string,
+    body: WorkspacePurgeLakeDataBody,
+    options?: WorkspacePurgePurgeLakeDataOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use purgeLakeData instead */
+  beginPurgeLakeData: (
+    resourceGroupName: string,
+    workspaceName: string,
+    body: WorkspacePurgeLakeDataBody,
+    options?: WorkspacePurgePurgeLakeDataOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use purgeLakeData instead */
+  beginPurgeLakeDataAndWait: (
+    resourceGroupName: string,
+    workspaceName: string,
+    body: WorkspacePurgeLakeDataBody,
+    options?: WorkspacePurgePurgeLakeDataOptionalParams,
+  ) => Promise<void>;
   /** Gets status of an ongoing purge operation. */
   getPurgeStatus: (
     resourceGroupName: string,
@@ -35,9 +65,32 @@ export interface WorkspacePurgeOperations {
     options?: WorkspacePurgePurgeOptionalParams,
   ) => Promise<WorkspacePurgeResponse>;
 }
-
 function _getWorkspacePurge(context: OperationalInsightsManagementContext) {
   return {
+    purgeLakeData: (
+      resourceGroupName: string,
+      workspaceName: string,
+      body: WorkspacePurgeLakeDataBody,
+      options?: WorkspacePurgePurgeLakeDataOptionalParams,
+    ) => purgeLakeData(context, resourceGroupName, workspaceName, body, options),
+    beginPurgeLakeData: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      body: WorkspacePurgeLakeDataBody,
+      options?: WorkspacePurgePurgeLakeDataOptionalParams,
+    ) => {
+      const poller = purgeLakeData(context, resourceGroupName, workspaceName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPurgeLakeDataAndWait: async (
+      resourceGroupName: string,
+      workspaceName: string,
+      body: WorkspacePurgeLakeDataBody,
+      options?: WorkspacePurgePurgeLakeDataOptionalParams,
+    ) => {
+      return await purgeLakeData(context, resourceGroupName, workspaceName, body, options);
+    },
     getPurgeStatus: (
       resourceGroupName: string,
       workspaceName: string,
@@ -52,7 +105,6 @@ function _getWorkspacePurge(context: OperationalInsightsManagementContext) {
     ) => purge(context, resourceGroupName, workspaceName, body, options),
   };
 }
-
 export function _getWorkspacePurgeOperations(
   context: OperationalInsightsManagementContext,
 ): WorkspacePurgeOperations {

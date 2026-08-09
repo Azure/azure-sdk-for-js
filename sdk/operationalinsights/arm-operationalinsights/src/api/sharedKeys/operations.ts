@@ -1,23 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  SharedKeys,
-  sharedKeysDeserializer,
-} from "../../models/models.js";
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { SharedKeys } from "../../models/models.js";
+import { errorResponseDeserializer, sharedKeysDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SharedKeysRegenerateOptionalParams,
   SharedKeysGetSharedKeysOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _regenerateSend(
   context: Client,
@@ -31,7 +24,7 @@ export function _regenerateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,14 +40,15 @@ export async function _regenerateDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return sharedKeysDeserializer(result.body);
 }
-
 /** Regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft Operational Insights agents to the workspace. */
 export async function regenerate(
   context: Client,
@@ -78,7 +72,7 @@ export function _getSharedKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,14 +90,15 @@ export async function _getSharedKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return sharedKeysDeserializer(result.body);
 }
-
 /** Gets the shared keys for a workspace. */
 export async function getSharedKeys(
   context: Client,

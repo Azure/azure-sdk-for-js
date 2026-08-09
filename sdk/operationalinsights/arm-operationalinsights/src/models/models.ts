@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** Paged collection of Operation items */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1350,6 +1350,8 @@ export interface WorkspaceFeatures {
   readonly unifiedSentinelBillingOnly?: boolean;
   /** List of associations for the workspace. Indicates if the workspace is associated with any of the following experiences: MDC, Sentinel, SentinelGraph, etc. */
   readonly associations?: string[];
+  /** Enable Data authorization mode for the workspace. */
+  dataAuthorizationMode?: boolean;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
@@ -1363,6 +1365,7 @@ export function workspaceFeaturesSerializer(item: WorkspaceFeatures): any {
       item["enableLogAccessUsingOnlyResourcePermissions"],
     clusterResourceId: item["clusterResourceId"],
     disableLocalAuth: item["disableLocalAuth"],
+    dataAuthorizationMode: item["dataAuthorizationMode"],
   };
 }
 
@@ -1376,6 +1379,7 @@ export function workspaceFeaturesDeserializer(item: any): WorkspaceFeatures {
       "disableLocalAuth",
       "unifiedSentinelBillingOnly",
       "associations",
+      "dataAuthorizationMode",
     ]),
     enableDataExport: item["enableDataExport"],
     immediatePurgeDataOn30Days: item["immediatePurgeDataOn30Days"],
@@ -1389,6 +1393,7 @@ export function workspaceFeaturesDeserializer(item: any): WorkspaceFeatures {
       : item["associations"].map((p: any) => {
           return p;
         }),
+    dataAuthorizationMode: item["dataAuthorizationMode"],
   };
 }
 
@@ -2524,6 +2529,8 @@ export interface Table extends ProxyResource {
   readonly resultStatistics?: ResultStatistics;
   /** Instruct the system how to handle and charge the logs ingested to this table. */
   plan?: TablePlanEnum;
+  /** The protection level of the table. Determines the default data access isolation behavior. */
+  protectionLevel?: TableProtectionLevelEnum;
   /** The timestamp that table plan was last modified (UTC). */
   readonly lastPlanModifiedDate?: string;
   /** Table schema. */
@@ -2544,6 +2551,7 @@ export function tableSerializer(item: Table): any {
       "searchResults",
       "restoredLogs",
       "plan",
+      "protectionLevel",
       "schema",
     ])
       ? undefined
@@ -2581,6 +2589,8 @@ export interface TableProperties {
   readonly resultStatistics?: ResultStatistics;
   /** Instruct the system how to handle and charge the logs ingested to this table. */
   plan?: TablePlanEnum;
+  /** The protection level of the table. Determines the default data access isolation behavior. */
+  protectionLevel?: TableProtectionLevelEnum;
   /** The timestamp that table plan was last modified (UTC). */
   readonly lastPlanModifiedDate?: string;
   /** Table schema. */
@@ -2604,6 +2614,7 @@ export function tablePropertiesSerializer(item: TableProperties): any {
       ? item["restoredLogs"]
       : restoredLogsSerializer(item["restoredLogs"]),
     plan: item["plan"],
+    protectionLevel: item["protectionLevel"],
     schema: !item["schema"] ? item["schema"] : schemaSerializer(item["schema"]),
   };
 }
@@ -2623,6 +2634,7 @@ export function tablePropertiesDeserializer(item: any): TableProperties {
       ? item["resultStatistics"]
       : resultStatisticsDeserializer(item["resultStatistics"]),
     plan: item["plan"],
+    protectionLevel: item["protectionLevel"],
     lastPlanModifiedDate: item["lastPlanModifiedDate"],
     schema: !item["schema"] ? item["schema"] : schemaDeserializer(item["schema"]),
     provisioningState: item["provisioningState"],
@@ -2753,6 +2765,24 @@ export enum KnownTablePlanEnum {
  */
 export type TablePlanEnum = string;
 
+/** The protection level of the table. Determines the default data access isolation behavior. */
+export enum KnownTableProtectionLevelEnum {
+  /** The default protection level. Table data is accessible through standard permissions. */
+  General = "General",
+  /** Table data is isolated by default. Accessing or exporting data requires explicit, scoped authorization. */
+  Protected = "Protected",
+}
+
+/**
+ * The protection level of the table. Determines the default data access isolation behavior. \
+ * {@link KnownTableProtectionLevelEnum} can be used interchangeably with TableProtectionLevelEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **General**: The default protection level. Table data is accessible through standard permissions. \
+ * **Protected**: Table data is isolated by default. Accessing or exporting data requires explicit, scoped authorization.
+ */
+export type TableProtectionLevelEnum = string;
+
 /** Table's schema. */
 export interface Schema {
   /** Table name. */
@@ -2838,7 +2868,7 @@ export interface Column {
   type?: ColumnTypeEnum;
   /** Column data type logical hint. */
   dataTypeHint?: ColumnDataTypeHintEnum;
-  /** Column display name. */
+  /** Column display name. Can be set at creation time; after creation, updates must either match column name or set to null/empty. If not provided, defaults to column name. */
   displayName?: string;
   /** Column description. */
   description?: string;
@@ -2916,6 +2946,8 @@ export enum KnownColumnDataTypeHintEnum {
   ArmPath = "armPath",
   /** A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y */
   Ip = "ip",
+  /** A vector of single-precision floating-point values used for semantic / similarity search. */
+  Vector16 = "vector16",
 }
 
 /**
@@ -2926,7 +2958,8 @@ export enum KnownColumnDataTypeHintEnum {
  * **uri**: A string that matches the pattern of a URI, for example, scheme:\//username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment \
  * **guid**: A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
  * **armPath**: An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... \
- * **ip**: A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y
+ * **ip**: A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y \
+ * **vector16**: A vector of single-precision floating-point values used for semantic \/ similarity search.
  */
 export type ColumnDataTypeHintEnum = string;
 
@@ -3565,6 +3598,35 @@ export enum KnownPurgeState {
  */
 export type PurgeState = string;
 
+/** Describes the body of a request to purge data lake data in a Log Analytics workspace. */
+export interface WorkspacePurgeLakeDataBody {
+  /** The name of the table from which to purge data lake data. Must be an Auxiliary table, or an Analytics table that is mirrored to the data lake. */
+  table: string;
+  /** The time range over which data lake data is purged. */
+  timeRange: WorkspacePurgeLakeDataTimeRange;
+}
+
+export function workspacePurgeLakeDataBodySerializer(item: WorkspacePurgeLakeDataBody): any {
+  return {
+    table: item["table"],
+    timeRange: workspacePurgeLakeDataTimeRangeSerializer(item["timeRange"]),
+  };
+}
+
+/** The time range over which a data lake purge request operates. */
+export interface WorkspacePurgeLakeDataTimeRange {
+  /** The inclusive start of the time range, in UTC. Must fall on an hour boundary (minutes and seconds must be zero). */
+  startTime: Date;
+  /** The exclusive end of the time range, in UTC. Must fall on an hour boundary and be earlier than the start of the current hour. */
+  endTime: Date;
+}
+
+export function workspacePurgeLakeDataTimeRangeSerializer(
+  item: WorkspacePurgeLakeDataTimeRange,
+): any {
+  return { startTime: item["startTime"].toISOString(), endTime: item["endTime"].toISOString() };
+}
+
 /** Linked storage accounts top level resource container. */
 export interface LinkedStorageAccountsResource extends ProxyResource {
   /** Linked storage accounts type. */
@@ -4196,6 +4258,8 @@ export function storageInsightArrayDeserializer(result: Array<StorageInsight>): 
 
 /** Workspace data summary rules definition. */
 export interface SummaryLogs extends ProxyResource {
+  /** The managed identity of the summary logs resource. Only user-assigned identity is supported. */
+  identity?: SummaryLogsIdentity;
   /** SummaryRules rule type: User. */
   ruleType?: RuleTypeEnum;
   /** The display name of the Summary rule. */
@@ -4222,6 +4286,9 @@ export function summaryLogsSerializer(item: SummaryLogs): any {
     ])
       ? undefined
       : _summaryLogsPropertiesSerializer(item),
+    identity: !item["identity"]
+      ? item["identity"]
+      : summaryLogsIdentitySerializer(item["identity"]),
   };
 }
 
@@ -4236,6 +4303,9 @@ export function summaryLogsDeserializer(item: any): SummaryLogs {
     ...(!item["properties"]
       ? item["properties"]
       : _summaryLogsPropertiesDeserializer(item["properties"])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : summaryLogsIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -4395,6 +4465,99 @@ export enum KnownTimeSelectorEnum {
  */
 export type TimeSelectorEnum = string;
 
+/** Identity for the summary logs resource. */
+export interface SummaryLogsIdentity {
+  /** The principal ID of resource identity. */
+  readonly principalId?: string;
+  /** The tenant ID of resource. */
+  readonly tenantId?: string;
+  /** Type of managed service identity. */
+  type: SummaryLogsIdentityType;
+  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: Record<string, SummaryLogsUserIdentityProperties>;
+}
+
+export function summaryLogsIdentitySerializer(item: SummaryLogsIdentity): any {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : summaryLogsUserIdentityPropertiesRecordSerializer(item["userAssignedIdentities"]),
+  };
+}
+
+export function summaryLogsIdentityDeserializer(item: any): SummaryLogsIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : summaryLogsUserIdentityPropertiesRecordDeserializer(item["userAssignedIdentities"]),
+  };
+}
+
+/** Type of managed service identity. */
+export enum KnownSummaryLogsIdentityType {
+  /** The default identity type. summary logs do not have a managed identity. */
+  None = "None",
+  /** summary logs is associated with a user assigned managed identity. User assigned identities are created as separate Azure resources and can be shared across multiple summary logs. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Type of managed service identity. \
+ * {@link KnownSummaryLogsIdentityType} can be used interchangeably with SummaryLogsIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The default identity type. summary logs do not have a managed identity. \
+ * **UserAssigned**: summary logs is associated with a user assigned managed identity. User assigned identities are created as separate Azure resources and can be shared across multiple summary logs.
+ */
+export type SummaryLogsIdentityType = string;
+
+export function summaryLogsUserIdentityPropertiesRecordSerializer(
+  item: Record<string, SummaryLogsUserIdentityProperties>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : summaryLogsUserIdentityPropertiesSerializer(item[key]);
+  });
+  return result;
+}
+
+export function summaryLogsUserIdentityPropertiesRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, SummaryLogsUserIdentityProperties> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : summaryLogsUserIdentityPropertiesDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** User assigned identity properties. */
+export interface SummaryLogsUserIdentityProperties {
+  /** The principal id of user assigned identity. */
+  readonly principalId?: string;
+  /** The client id of user assigned identity. */
+  readonly clientId?: string;
+}
+
+export function summaryLogsUserIdentityPropertiesSerializer(
+  _item: SummaryLogsUserIdentityProperties,
+): any {
+  return {};
+}
+
+export function summaryLogsUserIdentityPropertiesDeserializer(
+  item: any,
+): SummaryLogsUserIdentityProperties {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** The response of a SummaryLogs list operation. */
 export interface _SummaryLogsListResult {
   /** The SummaryLogs items on this page */
@@ -4477,6 +4640,8 @@ export function operationStatusDeserializer(item: any): OperationStatus {
 export enum KnownVersions {
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
 }
 
 export function intelligencePackArrayDeserializer(result: Array<IntelligencePack>): any[] {
@@ -4762,6 +4927,7 @@ export function _tablePropertiesSerializer(item: Table): any {
       ? item["restoredLogs"]
       : restoredLogsSerializer(item["restoredLogs"]),
     plan: item["plan"],
+    protectionLevel: item["protectionLevel"],
     schema: !item["schema"] ? item["schema"] : schemaSerializer(item["schema"]),
   };
 }
@@ -4781,6 +4947,7 @@ export function _tablePropertiesDeserializer(item: any) {
       ? item["resultStatistics"]
       : resultStatisticsDeserializer(item["resultStatistics"]),
     plan: item["plan"],
+    protectionLevel: item["protectionLevel"],
     lastPlanModifiedDate: item["lastPlanModifiedDate"],
     schema: !item["schema"] ? item["schema"] : schemaDeserializer(item["schema"]),
     provisioningState: item["provisioningState"],
