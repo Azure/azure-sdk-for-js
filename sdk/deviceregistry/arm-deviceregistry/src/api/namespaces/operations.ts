@@ -6,16 +6,16 @@ import type {
   Namespace,
   _NamespaceListResult,
   NamespaceMigrateRequest,
-  SchemaRegistryUpdateUpdate,
   NamespaceCreateOrUpdate,
+  NamespaceUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   namespaceDeserializer,
   _namespaceListResultDeserializer,
   namespaceMigrateRequestSerializer,
-  schemaRegistryUpdateUpdateSerializer,
   namespaceCreateOrUpdateSerializer,
+  namespaceUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -251,7 +251,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: NamespaceUpdateUpdate,
   options: NamespacesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -272,7 +272,7 @@ export function _updateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: schemaRegistryUpdateUpdateSerializer(properties),
+      body: namespaceUpdateUpdateSerializer(properties),
     });
 }
 
@@ -293,7 +293,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: NamespaceUpdateUpdate,
   options: NamespacesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Namespace>, Namespace> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {

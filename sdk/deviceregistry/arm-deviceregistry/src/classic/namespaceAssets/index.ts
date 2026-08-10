@@ -16,7 +16,7 @@ import type {
   NamespaceAssetsCreateOrReplaceOptionalParams,
   NamespaceAssetsGetOptionalParams,
 } from "../../api/namespaceAssets/options.js";
-import type { NamespaceAsset, SchemaRegistryUpdateUpdate, NamespaceAssetCreateOrUpdate } from "../../models/models.js";
+import type { NamespaceAsset, NamespaceAssetCreateOrUpdate, NamespaceAssetUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -40,7 +40,7 @@ export interface NamespaceAssetsOperations {
     resourceGroupName: string,
     namespaceName: string,
     assetName: string,
-    properties: SchemaRegistryUpdateUpdate,
+    properties: NamespaceAssetUpdate,
     options?: NamespaceAssetsUpdateOptionalParams,
   ) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
   /** Create a NamespaceAsset */
@@ -77,7 +77,7 @@ function _getNamespaceAssets(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       namespaceName: string,
       assetName: string,
-      properties: SchemaRegistryUpdateUpdate,
+      properties: NamespaceAssetUpdate,
       options?: NamespaceAssetsUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, assetName, properties, options),
     createOrReplace: (

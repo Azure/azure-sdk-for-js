@@ -1961,32 +1961,93 @@ export function leafCertificateConfigurationDeserializer(item: any): LeafCertifi
   };
 }
 
-/** The type used for update operations of the Policy. */
+/** A Credential Policy */
 export interface PolicyUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
   properties?: PolicyUpdateProperties;
 }
 
 export function policyUpdateSerializer(item: PolicyUpdate): any {
   return {
+    tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
       : policyUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
-/** The updatable properties of the Policy. */
+/** Details of the Credential Policy. */
 export interface PolicyUpdateProperties {
   /** The certificate configuration. */
-  certificate?: CertificateConfiguration;
+  certificate?: CertificateConfigurationUpdate;
 }
 
 export function policyUpdatePropertiesSerializer(item: PolicyUpdateProperties): any {
   return {
     certificate: !item["certificate"]
       ? item["certificate"]
-      : certificateConfigurationSerializer(item["certificate"]),
+      : certificateConfigurationUpdateSerializer(item["certificate"]),
   };
+}
+
+/** The updatable certificate configuration for Policy. */
+export interface CertificateConfigurationUpdate {
+  /** The configuration to set up an ICA. */
+  certificateAuthorityConfiguration?: CertificateAuthorityConfigurationUpdate;
+  /** The leaf certificate configuration. */
+  leafCertificateConfiguration: LeafCertificateConfigurationUpdate;
+}
+
+export function certificateConfigurationUpdateSerializer(
+  item: CertificateConfigurationUpdate,
+): any {
+  return {
+    certificateAuthorityConfiguration: !item["certificateAuthorityConfiguration"]
+      ? item["certificateAuthorityConfiguration"]
+      : certificateAuthorityConfigurationUpdateSerializer(
+          item["certificateAuthorityConfiguration"],
+        ),
+    leafCertificateConfiguration: leafCertificateConfigurationUpdateSerializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+/** The configuration to set up an ICA. */
+export interface CertificateAuthorityConfigurationUpdate {
+  /** Configuration for Bring Your Own Root. */
+  bringYourOwnRoot?: BringYourOwnRootUpdate;
+}
+
+export function certificateAuthorityConfigurationUpdateSerializer(
+  item: CertificateAuthorityConfigurationUpdate,
+): any {
+  return {
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootUpdateSerializer(item["bringYourOwnRoot"]),
+  };
+}
+
+/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
+export interface BringYourOwnRootUpdate {}
+
+export function bringYourOwnRootUpdateSerializer(_item: BringYourOwnRootUpdate): any {
+  return {};
+}
+
+/** The updatable leaf certificate configuration for Policy. */
+export interface LeafCertificateConfigurationUpdate {
+  /** The validity period in days. */
+  validityPeriodInDays: number;
+}
+
+export function leafCertificateConfigurationUpdateSerializer(
+  item: LeafCertificateConfigurationUpdate,
+): any {
+  return { validityPeriodInDays: item["validityPeriodInDays"] };
 }
 
 /** The response of a Policy list operation. */
@@ -6691,6 +6752,28 @@ export function namespacePropertiesCreateOrUpdateDeserializer(
 ): NamespacePropertiesCreateOrUpdate {
   return {
     messaging: !item["messaging"] ? item["messaging"] : messagingDeserializer(item["messaging"]),
+  };
+}
+
+/** The type used for update operations of the Namespace. */
+export interface NamespaceUpdateUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceUpdateProperties;
+}
+
+export function namespaceUpdateUpdateSerializer(item: NamespaceUpdateUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityUpdateSerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceUpdatePropertiesSerializer(item["properties"]),
   };
 }
 

@@ -18,7 +18,7 @@ import type {
   CredentialsCreateOrUpdateOptionalParams,
   CredentialsGetOptionalParams,
 } from "../../api/credentials/options.js";
-import type { Credential, SchemaRegistryUpdateUpdate, CredentialCreateOrUpdate } from "../../models/models.js";
+import type { Credential, CredentialCreateOrUpdate, CredentialUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -40,7 +40,7 @@ export interface CredentialsOperations {
   update: (
     resourceGroupName: string,
     namespaceName: string,
-    properties: SchemaRegistryUpdateUpdate,
+    properties: CredentialUpdate,
     options?: CredentialsUpdateOptionalParams,
   ) => PollerLike<OperationState<Credential>, Credential>;
   /** Delete a Credential */
@@ -79,7 +79,7 @@ function _getCredentials(context: DeviceRegistryManagementContext) {
     update: (
       resourceGroupName: string,
       namespaceName: string,
-      properties: SchemaRegistryUpdateUpdate,
+      properties: CredentialUpdate,
       options?: CredentialsUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, properties, options),
     delete: (

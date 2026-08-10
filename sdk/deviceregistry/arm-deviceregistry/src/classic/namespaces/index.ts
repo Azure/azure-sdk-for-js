@@ -20,7 +20,7 @@ import type {
   NamespacesCreateOrReplaceOptionalParams,
   NamespacesGetOptionalParams,
 } from "../../api/namespaces/options.js";
-import type { Namespace, NamespaceMigrateRequest, SchemaRegistryUpdateUpdate, NamespaceCreateOrUpdate } from "../../models/models.js";
+import type { Namespace, NamespaceMigrateRequest, NamespaceCreateOrUpdate, NamespaceUpdateUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -52,7 +52,7 @@ export interface NamespacesOperations {
   update: (
     resourceGroupName: string,
     namespaceName: string,
-    properties: SchemaRegistryUpdateUpdate,
+    properties: NamespaceUpdateUpdate,
     options?: NamespacesUpdateOptionalParams,
   ) => PollerLike<OperationState<Namespace>, Namespace>;
   /** Create a Namespace */
@@ -92,7 +92,7 @@ function _getNamespaces(context: DeviceRegistryManagementContext) {
     update: (
       resourceGroupName: string,
       namespaceName: string,
-      properties: SchemaRegistryUpdateUpdate,
+      properties: NamespaceUpdateUpdate,
       options?: NamespacesUpdateOptionalParams,
     ) => update(context, resourceGroupName, namespaceName, properties, options),
     createOrReplace: (

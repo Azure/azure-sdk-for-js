@@ -5,15 +5,15 @@ import type { DeviceRegistryManagementContext as Client } from "../index.js";
 import type {
   NamespaceAsset,
   _NamespaceAssetListResult,
-  SchemaRegistryUpdateUpdate,
   NamespaceAssetCreateOrUpdate,
+  NamespaceAssetUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   namespaceAssetDeserializer,
   _namespaceAssetListResultDeserializer,
-  schemaRegistryUpdateUpdateSerializer,
   namespaceAssetCreateOrUpdateSerializer,
+  namespaceAssetUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -146,7 +146,7 @@ export function _updateSend(
   resourceGroupName: string,
   namespaceName: string,
   assetName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: NamespaceAssetUpdate,
   options: NamespaceAssetsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -168,7 +168,7 @@ export function _updateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: schemaRegistryUpdateUpdateSerializer(properties),
+      body: namespaceAssetUpdateSerializer(properties),
     });
 }
 
@@ -190,7 +190,7 @@ export function update(
   resourceGroupName: string,
   namespaceName: string,
   assetName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: NamespaceAssetUpdate,
   options: NamespaceAssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceAsset>, NamespaceAsset> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {

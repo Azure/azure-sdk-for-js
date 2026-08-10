@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type { Credential, _CredentialListResult, SchemaRegistryUpdateUpdate, CredentialCreateOrUpdate } from "../../models/models.js";
+import type { Credential, _CredentialListResult, CredentialCreateOrUpdate, CredentialUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   credentialDeserializer,
   _credentialListResultDeserializer,
-  schemaRegistryUpdateUpdateSerializer,
   credentialCreateOrUpdateSerializer,
+  credentialUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -137,7 +137,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: CredentialUpdate,
   options: CredentialsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -158,7 +158,7 @@ export function _updateSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: schemaRegistryUpdateUpdateSerializer(properties),
+      body: credentialUpdateSerializer(properties),
     });
 }
 
@@ -179,7 +179,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  properties: SchemaRegistryUpdateUpdate,
+  properties: CredentialUpdate,
   options: CredentialsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Credential>, Credential> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {

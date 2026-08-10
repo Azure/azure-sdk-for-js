@@ -190,6 +190,11 @@ export type {
   AssetEndpointProfilePropertiesCreateOrUpdate,
   AssetCreateOrUpdate,
   AssetPropertiesCreateOrUpdate,
+  CertificateConfigurationUpdate,
+  CertificateAuthorityConfigurationUpdate,
+  BringYourOwnRootUpdate,
+  LeafCertificateConfigurationUpdate,
+  NamespaceUpdateUpdate,
 } from "./models.js";
 export {
   KnownOrigin,
