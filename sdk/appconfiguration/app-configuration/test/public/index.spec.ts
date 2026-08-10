@@ -1156,6 +1156,7 @@ describe("AppConfigurationClient", () => {
         status: number,
       ): void {
         assert.equal(page._response.status, status);
+        assert.isDefined(page._response.headers.get("x-ms-date"));
         assert.equal(page.items.length, expectedLength);
         assert.isDefined(page.etag);
       }

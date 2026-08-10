@@ -7,6 +7,42 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert, describe, it } from "vitest";
 
 describe("FeatureFlagClient", () => {
+  it("uses the feature flag identity for get and delete requests", async () => {
+    const requests: PipelineRequest[] = [];
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        return {
+          request,
+          status: requests.length === 1 ? 200 : 204,
+          headers: createHttpHeaders(),
+          bodyAsText:
+            requests.length === 1
+              ? JSON.stringify({ name: "identity-flag", enabled: true, label: "test-label" })
+              : undefined,
+        };
+      },
+    };
+    const client = new FeatureFlagClient(
+      "https://example.azconfig.io",
+      {
+        getToken: async () => ({ token: "token", expiresOnTimestamp: Date.now() + 60_000 }),
+      },
+      { httpClient: mockHttpClient },
+    );
+    const id = { name: "identity-flag", label: "test-label", etag: '"identity-etag"' };
+
+    await client.getFeatureFlag(id, { onlyIfChanged: true });
+    await client.deleteFeatureFlag(id, { onlyIfUnchanged: true });
+
+    assert.include(requests[0].url, "/ff/identity-flag");
+    assert.include(requests[0].url, "label=test-label");
+    assert.equal(requests[0].headers.get("if-none-match"), '"identity-etag"');
+    assert.include(requests[1].url, "/ff/identity-flag");
+    assert.include(requests[1].url, "label=test-label");
+    assert.equal(requests[1].headers.get("if-match"), '"identity-etag"');
+  });
+
   it("supports primitive add and set overloads", async () => {
     const requests: PipelineRequest[] = [];
     const mockHttpClient: HttpClient = {
