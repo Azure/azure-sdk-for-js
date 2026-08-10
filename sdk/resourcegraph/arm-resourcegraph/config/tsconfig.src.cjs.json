@@ -1,4 +1,13 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/models/index.ts",
+    "../src/models/graphQueryApi/index.ts",
+    "../src/models/resourceChanges/index.ts",
+    "../src/models/resourceGraphApi/index.ts",
+    "../src/models/resourceGraphCommon/index.ts",
+    "../src/models/resourceHistory/index.ts"
+  ]
 }

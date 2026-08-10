@@ -9,7 +9,7 @@ import {
 import { changelogGenerator } from "./changelogGenerator.js";
 import { logger } from "../utils/logger.js";
 import { SDKType } from "../common/types.js";
-import { createAstContext } from "typescript-codegen-breaking-change-detector";
+import { createAstContext } from "../breaking-change-detector/index.js";
 import { mkdirp, remove } from "fs-extra";
 
 export class TSExportedMetaData {

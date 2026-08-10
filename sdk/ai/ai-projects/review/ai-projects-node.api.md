@@ -56,6 +56,7 @@ export interface Agent {
     name: string;
     object: "agent";
     readonly state: AgentState;
+    readonly state_source?: AgentStateSource;
     versions: {
         latest: AgentVersion;
     };
@@ -161,7 +162,11 @@ export interface AgenticIdentityPreviewCredentials extends BaseCredentials {
 export interface AgentIdentity {
     client_id: string;
     principal_id: string;
+    status?: AgentIdentityStatus;
 }
+
+// @public
+export type AgentIdentityStatus = "active" | "disabled";
 
 // @public
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
@@ -344,6 +349,7 @@ export interface AgentsOperations {
     listSessionFiles: (agentName: string, sessionId: string, options?: AgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
+    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
@@ -352,11 +358,17 @@ export interface AgentsOperations {
 }
 
 // @public
+export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
+
+// @public
 export interface AgentsStopSessionOptionalParams extends OperationOptions {
 }
 
 // @public
 export type AgentState = "enabled" | "disabled";
+
+// @public
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
 // @public
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -595,6 +607,7 @@ export interface BetaAgentsCancelOptimizationJobOptionalParams extends Operation
 export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "AgentsOptimization=V2Preview";
     operationId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -621,7 +634,7 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 // @public
 export interface BetaAgentsOperations {
     cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
     getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
     listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
@@ -636,6 +649,7 @@ export interface BetaDatasetsCancelGenerationJobOptionalParams extends Operation
 export interface BetaDatasetsCreateGenerationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "DataGenerationJobs=V1Preview";
     operationId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -662,7 +676,7 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
 // @public
 export interface BetaDatasetsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) => Promise<DataGenerationJob>;
-    createGenerationJob: (job: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => Promise<DataGenerationJob>;
+    createGenerationJob: (job: DataGenerationJob, options?: BetaDatasetsCreateGenerationJobOptionalParams) => JobPoller<DataGenerationJobResult>;
     deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) => Promise<void>;
     getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) => Promise<DataGenerationJob>;
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) => PagedAsyncIterableIterator<DataGenerationJob>;
@@ -708,6 +722,7 @@ export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends Operati
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
     foundryFeatures?: "Evaluations=V1Preview";
     operationId?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -762,7 +777,7 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 // @public
 export interface BetaEvaluatorsOperations {
     cancelGenerationJob: (jobId: string, options?: BetaEvaluatorsCancelGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
-    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => Promise<EvaluatorGenerationJob>;
+    createGenerationJob: (job: EvaluatorGenerationJob, options?: BetaEvaluatorsCreateGenerationJobOptionalParams) => JobPoller<EvaluatorVersion>;
     createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
     deleteGenerationJob: (jobId: string, options?: BetaEvaluatorsDeleteGenerationJobOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
@@ -1611,7 +1626,7 @@ export interface DataGenerationJobOptions {
 }
 
 // @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | TaskGenerationDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -1654,7 +1669,7 @@ export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "file"
 export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
 
 // @public
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation";
 
 // @public
 export interface DataGenerationModelOptions {
@@ -2108,6 +2123,7 @@ export interface EvaluatorGenerationJob {
     readonly error?: ErrorModel;
     readonly finished_at?: Date;
     readonly id?: string;
+    readonly input_quality_warnings?: RubricGenerationInputQualityWarning[];
     inputs?: EvaluatorGenerationInputs;
     readonly result?: EvaluatorVersion;
     readonly status?: JobStatus;
@@ -2161,6 +2177,7 @@ export interface EvaluatorVersion {
     display_name?: string;
     evaluator_type: EvaluatorType;
     readonly generation_artifacts?: EvaluatorGenerationArtifacts;
+    readonly generation_job_id?: string;
     readonly id?: string;
     metadata?: Record<string, string>;
     readonly modified_at?: string;
@@ -2168,6 +2185,7 @@ export interface EvaluatorVersion {
     supported_evaluation_levels?: EvaluationLevel[];
     tags?: Record<string, string>;
     readonly version?: string;
+    readonly warnings?: GenerationWarningType[];
 }
 
 // @public
@@ -2357,6 +2375,9 @@ export interface GenAITracingOptions {
     experimental?: boolean;
     traceContextPropagation?: boolean;
 }
+
+// @public
+export type GenerationWarningType = "input_quality";
 
 // @public
 export type GitHubIssueEvent = "opened" | "closed";
@@ -2625,6 +2646,14 @@ export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
 }
 
 export { isRestError }
+
+// @public
+export interface JobOperationState<TResult> extends OperationState_2<TResult> {
+    readonly jobId?: string;
+}
+
+// @public
+export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
 
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
@@ -3140,6 +3169,7 @@ export interface OptimizationOptions {
     eval_model?: string;
     evaluation_level?: EvaluationLevel;
     max_candidates?: number;
+    max_stalls?: number;
     optimization_config?: Record<string, any>;
     optimization_model?: string;
 }
@@ -3442,6 +3472,24 @@ export interface RubricBasedEvaluatorDefinition extends EvaluatorDefinition {
 }
 
 // @public
+export interface RubricGenerationInputQualityWarning {
+    code: RubricGenerationInputQualityWarningCode;
+    message: string;
+    severity: RubricGenerationInputQualityWarningSeverity;
+    source: RubricGenerationInputQualityWarningSource;
+    source_index?: number;
+}
+
+// @public
+export type RubricGenerationInputQualityWarningCode = "empty_prompt" | "short_prompt" | "empty_agent_instructions" | "short_agent_instructions" | "empty_dataset_content" | "short_dataset_content" | "low_trace_count" | "insufficient_total_input";
+
+// @public
+export type RubricGenerationInputQualityWarningSeverity = "warning";
+
+// @public
+export type RubricGenerationInputQualityWarningSource = "prompt" | "agent" | "dataset" | "aggregate";
+
+// @public
 export type SampleType = "EvaluationResultSample";
 
 // @public
@@ -3621,6 +3669,11 @@ export interface StructuredOutputDefinition {
     name: string;
     schema: Record<string, unknown>;
     strict?: boolean;
+}
+
+// @public
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "task_generation";
 }
 
 // @public
@@ -3838,10 +3891,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -3962,6 +4015,11 @@ export interface ToolProjectConnection {
 
 // @public
 export type ToolSearchExecutionType = "server" | "client";
+
+// @public
+export interface ToolSearchToolboxTool extends ToolboxTool {
+    type: "toolbox_search";
+}
 
 // @public
 export interface ToolSearchToolParam extends Tool {

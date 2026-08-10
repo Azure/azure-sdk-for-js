@@ -52,7 +52,6 @@ export async function _listDeserialize(
 
   return _virtualMachineSizeListResultDeserializer(result.body);
 }
-
 /** This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list) */
 export function list(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Azure Arc PrivateLinkScope's validation details for a given machine.
  *
  * @summary returns a Azure Arc PrivateLinkScope's validation details for a given machine.
- * x-ms-original-file: 2025-09-16-preview/privateLinkScope/PrivateLinkScopes_GetValidationForMachine.json
+ * x-ms-original-file: 2026-06-16-preview/privateLinkScope/PrivateLinkScopes_GetValidationForMachine.json
  */
 async function privateLinkScopeGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -59,7 +59,6 @@ export interface MachinesOperations {
     options?: MachinesGetOptionalParams,
   ) => Promise<Machine>;
 }
-
 function _getMachines(context: ContainerServiceContext) {
   return {
     list: (
@@ -132,7 +131,6 @@ function _getMachines(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, agentPoolName, machineName, options),
   };
 }
-
 export function _getMachinesOperations(context: ContainerServiceContext): MachinesOperations {
   return {
     ..._getMachines(context),

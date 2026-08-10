@@ -29,10 +29,10 @@ export function createComputeManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-compute/24.1.1`;
+  const userAgentInfo = `azsdk-js-arm-compute/25.0.0`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

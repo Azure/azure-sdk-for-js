@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a run command.
  *
  * @summary the operation to create or update a run command.
- * x-ms-original-file: 2025-09-16-preview/runCommand/RunCommands_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-16-preview/runCommand/RunCommands_CreateOrUpdate.json
  */
 async function createOrUpdateARunCommand() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const result = await client.machineRunCommands.createOrUpdate(
     "myResourceGroup",

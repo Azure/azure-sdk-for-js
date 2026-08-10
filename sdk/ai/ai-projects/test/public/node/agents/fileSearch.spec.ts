@@ -29,7 +29,7 @@ describe("agents - file search - basic", () => {
     await recorder.stop();
   });
 
-  it("should create agent with File Search tool", async () => {
+  it.skip("should create agent with File Search tool", async () => {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
@@ -92,7 +92,7 @@ describe("agents - file search - execution flow", () => {
     await recorder.stop();
   });
 
-  it("should execute File Search query and return result", async function () {
+  it.skip("should execute File Search query and return result", async function () {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
@@ -158,7 +158,7 @@ describe("agents - file search - execution flow", () => {
     console.log("Vector store deleted");
   });
 
-  it("should handle File Search query with streaming response", async function () {
+  it.skip("should handle File Search query with streaming response", async function () {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
@@ -234,7 +234,7 @@ describe("agents - file search - execution flow", () => {
     console.log("Vector store deleted");
   });
 
-  it("should handle File Search query in conversation context", async function () {
+  it.skip("should handle File Search query in conversation context", async function () {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",

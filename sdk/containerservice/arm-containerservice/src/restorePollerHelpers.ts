@@ -5,6 +5,10 @@ import type { ContainerServiceClient } from "./containerServiceClient.js";
 import {
   _$deleteDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/alertConfigurations/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMeshMemberships,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMeshMemberships,
 } from "./api/meshMemberships/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeJwtAuthenticators,
@@ -121,10 +125,17 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/alertConfigurations/{configurationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    { deserializer: _$deleteDeserializeMeshMemberships, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshMemberships/{meshMembershipName}":
+    {
+      deserializer: _createOrUpdateDeserializeMeshMemberships,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":
     { deserializer: _$deleteDeserializeJwtAuthenticators, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/jwtAuthenticators/{jwtAuthenticatorName}":

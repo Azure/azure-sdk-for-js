@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete confluent environment by id
  *
  * @summary delete confluent environment by id
- * x-ms-original-file: 2025-08-18-preview/Environment_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Environment_Delete_MaximumSet_Gen.json
  */
 async function environmentDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function environmentDeleteMaximumSet(): Promise<void> {
  * This sample demonstrates how to delete confluent environment by id
  *
  * @summary delete confluent environment by id
- * x-ms-original-file: 2025-08-18-preview/Environment_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Environment_Delete_MinimumSet_Gen.json
  */
 async function environmentDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

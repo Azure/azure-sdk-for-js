@@ -72,7 +72,6 @@ export interface SnapshotPoliciesOperations {
     options?: SnapshotPoliciesGetOptionalParams,
   ) => Promise<SnapshotPolicy>;
 }
-
 function _getSnapshotPolicies(context: NetAppManagementContext) {
   return {
     listVolumes: (
@@ -114,7 +113,6 @@ function _getSnapshotPolicies(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, snapshotPolicyName, options),
   };
 }
-
 export function _getSnapshotPoliciesOperations(
   context: NetAppManagementContext,
 ): SnapshotPoliciesOperations {

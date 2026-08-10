@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Azure Arc PrivateLinkScope.
  *
  * @summary deletes a Azure Arc PrivateLinkScope.
- * x-ms-original-file: 2025-09-16-preview/privateLinkScope/PrivateLinkScopes_Delete.json
+ * x-ms-original-file: 2026-06-16-preview/privateLinkScope/PrivateLinkScopes_Delete.json
  */
 async function privateLinkScopesDelete() {
   const credential = new DefaultAzureCredential();

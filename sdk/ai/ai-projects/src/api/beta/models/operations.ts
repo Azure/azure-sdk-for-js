@@ -248,7 +248,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return modelVersionDeserializer(result.body);
 }
 
-/** Update an existing ModelVersion with the given version id */
+/** Updates an existing model version identified by its version ID. */
 export async function update(
   context: Client,
   name: string,

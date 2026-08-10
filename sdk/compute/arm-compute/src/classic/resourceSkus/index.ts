@@ -12,13 +12,11 @@ export interface ResourceSkusOperations {
   /** Gets the list of Microsoft.Compute SKUs available for your Subscription. */
   list: (options?: ResourceSkusListOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
-
 function _getResourceSkus(context: ComputeManagementContext) {
   return {
     list: (options?: ResourceSkusListOptionalParams) => list(context, options),
   };
 }
-
 export function _getResourceSkusOperations(
   context: ComputeManagementContext,
 ): ResourceSkusOperations {

@@ -1,3 +1,8 @@
+# Job-scoped prelude: agent verification, Node install, and authenticated npmrc.
+#
+# Include this ONCE per job (or stage), from the job template itself. Do not
+# include it from a step template - ADO does not de-duplicate step templates, so
+# nesting it causes UseNode and npmAuthenticate to run several times per job.
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
     parameters:

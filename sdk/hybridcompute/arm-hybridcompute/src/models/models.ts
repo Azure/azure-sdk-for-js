@@ -563,6 +563,8 @@ export enum KnownLicenseTarget {
   WindowsServer2012 = "Windows Server 2012",
   /** Windows Server 2012 R2 */
   WindowsServer2012R2 = "Windows Server 2012 R2",
+  /** Windows Server 2016 license target. */
+  WindowsServer2016 = "Windows Server 2016",
 }
 
 /**
@@ -571,7 +573,8 @@ export enum KnownLicenseTarget {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows Server 2012**: Windows Server 2012 \
- * **Windows Server 2012 R2**: Windows Server 2012 R2
+ * **Windows Server 2012 R2**: Windows Server 2012 R2 \
+ * **Windows Server 2016**: Windows Server 2016 license target.
  */
 export type LicenseTarget = string;
 
@@ -879,7 +882,7 @@ export interface Machine extends TrackedResource {
   /** The list of extensions affiliated to the machine */
   readonly resources?: MachineExtension[];
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: ManagedServiceIdentity;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
   kind?: ArcKindEnum;
   /** Metadata pertaining to the geographic location of the resource. */
@@ -902,6 +905,8 @@ export interface Machine extends TrackedResource {
   osProfile?: OSProfile;
   /** Specifies the License related properties for a machine. */
   licenseProfile?: LicenseProfileMachineInstanceView;
+  /** Indicates whether the service has detected that this Arc machine is a clone of another onboarded machine. Service-computed; not settable by the user. */
+  readonly statusReason?: MachineStatusReason;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?: string;
   /** The status of the hybrid machine agent. */
@@ -982,7 +987,9 @@ export function machineSerializer(item: Machine): any {
     ])
       ? undefined
       : _machinePropertiesSerializer(item),
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     kind: item["kind"],
   };
 }
@@ -1005,7 +1012,9 @@ export function machineDeserializer(item: any): Machine {
     resources: !item["resources"]
       ? item["resources"]
       : machineExtensionArrayDeserializer(item["resources"]),
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
     kind: item["kind"],
   };
 }
@@ -1032,6 +1041,8 @@ export interface MachineProperties {
   osProfile?: OSProfile;
   /** Specifies the License related properties for a machine. */
   licenseProfile?: LicenseProfileMachineInstanceView;
+  /** Indicates whether the service has detected that this Arc machine is a clone of another onboarded machine. Service-computed; not settable by the user. */
+  readonly statusReason?: MachineStatusReason;
   /** The provisioning state, which only appears in the response. */
   readonly provisioningState?: string;
   /** The status of the hybrid machine agent. */
@@ -1151,6 +1162,7 @@ export function machinePropertiesDeserializer(item: any): MachineProperties {
     licenseProfile: !item["licenseProfile"]
       ? item["licenseProfile"]
       : licenseProfileMachineInstanceViewDeserializer(item["licenseProfile"]),
+    statusReason: item["statusReason"],
     provisioningState: item["provisioningState"],
     status: item["status"],
     lastStatusChange: !item["lastStatusChange"]
@@ -2055,6 +2067,21 @@ export function productFeatureDeserializer(item: any): ProductFeature {
   };
 }
 
+/** The reason describing why the service set the machine status to a particular value. */
+export enum KnownMachineStatusReason {
+  /** Indicates the service has detected that this Arc machine is a clone of another onboarded machine. */
+  Cloned = "Cloned",
+}
+
+/**
+ * The reason describing why the service set the machine status to a particular value. \
+ * {@link KnownMachineStatusReason} can be used interchangeably with MachineStatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cloned**: Indicates the service has detected that this Arc machine is a clone of another onboarded machine.
+ */
+export type MachineStatusReason = string;
+
 /** The status of the hybrid machine agent. */
 export enum KnownStatusTypes {
   /** Connected */
@@ -2238,30 +2265,80 @@ export function machineExtensionDeserializer(item: any): MachineExtension {
   };
 }
 
-/** Identity for the resource. */
-export interface Identity {
-  /** The principal ID of resource identity. The value must be an UUID. */
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
-  /** The tenant ID of resource. The value must be an UUID. */
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-export function identitySerializer(item: Identity): any {
-  return { type: item["type"] };
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
-export function identityDeserializer(item: any): Identity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
-/** Type of ResourceIdentityType */
-export type ResourceIdentityType = "SystemAssigned";
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
 
 /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
 export enum KnownArcKindEnum {
@@ -2428,7 +2505,7 @@ export function esuKeyDeserializer(item: any): EsuKey {
 /** Describes a hybrid machine Update. */
 export interface MachineUpdate extends ResourceUpdate {
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: ManagedServiceIdentity;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
   kind?: ArcKindEnum;
   /** Metadata pertaining to the geographic location of the resource. */
@@ -2452,7 +2529,9 @@ export interface MachineUpdate extends ResourceUpdate {
 export function machineUpdateSerializer(item: MachineUpdate): any {
   return {
     tags: item["tags"],
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     kind: item["kind"],
     properties: areAllPropsUndefined(item, [
       "locationData",
@@ -3759,13 +3838,15 @@ export interface Gateway extends TrackedResource {
   readonly gatewayEndpoint?: string;
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewaySerializer(item: Gateway): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: areAllPropsUndefined(item, ["gatewayType", "allowedFeatures"])
+    properties: areAllPropsUndefined(item, ["gatewayType", "allowedFeatures", "gatewayBypass"])
       ? undefined
       : _gatewayPropertiesSerializer(item),
   };
@@ -3801,6 +3882,8 @@ export interface GatewayProperties {
   readonly gatewayEndpoint?: string;
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayPropertiesSerializer(item: GatewayProperties): any {
@@ -3809,6 +3892,11 @@ export function gatewayPropertiesSerializer(item: GatewayProperties): any {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -3823,6 +3911,11 @@ export function gatewayPropertiesDeserializer(item: any): GatewayProperties {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -3843,16 +3936,18 @@ export enum KnownGatewayType {
  */
 export type GatewayType = string;
 
-/** Describes a License Update. */
+/** Describes a Gateway Update. */
 export interface GatewayUpdate extends ResourceUpdate {
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayUpdateSerializer(item: GatewayUpdate): any {
   return {
     tags: item["tags"],
-    properties: areAllPropsUndefined(item, ["allowedFeatures"])
+    properties: areAllPropsUndefined(item, ["allowedFeatures", "gatewayBypass"])
       ? undefined
       : _gatewayUpdatePropertiesSerializer(item),
   };
@@ -3862,6 +3957,8 @@ export function gatewayUpdateSerializer(item: GatewayUpdate): any {
 export interface GatewayUpdateProperties {
   /** Specifies the list of features that are enabled for this Gateway. */
   allowedFeatures?: string[];
+  /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
+  gatewayBypass?: string[];
 }
 
 export function gatewayUpdatePropertiesSerializer(item: GatewayUpdateProperties): any {
@@ -3869,6 +3966,11 @@ export function gatewayUpdatePropertiesSerializer(item: GatewayUpdateProperties)
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
@@ -5094,6 +5196,12 @@ export type InstanceViewTypes = string;
 export enum KnownVersions {
   /** The 2025-09-16-preview API version. */
   V20250916Preview = "2025-09-16-preview",
+  /** The 2026-02-12-preview API version. */
+  V20260212Preview = "2026-02-12-preview",
+  /** The 2026-06-04-preview API version. */
+  V20260604Preview = "2026-06-04-preview",
+  /** The 2026-06-16-preview API version. */
+  V20260616Preview = "2026-06-16-preview",
 }
 
 export function _licensePropertiesSerializer(item: License): any {
@@ -5280,6 +5388,7 @@ export function _machinePropertiesDeserializer(item: any) {
     licenseProfile: !item["licenseProfile"]
       ? item["licenseProfile"]
       : licenseProfileMachineInstanceViewDeserializer(item["licenseProfile"]),
+    statusReason: item["statusReason"],
     provisioningState: item["provisioningState"],
     status: item["status"],
     lastStatusChange: !item["lastStatusChange"]
@@ -5547,6 +5656,11 @@ export function _gatewayPropertiesSerializer(item: Gateway): any {
       : item["allowedFeatures"].map((p: any) => {
           return p;
         }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5561,6 +5675,11 @@ export function _gatewayPropertiesDeserializer(item: any) {
       : item["allowedFeatures"].map((p: any) => {
           return p;
         }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5569,6 +5688,11 @@ export function _gatewayUpdatePropertiesSerializer(item: GatewayUpdate): any {
     allowedFeatures: !item["allowedFeatures"]
       ? item["allowedFeatures"]
       : item["allowedFeatures"].map((p: any) => {
+          return p;
+        }),
+    gatewayBypass: !item["gatewayBypass"]
+      ? item["gatewayBypass"]
+      : item["gatewayBypass"].map((p: any) => {
           return p;
         }),
   };
