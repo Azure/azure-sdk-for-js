@@ -1,6 +1,7 @@
 # Release History
 
-## 6.0.0 (2026-07-21)
+## 6.0.0-beta.1 (2026-08-10)
+Compared with version 5.0.0
 
 ### Features Added
   - Added Interface TokenBindingParameters

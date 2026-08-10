@@ -1,10 +1,14 @@
 {
-  "name": "@azure-samples/arm-keyvault-js",
+  "name": "@azure-samples/arm-keyvault-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-keyvault client library samples for JavaScript",
+  "description": "@azure/arm-keyvault client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -26,11 +30,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/arm-keyvault",
   "dependencies": {
-    "@azure/arm-keyvault": "latest",
+    "@azure/arm-keyvault": "beta",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
-    "cross-env": "latest"
+    "@types/node": "^22.0.0",
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }
