@@ -55,6 +55,122 @@ export interface GetLongRunningPollerOptions<TResponse> {
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
 }
+
+/**
+ * Operation state for a long-running operation that creates a job resource.
+ *
+ * CUSTOMIZATION: SDK-IMPROVEMENT: the emitted pollers resolve to the job's terminal `result`
+ * payload, which carries no identifier; `jobId` keeps the created job reachable.
+ */
+export interface JobOperationState<TResult> extends OperationState<TResult> {
+  /** Server-assigned id of the created job. Available once `submitted()` resolves. */
+  readonly jobId?: string;
+}
+
+/** A poller for a long-running operation that creates a job resource. */
+export type JobPoller<TResult> = PollerLike<JobOperationState<TResult>, TResult>;
+
+/**
+ * Builds a {@link JobPoller} that records the created job's id from the initial response.
+ *
+ * CUSTOMIZATION: SDK-IMPROVEMENT: core-lro v3 has no hook for writing service-derived data into
+ * poller state from the initial response, so the id is captured and merged in by hand. Tracked
+ * in https://github.com/Azure/azure-sdk-for-js/issues/39476.
+ */
+export function getJobPoller<TResponse extends PathUncheckedResponse, TResult = void>(
+  client: Client,
+  processResponseBody: (result: TResponse) => Promise<TResult>,
+  expectedStatuses: string[],
+  options: GetLongRunningPollerOptions<TResponse>,
+): JobPoller<TResult> {
+  const { getInitialResponse } = options;
+  let jobId: string | undefined;
+
+  // core-lro awaits this from `sendInitialRequest`, which `submitted()` awaits in turn, so
+  // `jobId` is set by the time `submitted()` resolves.
+  const base = getLongRunningPoller(client, processResponseBody, expectedStatuses, {
+    ...options,
+    getInitialResponse: getInitialResponse
+      ? async () => {
+          const response = await getInitialResponse();
+          jobId = extractJobId(response);
+          return response;
+        }
+      : undefined,
+  });
+
+  // core-lro shares one state object across every channel, so mutating it in place keeps them
+  // consistent and lets the id survive `serialize()`. `??=` preserves an id restored from
+  // serialized state.
+  const stamp = (
+    state: OperationState<TResult> | undefined,
+  ): JobOperationState<TResult> | undefined => {
+    if (state && jobId !== undefined) {
+      (state as { jobId?: string }).jobId ??= jobId;
+    }
+    return state as JobOperationState<TResult> | undefined;
+  };
+
+  return {
+    get isDone(): boolean {
+      return base.isDone;
+    },
+    get result(): TResult | undefined {
+      return base.result;
+    },
+    get operationState(): JobOperationState<TResult> | undefined {
+      return stamp(base.operationState);
+    },
+    submitted: () => base.submitted(),
+    async poll(pollOptions?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<JobOperationState<TResult>> {
+      return stamp(await base.poll(pollOptions))!;
+    },
+    // Not wrapped: this drives core-lro's internal `poll`, not the one above, and the state it
+    // dispatches to progress handlers is already stamped.
+    pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
+      base.pollUntilDone(pollOptions),
+    onProgress: (callback: (state: JobOperationState<TResult>) => void) =>
+      base.onProgress((state) => callback(stamp(state)!)),
+    async serialize(): Promise<string> {
+      // The id must be stamped before core-lro's state object is stringified; `submitted()`
+      // guarantees that object exists and that `jobId` has been captured.
+      await base.submitted();
+      stamp(base.operationState);
+      return base.serialize();
+    },
+    then: (onfulfilled, onrejected) => base.then(onfulfilled, onrejected),
+    catch: (onrejected) => base.catch(onrejected),
+    finally: (onfinally) => base.finally(onfinally),
+    [Symbol.toStringTag]: "Poller",
+  };
+}
+
+/**
+ * Reads the created job's id from the initial response.
+ *
+ * The create response body is the job resource with a required `id`, so it is authoritative.
+ * The headers are a fallback for an empty body, preferring `location` (the resource URL) over
+ * `operation-location` (the polling URL).
+ */
+function extractJobId(response: PathUncheckedResponse): string | undefined {
+  const id = (response.body as { id?: unknown } | undefined)?.id;
+  if (typeof id === "string" && id.length > 0) {
+    return id;
+  }
+
+  const url = response.headers["location"] ?? response.headers["operation-location"];
+  if (!url) {
+    return undefined;
+  }
+
+  // The base only makes relative URLs parseable; it never appears in the result.
+  const { pathname } = new URL(url, "https://placeholder.invalid");
+  const segment = pathname.replace(/\/+$/, "").split("/").pop();
+  return segment ? decodeURIComponent(segment) : undefined;
+}
+
 export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
   client: Client,
   processResponseBody: (result: TResponse) => Promise<TResult>,

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservicefleet)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerservicefleet)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservicefleet/samples)
 
 ## Getting started

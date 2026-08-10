@@ -1,12 +1,16 @@
 # Release History
 
-## 12.33.0-beta.1 (Unreleased)
+## 12.33.0-beta.1 (2026-08-03)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2026-10-06.
+- Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support.
+- Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`.
 
 ### Bugs Fixed
+
+- Stopped exporting the internal-only `FileDownloadOptionalParams` and `FileUploadRangeFromURLOptionalParams` types, which are not referenced by any public API.
 
 ### Other Changes
 
