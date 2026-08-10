@@ -47,12 +47,17 @@ export function externalEvaluationPolicy(
         return next(request);
       }
 
-      const response = await next(request);
-
-      if (response.status !== 403) {
-        return response;
+      let response;
+      try {
+        response = await next(request);
+      } catch (e) {
+        // Deserialization policy may throw on 403
+        if (e.statusCode === 403 && e.response) {
+          response = e.response;
+        } else {
+          return response;
+        }
       }
-
       let responseBody;
       try {
         responseBody = JSON.parse(response.bodyAsText ?? "");
@@ -127,7 +132,13 @@ async function acquirePolicyToken(
   });
 
   const acquireResponse = await next(acquireRequest);
-  const result = JSON.parse(acquireResponse.bodyAsText ?? "");
+  let result;
+  try {
+    result = JSON.parse(acquireResponse.bodyAsText ?? "");
+  } catch {
+    logger.info("External Evaluation: acquirePolicyToken parsing failed, returning original 403");
+    return undefined;
+  }
   if (acquireResponse.status !== 200 || result.properties?.result === "Failed") {
     logger.info("External Evaluation: acquirePolicyToken failed, returning original 403");
     return undefined;
