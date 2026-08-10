@@ -481,10 +481,14 @@ describe("OpenTelemetry Resource", () => {
   });
 
   describe("VM resource detection", () => {
-    // This describe has no afterEach, so spies survive between tests and an earlier test's
-    // calls would otherwise be visible on the ones created here.
+    // The spy in the VM test above is never restored, so clear its call history before each
+    // case here, and restore afterwards so these mocks do not leak into later tests.
     beforeEach(() => {
       vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     // Swap in a clean environment so ambient App Service variables on the machine running
