@@ -1391,7 +1391,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1408,7 +1408,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1477,7 +1477,7 @@ export async function uploadBlobFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1492,7 +1492,7 @@ export async function uploadBlobFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
