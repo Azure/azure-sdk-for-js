@@ -18,7 +18,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
-const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -27,8 +26,6 @@ const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   // Load the file to be indexed for search
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
   const assetFilePath = path.join(__dirname, "../assets/product_info.md");
 
   // Create AI Project client
