@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-08-05)
+## 4.1.0-beta.1 (2026-08-05)
 Compared with version 4.0.0
 
 ### Features Added
@@ -42,8 +42,6 @@ Compared with version 4.0.0
   - Added Enum KnownTlsVersion
   - Enum KnownVersions has a new value V20260101
   - Enum KnownVersions has a new value V20260701Preview
-
-### Breaking Changes
   - Operation wCFRelaysOperations.get has a new signature
 
 ## 4.0.0 (2026-07-27)

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-relay",
-  "version": "5.0.0-beta.1",
+  "version": "4.1.0-beta.1",
   "description": "A generated SDK for RelayAPI.",
   "engines": {
     "node": ">=22.0.0"
