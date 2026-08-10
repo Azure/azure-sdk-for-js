@@ -84,24 +84,26 @@ export async function main(): Promise<void> {
     const conversation = await openAIClient.conversations.create();
     console.log(`Created conversation (id: ${conversation.id})`);
 
-    // Send a query to search through the uploaded file, binding the structured
-    // inputs to the created vector store and file ids.
-    const response = await openAIClient.responses.create(
-      {
-        conversation: conversation.id,
-        input: "Tell me about Contoso products",
-      },
-      {
-        body: {
-          agent_reference: { name: agent.name, type: "agent_reference" },
-          structured_inputs: { vector_store_id: vectorStore.id, vector_store_file_id: file.id },
+    try {
+      // Send a query to search through the uploaded file, binding the structured
+      // inputs to the created vector store and file ids.
+      const response = await openAIClient.responses.create(
+        {
+          conversation: conversation.id,
+          input: "Tell me about Contoso products",
         },
-      },
-    );
-    console.log(`Agent response: ${response.output_text}`);
-
-    await openAIClient.conversations.delete(conversation.id);
-    console.log("Conversation deleted");
+        {
+          body: {
+            agent_reference: { name: agent.name, type: "agent_reference" },
+            structured_inputs: { vector_store_id: vectorStore.id, vector_store_file_id: file.id },
+          },
+        },
+      );
+      console.log(`Agent response: ${response.output_text}`);
+    } finally {
+      await openAIClient.conversations.delete(conversation.id);
+      console.log("Conversation deleted");
+    }
   } finally {
     console.log("\nCleaning up...");
     if (agent) {

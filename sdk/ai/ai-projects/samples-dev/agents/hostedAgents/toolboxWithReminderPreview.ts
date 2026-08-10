@@ -83,44 +83,50 @@ export async function main(): Promise<void> {
   );
   console.log(`Created toolbox: ${toolboxVersion.name} version=${toolboxVersion.version}`);
 
-  const toolboxMcpUrl = `${projectEndpoint}/toolboxes/${toolboxName}/versions/${toolboxVersion.version}/mcp?api-version=v1`;
-
-  const codeZip = readFileSync(codeZipPath);
-  const codeZipSha256 = sha256Hex(codeZip);
-
-  const definition: HostedAgentDefinition = {
-    kind: "hosted",
-    cpu: "0.5",
-    memory: "1Gi",
-    protocol_versions: [
-      { protocol: "responses", version: "2.0.0" },
-      { protocol: "invocations", version: "2.0.0" },
-    ],
-    code_configuration: {
-      runtime: "python_3_13",
-      entry_point: ["python", "main.py"],
-      dependency_resolution: "remote_build",
-    },
-    environment_variables: {
-      FOUNDRY_PROJECT_ENDPOINT: projectEndpoint,
-      FOUNDRY_MODEL_NAME: modelName,
-      MCP_SERVER_URL: toolboxMcpUrl,
-    },
-  };
-
-  // ── Create a hosted agent version from the toolbox agent code ─────────
-  const content: CreateAgentVersionFromCodeContent = {
-    metadata: {
-      description: "Hosted agent code for toolbox MCP reminder preview tool.",
-      definition,
-    },
-    code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
-  };
-  const created = await project.agents.createVersionFromCode(agentName, codeZipSha256, content);
-  const createdVersion = created.version;
-  console.log(`Created code-based hosted agent version: ${createdVersion}`);
-
+  // From here on the toolbox exists, so guard cleanup with try/finally.
+  let createdVersion: string | undefined;
+  let originalAgentEndpoint: AgentEndpointConfig | undefined;
   try {
+    const toolboxMcpUrl = `${projectEndpoint}/toolboxes/${toolboxName}/versions/${toolboxVersion.version}/mcp?api-version=v1`;
+
+    const codeZip = readFileSync(codeZipPath);
+    const codeZipSha256 = sha256Hex(codeZip);
+
+    const definition: HostedAgentDefinition = {
+      kind: "hosted",
+      cpu: "0.5",
+      memory: "1Gi",
+      protocol_versions: [
+        { protocol: "responses", version: "2.0.0" },
+        { protocol: "invocations", version: "2.0.0" },
+      ],
+      code_configuration: {
+        runtime: "python_3_13",
+        entry_point: ["python", "main.py"],
+        dependency_resolution: "remote_build",
+      },
+      environment_variables: {
+        FOUNDRY_PROJECT_ENDPOINT: projectEndpoint,
+        FOUNDRY_MODEL_NAME: modelName,
+        MCP_SERVER_URL: toolboxMcpUrl,
+      },
+    };
+
+    // ── Create a hosted agent version from the toolbox agent code ─────────
+    const content: CreateAgentVersionFromCodeContent = {
+      metadata: {
+        description: "Hosted agent code for toolbox MCP reminder preview tool.",
+        definition,
+      },
+      code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
+    };
+    const created = await project.agents.createVersionFromCode(agentName, codeZipSha256, content);
+    createdVersion = created.version;
+    console.log(`Created code-based hosted agent version: ${createdVersion}`);
+
+    // Capture the existing endpoint so it can be restored during cleanup.
+    originalAgentEndpoint = (await project.agents.get(agentName)).agent_endpoint;
+
     // Poll until agent version is active
     for (let attempt = 0; attempt < 60; attempt++) {
       await new Promise((resolve) => setTimeout(resolve, 3_000));
@@ -191,11 +197,17 @@ export async function main(): Promise<void> {
         "No new routine was visible in project.beta.routines.list() after scheduling the reminder.",
       );
     }
-
-    // ── Cleanup the temporary hosted agent version ──────────────────────
-    await project.agents.deleteVersion(agentName, createdVersion, { force: true });
-    console.log(`Agent version ${createdVersion} deleted.`);
   } finally {
+    // Restore the previous endpoint before deleting the temporary version so
+    // the agent endpoint is never left pointing at a deleted resource.
+    if (originalAgentEndpoint !== undefined) {
+      await project.agents.updateAgent(agentName, { agentEndpoint: originalAgentEndpoint });
+      console.log("Agent endpoint restored to previous configuration");
+    }
+    if (createdVersion !== undefined) {
+      await project.agents.deleteVersion(agentName, createdVersion, { force: true });
+      console.log(`Agent version ${createdVersion} deleted.`);
+    }
     await project.toolboxes.delete(toolboxName);
     console.log("Toolbox deleted");
   }

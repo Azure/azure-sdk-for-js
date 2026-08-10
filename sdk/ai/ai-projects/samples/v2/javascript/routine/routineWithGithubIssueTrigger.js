@@ -38,7 +38,7 @@ const routineName = "sample-routine-github-issue";
 async function createGitHubIssue(title) {
   if (!githubPatToken) {
     console.log("GITHUB_PAT_TOKEN is not set; skipping automatic issue creation.");
-    return;
+    return undefined;
   }
 
   const response = await fetch(
@@ -61,6 +61,32 @@ async function createGitHubIssue(title) {
 
   const issue = await response.json();
   console.log(`Created GitHub issue #${issue.number}: ${issue.html_url}`);
+  return issue.number;
+}
+
+// Close the issue opened to fire the routine so successful runs do not leave it open.
+async function closeGitHubIssue(issueNumber) {
+  const response = await fetch(
+    `https://api.github.com/repos/${githubOwner}/${githubRepositoryName}/issues/${issueNumber}`,
+    {
+      method: "PATCH",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${githubPatToken}`,
+        "User-Agent": "azure-ai-projects-sample",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      body: JSON.stringify({ state: "closed" }),
+    },
+  );
+
+  if (!response.ok) {
+    console.warn(
+      `Failed to close GitHub issue #${issueNumber}: ${response.status} ${await response.text()}`,
+    );
+    return;
+  }
+  console.log(`Closed GitHub issue #${issueNumber}`);
 }
 
 async function main() {
@@ -99,11 +125,12 @@ async function main() {
   // Give the trigger registration a moment to settle before firing it.
   await new Promise((resolve) => setTimeout(resolve, 5_000));
 
+  let createdIssueNumber;
   try {
     // Fire the routine by opening a new issue. The trigger only observes issues
     // opened while the routine is enabled, so reusing an existing issue or opening
     // one after the sample exits will not produce a run.
-    await createGitHubIssue("Testing routine");
+    createdIssueNumber = await createGitHubIssue("Testing routine");
     if (!githubPatToken) {
       console.log(
         `Open a GitHub issue in ${githubOwner}/${githubRepositoryName} now to fire the routine.`,
@@ -148,7 +175,12 @@ async function main() {
       console.log("No GitHub issue-triggered run was observed within the deadline.");
     }
   } finally {
-    // Clean up
+    // Close the issue created to fire the routine before deleting the routine,
+    // so a successful run does not leave it open and a close failure still
+    // allows routine cleanup to run.
+    if (createdIssueNumber !== undefined) {
+      await closeGitHubIssue(createdIssueNumber);
+    }
     await project.beta.routines.delete(routineName);
     console.log("Routine deleted");
   }

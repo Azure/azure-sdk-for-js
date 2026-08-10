@@ -33,73 +33,80 @@ async function main() {
   const uploaded = await openAIClient.files.create({ purpose: "assistants", file: csvFile });
   console.log(`File uploaded (id: ${uploaded.id})`);
 
-  // The container file id is templated and resolved at runtime via structured inputs.
-  const structuredInputs = {
-    analysis_file_id: {
-      description: "File id available to the code interpreter",
-      required: true,
-      schema: { type: "string" },
-    },
-  };
-
-  // Create agent with code interpreter tool
-  console.log("\nCreating agent with code interpreter tool...");
-  const agent = await project.agents.createVersion(
-    agentName,
-    {
-      kind: "prompt",
-      model: deploymentName,
-      instructions: "You are a helpful assistant.",
-      tools: [
-        {
-          type: "code_interpreter",
-          container: { type: "auto", file_ids: ["{{analysis_file_id}}"] },
-        },
-      ],
-      structured_inputs: structuredInputs,
-    },
-    { description: "Code interpreter agent for data analysis and visualization." },
-  );
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
   try {
-    // Create a conversation for the agent interaction
-    const conversation = await openAIClient.conversations.create();
-    console.log(`Created conversation (id: ${conversation.id})`);
+    // The container file id is templated and resolved at runtime via structured inputs.
+    const structuredInputs = {
+      analysis_file_id: {
+        description: "File id available to the code interpreter",
+        required: true,
+        schema: { type: "string" },
+      },
+    };
 
-    // Send request for the agent to generate a multiplication chart, binding the
-    // structured input to the uploaded file id.
-    const response = await openAIClient.responses.create(
+    // Create agent with code interpreter tool
+    console.log("\nCreating agent with code interpreter tool...");
+    const agent = await project.agents.createVersion(
+      agentName,
       {
-        conversation: conversation.id,
-        input:
-          "Could you please generate a multiplication chart showing the products for 1-10 multiplied by 1-10 " +
-          "(a 10x10 times table)? Also, using the code interpreter, read numbers.csv and return the sum of x.",
-        tool_choice: "required",
+        kind: "prompt",
+        model: deploymentName,
+        instructions: "You are a helpful assistant.",
+        tools: [
+          {
+            type: "code_interpreter",
+            container: { type: "auto", file_ids: ["{{analysis_file_id}}"] },
+          },
+        ],
+        structured_inputs: structuredInputs,
       },
-      {
-        body: {
-          agent_reference: { name: agent.name, type: "agent_reference" },
-          structured_inputs: { analysis_file_id: uploaded.id },
-        },
-      },
+      { description: "Code interpreter agent for data analysis and visualization." },
     );
-    console.log(`Response completed (id: ${response.id})`);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-    // Print code executed by the code interpreter tool.
-    const codeItem = response.output.find((output) => output.type === "code_interpreter_call");
-    console.log("Code Interpreter code:");
-    console.log(codeItem && "code" in codeItem ? codeItem.code : "");
+    try {
+      // Create a conversation for the agent interaction
+      const conversation = await openAIClient.conversations.create();
+      console.log(`Created conversation (id: ${conversation.id})`);
 
-    // Print final assistant text output.
-    console.log(`Agent response: ${response.output_text}`);
+      try {
+        // Send request for the agent to generate a multiplication chart, binding the
+        // structured input to the uploaded file id.
+        const response = await openAIClient.responses.create(
+          {
+            conversation: conversation.id,
+            input:
+              "Could you please generate a multiplication chart showing the products for 1-10 multiplied by 1-10 " +
+              "(a 10x10 times table)? Also, using the code interpreter, read numbers.csv and return the sum of x.",
+            tool_choice: "required",
+          },
+          {
+            body: {
+              agent_reference: { name: agent.name, type: "agent_reference" },
+              structured_inputs: { analysis_file_id: uploaded.id },
+            },
+          },
+        );
+        console.log(`Response completed (id: ${response.id})`);
 
-    await openAIClient.conversations.delete(conversation.id);
-    console.log("Conversation deleted");
+        // Print code executed by the code interpreter tool.
+        const codeItem = response.output.find((output) => output.type === "code_interpreter_call");
+        console.log("Code Interpreter code:");
+        console.log(codeItem && "code" in codeItem ? codeItem.code : "");
+
+        // Print final assistant text output.
+        console.log(`Agent response: ${response.output_text}`);
+      } finally {
+        await openAIClient.conversations.delete(conversation.id);
+        console.log("Conversation deleted");
+      }
+    } finally {
+      await project.agents.deleteVersion(agent.name, agent.version);
+      console.log("Agent deleted");
+    }
   } finally {
     console.log("\nCleaning up...");
-    await project.agents.deleteVersion(agent.name, agent.version);
-    console.log("Agent deleted");
+    await openAIClient.files.delete(uploaded.id);
+    console.log("Uploaded file deleted");
   }
 }
 
