@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a LocalRulestackResource
  *
  * @summary create a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function localRulestacksCreateOrUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to create a LocalRulestackResource
  *
  * @summary create a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

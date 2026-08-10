@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list LocalRulestackResource resources by resource group
  *
  * @summary list LocalRulestackResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function localRulestacksListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function localRulestacksListByResourceGroupMaximumSetGen(): Promise<void> 
  * This sample demonstrates how to list LocalRulestackResource resources by resource group
  *
  * @summary list LocalRulestackResource resources by resource group
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function localRulestacksListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

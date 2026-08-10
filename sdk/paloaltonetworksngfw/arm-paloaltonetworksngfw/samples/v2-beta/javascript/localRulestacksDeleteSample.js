@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a LocalRulestackResource
  *
  * @summary delete a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Delete_MaximumSet_Gen.json
  */
 async function localRulestacksDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function localRulestacksDeleteMaximumSetGen() {
  * This sample demonstrates how to delete a LocalRulestackResource
  *
  * @summary delete a LocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_Delete_MinimumSet_Gen.json
  */
 async function localRulestacksDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();

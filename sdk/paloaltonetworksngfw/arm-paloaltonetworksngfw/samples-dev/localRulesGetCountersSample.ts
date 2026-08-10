@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get counters
  *
  * @summary get counters
- * x-ms-original-file: 2026-05-11-preview/LocalRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_getCounters_MaximumSet_Gen.json
  */
 async function localRulesGetCountersMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function localRulesGetCountersMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to get counters
  *
  * @summary get counters
- * x-ms-original-file: 2026-05-11-preview/LocalRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRules_getCounters_MinimumSet_Gen.json
  */
 async function localRulesGetCountersMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

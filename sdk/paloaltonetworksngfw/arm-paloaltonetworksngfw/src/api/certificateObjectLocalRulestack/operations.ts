@@ -40,7 +40,7 @@ export function _listByLocalRulestacksSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _certificateObjectLocalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List CertificateObjectLocalRulestackResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -85,7 +84,7 @@ export function listByLocalRulestacks(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -104,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +125,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a CertificateObjectLocalRulestackResource */
 export function $delete(
   context: Client,
@@ -141,7 +139,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, localRulestackName, name, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +158,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +187,6 @@ export async function _createOrUpdateDeserialize(
 
   return certificateObjectLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a CertificateObjectLocalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -208,7 +205,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, localRulestackName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<
     OperationState<CertificateObjectLocalRulestackResource>,
     CertificateObjectLocalRulestackResource
@@ -229,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       localRulestackName: localRulestackName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +253,6 @@ export async function _getDeserialize(
 
   return certificateObjectLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a CertificateObjectLocalRulestackResource */
 export async function get(
   context: Client,

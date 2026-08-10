@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FirewallStatusResource resources by Firewalls
  *
  * @summary list FirewallStatusResource resources by Firewalls
- * x-ms-original-file: 2026-05-11-preview/FirewallStatus_ListByFirewalls_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FirewallStatus_ListByFirewalls_MaximumSet_Gen.json
  */
 async function firewallStatusListByFirewallsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function firewallStatusListByFirewallsMaximumSetGen() {
  * This sample demonstrates how to list FirewallStatusResource resources by Firewalls
  *
  * @summary list FirewallStatusResource resources by Firewalls
- * x-ms-original-file: 2026-05-11-preview/FirewallStatus_ListByFirewalls_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FirewallStatus_ListByFirewalls_MinimumSet_Gen.json
  */
 async function firewallStatusListByFirewallsMinimumSetGen() {
   const credential = new DefaultAzureCredential();
