@@ -177,7 +177,7 @@ export interface PageBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -192,7 +192,7 @@ export interface PageBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobSequenceNumber: number;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -213,7 +213,7 @@ export interface PageBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       date: Date;
       version: string;
@@ -225,7 +225,7 @@ export interface PageBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobSequenceNumber: number;
         date: Date;
         version: string;
@@ -245,7 +245,7 @@ export interface PageBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -261,7 +261,7 @@ export interface PageBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobSequenceNumber: number;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;

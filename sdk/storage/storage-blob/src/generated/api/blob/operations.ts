@@ -871,7 +871,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   copyId?: string;
   copyStatus?: "success";
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   encryptionScope?: string;
   date: Date;
   version: string;
@@ -891,7 +891,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -952,7 +952,7 @@ export async function copyFromUrl(
     copyId?: string;
     copyStatus?: "success";
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     encryptionScope?: string;
     date: Date;
     version: string;
@@ -967,7 +967,7 @@ export async function copyFromUrl(
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;

@@ -176,7 +176,7 @@ export interface BlobOperations {
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;
@@ -191,7 +191,7 @@ export interface BlobOperations {
         copyId?: string;
         copyStatus?: "success";
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         encryptionScope?: string;
         date: Date;
         version: string;
