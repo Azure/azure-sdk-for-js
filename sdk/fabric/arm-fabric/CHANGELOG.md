@@ -1,6 +1,7 @@
 # Release History
 
-## 1.1.0 (2026-08-07)
+## 1.1.0-beta.1 (2026-08-10)
+Compared with version 1.0.0
 
 ### Features Added
   - Added operation FabricCapacitiesOperations.listUsages

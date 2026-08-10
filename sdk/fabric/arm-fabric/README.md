@@ -3,7 +3,7 @@
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Fabric client.
 
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-fabric) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-fabric) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview) |
 
 ## Getting started
 
