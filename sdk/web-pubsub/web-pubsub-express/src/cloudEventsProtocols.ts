@@ -485,7 +485,8 @@ export interface WebPubSubEventHandlerOptions {
   onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
 
   /**
-   * If not specified, by default allow all the endpoints, otherwise only allow specified endpoints
+   * Origins returned during the CloudEvents abuse-protection handshake. This option does not
+   * authenticate event POST requests.
    */
   allowedEndpoints?: string[];
 }
