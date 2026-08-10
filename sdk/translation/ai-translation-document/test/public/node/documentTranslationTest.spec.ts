@@ -177,7 +177,7 @@ describe("DocumentTranslation tests", () => {
     // get translation status (the translation has already reached a terminal state)
     const translationStatusOutput = await client.getTranslationStatus(operationId);
 
-    for await (const documentStatus of client.getDocumentsStatus(operationId)) {
+    for await (const documentStatus of client.listDocumentStatuses(operationId)) {
       assert.equal(documentStatus.status, translationStatusOutput.status);
       assert.equal(
         documentStatus.characterCharged,
@@ -197,7 +197,7 @@ describe("DocumentTranslation tests", () => {
     assert.isNotNull(operationId);
 
     // get Documents Status
-    for await (const document of client.getDocumentsStatus(operationId)) {
+    for await (const document of client.listDocumentStatuses(operationId)) {
       const documentStatus = await client.getDocumentStatus(operationId, document.id);
       validateDocumentStatus(documentStatus, document.to);
     }

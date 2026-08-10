@@ -22,11 +22,6 @@ export interface BrokerOperations {
     options?: BrokerListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<BrokerResource>;
   /** Delete a BrokerResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -49,7 +44,6 @@ export interface BrokerOperations {
     options?: BrokerGetOptionalParams,
   ) => Promise<BrokerResource>;
 }
-
 function _getBroker(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -78,7 +72,6 @@ function _getBroker(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, options),
   };
 }
-
 export function _getBrokerOperations(context: IoTOperationsContext): BrokerOperations {
   return {
     ..._getBroker(context),

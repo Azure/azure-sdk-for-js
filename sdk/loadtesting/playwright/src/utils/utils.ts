@@ -6,6 +6,7 @@ import type {
   BrowserSessionSourceTypeValue,
   VersionInfo,
   JwtPayload,
+  ProcessCommand,
   RunConfig,
 } from "../common/types.js";
 import {
@@ -30,7 +31,7 @@ import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import type { FullConfig } from "@playwright/test";
 import type { CIInfo } from "./cIInfoProvider.js";
 import { CI_PROVIDERS } from "./cIInfoProvider.js";
-import { exec } from "child_process";
+import { execFile } from "@azure/core-process";
 import { getPackageVersionFromFolder } from "#platform/utils/getPackageVersion";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
@@ -281,20 +282,14 @@ export function isNullOrEmpty(str: string | null | undefined): boolean {
   return !str || str.trim() === "";
 }
 
-async function runCommand(command: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      if (stderr) {
-        reject(new Error(stderr));
-        return;
-      }
-      resolve(stdout.trim());
-    });
+async function runCommand(command: ProcessCommand): Promise<string> {
+  const { stdout, stderr } = await execFile(command.command, command.args, {
+    encoding: "utf8",
   });
+  if (stderr) {
+    throw new Error(stderr);
+  }
+  return stdout.trim();
 }
 
 export async function getRunName(ciInfo: CIInfo): Promise<string> {
