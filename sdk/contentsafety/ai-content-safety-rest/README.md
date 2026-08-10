@@ -1,6 +1,6 @@
-# Azure Blocklist client library for JavaScript
+# Azure AI Content Safety REST client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Blocklist client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for the Azure AI Content Safety service.
 
 Analyze harmful content
 
@@ -25,16 +25,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure-rest/ai-content-safety` package
 
-Install the Azure Blocklist client library for JavaScript with `npm`:
+Install the Azure AI Content Safety client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-content-safety
 ```
 
-### Create and authenticate a `BlocklistClient`
+### Create and authenticate a `ContentSafetyClient`
 
-To create a client object to access the Azure Blocklist API, you will need the `endpoint` of your Azure Blocklist resource and a `credential`. The Azure Blocklist client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure Blocklist resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure AI Content Safety API, you will need the `endpoint` of your Azure AI Content Safety resource and a `credential`. The Azure AI Content Safety clients can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure AI Content Safety resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -44,30 +44,30 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure Blocklist** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new Microsoft Entra application and grant access to Azure AI Content Safety** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { BlocklistClient } from "@azure-rest/ai-content-safety";
+import { ContentSafetyClient } from "@azure-rest/ai-content-safety";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new BlocklistClient("<endpoint>", new DefaultAzureCredential());
+const client = new ContentSafetyClient("<endpoint>", new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { BlocklistClient } from "@azure-rest/ai-content-safety";
+import { ContentSafetyClient } from "@azure-rest/ai-content-safety";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new BlocklistClient("<endpoint>", credential);
+const client = new ContentSafetyClient("<endpoint>", credential);
 ```
 
 
@@ -76,9 +76,19 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
+The package exposes three clients, all constructed with the same endpoint and credential:
+
+### ContentSafetyClient
+
+`ContentSafetyClient` analyzes text and images for harmful content, shields prompts from injection attacks, and detects protected material in text.
+
 ### BlocklistClient
 
-`BlocklistClient` is the primary interface for developers using the Azure Blocklist client library. Explore the methods on this client object to understand the different features of the Azure Blocklist service that you can access.
+`BlocklistClient` manages custom text blocklists and the items within them, which `ContentSafetyClient.analyzeText` can then apply.
+
+### ContentProvenanceClient
+
+`ContentProvenanceClient` detects whether media was generated or modified by an AI system, using C2PA manifests and watermarks. Detection is a long-running operation started with `detect`.
 
 ## Troubleshooting
 
