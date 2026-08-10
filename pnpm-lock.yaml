@@ -21,7 +21,7 @@ catalogs:
       version: 20.19.19
     autorest:
       specifier: latest
-      version: 3.7.2
+      version: 3.8.0
     eslint:
       specifier: ^9.33.0
       version: 9.37.0
@@ -106,7 +106,7 @@ importers:
     dependencies:
       '@_ts/max':
         specifier: npm:typescript@latest
-        version: typescript@5.9.3
+        version: typescript@7.0.2
       '@_ts/min':
         specifier: npm:typescript@~4.2.4
         version: typescript@4.2.4
@@ -221,7 +221,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       builtin-modules:
         specifier: ^3.1.0
         version: 3.3.0
@@ -428,7 +428,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -486,7 +486,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -629,7 +629,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -681,7 +681,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.5.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-sse':
         specifier: ^2.1.3
         version: link:../../core/core-sse
@@ -778,7 +778,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -839,7 +839,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -878,7 +878,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.5.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-sse':
         specifier: ^2.1.3
         version: link:../../core/core-sse
@@ -981,7 +981,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1030,7 +1030,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1067,7 +1067,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       csv-parse:
         specifier: ^6.0.0
         version: 6.1.0
@@ -1106,7 +1106,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1274,7 +1274,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1338,7 +1338,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1402,7 +1402,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.6.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.0.0
         version: link:../../core/core-tracing
@@ -1524,7 +1524,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1588,7 +1588,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1646,7 +1646,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1707,7 +1707,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1771,7 +1771,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1829,7 +1829,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1866,7 +1866,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -1902,7 +1902,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -1960,7 +1960,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2012,7 +2012,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -2094,7 +2094,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2152,7 +2152,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2210,7 +2210,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2274,7 +2274,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2335,7 +2335,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -2408,7 +2408,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2463,7 +2463,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2524,7 +2524,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2585,7 +2585,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -2658,7 +2658,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2722,7 +2722,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2780,7 +2780,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.5.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.0.0
         version: link:../../core/logger
@@ -2853,7 +2853,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2917,7 +2917,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -2978,7 +2978,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3033,7 +3033,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -3106,7 +3106,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3164,7 +3164,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3219,7 +3219,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3274,7 +3274,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -3347,7 +3347,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -3417,7 +3417,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -3493,7 +3493,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -3618,7 +3618,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3676,7 +3676,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3731,7 +3731,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3795,7 +3795,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -3862,7 +3862,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.17.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -3935,7 +3935,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.17.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4032,7 +4032,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.0.0
         version: link:../../core/core-tracing
@@ -4105,7 +4105,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.17.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4184,7 +4184,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -4260,7 +4260,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4336,7 +4336,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -4376,7 +4376,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -4415,7 +4415,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -4458,7 +4458,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -4497,7 +4497,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4579,7 +4579,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4652,7 +4652,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4734,7 +4734,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4807,7 +4807,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4889,7 +4889,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -4968,7 +4968,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -5041,7 +5041,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5108,7 +5108,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5169,7 +5169,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5209,7 +5209,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -5236,7 +5236,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -5306,7 +5306,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -5376,7 +5376,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -5449,7 +5449,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5504,7 +5504,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -5568,7 +5568,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.2.0
         version: 2.8.1
@@ -5629,7 +5629,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -5702,7 +5702,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5760,7 +5760,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5824,7 +5824,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5888,7 +5888,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -5949,7 +5949,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -6056,7 +6056,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -6117,7 +6117,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -6154,7 +6154,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -6187,7 +6187,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -6257,7 +6257,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -6324,7 +6324,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -6364,7 +6364,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -6550,7 +6550,7 @@ importers:
         version: link:../core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
-        version: link:../core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.3.0
         version: link:../core-tracing
@@ -6605,13 +6605,13 @@ importers:
         version: link:../core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
-        version: link:../core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.3.0
         version: link:../core-tracing
       '@typespec/ts-http-runtime':
         specifier: ^0.3.0
-        version: link:../ts-http-runtime
+        version: 0.3.4
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -6654,7 +6654,7 @@ importers:
         version: link:../core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
-        version: link:../core-rest-pipeline
+        version: 1.23.0
     devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
@@ -6786,7 +6786,7 @@ importers:
         version: link:../logger
       '@typespec/ts-http-runtime':
         specifier: ^0.3.0
-        version: link:../ts-http-runtime
+        version: 0.3.4
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -6832,7 +6832,7 @@ importers:
         version: link:../core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.22.0
-        version: link:../core-rest-pipeline
+        version: 1.23.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -6976,7 +6976,7 @@ importers:
         version: link:../abort-controller
       '@typespec/ts-http-runtime':
         specifier: ^0.3.0
-        version: link:../ts-http-runtime
+        version: 0.3.4
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -7056,7 +7056,7 @@ importers:
     dependencies:
       '@typespec/ts-http-runtime':
         specifier: ^0.3.0
-        version: link:../ts-http-runtime
+        version: 0.3.4
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -7157,7 +7157,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7212,7 +7212,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -7309,7 +7309,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7373,7 +7373,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7437,7 +7437,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7495,7 +7495,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -7565,7 +7565,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -7629,7 +7629,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7693,7 +7693,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7757,7 +7757,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7818,7 +7818,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7882,7 +7882,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -7943,7 +7943,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8004,7 +8004,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8068,7 +8068,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8132,7 +8132,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8193,7 +8193,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8254,7 +8254,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -8327,7 +8327,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8388,7 +8388,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -8458,7 +8458,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -8528,7 +8528,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8583,7 +8583,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8647,7 +8647,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8708,7 +8708,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8772,7 +8772,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8836,7 +8836,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -8897,7 +8897,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -8970,7 +8970,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9034,7 +9034,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9104,7 +9104,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -9177,7 +9177,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9238,7 +9238,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9299,7 +9299,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9363,7 +9363,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -9439,7 +9439,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9503,7 +9503,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9567,7 +9567,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9625,7 +9625,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9701,7 +9701,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9768,7 +9768,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9826,7 +9826,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -9899,7 +9899,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -9954,7 +9954,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -10015,7 +10015,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -10082,7 +10082,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10146,7 +10146,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10210,7 +10210,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10265,7 +10265,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -10335,7 +10335,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10390,7 +10390,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -10463,7 +10463,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -10564,7 +10564,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -10625,7 +10625,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10692,7 +10692,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11145,7 +11145,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11206,7 +11206,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -11279,7 +11279,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11346,7 +11346,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11401,7 +11401,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11465,7 +11465,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -11590,7 +11590,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11654,7 +11654,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11712,7 +11712,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11776,7 +11776,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11834,7 +11834,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -11907,7 +11907,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -11971,7 +11971,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12035,7 +12035,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12096,7 +12096,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12157,7 +12157,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -12227,7 +12227,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -12297,7 +12297,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12334,7 +12334,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -12367,7 +12367,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12404,7 +12404,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -12437,7 +12437,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12474,7 +12474,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -12510,7 +12510,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12571,7 +12571,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -12644,7 +12644,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12708,7 +12708,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12772,7 +12772,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -12830,7 +12830,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.17.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.0.0
         version: link:../../core/core-tracing
@@ -12844,8 +12844,8 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0
       '@azure/msal-node':
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^5.1.5
+        version: 5.5.0
       open:
         specifier: ^10.1.0
         version: 10.2.0
@@ -13043,7 +13043,7 @@ importers:
         version: link:../identity
       '@azure/identity-cache-persistence':
         specifier: ^1.2.0
-        version: link:../identity-cache-persistence
+        version: 1.3.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -13144,7 +13144,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13205,7 +13205,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -13278,7 +13278,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13394,7 +13394,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -13464,7 +13464,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13522,7 +13522,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -13595,7 +13595,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13659,7 +13659,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13720,7 +13720,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -13793,7 +13793,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13857,7 +13857,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -13921,7 +13921,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -14006,7 +14006,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -14079,7 +14079,7 @@ importers:
         version: link:../../identity/identity
       '@azure/keyvault-certificates':
         specifier: ^4.9.0
-        version: link:../keyvault-certificates
+        version: 4.10.3
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -14116,7 +14116,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.8.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.0.0
         version: link:../../core/core-tracing
@@ -14183,7 +14183,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -14299,7 +14299,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -14409,7 +14409,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14473,7 +14473,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14531,7 +14531,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14595,7 +14595,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14659,7 +14659,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14720,7 +14720,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -14793,7 +14793,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14857,7 +14857,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -14918,7 +14918,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -14991,7 +14991,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15052,7 +15052,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -15125,7 +15125,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15186,7 +15186,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -15253,7 +15253,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15317,7 +15317,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15421,7 +15421,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -15461,7 +15461,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -15485,7 +15485,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15546,7 +15546,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15601,7 +15601,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15665,7 +15665,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15723,7 +15723,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15784,7 +15784,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15848,7 +15848,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15903,7 +15903,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -15964,7 +15964,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16019,7 +16019,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16077,7 +16077,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16141,7 +16141,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16205,7 +16205,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16269,7 +16269,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16324,7 +16324,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16382,7 +16382,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16443,7 +16443,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16492,7 +16492,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16535,7 +16535,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16562,7 +16562,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16605,7 +16605,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16638,7 +16638,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16678,7 +16678,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16708,7 +16708,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16751,7 +16751,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16781,7 +16781,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -16824,7 +16824,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16860,7 +16860,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16915,7 +16915,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16979,7 +16979,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -17077,7 +17077,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17141,7 +17141,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17205,7 +17205,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17269,7 +17269,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17330,7 +17330,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -17400,7 +17400,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -17473,7 +17473,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17543,7 +17543,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -17604,7 +17604,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -17714,7 +17714,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17841,7 +17841,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -17978,7 +17978,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -18060,7 +18060,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -18142,7 +18142,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18206,7 +18206,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18267,7 +18267,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18328,7 +18328,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -18401,7 +18401,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18465,7 +18465,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18529,7 +18529,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18590,7 +18590,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18627,7 +18627,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -18663,7 +18663,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18727,7 +18727,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18788,7 +18788,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18852,7 +18852,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18916,7 +18916,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18983,7 +18983,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.1.2
         version: link:../../core/core-tracing
@@ -19053,7 +19053,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19111,7 +19111,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -19175,7 +19175,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.5.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.0.0
         version: link:../../core/logger
@@ -19315,7 +19315,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19379,7 +19379,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19437,7 +19437,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -19510,7 +19510,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19574,7 +19574,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19632,7 +19632,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19690,7 +19690,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -19760,7 +19760,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -19830,7 +19830,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -19900,7 +19900,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -19998,7 +19998,7 @@ importers:
     dependencies:
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/identity':
         specifier: ^4.3.1
         version: link:../../identity/identity
@@ -20062,7 +20062,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20123,7 +20123,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20187,7 +20187,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20245,7 +20245,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20300,7 +20300,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -20373,7 +20373,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20434,7 +20434,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20498,7 +20498,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20562,7 +20562,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20623,7 +20623,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20684,7 +20684,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -20754,7 +20754,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -20827,7 +20827,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -20879,7 +20879,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20940,7 +20940,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20977,7 +20977,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -21010,7 +21010,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21077,7 +21077,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21114,7 +21114,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -21141,7 +21141,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21178,7 +21178,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -21214,7 +21214,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21272,7 +21272,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -21318,7 +21318,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -21351,7 +21351,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -21418,7 +21418,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21482,7 +21482,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21546,7 +21546,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -21619,7 +21619,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21683,7 +21683,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21747,7 +21747,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21814,7 +21814,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21878,7 +21878,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21942,7 +21942,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22006,7 +22006,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22064,7 +22064,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22119,7 +22119,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22183,7 +22183,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22241,7 +22241,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22305,7 +22305,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22369,7 +22369,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22424,7 +22424,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -22497,7 +22497,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22561,7 +22561,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22619,7 +22619,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -22890,7 +22890,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22954,7 +22954,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23015,7 +23015,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -23134,7 +23134,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23198,7 +23198,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23262,7 +23262,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23326,7 +23326,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23381,7 +23381,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23436,7 +23436,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23500,7 +23500,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23564,7 +23564,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -23740,7 +23740,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23804,7 +23804,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23841,7 +23841,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -23874,7 +23874,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -23941,7 +23941,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24005,7 +24005,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24066,7 +24066,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -24139,7 +24139,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24200,7 +24200,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -24273,7 +24273,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24337,7 +24337,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24401,7 +24401,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24465,7 +24465,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24526,7 +24526,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -24599,7 +24599,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24663,7 +24663,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -24730,7 +24730,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -24824,7 +24824,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -24891,7 +24891,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/storage-blob':
         specifier: ^12.27.0
         version: 12.31.0
@@ -24931,7 +24931,7 @@ importers:
         version: link:../../core/core-http-compat
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -24998,7 +24998,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -25120,7 +25120,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -25291,7 +25291,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -25370,7 +25370,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -25446,7 +25446,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25507,7 +25507,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -25574,7 +25574,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25635,7 +25635,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -25708,7 +25708,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25769,7 +25769,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25830,7 +25830,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25891,7 +25891,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -25955,7 +25955,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26010,7 +26010,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26074,7 +26074,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26138,7 +26138,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26196,7 +26196,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26257,7 +26257,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26330,7 +26330,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26394,7 +26394,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26455,7 +26455,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26513,7 +26513,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26577,7 +26577,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26684,7 +26684,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -26751,7 +26751,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -26852,7 +26852,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -26910,7 +26910,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -26974,7 +26974,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.18.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.3.2
         version: link:../../core/core-util
@@ -27020,7 +27020,7 @@ importers:
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.13.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.6.1
         version: link:../../core/core-util
@@ -27127,7 +27127,7 @@ importers:
         version: link:../../core/abort-controller
       '@azure/core-rest-pipeline':
         specifier: ^1.16.3
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.1.2
         version: link:../../core/core-tracing
@@ -27188,7 +27188,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -27295,7 +27295,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27353,7 +27353,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27417,7 +27417,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27457,7 +27457,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -27484,7 +27484,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27521,7 +27521,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -27554,7 +27554,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -27618,7 +27618,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27655,7 +27655,7 @@ importers:
         version: 3.2.4(vitest@3.2.4)
       autorest:
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.8.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -27688,7 +27688,7 @@ importers:
         version: 2.7.2
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27749,7 +27749,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27813,7 +27813,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27877,7 +27877,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -27935,7 +27935,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.19.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
@@ -28209,7 +28209,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -28282,7 +28282,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: ^1.18.2
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -28343,7 +28343,7 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.19.1
-        version: link:../../core/core-rest-pipeline
+        version: 1.23.0
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
@@ -28530,10 +28530,6 @@ packages:
     resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/core-rest-pipeline@1.22.1':
-    resolution: {integrity: sha512-UVZlVLfLyz6g3Hy7GNDpooMQonUygH7ghdiSASOOHy97fKj/mPLqgDX7aidOijn+sCMU+WU8NjlPlNTgnvbcGA==}
-    engines: {node: '>=20.0.0'}
-
   '@azure/core-rest-pipeline@1.23.0':
     resolution: {integrity: sha512-Evs1INHo+jUjwHi1T6SG6Ua/LHOQBCLuKEEE6efIpt4ZOoNonaT1kP32GoOcdNDbfqsD2445CPri3MubBy5DEQ==}
     engines: {node: '>=20.0.0'}
@@ -28569,6 +28565,10 @@ packages:
     resolution: {integrity: sha512-LNtl3xZNE40vE7+SIST+GYQX5cnnI1M65fXPi26l9XCdPakuQrz54lHv+qQQt1GG5JbqLfQk75iM7A6Y9O+2dQ==}
     engines: {node: '>=18.0'}
 
+  '@azure/identity-cache-persistence@1.3.0':
+    resolution: {integrity: sha512-gk1utd1YazL+88bwOiDbZdqSu5Y7HxbsmQSXoW1qhGqqvbO5lma81mv4UQkS1vK6l2y/yd1v4IoJoOEtnUjikw==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/identity@4.10.1':
     resolution: {integrity: sha512-YM/z6RxRtFlXUH2egAYF/FDPes+MUE6ZoknjEdaq7ebJMMNUzn9zCJ3bd2ZZZlkP0r1xKa88kolhFH/FGV7JnA==}
     engines: {node: '>=18.0.0'}
@@ -28577,9 +28577,17 @@ packages:
     resolution: {integrity: sha512-0ZdsLRaOyLxtCYgyuqyWqGU5XQ9gGnjxgfoNTt1pvELGkkUFrMATABZFIq8gusM7N1qbqpVtwLOhk0d/3kacLg==}
     engines: {node: '>=20.0.0'}
 
+  '@azure/keyvault-certificates@4.10.3':
+    resolution: {integrity: sha512-PgQLfcgsqVPEN8+HYs9L/9sUxd1qkUQa8csuKPFRq3twiIE5Sm1me+1tmoNp5rPCdYoBJSNzi/FYpldHlDeHDw==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/keyvault-common@2.0.0':
     resolution: {integrity: sha512-wRLVaroQtOqfg60cxkzUkGKrKMsCP6uYXAOomOIysSMyt1/YM0eUn9LqieAWM8DLcU4+07Fio2YGpPeqUbpP9w==}
     engines: {node: '>=18.0.0'}
+
+  '@azure/keyvault-common@2.1.0':
+    resolution: {integrity: sha512-aCDidWuKY06LWQ4x7/8TIXK6iRqTaRWRL3t7T+LC+j1b07HtoIsOxP/tU90G4jCSBn5TAyUTCtA4MS/y5Hudaw==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-keys@4.10.0':
     resolution: {integrity: sha512-eDT7iXoBTRZ2n3fLiftuGJFD+yjkiB1GNqzU2KbY1TLYeXeSPVTVgn2eJ5vmRTZ11978jy2Kg2wI7xa9Tyr8ag==}
@@ -28621,6 +28629,10 @@ packages:
     resolution: {integrity: sha512-8oF6nj02qX7eE/6+wFT5NluXRHc05AgdCC3fJnkjiJooq8u7BcLmxaYYSwc2AfEkWRMRi6Eyvvbeqk4U4412Ag==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@16.12.0':
+    resolution: {integrity: sha512-hgLgfRdbG2AmhXPygebf1KYJEvse86+ZZLWufdiTKaGRYEUqOzHdlf6AS1IiuUCHWbynkgbHc451jSNkbfhWlg==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-common@16.3.0':
     resolution: {integrity: sha512-qNc/noEts5Kf6oLtbuLEg1PkmM+GXEQlxC5VCrmCFbDo3Xyg5hDR3UFR2jZ8MK76epGuBWKSWoa2rCIYZVp5AQ==}
     engines: {node: '>=0.8.0'}
@@ -28629,8 +28641,15 @@ packages:
     resolution: {integrity: sha512-9i9GibDBxEUiYon/3Ecisde4SDFJD89nW+VCnvlzbFnVyo2TSaV047anLA/lk2ena52GSJvBGGdZLpAQqxwo3w==}
     engines: {node: '>=16'}
 
+  '@azure/msal-node-extensions@5.3.5':
+    resolution: {integrity: sha512-NzTHKi5AWYeut4Wh6k5eSoTczwnRita0P0bgMqBdvZsNa8AKhGCPVK+UWBVD72vjIxdSk81FBH7sTAvKVuEjSw==}
+    engines: {node: '>=20'}
+
   '@azure/msal-node-runtime@0.19.5':
     resolution: {integrity: sha512-0oBQgCcgOb+VwQ5k8OXShbuXCBU8FKKhpwnqWSBzzYWSFoYAtyad2zggl26ME4IKzN9telaOJPEEcsQOf/+3Ug==}
+
+  '@azure/msal-node-runtime@0.20.6':
+    resolution: {integrity: sha512-89Al7l5c8sOEA954d35WZOg1sCa2WKfgf7KyTbN9vIkKsoZrXdJ5+CPjy8+tQqWcsJTAMbQD4OWr7V09/xN8KA==}
 
   '@azure/msal-node@2.16.3':
     resolution: {integrity: sha512-CO+SE4weOsfJf+C5LM8argzvotrXw252/ZU6SM2Tz63fEblhH1uuVaaO4ISYFuN4Q6BhTo7I3qIdi8ydUQCqhw==}
@@ -28640,8 +28659,8 @@ packages:
     resolution: {integrity: sha512-23BXm82Mp5XnRhrcd4mrHa0xuUNRp96ivu3nRatrfdAqjoeWAGyD0eEAafxAOHAEWWmdlyFK4ELFcdziXyw2sA==}
     engines: {node: '>=16'}
 
-  '@azure/msal-node@5.1.0':
-    resolution: {integrity: sha512-iumou1TJuKXqHtpOcys4QOyxjbkbKri/W+dRcOaYmSwWnIY5HOA8qJ2yCBaROnH7QdXrJOXe046o/m7KLRjC6A==}
+  '@azure/msal-node@5.5.0':
+    resolution: {integrity: sha512-A/2WIsuH0vsC6JVkkafjS4kHpi2LDR4AzDT0kJ+oIRtXYeYtvGQ2pwN2X88thQPhSek+82ela3MprsKXWQRrhQ==}
     engines: {node: '>=20'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -30676,9 +30695,125 @@ packages:
     resolution: {integrity: sha512-T+S1KqRD4sg/bHfLwrpF/K3gQLBM1n7Rp7OjjikjTEssI2YJzQpi5WXoynOaQ93ERIuq3O8RBTOUYDKszUCEHw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typespec/ts-http-runtime@0.3.1':
-    resolution: {integrity: sha512-SnbaqayTVFEA6/tYumdF0UmybY0KHyKwGPBXnyckFlrrKdhWFrL3a2HIPXHjht5ZOElKGcXfD2D63P36btb+ww==}
-    engines: {node: '>=20.0.0'}
+  '@typescript/typescript-aix-ppc64@7.0.2':
+    resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [ppc64]
+    os: [aix]
+
+  '@typescript/typescript-darwin-arm64@7.0.2':
+    resolution: {integrity: sha512-gowzar9MwS/aRWp6f3a4KUqzRjAZjOsmGNCM6LcTgXum+dBfgsBVMN+AgvOCCbguXyick6LJhpBszxMebJ8syA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@typescript/typescript-darwin-x64@7.0.2':
+    resolution: {integrity: sha512-SZ9xZInqApNlNGc9s0W1VSsktYSOe9cFqNOIqmN1Gs8SmkjKZYFt017G4VwPxASInODuAdbTW7sXiFUf893RgA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@typescript/typescript-freebsd-arm64@7.0.2':
+    resolution: {integrity: sha512-W5NH4y/J0plIIS5b2xvTEkU7JFxyqdMAOgf+Ilhl0vHQXKO5dZoxd+C/jEtq56c4F3wk71RB4BMRQ2XdI+bwYQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [freebsd]
+
+  '@typescript/typescript-freebsd-x64@7.0.2':
+    resolution: {integrity: sha512-UMGDx5sTpzNw3WiPebH7l90IWfJggEd+egHt/q6p7/Cm3zqoV7VxkGXt+3DxPIw8CcmvAB0j3sVVfbhX+M4Tpw==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@typescript/typescript-linux-arm64@7.0.2':
+    resolution: {integrity: sha512-Qh4eU4/y3yDjnfjjyPYihMj5/ODIlmt+Bzu17OI+fiSRDW57QmU5SiN63exPRNJPKUzcc1INa1NXdrJ+MqHjUQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@typescript/typescript-linux-arm@7.0.2':
+    resolution: {integrity: sha512-gffT3xPz9sR7j/YJExkyPntrI0P2EP9XbOyWzth2/Gs0RstK+90RBcO0ncXoXy/beYll1SXw846Nf2zdnEz0QQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm]
+    os: [linux]
+
+  '@typescript/typescript-linux-loong64@7.0.2':
+    resolution: {integrity: sha512-uEHck9i8hoAzXPiYRib1O7miOnz23SxIeVl6F4LXox+qov1K35jHcEW6VHKvZI+pyvl7fZEP4MCU5LYvIq1GuQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [loong64]
+    os: [linux]
+
+  '@typescript/typescript-linux-mips64el@7.0.2':
+    resolution: {integrity: sha512-R4KvAMnE43W5Qeqb0Ly56O3mWMWIAgsMyz36DCaycd5nbg/9kzm0liw3JocfRqyJY0KPmzFjbswozXyW0DnIYA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [mips64el]
+    os: [linux]
+
+  '@typescript/typescript-linux-ppc64@7.0.2':
+    resolution: {integrity: sha512-DORx5b3sd/4S7eayxm4FQv+A7CrkUIGRaHiwI8oiHTAI1fAPWhF4J0vAlkC8biAlHSVVwxMQ3tjZ2/DVbnQiiA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [ppc64]
+    os: [linux]
+
+  '@typescript/typescript-linux-riscv64@7.0.2':
+    resolution: {integrity: sha512-wf0jqEDOjrPRnKwYRyyJDRo11KMbvMFrU+q4zqKyChODBzvlkbhNQfKvLxQCcwTpdDaXSHZTVuh0JoCrKCUMHQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@typescript/typescript-linux-s390x@7.0.2':
+    resolution: {integrity: sha512-IkwJc3L7yhytWd/ewjyxNDfOmswCm9GWMJT/ue/dU4aZNbwZeYAetq42VyLmsmSjvoX7z74X6ZaYCtzAr0EuGw==}
+    engines: {node: '>=16.20.0'}
+    cpu: [s390x]
+    os: [linux]
+
+  '@typescript/typescript-linux-x64@7.0.2':
+    resolution: {integrity: sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [linux]
+
+  '@typescript/typescript-netbsd-arm64@7.0.2':
+    resolution: {integrity: sha512-+polYF4MF04aPpO5FTkHran9yUQDSXqy5GiSDKpsll5jy3l3+g9QLhpf39T+ePtefhXLOGrLl0QIjkQP6VnelA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [netbsd]
+
+  '@typescript/typescript-netbsd-x64@7.0.2':
+    resolution: {integrity: sha512-8YIT0EHM/3dq10ZOVF/A7pc/YSMtbcecct4rWtexrnSCHOPcpC2KTLXfTCR6vDpnSiY12heNb1GiN/wu+T/FyA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [netbsd]
+
+  '@typescript/typescript-openbsd-arm64@7.0.2':
+    resolution: {integrity: sha512-APT8+ClYnuYm1u9+kgGXoMj2VzWzcymwh2gNSQVySHfkRDGOTVkoWLjCmOQSaO+PoqQ57B0flRp9SA+7GnnkzQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [openbsd]
+
+  '@typescript/typescript-openbsd-x64@7.0.2':
+    resolution: {integrity: sha512-yX7s+Q0Dln0Dt9tEzZsAjXXR/+ytBM7AlglaqyeMPxQszJ1JhlJdZ6jLA+IzldHtflX81em7lDao1xXu+aRRkg==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [openbsd]
+
+  '@typescript/typescript-sunos-x64@7.0.2':
+    resolution: {integrity: sha512-dLJDGaLZ1D4HPQn62u1n8mBDkJREwMsAkCdkwd4Ieqw+x3TUyTsqY0YiBCtE6H6OzzgGk3iuZ3vFWRS+E8/d1g==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [sunos]
+
+  '@typescript/typescript-win32-arm64@7.0.2':
+    resolution: {integrity: sha512-Gyl1Vy6OsWesLzmq+EP0Fb7b4Nid5232AvcA2SFcdYreldpNtYFFofPjnt62y9hQy7VTaZp65ICJjuAQRaVcIQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@typescript/typescript-win32-x64@7.0.2':
+    resolution: {integrity: sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [win32]
 
   '@typespec/ts-http-runtime@0.3.4':
     resolution: {integrity: sha512-CI0NhTrz4EBaa0U+HaaUZrJhPoso8sG7ZFya8uQoBA57fjzrjRSv87ekCjLZOFExN+gXE/z0xuN2QfH4H2HrLQ==}
@@ -30865,8 +31000,8 @@ packages:
     resolution: {integrity: sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==}
     engines: {node: '>=8.0.0'}
 
-  autorest@3.7.2:
-    resolution: {integrity: sha512-yEeF0tJjx2fROK9VWIVHKFiUSzD0cxwqnq7z+v7kIIRRZjyOM3rpBS9OPp6tQv5d3mmxPAUNh57G1ZumQNqQGg==}
+  autorest@3.8.0:
+    resolution: {integrity: sha512-FwpPuDGXuLLnBAR3SCGQcQHPCRoyYXPTMnJ80kN6HRsK+b1/pJ1DtOOzqL4XTCdtq37gth1AoFCerSOwSc3iGQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -31730,21 +31865,23 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@11.0.3:
     resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -32718,6 +32855,7 @@ packages:
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
+    deprecated: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
     hasBin: true
 
   prelude-ls@1.1.2:
@@ -33246,6 +33384,7 @@ packages:
   tar@7.5.1:
     resolution: {integrity: sha512-nlGpxf+hv0v7GkWBK2V9spgactGOp0qvfWRxUMjqHyzrt3SgwE48DIv/FhqPHJYLHpgW1opq3nERbz5Anq7n1g==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   terser@5.39.0:
     resolution: {integrity: sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==}
@@ -33450,9 +33589,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.9.3:
-    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
-    engines: {node: '>=14.17'}
+  typescript@7.0.2:
+    resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
+    engines: {node: '>=16.20.0'}
     hasBin: true
 
   uc.micro@2.1.0:
@@ -33532,6 +33671,7 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   validate-npm-package-license@3.0.4:
@@ -33812,7 +33952,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       tslib: 2.8.1
@@ -33823,9 +33963,9 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
-      '@typespec/ts-http-runtime': 0.3.1
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -33834,7 +33974,7 @@ snapshots:
     dependencies:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
     transitivePeerDependencies:
@@ -33844,7 +33984,7 @@ snapshots:
     dependencies:
       '@azure-tools/test-recorder': 4.1.0
       '@azure/abort-controller': 2.1.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@opentelemetry/api': 1.9.0
       tslib: 2.8.1
@@ -33885,7 +34025,7 @@ snapshots:
       '@azure/core-auth': 1.10.1
       '@azure/core-lro': 3.3.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-sse': 2.3.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
@@ -33911,7 +34051,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -33927,7 +34067,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -33942,7 +34082,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -33954,7 +34094,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -33966,7 +34106,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -33978,7 +34118,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -33990,7 +34130,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34002,7 +34142,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34014,7 +34154,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34026,7 +34166,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34038,7 +34178,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34048,7 +34188,7 @@ snapshots:
       '@azure-rest/core-client': 2.5.1
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       events: 3.3.0
@@ -34065,7 +34205,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/logger': 1.3.0
       events: 3.3.0
@@ -34078,7 +34218,7 @@ snapshots:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34093,7 +34233,7 @@ snapshots:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34131,7 +34271,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34143,7 +34283,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
     transitivePeerDependencies:
       - supports-color
 
@@ -34169,18 +34309,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@azure/core-rest-pipeline@1.22.1':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/logger': 1.3.0
-      '@typespec/ts-http-runtime': 0.3.1
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/core-rest-pipeline@1.23.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -34204,7 +34332,7 @@ snapshots:
   '@azure/core-util@1.13.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@typespec/ts-http-runtime': 0.3.1
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34219,7 +34347,7 @@ snapshots:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34257,12 +34385,23 @@ snapshots:
       long: 4.0.0
       undici: 5.29.0
 
+  '@azure/identity-cache-persistence@1.3.0':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/identity': 4.11.1
+      '@azure/msal-node': 5.5.0
+      '@azure/msal-node-extensions': 5.3.5
+      keytar: 7.9.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/identity@4.10.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34278,7 +34417,7 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34289,12 +34428,41 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/keyvault-certificates@4.10.3':
+    dependencies:
+      '@azure-rest/core-client': 2.5.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.23.0
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/keyvault-common': 2.1.0
+      '@azure/logger': 1.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/keyvault-common@2.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/keyvault-common@2.1.0':
+    dependencies:
+      '@azure-rest/core-client': 2.5.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34310,7 +34478,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/keyvault-common': 2.0.0
@@ -34327,7 +34495,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/keyvault-common': 2.0.0
@@ -34338,7 +34506,7 @@ snapshots:
 
   '@azure/logger@1.3.0':
     dependencies:
-      '@typespec/ts-http-runtime': 0.3.1
+      '@typespec/ts-http-runtime': 0.3.4
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -34349,7 +34517,7 @@ snapshots:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
     transitivePeerDependencies:
       - supports-color
 
@@ -34415,6 +34583,8 @@ snapshots:
 
   '@azure/msal-common@15.13.0': {}
 
+  '@azure/msal-common@16.12.0': {}
+
   '@azure/msal-common@16.3.0': {}
 
   '@azure/msal-node-extensions@1.5.23':
@@ -34423,7 +34593,15 @@ snapshots:
       '@azure/msal-node-runtime': 0.19.5
       keytar: 7.9.0
 
+  '@azure/msal-node-extensions@5.3.5':
+    dependencies:
+      '@azure/msal-common': 16.12.0
+      '@azure/msal-node-runtime': 0.20.6
+      keytar: 7.9.0
+
   '@azure/msal-node-runtime@0.19.5': {}
+
+  '@azure/msal-node-runtime@0.20.6': {}
 
   '@azure/msal-node@2.16.3':
     dependencies:
@@ -34437,17 +34615,16 @@ snapshots:
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 
-  '@azure/msal-node@5.1.0':
+  '@azure/msal-node@5.5.0':
     dependencies:
-      '@azure/msal-common': 16.3.0
+      '@azure/msal-common': 16.12.0
       jsonwebtoken: 9.0.2
-      uuid: 8.3.2
 
   '@azure/openai@1.0.0-beta.12':
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-sse': 2.3.0
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34483,7 +34660,7 @@ snapshots:
       '@azure-rest/core-client': 2.5.1
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/logger': 1.3.0
       tslib: 2.8.1
@@ -34496,7 +34673,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-http-compat': 2.3.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34512,7 +34689,7 @@ snapshots:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34536,7 +34713,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34554,7 +34731,7 @@ snapshots:
       '@azure/core-http-compat': 2.3.1
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34570,7 +34747,7 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-http-compat': 2.3.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -34586,7 +34763,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-http-compat': 2.3.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34605,7 +34782,7 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-http-compat': 2.3.1
       '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
@@ -34621,7 +34798,7 @@ snapshots:
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.23.0
       '@azure/core-tracing': 1.3.1
       '@azure/logger': 1.3.0
       tslib: 2.8.1
@@ -36814,13 +36991,65 @@ snapshots:
       '@typescript-eslint/types': 8.43.0
       eslint-visitor-keys: 4.2.1
 
-  '@typespec/ts-http-runtime@0.3.1':
-    dependencies:
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
+  '@typescript/typescript-aix-ppc64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-darwin-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-darwin-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-freebsd-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-freebsd-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-arm@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-loong64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-mips64el@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-ppc64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-riscv64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-s390x@7.0.2':
+    optional: true
+
+  '@typescript/typescript-linux-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-netbsd-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-netbsd-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-openbsd-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-openbsd-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-sunos-x64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-win32-arm64@7.0.2':
+    optional: true
+
+  '@typescript/typescript-win32-x64@7.0.2':
+    optional: true
 
   '@typespec/ts-http-runtime@0.3.4':
     dependencies:
@@ -37030,7 +37259,7 @@ snapshots:
 
   atomic-sleep@1.0.0: {}
 
-  autorest@3.7.2: {}
+  autorest@3.8.0: {}
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -39842,7 +40071,28 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  typescript@5.9.3: {}
+  typescript@7.0.2:
+    optionalDependencies:
+      '@typescript/typescript-aix-ppc64': 7.0.2
+      '@typescript/typescript-darwin-arm64': 7.0.2
+      '@typescript/typescript-darwin-x64': 7.0.2
+      '@typescript/typescript-freebsd-arm64': 7.0.2
+      '@typescript/typescript-freebsd-x64': 7.0.2
+      '@typescript/typescript-linux-arm': 7.0.2
+      '@typescript/typescript-linux-arm64': 7.0.2
+      '@typescript/typescript-linux-loong64': 7.0.2
+      '@typescript/typescript-linux-mips64el': 7.0.2
+      '@typescript/typescript-linux-ppc64': 7.0.2
+      '@typescript/typescript-linux-riscv64': 7.0.2
+      '@typescript/typescript-linux-s390x': 7.0.2
+      '@typescript/typescript-linux-x64': 7.0.2
+      '@typescript/typescript-netbsd-arm64': 7.0.2
+      '@typescript/typescript-netbsd-x64': 7.0.2
+      '@typescript/typescript-openbsd-arm64': 7.0.2
+      '@typescript/typescript-openbsd-x64': 7.0.2
+      '@typescript/typescript-sunos-x64': 7.0.2
+      '@typescript/typescript-win32-arm64': 7.0.2
+      '@typescript/typescript-win32-x64': 7.0.2
 
   uc.micro@2.1.0: {}
 
