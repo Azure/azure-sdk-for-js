@@ -44,6 +44,8 @@ import {
   RelatedResources,
   BackgroundVisualization,
   IssueResourceCreateOrUpdate,
+  RelatedAlertsCreate,
+  RelatedResourcesCreate,
   BackgroundVisualizationCreate,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -70,7 +72,7 @@ export interface IssueOperations {
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     issueName: string,
-    body: RelatedResources,
+    body: RelatedResourcesCreate,
     options?: IssueAddOrUpdateResourcesOptionalParams,
   ) => Promise<RelatedResources>;
   /** List all resources in the issue - this method uses pagination to return all resources */
@@ -86,7 +88,7 @@ export interface IssueOperations {
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     issueName: string,
-    body: RelatedAlerts,
+    body: RelatedAlertsCreate,
     options?: IssueAddOrUpdateAlertsOptionalParams,
   ) => Promise<RelatedAlerts>;
   /** List all alerts in the issue - this method uses pagination to return all alerts */
@@ -185,7 +187,7 @@ function _getIssue(context: MonitorContext) {
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
       issueName: string,
-      body: RelatedResources,
+      body: RelatedResourcesCreate,
       options?: IssueAddOrUpdateResourcesOptionalParams,
     ) =>
       addOrUpdateResources(
@@ -215,7 +217,7 @@ function _getIssue(context: MonitorContext) {
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
       issueName: string,
-      body: RelatedAlerts,
+      body: RelatedAlertsCreate,
       options?: IssueAddOrUpdateAlertsOptionalParams,
     ) =>
       addOrUpdateAlerts(

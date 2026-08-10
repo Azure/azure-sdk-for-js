@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -40,6 +42,12 @@ export interface AzureMonitorWorkspace {
 }
 
 // @public
+export interface AzureMonitorWorkspaceCreateOrUpdate {
+    metrics?: AzureMonitorWorkspaceMetricsCreateOrUpdate;
+    publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
 export interface AzureMonitorWorkspaceDefaultIngestionSettings {
     readonly dataCollectionEndpointResourceId?: string;
     readonly dataCollectionRuleImmutableId?: string;
@@ -55,6 +63,16 @@ export interface AzureMonitorWorkspaceMetrics {
 }
 
 // @public
+export interface AzureMonitorWorkspaceMetricsCreateOrUpdate {
+    enableAccessUsingResourcePermissions?: boolean;
+}
+
+// @public
+export interface AzureMonitorWorkspaceMetricsUpdate {
+    enableAccessUsingResourcePermissions?: boolean;
+}
+
+// @public
 export interface AzureMonitorWorkspaceResource extends TrackedResource {
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
@@ -62,9 +80,22 @@ export interface AzureMonitorWorkspaceResource extends TrackedResource {
 }
 
 // @public
+export interface AzureMonitorWorkspaceResourceCreateOrUpdate extends TrackedResource {
+    identity?: ManagedServiceIdentityCreateOrUpdate;
+    properties?: AzureMonitorWorkspaceCreateOrUpdate;
+}
+
+// @public
 export interface AzureMonitorWorkspaceResourceUpdate {
     identity?: ManagedServiceIdentity;
     properties?: AzureMonitorWorkspace;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AzureMonitorWorkspaceResourceUpdateUpdate {
+    identity?: ManagedServiceIdentityUpdate;
+    properties?: AzureMonitorWorkspaceUpdate;
     tags?: Record<string, string>;
 }
 
@@ -91,16 +122,22 @@ export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams extends 
 
 // @public
 export interface AzureMonitorWorkspacesOperations {
-    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, resource: AzureMonitorWorkspaceResource, options?: AzureMonitorWorkspacesCreateOrUpdateOptionalParams) => Promise<AzureMonitorWorkspaceResource>;
+    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, resource: AzureMonitorWorkspaceResourceCreateOrUpdate, options?: AzureMonitorWorkspacesCreateOrUpdateOptionalParams) => Promise<AzureMonitorWorkspaceResource>;
     delete: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: AzureMonitorWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: AzureMonitorWorkspacesGetOptionalParams) => Promise<AzureMonitorWorkspaceResource>;
     listByResourceGroup: (resourceGroupName: string, options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AzureMonitorWorkspaceResource>;
     listBySubscription: (options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AzureMonitorWorkspaceResource>;
-    update: (resourceGroupName: string, azureMonitorWorkspaceName: string, properties: AzureMonitorWorkspaceResourceUpdate, options?: AzureMonitorWorkspacesUpdateOptionalParams) => Promise<AzureMonitorWorkspaceResource>;
+    update: (resourceGroupName: string, azureMonitorWorkspaceName: string, properties: AzureMonitorWorkspaceResourceUpdateUpdate, options?: AzureMonitorWorkspacesUpdateOptionalParams) => Promise<AzureMonitorWorkspaceResource>;
 }
 
 // @public
 export interface AzureMonitorWorkspacesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AzureMonitorWorkspaceUpdate {
+    metrics?: AzureMonitorWorkspaceMetricsUpdate;
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
@@ -183,6 +220,8 @@ export interface InvestigationResult {
     result: string;
 }
 
+export { isRestError }
+
 // @public
 export interface IssueAddInvestigationResultOptionalParams extends OperationOptions {
 }
@@ -246,7 +285,7 @@ export interface IssueOperations {
     addInvestigationResult: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, body: InvestigationResult, options?: IssueAddInvestigationResultOptionalParams) => Promise<InvestigationResult>;
     addOrUpdateAlerts: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, body: RelatedAlertsCreate, options?: IssueAddOrUpdateAlertsOptionalParams) => Promise<RelatedAlerts>;
     addOrUpdateResources: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, body: RelatedResourcesCreate, options?: IssueAddOrUpdateResourcesOptionalParams) => Promise<RelatedResources>;
-    create: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, resource: IssueResourceCreate, options?: IssueCreateOptionalParams) => Promise<IssueResource>;
+    create: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, resource: IssueResourceCreateOrUpdate, options?: IssueCreateOptionalParams) => Promise<IssueResource>;
     delete: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, options?: IssueDeleteOptionalParams) => Promise<void>;
     fetchBackgroundVisualization: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, options?: IssueFetchBackgroundVisualizationOptionalParams) => Promise<BackgroundVisualization>;
     fetchInvestigationResult: (resourceGroupName: string, azureMonitorWorkspaceName: string, issueName: string, body: FetchInvestigationResultParameters, options?: IssueFetchInvestigationResultOptionalParams) => Promise<InvestigationResult>;
@@ -259,15 +298,6 @@ export interface IssueOperations {
 }
 
 // @public
-export interface IssuePayloadCreate {
-    background?: Background;
-    impactTime: Date;
-    severity: string;
-    status: Status;
-    title: string;
-}
-
-// @public
 export interface IssueProperties {
     background?: Background;
     impactTime: Date;
@@ -275,6 +305,16 @@ export interface IssueProperties {
     readonly investigationsCount: number;
     notifications?: Notifications;
     readonly provisioningState?: ResourceProvisioningState;
+    severity: string;
+    status: Status;
+    title: string;
+}
+
+// @public
+export interface IssuePropertiesCreateOrUpdate {
+    background?: Background;
+    impactTime: Date;
+    notifications?: Notifications;
     severity: string;
     status: Status;
     title: string;
@@ -296,8 +336,8 @@ export interface IssueResource extends ProxyResource {
 }
 
 // @public
-export interface IssueResourceCreate extends ProxyResource {
-    properties?: IssuePayloadCreate;
+export interface IssueResourceCreateOrUpdate extends ProxyResource {
+    properties?: IssuePropertiesCreateOrUpdate;
 }
 
 // @public
@@ -417,7 +457,19 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
+export interface ManagedServiceIdentityCreateOrUpdate {
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface ManagedServiceIdentityUpdate {
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
 
 // @public
 export interface MetricsContainer {
@@ -426,8 +478,18 @@ export interface MetricsContainer {
 }
 
 // @public
+export interface MetricsContainerCreateOrUpdate {
+    version?: string;
+}
+
+// @public
 export interface MetricsContainerResource extends ProxyResource {
     properties?: MetricsContainer;
+}
+
+// @public
+export interface MetricsContainerResourceCreateOrUpdate extends ProxyResource {
+    properties?: MetricsContainerCreateOrUpdate;
 }
 
 // @public
@@ -444,7 +506,7 @@ export interface MetricsContainersListByAzureMonitorWorkspaceOptionalParams exte
 
 // @public
 export interface MetricsContainersOperations {
-    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, resource: MetricsContainerResource, options?: MetricsContainersCreateOrUpdateOptionalParams) => Promise<MetricsContainerResource>;
+    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, resource: MetricsContainerResourceCreateOrUpdate, options?: MetricsContainersCreateOrUpdateOptionalParams) => Promise<MetricsContainerResource>;
     get: (resourceGroupName: string, azureMonitorWorkspaceName: string, metricsContainerName: string, options?: MetricsContainersGetOptionalParams) => Promise<MetricsContainerResource>;
     listByAzureMonitorWorkspace: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: MetricsContainersListByAzureMonitorWorkspaceOptionalParams) => PagedAsyncIterableIterator<MetricsContainerResource>;
 }
@@ -634,6 +696,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MonitorClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

@@ -1687,6 +1687,102 @@ export function issuePropertiesCreateOrUpdateDeserializer(
   };
 }
 
+/** A list of related alerts */
+export interface RelatedAlertsCreate {
+  /** A list of related alerts */
+  value: RelatedAlertCreate[];
+}
+
+export function relatedAlertsCreateSerializer(item: RelatedAlertsCreate): any {
+  return { value: relatedAlertCreateArraySerializer(item["value"]) };
+}
+
+export function relatedAlertsCreateDeserializer(item: any): RelatedAlertsCreate {
+  return {
+    value: relatedAlertCreateArrayDeserializer(item["value"]),
+  };
+}
+
+export function relatedAlertCreateArraySerializer(result: Array<RelatedAlertCreate>): any[] {
+  return result.map((item) => {
+    return relatedAlertCreateSerializer(item);
+  });
+}
+
+export function relatedAlertCreateArrayDeserializer(result: Array<RelatedAlertCreate>): any[] {
+  return result.map((item) => {
+    return relatedAlertCreateDeserializer(item);
+  });
+}
+
+/** Properties of an alert which is related to the issue */
+export interface RelatedAlertCreate {
+  /** The alert ID */
+  id: string;
+  /** The alerts's relevance status */
+  relevance: Relevance;
+}
+
+export function relatedAlertCreateSerializer(item: RelatedAlertCreate): any {
+  return { id: item["id"], relevance: item["relevance"] };
+}
+
+export function relatedAlertCreateDeserializer(item: any): RelatedAlertCreate {
+  return {
+    id: item["id"],
+    relevance: item["relevance"],
+  };
+}
+
+/** A list of related resources */
+export interface RelatedResourcesCreate {
+  /** A list of related resources */
+  value: RelatedResourceCreate[];
+}
+
+export function relatedResourcesCreateSerializer(item: RelatedResourcesCreate): any {
+  return { value: relatedResourceCreateArraySerializer(item["value"]) };
+}
+
+export function relatedResourcesCreateDeserializer(item: any): RelatedResourcesCreate {
+  return {
+    value: relatedResourceCreateArrayDeserializer(item["value"]),
+  };
+}
+
+export function relatedResourceCreateArraySerializer(result: Array<RelatedResourceCreate>): any[] {
+  return result.map((item) => {
+    return relatedResourceCreateSerializer(item);
+  });
+}
+
+export function relatedResourceCreateArrayDeserializer(
+  result: Array<RelatedResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return relatedResourceCreateDeserializer(item);
+  });
+}
+
+/** Properties of a resource which is related to the issue */
+export interface RelatedResourceCreate {
+  /** The resource ID */
+  id: string;
+  /** The resource's relevance status */
+  relevance: Relevance;
+}
+
+export function relatedResourceCreateSerializer(item: RelatedResourceCreate): any {
+  return { id: item["id"], relevance: item["relevance"] };
+}
+
+export function relatedResourceCreateDeserializer(item: any): RelatedResourceCreate {
+  return {
+    id: item["id"],
+    relevance: item["relevance"],
+  };
+}
+
 /** The issue background visualization */
 export interface BackgroundVisualizationCreate {
   /** The background visualization content, in Adaptive Card format */

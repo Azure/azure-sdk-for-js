@@ -20,17 +20,19 @@ import {
   PagedRelatedAlert,
   pagedRelatedAlertDeserializer,
   RelatedAlerts,
-  relatedAlertsSerializer,
   relatedAlertsDeserializer,
   PagedRelatedResource,
   pagedRelatedResourceDeserializer,
   RelatedResources,
-  relatedResourcesSerializer,
   relatedResourcesDeserializer,
   BackgroundVisualization,
   backgroundVisualizationDeserializer,
   IssueResourceCreateOrUpdate,
   issueResourceCreateOrUpdateSerializer,
+  RelatedAlertsCreate,
+  relatedAlertsCreateSerializer,
+  RelatedResourcesCreate,
+  relatedResourcesCreateSerializer,
   BackgroundVisualizationCreate,
   backgroundVisualizationCreateSerializer,
 } from "../../models/models.js";
@@ -186,7 +188,7 @@ export function _addOrUpdateResourcesSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedResources,
+  body: RelatedResourcesCreate,
   options: IssueAddOrUpdateResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -208,7 +210,7 @@ export function _addOrUpdateResourcesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: relatedResourcesSerializer(body),
+      body: relatedResourcesCreateSerializer(body),
     });
 }
 
@@ -232,7 +234,7 @@ export async function addOrUpdateResources(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedResources,
+  body: RelatedResourcesCreate,
   options: IssueAddOrUpdateResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RelatedResources> {
   const result = await _addOrUpdateResourcesSend(
@@ -314,7 +316,7 @@ export function _addOrUpdateAlertsSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedAlerts,
+  body: RelatedAlertsCreate,
   options: IssueAddOrUpdateAlertsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -336,7 +338,7 @@ export function _addOrUpdateAlertsSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: relatedAlertsSerializer(body),
+      body: relatedAlertsCreateSerializer(body),
     });
 }
 
@@ -360,7 +362,7 @@ export async function addOrUpdateAlerts(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  body: RelatedAlerts,
+  body: RelatedAlertsCreate,
   options: IssueAddOrUpdateAlertsOptionalParams = { requestOptions: {} },
 ): Promise<RelatedAlerts> {
   const result = await _addOrUpdateAlertsSend(

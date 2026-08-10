@@ -218,6 +218,9 @@ export type {
   ResourceProvisionPayloadCreate,
   ScheduledActionCreateOrUpdate,
   ScheduledActionPropertiesCreateOrUpdate,
+  ResourceAttachRequestCreate,
+  ScheduledActionResourceCreate,
+  ResourcePatchRequestCreate,
 } from "./models/index.js";
 export {
   KnownOrigin,

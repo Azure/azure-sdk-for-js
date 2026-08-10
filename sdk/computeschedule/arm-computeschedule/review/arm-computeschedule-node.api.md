@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorModel } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -109,6 +111,21 @@ export interface BulkVMConfiguration {
     computeApiVersion?: string;
     extendedLocation?: ExtendedLocation;
     identity?: VirtualMachineIdentity;
+    name?: string;
+    placement?: Placement;
+    plan?: Plan;
+    properties?: BulkActionVMProperties;
+    resourceGroupName?: string;
+    tags?: Record<string, string>;
+    vmExtensions?: BulkActionVMExtension[];
+    zones?: string[];
+}
+
+// @public
+export interface BulkVMConfigurationCreate {
+    computeApiVersion?: string;
+    extendedLocation?: ExtendedLocation;
+    identity?: VirtualMachineIdentityCreate;
     name?: string;
     placement?: Placement;
     plan?: Plan;
@@ -315,10 +332,24 @@ export interface ExecuteCreateFlexRequest {
 }
 
 // @public
+export interface ExecuteCreateFlexRequestCreate {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionFlexPayloadCreate;
+}
+
+// @public
 export interface ExecuteCreateRequest {
     correlationId?: string;
     executionParameters: ExecutionParameters;
     resourceConfigParameters: ResourceProvisionPayload;
+}
+
+// @public
+export interface ExecuteCreateRequestCreate {
+    correlationId?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayloadCreate;
 }
 
 // @public
@@ -437,6 +468,8 @@ export interface ImageReference extends SubResource {
 
 // @public
 export type IPVersions = string;
+
+export { isRestError }
 
 // @public
 export interface KeyVaultKeyReference {
@@ -795,12 +828,12 @@ export enum KnownStorageAccountTypes {
 // @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
+    V20240815Preview = "2024-08-15-preview",
+    V20250415Preview = "2025-04-15-preview",
     V20250501 = "2025-05-01",
-    Versions20240815Preview = "2024-08-15-preview",
-    Versions20250415Preview = "2025-04-15-preview",
-    Versions20260101Preview = "2026-01-01-preview",
-    Versions20260301Preview = "2026-03-01-preview",
-    Versions20260415Preview = "2026-04-15-preview"
+    V20260101Preview = "2026-01-01-preview",
+    V20260301Preview = "2026-03-01-preview",
+    V20260415Preview = "2026-04-15-preview"
 }
 
 // @public
@@ -1209,8 +1242,13 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceAttachRequestInput {
-    resources: ScheduledActionResourceInput[];
+export interface ResourceAttachRequest {
+    resources: ScheduledActionResource[];
+}
+
+// @public
+export interface ResourceAttachRequestCreate {
+    resources: ScheduledActionResourceCreate[];
 }
 
 // @public
@@ -1259,8 +1297,13 @@ export type ResourceOperationStatus = string;
 export type ResourceOperationType = string;
 
 // @public
-export interface ResourcePatchRequestInput {
-    resources: ScheduledActionResourceInput[];
+export interface ResourcePatchRequest {
+    resources: ScheduledActionResource[];
+}
+
+// @public
+export interface ResourcePatchRequestCreate {
+    resources: ScheduledActionResourceCreate[];
 }
 
 // @public
@@ -1273,6 +1316,15 @@ export interface ResourceProvisionFlexPayload {
 }
 
 // @public
+export interface ResourceProvisionFlexPayloadCreate {
+    flexProperties: FlexProperties;
+    resourceCount: number;
+    resourcePrefix?: string;
+    virtualMachineBaseProfile?: BulkVMConfigurationCreate;
+    virtualMachineOverrides?: BulkVMConfigurationCreate[];
+}
+
+// @public
 export type ResourceProvisioningState = string;
 
 // @public
@@ -1281,6 +1333,14 @@ export interface ResourceProvisionPayload {
     resourcePrefix?: string;
     virtualMachineBaseProfile?: BulkVMConfiguration;
     virtualMachineOverrides?: BulkVMConfiguration[];
+}
+
+// @public
+export interface ResourceProvisionPayloadCreate {
+    resourceCount: number;
+    resourcePrefix?: string;
+    virtualMachineBaseProfile?: BulkVMConfigurationCreate;
+    virtualMachineOverrides?: BulkVMConfigurationCreate[];
 }
 
 // @public
@@ -1304,6 +1364,8 @@ export interface ResourceStatus {
 
 // @public
 export type ResourceType = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ComputeScheduleClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
@@ -1337,6 +1399,11 @@ export interface ScheduledAction extends TrackedResource {
 }
 
 // @public
+export interface ScheduledActionCreateOrUpdate extends TrackedResource {
+    properties?: ScheduledActionPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface ScheduledActionExtensionListByVmsOptionalParams extends OperationOptions {
 }
 
@@ -1358,6 +1425,17 @@ export interface ScheduledActionProperties {
 }
 
 // @public
+export interface ScheduledActionPropertiesCreateOrUpdate {
+    actionType: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings: NotificationProperties[];
+    resourceType: ResourceType;
+    schedule: ScheduledActionsSchedule;
+    startTime: string;
+}
+
+// @public
 export interface ScheduledActionResource {
     readonly id: string;
     readonly name: string;
@@ -1367,7 +1445,7 @@ export interface ScheduledActionResource {
 }
 
 // @public
-export interface ScheduledActionResourceInput {
+export interface ScheduledActionResourceCreate {
     notificationSettings?: NotificationProperties[];
     resourceId: string;
 }
@@ -1438,9 +1516,9 @@ export interface ScheduledActionsListResourcesOptionalParams extends OperationOp
 
 // @public
 export interface ScheduledActionsOperations {
-    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequestInput, options?: ScheduledActionsAttachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
+    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequestCreate, options?: ScheduledActionsAttachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     cancelNextOccurrence: (resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
-    createOrUpdate: (resourceGroupName: string, scheduledActionName: string, resource: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<ScheduledAction>, ScheduledAction>;
+    createOrUpdate: (resourceGroupName: string, scheduledActionName: string, resource: ScheduledActionCreateOrUpdate, options?: ScheduledActionsCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<ScheduledAction>, ScheduledAction>;
     delete: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
     detachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceDetachRequest, options?: ScheduledActionsDetachResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     disable: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDisableOptionalParams) => Promise<void>;
@@ -1449,12 +1527,12 @@ export interface ScheduledActionsOperations {
     listByResourceGroup: (resourceGroupName: string, options?: ScheduledActionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
     listBySubscription: (options?: ScheduledActionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
     listResources: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResource>;
-    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequestInput, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
+    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequestCreate, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<RecurringActionsResourceOperationResult>;
     triggerManualOccurrence: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams) => Promise<Occurrence>;
     update: (resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams) => Promise<ScheduledAction>;
     virtualMachinesCancelOperations: (locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams) => Promise<CancelOperationsResponse>;
-    virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
-    virtualMachinesExecuteCreateFlex: (locationparameter: string, body: ExecuteCreateFlexRequest, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams) => Promise<CreateFlexResourceOperationResponse>;
+    virtualMachinesExecuteCreate: (locationparameter: string, requestBody: ExecuteCreateRequestCreate, options?: ScheduledActionsVirtualMachinesExecuteCreateOptionalParams) => Promise<CreateResourceOperationResponse>;
+    virtualMachinesExecuteCreateFlex: (locationparameter: string, body: ExecuteCreateFlexRequestCreate, options?: ScheduledActionsVirtualMachinesExecuteCreateFlexOptionalParams) => Promise<CreateFlexResourceOperationResponse>;
     virtualMachinesExecuteDeallocate: (locationparameter: string, requestBody: ExecuteDeallocateRequest, options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams) => Promise<DeallocateResourceOperationResponse>;
     virtualMachinesExecuteDelete: (locationparameter: string, requestBody: ExecuteDeleteRequest, options?: ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams) => Promise<DeleteResourceOperationResponse>;
     virtualMachinesExecuteHibernate: (locationparameter: string, requestBody: ExecuteHibernateRequest, options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams) => Promise<HibernateResourceOperationResponse>;
@@ -1718,6 +1796,12 @@ export interface VirtualHardDisk {
 export interface VirtualMachineIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+// @public
+export interface VirtualMachineIdentityCreate {
     type?: ResourceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }

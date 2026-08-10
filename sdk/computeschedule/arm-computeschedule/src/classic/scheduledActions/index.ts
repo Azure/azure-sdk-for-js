@@ -85,11 +85,11 @@ import type {
   ResourceDetachRequest,
   CancelOccurrenceRequest,
   Occurrence,
-  ResourceAttachRequest,
-  ResourcePatchRequest,
   ExecuteCreateFlexRequestCreate,
   ExecuteCreateRequestCreate,
   ScheduledActionCreateOrUpdate,
+  ResourceAttachRequestCreate,
+  ResourcePatchRequestCreate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -125,7 +125,7 @@ export interface ScheduledActionsOperations {
   patchResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourcePatchRequest,
+    body: ResourcePatchRequestCreate,
     options?: ScheduledActionsPatchResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** A synchronous resource action. */
@@ -139,7 +139,7 @@ export interface ScheduledActionsOperations {
   attachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
-    body: ResourceAttachRequest,
+    body: ResourceAttachRequestCreate,
     options?: ScheduledActionsAttachResourcesOptionalParams,
   ) => Promise<RecurringActionsResourceOperationResult>;
   /** List resources attached to Scheduled Actions */
@@ -283,7 +283,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     patchResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourcePatchRequest,
+      body: ResourcePatchRequestCreate,
       options?: ScheduledActionsPatchResourcesOptionalParams,
     ) => patchResources(context, resourceGroupName, scheduledActionName, body, options),
     detachResources: (
@@ -295,7 +295,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
     attachResources: (
       resourceGroupName: string,
       scheduledActionName: string,
-      body: ResourceAttachRequest,
+      body: ResourceAttachRequestCreate,
       options?: ScheduledActionsAttachResourcesOptionalParams,
     ) => attachResources(context, resourceGroupName, scheduledActionName, body, options),
     listResources: (

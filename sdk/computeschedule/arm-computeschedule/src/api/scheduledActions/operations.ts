@@ -31,11 +31,11 @@ import type {
   ResourceDetachRequest,
   CancelOccurrenceRequest,
   Occurrence,
-  ResourceAttachRequest,
-  ResourcePatchRequest,
   ExecuteCreateFlexRequestCreate,
   ExecuteCreateRequestCreate,
   ScheduledActionCreateOrUpdate,
+  ResourceAttachRequestCreate,
+  ResourcePatchRequestCreate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -66,11 +66,11 @@ import {
   resourceDetachRequestSerializer,
   cancelOccurrenceRequestSerializer,
   occurrenceDeserializer,
-  resourceAttachRequestSerializer,
-  resourcePatchRequestSerializer,
   executeCreateFlexRequestCreateSerializer,
   executeCreateRequestCreateSerializer,
   scheduledActionCreateOrUpdateSerializer,
+  resourceAttachRequestCreateSerializer,
+  resourcePatchRequestCreateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -313,7 +313,7 @@ export function _patchResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequest,
+  body: ResourcePatchRequestCreate,
   options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -334,7 +334,7 @@ export function _patchResourcesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: resourcePatchRequestSerializer(body),
+      body: resourcePatchRequestCreateSerializer(body),
     });
 }
 
@@ -357,7 +357,7 @@ export async function patchResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourcePatchRequest,
+  body: ResourcePatchRequestCreate,
   options: ScheduledActionsPatchResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _patchResourcesSend(
@@ -433,7 +433,7 @@ export function _attachResourcesSend(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequest,
+  body: ResourceAttachRequestCreate,
   options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -454,7 +454,7 @@ export function _attachResourcesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: resourceAttachRequestSerializer(body),
+      body: resourceAttachRequestCreateSerializer(body),
     });
 }
 
@@ -477,7 +477,7 @@ export async function attachResources(
   context: Client,
   resourceGroupName: string,
   scheduledActionName: string,
-  body: ResourceAttachRequest,
+  body: ResourceAttachRequestCreate,
   options: ScheduledActionsAttachResourcesOptionalParams = { requestOptions: {} },
 ): Promise<RecurringActionsResourceOperationResult> {
   const result = await _attachResourcesSend(

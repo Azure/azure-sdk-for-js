@@ -4641,7 +4641,7 @@ export interface ResourceProvisionFlexPayloadCreate {
   /** JSON object that contains VM properties that are common across all VMs in this batch */
   virtualMachineBaseProfile?: BulkVMConfigurationCreate;
   /** JSON array that contains VM properties that should be overridden for each VM in the batch */
-  virtualMachineOverrides?: BulkVMConfiguration[];
+  virtualMachineOverrides?: BulkVMConfigurationCreate[];
   /** Number of VMs to be created */
   resourceCount: number;
   /** If resourceOverrides doesn't contain name, service will create name based on prefix and resourceCount */
@@ -4659,7 +4659,7 @@ export function resourceProvisionFlexPayloadCreateSerializer(
       : bulkVMConfigurationCreateSerializer(item["virtualMachineBaseProfile"]),
     virtualMachineOverrides: !item["virtualMachineOverrides"]
       ? item["virtualMachineOverrides"]
-      : bulkVMConfigurationArraySerializer(item["virtualMachineOverrides"]),
+      : bulkVMConfigurationCreateArraySerializer(item["virtualMachineOverrides"]),
     resourceCount: item["resourceCount"],
     resourcePrefix: item["resourcePrefix"],
     flexProperties: flexPropertiesSerializer(item["flexProperties"]),
@@ -4737,6 +4737,14 @@ export function virtualMachineIdentityCreateSerializer(item: VirtualMachineIdent
   };
 }
 
+export function bulkVMConfigurationCreateArraySerializer(
+  result: Array<BulkVMConfigurationCreate>,
+): any[] {
+  return result.map((item) => {
+    return bulkVMConfigurationCreateSerializer(item);
+  });
+}
+
 /** The ExecuteCreateRequest request for create operations */
 export interface ExecuteCreateRequestCreate {
   /** resource creation payload */
@@ -4762,7 +4770,7 @@ export interface ResourceProvisionPayloadCreate {
   /** Virtual machine profile object that contains VM properties that are common across all VMs in this batch  (if you want to create 100 VMs in this request, and they all have same vmSize, then include vmSize in baseProfile) */
   virtualMachineBaseProfile?: BulkVMConfigurationCreate;
   /** Virtual machine profile array that contains VM properties that needs to be overridden for each VM in the batch (if you want to create 100 VMs, they all need a distinct computerName property, you pass computerNames for each VM in batch in this array), service will merge baseProfile with VM specific overrides and create a merged VMProfile. */
-  virtualMachineOverrides?: BulkVMConfiguration[];
+  virtualMachineOverrides?: BulkVMConfigurationCreate[];
   /** Number of VMs to be created */
   resourceCount: number;
   /** if resourceOverrides doesn't contain "name", service will create name based of prefix and ResourceCount e.g. resourceprefix-0,resourceprefix-1.. */
@@ -4778,10 +4786,18 @@ export function resourceProvisionPayloadCreateSerializer(
       : bulkVMConfigurationCreateSerializer(item["virtualMachineBaseProfile"]),
     virtualMachineOverrides: !item["virtualMachineOverrides"]
       ? item["virtualMachineOverrides"]
-      : bulkVMConfigurationArraySerializer(item["virtualMachineOverrides"]),
+      : bulkVMConfigurationCreateArraySerializer_1(item["virtualMachineOverrides"]),
     resourceCount: item["resourceCount"],
     resourcePrefix: item["resourcePrefix"],
   };
+}
+
+export function bulkVMConfigurationCreateArraySerializer_1(
+  result: Array<BulkVMConfigurationCreate>,
+): any[] {
+  return result.map((item) => {
+    return bulkVMConfigurationCreateSerializer(item);
+  });
 }
 
 /** The scheduled action resource */
@@ -4864,6 +4880,89 @@ export function scheduledActionPropertiesCreateOrUpdateDeserializer(
     notificationSettings: notificationPropertiesArrayDeserializer(item["notificationSettings"]),
     disabled: item["disabled"],
   };
+}
+
+/** Request model to attach a list of scheduled action resources. */
+export interface ResourceAttachRequestCreate {
+  /** List of resources to be attached/patched */
+  resources: ScheduledActionResourceCreate[];
+}
+
+export function resourceAttachRequestCreateSerializer(item: ResourceAttachRequestCreate): any {
+  return { resources: scheduledActionResourceCreateArraySerializer(item["resources"]) };
+}
+
+export function scheduledActionResourceCreateArraySerializer(
+  result: Array<ScheduledActionResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceCreateSerializer(item);
+  });
+}
+
+export function scheduledActionResourceCreateArrayDeserializer(
+  result: Array<ScheduledActionResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceCreateDeserializer(item);
+  });
+}
+
+/** Represents an scheduled action resource metadata. */
+export interface ScheduledActionResourceCreate {
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionResourceCreateSerializer(item: ScheduledActionResourceCreate): any {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
+  };
+}
+
+export function scheduledActionResourceCreateDeserializer(
+  item: any,
+): ScheduledActionResourceCreate {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+  };
+}
+
+/** Request model perform a resource operation in a list of resources */
+export interface ResourcePatchRequestCreate {
+  /** The list of resources we watch to patch */
+  resources: ScheduledActionResourceCreate[];
+}
+
+export function resourcePatchRequestCreateSerializer(item: ResourcePatchRequestCreate): any {
+  return { resources: scheduledActionResourceCreateArraySerializer_1(item["resources"]) };
+}
+
+export function scheduledActionResourceCreateArraySerializer_1(
+  result: Array<ScheduledActionResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceCreateSerializer(item);
+  });
+}
+
+export function scheduledActionResourceCreateArrayDeserializer_1(
+  result: Array<ScheduledActionResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceCreateDeserializer(item);
+  });
 }
 
 /** ComputeSchedule API versions */

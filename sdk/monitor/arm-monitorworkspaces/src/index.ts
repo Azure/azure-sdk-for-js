@@ -84,6 +84,10 @@ export type {
   ManagedServiceIdentityUpdate,
   AzureMonitorWorkspaceUpdate,
   AzureMonitorWorkspaceMetricsUpdate,
+  RelatedAlertsCreate,
+  RelatedAlertCreate,
+  RelatedResourcesCreate,
+  RelatedResourceCreate,
 } from "./models/index.js";
 export {
   KnownArmOrigin,
