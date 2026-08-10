@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/generated/index.ts",
+    "../src/generated/api/index.ts",
+    "../src/generated/api/voiceAgents/index.ts",
+    "../src/generated/api/agentEndpointConversations/index.ts",
+    "../src/generated/api/voiceAgentWebSocket/index.ts",
+    "../src/generated/models/index.ts"
+  ]
+}

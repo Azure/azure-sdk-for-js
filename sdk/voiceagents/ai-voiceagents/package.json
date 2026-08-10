@@ -1,0 +1,194 @@
+{
+  "name": "@azure/ai-voiceagents",
+  "version": "1.0.0-beta.1",
+  "description": "Azure AI Voice Agents Client",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/generated/api/index.d.ts",
+        "default": "./dist/browser/generated/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/generated/api/index.d.ts",
+        "default": "./dist/esm/generated/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/generated/api/index.d.ts",
+        "default": "./dist/commonjs/generated/api/index.js"
+      }
+    },
+    "./api/voiceAgents": {
+      "browser": {
+        "types": "./dist/browser/generated/api/voiceAgents/index.d.ts",
+        "default": "./dist/browser/generated/api/voiceAgents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/generated/api/voiceAgents/index.d.ts",
+        "default": "./dist/esm/generated/api/voiceAgents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/generated/api/voiceAgents/index.d.ts",
+        "default": "./dist/commonjs/generated/api/voiceAgents/index.js"
+      }
+    },
+    "./api/agentEndpointConversations": {
+      "browser": {
+        "types": "./dist/browser/generated/api/agentEndpointConversations/index.d.ts",
+        "default": "./dist/browser/generated/api/agentEndpointConversations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/generated/api/agentEndpointConversations/index.d.ts",
+        "default": "./dist/esm/generated/api/agentEndpointConversations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/generated/api/agentEndpointConversations/index.d.ts",
+        "default": "./dist/commonjs/generated/api/agentEndpointConversations/index.js"
+      }
+    },
+    "./api/voiceAgentWebSocket": {
+      "browser": {
+        "types": "./dist/browser/generated/api/voiceAgentWebSocket/index.d.ts",
+        "default": "./dist/browser/generated/api/voiceAgentWebSocket/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/generated/api/voiceAgentWebSocket/index.d.ts",
+        "default": "./dist/esm/generated/api/voiceAgentWebSocket/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/generated/api/voiceAgentWebSocket/index.d.ts",
+        "default": "./dist/commonjs/generated/api/voiceAgentWebSocket/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/generated/models/index.d.ts",
+        "default": "./dist/browser/generated/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/generated/models/index.d.ts",
+        "default": "./dist/esm/generated/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/generated/models/index.d.ts",
+        "default": "./dist/commonjs/generated/models/index.js"
+      }
+    }
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "client",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/voiceagents/ai-voiceagents"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voiceagents/ai-voiceagents/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.7.0",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
+    "@azure/logger": "^1.2.0",
+    "https-proxy-agent": "^7.0.1",
+    "tslib": "catalog:",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "@types/ws": "^8.18.1",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm dist-test test-dist temp types *.tgz *.log",
+    "build:test": "rimraf --glob dist-test && tsc -p tsconfig.test.json",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "build:samples": "tsc -p samples/v1-beta/typescript/tsconfig.json",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate:client": "tsp-client update -o . && node scripts/post-emitter.mjs",
+    "build:package": "dev-tool run build-package && node scripts/post-build.mjs",
+    "build:test:browser": "npm run build:package && rimraf --glob dist-test && tsc -p tsconfig.browser.config.json",
+    "test:browser": "npm run build:test:browser && vitest --config vitest.browser.config.ts --run",
+    "build": "npm run clean && npm run build:package && dev-tool run extract-api",
+    "test:node": "npm run build:test && node --test dist-test/test/unit/protocol.spec.js dist-test/test/unit/managementStatuses.spec.js dist-test/test/unit/webSocketTransport.spec.js dist-test/test/public/managementRest.spec.js dist-test/test/integration/streamingClient.spec.js dist-test/test/integration/liveService.spec.js",
+    "test:snippets": "tsc -p tsconfig.snippets.json --noEmit",
+    "test": "npm run test:snippets && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/webSocketTransport": {
+      "browser": "./src/streaming/webSocketTransport-browser.mts",
+      "default": "./src/streaming/webSocketTransport.ts"
+    }
+  }
+}

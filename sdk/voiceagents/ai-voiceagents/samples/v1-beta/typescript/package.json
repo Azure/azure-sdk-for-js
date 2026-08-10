@@ -1,0 +1,24 @@
+{
+  "name": "@azure-samples/ai-voiceagents-typescript-beta",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && node node_modules/typescript/bin/tsc",
+    "management": "npm run build && node dist/managementLifecycle.js",
+    "text": "npm run build && node dist/liveTextAndTools.js",
+    "audio": "npm run build && node dist/liveAudioFile.js"
+  },
+  "dependencies": {
+    "@azure/ai-voiceagents": "next",
+    "@azure/identity": "^4.13.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.3"
+  }
+}

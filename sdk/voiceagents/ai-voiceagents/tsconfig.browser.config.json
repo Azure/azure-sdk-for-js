@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/ai-voiceagents": ["./dist/browser/index.d.ts"],
+      "@azure/ai-voiceagents/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  },
+  "include": ["test/browser/**/*.ts"]
+}
