@@ -2,9 +2,9 @@
 
 ## 4.13.2 (2026-08-10)
 
-### Bugs Fixed
+### Other Changes
 
-- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39549](https://github.com/Azure/azure-sdk-for-js/pull/39549)
+- Upgraded the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39549](https://github.com/Azure/azure-sdk-for-js/pull/39549)
 
 ## 4.13.1 (2026-03-18)
 
