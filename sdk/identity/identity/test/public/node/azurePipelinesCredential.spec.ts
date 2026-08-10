@@ -69,8 +69,10 @@ describe("AzurePipelinesCredential", function () {
 
     await expect(credential.getToken(scope)).rejects.toThrow(regExpHeader2);
   });
-
-  it("fails with invalid client id", async function (ctx) {
+  
+  // TODO: Unskip this test once service confirms expected behavior
+  // Currently, the error message is unrelated to `clientId`
+  it.skip("fails with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
