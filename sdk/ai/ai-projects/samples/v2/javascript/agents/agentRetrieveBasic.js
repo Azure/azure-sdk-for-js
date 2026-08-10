@@ -33,9 +33,7 @@ async function main() {
     `Agent created (id: ${created.id}, name: ${created.name}, version: ${created.version})`,
   );
 
-  const openAIClient = project.getOpenAIClient({
-    azureConfig: { allowPreview: true, agentName },
-  });
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Retrieve the agent.
@@ -46,24 +44,31 @@ async function main() {
     let conversation = await openAIClient.conversations.create();
     console.log(`Conversation created (id: ${conversation.id})`);
 
-    // Retrieve the prerequisite conversation.
-    conversation = await openAIClient.conversations.retrieve(conversation.id);
-    console.log(`Retrieved conversation (id: ${conversation.id})`);
+    try {
+      // Retrieve the prerequisite conversation.
+      conversation = await openAIClient.conversations.retrieve(conversation.id);
+      console.log(`Retrieved conversation (id: ${conversation.id})`);
 
-    // Add a new user text message to the conversation.
-    await openAIClient.conversations.items.create(conversation.id, {
-      items: [{ type: "message", role: "user", content: "How many feet are in a mile?" }],
-    });
-    console.log("Added a user message to the conversation");
+      // Add a new user text message to the conversation.
+      await openAIClient.conversations.items.create(conversation.id, {
+        items: [{ type: "message", role: "user", content: "How many feet are in a mile?" }],
+      });
+      console.log("Added a user message to the conversation");
 
-    const response = await openAIClient.responses.create({
-      conversation: conversation.id,
-    });
-    console.log(`Response output: ${response.output_text}`);
-
-    // Clean up conversation.
-    await openAIClient.conversations.delete(conversation.id);
-    console.log("Conversation deleted");
+      const response = await openAIClient.responses.create(
+        {
+          conversation: conversation.id,
+        },
+        {
+          body: { agent_reference: { name: created.name, type: "agent_reference" } },
+        },
+      );
+      console.log(`Response output: ${response.output_text}`);
+    } finally {
+      // Clean up conversation.
+      await openAIClient.conversations.delete(conversation.id);
+      console.log("Conversation deleted");
+    }
   } finally {
     await project.agents.deleteVersion(created.name, created.version);
     console.log("Agent deleted");

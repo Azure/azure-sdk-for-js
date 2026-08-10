@@ -88,47 +88,49 @@ async function main() {
   );
   console.log("Post a new message to the configured Teams channel to fire the routine.");
 
-  // Poll run history until a terminal state is reached or timeout
-  console.log("Waiting for a routine run for up to 10 minutes...");
-  const terminalStatuses = new Set(["finished", "failed", "killed"]);
-  const seenPhases = new Map();
-  const deadline = Date.now() + 600_000;
-  let finished = false;
-  let runObserved = false;
+  try {
+    // Poll run history until a terminal state is reached or timeout
+    console.log("Waiting for a routine run for up to 10 minutes...");
+    const terminalStatuses = new Set(["finished", "failed", "killed"]);
+    const seenPhases = new Map();
+    const deadline = Date.now() + 600_000;
+    let finished = false;
+    let runObserved = false;
 
-  while (Date.now() < deadline && !finished) {
-    await new Promise((resolve) => setTimeout(resolve, pollIntervalSeconds * 1000));
-    for await (const run of project.beta.routines.listRuns(routineName, {
-      limit: 20,
-      order: "desc",
-    })) {
-      runObserved = true;
-      const currentPhase = String(run.phase);
-      if (seenPhases.get(run.id) === currentPhase) {
-        continue;
-      }
-      seenPhases.set(run.id, currentPhase);
-      console.log(
-        `  run_id=${run.id} phase=${run.phase} status=${run.status} ` +
-          `trigger_type=${run.trigger_type} triggered_at=${run.triggered_at} ended_at=${run.ended_at}`,
-      );
-      if (run.status && terminalStatuses.has(run.status.toLowerCase())) {
-        finished = true;
+    while (Date.now() < deadline && !finished) {
+      await new Promise((resolve) => setTimeout(resolve, pollIntervalSeconds * 1000));
+      for await (const run of project.beta.routines.listRuns(routineName, {
+        limit: 20,
+        order: "desc",
+      })) {
+        runObserved = true;
+        const currentPhase = String(run.phase);
+        if (seenPhases.get(run.id) === currentPhase) {
+          continue;
+        }
+        seenPhases.set(run.id, currentPhase);
+        console.log(
+          `  run_id=${run.id} phase=${run.phase} status=${run.status} ` +
+            `trigger_type=${run.trigger_type} triggered_at=${run.triggered_at} ended_at=${run.ended_at}`,
+        );
+        if (run.status && terminalStatuses.has(run.status.toLowerCase())) {
+          finished = true;
+        }
       }
     }
-  }
 
-  if (!finished && runObserved) {
-    console.log(
-      "A routine run was observed, but no terminal run state was reached within the deadline.",
-    );
-  } else if (!runObserved) {
-    console.log("No Teams-triggered run was observed within the deadline.");
+    if (!finished && runObserved) {
+      console.log(
+        "A routine run was observed, but no terminal run state was reached within the deadline.",
+      );
+    } else if (!runObserved) {
+      console.log("No Teams-triggered run was observed within the deadline.");
+    }
+  } finally {
+    // Clean up
+    await project.beta.routines.delete(routineName);
+    console.log("Routine deleted");
   }
-
-  // Clean up
-  await project.beta.routines.delete(routineName);
-  console.log("Routine deleted");
 }
 
 main().catch(console.error);

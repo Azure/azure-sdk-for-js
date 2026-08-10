@@ -18,6 +18,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -26,6 +27,8 @@ const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   // Load the file to be indexed for search
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   const assetFilePath = path.join(__dirname, "../assets/product_info.md");
 
   // Create AI Project client
@@ -37,44 +40,45 @@ async function main() {
   const vectorStore = await openAIClient.vectorStores.create({ name: "ProductInfoStore" });
   console.log(`Vector store created (id: ${vectorStore.id})`);
 
-  // Upload file to vector store
-  console.log("\nUploading file to vector store...");
-  const fileStream = fs.createReadStream(assetFilePath);
-  const file = await openAIClient.vectorStores.files.uploadAndPoll(vectorStore.id, fileStream);
-  console.log(`File uploaded to vector store (id: ${file.id})`);
-
-  // Tool resources are templated and resolved at runtime via structured inputs.
-  const structuredInputs = {
-    vector_store_id: {
-      description: "Vector store id used by the file_search tool",
-      required: true,
-      schema: { type: "string" },
-    },
-    vector_store_file_id: {
-      description: "File id uploaded into the vector store",
-      required: true,
-      schema: { type: "string" },
-    },
-  };
-
-  // Create agent with file search tool
-  console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion(
-    agentName,
-    {
-      kind: "prompt",
-      model: deploymentName,
-      instructions:
-        "You are a helpful assistant that can search through product information. " +
-        "The indexed source file id is {{vector_store_file_id}}.",
-      tools: [{ type: "file_search", vector_store_ids: ["{{vector_store_id}}"] }],
-      structured_inputs: structuredInputs,
-    },
-    { description: "File search agent for product information queries." },
-  );
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
+  let agent;
   try {
+    // Upload file to vector store
+    console.log("\nUploading file to vector store...");
+    const fileStream = fs.createReadStream(assetFilePath);
+    const file = await openAIClient.vectorStores.files.uploadAndPoll(vectorStore.id, fileStream);
+    console.log(`File uploaded to vector store (id: ${file.id})`);
+
+    // Tool resources are templated and resolved at runtime via structured inputs.
+    const structuredInputs = {
+      vector_store_id: {
+        description: "Vector store id used by the file_search tool",
+        required: true,
+        schema: { type: "string" },
+      },
+      vector_store_file_id: {
+        description: "File id uploaded into the vector store",
+        required: true,
+        schema: { type: "string" },
+      },
+    };
+
+    // Create agent with file search tool
+    console.log("\nCreating agent with file search tool...");
+    agent = await project.agents.createVersion(
+      agentName,
+      {
+        kind: "prompt",
+        model: deploymentName,
+        instructions:
+          "You are a helpful assistant that can search through product information. " +
+          "The indexed source file id is {{vector_store_file_id}}.",
+        tools: [{ type: "file_search", vector_store_ids: ["{{vector_store_id}}"] }],
+        structured_inputs: structuredInputs,
+      },
+      { description: "File search agent for product information queries." },
+    );
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
     // Create a conversation for the agent interaction
     const conversation = await openAIClient.conversations.create();
     console.log(`Created conversation (id: ${conversation.id})`);
@@ -99,8 +103,10 @@ async function main() {
     console.log("Conversation deleted");
   } finally {
     console.log("\nCleaning up...");
-    await project.agents.deleteVersion(agent.name, agent.version);
-    console.log("Agent deleted");
+    if (agent) {
+      await project.agents.deleteVersion(agent.name, agent.version);
+      console.log("Agent deleted");
+    }
 
     await openAIClient.vectorStores.delete(vectorStore.id);
     console.log("Vector store deleted");

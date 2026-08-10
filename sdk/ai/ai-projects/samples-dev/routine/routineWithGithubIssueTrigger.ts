@@ -34,7 +34,6 @@ const githubOwner = process.env["GITHUB_USERNAME"] || "<github owner>";
 const githubRepositoryName = process.env["GITHUB_REPOSITORY_NAME"] || "<github repository name>";
 const githubPatToken = process.env["GITHUB_PAT_TOKEN"];
 const pollIntervalSeconds = Number(process.env["POLL_INTERVAL_SECONDS"] || "10");
-console.log("githubPatToken is set:", githubPatToken);
 const routineName = "sample-routine-github-issue";
 
 // Create and assign a GitHub issue using the REST API so the routine fires
@@ -61,8 +60,7 @@ async function createGitHubIssue(title: string): Promise<void> {
   );
 
   if (!response.ok) {
-    console.log(`Failed to create GitHub issue: ${response.status} ${await response.text()}`);
-    return;
+    throw new Error(`Failed to create GitHub issue: ${response.status} ${await response.text()}`);
   }
 
   const issue = (await response.json()) as { number: number; html_url: string };
@@ -105,57 +103,59 @@ export async function main(): Promise<void> {
   // Give the trigger registration a moment to settle before firing it.
   await new Promise((resolve) => setTimeout(resolve, 5_000));
 
-  // Fire the routine by opening a new issue. The trigger only observes issues
-  // opened while the routine is enabled, so reusing an existing issue or opening
-  // one after the sample exits will not produce a run.
-  await createGitHubIssue("Testing routine");
-  if (!githubPatToken) {
-    console.log(
-      `Open a GitHub issue in ${githubOwner}/${githubRepositoryName} now to fire the routine.`,
-    );
-  }
-
-  // Poll run history until a terminal state is reached or timeout
-  console.log("Waiting for a routine run for up to 5 minutes...");
-  const terminalStatuses = new Set(["finished", "failed", "killed"]);
-  const seenPhases = new Map<string, string>();
-  const deadline = Date.now() + 300_000; // 5 minutes
-  let finished = false;
-  let runObserved = false;
-
-  while (Date.now() < deadline && !finished) {
-    await new Promise((resolve) => setTimeout(resolve, pollIntervalSeconds * 1000));
-    for await (const run of project.beta.routines.listRuns(routineName, {
-      limit: 20,
-      order: "desc",
-    })) {
-      runObserved = true;
-      const currentPhase = String(run.phase);
-      if (seenPhases.get(run.id) === currentPhase) {
-        continue;
-      }
-      seenPhases.set(run.id, currentPhase);
+  try {
+    // Fire the routine by opening a new issue. The trigger only observes issues
+    // opened while the routine is enabled, so reusing an existing issue or opening
+    // one after the sample exits will not produce a run.
+    await createGitHubIssue("Testing routine");
+    if (!githubPatToken) {
       console.log(
-        `  run_id=${run.id} phase=${run.phase} status=${run.status} ` +
-          `trigger_type=${run.trigger_type} triggered_at=${run.triggered_at} ended_at=${run.ended_at}`,
+        `Open a GitHub issue in ${githubOwner}/${githubRepositoryName} now to fire the routine.`,
       );
-      if (run.status && terminalStatuses.has(run.status.toLowerCase())) {
-        finished = true;
+    }
+
+    // Poll run history until a terminal state is reached or timeout
+    console.log("Waiting for a routine run for up to 5 minutes...");
+    const terminalStatuses = new Set(["finished", "failed", "killed"]);
+    const seenPhases = new Map<string, string>();
+    const deadline = Date.now() + 300_000; // 5 minutes
+    let finished = false;
+    let runObserved = false;
+
+    while (Date.now() < deadline && !finished) {
+      await new Promise((resolve) => setTimeout(resolve, pollIntervalSeconds * 1000));
+      for await (const run of project.beta.routines.listRuns(routineName, {
+        limit: 20,
+        order: "desc",
+      })) {
+        runObserved = true;
+        const currentPhase = String(run.phase);
+        if (seenPhases.get(run.id) === currentPhase) {
+          continue;
+        }
+        seenPhases.set(run.id, currentPhase);
+        console.log(
+          `  run_id=${run.id} phase=${run.phase} status=${run.status} ` +
+            `trigger_type=${run.trigger_type} triggered_at=${run.triggered_at} ended_at=${run.ended_at}`,
+        );
+        if (run.status && terminalStatuses.has(run.status.toLowerCase())) {
+          finished = true;
+        }
       }
     }
-  }
 
-  if (!finished && runObserved) {
-    console.log(
-      "A routine run was observed, but no terminal run state was reached within the deadline.",
-    );
-  } else if (!runObserved) {
-    console.log("No GitHub issue-triggered run was observed within the deadline.");
+    if (!finished && runObserved) {
+      console.log(
+        "A routine run was observed, but no terminal run state was reached within the deadline.",
+      );
+    } else if (!runObserved) {
+      console.log("No GitHub issue-triggered run was observed within the deadline.");
+    }
+  } finally {
+    // Clean up
+    await project.beta.routines.delete(routineName);
+    console.log("Routine deleted");
   }
-
-  // Clean up
-  await project.beta.routines.delete(routineName);
-  console.log("Routine deleted");
 }
 
 main().catch(console.error);
