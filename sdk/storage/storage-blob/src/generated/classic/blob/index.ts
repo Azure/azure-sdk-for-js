@@ -597,7 +597,7 @@ export interface BlobOperations {
       accessTier?: string;
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
-      accessTierChangeTime?: Date;
+      accessTierChangedOn?: Date;
       smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
@@ -649,7 +649,7 @@ export interface BlobOperations {
         accessTier?: string;
         accessTierInferred?: boolean;
         archiveStatus?: ArchiveStatus;
-        accessTierChangeTime?: Date;
+        accessTierChangedOn?: Date;
         smartAccessTier?: string;
         versionId: string;
         isCurrentVersion?: boolean;
@@ -718,7 +718,7 @@ export interface BlobOperations {
       structuredContentLength?: number;
       accessTier?: string;
       accessTierInferred?: boolean;
-      accessTierChangeTime?: Date;
+      accessTierChangedOn?: Date;
       smartAccessTier?: string;
       version: string;
       contentType: "application/octet-stream";
@@ -771,7 +771,7 @@ export interface BlobOperations {
           structuredContentLength?: number;
           accessTier?: string;
           accessTierInferred?: boolean;
-          accessTierChangeTime?: Date;
+          accessTierChangedOn?: Date;
           smartAccessTier?: string;
           version: string;
           contentType: "application/octet-stream";
