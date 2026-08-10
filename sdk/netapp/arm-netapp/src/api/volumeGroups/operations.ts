@@ -35,7 +35,7 @@ export function _listByNetAppAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listByNetAppAccountDeserialize(
 
   return _volumeGroupListDeserializer(result.body);
 }
-
 /** List all volume groups for given account */
 export function listByNetAppAccount(
   context: Client,
@@ -75,11 +74,7 @@ export function listByNetAppAccount(
     () => _listByNetAppAccountSend(context, resourceGroupName, accountName, options),
     _listByNetAppAccountDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }
 
@@ -97,7 +92,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete the specified volume group only if there are no volumes under volume group. */
 export function $delete(
   context: Client,
@@ -134,7 +128,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, volumeGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +147,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +176,6 @@ export async function _createDeserialize(
 
   return volumeGroupDetailsDeserializer(result.body);
 }
-
 /** Create a volume group along with specified volumes */
 export function create(
   context: Client,
@@ -198,7 +191,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, volumeGroupName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<VolumeGroupDetails>, VolumeGroupDetails>;
 }
 
@@ -216,7 +209,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +234,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
 
   return volumeGroupDetailsDeserializer(result.body);
 }
-
 /** Get details of the specified volume group */
 export async function get(
   context: Client,

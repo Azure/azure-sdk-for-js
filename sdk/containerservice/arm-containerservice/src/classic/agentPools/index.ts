@@ -5,6 +5,7 @@ import type { ContainerServiceContext } from "../../api/containerServiceContext.
 import {
   getUpgradeProfile,
   getAvailableAgentPoolVersions,
+  listBootstrapData,
   upgradeNodeImageVersion,
   deleteMachines,
   completeUpgrade,
@@ -17,6 +18,7 @@ import {
 import type {
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
+  AgentPoolsListBootstrapDataOptionalParams,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsDeleteMachinesOptionalParams,
   AgentPoolsCompleteUpgradeOptionalParams,
@@ -29,6 +31,8 @@ import type {
 import type {
   AgentPool,
   AgentPoolDeleteMachinesParameter,
+  ListBootstrapDataRequest,
+  PoolBootstrapData,
   AgentPoolAvailableVersions,
   AgentPoolUpgradeProfile,
 } from "../../models/models.js";
@@ -52,6 +56,14 @@ export interface AgentPoolsOperations {
     resourceName: string,
     options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   ) => Promise<AgentPoolAvailableVersions>;
+  /** Returns pool-level bootstrap configuration for FlexNode machines. */
+  listBootstrapData: (
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    body: ListBootstrapDataRequest,
+    options?: AgentPoolsListBootstrapDataOptionalParams,
+  ) => Promise<PoolBootstrapData>;
   /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
   upgradeNodeImageVersion: (
     resourceGroupName: string,
@@ -198,7 +210,6 @@ export interface AgentPoolsOperations {
     options?: AgentPoolsGetOptionalParams,
   ) => Promise<AgentPool>;
 }
-
 function _getAgentPools(context: ContainerServiceContext) {
   return {
     getUpgradeProfile: (
@@ -212,6 +223,13 @@ function _getAgentPools(context: ContainerServiceContext) {
       resourceName: string,
       options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
     ) => getAvailableAgentPoolVersions(context, resourceGroupName, resourceName, options),
+    listBootstrapData: (
+      resourceGroupName: string,
+      resourceName: string,
+      agentPoolName: string,
+      body: ListBootstrapDataRequest,
+      options?: AgentPoolsListBootstrapDataOptionalParams,
+    ) => listBootstrapData(context, resourceGroupName, resourceName, agentPoolName, body, options),
     upgradeNodeImageVersion: (
       resourceGroupName: string,
       resourceName: string,
@@ -440,7 +458,6 @@ function _getAgentPools(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, agentPoolName, options),
   };
 }
-
 export function _getAgentPoolsOperations(context: ContainerServiceContext): AgentPoolsOperations {
   return {
     ..._getAgentPools(context),

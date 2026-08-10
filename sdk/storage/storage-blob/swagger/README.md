@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/15d7f54a5389d5906ffb4e56bb2f38fe5525c0d3/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-06-06/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/52424fa89006699e353d864e8b04600ed84aeb6d/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-12-06/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.33.1
+package-version: 12.34.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -410,6 +410,26 @@ directive:
 directive:
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobFlatSegment_ApacheArrow
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&flat&arrow"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobHierarchySegment_ApacheArrow
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy&arrow"]["get"]
     transform: >
       delete $["x-ms-pageable"];
 ```
@@ -1475,11 +1495,11 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Set service version to "2026-04-06"
+### Set service version to "2026-10-06"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2026-04-06" ];
+    transform: $.enum = [ "2026-10-06" ];
 ```

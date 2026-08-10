@@ -1,6 +1,6 @@
 import template from "string-template";
 import { DetectContext, DetectResult } from "./DifferenceDetector.js";
-import { DiffLocation, DiffPair, DiffReasons } from "typescript-codegen-breaking-change-detector";
+import { DiffLocation, DiffPair, DiffReasons } from "../../breaking-change-detector/index.js";
 import { InterfaceDeclaration, Node, PropertySignature, SyntaxKind } from "ts-morph";
 import { SDKType } from "../../common/types.js";
 

@@ -27,6 +27,8 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaEvaluatorsDeleteGenerationJobOptionalParams,
@@ -292,8 +294,8 @@ export function _createGenerationJobSend(
 
 export async function _createGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<EvaluatorGenerationJob> {
-  const expectedStatuses = ["201"];
+): Promise<EvaluatorVersion> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -303,20 +305,37 @@ export async function _createGenerationJobDeserialize(
     throw error;
   }
 
-  return evaluatorGenerationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return evaluatorVersionDeserializer(result.body.result);
 }
 
 /**
  * Creates an evaluator generation job. The service generates rubric-based evaluator
  * definitions from the provided source materials asynchronously.
  */
-export async function createGenerationJob(
+export function createGenerationJob(
   context: Client,
   job: EvaluatorGenerationJob,
   options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<EvaluatorGenerationJob> {
-  const result = await _createGenerationJobSend(context, job, options);
-  return _createGenerationJobDeserialize(result);
+): JobPoller<EvaluatorVersion> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "Evaluations=V1Preview",
+    },
+  });
 }
 
 export function _getCredentialsSend(
@@ -671,7 +690,7 @@ export async function _listDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** Lists the latest version of each evaluator */
+/** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },

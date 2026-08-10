@@ -120,7 +120,6 @@ export interface VirtualMachineScaleSetExtensionsOperations {
     options?: VirtualMachineScaleSetExtensionsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSetExtension>;
 }
-
 function _getVirtualMachineScaleSetExtensions(context: ComputeManagementContext) {
   return {
     list: (
@@ -264,7 +263,6 @@ function _getVirtualMachineScaleSetExtensions(context: ComputeManagementContext)
     ) => get(context, resourceGroupName, vmScaleSetName, vmssExtensionName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetExtensionsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetExtensionsOperations {

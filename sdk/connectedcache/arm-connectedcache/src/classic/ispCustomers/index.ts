@@ -34,11 +34,6 @@ export interface IspCustomersOperations {
     options?: IspCustomersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<IspCustomerResource>;
   /** This api deletes an existing ispCustomer resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,
@@ -65,7 +60,6 @@ export interface IspCustomersOperations {
     options?: IspCustomersGetOptionalParams,
   ) => Promise<IspCustomerResource>;
 }
-
 function _getIspCustomers(context: ConnectedCacheContext) {
   return {
     listBySubscription: (options?: IspCustomersListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getIspCustomers(context: ConnectedCacheContext) {
     ) => get(context, resourceGroupName, customerResourceName, options),
   };
 }
-
 export function _getIspCustomersOperations(context: ConnectedCacheContext): IspCustomersOperations {
   return {
     ..._getIspCustomers(context),

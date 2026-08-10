@@ -41,6 +41,7 @@ import type {
   EvaluatorGenerationJob,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -78,7 +79,7 @@ export interface BetaEvaluatorsOperations {
   createGenerationJob: (
     job: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-  ) => Promise<EvaluatorGenerationJob>;
+  ) => JobPoller<EvaluatorVersion>;
   /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
   getCredentials: (
     name: string,
@@ -118,7 +119,7 @@ export interface BetaEvaluatorsOperations {
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Lists the latest version of each evaluator */
+  /** Lists the latest version of each evaluator. */
   list: (
     options?: BetaEvaluatorsListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
