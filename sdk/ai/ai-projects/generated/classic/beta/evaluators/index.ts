@@ -135,7 +135,6 @@ export interface BetaEvaluatorsOperations {
     options?: BetaEvaluatorsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
 }
-
 function _getBetaEvaluators(context: AIProjectContext) {
   return {
     deleteGenerationJob: (
@@ -200,7 +199,6 @@ function _getBetaEvaluators(context: AIProjectContext) {
     ) => listVersions(context, name, foundryFeatures, options),
   };
 }
-
 export function _getBetaEvaluatorsOperations(context: AIProjectContext): BetaEvaluatorsOperations {
   return {
     ..._getBetaEvaluators(context),

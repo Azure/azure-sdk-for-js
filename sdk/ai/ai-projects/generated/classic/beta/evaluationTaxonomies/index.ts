@@ -58,7 +58,6 @@ export interface BetaEvaluationTaxonomiesOperations {
     options?: BetaEvaluationTaxonomiesGetOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
 }
-
 function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
   return {
     update: (
@@ -89,7 +88,6 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
     ) => get(context, name, foundryFeatures, options),
   };
 }
-
 export function _getBetaEvaluationTaxonomiesOperations(
   context: AIProjectContext,
 ): BetaEvaluationTaxonomiesOperations {

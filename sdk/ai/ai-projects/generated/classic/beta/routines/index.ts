@@ -58,7 +58,6 @@ export interface BetaRoutinesOperations {
     options?: BetaRoutinesCreateOrUpdateOptionalParams,
   ) => Promise<Routine>;
 }
-
 function _getBetaRoutines(context: AIProjectContext) {
   return {
     dispatch: (routineName: string, options?: BetaRoutinesDispatchOptionalParams) =>
@@ -78,7 +77,6 @@ function _getBetaRoutines(context: AIProjectContext) {
       createOrUpdate(context, routineName, options),
   };
 }
-
 export function _getBetaRoutinesOperations(context: AIProjectContext): BetaRoutinesOperations {
   return {
     ..._getBetaRoutines(context),

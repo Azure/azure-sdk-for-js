@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
-import { NodeReadableStream } from "../static-helpers/platform-types.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
@@ -21,6 +21,8 @@ export interface Agent {
   name: string;
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
+  /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
+  readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
   versions: {
     latest: AgentVersion;
@@ -42,6 +44,7 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+    state_source: item["state_source"],
     versions: _agentObjectVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
@@ -63,6 +66,8 @@ export function agentDeserializer(item: any): Agent {
 
 /** The operational state of an agent. */
 export type AgentState = "enabled" | "disabled";
+/** Indicates the source of an agent's operational state. Empty when the state is not derived from a specific source. */
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
 /** model interface _AgentObjectVersions */
 export interface _AgentObjectVersions {
@@ -679,6 +684,11 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
+  /**
+   * Controls the reasoning execution mode for the request.
+   *   When returned on a response, this is the effective execution mode.
+   */
+  mode?: ReasoningModeEnum;
   effort?: ReasoningEffort;
   summary?: "auto" | "concise" | "detailed";
   context?: "auto" | "current_turn" | "all_turns";
@@ -687,6 +697,7 @@ export interface Reasoning {
 
 export function reasoningSerializer(item: Reasoning): any {
   return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumSerializer(item["mode"]),
     effort: item["effort"],
     summary: item["summary"],
     context: item["context"],
@@ -696,6 +707,7 @@ export function reasoningSerializer(item: Reasoning): any {
 
 export function reasoningDeserializer(item: any): Reasoning {
   return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumDeserializer(item["mode"]),
     effort: item["effort"],
     summary: item["summary"],
     context: item["context"],
@@ -703,18 +715,27 @@ export function reasoningDeserializer(item: any): Reasoning {
   };
 }
 
+/** Alias for ReasoningModeEnum */
+export type ReasoningModeEnum = string | "standard" | "pro";
+
+export function reasoningModeEnumSerializer(item: ReasoningModeEnum): any {
+  return item;
+}
+
+export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
+  return item;
+}
+
 /**
- * Constrains effort on reasoning for
- * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
- * Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
- * reasoning effort can result in faster responses and fewer tokens used
- * on reasoning in a response.
- * - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
- * - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
- * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
- * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+ * Constrains effort on reasoning for reasoning models. Currently supported
+ * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
+ * Reducing reasoning effort can result in faster responses and fewer tokens
+ * used on reasoning in a response. Not all reasoning models support every
+ * value. See the
+ * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+ * for model-specific support.
  */
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
 export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
   return result.map((item) => {
@@ -764,6 +785,7 @@ export type ToolUnion =
   | MCPTool
   | FunctionTool
   | ComputerUsePreviewTool
+  | ProgrammaticToolCallingParam
   | ImageGenTool
   | LocalShellToolParam
   | FunctionShellToolParam
@@ -833,6 +855,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "computer_use_preview":
       return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
+
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
       return imageGenToolSerializer(item as ImageGenTool);
@@ -925,6 +950,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "computer_use_preview":
       return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
 
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
+
     case "image_generation":
       return imageGenToolDeserializer(item as ImageGenTool);
 
@@ -966,6 +994,7 @@ export type ToolType =
   | "web_search"
   | "mcp"
   | "code_interpreter"
+  | "programmatic_tool_calling"
   | "image_generation"
   | "local_shell"
   | "shell"
@@ -2291,6 +2320,7 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -2309,6 +2339,11 @@ export interface CodeInterpreterTool extends Tool {
 export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -2323,6 +2358,11 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
 export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -2334,6 +2374,8 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
   };
 }
 
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
 /** Alias for _CodeInterpreterToolContainer */
 export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
 
@@ -2986,6 +3028,7 @@ export interface MCPTool extends Tool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -3008,6 +3051,11 @@ export function mcpToolSerializer(item: MCPTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -3036,6 +3084,11 @@ export function mcpToolDeserializer(item: any): MCPTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -3077,9 +3130,11 @@ export interface FunctionTool extends Tool {
   name: string;
   description?: string;
   parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
   strict: boolean | null;
   /** Whether this function is deferred and loaded via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -3088,8 +3143,14 @@ export function functionToolSerializer(item: FunctionTool): any {
     name: item["name"],
     description: item["description"],
     parameters: item["parameters"],
+    output_schema: item["output_schema"],
     strict: item["strict"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3103,8 +3164,18 @@ export function functionToolDeserializer(item: any): FunctionTool {
       : Object.fromEntries(
           Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
         ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     strict: item["strict"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3140,6 +3211,22 @@ export function computerUsePreviewToolDeserializer(item: any): ComputerUsePrevie
 
 /** Type of ComputerEnvironment */
 export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+/** model interface ProgrammaticToolCallingParam */
+export interface ProgrammaticToolCallingParam extends Tool {
+  /** The type of the tool. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+  return { type: item["type"] };
+}
+
+export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
+  };
+}
 
 /** A tool that generates images using the GPT image models. */
 export interface ImageGenTool extends Tool {
@@ -3295,6 +3382,7 @@ export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
   environment?: FunctionShellToolParamEnvironmentUnion;
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -3309,6 +3397,11 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -3323,6 +3416,11 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -3677,6 +3775,7 @@ export interface CustomToolParam extends Tool {
   format?: CustomToolParamFormatUnion;
   /** Whether this tool should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function customToolParamSerializer(item: CustomToolParam): any {
@@ -3686,6 +3785,11 @@ export function customToolParamSerializer(item: CustomToolParam): any {
     description: item["description"],
     format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3698,6 +3802,11 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
       ? item["format"]
       : customToolParamFormatUnionDeserializer(item["format"]),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3869,15 +3978,28 @@ export type SearchContentType = "text" | "image";
 export interface ApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
-  return { type: item["type"] };
+  return {
+    type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3961,8 +4083,10 @@ export interface FunctionToolParam {
   parameters?: EmptyModelParam;
   strict?: boolean;
   type: "function";
+  output_schema?: Record<string, any>;
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolParamSerializer(item: FunctionToolParam): any {
@@ -3974,7 +4098,13 @@ export function functionToolParamSerializer(item: FunctionToolParam): any {
       : emptyModelParamSerializer(item["parameters"]),
     strict: item["strict"],
     type: item["type"],
+    output_schema: item["output_schema"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3987,7 +4117,17 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
       : emptyModelParamDeserializer(item["parameters"]),
     strict: item["strict"],
     type: item["type"],
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -4076,6 +4216,7 @@ export type ToolChoiceParamUnion =
   | ToolChoiceFunction
   | ToolChoiceMCP
   | ToolChoiceCustom
+  | SpecificProgrammaticToolCallingParam
   | SpecificApplyPatchParam
   | SpecificFunctionShellParam
   | ToolChoiceFileSearch
@@ -4101,6 +4242,11 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 
     case "custom":
       return toolChoiceCustomSerializer(item as ToolChoiceCustom);
+
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamSerializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
 
     case "apply_patch":
       return specificApplyPatchParamSerializer(item as SpecificApplyPatchParam);
@@ -4153,6 +4299,11 @@ export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnio
     case "custom":
       return toolChoiceCustomDeserializer(item as ToolChoiceCustom);
 
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamDeserializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
+
     case "apply_patch":
       return specificApplyPatchParamDeserializer(item as SpecificApplyPatchParam);
 
@@ -4196,6 +4347,7 @@ export type ToolChoiceParamType =
   | "function"
   | "mcp"
   | "custom"
+  | "programmatic_tool_calling"
   | "apply_patch"
   | "shell"
   | "file_search"
@@ -4308,6 +4460,26 @@ export function toolChoiceCustomDeserializer(item: any): ToolChoiceCustom {
   return {
     type: item["type"],
     name: item["name"],
+  };
+}
+
+/** model interface SpecificProgrammaticToolCallingParam */
+export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
+  /** The tool to call. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function specificProgrammaticToolCallingParamSerializer(
+  item: SpecificProgrammaticToolCallingParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function specificProgrammaticToolCallingParamDeserializer(
+  item: any,
+): SpecificProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
   };
 }
 
@@ -7077,6 +7249,7 @@ export type ToolboxToolType =
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -7094,6 +7267,11 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -7108,6 +7286,11 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -7268,6 +7451,7 @@ export interface MCPToolboxTool extends ToolboxTool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -7293,6 +7477,11 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -7323,6 +7512,11 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -10343,6 +10537,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
   cached_tokens: number;
+  cache_write_tokens: number;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -10350,6 +10545,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 ): ResponseUsageInputTokensDetails {
   return {
     cached_tokens: item["cached_tokens"],
+    cache_write_tokens: item["cache_write_tokens"],
   };
 }
 
@@ -13077,13 +13273,13 @@ export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJ
 }
 
 /** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface OptimizationJob {
+export interface AgentOptimizationJob {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Caller-supplied inputs. */
-  inputs?: OptimizationJobInputs;
+  inputs?: AgentOptimizationJobInputs;
   /** Result produced on success. */
-  readonly result?: OptimizationJobResult;
+  readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
@@ -13093,29 +13289,33 @@ export interface OptimizationJob {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** Non-fatal warnings emitted at any point during optimization. */
   readonly warnings?: string[];
 }
 
-export function optimizationJobSerializer(item: OptimizationJob): any {
+export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
   return {
-    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsSerializer(item["inputs"]),
+    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
   };
 }
 
-export function optimizationJobDeserializer(item: any): OptimizationJob {
+export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
   return {
     id: item["id"],
-    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
-    result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : agentOptimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"]
+      ? item["result"]
+      : agentOptimizationJobResultDeserializer(item["result"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
       ? item["progress"]
-      : optimizationJobProgressDeserializer(item["progress"]),
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
     warnings: !item["warnings"]
       ? item["warnings"]
       : item["warnings"].map((p: any) => {
@@ -13125,56 +13325,60 @@ export function optimizationJobDeserializer(item: any): OptimizationJob {
 }
 
 /** Caller-supplied inputs for an optimization job. */
-export interface OptimizationJobInputs {
+export interface AgentOptimizationJobInputs {
   /** The agent (and pinned version) being optimized. */
-  agent: OptimizationAgentIdentifier;
+  agent: OptimizedAgentIdentifier;
   /** Training dataset — either inline items or a reference to a registered dataset. Required. */
-  train_dataset: OptimizationDatasetInputUnion;
+  train_dataset: AgentOptimizationDatasetInputUnion;
   /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset?: OptimizationDatasetInputUnion;
+  validation_dataset?: AgentOptimizationDatasetInputUnion;
   /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
-  evaluators: OptimizationEvaluatorRef[];
+  evaluators: AgentOptimizationEvaluatorRef[];
   /** Tuning knobs and run-mode. */
-  options?: OptimizationOptions;
+  options?: AgentOptimizationOptions;
 }
 
-export function optimizationJobInputsSerializer(item: OptimizationJobInputs): any {
+export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
   return {
-    agent: optimizationAgentIdentifierSerializer(item["agent"]),
-    train_dataset: optimizationDatasetInputUnionSerializer(item["train_dataset"]),
+    agent: optimizedAgentIdentifierSerializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
     validation_dataset: !item["validation_dataset"]
       ? item["validation_dataset"]
-      : optimizationDatasetInputUnionSerializer(item["validation_dataset"]),
-    evaluators: optimizationEvaluatorRefArraySerializer(item["evaluators"]),
-    options: !item["options"] ? item["options"] : optimizationOptionsSerializer(item["options"]),
+      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsSerializer(item["options"]),
   };
 }
 
-export function optimizationJobInputsDeserializer(item: any): OptimizationJobInputs {
+export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
   return {
-    agent: optimizationAgentIdentifierDeserializer(item["agent"]),
-    train_dataset: optimizationDatasetInputUnionDeserializer(item["train_dataset"]),
+    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
     validation_dataset: !item["validation_dataset"]
       ? item["validation_dataset"]
-      : optimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
-    evaluators: optimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
-    options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
+      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsDeserializer(item["options"]),
   };
 }
 
 /** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface OptimizationAgentIdentifier {
+export interface OptimizedAgentIdentifier {
   /** Registered Foundry agent name (required). */
   agent_name: string;
   /** Pinned agent version. Defaults to latest if omitted. */
   agent_version?: string;
 }
 
-export function optimizationAgentIdentifierSerializer(item: OptimizationAgentIdentifier): any {
+export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
   return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
 }
 
-export function optimizationAgentIdentifierDeserializer(item: any): OptimizationAgentIdentifier {
+export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
   return {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
@@ -13182,100 +13386,112 @@ export function optimizationAgentIdentifierDeserializer(item: any): Optimization
 }
 
 /** Base discriminated model for dataset input. Either inline items or a registered reference. */
-export interface OptimizationDatasetInput {
+export interface AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   /** The discriminator possible values: inline, reference */
-  type: OptimizationDatasetInputType;
+  type: AgentOptimizationDatasetInputType;
 }
 
-export function optimizationDatasetInputSerializer(item: OptimizationDatasetInput): any {
+export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
   return { type: item["type"] };
 }
 
-export function optimizationDatasetInputDeserializer(item: any): OptimizationDatasetInput {
+export function agentOptimizationDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationDatasetInput {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for OptimizationDatasetInputUnion */
-export type OptimizationDatasetInputUnion =
-  OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
+/** Alias for AgentOptimizationDatasetInputUnion */
+export type AgentOptimizationDatasetInputUnion =
+  | AgentOptimizationInlineDatasetInput
+  | AgentOptimizationReferenceDatasetInput
+  | AgentOptimizationDatasetInput;
 
-export function optimizationDatasetInputUnionSerializer(item: OptimizationDatasetInputUnion): any {
+export function agentOptimizationDatasetInputUnionSerializer(
+  item: AgentOptimizationDatasetInputUnion,
+): any {
   switch (item.type) {
     case "inline":
-      return optimizationInlineDatasetInputSerializer(item as OptimizationInlineDatasetInput);
+      return agentOptimizationInlineDatasetInputSerializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
 
     case "reference":
-      return optimizationReferenceDatasetInputSerializer(item as OptimizationReferenceDatasetInput);
-
-    default:
-      return optimizationDatasetInputSerializer(item);
-  }
-}
-
-export function optimizationDatasetInputUnionDeserializer(
-  item: any,
-): OptimizationDatasetInputUnion {
-  switch (item["type"]) {
-    case "inline":
-      return optimizationInlineDatasetInputDeserializer(item as OptimizationInlineDatasetInput);
-
-    case "reference":
-      return optimizationReferenceDatasetInputDeserializer(
-        item as OptimizationReferenceDatasetInput,
+      return agentOptimizationReferenceDatasetInputSerializer(
+        item as AgentOptimizationReferenceDatasetInput,
       );
 
     default:
-      return optimizationDatasetInputDeserializer(item);
+      return agentOptimizationDatasetInputSerializer(item);
+  }
+}
+
+export function agentOptimizationDatasetInputUnionDeserializer(
+  item: any,
+): AgentOptimizationDatasetInputUnion {
+  switch (item["type"]) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputDeserializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputDeserializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputDeserializer(item);
   }
 }
 
 /** Discriminator values for the dataset input union. */
-export type OptimizationDatasetInputType = "inline" | "reference";
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
 
 /** Inline dataset — items supplied directly in the request body. */
-export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "inline";
   /** Dataset items. */
-  items: OptimizationDatasetItem[];
+  items: AgentOptimizationDatasetItem[];
 }
 
-export function optimizationInlineDatasetInputSerializer(
-  item: OptimizationInlineDatasetInput,
+export function agentOptimizationInlineDatasetInputSerializer(
+  item: AgentOptimizationInlineDatasetInput,
 ): any {
-  return { type: item["type"], items: optimizationDatasetItemArraySerializer(item["items"]) };
+  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
 }
 
-export function optimizationInlineDatasetInputDeserializer(
+export function agentOptimizationInlineDatasetInputDeserializer(
   item: any,
-): OptimizationInlineDatasetInput {
+): AgentOptimizationInlineDatasetInput {
   return {
     type: item["type"],
-    items: optimizationDatasetItemArrayDeserializer(item["items"]),
+    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
   };
 }
 
-export function optimizationDatasetItemArraySerializer(
-  result: Array<OptimizationDatasetItem>,
+export function agentOptimizationDatasetItemArraySerializer(
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetItemSerializer(item);
+    return agentOptimizationDatasetItemSerializer(item);
   });
 }
 
-export function optimizationDatasetItemArrayDeserializer(
-  result: Array<OptimizationDatasetItem>,
+export function agentOptimizationDatasetItemArrayDeserializer(
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetItemDeserializer(item);
+    return agentOptimizationDatasetItemDeserializer(item);
   });
 }
 
 /** A single item in an inline dataset. */
-export interface OptimizationDatasetItem {
+export interface AgentOptimizationDatasetItem {
   /** The user query / prompt. */
   query?: string;
   /** Expected ground truth answer. */
@@ -13283,60 +13499,64 @@ export interface OptimizationDatasetItem {
   /** Desired number of conversation turns for simulation mode (1-20). */
   desired_num_turns?: number;
   /** Per-item evaluation criteria. */
-  criteria?: OptimizationDatasetCriterion[];
+  criteria?: AgentOptimizationDatasetCriterion[];
 }
 
-export function optimizationDatasetItemSerializer(item: OptimizationDatasetItem): any {
+export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
     desired_num_turns: item["desired_num_turns"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : optimizationDatasetCriterionArraySerializer(item["criteria"]),
+      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
   };
 }
 
-export function optimizationDatasetItemDeserializer(item: any): OptimizationDatasetItem {
+export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
     desired_num_turns: item["desired_num_turns"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : optimizationDatasetCriterionArrayDeserializer(item["criteria"]),
+      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
   };
 }
 
-export function optimizationDatasetCriterionArraySerializer(
-  result: Array<OptimizationDatasetCriterion>,
+export function agentOptimizationDatasetCriterionArraySerializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetCriterionSerializer(item);
+    return agentOptimizationDatasetCriterionSerializer(item);
   });
 }
 
-export function optimizationDatasetCriterionArrayDeserializer(
-  result: Array<OptimizationDatasetCriterion>,
+export function agentOptimizationDatasetCriterionArrayDeserializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetCriterionDeserializer(item);
+    return agentOptimizationDatasetCriterionDeserializer(item);
   });
 }
 
 /** Evaluation criterion: a name + instruction pair used for per-item scoring. */
-export interface OptimizationDatasetCriterion {
+export interface AgentOptimizationDatasetCriterion {
   /** Criterion name. */
   name: string;
   /** Criterion instruction / description. */
   instruction: string;
 }
 
-export function optimizationDatasetCriterionSerializer(item: OptimizationDatasetCriterion): any {
+export function agentOptimizationDatasetCriterionSerializer(
+  item: AgentOptimizationDatasetCriterion,
+): any {
   return { name: item["name"], instruction: item["instruction"] };
 }
 
-export function optimizationDatasetCriterionDeserializer(item: any): OptimizationDatasetCriterion {
+export function agentOptimizationDatasetCriterionDeserializer(
+  item: any,
+): AgentOptimizationDatasetCriterion {
   return {
     name: item["name"],
     instruction: item["instruction"],
@@ -13344,7 +13564,7 @@ export function optimizationDatasetCriterionDeserializer(item: any): Optimizatio
 }
 
 /** Reference to a registered Foundry dataset. */
-export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "reference";
   /** Registered dataset name. */
@@ -13353,15 +13573,15 @@ export interface OptimizationReferenceDatasetInput extends OptimizationDatasetIn
   version?: string;
 }
 
-export function optimizationReferenceDatasetInputSerializer(
-  item: OptimizationReferenceDatasetInput,
+export function agentOptimizationReferenceDatasetInputSerializer(
+  item: AgentOptimizationReferenceDatasetInput,
 ): any {
   return { type: item["type"], name: item["name"], version: item["version"] };
 }
 
-export function optimizationReferenceDatasetInputDeserializer(
+export function agentOptimizationReferenceDatasetInputDeserializer(
   item: any,
-): OptimizationReferenceDatasetInput {
+): AgentOptimizationReferenceDatasetInput {
   return {
     type: item["type"],
     name: item["name"],
@@ -13369,35 +13589,37 @@ export function optimizationReferenceDatasetInputDeserializer(
   };
 }
 
-export function optimizationEvaluatorRefArraySerializer(
-  result: Array<OptimizationEvaluatorRef>,
+export function agentOptimizationEvaluatorRefArraySerializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
-    return optimizationEvaluatorRefSerializer(item);
+    return agentOptimizationEvaluatorRefSerializer(item);
   });
 }
 
-export function optimizationEvaluatorRefArrayDeserializer(
-  result: Array<OptimizationEvaluatorRef>,
+export function agentOptimizationEvaluatorRefArrayDeserializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
-    return optimizationEvaluatorRefDeserializer(item);
+    return agentOptimizationEvaluatorRefDeserializer(item);
   });
 }
 
 /** Reference to a named evaluator, optionally pinned to a version. */
-export interface OptimizationEvaluatorRef {
+export interface AgentOptimizationEvaluatorRef {
   /** Evaluator name. */
   name: string;
   /** Evaluator version. If not specified, the latest version is used. */
   version?: string;
 }
 
-export function optimizationEvaluatorRefSerializer(item: OptimizationEvaluatorRef): any {
+export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
   return { name: item["name"], version: item["version"] };
 }
 
-export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEvaluatorRef {
+export function agentOptimizationEvaluatorRefDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorRef {
   return {
     name: item["name"],
     version: item["version"],
@@ -13405,7 +13627,7 @@ export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEva
 }
 
 /** Tuning knobs and run-mode for an optimization job. */
-export interface OptimizationOptions {
+export interface AgentOptimizationOptions {
   /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
   max_candidates?: number;
   /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
@@ -13420,7 +13642,7 @@ export interface OptimizationOptions {
   max_stalls?: number;
 }
 
-export function optimizationOptionsSerializer(item: OptimizationOptions): any {
+export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: item["optimization_config"],
@@ -13431,7 +13653,7 @@ export function optimizationOptionsSerializer(item: OptimizationOptions): any {
   };
 }
 
-export function optimizationOptionsDeserializer(item: any): OptimizationOptions {
+export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: !item["optimization_config"]
@@ -13447,35 +13669,35 @@ export function optimizationOptionsDeserializer(item: any): OptimizationOptions 
 }
 
 /** Terminal-state result body. Populated when status is succeeded or failed. */
-export interface OptimizationJobResult {
+export interface AgentOptimizationJobResult {
   /** Candidate ID of the original (un-optimized) baseline evaluation. */
   baseline?: string;
   /** Candidate ID of the highest-scoring candidate found during optimization. */
   best?: string;
   /** All evaluated candidates including baseline. */
-  candidates?: OptimizationCandidate[];
+  candidates?: AgentOptimizationCandidate[];
 }
 
-export function optimizationJobResultDeserializer(item: any): OptimizationJobResult {
+export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
   return {
     baseline: item["baseline"],
     best: item["best"],
     candidates: !item["candidates"]
       ? item["candidates"]
-      : optimizationCandidateArrayDeserializer(item["candidates"]),
+      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
   };
 }
 
-export function optimizationCandidateArrayDeserializer(
-  result: Array<OptimizationCandidate>,
+export function agentOptimizationCandidateArrayDeserializer(
+  result: Array<AgentOptimizationCandidate>,
 ): any[] {
   return result.map((item) => {
-    return optimizationCandidateDeserializer(item);
+    return agentOptimizationCandidateDeserializer(item);
   });
 }
 
 /** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
-export interface OptimizationCandidate {
+export interface AgentOptimizationCandidate {
   /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
   candidate_id?: string;
   /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
@@ -13494,7 +13716,7 @@ export interface OptimizationCandidate {
   promotion?: PromotionInfo;
 }
 
-export function optimizationCandidateDeserializer(item: any): OptimizationCandidate {
+export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
   return {
     candidate_id: item["candidate_id"],
     name: item["name"],
@@ -13532,7 +13754,7 @@ export function promotionInfoDeserializer(item: any): PromotionInfo {
 }
 
 /** In-flight progress; only populated while status is queued or in_progress. */
-export interface OptimizationJobProgress {
+export interface AgentOptimizationJobProgress {
   /** Number of candidates whose evaluation has completed so far. */
   candidates_completed: number;
   /** Best score observed so far across all candidates. */
@@ -13541,7 +13763,7 @@ export interface OptimizationJobProgress {
   elapsed_seconds: number;
 }
 
-export function optimizationJobProgressDeserializer(item: any): OptimizationJobProgress {
+export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
   return {
     candidates_completed: item["candidates_completed"],
     best_score: item["best_score"],
@@ -13550,9 +13772,9 @@ export function optimizationJobProgressDeserializer(item: any): OptimizationJobP
 }
 
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultOptimizationJobListItem {
+export interface _AgentsPagedResultAgentOptimizationJobListItem {
   /** The requested list of items. */
-  data: OptimizationJobListItem[];
+  data: AgentOptimizationJobListItem[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -13561,27 +13783,27 @@ export interface _AgentsPagedResultOptimizationJobListItem {
   has_more: boolean;
 }
 
-export function _agentsPagedResultOptimizationJobListItemDeserializer(
+export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
   item: any,
-): _AgentsPagedResultOptimizationJobListItem {
+): _AgentsPagedResultAgentOptimizationJobListItem {
   return {
-    data: optimizationJobListItemArrayDeserializer(item["data"]),
+    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function optimizationJobListItemArrayDeserializer(
-  result: Array<OptimizationJobListItem>,
+export function agentOptimizationJobListItemArrayDeserializer(
+  result: Array<AgentOptimizationJobListItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationJobListItemDeserializer(item);
+    return agentOptimizationJobListItemDeserializer(item);
   });
 }
 
 /** Slim job representation returned by the LIST endpoint. */
-export interface OptimizationJobListItem {
+export interface AgentOptimizationJobListItem {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Current lifecycle status. */
@@ -13593,12 +13815,12 @@ export interface OptimizationJobListItem {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** The agent targeted by this optimization job. */
-  readonly agent?: OptimizationAgentIdentifier;
+  readonly agent?: OptimizedAgentIdentifier;
 }
 
-export function optimizationJobListItemDeserializer(item: any): OptimizationJobListItem {
+export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
   return {
     id: item["id"],
     status: item["status"],
@@ -13607,8 +13829,8 @@ export function optimizationJobListItemDeserializer(item: any): OptimizationJobL
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
       ? item["progress"]
-      : optimizationJobProgressDeserializer(item["progress"]),
-    agent: !item["agent"] ? item["agent"] : optimizationAgentIdentifierDeserializer(item["agent"]),
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
   };
 }
 
@@ -13636,7 +13858,10 @@ export type AgentObjectType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
-  "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
+  | "WorkflowAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
+  | "DraftAgents=V1Preview"
+  | "VoiceAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */

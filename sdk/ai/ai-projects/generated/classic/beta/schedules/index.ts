@@ -66,7 +66,6 @@ export interface BetaSchedulesOperations {
     options?: BetaSchedulesDeleteOptionalParams,
   ) => Promise<void>;
 }
-
 function _getBetaSchedules(context: AIProjectContext) {
   return {
     listRuns: (
@@ -100,7 +99,6 @@ function _getBetaSchedules(context: AIProjectContext) {
     ) => $delete(context, scheduleId, foundryFeatures, options),
   };
 }
-
 export function _getBetaSchedulesOperations(context: AIProjectContext): BetaSchedulesOperations {
   return {
     ..._getBetaSchedules(context),
