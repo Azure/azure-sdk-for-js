@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * React Native platform variant — NodeReadableStream resolves to `never`
  * so it drops out of union types and optional properties become effectively absent.
