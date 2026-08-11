@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Storage Connectors in a Storage Account.
  *
  * @summary list all Storage Connectors in a Storage Account.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_ListByStorageAccount.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_ListByStorageAccount.json
  */
 async function listConnectorsByStorageAccount() {
   const credential = new DefaultAzureCredential();

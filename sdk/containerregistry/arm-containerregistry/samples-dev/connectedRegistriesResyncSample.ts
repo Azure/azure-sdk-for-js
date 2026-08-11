@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resync the connected registry instance.
  *
  * @summary resync the connected registry instance.
- * x-ms-original-file: 2026-01-01-preview/ConnectedRegistryResync.json
+ * x-ms-original-file: 2026-03-01-preview/ConnectedRegistryResync.json
  */
 async function connectedRegistryResync(): Promise<void> {
   const credential = new DefaultAzureCredential();

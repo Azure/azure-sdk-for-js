@@ -30,13 +30,13 @@ import {
   BlockList,
   QueryRequest,
   BlockListType,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlockBlobQueryResponse } from "../../models/models.js";
+  BlockBlobQueryResponse,
+} from "../../models/models.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a BlockBlob operations. */
 export interface BlockBlobOperations {
-  /** The Query operation enables users to select/project on blob data by providing simple query expressions. */
+  /** Queries the data of the specified blob with the provided query expressions. */
   query: (
     queryRequest: QueryRequest,
     options?: BlockBlobQueryOptionalParams,
@@ -53,7 +53,7 @@ export interface BlockBlobOperations {
       contentLanguage: string;
       blobSequenceNumber: number;
       blobType?: BlobType;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       copyCompletionTime?: Date;
       copyStatusDescription?: string;
       copyId?: string;
@@ -89,7 +89,7 @@ export interface BlockBlobOperations {
           contentLanguage: string;
           blobSequenceNumber: number;
           blobType?: BlobType;
-          contentCrc64?: Uint8Array;
+          xMsContentCrc64?: Uint8Array;
           copyCompletionTime?: Date;
           copyStatusDescription?: string;
           copyId?: string;
@@ -113,7 +113,7 @@ export interface BlockBlobOperations {
         }
       >
   >;
-  /** The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob. */
+  /** Retrieves the list of blocks that have been uploaded as part of the block blob. */
   getBlockList: (
     listType: BlockListType,
     options?: BlockBlobGetBlockListOptionalParams,
@@ -142,7 +142,7 @@ export interface BlockBlobOperations {
         }
       >
   >;
-  /** The Commit Block List operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior Put Block operation. You can call Put Block List to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to. */
+  /** Writes to the block blob by specifying the list of block IDs that make up the blob. */
   commitBlockList: (
     blocks: BlockLookupList,
     options?: BlockBlobCommitBlockListOptionalParams,
@@ -151,7 +151,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -166,7 +166,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -178,7 +178,7 @@ export interface BlockBlobOperations {
       }
     >
   >;
-  /** The Stage Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL. */
+  /** Creates a new block of data from the specified URL to be committed as part of a blob. */
   stageBlockFromUrl: (
     blockId: Uint8Array,
     contentLength: number,
@@ -187,7 +187,7 @@ export interface BlockBlobOperations {
   ) => Promise<
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -199,7 +199,7 @@ export interface BlockBlobOperations {
       undefined,
       {
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
         encryptionScope?: string;
@@ -210,7 +210,7 @@ export interface BlockBlobOperations {
       }
     >
   >;
-  /** The Stage Block operation creates a new block to be committed as part of a blob */
+  /** Creates a new block of data to be committed as part of a blob. */
   stageBlock: (
     blockId: Uint8Array,
     contentLength: number,
@@ -219,7 +219,7 @@ export interface BlockBlobOperations {
   ) => Promise<
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -232,7 +232,7 @@ export interface BlockBlobOperations {
       undefined,
       {
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
         encryptionScope?: string;
@@ -244,7 +244,7 @@ export interface BlockBlobOperations {
       }
     >
   >;
-  /** The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are not supported with Put Blob from URL; the content of an existing blob is overwritten with the content of the new blob.  To perform partial updates to a block blob’s contents using a source URL, use the Put Block from URL API in conjunction with Put Block List. */
+  /** Uploads the content from the specified URL to the block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
   uploadBlobFromUrl: (
     copySource: string,
     options?: BlockBlobUploadBlobFromUrlOptionalParams,
@@ -253,6 +253,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -267,6 +268,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -278,7 +280,7 @@ export interface BlockBlobOperations {
       }
     >
   >;
-  /** The Upload Block Blob operation updates the content of an existing block blob. Updating an existing block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a partial update of the content of a block blob, use the Put Block List operation. */
+  /** Uploads the content to the specified block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
   upload: (
     body: Uint8Array,
     contentLength: number,
@@ -288,7 +290,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -304,7 +306,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -318,7 +320,6 @@ export interface BlockBlobOperations {
     >
   >;
 }
-
 function _getBlockBlob(context: BlobContext) {
   return {
     query: (queryRequest: QueryRequest, options?: BlockBlobQueryOptionalParams) =>
@@ -345,7 +346,6 @@ function _getBlockBlob(context: BlobContext) {
       upload(context, body, contentLength, options),
   };
 }
-
 export function _getBlockBlobOperations(context: BlobContext): BlockBlobOperations {
   return {
     ..._getBlockBlob(context),

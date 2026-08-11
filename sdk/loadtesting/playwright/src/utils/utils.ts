@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessTokenClaims, VersionInfo, JwtPayload, RunConfig } from "../common/types.js";
+import type {
+  AccessTokenClaims,
+  BrowserSessionSourceTypeValue,
+  VersionInfo,
+  JwtPayload,
+  ProcessCommand,
+  RunConfig,
+} from "../common/types.js";
 import {
   Constants,
   InternalEnvironmentVariables,
@@ -11,6 +18,7 @@ import {
   BrowserSessionSourceType,
   UrlConstants,
   UploadConstants,
+  StorageUriValidationConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -23,7 +31,7 @@ import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import type { FullConfig } from "@playwright/test";
 import type { CIInfo } from "./cIInfoProvider.js";
 import { CI_PROVIDERS } from "./cIInfoProvider.js";
-import { exec } from "child_process";
+import { execFile } from "@azure/core-process";
 import { getPackageVersionFromFolder } from "#platform/utils/getPackageVersion";
 import { readdirSync, statSync } from "fs";
 import { join, relative } from "path";
@@ -128,8 +136,13 @@ export const getAndSetRunId = (): string => {
   return runId;
 };
 
-export const getServiceWSEndpoint = (runId: string, os: string, apiVersion: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN}&api-version=${apiVersion}`;
+export const getServiceWSEndpoint = (
+  runId: string,
+  os: string,
+  apiVersion: string,
+  sourceType: BrowserSessionSourceTypeValue = BrowserSessionSourceType.PLAYWRIGHT_WORKSPACES_TEST_RUN,
+): string => {
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&sourceType=${encodeURIComponent(sourceType)}&api-version=${apiVersion}`;
 };
 
 export const validateServiceUrl = (): void => {
@@ -269,20 +282,14 @@ export function isNullOrEmpty(str: string | null | undefined): boolean {
   return !str || str.trim() === "";
 }
 
-async function runCommand(command: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      if (stderr) {
-        reject(new Error(stderr));
-        return;
-      }
-      resolve(stdout.trim());
-    });
+async function runCommand(command: ProcessCommand): Promise<string> {
+  const { stdout, stderr } = await execFile(command.command, command.args, {
+    encoding: "utf8",
   });
+  if (stderr) {
+    throw new Error(stderr);
+  }
+  return stdout.trim();
 }
 
 export async function getRunName(ciInfo: CIInfo): Promise<string> {
@@ -503,4 +510,37 @@ export const getStorageAccountNameFromUri = (storageUri: string): string | null 
     console.warn("Failed to extract storage account name from URI:", storageUri, error);
     return null;
   }
+};
+
+export const isValidAzureStorageBlobUri = (storageUri: string | undefined | null): boolean => {
+  if (!storageUri || typeof storageUri !== "string" || storageUri.trim() === "") {
+    return false;
+  }
+
+  let url: URL;
+  try {
+    url = new URL(storageUri);
+  } catch {
+    return false;
+  }
+
+  if (url.protocol !== StorageUriValidationConstants.AllowedProtocol) {
+    return false;
+  }
+
+  // Reject embedded credentials (username / password in the URI)
+  if (url.username !== "" || url.password !== "") {
+    return false;
+  }
+
+  // Reject query strings and fragments — they can carry attacker-controlled data
+  if (url.search !== "" || url.hash !== "") {
+    return false;
+  }
+
+  // The URL spec lower-cases the hostname, so the comparison is already case-insensitive
+  const hostname = url.hostname;
+  return StorageUriValidationConstants.AllowedHostnameSuffixes.some((suffix) =>
+    hostname.endsWith(suffix),
+  );
 };

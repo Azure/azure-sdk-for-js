@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the existing immutability policy along with the corresponding ETag in response headers and body.
  *
  * @summary gets the existing immutability policy along with the corresponding ETag in response headers and body.
- * x-ms-original-file: 2025-08-01/BlobContainersGetImmutabilityPolicy.json
+ * x-ms-original-file: 2026-04-01/BlobContainersGetImmutabilityPolicy.json
  */
 async function getImmutabilityPolicy() {
   const credential = new DefaultAzureCredential();

@@ -48,7 +48,7 @@ export function _revokeAccessSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,14 +61,15 @@ export async function _revokeAccessDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Revokes access to a disk. */
 export function revokeAccess(
   context: Client,
@@ -81,7 +82,7 @@ export function revokeAccess(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _revokeAccessSend(context, resourceGroupName, diskName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -98,7 +99,7 @@ export function _grantAccessSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,17 +114,18 @@ export function _grantAccessSend(
 }
 
 export async function _grantAccessDeserialize(result: PathUncheckedResponse): Promise<AccessUri> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return accessUriDeserializer(result.body);
 }
-
 /** Grants access to a disk. */
 export function grantAccess(
   context: Client,
@@ -132,13 +134,13 @@ export function grantAccess(
   grantAccessData: GrantAccessData,
   options: DisksGrantAccessOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AccessUri>, AccessUri> {
-  return getLongRunningPoller(context, _grantAccessDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _grantAccessDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _grantAccessSend(context, resourceGroupName, diskName, grantAccessData, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<AccessUri>, AccessUri>;
 }
 
@@ -150,7 +152,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,14 +168,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _diskListDeserializer(result.body);
 }
-
 /** Lists all the disks under a subscription. */
 export function list(
   context: Client,
@@ -184,7 +187,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -198,7 +201,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -216,14 +219,15 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _diskListDeserializer(result.body);
 }
-
 /** Lists all the disks under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -235,7 +239,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -251,7 +255,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,20 +268,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes a disk. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -289,7 +289,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, diskName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -306,7 +306,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,14 +324,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return diskDeserializer(result.body);
 }
-
 /** Updates (patches) a disk. */
 export function update(
   context: Client,
@@ -345,7 +346,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, diskName, disk, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<Disk>, Disk>;
 }
 
@@ -362,7 +363,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -380,14 +381,15 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return diskDeserializer(result.body);
 }
-
 /** Creates or updates a disk. */
 export function createOrUpdate(
   context: Client,
@@ -402,7 +404,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, diskName, disk, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<Disk>, Disk>;
 }
 
@@ -418,7 +420,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskName: diskName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -434,14 +436,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return diskDeserializer(result.body);
 }
-
 /** Gets information about a disk. */
 export async function get(
   context: Client,

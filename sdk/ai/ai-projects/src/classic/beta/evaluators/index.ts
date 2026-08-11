@@ -8,6 +8,8 @@ import {
   listGenerationJobs,
   getGenerationJob,
   createGenerationJob,
+  getCredentials,
+  pendingUpload,
   updateVersion,
   createVersion,
   deleteVersion,
@@ -16,6 +18,8 @@ import {
   listVersions,
 } from "../../../api/beta/evaluators/operations.js";
 import type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -28,8 +32,16 @@ import type {
   BetaEvaluatorsGetGenerationJobOptionalParams,
   BetaEvaluatorsCreateGenerationJobOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
-import type { EvaluatorVersion, EvaluatorGenerationJob } from "../../../models/models.js";
+import type {
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+  EvaluatorVersion,
+  EvaluatorCredentialRequest,
+  EvaluatorGenerationJob,
+} from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -46,7 +58,12 @@ export interface BetaEvaluatorsOperations {
     jobId: string,
     options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
   ) => Promise<EvaluatorGenerationJob>;
-  /** Returns a list of evaluator generation jobs. */
+  /**
+   * Returns a list of evaluator generation jobs. The List API has up to a few
+   * seconds of propagation delay, so a recently created job may not appear
+   * immediately; use the Get evaluator generation job API with the job ID to
+   * retrieve a specific job without delay.
+   */
   listGenerationJobs: (
     options?: BetaEvaluatorsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
@@ -60,39 +77,53 @@ export interface BetaEvaluatorsOperations {
    * definitions from the provided source materials asynchronously.
    */
   createGenerationJob: (
-    body: EvaluatorGenerationJob,
+    job: EvaluatorGenerationJob,
     options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-  ) => Promise<EvaluatorGenerationJob>;
-  /** Update an existing EvaluatorVersion with the given version id */
+  ) => JobPoller<EvaluatorVersion>;
+  /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
+  getCredentials: (
+    name: string,
+    credentialRequest: EvaluatorCredentialRequest,
+    version: string,
+    options?: BetaEvaluatorsGetCredentialsOptionalParams,
+  ) => Promise<DatasetCredential>;
+  /** Initiates a new pending upload or retrieves an existing one for the specified evaluator version. */
+  pendingUpload: (
+    name: string,
+    version: string,
+    pendingUploadRequest: PendingUploadRequest,
+    options?: BetaEvaluatorsPendingUploadOptionalParams,
+  ) => Promise<PendingUploadResponse>;
+  /** Updates the specified evaluator version in place. */
   updateVersion: (
     name: string,
     version: string,
     evaluatorVersion: EvaluatorVersion,
     options?: BetaEvaluatorsUpdateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Create a new EvaluatorVersion with auto incremented version id */
+  /** Creates a new evaluator version with an auto-incremented version identifier. */
   createVersion: (
     name: string,
     evaluatorVersion: EvaluatorVersion,
     options?: BetaEvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+  /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
   deleteVersion: (
     name: string,
     version: string,
     options?: BetaEvaluatorsDeleteVersionOptionalParams,
   ) => Promise<void>;
-  /** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+  /** Retrieves the specified evaluator version, returning 404 if it does not exist. */
   getVersion: (
     name: string,
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** List the latest version of each evaluator */
+  /** Lists the latest version of each evaluator. */
   list: (
     options?: BetaEvaluatorsListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
-  /** List all versions of the given evaluator */
+  /** Returns the available versions for the specified evaluator. */
   listVersions: (
     name: string,
     options?: BetaEvaluatorsListVersionsOptionalParams,
@@ -114,9 +145,21 @@ function _getBetaEvaluators(context: AIProjectContext) {
     getGenerationJob: (jobId: string, options?: BetaEvaluatorsGetGenerationJobOptionalParams) =>
       getGenerationJob(context, jobId, options),
     createGenerationJob: (
-      body: EvaluatorGenerationJob,
+      job: EvaluatorGenerationJob,
       options?: BetaEvaluatorsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, body, options),
+    ) => createGenerationJob(context, job, options),
+    getCredentials: (
+      name: string,
+      credentialRequest: EvaluatorCredentialRequest,
+      version: string,
+      options?: BetaEvaluatorsGetCredentialsOptionalParams,
+    ) => getCredentials(context, name, credentialRequest, version, options),
+    pendingUpload: (
+      name: string,
+      version: string,
+      pendingUploadRequest: PendingUploadRequest,
+      options?: BetaEvaluatorsPendingUploadOptionalParams,
+    ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     updateVersion: (
       name: string,
       version: string,

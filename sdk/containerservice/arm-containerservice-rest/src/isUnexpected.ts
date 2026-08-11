@@ -280,13 +280,11 @@ export function isUnexpected(
 ): response is ManagedClustersListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
-    | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfileDefaultResponse,
+    ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfileDefaultResponse,
 ): response is ManagedClustersGetUpgradeProfileDefaultResponse;
 export function isUnexpected(
   response:
-    | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfileDefaultResponse,
+    ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfileDefaultResponse,
 ): response is ManagedClustersGetAccessProfileDefaultResponse;
 export function isUnexpected(
   response:
@@ -407,9 +405,7 @@ export function isUnexpected(
 ): response is AgentPoolsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentPoolsDelete202Response
-    | AgentPoolsDelete204Response
-    | AgentPoolsDeleteDefaultResponse,
+    AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeleteDefaultResponse,
 ): response is AgentPoolsDeleteDefaultResponse;
 export function isUnexpected(
   response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse,
@@ -422,16 +418,14 @@ export function isUnexpected(
 ): response is AgentPoolsUpgradeNodeImageVersionDefaultResponse;
 export function isUnexpected(
   response:
-    | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListDefaultResponse,
+    PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListDefaultResponse,
 ): response is PrivateEndpointConnectionsListDefaultResponse;
 export function isUnexpected(
   response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): response is PrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdateDefaultResponse,
+    PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdateDefaultResponse,
 ): response is PrivateEndpointConnectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
@@ -444,8 +438,7 @@ export function isUnexpected(
 ): response is PrivateLinkResourcesListDefaultResponse;
 export function isUnexpected(
   response:
-    | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostDefaultResponse,
+    ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostDefaultResponse,
 ): response is ResolvePrivateLinkServiceIdPostDefaultResponse;
 export function isUnexpected(
   response: SnapshotsList200Response | SnapshotsListDefaultResponse,
@@ -467,9 +460,7 @@ export function isUnexpected(
 ): response is SnapshotsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
-    | SnapshotsDelete200Response
-    | SnapshotsDelete204Response
-    | SnapshotsDeleteDefaultResponse,
+    SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeleteDefaultResponse,
 ): response is SnapshotsDeleteDefaultResponse;
 export function isUnexpected(
   response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse,
@@ -490,8 +481,7 @@ export function isUnexpected(
 ): response is ManagedClusterSnapshotsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsDefaultResponse,
+    ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsDefaultResponse,
 ): response is ManagedClusterSnapshotsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:

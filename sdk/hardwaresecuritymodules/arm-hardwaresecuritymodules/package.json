@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-hardwaresecuritymodules",
-  "version": "2.0.1",
+  "version": "3.0.0-beta.1",
   "description": "A generated SDK for AzureDedicatedHSMResourceProvider.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -50,7 +50,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
@@ -130,6 +130,20 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/paymentHsmClusterPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/paymentHsmClusterPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/paymentHsmClusterPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/paymentHsmClusterPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/paymentHsmClusterPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/paymentHsmClusterPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/paymentHsmClusterPrivateLinkResources/index.js"
+      }
+    },
     "./api/dedicatedHsm": {
       "browser": {
         "types": "./dist/browser/api/dedicatedHsm/index.d.ts",
@@ -198,6 +212,34 @@
       "require": {
         "types": "./dist/commonjs/api/cloudHsmClusterPrivateLinkResources/index.d.ts",
         "default": "./dist/commonjs/api/cloudHsmClusterPrivateLinkResources/index.js"
+      }
+    },
+    "./api/paymentHsmClusterPrivateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/paymentHsmClusterPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/paymentHsmClusterPrivateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/paymentHsmClusterPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/paymentHsmClusterPrivateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/paymentHsmClusterPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/paymentHsmClusterPrivateEndpointConnections/index.js"
+      }
+    },
+    "./api/paymentHsmClusters": {
+      "browser": {
+        "types": "./dist/browser/api/paymentHsmClusters/index.d.ts",
+        "default": "./dist/browser/api/paymentHsmClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/paymentHsmClusters/index.d.ts",
+        "default": "./dist/esm/api/paymentHsmClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/paymentHsmClusters/index.d.ts",
+        "default": "./dist/commonjs/api/paymentHsmClusters/index.js"
       }
     },
     "./api/privateEndpointConnections": {

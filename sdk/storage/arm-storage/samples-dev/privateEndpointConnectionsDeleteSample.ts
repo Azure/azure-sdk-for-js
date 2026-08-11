@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the storage account.
  *
  * @summary deletes the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountDeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-04-01/StorageAccountDeletePrivateEndpointConnection.json
  */
 async function storageAccountDeletePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

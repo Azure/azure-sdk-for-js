@@ -41,18 +41,18 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@_ts/max": "npm:typescript@latest",
+    "@_ts/max": "npm:typescript@~6.0.3",
     "@_ts/min": "npm:typescript@~5.4.2",
+    "@azure/core-process": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@microsoft/api-extractor": "^7.52.4",
     "@microsoft/api-extractor-model": "^7.30.5",
     "@microsoft/warp": "workspace:^",
-    "@pnpm/catalogs.config": "^1000.0.2",
-    "@pnpm/catalogs.resolver": "^1000.0.3",
-    "@pnpm/catalogs.types": "^1000.0.0",
-    "@pnpm/workspace.read-manifest": "^1000.1.5",
+    "@pnpm/catalogs.config": "^1100.0.2",
+    "@pnpm/catalogs.resolver": "^1100.0.0",
+    "@pnpm/catalogs.types": "^1100.0.0",
+    "@pnpm/workspace.read-manifest": "^1000.3.1",
     "chalk": "^5.4.1",
-    "concurrently": "^9.2.1",
     "diff": "^8.0.2",
     "dotenv": "^16.0.0",
     "express": "catalog:internal",
@@ -62,14 +62,14 @@
     "semver": "^7.6.0",
     "strip-json-comments": "^5.0.1",
     "tar": "^7.4.3",
-    "ts-morph": "^27.0.0",
     "tslib": "^2.8.1",
     "typescript": "~6.0.2",
-    "unzipper": "~0.12.3",
-    "yaml": "^2.3.4"
+    "unzipper": "~0.12.5",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@eslint/js": "catalog:",
     "@types/express": "^5.0.1",
     "@types/express-serve-static-core": "^5.0.6",
     "@types/minimist": "^1.2.5",
@@ -83,7 +83,7 @@
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",
-    "typescript-eslint": "~8.58.0",
+    "typescript-eslint": "catalog:",
     "vitest": "catalog:testing"
   }
 }

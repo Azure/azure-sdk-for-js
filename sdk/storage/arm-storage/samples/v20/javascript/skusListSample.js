@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the available SKUs supported by Microsoft.Storage for given subscription.
  *
  * @summary lists the available SKUs supported by Microsoft.Storage for given subscription.
- * x-ms-original-file: 2025-08-01/SKUList.json
+ * x-ms-original-file: 2026-04-01/SKUList.json
  */
 async function skuList() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function skuList() {
  * This sample demonstrates how to lists the available SKUs supported by Microsoft.Storage for given subscription.
  *
  * @summary lists the available SKUs supported by Microsoft.Storage for given subscription.
- * x-ms-original-file: 2025-08-01/SKUListWithLocationInfo.json
+ * x-ms-original-file: 2026-04-01/SKUListWithLocationInfo.json
  */
 async function skuListWithLocationInfo() {
   const credential = new DefaultAzureCredential();

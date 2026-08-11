@@ -149,6 +149,9 @@ import type {
   BlobClientOptions,
   BlobClientConfig,
   AccessTierModifiedConditions,
+  BlockBlobClientOptions,
+  AppendBlobClientOptions,
+  PageBlobClientOptions,
   StorageChecksumAlgorithm,
 } from "./models.js";
 import {
@@ -905,6 +908,12 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: BlobSASPermissions;
+  /**
+   *
+   * Beginning in version 2020-02-10, this value defines whether or
+   * not the instance is a virtual directory.
+   */
+  isDirectory?: boolean;
 }
 
 /**
@@ -1049,11 +1058,7 @@ export class BlobClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
@@ -1226,6 +1231,7 @@ export class BlobClient extends StorageClient {
    * ```ts snippet:ReadmeSampleDownloadBlob_Node
    * import { BlobServiceClient } from "@azure/storage-blob";
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const blobServiceClient = new BlobServiceClient(
@@ -1242,22 +1248,10 @@ export class BlobClient extends StorageClient {
    * // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
    * const downloadBlockBlobResponse = await blobClient.download();
    * if (downloadBlockBlobResponse.readableStreamBody) {
-   *   const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-   *   console.log(`Downloaded blob content: ${downloaded}`);
-   * }
-   *
-   * async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
-   *   const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     stream.on("data", (data) => {
-   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-   *     });
-   *     stream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     stream.on("error", reject);
-   *   });
-   *   return result.toString();
+   *   // Download the raw bytes of the blob. Use `text` from "node:stream/consumers"
+   *   // instead if you want to read the content as a string directly.
+   *   const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+   *   console.log(`Downloaded blob content: ${downloaded.toString()}`);
    * }
    * ```
    *
@@ -1568,6 +1562,7 @@ export class BlobClient extends StorageClient {
         if (e.details?.errorCode === "BlobNotFound") {
           return {
             succeeded: false,
+            ...e.response?.parsedHeaders,
             errorCode: e.details?.errorCode,
             _response: e.response,
           };
@@ -2457,9 +2452,6 @@ export class BlobClient extends StorageClient {
       "BlobClient-setImmutabilityPolicy",
       options,
       async (updatedOptions) => {
-        if (immutabilityPolicy.expiriesOn === undefined) {
-          throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
-        }
         const result = adjustResponse(
           await this.blobContext.setImmutabilityPolicy({
             immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
@@ -2785,7 +2777,7 @@ export class AppendBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2809,7 +2801,7 @@ export class AppendBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2832,15 +2824,11 @@ export class AppendBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
+    blobNameOrOptions?: string | AppendBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: AppendBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -3034,6 +3022,7 @@ export class AppendBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -3266,6 +3255,22 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   immutabilityPolicy?: BlobImmutabilityPolicy;
 
   /**
+   * An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
+
+  /**
    * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
@@ -3471,16 +3476,12 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Configurations for the query input.
    */
   inputTextConfiguration?:
-    | BlobQueryJsonTextConfiguration
-    | BlobQueryCsvTextConfiguration
-    | BlobQueryParquetConfiguration;
+    BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
   outputTextConfiguration?:
-    | BlobQueryJsonTextConfiguration
-    | BlobQueryCsvTextConfiguration
-    | BlobQueryArrowConfiguration;
+    BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    */
@@ -3881,7 +3882,7 @@ export class BlockBlobClient extends BlobClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -3904,15 +3905,11 @@ export class BlockBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
+    blobNameOrOptions?: string | BlockBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: BlockBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -4026,6 +4023,7 @@ export class BlockBlobClient extends BlobClient {
    * ```ts snippet:ClientsQuery
    * import { BlobServiceClient } from "@azure/storage-blob";
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const blobServiceClient = new BlobServiceClient(
@@ -4041,22 +4039,10 @@ export class BlockBlobClient extends BlobClient {
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select from BlobStorage");
    * if (queryBlockBlobResponse.readableStreamBody) {
-   *   const downloadedBuffer = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
-   *   const downloaded = downloadedBuffer.toString();
-   *   console.log(`Query blob content: ${downloaded}`);
-   * }
-   *
-   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
+   *   // Read the response bytes. Use `text` from "node:stream/consumers" instead
+   *   // if you want the response as a string directly.
+   *   const downloadedBuffer = await buffer(queryBlockBlobResponse.readableStreamBody);
+   *   console.log(`Query blob content: ${downloadedBuffer.toString()}`);
    * }
    * ```
    *
@@ -5271,7 +5257,7 @@ export class PageBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5290,7 +5276,7 @@ export class PageBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5310,15 +5296,11 @@ export class PageBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
-    blobNameOrOptions?: string | BlobClientOptions,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
+    blobNameOrOptions?: string | PageBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobClientOptions,
+    options?: PageBlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -5503,6 +5485,7 @@ export class PageBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              ...e.response?.parsedHeaders,
               errorCode: e.details?.errorCode,
               _response: e.response,
             };
@@ -5794,11 +5777,10 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobListPageRangesSegmentOptions = {},
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeItemSegments(
       offset,
       count,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);
@@ -6055,12 +6037,11 @@ export class PageBlobClient extends BlobClient {
     prevSnapshotOrUrl: string,
     options?: PageBlobListPageRangesDiffSegmentOptions,
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
       offset,
       count,
       prevSnapshotOrUrl,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);

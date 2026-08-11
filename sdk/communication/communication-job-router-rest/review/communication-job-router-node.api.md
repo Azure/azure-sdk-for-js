@@ -8,11 +8,13 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -940,6 +942,8 @@ export interface GetWorkerDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetWorkerParameters = RequestParameters;
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: UpsertClassificationPolicy200Response | UpsertClassificationPolicy201Response | UpsertClassificationPolicyDefaultResponse): response is UpsertClassificationPolicyDefaultResponse;
 
@@ -1577,6 +1581,8 @@ export interface ReclassifyJobResultOutput {
 
 // @public (undocumented)
 export type ReclassifyParameters = ReclassifyBodyParam & RequestParameters;
+
+export { RestError }
 
 // @public
 export interface RoundRobinMode extends DistributionModeParent {

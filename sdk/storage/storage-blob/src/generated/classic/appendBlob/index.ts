@@ -13,7 +13,7 @@ import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatRes
 
 /** Interface representing a AppendBlob operations. */
 export interface AppendBlobOperations {
-  /** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
+  /** Seals the append blob to make it read-only. */
   seal: (
     options?: AppendBlobSealOptionalParams,
   ) => Promise<
@@ -38,7 +38,7 @@ export interface AppendBlobOperations {
       }
     >
   >;
-  /** The Append Block From URL operation creates a new block to be committed as part of an append blob where the contents are read from a URL. */
+  /** Uploads a new block of data from the specified URL to the end of an append blob. */
   appendBlockFromUrl: (
     sourceUrl: string,
     contentLength: number,
@@ -48,7 +48,7 @@ export interface AppendBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -64,7 +64,7 @@ export interface AppendBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobAppendOffset?: string;
         blobCommittedBlockCount?: number;
         isServerEncrypted?: boolean;
@@ -77,7 +77,7 @@ export interface AppendBlobOperations {
       }
     >
   >;
-  /** The Append Block operation commits a new block of data to the end of an append blob. */
+  /** Uploads a new block of data to the end of an append blob. */
   appendBlock: (
     body: Uint8Array,
     contentLength: number,
@@ -87,7 +87,7 @@ export interface AppendBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -104,7 +104,7 @@ export interface AppendBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         blobAppendOffset?: string;
         blobCommittedBlockCount?: number;
         isServerEncrypted?: boolean;
@@ -118,7 +118,7 @@ export interface AppendBlobOperations {
       }
     >
   >;
-  /** The Create operation creates a new append blob. */
+  /** Creates a new append blob. */
   create: (
     options?: AppendBlobCreateOptionalParams,
   ) => Promise<
@@ -152,7 +152,6 @@ export interface AppendBlobOperations {
     >
   >;
 }
-
 function _getAppendBlob(context: BlobContext) {
   return {
     seal: (options?: AppendBlobSealOptionalParams) => seal(context, options),
@@ -169,7 +168,6 @@ function _getAppendBlob(context: BlobContext) {
     create: (options?: AppendBlobCreateOptionalParams) => create(context, options),
   };
 }
-
 export function _getAppendBlobOperations(context: BlobContext): AppendBlobOperations {
   return {
     ..._getAppendBlob(context),

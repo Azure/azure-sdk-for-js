@@ -39,7 +39,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -58,14 +58,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionsListResultDeserializer(result.body);
 }
-
 /** The operation to get all extensions of a Virtual Machine. */
 export async function list(
   context: Client,
@@ -91,7 +92,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,20 +105,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** The operation to delete the extension. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -131,7 +128,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmName, vmExtensionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +147,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -170,14 +167,15 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to update the extension. */
 export function update(
   context: Client,
@@ -200,7 +198,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
 }
 
@@ -219,7 +217,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,14 +237,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to create or update the extension. */
 export function createOrUpdate(
   context: Client,
@@ -269,7 +268,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
 }
 
@@ -287,7 +286,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -306,14 +305,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return virtualMachineExtensionDeserializer(result.body);
 }
-
 /** The operation to get the extension. */
 export async function get(
   context: Client,

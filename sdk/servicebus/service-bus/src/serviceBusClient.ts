@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionConfig } from "@azure/core-amqp";
+import type { ConnectionConfig, RetryConfig } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
 import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
   createConnectionContextForConnectionString,
@@ -10,6 +13,7 @@ import {
 } from "./constructorHelpers.js";
 import { ConnectionContext } from "./connectionContext.js";
 import type {
+  ListMessageSessionsOptions,
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
@@ -25,9 +29,22 @@ import type { ServiceBusSender } from "./sender.js";
 import { ServiceBusSenderImpl } from "./sender.js";
 import { entityPathMisMatchError } from "./util/errors.js";
 import { MessageSession } from "./session/messageSession.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
 import { ensureValidIdentifier } from "./util/utils.js";
+
+/**
+ * The .NET AMQP library encodes DateTime.MaxValue as 253402300800000 ms
+ * (10000-01-01T00:00:00Z) due to double-to-long rounding in TotalMilliseconds,
+ * and its decoder clamps values beyond DateTime.MaxValue.Ticks back to
+ * DateTime.MaxValue. The service checks `lastUpdatedTime != DateTime.MaxValue`
+ * (exact equality) to switch into "active messages" mode. This value matches
+ * Track 1 Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
+ *
+ * @internal
+ */
+export const ACTIVE_SESSIONS_SENTINEL_MS = 253402300800000;
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -83,10 +100,7 @@ export class ServiceBusClient {
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     credentialOrOptions2?:
-      | TokenCredential
-      | NamedKeyCredential
-      | SASCredential
-      | ServiceBusClientOptions,
+      TokenCredential | NamedKeyCredential | SASCredential | ServiceBusClientOptions,
     options3?: ServiceBusClientOptions,
   ) {
     if (isCredential(credentialOrOptions2)) {
@@ -469,6 +483,135 @@ export class ServiceBusClient {
     );
 
     return sessionReceiver;
+  }
+
+  /**
+   * Lists the IDs of sessions in a session-enabled queue.
+   *
+   * By default, returns sessions that have active messages or session state.
+   * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
+   *
+   * @param queueName - Name of the session-enabled queue.
+   * @param options - Options for listing sessions.
+   * @returns A paged async iterator of session ID strings.
+   */
+  listMessageSessions(
+    queueName: string,
+    options?: ListMessageSessionsOptions,
+  ): PagedAsyncIterableIterator<string, string[]>;
+  /**
+   * Lists the IDs of sessions in a session-enabled subscription.
+   *
+   * By default, returns sessions that have active messages or session state.
+   * If {@link ListMessageSessionsOptions.sessionStateUpdatedAfter} is specified, returns sessions
+   * whose session state was updated after that time instead.
+   *
+   * @param topicName - Name of the topic.
+   * @param subscriptionName - Name of the subscription.
+   * @param options - Options for listing sessions.
+   * @returns A paged async iterator of session ID strings.
+   */
+  listMessageSessions(
+    topicName: string,
+    subscriptionName: string,
+    options?: ListMessageSessionsOptions,
+  ): PagedAsyncIterableIterator<string, string[]>;
+  listMessageSessions(
+    queueOrTopicName1: string,
+    optionsOrSubscriptionName2?: ListMessageSessionsOptions | string,
+    options3?: ListMessageSessionsOptions,
+  ): PagedAsyncIterableIterator<string, string[]> {
+    let entityPath: string;
+    let options: ListMessageSessionsOptions | undefined;
+    if (typeof optionsOrSubscriptionName2 === "string") {
+      entityPath = `${queueOrTopicName1}/Subscriptions/${optionsOrSubscriptionName2}`;
+      options = options3;
+    } else {
+      entityPath = queueOrTopicName1;
+      options = optionsOrSubscriptionName2;
+    }
+
+    validateEntityPath(this._connectionContext.config, queueOrTopicName1);
+
+    const managementClient = this._connectionContext.getManagementClient(entityPath);
+    const retryOptions = this._clientOptions.retryOptions ?? {};
+    const connectionId = this._connectionContext.connectionId;
+    const pageSize = 100;
+
+    // The service checks for DateTime.MaxValue (C# 9999-12-31T23:59:59.9999999) to switch
+    // between "active messages" mode and "updated since" mode. On the AMQP wire, timestamps
+    // have millisecond precision, so DateTime.MaxValue becomes this value in ms from epoch.
+    const lastUpdatedTime =
+      options?.sessionStateUpdatedAfter ?? new Date(ACTIVE_SESSIONS_SENTINEL_MS);
+
+    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      getPage: async (pageLink, maxPageSize) => {
+        // A caller-supplied page size of 0 (or negative) is treated as unset: asking the
+        // service for zero sessions returns an empty page and silently ends the iterator.
+        const top = typeof maxPageSize === "number" && maxPageSize > 0 ? maxPageSize : pageSize;
+        let page: string[];
+        try {
+          // Wrap each page fetch in the retry policy and a tracing span, matching the other
+          // management operations in this client (e.g. getRules). A link detach mid-enumeration
+          // then recovers instead of throwing, and the caller's requestName / timeoutInMs are used.
+          page = await tracingClient.withSpan(
+            "ServiceBusClient.listMessageSessions",
+            options ?? {},
+            (updatedOptions) => {
+              const listMessageSessionsOperationPromise = async (): Promise<string[]> =>
+                managementClient.listMessageSessions(pageLink, top, lastUpdatedTime, {
+                  ...options,
+                  ...updatedOptions,
+                  requestName: "listMessageSessions",
+                  timeoutInMs: retryOptions.timeoutInMs,
+                });
+              const config: RetryConfig<string[]> = {
+                operation: listMessageSessionsOperationPromise,
+                connectionId,
+                operationType: RetryOperationType.management,
+                retryOptions,
+                abortSignal: updatedOptions?.abortSignal,
+              };
+              return retry<string[]>(config);
+            },
+          );
+        } catch (err: any) {
+          // The service returns 204 NoContent (with com.microsoft:session-not-found)
+          // when no sessions match the query. Because 204 is a 2xx status code, the
+          // core AMQP layer resolves it normally and the internal managementClient
+          // returns an empty array, which the `page.length === 0` check below handles.
+          //
+          // The MessageNotFound catch below is a cross-SDK safety net that .NET and
+          // Python also carry. The management path translates a broker rejection via
+          // translateServiceBusError, which sets `code` from the AMQP condition and
+          // never sets `statusCode`, so this matches on `code` alone. The service does
+          // not currently send com.microsoft:message-not-found for get-message-sessions,
+          // but keeping it avoids a breaking behavior change if it ever starts.
+          if (err.code === "MessageNotFound") {
+            // Return an empty array page, not undefined. getPagedAsyncIterator's
+            // item iterator yields the raw value of a non-array first page, so a
+            // `return undefined` here surfaces one `undefined` element instead of
+            // an empty iterator. An empty array page yields zero elements.
+            return { page: [], nextPageLink: undefined };
+          }
+          throw err;
+        }
+        if (!page || page.length === 0) {
+          // Empty page ends the iteration. Return an empty array page, not
+          // undefined, so the item iterator yields zero elements rather than a
+          // single `undefined` (see the MessageNotFound branch above).
+          return { page: [], nextPageLink: undefined };
+        }
+        return {
+          page,
+          nextPageLink: page.length >= top ? pageLink + page.length : undefined,
+        };
+      },
+    };
+
+    return getPagedAsyncIterator(pagedResult);
   }
 
   /**

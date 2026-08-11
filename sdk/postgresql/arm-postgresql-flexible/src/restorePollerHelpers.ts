@@ -13,6 +13,10 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeAdministratorsMicrosoftEntra,
 } from "./api/administratorsMicrosoftEntra/operations.js";
 import {
+  _applyNowDeserialize,
+  _rescheduleDeserialize,
+} from "./api/maintenanceEvents/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeVirtualEndpoints,
   _updateDeserialize,
   _createDeserialize as _createDeserializeVirtualEndpoints,
@@ -34,6 +38,7 @@ import {
   _putDeserialize,
 } from "./api/configurations/operations.js";
 import {
+  _startMajorVersionUpgradePrecheckDeserialize,
   _migrateNetworkModeDeserialize,
   _stopDeserialize,
   _startDeserialize as _startDeserializeServers,
@@ -81,8 +86,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -131,6 +135,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeAdministratorsMicrosoftEntra,
       expectedStatuses: ["202", "200", "201"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/applyNow":
+    { deserializer: _applyNowDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/maintenanceEvents/{maintenanceEventId}/reschedule":
+    { deserializer: _rescheduleDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}":
     { deserializer: _$deleteDeserializeVirtualEndpoints, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/virtualendpoints/{virtualEndpointName}":
@@ -162,6 +170,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeConfigurations, expectedStatuses: ["202", "200", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}":
     { deserializer: _putDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/startMajorVersionUpgradePrecheck":
+    {
+      deserializer: _startMajorVersionUpgradePrecheckDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/migrateNetwork":
     { deserializer: _migrateNetworkModeDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/stop":

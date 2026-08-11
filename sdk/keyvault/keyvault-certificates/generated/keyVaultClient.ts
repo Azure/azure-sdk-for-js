@@ -84,7 +84,7 @@ import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;

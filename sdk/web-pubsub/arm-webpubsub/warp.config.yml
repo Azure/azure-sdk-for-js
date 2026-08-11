@@ -1,5 +1,21 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/webPubSubReplicaSharedPrivateLinkResources": "./src/api/webPubSubReplicaSharedPrivateLinkResources/index.ts"
+  "./api/webPubSubReplicas": "./src/api/webPubSubReplicas/index.ts"
+  "./api/webPubSubPrivateEndpointConnections": "./src/api/webPubSubPrivateEndpointConnections/index.ts"
+  "./api/webPubSubCustomDomains": "./src/api/webPubSubCustomDomains/index.ts"
+  "./api/webPubSubCustomCertificates": "./src/api/webPubSubCustomCertificates/index.ts"
+  "./api/webPubSubPrivateLinkResources": "./src/api/webPubSubPrivateLinkResources/index.ts"
+  "./api/webPubSub": "./src/api/webPubSub/index.ts"
+  "./api/webPubSubSharedPrivateLinkResources": "./src/api/webPubSubSharedPrivateLinkResources/index.ts"
+  "./api/webPubSubHubs": "./src/api/webPubSubHubs/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

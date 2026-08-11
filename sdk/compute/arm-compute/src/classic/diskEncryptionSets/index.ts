@@ -47,11 +47,6 @@ export interface DiskEncryptionSetsOperations {
     options?: DiskEncryptionSetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DiskEncryptionSet>;
   /** Deletes a disk encryption set. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diskEncryptionSetName: string,
@@ -118,7 +113,6 @@ export interface DiskEncryptionSetsOperations {
     options?: DiskEncryptionSetsGetOptionalParams,
   ) => Promise<DiskEncryptionSet>;
 }
-
 function _getDiskEncryptionSets(context: ComputeManagementContext) {
   return {
     listAssociatedResources: (
@@ -232,7 +226,6 @@ function _getDiskEncryptionSets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, diskEncryptionSetName, options),
   };
 }
-
 export function _getDiskEncryptionSetsOperations(
   context: ComputeManagementContext,
 ): DiskEncryptionSetsOperations {

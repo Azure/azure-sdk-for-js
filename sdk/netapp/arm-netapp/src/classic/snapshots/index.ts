@@ -43,11 +43,6 @@ export interface SnapshotsOperations {
     options?: SnapshotsListOptionalParams,
   ) => PagedAsyncIterableIterator<Snapshot>;
   /** Delete snapshot */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -86,7 +81,6 @@ export interface SnapshotsOperations {
     options?: SnapshotsGetOptionalParams,
   ) => Promise<Snapshot>;
 }
-
 function _getSnapshots(context: NetAppManagementContext) {
   return {
     restoreFiles: (
@@ -172,7 +166,6 @@ function _getSnapshots(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, snapshotName, options),
   };
 }
-
 export function _getSnapshotsOperations(context: NetAppManagementContext): SnapshotsOperations {
   return {
     ..._getSnapshots(context),

@@ -16,31 +16,32 @@ import type {
   BetaDatasetsListGenerationJobsOptionalParams,
   BetaDatasetsGetGenerationJobOptionalParams,
 } from "../../../api/beta/datasets/options.js";
-import type { DataGenerationJob } from "../../../models/models.js";
+import type { DataGenerationJob, DataGenerationJobResult } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
 
 /** Interface representing a BetaDatasets operations. */
 export interface BetaDatasetsOperations {
-  /** Deletes a data generation job by its ID. */
+  /** Removes the specified data generation job and its associated output. */
   deleteGenerationJob: (
     jobId: string,
     options?: BetaDatasetsDeleteGenerationJobOptionalParams,
   ) => Promise<void>;
-  /** Cancels a data generation job by its ID. */
+  /** Cancels the specified data generation job if it is still in progress. */
   cancelGenerationJob: (
     jobId: string,
     options?: BetaDatasetsCancelGenerationJobOptionalParams,
   ) => Promise<DataGenerationJob>;
-  /** Creates a data generation job. */
+  /** Submits a new data generation job for asynchronous execution. */
   createGenerationJob: (
-    body: DataGenerationJob,
+    job: DataGenerationJob,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
-  ) => Promise<DataGenerationJob>;
+  ) => JobPoller<DataGenerationJobResult>;
   /** Returns a list of data generation jobs. */
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<DataGenerationJob>;
-  /** Gets the details of a data generation job by its ID. */
+  /** Retrieves the specified data generation job and its current status. */
   getGenerationJob: (
     jobId: string,
     options?: BetaDatasetsGetGenerationJobOptionalParams,
@@ -54,9 +55,9 @@ function _getBetaDatasets(context: AIProjectContext) {
     cancelGenerationJob: (jobId: string, options?: BetaDatasetsCancelGenerationJobOptionalParams) =>
       cancelGenerationJob(context, jobId, options),
     createGenerationJob: (
-      body: DataGenerationJob,
+      job: DataGenerationJob,
       options?: BetaDatasetsCreateGenerationJobOptionalParams,
-    ) => createGenerationJob(context, body, options),
+    ) => createGenerationJob(context, job, options),
     listGenerationJobs: (options?: BetaDatasetsListGenerationJobsOptionalParams) =>
       listGenerationJobs(context, options),
     getGenerationJob: (jobId: string, options?: BetaDatasetsGetGenerationJobOptionalParams) =>

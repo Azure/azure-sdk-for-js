@@ -71,8 +71,8 @@ The service uses session configuration to control various aspects of voice inter
 
 - **Turn Detection**: Configure how the service detects when users start and stop speaking
 - **Audio Processing**: Enable noise suppression and echo cancellation
-- **Voice Selection**: Choose from standard Azure voices, high-definition voices, or custom voices
-- **Model Selection**: Select the AI model (GPT-Realtime, GPT-Realtime-Mini, Phi variants) that best fits your needs
+- **Voice Selection**: Choose from standard Azure voices, custom voices, avatar-sync voices, or preview Azure realtime native voices
+- **Model Selection**: Select the AI model (GPT-Realtime, GPT-Realtime-Mini, Azure-Realtime, Phi variants) that best fits your needs
 
 ### Models and Capabilities
 
@@ -82,6 +82,7 @@ The VoiceLive API supports multiple AI models with different capabilities:
 | -------------------- | -------------------------------------------- | --------------------------------- |
 | `gpt-realtime`       | Real-time audio processing model             | High-quality conversational AI    |
 | `gpt-realtime-mini`  | Lightweight real-time model                  | Fast, efficient interactions      |
+| `azure-realtime`     | Azure-native realtime model                 | Native voices and WebRTC scenarios |
 | `phi4-mm-realtime`   | Phi model with multimodal support            | Cost-effective voice applications |
 
 ### Conversational Enhancements
@@ -182,6 +183,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Creating a basic voice assistant](#creating-a-basic-voice-assistant)
 - [Creating an agent-powered voice assistant](#creating-an-agent-powered-voice-assistant)
 - [Configuring session options](#configuring-session-options)
+- [Streaming text input](#streaming-text-input)
 - [Handling real-time events](#handling-real-time-events)
 - [Implementing function calling](#implementing-function-calling)
 
@@ -291,6 +293,66 @@ await session.updateSession({
   inputAudioFormat: "pcm16",
   outputAudioFormat: "pcm16",
 });
+```
+
+For preview native voices on the `azure-realtime` model, use the dedicated voice type:
+
+```ts snippet:ReadmeSampleRealtimeNativeVoice
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("azure-realtime");
+
+await session.updateSession({
+  voice: {
+    type: "azure-realtime-native",
+    name: "ava",
+  },
+});
+```
+
+### Streaming text input
+
+Instead of sending audio, you can stream text into a conversation item incrementally with `input_text.delta` events and finish with a single `input_text.done` event. This is useful when the text itself is produced token-by-token (for example, forwarded from another model):
+
+```ts snippet:ReadmeSampleStreamInputText
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+const session = await client.startSession("gpt-realtime-mini");
+
+// Create the conversation item that the streamed text is appended to
+const itemId = "user-message-1";
+await session.addConversationItem({
+  type: "message",
+  role: "user",
+  id: itemId,
+  content: [{ type: "input_text", text: "" }],
+});
+
+// Stream the text in chunks as `input_text.delta` events
+for (const chunk of ["Tell me ", "a fun fact ", "about the ocean."]) {
+  await session.sendEvent({
+    type: "input_text.delta",
+    id: itemId,
+    delta: chunk,
+  });
+}
+
+// Signal that the streamed text is complete with a single `input_text.done` event
+await session.sendEvent({
+  type: "input_text.done",
+  id: itemId,
+});
+
+// Ask the model to respond to the streamed text
+await session.sendEvent({ type: "response.create" });
 ```
 
 ### Handling real-time events

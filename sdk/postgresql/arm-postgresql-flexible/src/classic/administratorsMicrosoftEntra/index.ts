@@ -32,11 +32,6 @@ export interface AdministratorsMicrosoftEntraOperations {
     options?: AdministratorsMicrosoftEntraListByServerOptionalParams,
   ) => PagedAsyncIterableIterator<AdministratorMicrosoftEntra>;
   /** Deletes an existing server administrator associated to a Microsoft Entra principal. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     serverName: string,

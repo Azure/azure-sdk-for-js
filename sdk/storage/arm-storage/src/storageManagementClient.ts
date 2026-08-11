@@ -6,6 +6,8 @@ import type {
   StorageManagementClientOptionalParams,
 } from "./api/index.js";
 import { createStorageManagement } from "./api/index.js";
+import type { AdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
+import { _getAdvancedPlatformMetricsOperations } from "./classic/advancedPlatformMetrics/index.js";
 import type { BlobContainersOperations } from "./classic/blobContainers/index.js";
 import { _getBlobContainersOperations } from "./classic/blobContainers/index.js";
 import type { BlobInventoryPoliciesOperations } from "./classic/blobInventoryPolicies/index.js";
@@ -110,6 +112,7 @@ export class StorageManagementClient {
     this.storageTaskAssignmentsInstancesReport =
       _getStorageTaskAssignmentsInstancesReportOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
+    this.advancedPlatformMetrics = _getAdvancedPlatformMetricsOperations(this._client);
     this.dataShares = _getDataSharesOperations(this._client);
     this.connectors = _getConnectorsOperations(this._client);
     this.storageTaskAssignments = _getStorageTaskAssignmentsOperations(this._client);
@@ -148,6 +151,8 @@ export class StorageManagementClient {
   public readonly storageTaskAssignmentsInstancesReport: StorageTaskAssignmentsInstancesReportOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
+  /** The operation groups for advancedPlatformMetrics */
+  public readonly advancedPlatformMetrics: AdvancedPlatformMetricsOperations;
   /** The operation groups for dataShares */
   public readonly dataShares: DataSharesOperations;
   /** The operation groups for connectors */

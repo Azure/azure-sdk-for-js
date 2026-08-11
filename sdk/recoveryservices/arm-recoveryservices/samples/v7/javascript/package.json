@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "@azure/arm-recoveryservices client library samples for JavaScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,9 @@
   "dependencies": {
     "@azure/arm-recoveryservices": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

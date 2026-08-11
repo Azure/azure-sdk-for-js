@@ -37,7 +37,7 @@ import {
 } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { errorXmlDeserializer } from "./generated/models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer } from "./generated/models/models.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -101,10 +101,7 @@ export class BlobBatchClient {
   constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions,
@@ -242,10 +239,7 @@ export class BlobBatchClient {
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
     credentialOrTier:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | AccessTier,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/

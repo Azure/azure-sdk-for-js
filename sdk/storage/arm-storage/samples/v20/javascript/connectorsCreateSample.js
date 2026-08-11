@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Storage Connector if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource.
  *
  * @summary create a Storage Connector if it does not already exist; otherwise, error out. This API will not allow you to replace an already existing resource.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_Create.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_Create.json
  */
 async function createConnector() {
   const credential = new DefaultAzureCredential();

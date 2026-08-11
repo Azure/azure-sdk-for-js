@@ -1,27 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Retrieve the automation keys for an account.
- *
- * @summary Retrieve the automation keys for an account.
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/listAutomationAccountKeys.json
- */
-
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to retrieve the automation keys for an account.
+ *
+ * @summary retrieve the automation keys for an account.
+ * x-ms-original-file: 2024-10-23/listAutomationAccountKeys.json
+ */
 async function getListsOfAnAutomationAccount(): Promise<void> {
-  const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
-  const automationAccountName = "MyAutomationAccount";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.keys.listByAutomationAccount(
-    resourceGroupName,
-    automationAccountName,
-  );
+  const result = await client.keys.listByAutomationAccount("rg", "MyAutomationAccount");
   console.log(result);
 }
 

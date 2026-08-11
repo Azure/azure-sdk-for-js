@@ -1,6 +1,43 @@
 # Release History
 
-## Unreleased
+## 1.0.0-beta.45 (Unreleased)
+
+### Other Changes
+
+- Centralized native process execution and hardened Windows system executable
+  resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+- Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. Requests honor the standard proxy environment variables (`HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY`/`NO_PROXY`). This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)
+
+## 1.0.0-beta.44 (2026-07-29)
+
+### Bugs Fixed
+
+- Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
+
+### Other Changes
+
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
+- Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
+- Raised the minimum `@opentelemetry/api` version from `^1.9.0` to `^1.9.1`. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
+
+## 1.0.0-beta.43 (2026-07-01)
+
+### Breaking Changes
+
+- Renamed customer SDK Stats attribute keys to camelCase: `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
+
+### Bugs Fixed
+
+- Throttle startup replay of persisted telemetry with a randomized startup delay and jittered inter-batch spacing to avoid a fleet-wide thundering herd against the ingestion endpoint.
+- Fixed customer SDK Stats not counting telemetry that was dropped while saving to disk.
+- Clamp the server-controlled `Retry-After` header to a maximum of 24 hours, preventing a malformed value from overflowing `setTimeout` or stalling offline retries.
+- Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
+
+## 1.0.0-beta.42 (2026-05-29)
+
+### Bugs Fixed
+
+- Allow `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions`.
 
 ### Other Changes
 
@@ -43,7 +80,7 @@
 
 ## 1.0.0-beta.39 (2026-02-20)
 
-### Features Added 
+### Features Added
 
 - Add ownership checks for storage directories.
 - Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
@@ -52,14 +89,14 @@
 
 - Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
 
-### 1.0.0-beta.38 (2026-01-16)
+## 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
 - Updated customer SDK Stats metric names from preview format to stable format.
 
-### 1.0.0-beta.37 (2026-01-15)
+## 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 

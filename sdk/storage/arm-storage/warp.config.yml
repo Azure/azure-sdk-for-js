@@ -13,6 +13,7 @@ exports:
   "./api/queue": "./src/api/queue/index.ts"
   "./api/storageTaskAssignmentsInstancesReport": "./src/api/storageTaskAssignmentsInstancesReport/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
+  "./api/advancedPlatformMetrics": "./src/api/advancedPlatformMetrics/index.ts"
   "./api/dataShares": "./src/api/dataShares/index.ts"
   "./api/connectors": "./src/api/connectors/index.ts"
   "./api/storageTaskAssignments": "./src/api/storageTaskAssignments/index.ts"

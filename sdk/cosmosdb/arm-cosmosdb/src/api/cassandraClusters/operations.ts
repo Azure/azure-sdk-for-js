@@ -7,26 +7,15 @@ import type {
   _ListClusters,
   CommandPostBody,
   CommandOutput,
-  CommandAsyncPostBody,
-  CommandPublicResource,
-  _ListCommands,
-  _ListBackups,
-  BackupResource,
   CassandraClusterPublicStatus,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
   cloudErrorDeserializer,
   clusterResourceSerializer,
   clusterResourceDeserializer,
   _listClustersDeserializer,
   commandPostBodySerializer,
   commandOutputDeserializer,
-  commandAsyncPostBodySerializer,
-  commandPublicResourceDeserializer,
-  _listCommandsDeserializer,
-  _listBackupsDeserializer,
-  backupResourceDeserializer,
   cassandraClusterPublicStatusDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -37,11 +26,6 @@ import type {
   CassandraClustersStatusOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersDeallocateOptionalParams,
-  CassandraClustersGetBackupOptionalParams,
-  CassandraClustersListBackupsOptionalParams,
-  CassandraClustersGetCommandAsyncOptionalParams,
-  CassandraClustersListCommandOptionalParams,
-  CassandraClustersInvokeCommandAsyncOptionalParams,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersListBySubscriptionOptionalParams,
   CassandraClustersListByResourceGroupOptionalParams,
@@ -66,7 +50,7 @@ export function _statusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +68,9 @@ export async function _statusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -115,7 +101,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +114,9 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -148,7 +136,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +152,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +173,9 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -205,293 +195,8 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _getBackupSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  backupId: string,
-  options: CassandraClustersGetBackupOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups/{backupId}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      backupId: backupId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getBackupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<BackupResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return backupResourceDeserializer(result.body);
-}
-
-/** Get the properties of an individual backup of this cluster that is available to restore. */
-export async function getBackup(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  backupId: string,
-  options: CassandraClustersGetBackupOptionalParams = { requestOptions: {} },
-): Promise<BackupResource> {
-  const result = await _getBackupSend(context, resourceGroupName, clusterName, backupId, options);
-  return _getBackupDeserialize(result);
-}
-
-export function _listBackupsSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: CassandraClustersListBackupsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listBackupsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_ListBackups> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return _listBackupsDeserializer(result.body);
-}
-
-/** List the backups of this cluster that are available to restore. */
-export function listBackups(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: CassandraClustersListBackupsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<BackupResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listBackupsSend(context, resourceGroupName, clusterName, options),
-    _listBackupsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  );
-}
-
-export function _getCommandAsyncSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  commandId: string,
-  options: CassandraClustersGetCommandAsyncOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands/{commandId}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      commandId: commandId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getCommandAsyncDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CommandPublicResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return commandPublicResourceDeserializer(result.body);
-}
-
-/** Get details about a specified command that was run asynchronously. */
-export async function getCommandAsync(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  commandId: string,
-  options: CassandraClustersGetCommandAsyncOptionalParams = { requestOptions: {} },
-): Promise<CommandPublicResource> {
-  const result = await _getCommandAsyncSend(
-    context,
-    resourceGroupName,
-    clusterName,
-    commandId,
-    options,
-  );
-  return _getCommandAsyncDeserialize(result);
-}
-
-export function _listCommandSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: CassandraClustersListCommandOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/commands{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listCommandDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_ListCommands> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return _listCommandsDeserializer(result.body);
-}
-
-/** List all commands currently running on ring info */
-export function listCommand(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  options: CassandraClustersListCommandOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<CommandPublicResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listCommandSend(context, resourceGroupName, clusterName, options),
-    _listCommandDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
-  );
-}
-
-export function _invokeCommandAsyncSend(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  body: CommandAsyncPostBody,
-  options: CassandraClustersInvokeCommandAsyncOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommandAsync{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commandAsyncPostBodySerializer(body),
-  });
-}
-
-export async function _invokeCommandAsyncDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CommandPublicResource> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return commandPublicResourceDeserializer(result.body);
-}
-
-/** Invoke a command like nodetool for cassandra maintenance asynchronously */
-export function invokeCommandAsync(
-  context: Client,
-  resourceGroupName: string,
-  clusterName: string,
-  body: CommandAsyncPostBody,
-  options: CassandraClustersInvokeCommandAsyncOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<CommandPublicResource>, CommandPublicResource> {
-  return getLongRunningPoller(context, _invokeCommandAsyncDeserialize, ["200", "202", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _invokeCommandAsyncSend(context, resourceGroupName, clusterName, body, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
-  }) as PollerLike<OperationState<CommandPublicResource>, CommandPublicResource>;
 }
 
 export function _invokeCommandSend(
@@ -507,7 +212,7 @@ export function _invokeCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -527,7 +232,9 @@ export async function _invokeCommandDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -549,7 +256,7 @@ export function invokeCommand(
     getInitialResponse: () =>
       _invokeCommandSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<CommandOutput>, CommandOutput>;
 }
 
@@ -561,7 +268,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/cassandraClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -579,7 +286,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -597,11 +306,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -615,7 +320,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -633,7 +338,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -652,11 +359,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -672,7 +375,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -685,7 +388,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -694,11 +399,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a managed Cassandra cluster. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -710,7 +410,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -727,7 +427,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -745,7 +445,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -766,7 +468,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<ClusterResource>, ClusterResource>;
 }
 
@@ -783,7 +485,7 @@ export function _createUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,7 +505,9 @@ export async function _createUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -825,7 +529,7 @@ export function createUpdate(
     getInitialResponse: () =>
       _createUpdateSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<ClusterResource>, ClusterResource>;
 }
 
@@ -841,7 +545,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -857,7 +561,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

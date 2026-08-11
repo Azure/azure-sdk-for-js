@@ -4,20 +4,41 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckNameAvailabilityParameters {
     name: string;
     type: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface CorsConfiguration {
@@ -32,7 +53,37 @@ export interface CorsConfiguration {
 export type CreatedByType = string;
 
 // @public
-export interface DicomService extends TaggedResource, ServiceManagedIdentity {
+export interface DicomService extends ProxyResource {
+    authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
+    enableDataPartitions?: boolean;
+    encryption?: Encryption;
+    etag?: string;
+    readonly eventState?: ServiceEventState;
+    identity?: ServiceManagedIdentityIdentity;
+    location?: string;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly serviceUrl?: string;
+    storageConfiguration?: StorageConfiguration;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DicomServiceAuthenticationConfiguration {
+    readonly audiences?: string[];
+    readonly authority?: string;
+}
+
+// @public
+export interface DicomServicePatchResource {
+    identity?: ServiceManagedIdentityIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DicomServiceProperties {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
     corsConfiguration?: CorsConfiguration;
     enableDataPartitions?: boolean;
@@ -43,81 +94,51 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceUrl?: string;
     storageConfiguration?: StorageConfiguration;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface DicomServiceAuthenticationConfiguration {
-    readonly audiences?: string[];
-    readonly authority?: string;
-}
-
-// @public
-export interface DicomServiceCollection {
-    nextLink?: string;
-    value?: DicomService[];
-}
-
-// @public
-export interface DicomServicePatchResource extends ResourceTags, ServiceManagedIdentity {
-}
-
-// @public
-export interface DicomServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DicomServicesCreateOrUpdateResponse>, DicomServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<DicomServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DicomServicesUpdateResponse>, DicomServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<DicomServicesUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, dicomServiceName: string, options?: DicomServicesGetOptionalParams): Promise<DicomServicesGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: DicomServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<DicomService>;
-}
-
-// @public
-export interface DicomServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DicomServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DicomServicesCreateOrUpdateResponse = DicomService;
-
-// @public
-export interface DicomServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DicomServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DicomServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface DicomServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DicomServicesGetResponse = DicomService;
-
-// @public
-export interface DicomServicesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+export interface DicomServicesListByWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DicomServicesListByWorkspaceNextResponse = DicomServiceCollection;
-
-// @public
-export interface DicomServicesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface DicomServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DicomService>, DicomService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams) => Promise<DicomService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DicomService>, DicomService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams) => Promise<DicomService>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DicomService>, DicomService>;
+    delete: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, dicomServiceName: string, options?: DicomServicesGetOptionalParams) => Promise<DicomService>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: DicomServicesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<DicomService>;
+    update: (resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams) => PollerLike<OperationState<DicomService>, DicomService>;
 }
 
 // @public
-export type DicomServicesListByWorkspaceResponse = DicomServiceCollection;
-
-// @public
-export interface DicomServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DicomServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DicomServicesUpdateResponse = DicomService;
 
 // @public
 export interface Encryption {
@@ -147,43 +168,36 @@ export interface ErrorModel {
 }
 
 // @public
-export interface FhirDestinations {
-    listByIotConnector(resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: FhirDestinationsListByIotConnectorOptionalParams): PagedAsyncIterableIterator<IotFhirDestination>;
+export interface FhirDestinationsListByIotConnectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FhirDestinationsListByIotConnectorNextOptionalParams extends coreClient.OperationOptions {
+export interface FhirDestinationsOperations {
+    listByIotConnector: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: FhirDestinationsListByIotConnectorOptionalParams) => PagedAsyncIterableIterator<IotFhirDestination>;
 }
-
-// @public
-export type FhirDestinationsListByIotConnectorNextResponse = IotFhirDestinationCollection;
-
-// @public
-export interface FhirDestinationsListByIotConnectorOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FhirDestinationsListByIotConnectorResponse = IotFhirDestinationCollection;
 
 // @public
 export type FhirResourceVersionPolicy = string;
 
 // @public
-export interface FhirService extends TaggedResource, ServiceManagedIdentity {
+export interface FhirService extends ProxyResource {
     acrConfiguration?: FhirServiceAcrConfiguration;
     authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
     corsConfiguration?: FhirServiceCorsConfiguration;
     encryption?: Encryption;
+    etag?: string;
     readonly eventState?: ServiceEventState;
     exportConfiguration?: FhirServiceExportConfiguration;
+    identity?: ServiceManagedIdentityIdentity;
     implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
     importConfiguration?: FhirServiceImportConfiguration;
     kind?: FhirServiceKind;
+    location?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
-    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -198,12 +212,6 @@ export interface FhirServiceAuthenticationConfiguration {
     authority?: string;
     smartIdentityProviders?: SmartIdentityProviderConfiguration[];
     smartProxyEnabled?: boolean;
-}
-
-// @public
-export interface FhirServiceCollection {
-    nextLink?: string;
-    value?: FhirService[];
 }
 
 // @public
@@ -231,111 +239,95 @@ export interface FhirServiceImportConfiguration {
 export type FhirServiceKind = string;
 
 // @public
-export interface FhirServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+export interface FhirServicePatchResource {
+    identity?: ServiceManagedIdentityIdentity;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface FhirServices {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FhirServicesCreateOrUpdateResponse>, FhirServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<FhirServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FhirServicesUpdateResponse>, FhirServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<FhirServicesUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, fhirServiceName: string, options?: FhirServicesGetOptionalParams): Promise<FhirServicesGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: FhirServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<FhirService>;
+export interface FhirServiceProperties {
+    acrConfiguration?: FhirServiceAcrConfiguration;
+    authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+    corsConfiguration?: FhirServiceCorsConfiguration;
+    encryption?: Encryption;
+    readonly eventState?: ServiceEventState;
+    exportConfiguration?: FhirServiceExportConfiguration;
+    implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
 }
 
 // @public
-export interface FhirServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FhirServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FhirServicesCreateOrUpdateResponse = FhirService;
-
-// @public
-export interface FhirServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FhirServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FhirServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface FhirServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FhirServicesGetResponse = FhirService;
-
-// @public
-export interface FhirServicesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+export interface FhirServicesListByWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FhirServicesListByWorkspaceNextResponse = FhirServiceCollection;
-
-// @public
-export interface FhirServicesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface FhirServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FhirService>, FhirService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams) => Promise<FhirService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FhirService>, FhirService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams) => Promise<FhirService>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FhirService>, FhirService>;
+    delete: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, fhirServiceName: string, options?: FhirServicesGetOptionalParams) => Promise<FhirService>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: FhirServicesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<FhirService>;
+    update: (resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams) => PollerLike<OperationState<FhirService>, FhirService>;
 }
 
 // @public
-export type FhirServicesListByWorkspaceResponse = FhirServiceCollection;
-
-// @public
-export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FhirServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type FhirServicesUpdateResponse = FhirService;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
-export class HealthcareApisManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HealthcareApisManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    dicomServices: DicomServices;
-    // (undocumented)
-    fhirDestinations: FhirDestinations;
-    // (undocumented)
-    fhirServices: FhirServices;
-    // (undocumented)
-    iotConnectorFhirDestination: IotConnectorFhirDestination;
-    // (undocumented)
-    iotConnectors: IotConnectors;
-    // (undocumented)
-    operationResults: OperationResults;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    services: Services;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    workspacePrivateEndpointConnections: WorkspacePrivateEndpointConnections;
-    // (undocumented)
-    workspacePrivateLinkResources: WorkspacePrivateLinkResources;
-    // (undocumented)
-    workspaces: Workspaces;
+export class HealthcareApisManagementClient {
+    constructor(credential: TokenCredential, options?: HealthcareApisManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: HealthcareApisManagementClientOptionalParams);
+    readonly dicomServices: DicomServicesOperations;
+    readonly fhirDestinations: FhirDestinationsOperations;
+    readonly fhirServices: FhirServicesOperations;
+    readonly iotConnectorFhirDestination: IotConnectorFhirDestinationOperations;
+    readonly iotConnectors: IotConnectorsOperations;
+    readonly operationResults: OperationResultsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly services: ServicesOperations;
+    readonly workspacePrivateEndpointConnections: WorkspacePrivateEndpointConnectionsOperations;
+    readonly workspacePrivateLinkResources: WorkspacePrivateLinkResourcesOperations;
+    readonly workspaces: WorkspacesOperations;
 }
 
 // @public
-export interface HealthcareApisManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface HealthcareApisManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -344,110 +336,101 @@ export interface ImplementationGuidesConfiguration {
 }
 
 // @public
-export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
+export interface IotConnector extends ProxyResource {
+    deviceMapping?: IotMappingProperties;
+    etag?: string;
+    identity?: ServiceManagedIdentityIdentity;
+    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+    location?: string;
+    readonly provisioningState?: ProvisioningState;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface IotConnectorFhirDestinationCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IotConnectorFhirDestinationDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IotConnectorFhirDestinationGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IotConnectorFhirDestinationOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<IotFhirDestination>, IotFhirDestination>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams) => Promise<IotFhirDestination>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams) => PollerLike<OperationState<IotFhirDestination>, IotFhirDestination>;
+    delete: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationGetOptionalParams) => Promise<IotFhirDestination>;
+}
+
+// @public
+export interface IotConnectorPatchResource {
+    identity?: ServiceManagedIdentityIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface IotConnectorProperties {
     deviceMapping?: IotMappingProperties;
     ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface IotConnectorCollection {
-    nextLink?: string;
-    value?: IotConnector[];
-}
-
-// @public
-export interface IotConnectorFhirDestination {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>, IotConnectorFhirDestinationCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationGetOptionalParams): Promise<IotConnectorFhirDestinationGetResponse>;
-}
-
-// @public
-export interface IotConnectorFhirDestinationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotConnectorsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotConnectorFhirDestinationCreateOrUpdateResponse = IotFhirDestination;
-
-// @public
-export interface IotConnectorFhirDestinationDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotConnectorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface IotConnectorFhirDestinationGetOptionalParams extends coreClient.OperationOptions {
+export interface IotConnectorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotConnectorFhirDestinationGetResponse = IotFhirDestination;
-
-// @public
-export interface IotConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+export interface IotConnectorsListByWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IotConnectors {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorsCreateOrUpdateResponse>, IotConnectorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<IotConnectorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotConnectorsUpdateResponse>, IotConnectorsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<IotConnectorsUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: IotConnectorsGetOptionalParams): Promise<IotConnectorsGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: IotConnectorsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<IotConnector>;
+export interface IotConnectorsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<IotConnector>, IotConnector>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams) => Promise<IotConnector>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<IotConnector>, IotConnector>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams) => Promise<IotConnector>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<IotConnector>, IotConnector>;
+    delete: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: IotConnectorsGetOptionalParams) => Promise<IotConnector>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: IotConnectorsListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<IotConnector>;
+    update: (resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams) => PollerLike<OperationState<IotConnector>, IotConnector>;
 }
 
 // @public
-export interface IotConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotConnectorsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type IotConnectorsCreateOrUpdateResponse = IotConnector;
-
-// @public
-export interface IotConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface IotConnectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotConnectorsGetResponse = IotConnector;
-
-// @public
-export interface IotConnectorsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotConnectorsListByWorkspaceNextResponse = IotConnectorCollection;
-
-// @public
-export interface IotConnectorsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotConnectorsListByWorkspaceResponse = IotConnectorCollection;
-
-// @public
-export interface IotConnectorsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type IotConnectorsUpdateResponse = IotConnector;
 
 // @public
 export interface IotDestinationProperties {
@@ -462,18 +445,13 @@ export interface IotEventHubIngestionEndpointConfiguration {
 }
 
 // @public
-export interface IotFhirDestination extends LocationBasedResource {
+export interface IotFhirDestination extends ProxyResource {
+    etag?: string;
     fhirMapping: IotMappingProperties;
     fhirServiceResourceId: string;
+    location?: string;
     readonly provisioningState?: ProvisioningState;
     resourceIdentityResolutionType: IotIdentityResolutionType;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface IotFhirDestinationCollection {
-    nextLink?: string;
-    value?: IotFhirDestination[];
 }
 
 // @public
@@ -488,8 +466,10 @@ export type IotIdentityResolutionType = string;
 
 // @public
 export interface IotMappingProperties {
-    content?: Record<string, unknown>;
+    content?: any;
 }
+
+export { isRestError }
 
 // @public
 export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -600,14 +580,8 @@ export enum KnownSmartDataActions {
 }
 
 // @public
-export interface ListOperations {
-    nextLink?: string;
-    readonly value?: OperationDetail[];
-}
-
-// @public
-export interface LocationBasedResource extends ResourceCore {
-    location?: string;
+export enum KnownVersions {
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public
@@ -671,48 +645,47 @@ export interface OperationProperties {
 }
 
 // @public
-export interface OperationResults {
-    get(locationName: string, operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
-}
-
-// @public
 export interface OperationResultsDescription {
     readonly endTime?: string;
     readonly id?: string;
     readonly name?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
     readonly startTime?: string;
     readonly status?: OperationResultStatus;
 }
 
 // @public
-export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
+export interface OperationResultsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationResultsGetResponse = OperationResultsDescription;
+export interface OperationResultsOperations {
+    get: (locationName: string, operationResultId: string, options?: OperationResultsGetOptionalParams) => Promise<OperationResultsDescription>;
+}
 
 // @public
 export type OperationResultStatus = string;
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationDetail>;
 }
 
 // @public
-export type OperationsListNextResponse = ListOperations;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = ListOperations;
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -727,101 +700,92 @@ export interface PrivateEndpointConnection extends Resource {
 }
 
 // @public
-export interface PrivateEndpointConnectionDescription extends PrivateEndpointConnection {
-    readonly systemData?: SystemData;
+export interface PrivateEndpointConnectionDescription extends ProxyResource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
-}
-
-// @public
-export interface PrivateEndpointConnectionListResultDescription {
-    value?: PrivateEndpointConnectionDescription[];
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByService(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionDescription;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionDescription;
-
-// @public
-export interface PrivateEndpointConnectionsListByServiceOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointConnectionListResultDescription;
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionDescription>, PrivateEndpointConnectionDescription>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnectionDescription>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionDescription>, PrivateEndpointConnectionDescription>;
+    delete: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionDescription>;
+    listByService: (resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListByServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
+}
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResourceDescription extends ProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourceDescription extends PrivateLinkResource {
-    readonly systemData?: SystemData;
-}
-
-// @public
 export interface PrivateLinkResourceListResultDescription {
+    nextLink?: string;
     value?: PrivateLinkResourceDescription[];
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, resourceName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    listByService(resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListByServiceOptionalParams): Promise<PrivateLinkResourcesListByServiceResponse>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
-
-// @public
-export interface PrivateLinkResourcesListByServiceOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByServiceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListByServiceResponse = PrivateLinkResourceListResultDescription;
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, resourceName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResourceDescription>;
+    listByService: (resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListByServiceOptionalParams) => Promise<PrivateLinkResourceListResultDescription>;
+}
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -834,36 +798,41 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceCore {
-    etag?: string;
-    readonly id?: string;
-    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceTags {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface ResourceVersionPolicyConfiguration {
     default?: FhirResourceVersionPolicy;
-    resourceTypeOverrides?: {
-        [propertyName: string]: FhirResourceVersionPolicy;
-    };
+    resourceTypeOverrides?: Record<string, FhirResourceVersionPolicy>;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HealthcareApisManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -916,18 +885,11 @@ export interface ServiceImportConfigurationInfo {
 }
 
 // @public
-export interface ServiceManagedIdentity {
-    identity?: ServiceManagedIdentityIdentity;
-}
-
-// @public
 export interface ServiceManagedIdentityIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ServiceManagedIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -944,87 +906,38 @@ export interface ServiceOciArtifactEntry {
 }
 
 // @public
-export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
-    checkNameAvailability(checkNameAvailabilityInputs: CheckNameAvailabilityParameters, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
-    list(options?: ServicesListOptionalParams): PagedAsyncIterableIterator<ServicesDescription>;
-    listByResourceGroup(resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ServicesDescription>;
+export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesCheckNameAvailabilityResponse = ServicesNameAvailabilityInfo;
-
-// @public
-export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesCreateOrUpdateResponse = ServicesDescription;
-
-// @public
-export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServicesDescription extends ServicesResource {
+export interface ServicesDescription extends TrackedResource {
+    etag?: string;
+    identity?: ServicesResourceIdentity;
+    kind: Kind;
     properties?: ServicesProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface ServicesDescriptionListResult {
-    nextLink?: string;
-    value?: ServicesDescription[];
+export interface ServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesGetResponse = ServicesDescription;
-
-// @public
-export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServicesListByResourceGroupNextResponse = ServicesDescriptionListResult;
-
-// @public
-export interface ServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListByResourceGroupResponse = ServicesDescriptionListResult;
-
-// @public
-export interface ServicesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListNextResponse = ServicesDescriptionListResult;
-
-// @public
-export interface ServicesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListResponse = ServicesDescriptionListResult;
 
 // @public
 export interface ServicesNameAvailabilityInfo {
@@ -1034,11 +947,32 @@ export interface ServicesNameAvailabilityInfo {
 }
 
 // @public
+export interface ServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ServicesDescription>, ServicesDescription>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams) => Promise<ServicesDescription>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ServicesDescription>, ServicesDescription>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams) => Promise<ServicesDescription>;
+    checkNameAvailability: (checkNameAvailabilityInputs: CheckNameAvailabilityParameters, options?: ServicesCheckNameAvailabilityOptionalParams) => Promise<ServicesNameAvailabilityInfo>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, serviceDescription: ServicesDescription, options?: ServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ServicesDescription>, ServicesDescription>;
+    delete: (resourceGroupName: string, resourceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, options?: ServicesGetOptionalParams) => Promise<ServicesDescription>;
+    list: (options?: ServicesListOptionalParams) => PagedAsyncIterableIterator<ServicesDescription>;
+    listByResourceGroup: (resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ServicesDescription>;
+    update: (resourceGroupName: string, resourceName: string, servicePatchDescription: ServicesPatchDescription, options?: ServicesUpdateOptionalParams) => PollerLike<OperationState<ServicesDescription>, ServicesDescription>;
+}
+
+// @public
 export interface ServicesPatchDescription {
     publicNetworkAccess?: PublicNetworkAccess;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1062,17 +996,8 @@ export interface ServicesProperties {
 }
 
 // @public
-export interface ServicesResource {
-    etag?: string;
-    readonly id?: string;
-    identity?: ServicesResourceIdentity;
-    kind: Kind;
-    location: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+export interface ServicesPropertiesUpdateParameters {
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
@@ -1083,13 +1008,31 @@ export interface ServicesResourceIdentity {
 }
 
 // @public
-export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesUpdateResponse = ServicesDescription;
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export type SmartDataActions = string;
@@ -1110,7 +1053,13 @@ export interface SmartIdentityProviderConfiguration {
 // @public
 export interface StorageConfiguration {
     fileSystemName?: string;
+    storageIndexingConfiguration?: StorageIndexingConfiguration;
     storageResourceId?: string;
+}
+
+// @public
+export interface StorageIndexingConfiguration {
+    storageEventQueueName?: string;
 }
 
 // @public
@@ -1124,7 +1073,9 @@ export interface SystemData {
 }
 
 // @public
-export interface TaggedResource extends ResourceTags, LocationBasedResource {
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1134,15 +1085,11 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface Workspace extends TaggedResource {
+export interface Workspace extends ProxyResource {
+    etag?: string;
+    location?: string;
     properties?: WorkspaceProperties;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface WorkspaceList {
-    nextLink?: string;
-    value?: Workspace[];
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1150,63 +1097,52 @@ export interface WorkspacePatchResource extends ResourceTags {
 }
 
 // @public
-export interface WorkspacePrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>, WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsGetOptionalParams): Promise<WorkspacePrivateEndpointConnectionsGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
-}
-
-// @public
-export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionDescription;
-
-// @public
-export interface WorkspacePrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkspacePrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkspacePrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacePrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacePrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionDescription;
-
-// @public
-export interface WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacePrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultDescription;
-
-// @public
-export interface WorkspacePrivateLinkResources {
-    get(resourceGroupName: string, workspaceName: string, groupName: string, options?: WorkspacePrivateLinkResourcesGetOptionalParams): Promise<WorkspacePrivateLinkResourcesGetResponse>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResourceDescription>;
+export interface WorkspacePrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionDescription>, PrivateEndpointConnectionDescription>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnectionDescription>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionDescription>, PrivateEndpointConnectionDescription>;
+    delete: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionDescription>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
 }
 
 // @public
-export interface WorkspacePrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacePrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacePrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
-
-// @public
-export interface WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacePrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResultDescription;
+export interface WorkspacePrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, workspaceName: string, groupName: string, options?: WorkspacePrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResourceDescription>;
+    listByWorkspace: (resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResourceDescription>;
+}
 
 // @public
 export interface WorkspaceProperties {
@@ -1216,76 +1152,53 @@ export interface WorkspaceProperties {
 }
 
 // @public
-export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
-    listBySubscription(options?: WorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Workspace>;
-}
-
-// @public
-export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WorkspacesCreateOrUpdateResponse = Workspace;
-
-// @public
-export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkspacesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacesGetResponse = Workspace;
-
-// @public
-export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
-
-// @public
-export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkspacesListByResourceGroupResponse = WorkspaceList;
-
-// @public
-export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkspacesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Workspace>, Workspace>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams) => Promise<Workspace>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Workspace>, Workspace>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams) => Promise<Workspace>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Workspace>, Workspace>;
+    delete: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams) => Promise<Workspace>;
+    listByResourceGroup: (resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Workspace>;
+    listBySubscription: (options?: WorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Workspace>;
+    update: (resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams) => PollerLike<OperationState<Workspace>, Workspace>;
 }
 
 // @public
-export type WorkspacesListBySubscriptionNextResponse = WorkspaceList;
-
-// @public
-export interface WorkspacesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspacesListBySubscriptionResponse = WorkspaceList;
-
-// @public
-export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkspacesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type WorkspacesUpdateResponse = Workspace;
 
 // (No @packageDocumentation comment for this package)
 

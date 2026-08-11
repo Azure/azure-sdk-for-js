@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -16,9 +17,8 @@ import {
   QueryRequest,
   queryRequestXmlSerializer,
   BlockListType,
-} from "../../models/azure/storage/blobs/models.js";
-import { BlockBlobQueryResponse } from "../../models/models.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
+  BlockBlobQueryResponse,
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -63,7 +63,7 @@ export function _querySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -107,7 +107,9 @@ export async function _queryDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -132,7 +134,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
   contentLanguage: string;
   blobSequenceNumber: number;
   blobType?: BlobType;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   copyCompletionTime?: Date;
   copyStatusDescription?: string;
   copyId?: string;
@@ -169,7 +171,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
     contentLanguage: result.headers["content-language"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     blobType: result.headers["x-ms-blob-type"] as any,
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -272,8 +274,7 @@ export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse)
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Query operation enables users to select/project on blob data by providing simple query expressions. */
+/** Queries the data of the specified blob with the provided query expressions. */
 export async function query(
   context: Client,
   queryRequest: QueryRequest,
@@ -291,7 +292,7 @@ export async function query(
     contentLanguage: string;
     blobSequenceNumber: number;
     blobType?: BlobType;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     copyCompletionTime?: Date;
     copyStatusDescription?: string;
     copyId?: string;
@@ -327,7 +328,7 @@ export async function query(
         contentLanguage: string;
         blobSequenceNumber: number;
         blobType?: BlobType;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         copyCompletionTime?: Date;
         copyStatusDescription?: string;
         copyId?: string;
@@ -383,7 +384,7 @@ export function _getBlockListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -399,7 +400,9 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getBlockListDeserializeExceptionHeaders(result),
@@ -470,8 +473,7 @@ export function _getBlockListDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob. */
+/** Retrieves the list of blocks that have been uploaded as part of the block blob. */
 export async function getBlockList(
   context: Client,
   listType: BlockListType,
@@ -531,7 +533,7 @@ export function _commitBlockListSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -624,7 +626,9 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._commitBlockListDeserializeExceptionHeaders(result),
@@ -644,7 +648,7 @@ export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -661,7 +665,7 @@ export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -720,8 +724,7 @@ export function _commitBlockListDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Commit Block List operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior Put Block operation. You can call Put Block List to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to. */
+/** Writes to the block blob by specifying the list of block IDs that make up the blob. */
 export async function commitBlockList(
   context: Client,
   blocks: BlockLookupList,
@@ -731,7 +734,7 @@ export async function commitBlockList(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -746,7 +749,7 @@ export async function commitBlockList(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -790,7 +793,7 @@ export function _stageBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -870,7 +873,9 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockFromUrlDeserializeExceptionHeaders(result),
@@ -888,7 +893,7 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
 
 export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
   encryptionScope?: string;
@@ -902,7 +907,7 @@ export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -960,8 +965,7 @@ export function _stageBlockFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Stage Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL. */
+/** Creates a new block of data from the specified URL to be committed as part of a blob. */
 export async function stageBlockFromUrl(
   context: Client,
   blockId: Uint8Array,
@@ -971,7 +975,7 @@ export async function stageBlockFromUrl(
 ): Promise<
   {
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -983,7 +987,7 @@ export async function stageBlockFromUrl(
     undefined,
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -1027,7 +1031,7 @@ export function _stageBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1075,7 +1079,9 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._stageBlockDeserializeExceptionHeaders(result),
@@ -1093,7 +1099,7 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
 
 export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
   encryptionScope?: string;
@@ -1108,7 +1114,7 @@ export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1171,8 +1177,7 @@ export function _stageBlockDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Stage Block operation creates a new block to be committed as part of a blob */
+/** Creates a new block of data to be committed as part of a blob. */
 export async function stageBlock(
   context: Client,
   blockId: Uint8Array,
@@ -1182,7 +1187,7 @@ export async function stageBlock(
 ): Promise<
   {
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -1195,7 +1200,7 @@ export async function stageBlock(
     undefined,
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -1236,7 +1241,7 @@ export function _uploadBlobFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1364,7 +1369,9 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadBlobFromUrlDeserializeExceptionHeaders(result),
@@ -1384,6 +1391,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1400,6 +1408,13 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
+    xMsContentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1452,8 +1467,7 @@ export function _uploadBlobFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are not supported with Put Blob from URL; the content of an existing blob is overwritten with the content of the new blob.  To perform partial updates to a block blob’s contents using a source URL, use the Put Block from URL API in conjunction with Put Block List. */
+/** Uploads the content from the specified URL to the block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function uploadBlobFromUrl(
   context: Client,
   copySource: string,
@@ -1463,6 +1477,7 @@ export async function uploadBlobFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1477,6 +1492,7 @@ export async function uploadBlobFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1519,7 +1535,7 @@ export function _uploadSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1620,7 +1636,9 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._uploadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1637,7 +1655,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1655,7 +1673,7 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1719,8 +1737,7 @@ export function _uploadDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Upload Block Blob operation updates the content of an existing block blob. Updating an existing block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a partial update of the content of a block blob, use the Put Block List operation. */
+/** Uploads the content to the specified block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function upload(
   context: Client,
   body: Uint8Array,
@@ -1731,7 +1748,7 @@ export async function upload(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1747,7 +1764,7 @@ export async function upload(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;

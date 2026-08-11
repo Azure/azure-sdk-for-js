@@ -3,72 +3,119 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  deleteVersion,
+  downloadVersion,
+  download,
+  getVersion,
+  listVersions,
+  createFromFiles,
+  create,
   $delete,
   update,
   list,
-  download,
   get,
-  createFromPackage,
-  create,
 } from "../../../api/beta/skills/operations.js";
 import type {
+  DeleteVersionOptionalParams,
+  DownloadVersionOptionalParams,
+  BetaSkillsDownloadOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
+  CreateFromFilesOptionalParams,
+  BetaSkillsCreateOptionalParams,
   BetaSkillsDeleteOptionalParams,
   BetaSkillsUpdateOptionalParams,
   BetaSkillsListOptionalParams,
-  BetaSkillsDownloadOptionalParams,
   BetaSkillsGetOptionalParams,
-  CreateFromPackageOptionalParams,
-  BetaSkillsCreateOptionalParams,
 } from "../../../api/beta/skills/options.js";
 import type {
-  SkillObject,
+  Skill,
   DeleteSkillResponse,
+  SkillVersion,
+  CreateSkillVersionFromFilesBody,
+  DeleteSkillVersionResponse,
+  DownloadVersionResponse,
   BetaSkillsDownloadResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaSkills operations. */
 export interface BetaSkillsOperations {
-  /** Deletes a skill. */
-  delete: (
-    skillName: string,
-    options?: BetaSkillsDeleteOptionalParams,
-  ) => Promise<DeleteSkillResponse>;
-  /** Updates an existing skill. */
-  update: (skillName: string, options?: BetaSkillsUpdateOptionalParams) => Promise<SkillObject>;
-  /** Returns the list of all skills. */
-  list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<SkillObject>;
-  /** Downloads a skill package. */
+  /** Delete a specific version of a skill. */
+  deleteVersion: (
+    name: string,
+    version: string,
+    options?: DeleteVersionOptionalParams,
+  ) => Promise<DeleteSkillVersionResponse>;
+  /** Download the zip content for a specific version of a skill. */
+  downloadVersion: (
+    name: string,
+    version: string,
+    options?: DownloadVersionOptionalParams,
+  ) => Promise<DownloadVersionResponse>;
+  /** Download the zip content for the default version of a skill. */
   download: (
-    skillName: string,
+    name: string,
     options?: BetaSkillsDownloadOptionalParams,
   ) => Promise<BetaSkillsDownloadResponse>;
+  /** Retrieve a specific version of a skill. */
+  getVersion: (
+    name: string,
+    version: string,
+    options?: GetVersionOptionalParams,
+  ) => Promise<SkillVersion>;
+  /** List all versions of a skill. */
+  listVersions: (
+    name: string,
+    options?: ListVersionsOptionalParams,
+  ) => PagedAsyncIterableIterator<SkillVersion>;
+  /** Creates a new version of a skill from uploaded files via multipart form data. */
+  createFromFiles: (
+    name: string,
+    content: CreateSkillVersionFromFilesBody,
+    options?: CreateFromFilesOptionalParams,
+  ) => Promise<SkillVersion>;
+  /** Creates a new version of a skill. If the skill does not exist, it will be created. */
+  create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
+  /** Deletes a skill. */
+  delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
+  /** Update a skill. */
+  update: (
+    name: string,
+    defaultVersion: string,
+    options?: BetaSkillsUpdateOptionalParams,
+  ) => Promise<Skill>;
+  /** Returns the list of all skills. */
+  list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
   /** Retrieves a skill. */
-  get: (skillName: string, options?: BetaSkillsGetOptionalParams) => Promise<SkillObject>;
-  /** Creates a skill from a zip package. */
-  createFromPackage: (
-    body: Uint8Array,
-    options?: CreateFromPackageOptionalParams,
-  ) => Promise<SkillObject>;
-  /** Creates a skill. */
-  create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillObject>;
+  get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
 }
 
 function _getBetaSkills(context: AIProjectContext) {
   return {
-    delete: (skillName: string, options?: BetaSkillsDeleteOptionalParams) =>
-      $delete(context, skillName, options),
-    update: (skillName: string, options?: BetaSkillsUpdateOptionalParams) =>
-      update(context, skillName, options),
-    list: (options?: BetaSkillsListOptionalParams) => list(context, options),
-    download: (skillName: string, options?: BetaSkillsDownloadOptionalParams) =>
-      download(context, skillName, options),
-    get: (skillName: string, options?: BetaSkillsGetOptionalParams) =>
-      get(context, skillName, options),
-    createFromPackage: (body: Uint8Array, options?: CreateFromPackageOptionalParams) =>
-      createFromPackage(context, body, options),
+    deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) =>
+      deleteVersion(context, name, version, options),
+    downloadVersion: (name: string, version: string, options?: DownloadVersionOptionalParams) =>
+      downloadVersion(context, name, version, options),
+    download: (name: string, options?: BetaSkillsDownloadOptionalParams) =>
+      download(context, name, options),
+    getVersion: (name: string, version: string, options?: GetVersionOptionalParams) =>
+      getVersion(context, name, version, options),
+    listVersions: (name: string, options?: ListVersionsOptionalParams) =>
+      listVersions(context, name, options),
+    createFromFiles: (
+      name: string,
+      content: CreateSkillVersionFromFilesBody,
+      options?: CreateFromFilesOptionalParams,
+    ) => createFromFiles(context, name, content, options),
     create: (name: string, options?: BetaSkillsCreateOptionalParams) =>
       create(context, name, options),
+    delete: (name: string, options?: BetaSkillsDeleteOptionalParams) =>
+      $delete(context, name, options),
+    update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) =>
+      update(context, name, defaultVersion, options),
+    list: (options?: BetaSkillsListOptionalParams) => list(context, options),
+    get: (name: string, options?: BetaSkillsGetOptionalParams) => get(context, name, options),
   };
 }
 

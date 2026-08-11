@@ -4,8 +4,10 @@
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
-import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import {
+  useAzureMonitor,
+  type AzureMonitorOpenTelemetryOptions,
+} from "@azure/monitor-opentelemetry";
 import type {
   AzureAISearchIndex,
   Connection,
@@ -21,6 +23,12 @@ import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
+import { context, trace } from "@opentelemetry/api";
+import {
+  NodeTracerProvider,
+  ConsoleSpanExporter,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 
 describe("snippets", function () {
   let project: AIProjectClient;
@@ -951,18 +959,13 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("beta-agents", async function () {
     const agentName = "MyBetaAgent";
-    const isolationKey = "sample-isolation-key";
 
     // Create a session for the agent
     const versionIndicator: VersionRefIndicator = {
       type: "version_ref",
       agent_version: "1.0",
     };
-    const session = await project.beta.agents.createSession(
-      agentName,
-      isolationKey,
-      versionIndicator,
-    );
+    const session = await project.beta.agents.createSession(agentName, versionIndicator);
     console.log(`Session created: ${session.agent_session_id}`);
 
     // Upload a file to the session sandbox
@@ -1007,15 +1010,96 @@ Be direct and efficient. When you reach the search results page, read and descri
     ];
 
     // Create a new toolbox version
-    const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+    const created = await project.toolboxes.createVersion(toolboxName, tools, {
       description: "Example toolbox created by the @azure/ai-projects sample.",
       metadata: { status: "created" },
     });
     console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
 
     // Retrieve the toolbox
-    const fetched = await project.beta.toolboxes.get(toolboxName);
+    const fetched = await project.toolboxes.get(toolboxName);
     console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
+  });
+
+  it("routines", async function () {
+    const routineName = "sample-routine";
+
+    // Create or update a routine
+    const routine = await project.beta.routines.createOrUpdate(
+      routineName,
+      { daily: { type: "schedule", cron_expression: "0 9 * * *", time_zone: "UTC" } },
+      { type: "invoke_agent_responses_api", agent_name: "my-agent" },
+      {
+        description: "Example routine created by the @azure/ai-projects sample.",
+      },
+    );
+    console.log(`Routine created: ${routine.name}`);
+
+    // Retrieve the routine
+    const fetched = await project.beta.routines.get(routineName);
+    console.log(`Retrieved routine: ${fetched.name}`);
+
+    // List routines
+    for await (const r of project.beta.routines.list()) {
+      console.log(`Routine: ${r.name}`);
+    }
+  });
+
+  it("models", async function () {
+    // Create a model version from local files
+    const modelVersion = await project.beta.models.create("my-model", "1", "./model-assets", {
+      weightType: "FullWeight",
+      description: "My custom model",
+      tags: { source: "sdk-sample" },
+    });
+    console.log(`Created: ${modelVersion.name} v${modelVersion.version}`);
+
+    // List model versions
+    for await (const model of project.beta.models.list()) {
+      console.log(`Model: ${model.name}`);
+    }
+
+    // Get a specific version
+    const fetched = await project.beta.models.get("my-model", "1");
+    console.log(`Fetched: ${fetched.name} v${fetched.version}`);
+
+    // Delete the model version
+    await project.beta.models.delete("my-model", "1");
+  });
+
+  it("tracing_enable_disable", async function () {
+    const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    // Tracing enabled
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: { experimental: true },
+    });
+    // @ts-preserve-whitespace
+    // Tracing disabled (default — no tracingOptions passed)
+    const projectNoTrace = new AIProjectClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    console.log(project, projectNoTrace);
+  });
+
+  it("tracing_azure_monitor", async function () {
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    // Configure Azure Monitor tracing (must be done before creating the client)
+    const connectionString =
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
+    useAzureMonitor({
+      azureMonitorExporterOptions: { connectionString },
+      samplingRatio: 1,
+      tracesPerSecond: 0,
+    });
+    // Create client with tracing enabled (experimental)
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
+    });
   });
 
   it("tracing", async function () {
@@ -1027,6 +1111,35 @@ Be direct and efficient. When you reach the search results page, read and descri
     };
 
     useAzureMonitor(options);
+  });
+
+  it("tracing_create_span", async function () {
+    const tracer = trace.getTracer("MyScenario");
+    const span = tracer.startSpan("myOperation");
+    const ctx = trace.setSpan(context.active(), span);
+
+    await context.with(ctx, async () => {
+      // Your agent operations here
+    });
+
+    span.end();
+  });
+
+  it("tracing_console", async function () {
+    // Set up OpenTelemetry with a console exporter (must be done before creating the client)
+    const provider = new NodeTracerProvider({
+      spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
+    });
+    provider.register();
+    // Create client with tracing enabled (experimental)
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
+    });
   });
 
   it("datasetUpload", async function () {

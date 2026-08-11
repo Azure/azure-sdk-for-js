@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { capabilities, checkNameAvailability } from "./operations.js";
-export {
-  type RecoveryServicesCapabilitiesOptionalParams,
-  type RecoveryServicesCheckNameAvailabilityOptionalParams,
+export type {
+  RecoveryServicesCapabilitiesOptionalParams,
+  RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";

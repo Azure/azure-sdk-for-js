@@ -71,11 +71,6 @@ export interface BucketsOperations {
     options?: BucketsListOptionalParams,
   ) => PagedAsyncIterableIterator<Bucket>;
   /** Delete a volume's bucket. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -114,7 +109,6 @@ export interface BucketsOperations {
     options?: BucketsGetOptionalParams,
   ) => Promise<Bucket>;
 }
-
 function _getBuckets(context: NetAppManagementContext) {
   return {
     refreshCertificate: (
@@ -236,7 +230,6 @@ function _getBuckets(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, volumeName, bucketName, options),
   };
 }
-
 export function _getBucketsOperations(context: NetAppManagementContext): BucketsOperations {
   return {
     ..._getBuckets(context),

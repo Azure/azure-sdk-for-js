@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates one of the login credentials for the specified container registry.
  *
  * @summary regenerates one of the login credentials for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/RegistryRegenerateCredential.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryRegenerateCredential.json
  */
 async function registryRegenerateCredential() {
   const credential = new DefaultAzureCredential();

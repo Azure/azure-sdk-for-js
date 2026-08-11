@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** Gets a list of operations. */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationValue>;
 }
-
 function _getOperations(context: ContainerServiceContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: ContainerServiceContext): OperationsOperations {
   return {
     ..._getOperations(context),

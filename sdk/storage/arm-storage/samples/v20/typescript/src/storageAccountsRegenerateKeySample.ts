@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountRegenerateKerbKey.json
+ * x-ms-original-file: 2026-04-01/StorageAccountRegenerateKerbKey.json
  */
 async function storageAccountRegenerateKerbKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function storageAccountRegenerateKerbKey(): Promise<void> {
  * This sample demonstrates how to regenerates one of the access keys or Kerberos keys for the specified storage account.
  *
  * @summary regenerates one of the access keys or Kerberos keys for the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountRegenerateKey.json
+ * x-ms-original-file: 2026-04-01/StorageAccountRegenerateKey.json
  */
 async function storageAccountRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -165,53 +165,56 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
   // Observable gauge callbacks
   private itemSuccessCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
+    const attributes = { ...this.customerProperties, telemetryType: TelemetryType.UNKNOWN };
 
-    // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
-    for (const [telemetry_type, count] of counter.totalItemSuccessCount.entries()) {
+    // For each { telemetryType -> count } mapping, call observe, passing the count and attributes that include the telemetryType
+    for (const [telemetryType, count] of counter.totalItemSuccessCount.entries()) {
       // Only send metrics if count is greater than zero
       if (count > 0) {
-        attributes.telemetry_type = telemetry_type;
+        attributes.telemetryType = telemetryType;
         observableResult.observe(this.itemSuccessCountGauge, count, {
           ...attributes,
         });
-        counter.totalItemSuccessCount.set(telemetry_type, 0);
+        counter.totalItemSuccessCount.set(telemetryType, 0);
       }
     }
   }
 
   private itemDropCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    const baseAttributes: CustomerSDKStatsProperties & {
-      "drop.code": DropCode | number;
-      telemetry_type: TelemetryType;
-    } = {
+    type DropAttributes = CustomerSDKStatsProperties & {
+      dropCode: DropCode | number;
+      telemetryType: TelemetryType;
+      dropReason?: string;
+      telemetrySuccess?: boolean;
+    };
+    const baseAttributes: DropAttributes = {
       ...this.customerProperties,
-      "drop.code": DropCode.UNKNOWN,
-      telemetry_type: TelemetryType.UNKNOWN,
+      dropCode: DropCode.UNKNOWN,
+      telemetryType: TelemetryType.UNKNOWN,
     };
 
-    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> telemetry_success -> count
+    // Iterate through the nested Map structure: telemetryType -> dropCode -> reason -> telemetrySuccess -> count
     for (const [telemetryType, dropCodeMap] of counter.totalItemDropCount.entries()) {
       for (const [dropCode, reasonMap] of dropCodeMap.entries()) {
         for (const [reason, successMap] of reasonMap.entries()) {
           for (const [success, count] of successMap.entries()) {
-            const attributes = { ...baseAttributes };
-            attributes.telemetry_type = telemetryType;
-            attributes["drop.code"] = dropCode;
+            const attributes: DropAttributes = { ...baseAttributes };
+            attributes.telemetryType = telemetryType;
+            attributes.dropCode = dropCode;
 
-            // Include drop.reason for all cases
+            // Include dropReason for all cases
             if (reason) {
-              (attributes as any)["drop.reason"] = reason;
+              attributes.dropReason = reason;
             }
 
-            // Include telemetry_success only for request/dependency telemetry when success is not null
+            // Include telemetrySuccess only for request/dependency telemetry when success is not null
             if (
               (telemetryType === TelemetryType.REQUEST ||
                 telemetryType === TelemetryType.DEPENDENCY) &&
               success !== null
             ) {
-              (attributes as any)["telemetry_success"] = success;
+              attributes.telemetrySuccess = success;
             }
 
             // Only send metrics if count is greater than zero
@@ -231,26 +234,28 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
   private itemRetryCallback(observableResult: BatchObservableResult): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    const baseAttributes: CustomerSDKStatsProperties & {
-      "retry.code": RetryCode | number;
-      telemetry_type: TelemetryType;
-    } = {
+    type RetryAttributes = CustomerSDKStatsProperties & {
+      retryCode: RetryCode | number;
+      telemetryType: TelemetryType;
+      retryReason?: string;
+    };
+    const baseAttributes: RetryAttributes = {
       ...this.customerProperties,
-      "retry.code": RetryCode.UNKNOWN,
-      telemetry_type: TelemetryType.UNKNOWN,
+      retryCode: RetryCode.UNKNOWN,
+      telemetryType: TelemetryType.UNKNOWN,
     };
 
-    // Iterate through the nested Map structure: telemetry_type -> retry.code -> reason -> count
+    // Iterate through the nested Map structure: telemetryType -> retryCode -> reason -> count
     for (const [telemetryType, retryCodeMap] of counter.totalItemRetryCount.entries()) {
       for (const [retryCode, reasonMap] of retryCodeMap.entries()) {
         for (const [reason, count] of reasonMap.entries()) {
-          const attributes = { ...baseAttributes };
-          attributes.telemetry_type = telemetryType;
-          attributes["retry.code"] = retryCode;
+          const attributes: RetryAttributes = { ...baseAttributes };
+          attributes.telemetryType = telemetryType;
+          attributes.retryCode = retryCode;
 
-          // Include retry.reason for all cases
+          // Include retryReason for all cases
           if (reason) {
-            (attributes as any)["retry.reason"] = reason;
+            attributes.retryReason = reason;
           }
 
           // Only send metrics if count is greater than zero
@@ -271,17 +276,17 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
   /**
    * Tracks succcessful items
    * @param envelopes - Number of successful envelopes
-   * @param telemetry_type - The type of telemetry being tracked
+   * @param telemetryType - The type of telemetry being tracked
    */
   public countSuccessfulItems(envelopes: Envelope[]): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    let telemetry_type: TelemetryType;
+    let telemetryType: TelemetryType;
 
     // Get the current count for this telemetry type, or 0 if it doesn't exist
     for (const envelope of envelopes) {
-      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
-      const currentCount = counter.totalItemSuccessCount.get(telemetry_type) || 0;
-      counter.totalItemSuccessCount.set(telemetry_type, currentCount + 1);
+      telemetryType = this.getTelemetryTypeFromEnvelope(envelope);
+      const currentCount = counter.totalItemSuccessCount.get(telemetryType) || 0;
+      counter.totalItemSuccessCount.set(telemetryType, currentCount + 1);
     }
   }
 
@@ -299,15 +304,15 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    let telemetry_type: TelemetryType;
+    let telemetryType: TelemetryType;
 
     for (const envelope of envelopes) {
-      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
+      telemetryType = this.getTelemetryTypeFromEnvelope(envelope);
 
-      let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
+      let dropCodeMap = counter.totalItemDropCount.get(telemetryType);
       if (!dropCodeMap) {
         dropCodeMap = new Map<DropCode | number, Map<string, Map<boolean | null, number>>>();
-        counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
+        counter.totalItemDropCount.set(telemetryType, dropCodeMap);
       }
 
       // Get or create the reason map for this dropCode
@@ -330,7 +335,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       // For non-request/dependency telemetry or when success is not provided, use null as the success key
       const individualTelemetrySuccess = this.getTelemetrySuccessFromEnvelope(envelope);
       const successKey =
-        (telemetry_type === TelemetryType.REQUEST || telemetry_type === TelemetryType.DEPENDENCY) &&
+        (telemetryType === TelemetryType.REQUEST || telemetryType === TelemetryType.DEPENDENCY) &&
         individualTelemetrySuccess !== undefined
           ? individualTelemetrySuccess
           : null;
@@ -474,15 +479,15 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
-    let telemetry_type: TelemetryType;
+    let telemetryType: TelemetryType;
 
     for (const envelope of envelopes) {
-      telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
-      // Get or create the retryCode map for this telemetry_type
-      let retryCodeMap = counter.totalItemRetryCount.get(telemetry_type);
+      telemetryType = this.getTelemetryTypeFromEnvelope(envelope);
+      // Get or create the retryCode map for this telemetryType
+      let retryCodeMap = counter.totalItemRetryCount.get(telemetryType);
       if (!retryCodeMap) {
         retryCodeMap = new Map<RetryCode | number, Map<string, number>>();
-        counter.totalItemRetryCount.set(telemetry_type, retryCodeMap);
+        counter.totalItemRetryCount.set(telemetryType, retryCodeMap);
       }
 
       // Get or create the reason map for this retryCode

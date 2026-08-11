@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createCloudHealth,
-  type CloudHealthContext,
-  type CloudHealthClientOptionalParams,
-} from "./cloudHealthContext.js";
+export type { CloudHealthContext, CloudHealthClientOptionalParams } from "./cloudHealthContext.js";
+export { createCloudHealth } from "./cloudHealthContext.js";

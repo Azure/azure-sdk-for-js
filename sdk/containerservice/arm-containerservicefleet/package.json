@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.3",
+  "version": "2.1.0",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -96,7 +96,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -274,6 +274,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

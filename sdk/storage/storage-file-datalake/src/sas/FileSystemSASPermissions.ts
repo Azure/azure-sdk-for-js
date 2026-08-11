@@ -23,6 +23,9 @@ export class FileSystemSASPermissions {
         case "r":
           containerSASPermissions.read = true;
           break;
+        case "t":
+          containerSASPermissions.tag = true;
+          break;
         case "a":
           containerSASPermissions.add = true;
           break;
@@ -99,6 +102,11 @@ export class FileSystemSASPermissions {
   public execute: boolean = false;
 
   /**
+   * Specifies tag access granted.
+   */
+  public tag: boolean = false;
+
+  /**
    * Specifies Ownership access granted, which allows the caller to set owner, owning group,
    * or act as the owner when renaming or deleting a blob (file or directory) within a folder
    * that has the sticky bit set.
@@ -123,6 +131,9 @@ export class FileSystemSASPermissions {
     const permissions: string[] = [];
     if (this.read) {
       permissions.push("r");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     if (this.add) {
       permissions.push("a");

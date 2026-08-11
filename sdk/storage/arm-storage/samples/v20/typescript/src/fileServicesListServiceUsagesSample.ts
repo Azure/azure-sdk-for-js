@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the usages of file service in storage account.
  *
  * @summary gets the usages of file service in storage account.
- * x-ms-original-file: 2025-08-01/FileServicesListUsages.json
+ * x-ms-original-file: 2026-04-01/FileServicesListUsages.json
  */
 async function listFileServiceUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

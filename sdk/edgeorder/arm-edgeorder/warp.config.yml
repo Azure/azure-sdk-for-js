@@ -1,0 +1,25 @@
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/productsAndConfigurations": "./src/api/productsAndConfigurations/index.ts"
+  "./api/orders": "./src/api/orders/index.ts"
+  "./api/orderItems": "./src/api/orderItems/index.ts"
+  "./api/addresses": "./src/api/addresses/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

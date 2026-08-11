@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the object replication policy of the storage account by policy ID.
  *
  * @summary get the object replication policy of the storage account by policy ID.
- * x-ms-original-file: 2025-08-01/StorageAccountGetObjectReplicationPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountGetObjectReplicationPolicy.json
  */
 async function storageAccountGetObjectReplicationPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

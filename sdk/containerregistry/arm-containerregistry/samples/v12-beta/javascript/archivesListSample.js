@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all archives for the specified container registry and package type.
  *
  * @summary lists all archives for the specified container registry and package type.
- * x-ms-original-file: 2026-01-01-preview/ArchiveList.json
+ * x-ms-original-file: 2026-03-01-preview/ArchiveList.json
  */
 async function archiveList() {
   const credential = new DefaultAzureCredential();

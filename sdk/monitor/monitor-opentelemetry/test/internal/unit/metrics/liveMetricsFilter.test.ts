@@ -701,7 +701,7 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
     );
     traceLog.attributes["customAttribute"] = "test";
 
-    const trace: TraceData = getLogData(traceLog) as TraceData;
+    const trace: TraceData = getLogData(traceLog);
     assert.equal(trace.Message, "testMessage");
     assert.equal(trace.CustomDimensions.get("customAttribute"), "test");
   });

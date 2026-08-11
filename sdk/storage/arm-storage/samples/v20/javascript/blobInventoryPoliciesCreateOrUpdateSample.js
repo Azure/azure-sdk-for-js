@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to sets the blob inventory policy to the specified storage account.
  *
  * @summary sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetBlobInventoryPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetBlobInventoryPolicy.json
  */
 async function storageAccountSetBlobInventoryPolicy() {
   const credential = new DefaultAzureCredential();
@@ -86,7 +86,7 @@ async function storageAccountSetBlobInventoryPolicy() {
  * This sample demonstrates how to sets the blob inventory policy to the specified storage account.
  *
  * @summary sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount() {
   const credential = new DefaultAzureCredential();
@@ -182,7 +182,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
  * This sample demonstrates how to sets the blob inventory policy to the specified storage account.
  *
  * @summary sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+ * x-ms-original-file: 2026-04-01/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount() {
   const credential = new DefaultAzureCredential();

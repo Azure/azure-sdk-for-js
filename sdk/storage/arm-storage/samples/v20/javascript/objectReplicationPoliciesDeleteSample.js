@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the object replication policy associated with the specified storage account.
  *
  * @summary deletes the object replication policy associated with the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountDeleteObjectReplicationPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountDeleteObjectReplicationPolicy.json
  */
 async function storageAccountDeleteObjectReplicationPolicies() {
   const credential = new DefaultAzureCredential();

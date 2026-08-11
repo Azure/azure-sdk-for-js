@@ -1,21 +1,24 @@
 # Release History
 
-## 6.1.2 (Unreleased)
+## 6.2.0-beta.1 (2026-05-27)
+Compared with version 6.1.0
 
 ### Features Added
+  - Added Interface EndpointProperties
+  - Added Interface GeographicHierarchyProperties
+  - Added Interface HeatMapProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface UserMetricsProperties
+  - Interface Profile has a new optional parameter recordType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias RecordType
+  - Added Enum AzureClouds
+  - Added Enum KnownRecordType
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.1.1 (2025-08-21)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 6.1.0 (2023-06-02)
     
 ### Features Added
@@ -49,4 +52,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

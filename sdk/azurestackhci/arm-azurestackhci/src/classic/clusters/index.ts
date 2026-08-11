@@ -5,7 +5,6 @@ import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   configureRemoteSupport,
   triggerLogCollection,
-  changeRing,
   extendSoftwareAssuranceBenefit,
   createIdentity,
   uploadCertificate,
@@ -20,7 +19,6 @@ import {
 import type {
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersTriggerLogCollectionOptionalParams,
-  ClustersChangeRingOptionalParams,
   ClustersExtendSoftwareAssuranceBenefitOptionalParams,
   ClustersCreateIdentityOptionalParams,
   ClustersUploadCertificateOptionalParams,
@@ -39,7 +37,6 @@ import type {
   UploadCertificateRequest,
   ClusterIdentityResponse,
   SoftwareAssuranceChangeRequest,
-  ChangeRingRequest,
   LogCollectionRequest,
   RemoteSupportRequest,
 } from "../../models/models.js";
@@ -91,27 +88,6 @@ export interface ClustersOperations {
     clusterName: string,
     logCollectionRequest: LogCollectionRequest,
     options?: ClustersTriggerLogCollectionOptionalParams,
-  ) => Promise<Cluster>;
-  /** Changes ring of a cluster */
-  changeRing: (
-    resourceGroupName: string,
-    clusterName: string,
-    changeRingRequest: ChangeRingRequest,
-    options?: ClustersChangeRingOptionalParams,
-  ) => PollerLike<OperationState<Cluster>, Cluster>;
-  /** @deprecated use changeRing instead */
-  beginChangeRing: (
-    resourceGroupName: string,
-    clusterName: string,
-    changeRingRequest: ChangeRingRequest,
-    options?: ClustersChangeRingOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
-  /** @deprecated use changeRing instead */
-  beginChangeRingAndWait: (
-    resourceGroupName: string,
-    clusterName: string,
-    changeRingRequest: ChangeRingRequest,
-    options?: ClustersChangeRingOptionalParams,
   ) => Promise<Cluster>;
   /** Extends Software Assurance Benefit to a cluster */
   extendSoftwareAssuranceBenefit: (
@@ -204,11 +180,6 @@ export interface ClustersOperations {
     options?: ClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Cluster>;
   /** Delete an HCI cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -329,36 +300,6 @@ function _getClusters(context: AzureStackHCIContext) {
         logCollectionRequest,
         options,
       );
-    },
-    changeRing: (
-      resourceGroupName: string,
-      clusterName: string,
-      changeRingRequest: ChangeRingRequest,
-      options?: ClustersChangeRingOptionalParams,
-    ) => changeRing(context, resourceGroupName, clusterName, changeRingRequest, options),
-    beginChangeRing: async (
-      resourceGroupName: string,
-      clusterName: string,
-      changeRingRequest: ChangeRingRequest,
-      options?: ClustersChangeRingOptionalParams,
-    ) => {
-      const poller = changeRing(
-        context,
-        resourceGroupName,
-        clusterName,
-        changeRingRequest,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginChangeRingAndWait: async (
-      resourceGroupName: string,
-      clusterName: string,
-      changeRingRequest: ChangeRingRequest,
-      options?: ClustersChangeRingOptionalParams,
-    ) => {
-      return await changeRing(context, resourceGroupName, clusterName, changeRingRequest, options);
     },
     extendSoftwareAssuranceBenefit: (
       resourceGroupName: string,

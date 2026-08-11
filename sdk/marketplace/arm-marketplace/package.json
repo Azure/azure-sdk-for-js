@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-marketplace",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for MarketplaceClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -198,7 +198,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-marketplace?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-marketplace"
   },
   "imports": {
     "#platform/*": {

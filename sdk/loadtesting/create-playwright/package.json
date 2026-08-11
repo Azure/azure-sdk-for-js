@@ -22,7 +22,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "type": "module",
@@ -54,6 +54,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
+    "@azure/core-process": "^1.0.0",
     "prompts": "^2.4.2",
     "tslib": "^2.8.1"
   },

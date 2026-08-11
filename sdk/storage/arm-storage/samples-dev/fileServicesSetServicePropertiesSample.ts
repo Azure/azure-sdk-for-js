@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut.json
  */
 async function putFileServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function putFileServices(): Promise<void> {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EnableSMBMultichannel.json
  */
 async function putFileServicesEnableSMBMultichannel(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function putFileServicesEnableSMBMultichannel(): Promise<void> {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EnableSecureSmbFeatures.json
  */
 async function putFileServicesEnableSecureSmbFeatures(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -87,7 +87,7 @@ async function putFileServicesEnableSecureSmbFeatures(): Promise<void> {
  * This sample demonstrates how to sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: 2025-08-01/FileServicesPut_EncryptionInTransitRequired.json
+ * x-ms-original-file: 2026-04-01/FileServicesPut_EncryptionInTransitRequired.json
  */
 async function putFileServicesEncryptionInTransitRequired(): Promise<void> {
   const credential = new DefaultAzureCredential();

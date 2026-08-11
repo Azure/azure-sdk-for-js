@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources for PostgreSQL server.
  *
  * @summary gets the private link resources for PostgreSQL server.
- * x-ms-original-file: 2026-01-01-preview/PrivateLinkResourcesList.json
+ * x-ms-original-file: 2026-04-01-preview/PrivateLinkResourcesList.json
  */
 async function getsPrivateLinkResourcesForPostgreSQL(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the managementpolicy associated with the specified storage account.
  *
  * @summary deletes the managementpolicy associated with the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountDeleteManagementPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountDeleteManagementPolicy.json
  */
 async function storageAccountDeleteManagementPolicies(): Promise<void> {
   const credential = new DefaultAzureCredential();

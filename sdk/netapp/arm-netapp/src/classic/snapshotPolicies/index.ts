@@ -42,11 +42,6 @@ export interface SnapshotPoliciesOperations {
     options?: SnapshotPoliciesListOptionalParams,
   ) => PagedAsyncIterableIterator<SnapshotPolicy>;
   /** Delete snapshot policy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -77,7 +72,6 @@ export interface SnapshotPoliciesOperations {
     options?: SnapshotPoliciesGetOptionalParams,
   ) => Promise<SnapshotPolicy>;
 }
-
 function _getSnapshotPolicies(context: NetAppManagementContext) {
   return {
     listVolumes: (
@@ -119,7 +113,6 @@ function _getSnapshotPolicies(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, snapshotPolicyName, options),
   };
 }
-
 export function _getSnapshotPoliciesOperations(
   context: NetAppManagementContext,
 ): SnapshotPoliciesOperations {

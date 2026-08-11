@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a pipeline run from a container registry.
  *
  * @summary deletes a pipeline run from a container registry.
- * x-ms-original-file: 2026-01-01-preview/PipelineRunDelete.json
+ * x-ms-original-file: 2026-03-01-preview/PipelineRunDelete.json
  */
 async function pipelineRunDelete() {
   const credential = new DefaultAzureCredential();

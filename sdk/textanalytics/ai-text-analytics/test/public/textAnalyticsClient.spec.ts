@@ -145,20 +145,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client accepts TextDocumentInput[]", async () => {
-        const enInputs = testDataEn.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            language: "en",
-            text,
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            language: "es",
-            text,
-          }),
-        );
+        const enInputs = testDataEn.map((text): TextDocumentInput => ({
+          id: getId(),
+          language: "en",
+          text,
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          language: "es",
+          text,
+        }));
         const allInputs = enInputs.concat(esInputs);
         const results = await client.analyzeSentiment(allInputs);
         assert.equal(results.length, testDataEn.length + testDataEs.length);
@@ -332,13 +328,11 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
 
       it('client accepts "none" country hint with DetectLanguageInput[] input', async () => {
         const results = await client.detectLanguage(
-          testDataEn.concat(testDataEs).map(
-            (input): DetectLanguageInput => ({
-              id: getId(),
-              countryHint: "none",
-              text: input,
-            }),
-          ),
+          testDataEn.concat(testDataEs).map((input): DetectLanguageInput => ({
+            id: getId(),
+            countryHint: "none",
+            text: input,
+          })),
         );
         assertAllSuccess(results);
       });
@@ -353,19 +347,15 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client accepts mixed-country DetectLanguageInput[]", async () => {
-        const enInputs = testDataEn.map(
-          (text): DetectLanguageInput => ({
-            id: getId(),
-            text,
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): DetectLanguageInput => ({
-            id: getId(),
-            countryHint: "mx",
-            text,
-          }),
-        );
+        const enInputs = testDataEn.map((text): DetectLanguageInput => ({
+          id: getId(),
+          text,
+        }));
+        const esInputs = testDataEs.map((text): DetectLanguageInput => ({
+          id: getId(),
+          countryHint: "mx",
+          text,
+        }));
         const allInputs = enInputs.concat(esInputs);
 
         const results = await client.detectLanguage(allInputs);
@@ -405,20 +395,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client accepts mixed-language TextDocumentInput[]", async () => {
-        const enInputs = testDataEn.slice(0, -1).map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.slice(0, -1).map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
 
         const results = await client.recognizeEntities(allInputs);
@@ -427,20 +413,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client throws exception for too many inputs", async () => {
-        const enInputs = testDataEn.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
         await assertRestError(client.recognizeEntities(allInputs), {
           messagePattern: /Max 5 records are permitted/,
@@ -481,20 +463,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client accepts mixed-language TextDocumentInput[]", async () => {
-        const enInputs = testDataEn.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
 
         const results = await client.extractKeyPhrases(allInputs);
@@ -548,20 +526,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
 
       it("client accepts mixed-language TextDocumentInput[]", async () => {
         const sliceSize = 3;
-        const enInputs = testDataEn.slice(0, sliceSize).map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.slice(0, sliceSize).map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
 
         const results = await client.recognizePiiEntities(allInputs);
@@ -677,20 +651,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client accepts mixed-language TextDocumentInput[]", async () => {
-        const enInputs = testDataEn.slice(0, -1).map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.slice(0, -1).map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
 
         const results = await client.recognizeLinkedEntities(allInputs);
@@ -699,20 +669,16 @@ describe.each(["AAD", "APIKey"] as const)(`[%s] TextAnalyticsClient`, (authMetho
       });
 
       it("client throws exception for too many inputs", async () => {
-        const enInputs = testDataEn.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "en",
-          }),
-        );
-        const esInputs = testDataEs.map(
-          (text): TextDocumentInput => ({
-            id: getId(),
-            text,
-            language: "es",
-          }),
-        );
+        const enInputs = testDataEn.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en",
+        }));
+        const esInputs = testDataEs.map((text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es",
+        }));
         const allInputs = enInputs.concat(esInputs);
         await assertRestError(client.recognizeEntities(allInputs), {
           code: "InvalidDocumentBatch",

@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
 
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Shares:");

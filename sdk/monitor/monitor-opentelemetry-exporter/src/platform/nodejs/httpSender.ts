@@ -12,6 +12,7 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
+import { isSameRegisteredDomain } from "../../utils/redirectUtils.js";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
 
@@ -120,14 +121,47 @@ export class HttpSender extends BaseSender {
     diag.info("HttpSender shutting down");
   }
 
-  handlePermanentRedirect(location: string | undefined): void {
-    if (location) {
-      const locUrl = new url.URL(location);
-      if (locUrl && locUrl.host) {
-        this.appInsightsClientOptions.host = "https://" + locUrl.host;
-        const { credential, ...clientOptions } = this.appInsightsClientOptions;
-        this.appInsightsClient = this.createClient(clientOptions);
-      }
+  /**
+   * Apply a server-issued 307/308 redirect by re-pointing the underlying client at the new host.
+   *
+   * Returns `true` if the redirect was accepted and the client mutated; returns `false` (without
+   * mutating any state) when the redirect would cross a trust boundary -- for example, when the
+   * `Location` header points at a host outside the configured ingestion endpoint and outside the
+   * known Azure Monitor ingestion domain suffixes. Refusing cross-origin redirects is required to
+   * prevent an attacker-controlled `Location` from causing the bearer auth policy to attach a
+   * freshly-signed AAD token (and the telemetry envelope) to a foreign host on the retried call.
+   */
+  handlePermanentRedirect(location: string | undefined): boolean {
+    if (!location) {
+      return false;
     }
+    let locUrl: url.URL;
+    try {
+      locUrl = new url.URL(location);
+    } catch {
+      return false;
+    }
+    if (!locUrl.host) {
+      return false;
+    }
+
+    let currentHost = "";
+    try {
+      currentHost = new url.URL(this.appInsightsClientOptions.host ?? "").host;
+    } catch {
+      currentHost = "";
+    }
+
+    if (!isSameRegisteredDomain(currentHost, locUrl.host)) {
+      diag.error(
+        `Refusing cross-origin redirect to https://${locUrl.host}: target is neither the configured ingestion host nor under a known Azure Monitor ingestion domain.`,
+      );
+      return false;
+    }
+
+    this.appInsightsClientOptions.host = "https://" + locUrl.host;
+    const { credential, ...clientOptions } = this.appInsightsClientOptions;
+    this.appInsightsClient = this.createClient(clientOptions);
+    return true;
   }
 }

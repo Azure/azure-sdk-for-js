@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -568,6 +570,8 @@ export interface GenerateResponse {
     readonly id: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -788,18 +792,10 @@ export enum KnownUpgradeChannel {
 
 // @public
 export enum KnownVersions {
-    V20220902Preview = "2022-09-02-preview",
-    V20230315Preview = "2023-03-15-preview",
-    V20230615Preview = "2023-06-15-preview",
-    V20230815Preview = "2023-08-15-preview",
     V20231015 = "2023-10-15",
-    V20240202Preview = "2024-02-02-preview",
     V20240401 = "2024-04-01",
-    V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
-    V20250401Preview = "2025-04-01-preview",
-    V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -989,6 +985,8 @@ export interface ResourceQuota {
     memoryLimit?: string;
     memoryRequest?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerServiceFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

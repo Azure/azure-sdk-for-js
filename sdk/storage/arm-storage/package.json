@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-storage",
-  "version": "20.0.0",
+  "version": "20.1.1",
   "description": "A generated SDK for StorageManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -13,10 +13,9 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "imports": {
-    "#platform/*.js": {
-      "browser": "./src/*-browser.mjs",
-      "react-native": "./src/*-react-native.mjs",
-      "default": "./src/*.js"
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   },
   "exports": {
@@ -173,6 +172,20 @@
       "require": {
         "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/advancedPlatformMetrics": {
+      "browser": {
+        "types": "./dist/browser/api/advancedPlatformMetrics/index.d.ts",
+        "default": "./dist/browser/api/advancedPlatformMetrics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/advancedPlatformMetrics/index.d.ts",
+        "default": "./dist/esm/api/advancedPlatformMetrics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/advancedPlatformMetrics/index.d.ts",
+        "default": "./dist/commonjs/api/advancedPlatformMetrics/index.js"
       }
     },
     "./api/dataShares": {

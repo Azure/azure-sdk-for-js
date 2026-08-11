@@ -15,12 +15,12 @@ import {
   keyInfoXmlSerializer,
   UserDelegationKey,
   userDelegationKeyXmlDeserializer,
-  _submitBatchRequestDeserializer,
+  _submitBatchResponseDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
   SkuName,
   AccountKind,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import {
   StorageCompatResponseInfo,
@@ -72,7 +72,7 @@ export function _findBlobsByTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -88,7 +88,9 @@ export async function _findBlobsByTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._findBlobsByTagsDeserializeExceptionHeaders(result),
@@ -149,8 +151,7 @@ export function _findBlobsByTagsDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Filter Blobs operation enables callers to list blobs across all containers whose tags match a given search expression. */
+/** Lists blobs across all containers whose tags match a given search expression. */
 export async function findBlobsByTags(
   context: Client,
   filterExpression: string,
@@ -206,7 +207,7 @@ export function _submitBatchSend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -224,7 +225,9 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._submitBatchDeserializeExceptionHeaders(result),
@@ -237,7 +240,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return _submitBatchRequestDeserializer(result.body) as any;
+  return _submitBatchResponseDeserializer(result.body) as any;
 }
 
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
@@ -283,8 +286,7 @@ export function _submitBatchDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
+/** Allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
   contentType: string,
@@ -339,7 +341,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -352,7 +354,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -421,8 +425,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Returns the sku name and account kind. */
+/** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
   options: ServiceGetAccountInfoOptionalParams = { requestOptions: {} },
@@ -478,7 +481,7 @@ export function _getUserDelegationKeySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -495,7 +498,9 @@ export async function _getUserDelegationKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getUserDelegationKeyDeserializeExceptionHeaders(result),
@@ -556,7 +561,6 @@ export function _getUserDelegationKeyDeserializeExceptionHeaders(result: PathUnc
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves a user delegation key for the Blob service. This is only a valid operation when using bearer token authentication. */
 export async function getUserDelegationKey(
   context: Client,
@@ -617,7 +621,7 @@ export function _listContainersSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -633,7 +637,9 @@ export async function _listContainersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._listContainersDeserializeExceptionHeaders(result),
@@ -694,8 +700,7 @@ export function _listContainersDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The List Containers Segment operation returns a list of the containers under the specified account */
+/** Returns a list of the containers in the specified account. */
 export async function listContainers(
   context: Client,
   options: ServiceListContainersOptionalParams = { requestOptions: {} },
@@ -746,7 +751,7 @@ export function _getStatisticsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -762,7 +767,9 @@ export async function _getStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getStatisticsDeserializeExceptionHeaders(result),
@@ -823,7 +830,6 @@ export function _getStatisticsDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
 export async function getStatistics(
   context: Client,
@@ -875,7 +881,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -891,7 +897,9 @@ export async function _getPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -952,7 +960,6 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves properties of a storage account's Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function getProperties(
   context: Client,
@@ -1006,7 +1013,7 @@ export function _setPropertiesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1020,7 +1027,9 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setPropertiesDeserializeExceptionHeaders(result),
@@ -1079,8 +1088,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function setProperties(
   context: Client,
   storageServiceProperties: BlobServiceProperties,

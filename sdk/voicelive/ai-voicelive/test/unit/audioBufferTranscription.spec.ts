@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Serialization & deserialization tests for output-audio-buffer control
- * and word/phrase transcription types added in GA 1.0.0
- * (api-version 2026-04-10).
+ * Serialization & deserialization tests for output-audio-buffer control,
+ * invocation passthrough events, and transcription models in the
+ * 2026-07-15 GA surface.
  *
  * Focus: camelCase ↔ snake_case wire mapping (the same class of bug
  * fixed in 1.0.0-beta.4 for `voiceSerializer`).
@@ -15,12 +15,13 @@ import type { ClientEventOutputAudioBufferClear } from "../../src/models/index.j
 import {
   clientEventOutputAudioBufferClearSerializer,
   serverEventOutputAudioBufferClearedDeserializer,
+  serverEventResponseInvocationDeltaDeserializer,
   transcriptionPhraseDeserializer,
   transcriptionWordDeserializer,
   serverEventResponseAudioTranscriptAnnotationAddedDeserializer,
 } from "../../src/models/models.js";
 
-describe("Audio buffer control & transcription models (GA 1.0.0)", () => {
+describe("Audio buffer control & transcription models (GA 2026-07-15)", () => {
   describe("ClientEventOutputAudioBufferClear", () => {
     it("serializes eventId to event_id", () => {
       const evt: ClientEventOutputAudioBufferClear = {
@@ -112,6 +113,32 @@ describe("Audio buffer control & transcription models (GA 1.0.0)", () => {
       expect(evt.contentIndex).toBe(1);
       expect(evt.annotationIndex).toBe(2);
       expect(evt.annotation).toEqual({ kind: "citation", text: "source" });
+    });
+  });
+
+  describe("ServerEventResponseInvocationDelta", () => {
+    it("passes through hosted-agent invocation SSE payloads", () => {
+      const evt = serverEventResponseInvocationDeltaDeserializer({
+        type: "response.invocation.delta",
+        event_id: "e8",
+        delta: {
+          event: "thread.run.step.delta",
+          data: {
+            id: "step-1",
+            state: "in_progress",
+          },
+        },
+      });
+
+      expect(evt.type).toBe("response.invocation.delta");
+      expect(evt.eventId).toBe("e8");
+      expect(evt.delta).toEqual({
+        event: "thread.run.step.delta",
+        data: {
+          id: "step-1",
+          state: "in_progress",
+        },
+      });
     });
   });
 });

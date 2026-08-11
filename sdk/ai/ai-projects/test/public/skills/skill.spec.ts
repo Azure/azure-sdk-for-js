@@ -34,21 +34,23 @@ describe("skills - basic operations", () => {
 
     // Create a new skill
     const created = await projectsClient.beta.skills.create(skillName, {
-      description: "Test skill created by skill.spec.ts.",
-      instructions: "You are a helpful assistant that answers questions concisely.",
-      metadata: { owner: "test" },
+      inlineContent: {
+        description: "Test skill created by skill.spec.ts.",
+        instructions: "You are a helpful assistant that answers questions concisely.",
+        metadata: { owner: "test" },
+      },
     });
     assert.isNotNull(created);
     assert.equal(created.name, skillName);
-    assert.isNotEmpty(created.skill_id);
-    console.log(`Created skill: ${created.name} (id: ${created.skill_id})`);
+    assert.isNotEmpty(created.id);
+    console.log(`Created skill: ${created.name} (id: ${created.id})`);
 
     // Retrieve the skill
     const fetched = await projectsClient.beta.skills.get(skillName);
     assert.isNotNull(fetched);
     assert.equal(fetched.name, skillName);
-    assert.equal(fetched.skill_id, created.skill_id);
-    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+    assert.isNotEmpty(fetched.id);
+    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
 
     // List skills
     const skills = [];

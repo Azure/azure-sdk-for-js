@@ -89,7 +89,7 @@ describe("agents - conversation flow", () => {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(franceResponse);
@@ -108,7 +108,7 @@ describe("agents - conversation flow", () => {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(capitalResponse);

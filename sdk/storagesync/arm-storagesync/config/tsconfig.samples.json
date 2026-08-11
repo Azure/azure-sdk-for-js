@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-storagesync": [
-        "../dist/esm"
-      ]
+      "@azure/arm-storagesync": ["../dist/esm"]
     }
   }
 }

@@ -98,7 +98,7 @@ export function _listQuotaReportSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,7 +108,7 @@ export function _listQuotaReportSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"] ? options["body"] : quotaReportFilterRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : quotaReportFilterRequestSerializer(options?.body),
   });
 }
 
@@ -118,14 +118,15 @@ export async function _listQuotaReportDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return listQuotaReportResultDeserializer(result.body);
 }
-
 /** Get quota report for volume (with filter support) */
 export function listQuotaReport(
   context: Client,
@@ -141,7 +142,7 @@ export function listQuotaReport(
     getInitialResponse: () =>
       _listQuotaReportSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
 }
 
@@ -161,7 +162,7 @@ export function _revertRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,14 +175,15 @@ export async function _revertRelocationDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
 export function revertRelocation(
   context: Client,
@@ -197,7 +199,7 @@ export function revertRelocation(
     getInitialResponse: () =>
       _revertRelocationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -217,7 +219,7 @@ export function _finalizeRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,14 +232,15 @@ export async function _finalizeRelocationDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Finalizes the relocation of the volume and cleans up the old volume. */
 export function finalizeRelocation(
   context: Client,
@@ -260,7 +263,7 @@ export function finalizeRelocation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -280,7 +283,7 @@ export function _relocateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +292,7 @@ export function _relocateSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"] ? options["body"] : relocateVolumeRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : relocateVolumeRequestSerializer(options?.body),
   });
 }
 
@@ -297,14 +300,15 @@ export async function _relocateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Relocates volume to a new stamp */
 export function relocate(
   context: Client,
@@ -320,7 +324,7 @@ export function relocate(
     getInitialResponse: () =>
       _relocateSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -341,7 +345,7 @@ export function _poolChangeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,14 +362,15 @@ export async function _poolChangeDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Moves volume to another pool */
 export function poolChange(
   context: Client,
@@ -382,7 +387,7 @@ export function poolChange(
     getInitialResponse: () =>
       _poolChangeSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -402,7 +407,7 @@ export function _performReplicationTransferSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,14 +422,15 @@ export async function _performReplicationTransferDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Performs an adhoc replication transfer on a volume with volumeType Migration */
 export function performReplicationTransfer(
   context: Client,
@@ -451,7 +457,7 @@ export function performReplicationTransfer(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-05-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -472,7 +478,7 @@ export function _finalizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -487,14 +493,15 @@ export async function _finalizeExternalReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Finalizes the migration of an external volume by releasing the replication and breaking the external cluster peering if no other migration is active. */
 export function finalizeExternalReplication(
   context: Client,
@@ -521,7 +528,7 @@ export function finalizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-05-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -542,7 +549,7 @@ export function _authorizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,14 +567,15 @@ export async function _authorizeExternalReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return svmPeerCommandResponseDeserializer(result.body);
 }
-
 /** Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM have been peered a SnapMirror will be created */
 export function authorizeExternalReplication(
   context: Client,
@@ -594,7 +602,7 @@ export function authorizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-05-01",
     },
   ) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
 }
@@ -616,7 +624,7 @@ export function _peerExternalClusterSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -636,14 +644,15 @@ export async function _peerExternalClusterDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return clusterPeerCommandResponseDeserializer(result.body);
 }
-
 /** Starts peering the external cluster for this migration volume */
 export function peerExternalCluster(
   context: Client,
@@ -668,7 +677,7 @@ export function peerExternalCluster(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
 }
 
@@ -688,7 +697,7 @@ export function _reInitializeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -703,14 +712,15 @@ export async function _reInitializeReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Re-Initializes the replication connection on the destination volume */
 export function reInitializeReplication(
   context: Client,
@@ -733,7 +743,7 @@ export function reInitializeReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -754,7 +764,7 @@ export function _authorizeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -773,14 +783,15 @@ export async function _authorizeReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Authorize the replication connection on the source volume */
 export function authorizeReplication(
   context: Client,
@@ -805,7 +816,7 @@ export function authorizeReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -825,7 +836,7 @@ export function _deleteReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -838,14 +849,15 @@ export async function _deleteReplicationDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete the replication connection on the destination volume, and send release to the source replication */
 export function deleteReplication(
   context: Client,
@@ -868,7 +880,7 @@ export function deleteReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -888,7 +900,7 @@ export function _resyncReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -901,14 +913,15 @@ export async function _resyncReplicationDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Resync the connection on the destination volume. If the operation is ran on the source volume it will reverse-resync the connection and sync from destination to source. */
 export function resyncReplication(
   context: Client,
@@ -931,7 +944,7 @@ export function resyncReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -951,7 +964,7 @@ export function _listReplicationsSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -961,7 +974,7 @@ export function _listReplicationsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"] ? options["body"] : listReplicationsRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : listReplicationsRequestSerializer(options?.body),
   });
 }
 
@@ -971,14 +984,15 @@ export async function _listReplicationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _listReplicationsDeserializer(result.body);
 }
-
 /** List all replications for a specified volume */
 export function listReplications(
   context: Client,
@@ -994,7 +1008,7 @@ export function listReplications(
       _listReplicationsSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listReplicationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }
 
@@ -1014,7 +1028,7 @@ export function _replicationStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1032,14 +1046,15 @@ export async function _replicationStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return replicationStatusDeserializer(result.body);
 }
-
 /** Get the status of the replication */
 export async function replicationStatus(
   context: Client,
@@ -1077,7 +1092,7 @@ export function _reestablishReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1096,14 +1111,15 @@ export async function _reestablishReplicationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots */
 export function reestablishReplication(
   context: Client,
@@ -1128,7 +1144,7 @@ export function reestablishReplication(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1148,7 +1164,7 @@ export function _breakReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1157,7 +1173,7 @@ export function _breakReplicationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"] ? options["body"] : breakReplicationRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : breakReplicationRequestSerializer(options?.body),
   });
 }
 
@@ -1165,14 +1181,15 @@ export async function _breakReplicationDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Break the replication connection on the destination volume */
 export function breakReplication(
   context: Client,
@@ -1188,7 +1205,7 @@ export function breakReplication(
     getInitialResponse: () =>
       _breakReplicationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1209,7 +1226,7 @@ export function _listGetGroupIdListForLdapUserSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1226,17 +1243,18 @@ export function _listGetGroupIdListForLdapUserSend(
 export async function _listGetGroupIdListForLdapUserDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GetGroupIdListForLdapUserResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return getGroupIdListForLdapUserResponseDeserializer(result.body);
 }
-
 /** Returns the list of group Ids for a specific LDAP User */
 export function listGetGroupIdListForLdapUser(
   context: Client,
@@ -1253,7 +1271,7 @@ export function listGetGroupIdListForLdapUser(
   return getLongRunningPoller(
     context,
     _listGetGroupIdListForLdapUserDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -1268,7 +1286,7 @@ export function listGetGroupIdListForLdapUser(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-05-01",
     },
   ) as PollerLike<
     OperationState<GetGroupIdListForLdapUserResponse>,
@@ -1292,7 +1310,7 @@ export function _breakFileLocksSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1301,7 +1319,7 @@ export function _breakFileLocksSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["body"] ? options["body"] : breakFileLocksRequestSerializer(options["body"]),
+    body: !options?.body ? options?.body : breakFileLocksRequestSerializer(options?.body),
   });
 }
 
@@ -1309,14 +1327,15 @@ export async function _breakFileLocksDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Break all the file locks on a volume */
 export function breakFileLocks(
   context: Client,
@@ -1332,7 +1351,7 @@ export function breakFileLocks(
     getInitialResponse: () =>
       _breakFileLocksSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1352,7 +1371,7 @@ export function _splitCloneFromParentSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1367,17 +1386,18 @@ export function _splitCloneFromParentSend(
 export async function _splitCloneFromParentDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Volume> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return volumeDeserializer(result.body);
 }
-
 /** Split operation to convert clone volume to an independent volume. */
 export function splitCloneFromParent(
   context: Client,
@@ -1387,7 +1407,7 @@ export function splitCloneFromParent(
   volumeName: string,
   options: VolumesSplitCloneFromParentOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
-  return getLongRunningPoller(context, _splitCloneFromParentDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _splitCloneFromParentDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1400,7 +1420,7 @@ export function splitCloneFromParent(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1420,7 +1440,7 @@ export function _resetCifsPasswordSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1433,14 +1453,15 @@ export async function _resetCifsPasswordDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Reset cifs password from volume */
 export function resetCifsPassword(
   context: Client,
@@ -1463,7 +1484,7 @@ export function resetCifsPassword(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1484,7 +1505,7 @@ export function _revertSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1501,14 +1522,15 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Revert a volume to the snapshot specified in the body */
 export function revert(
   context: Client,
@@ -1525,7 +1547,7 @@ export function revert(
     getInitialResponse: () =>
       _revertSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1545,7 +1567,7 @@ export function _populateAvailabilityZoneSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1560,17 +1582,18 @@ export function _populateAvailabilityZoneSend(
 export async function _populateAvailabilityZoneDeserialize(
   result: PathUncheckedResponse,
 ): Promise<Volume> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return volumeDeserializer(result.body);
 }
-
 /** This operation will populate availability zone information for a volume */
 export function populateAvailabilityZone(
   context: Client,
@@ -1583,7 +1606,7 @@ export function populateAvailabilityZone(
   return getLongRunningPoller(
     context,
     _populateAvailabilityZoneDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -1597,7 +1620,7 @@ export function populateAvailabilityZone(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-01-01",
+      apiVersion: context.apiVersion ?? "2026-05-01",
     },
   ) as PollerLike<OperationState<Volume>, Volume>;
 }
@@ -1616,7 +1639,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1632,14 +1655,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _volumeListDeserializer(result.body);
 }
-
 /** List all volumes within the capacity pool */
 export function list(
   context: Client,
@@ -1653,7 +1677,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
   );
 }
 
@@ -1673,7 +1697,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
       forceDelete: options?.forceDelete,
     },
     {
@@ -1687,20 +1711,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete the specified volume */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1715,7 +1735,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1736,7 +1756,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1754,14 +1774,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return volumeDeserializer(result.body);
 }
-
 /** Patch the specified volume */
 export function update(
   context: Client,
@@ -1778,7 +1799,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1799,7 +1820,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1817,14 +1838,15 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return volumeDeserializer(result.body);
 }
-
 /** Create or update the specified volume within the capacity pool */
 export function createOrUpdate(
   context: Client,
@@ -1849,7 +1871,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-05-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1869,7 +1891,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1885,14 +1907,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return volumeDeserializer(result.body);
 }
-
 /** Get the details of the specified volume */
 export async function get(
   context: Client,

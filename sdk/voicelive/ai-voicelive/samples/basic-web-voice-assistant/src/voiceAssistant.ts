@@ -35,6 +35,9 @@ export interface VoiceAssistantConfig {
   debugMode?: boolean;
 }
 
+const OPENAI_VOICES = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse', 'fable', 'onyx', 'nova'];
+const AZURE_REALTIME_NATIVE_VOICE_SUFFIX = '-native';
+
 export interface VoiceAssistantCallbacks {
   onConnectionStatusChange: (status: string) => void;
   onAssistantStatusChange: (status: string) => void;
@@ -106,8 +109,8 @@ export class VoiceAssistant {
         defaultSessionOptions: sessionOptions
       });
       
-      // Create and connect a session with model
-      this.session = await this.client.startSession('gpt-4.1', sessionOptions);
+      // Create and connect a session with a model compatible with the selected voice.
+      this.session = await this.client.startSession(this.getModelForVoice(config.voice), sessionOptions);
       
       // Setup handler-based event subscription (Azure SDK pattern)
       this.subscription = this.session.subscribe(this.createEventHandlers());
@@ -531,10 +534,14 @@ export class VoiceAssistant {
   }
 
   private createVoiceObject(voiceName: string): any {
-    // Check if it's an OpenAI voice (simple names like 'alloy', 'echo', etc.)
-    const openAIVoices = ['alloy', 'echo', 'shimmer', 'ash', 'ballad', 'coral', 'sage', 'verse'];
-    
-    if (openAIVoices.includes(voiceName.toLowerCase())) {
+    if (voiceName.endsWith(AZURE_REALTIME_NATIVE_VOICE_SUFFIX)) {
+      return {
+        type: 'azure-realtime-native',
+        name: voiceName.slice(0, -AZURE_REALTIME_NATIVE_VOICE_SUFFIX.length)
+      };
+    }
+
+    if (OPENAI_VOICES.includes(voiceName.toLowerCase())) {
       return {
         type: 'openai',
         name: voiceName.toLowerCase()
@@ -546,6 +553,14 @@ export class VoiceAssistant {
       type: 'azure-standard',
       name: voiceName
     };
+  }
+
+  private getModelForVoice(voiceName: string): string {
+    if (voiceName.endsWith(AZURE_REALTIME_NATIVE_VOICE_SUFFIX)) {
+      return 'azure-realtime';
+    }
+
+    return 'gpt-4.1';
   }
 
   private async sendAudioData(audioData: ArrayBuffer): Promise<void> {

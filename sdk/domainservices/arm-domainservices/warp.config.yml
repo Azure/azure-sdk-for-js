@@ -1,5 +1,13 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/ouContainerOperationGrp": "./src/api/ouContainerOperationGrp/index.ts"
+  "./api/domainServiceOperations": "./src/api/domainServiceOperations/index.ts"
+  "./api/domainServices": "./src/api/domainServices/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

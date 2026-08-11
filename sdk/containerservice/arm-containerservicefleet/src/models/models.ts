@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { stringToUint8Array } from "@azure/core-util";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -469,8 +469,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -519,8 +519,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -787,8 +787,8 @@ export function fleetMemberStatusDeserializer(item: any): FleetMemberStatus {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -2352,8 +2352,8 @@ export interface NodeImageVersion {
   readonly version?: string;
 }
 
-export function nodeImageVersionSerializer(item: NodeImageVersion): any {
-  return item;
+export function nodeImageVersionSerializer(_item: NodeImageVersion): any {
+  return {};
 }
 
 export function nodeImageVersionDeserializer(item: any): NodeImageVersion {
@@ -2991,8 +2991,8 @@ export interface AutoUpgradeProfileStatus {
   readonly lastTriggerUpgradeVersions?: string[];
 }
 
-export function autoUpgradeProfileStatusSerializer(item: AutoUpgradeProfileStatus): any {
-  return item;
+export function autoUpgradeProfileStatusSerializer(_item: AutoUpgradeProfileStatus): any {
+  return {};
 }
 
 export function autoUpgradeProfileStatusDeserializer(item: any): AutoUpgradeProfileStatus {
@@ -3073,30 +3073,14 @@ export function generateResponseDeserializer(item: any): GenerateResponse {
 
 /** Azure Kubernetes Fleet Manager api versions. */
 export enum KnownVersions {
-  /** Azure Kubernetes Fleet Manager api version 2022-09-02-preview. */
-  V20220902Preview = "2022-09-02-preview",
-  /** Azure Kubernetes Fleet Manager api version 2023-03-15-preview. */
-  V20230315Preview = "2023-03-15-preview",
-  /** Azure Kubernetes Fleet Manager api version 2023-06-15-preview. */
-  V20230615Preview = "2023-06-15-preview",
-  /** Azure Kubernetes Fleet Manager api version 2023-08-15-preview. */
-  V20230815Preview = "2023-08-15-preview",
   /** Azure Kubernetes Fleet Manager api version 2023-10-15. */
   V20231015 = "2023-10-15",
-  /** Azure Kubernetes Fleet Manager api version 2024-02-02-preview. */
-  V20240202Preview = "2024-02-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2024-04-01. */
   V20240401 = "2024-04-01",
-  /** Azure Kubernetes Fleet Manager api version 2024-05-02-preview. */
-  V20240502Preview = "2024-05-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-03-01. */
   V20250301 = "2025-03-01",
-  /** Azure Kubernetes Fleet Manager api version 2025-04-01-preview. */
-  V20250401Preview = "2025-04-01-preview",
-  /** Azure Kubernetes Fleet Manager api version 2025-08-01-preview. */
-  V20250801Preview = "2025-08-01-preview",
-  /** Azure Kubernetes Fleet Manager api version 2026-02-01-preview. */
-  V20260201Preview = "2026-02-01-preview",
+  /** Azure Kubernetes Fleet Manager api version 2026-06-01. */
+  V20260601 = "2026-06-01",
 }
 
 export function _fleetManagedNamespacePropertiesSerializer(item: FleetManagedNamespace): any {

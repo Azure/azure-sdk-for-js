@@ -1,45 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentEndpointConfig, AgentCard, PageOrder } from "../../../models/models.js";
+import { JobStatus, PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaAgentsDeleteSessionFileOptionalParams extends OperationOptions {
+export interface BetaAgentsDeleteOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "HostedAgents=V1Preview";
-  /** Whether to recursively delete directory contents. Defaults to false. */
-  recursive?: boolean;
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
-export interface BetaAgentsGetSessionFilesOptionalParams extends OperationOptions {
+export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "HostedAgents=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
-export interface BetaAgentsDownloadSessionFileOptionalParams extends OperationOptions {
+export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "HostedAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsUploadSessionFileOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "HostedAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsGetSessionLogStreamOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "HostedAgents=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -62,34 +42,24 @@ export interface BetaAgentsListSessionsOptionalParams extends OperationOptions {
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
+  /** Filter to jobs in this lifecycle state. */
+  status?: JobStatus;
+  /** Filter to jobs targeting this agent name. */
+  agentName?: string;
 }
 
 /** Optional parameters. */
-export interface BetaAgentsDeleteSessionOptionalParams extends OperationOptions {
+export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
+  foundryFeatures?: "AgentsOptimization=V2Preview";
 }
 
 /** Optional parameters. */
-export interface BetaAgentsGetSessionOptionalParams extends OperationOptions {
+export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-}
-
-/** Optional parameters. */
-export interface BetaAgentsCreateSessionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-  /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
-  agentSessionId?: string;
-}
-
-/** Optional parameters. */
-export interface BetaAgentsPatchAgentObjectOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryFeatures?: "AgentEndpoints=V1Preview";
-  /** The endpoint configuration for the agent */
-  agentEndpoint?: AgentEndpointConfig;
-  /** Optional agent card for the agent */
-  agentCard?: AgentCard;
+  foundryFeatures?: "AgentsOptimization=V2Preview";
+  /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
+  operationId?: string;
 }

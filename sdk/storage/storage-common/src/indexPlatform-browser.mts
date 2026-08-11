@@ -9,6 +9,7 @@ export * from "#platform/StructuredMessageDecodingStream";
 export * from "./StorageCRC64Calculator.js";
 export { getCachedDefaultHttpClient } from "./cache.js";
 export type * from "#platform/interfaces";
+export * from "./StorageResponseFormat.js";
 
 export * from "./StorageBrowserPolicyFactory.js";
 export * from "./credentials/AnonymousCredential.js";
@@ -25,6 +26,7 @@ export * from "./policies/StorageRetryPolicyV2.js";
 export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
 export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
+export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "#platform/credentials/UserDelegationKeyCredential";
 export type { UserDelegationKey } from "./credentials/UserDelegationKey.js";
 

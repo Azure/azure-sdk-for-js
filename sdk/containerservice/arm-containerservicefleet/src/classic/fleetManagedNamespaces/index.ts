@@ -37,11 +37,6 @@ export interface FleetManagedNamespacesOperations {
     options?: FleetManagedNamespacesListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<FleetManagedNamespace>;
   /** Delete a FleetManagedNamespace */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -64,7 +59,6 @@ export interface FleetManagedNamespacesOperations {
     options?: FleetManagedNamespacesGetOptionalParams,
   ) => Promise<FleetManagedNamespace>;
 }
-
 function _getFleetManagedNamespaces(context: ContainerServiceFleetContext) {
   return {
     update: (
@@ -108,7 +102,6 @@ function _getFleetManagedNamespaces(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, managedNamespaceName, options),
   };
 }
-
 export function _getFleetManagedNamespacesOperations(
   context: ContainerServiceFleetContext,
 ): FleetManagedNamespacesOperations {

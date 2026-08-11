@@ -3,27 +3,18 @@
 
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to A long-running resource action.
+ * This sample demonstrates how to a long-running resource action.
  *
- * @summary A long-running resource action.
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Monitors_Resubscribe.json
+ * @summary a long-running resource action.
+ * x-ms-original-file: 2025-05-01-preview/Monitors_Resubscribe.json
  */
 async function monitorsResubscribe(): Promise<void> {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
-  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
-  const result = await client.monitors.beginResubscribeAndWait(
-    resourceGroupName,
-    monitorName,
-  );
+  const result = await client.monitors.resubscribe("myResourceGroup", "myMonitor");
   console.log(result);
 }
 

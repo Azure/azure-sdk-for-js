@@ -32,6 +32,14 @@ import {
   _startExtensionUpgradeDeserialize,
 } from "./api/virtualMachineScaleSetRollingUpgrades/operations.js";
 import {
+  _tenantLevelGallerySharingRejectDeserialize,
+  _tenantLevelGallerySharingAcceptDeserialize,
+} from "./api/tenantLevelSharedGalleryInvites/operations.js";
+import {
+  _gallerySharingRejectDeserialize,
+  _gallerySharingAcceptDeserialize,
+} from "./api/sharedGalleryInvites/operations.js";
+import {
   _$deleteDeserialize as _$deleteDeserializeGalleryInVMAccessControlProfileVersions,
   _updateDeserialize as _updateDeserializeGalleryInVMAccessControlProfileVersions,
   _createOrUpdateDeserialize,
@@ -77,6 +85,8 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeGalleries,
 } from "./api/galleries/operations.js";
 import {
+  _updateImmutabilityPolicyLockDeserialize,
+  _updateImmutabilityPolicyDeserialize,
   _revokeAccessDeserialize as _revokeAccessDeserializeSnapshots,
   _grantAccessDeserialize as _grantAccessDeserializeSnapshots,
   _$deleteDeserialize as _$deleteDeserializeSnapshots,
@@ -112,6 +122,11 @@ import {
   _updateDeserialize as _updateDeserializeVirtualMachineRunCommands,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineRunCommands,
 } from "./api/virtualMachineRunCommands/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeInterconnectBlocks,
+  _updateDeserialize as _updateDeserializeInterconnectBlocks,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeInterconnectBlocks,
+} from "./api/interconnectBlocks/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeCapacityReservations,
   _updateDeserialize as _updateDeserializeCapacityReservations,
@@ -228,8 +243,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -265,16 +279,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/endGetAccess":
     { deserializer: _revokeAccessDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess":
-    { deserializer: _grantAccessDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _grantAccessDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests":
-    { deserializer: _exportThrottledRequestsDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _exportThrottledRequestsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval":
     {
       deserializer: _exportRequestRateByIntervalDeserialize,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/runCommand":
-    { deserializer: _runCommandDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _runCommandDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/start":
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/restart":
@@ -286,7 +300,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/performMaintenance":
     { deserializer: _performMaintenanceDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/attachDetachDataDisks":
-    { deserializer: _attachDetachDataDisksDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _attachDetachDataDisksDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimageall":
     { deserializer: _reimageAllDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/reimage":
@@ -308,6 +322,26 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startOSUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade":
     { deserializer: _startExtensionUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /providers/Microsoft.Compute/locations/{location}/tenantLevelSharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/reject":
+    {
+      deserializer: _tenantLevelGallerySharingRejectDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /providers/Microsoft.Compute/locations/{location}/tenantLevelSharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/accept":
+    {
+      deserializer: _tenantLevelGallerySharingAcceptDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/reject":
+    {
+      deserializer: _gallerySharingRejectDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/accept":
+    {
+      deserializer: _gallerySharingAcceptDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions/{inVMAccessControlProfileVersionName}":
     {
       deserializer: _$deleteDeserializeGalleryInVMAccessControlProfileVersions,
@@ -419,10 +453,17 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeGalleries, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
     { deserializer: _createOrUpdateDeserializeGalleries, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/updateImmutabilityPolicyLock":
+    {
+      deserializer: _updateImmutabilityPolicyLockDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/updateImmutabilityPolicy":
+    { deserializer: _updateImmutabilityPolicyDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess":
     { deserializer: _revokeAccessDeserializeSnapshots, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess":
-    { deserializer: _grantAccessDeserializeSnapshots, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _grantAccessDeserializeSnapshots, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
     { deserializer: _$deleteDeserializeSnapshots, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}":
@@ -463,7 +504,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess":
     { deserializer: _revokeAccessDeserializeDisks, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess":
-    { deserializer: _grantAccessDeserializeDisks, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _grantAccessDeserializeDisks, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
     { deserializer: _$deleteDeserializeDisks, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}":
@@ -498,6 +539,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}":
     {
       deserializer: _createOrUpdateDeserializeVirtualMachineRunCommands,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/interconnectBlocks/{interconnectBlockName}":
+    {
+      deserializer: _$deleteDeserializeInterconnectBlocks,
+      expectedStatuses: ["200", "202", "204"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/interconnectBlocks/{interconnectBlockName}":
+    { deserializer: _updateDeserializeInterconnectBlocks, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/interconnectBlocks/{interconnectBlockName}":
+    {
+      deserializer: _createOrUpdateDeserializeInterconnectBlocks,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}":
@@ -568,7 +621,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand":
     {
       deserializer: _runCommandDeserializeVirtualMachines,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start":
     { deserializer: _startDeserializeVirtualMachines, expectedStatuses: ["202", "200", "201"] },
@@ -588,7 +641,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "200", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches":
-    { deserializer: _installPatchesDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _installPatchesDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/deallocate":
     {
       deserializer: _deallocateDeserializeVirtualMachines,
@@ -597,14 +650,14 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks":
     { deserializer: _convertToManagedDisksDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture":
-    { deserializer: _captureDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _captureDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/attachDetachDataDisks":
     {
       deserializer: _attachDetachDataDisksDeserializeVirtualMachines,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches":
-    { deserializer: _assessPatchesDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _assessPatchesDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":
     { deserializer: _$deleteDeserializeVirtualMachines, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}":

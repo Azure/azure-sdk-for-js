@@ -35,7 +35,7 @@
     "directory": "sdk/iot/iot-modelsrepository"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "keywords": [
     "azure",

@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-sse",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Implementation of the Server-sent events protocol for Node.js and browsers.",
   "sdk-type": "client",
   "type": "module",
@@ -48,7 +48,7 @@
     "directory": "sdk/core/core-sse"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "keywords": [
     "node",

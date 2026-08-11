@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops any active running storage action for the storage task assignment
  *
  * @summary stops any active running storage action for the storage task assignment
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/StopStorageTaskAssignment.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/StopStorageTaskAssignment.json
  */
 async function stopStorageTaskAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();

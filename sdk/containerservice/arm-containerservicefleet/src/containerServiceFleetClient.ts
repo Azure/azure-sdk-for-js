@@ -40,14 +40,7 @@ export class ContainerServiceFleetClient {
     subscriptionId: string,
     options: ContainerServiceFleetClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerServiceFleet(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerServiceFleet(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.autoUpgradeProfileOperations = _getAutoUpgradeProfileOperationsOperations(this._client);
     this.autoUpgradeProfiles = _getAutoUpgradeProfilesOperations(this._client);

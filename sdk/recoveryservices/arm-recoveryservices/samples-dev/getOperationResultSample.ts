@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operation result for a resource.
  *
  * @summary gets the operation result for a resource.
- * x-ms-original-file: 2025-08-01/GetOperationResult.json
+ * x-ms-original-file: 2026-05-01/GetOperationResult.json
  */
 async function getOperationResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

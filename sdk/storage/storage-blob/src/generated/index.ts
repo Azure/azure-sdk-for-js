@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";
-export type { BlockBlobQueryResponse, BlobDownloadResponse } from "./models/index.js";
 export type {
   BlobServiceProperties,
   Logging,
@@ -34,7 +34,6 @@ export type {
   SignedIdentifier,
   AccessPolicy,
   ListBlobsResponse,
-  BlobFlatListSegment,
   BlobItem,
   BlobName,
   BlobProperties,
@@ -46,8 +45,8 @@ export type {
   ImmutabilityPolicyMode,
   BlobMetadata,
   ObjectReplicationMetadata,
-  ListBlobsHierarchySegmentResponse,
-  BlobHierarchyListSegment,
+  ListBlobsHierarchicalResponse,
+  BlobHierarchyList,
   BlobPrefix,
   BlockLookupList,
   BlockList,
@@ -79,8 +78,12 @@ export type {
   BlockListType,
   PremiumPageBlobAccessTier,
   SequenceNumberActionType,
-} from "./models/azure/storage/blobs/index.js";
-export { KnownVersions } from "./models/azure/storage/blobs/index.js";
+  BlockBlobQueryResponse,
+  BlobDownloadResponse,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type { BlobClientOptionalParams } from "./api/index.js";
 export type {
   AppendBlobSealOptionalParams,
@@ -124,7 +127,9 @@ export type {
 } from "./api/blockBlob/index.js";
 export type {
   ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
   ContainerListBlobsOptionalParams,
   ContainerChangeLeaseOptionalParams,
   ContainerBreakLeaseOptionalParams,
@@ -171,4 +176,5 @@ export type {
   PageBlobOperations,
   ServiceOperations,
 } from "./classic/index.js";
-export type { FileContents };
+export type { FileContents, NodeReadableStream };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,51 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a SQL virtual machine group.
- *
- * @summary Creates or updates a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
- */
-
-import type { SqlVirtualMachineGroup } from "@azure/arm-sqlvirtualmachine";
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function createsOrUpdatesASqlVirtualMachineGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineGroupName = "testvmgroup";
-  const parameters: SqlVirtualMachineGroup = {
+/**
+ * This sample demonstrates how to creates or updates a SQL virtual machine group.
+ *
+ * @summary creates or updates a SQL virtual machine group.
+ * x-ms-original-file: 2023-10-01/CreateOrUpdateSqlVirtualMachineGroup.json
+ */
+async function createsOrUpdatesASQLVirtualMachineGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+  const result = await client.sqlVirtualMachineGroups.createOrUpdate("testrg", "testvmgroup", {
     location: "northeurope",
     sqlImageOffer: "SQL2016-WS2016",
     sqlImageSku: "Enterprise",
-    tags: { mytag: "myval" },
     wsfcDomainProfile: {
       clusterBootstrapAccount: "testrpadmin",
       clusterOperatorAccount: "testrp@testdomain.com",
       clusterSubnetType: "MultiSubnet",
       domainFqdn: "testdomain.com",
+      isSqlServiceAccountGmsa: false,
       ouPath: "OU=WSCluster,DC=testdomain,DC=com",
       sqlServiceAccount: "sqlservice@testdomain.com",
       storageAccountPrimaryKey: "<primary storage access key>",
       storageAccountUrl: "https://storgact.blob.core.windows.net/",
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachineGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    sqlVirtualMachineGroupName,
-    parameters,
-  );
+    tags: { mytag: "myval" },
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createsOrUpdatesASqlVirtualMachineGroup();
+  await createsOrUpdatesASQLVirtualMachineGroup();
 }
 
 main().catch(console.error);

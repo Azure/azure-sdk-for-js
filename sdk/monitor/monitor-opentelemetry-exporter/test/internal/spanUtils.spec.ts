@@ -462,6 +462,63 @@ describe("spanUtils.ts", () => {
         );
       });
 
+      it("should preserve allowlisted microsoft.gen_ai.main_agent.* attributes on Request Envelopes", () => {
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
+        childSpan.setAttributes({
+          // dropped by the generic microsoft.* filter (negative control)
+          "microsoft.internal.foo": "bar",
+          // explicitly allowlisted GenAI main-agent attributes
+          "microsoft.gen_ai.main_agent.name": "TravelBot",
+          "microsoft.gen_ai.main_agent.id": "agent-123",
+          "microsoft.gen_ai.main_agent.version": "1.0.0",
+          "microsoft.gen_ai.main_agent.conversation_id": "conv-abc",
+        });
+        childSpan.setStatus({ code: SpanStatusCode.OK });
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
+        const expectedTime = hrTimeToDate(readableSpan.startTime);
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
+          [KnownContextTagKeys.AiOperationName]: "child span",
+        };
+        const expectedProperties = {
+          "microsoft.gen_ai.main_agent.name": "TravelBot",
+          "microsoft.gen_ai.main_agent.id": "agent-123",
+          "microsoft.gen_ai.main_agent.version": "1.0.0",
+          "microsoft.gen_ai.main_agent.conversation_id": "conv-abc",
+        };
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${childSpan.spanContext().spanId}`,
+          success: true,
+          responseCode: "0",
+          name: `child span`,
+          version: 2,
+          source: undefined,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          100,
+          "RequestData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+          expectedTime,
+        );
+      });
+
       it("should create a success:false Request Envelope for Server Spans with 4xx status codes", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,

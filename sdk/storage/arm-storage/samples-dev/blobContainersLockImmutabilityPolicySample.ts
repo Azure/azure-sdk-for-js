@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
  *
  * @summary sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
- * x-ms-original-file: 2025-08-01/BlobContainersLockImmutabilityPolicy.json
+ * x-ms-original-file: 2026-04-01/BlobContainersLockImmutabilityPolicy.json
  */
 async function lockImmutabilityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignment.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/PutStorageTaskAssignment.json
  */
 async function putStorageTaskAssignment() {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function putStorageTaskAssignment() {
  * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentMockRun.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentMockRun.json
  */
 async function putStorageTaskAssignmentMockRun() {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function putStorageTaskAssignmentMockRun() {
  * This sample demonstrates how to asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  *
  * @summary asynchronously creates a new storage task assignment sub-resource with the specified parameters. If a storage task assignment is already created and a subsequent create request is issued with different properties, the storage task assignment properties will be updated. If a storage task assignment is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentRequiredProperties.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsCrud/PutStorageTaskAssignmentRequiredProperties.json
  */
 async function putStorageTaskAssignmentRequiredProperties() {
   const credential = new DefaultAzureCredential();

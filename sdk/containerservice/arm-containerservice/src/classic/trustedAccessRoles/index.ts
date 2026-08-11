@@ -15,14 +15,12 @@ export interface TrustedAccessRolesOperations {
     options?: TrustedAccessRolesListOptionalParams,
   ) => PagedAsyncIterableIterator<TrustedAccessRole>;
 }
-
 function _getTrustedAccessRoles(context: ContainerServiceContext) {
   return {
     list: (location: string, options?: TrustedAccessRolesListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getTrustedAccessRolesOperations(
   context: ContainerServiceContext,
 ): TrustedAccessRolesOperations {

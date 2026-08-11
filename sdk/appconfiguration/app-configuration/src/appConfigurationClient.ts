@@ -49,7 +49,7 @@ import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPol
 import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
 import { queryParamPolicy } from "./internal/queryParamPolicy.js";
 import { emptyBodyPolicy } from "./internal/emptyBodyPolicy.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type {
   SendConfigurationSettingsOptions,
@@ -76,9 +76,9 @@ import {
   transformSnapshotResponse,
 } from "./internal/helpers.js";
 import {
-  AzureAppConfigurationClient,
-  type AzureAppConfigurationClientOptionalParams,
-} from "./generated/azureAppConfigurationClient.js";
+  AppConfigurationClient as GeneratedAppConfigurationClient,
+  type AppConfigurationClientOptionalParams as GeneratedAppConfigurationClientOptionalParams,
+} from "./generated/appConfigurationClient.js";
 import type {
   _KeyValueListResult,
   _LabelListResult,
@@ -99,7 +99,7 @@ import {
   _createSnapshotDeserialize,
 } from "./generated/api/operations.js";
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
-import type { AzureAppConfigurationContext } from "./generated/api/azureAppConfigurationContext.js";
+import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
@@ -129,7 +129,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
-  private client: AzureAppConfigurationClient;
+  private client: GeneratedAppConfigurationClient;
   private _syncTokens: SyncTokens;
 
   /**
@@ -155,7 +155,7 @@ export class AppConfigurationClient {
     options?: AppConfigurationClientOptions,
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
-    let appConfigCredential: TokenCredential | KeyCredential;
+    let appConfigCredential: TokenCredential | undefined = undefined;
     let appConfigEndpoint: string;
     let authPolicy: PipelinePolicy | undefined;
     let authPolicyName: string;
@@ -176,7 +176,6 @@ export class AppConfigurationClient {
         appConfigEndpoint = regexMatch[1];
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
         authPolicyName = authPolicy.name;
-        appConfigCredential = { key: regexMatch[2] };
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
@@ -185,7 +184,7 @@ export class AppConfigurationClient {
       }
     }
 
-    const generatedClientOptions: AzureAppConfigurationClientOptionalParams = {
+    const generatedClientOptions: GeneratedAppConfigurationClientOptionalParams = {
       ...appConfigOptions,
       userAgentOptions: {
         ...appConfigOptions.userAgentOptions,
@@ -208,9 +207,13 @@ export class AppConfigurationClient {
     };
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AzureAppConfigurationClient(
+    this.client = new GeneratedAppConfigurationClient(
       appConfigEndpoint,
-      appConfigCredential,
+      // When a connection string is used, appConfigCredential is undefined here. We pass undefined to avoid @azure-rest/core-client's keyCredentialAuthenticationPolicy setting the apiKeyHeader on the request.
+      // Connection strings are authenticated by HMAC (appConfigKeyCredentialPolicy) and the secret should never leave the client.
+      // The `as TokenCredential` cast bridges a gap between the generated client and the core SDK: the generated constructor types `credential` as required (KeyCredential | TokenCredential),
+      // but @azure-rest/core-client's addCredentialPipelinePolicy no-ops when no credential is passed, so handing it undefined is safe at runtime.
+      appConfigCredential as TokenCredential,
       generatedClientOptions,
     );
     this.client.pipeline.addPolicy(
@@ -660,8 +663,8 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
-  private get _context(): AzureAppConfigurationContext {
-    return (this.client as any)._client as AzureAppConfigurationContext;
+  private get _context(): AppConfigurationContext {
+    return (this.client as any)._client as AppConfigurationContext;
   }
 
   private async sendLabelsRequest(

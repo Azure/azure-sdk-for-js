@@ -1,3 +1,10 @@
 {
-  "extends": "../../../../eng/tsconfigs/test.node.json"
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-confidentialledger": ["../src/index.ts"],
+      "@azure/arm-confidentialledger/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
 }

@@ -55,11 +55,6 @@ export interface UpdateRunsOperations {
     options?: UpdateRunsListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<UpdateRun>;
   /** Delete a UpdateRun */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -82,7 +77,6 @@ export interface UpdateRunsOperations {
     options?: UpdateRunsGetOptionalParams,
   ) => Promise<UpdateRun>;
 }
-
 function _getUpdateRuns(context: ContainerServiceFleetContext) {
   return {
     skip: (
@@ -130,7 +124,6 @@ function _getUpdateRuns(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, updateRunName, options),
   };
 }
-
 export function _getUpdateRunsOperations(
   context: ContainerServiceFleetContext,
 ): UpdateRunsOperations {

@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-computerecommender",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for ComputeRecommenderManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -139,6 +139,20 @@
       "require": {
         "types": "./dist/commonjs/api/spotPlacementScores/index.d.ts",
         "default": "./dist/commonjs/api/spotPlacementScores/index.js"
+      }
+    },
+    "./api/skuMixPlacementScores": {
+      "browser": {
+        "types": "./dist/browser/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/browser/api/skuMixPlacementScores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/esm/api/skuMixPlacementScores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/skuMixPlacementScores/index.d.ts",
+        "default": "./dist/commonjs/api/skuMixPlacementScores/index.js"
       }
     },
     "./api/operations": {

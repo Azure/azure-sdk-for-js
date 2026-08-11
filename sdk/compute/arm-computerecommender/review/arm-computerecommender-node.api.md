@@ -5,8 +5,10 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -32,6 +34,7 @@ export class ComputeRecommenderManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeRecommenderManagementClientOptionalParams);
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly skuMixPlacementScores: SkuMixPlacementScoresOperations;
     readonly spotPlacementScores: SpotPlacementScoresOperations;
 }
 
@@ -74,6 +77,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -95,8 +100,48 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownSkuMixPlacementAllocationStrategy {
+    EvictionOptimized = "EvictionOptimized",
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
+}
+
+// @public
+export enum KnownSkuMixPlacementCapacityType {
+    VCpu = "VCpu",
+    Vm = "VM"
+}
+
+// @public
+export enum KnownSkuMixPlacementOSType {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownSkuMixPlacementPartialFulfillmentReason {
+    InsufficientCapacity = "InsufficientCapacity",
+    InsufficientQuota = "InsufficientQuota",
+    None = "None"
+}
+
+// @public
+export enum KnownSkuMixPlacementPriority {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
+export enum KnownSkuMixPlacementZonalDistributionStrategy {
+    BestEffortBalanced = "BestEffortBalanced",
+    BestEffortSingleZone = "BestEffortSingleZone",
+    Prioritized = "Prioritized"
+}
+
+// @public
 export enum KnownVersions {
-    V20250605 = "2025-06-05"
+    V20250605 = "2025-06-05",
+    V20260505Preview = "2026-05-05-preview"
 }
 
 // @public
@@ -164,6 +209,120 @@ export interface Resource {
 // @public
 export interface ResourceSize {
     sku?: string;
+}
+
+export { RestError }
+
+// @public
+export type SkuMixPlacementAllocationStrategy = string;
+
+// @public
+export interface SkuMixPlacementBase extends ProxyResource {
+    properties?: SkuMixPlacementProperties;
+}
+
+// @public
+export interface SkuMixPlacementCapacityProfile {
+    allocationStrategy?: SkuMixPlacementAllocationStrategy;
+    capacity: number;
+    capacityType: SkuMixPlacementCapacityType;
+    osType?: SkuMixPlacementOSType;
+    priority: SkuMixPlacementPriority;
+    spotPriorityProfile?: SkuMixPlacementSpotPriorityProfile;
+    zoneAllocationPolicy?: SkuMixPlacementZoneAllocationPolicy;
+}
+
+// @public
+export type SkuMixPlacementCapacityType = string;
+
+// @public
+export interface SkuMixPlacementDeploymentChoice {
+    id: string;
+    score: number;
+    skuSplit: SkuMixPlacementItem[];
+}
+
+// @public
+export interface SkuMixPlacementInstanceDescription {
+    vmSizes: SkuMixPlacementVMSize[];
+}
+
+// @public
+export interface SkuMixPlacementItem {
+    capacity: number;
+    capacityMax?: number;
+    name: string;
+    priority: SkuMixPlacementPriority;
+    zone?: string;
+}
+
+// @public
+export type SkuMixPlacementOSType = string;
+
+// @public
+export type SkuMixPlacementPartialFulfillmentReason = string;
+
+// @public
+export type SkuMixPlacementPriority = string;
+
+// @public
+export interface SkuMixPlacementProperties {
+    supportedResourceTypes?: string[];
+}
+
+// @public
+export interface SkuMixPlacementRequest {
+    capacityProfile: SkuMixPlacementCapacityProfile;
+    instanceDescription: SkuMixPlacementInstanceDescription;
+    zones?: string[];
+}
+
+// @public
+export interface SkuMixPlacementResponse {
+    partialFulfillmentReason: SkuMixPlacementPartialFulfillmentReason;
+    placementChoices: SkuMixPlacementDeploymentChoice[];
+    validUntil?: Date;
+}
+
+// @public
+export interface SkuMixPlacementScoresGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SkuMixPlacementScoresOperations {
+    get: (location: string, options?: SkuMixPlacementScoresGetOptionalParams) => Promise<SkuMixPlacementBase>;
+    post: (location: string, skuMixPlacementRequest: SkuMixPlacementRequest, options?: SkuMixPlacementScoresPostOptionalParams) => Promise<SkuMixPlacementResponse>;
+}
+
+// @public
+export interface SkuMixPlacementScoresPostOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SkuMixPlacementSpotPriorityProfile {
+    maxPricePerVm?: number;
+}
+
+// @public
+export interface SkuMixPlacementVMSize {
+    name: string;
+    rank?: number;
+}
+
+// @public
+export type SkuMixPlacementZonalDistributionStrategy = string;
+
+// @public
+export interface SkuMixPlacementZoneAllocationPolicy {
+    distributionStrategy?: SkuMixPlacementZonalDistributionStrategy;
+    zonePreferences?: SkuMixPlacementZonePreference[];
+}
+
+// @public
+export interface SkuMixPlacementZonePreference {
+    rank?: number;
+    targetMaxCapacity?: number;
+    zone: string;
 }
 
 // @public

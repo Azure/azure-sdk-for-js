@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
+import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   errorXmlDeserializer,
   LeaseStatus,
   LeaseState,
   LeaseDuration,
   PublicAccessType,
-  _submitBatchRequestDeserializer,
+  _submitBatchResponseDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
   SignedIdentifiers,
@@ -16,11 +17,13 @@ import {
   signedIdentifiersXmlDeserializer,
   ListBlobsResponse,
   listBlobsResponseXmlDeserializer,
-  ListBlobsHierarchySegmentResponse,
-  listBlobsHierarchySegmentResponseXmlDeserializer,
+  ListBlobsHierarchicalResponse,
+  listBlobsHierarchicalResponseXmlDeserializer,
   SkuName,
   AccountKind,
-} from "../../models/azure/storage/blobs/models.js";
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
+} from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import {
   StorageCompatResponseInfo,
@@ -30,7 +33,9 @@ import {
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
   ContainerListBlobsOptionalParams,
   ContainerChangeLeaseOptionalParams,
   ContainerBreakLeaseOptionalParams,
@@ -73,7 +78,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -86,7 +91,9 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccountInfoDeserializeExceptionHeaders(result),
@@ -155,8 +162,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Returns the sku name and account kind */
+/** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
   options: ContainerGetAccountInfoOptionalParams = { requestOptions: {} },
@@ -192,6 +198,150 @@ export async function getAccountInfo(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
+export function _listBlobHierarchySegmentApacheArrowSend(
+  context: Client,
+  delimiter: string,
+  options: ContainerListBlobHierarchySegmentApacheArrowOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?restype=container&comp=list{?delimiter,prefix,marker,maxresults,include,timeout,startFrom,endBefore}",
+    {
+      delimiter: delimiter,
+      prefix: options?.prefix,
+      marker: options?.marker,
+      maxresults: options?.maxPageSize,
+      include: !options?.include
+        ? options?.include
+        : options?.include.map((p: any) => {
+            return p;
+          }),
+      timeout: options?.timeout,
+      startFrom: options?.startFrom,
+      endBefore: options?.endBefore,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "x-ms-version": context.version ?? "2026-12-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/vnd.apache.arrow.stream,application/xml",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listBlobHierarchySegmentApacheArrowDeserialize(
+  result: PathUncheckedResponse & ContainerListBlobHierarchySegmentApacheArrowResponse,
+): Promise<ContainerListBlobHierarchySegmentApacheArrowResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._listBlobHierarchySegmentApacheArrowDeserializeExceptionHeaders(result),
+    };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+export function _listBlobHierarchySegmentApacheArrowDeserializeHeaders(
+  result: PathUncheckedResponse,
+): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _listBlobHierarchySegmentApacheArrowDeserializeExceptionHeaders(
+  result: PathUncheckedResponse,
+): { errorCode?: string; xMsCopySourceErrorCode?: string; xMsCopySourceStatusCode?: number } {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+/** Returns a list of the blobs in Apache Arrow format as raw data, to be deserialized by the client. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
+export async function listBlobHierarchySegmentApacheArrow(
+  context: Client,
+  delimiter: string,
+  options: ContainerListBlobHierarchySegmentApacheArrowOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+  } & ContainerListBlobHierarchySegmentApacheArrowResponse &
+    StorageCompatResponseInfo<
+      ContainerListBlobHierarchySegmentApacheArrowResponse,
+      {
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _listBlobHierarchySegmentApacheArrowSend(context, delimiter, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const result = await getBinaryStreamResponse(streamableMethod);
+  const parsedBody = await _listBlobHierarchySegmentApacheArrowDeserialize(result);
+  const parsedHeaders = _listBlobHierarchySegmentApacheArrowDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+}
+
 export function _listBlobHierarchySegmentSend(
   context: Client,
   delimiter: string,
@@ -221,7 +371,7 @@ export function _listBlobHierarchySegmentSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -233,11 +383,13 @@ export function _listBlobHierarchySegmentSend(
 
 export async function _listBlobHierarchySegmentDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListBlobsHierarchySegmentResponse> {
+): Promise<ListBlobsHierarchicalResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._listBlobHierarchySegmentDeserializeExceptionHeaders(result),
@@ -250,7 +402,7 @@ export async function _listBlobHierarchySegmentDeserialize(
     throw error;
   }
 
-  return listBlobsHierarchySegmentResponseXmlDeserializer(result.body);
+  return listBlobsHierarchicalResponseXmlDeserializer(result.body);
 }
 
 export function _listBlobHierarchySegmentDeserializeHeaders(result: PathUncheckedResponse): {
@@ -296,8 +448,7 @@ export function _listBlobHierarchySegmentDeserializeExceptionHeaders(
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The List Blobs operation returns a list of the blobs under the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
+/** Returns a list of the blobs in the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
 export async function listBlobHierarchySegment(
   context: Client,
   delimiter: string,
@@ -309,9 +460,9 @@ export async function listBlobHierarchySegment(
     requestId?: string;
     clientRequestId?: string;
     contentType: "application/xml";
-  } & ListBlobsHierarchySegmentResponse &
+  } & ListBlobsHierarchicalResponse &
     StorageCompatResponseInfo<
-      ListBlobsHierarchySegmentResponse,
+      ListBlobsHierarchicalResponse,
       {
         date: Date;
         version: string;
@@ -328,6 +479,145 @@ export async function listBlobHierarchySegment(
   });
   const parsedBody = await _listBlobHierarchySegmentDeserialize(result);
   const parsedHeaders = _listBlobHierarchySegmentDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+}
+
+export function _listBlobFlatSegmentApacheArrowSend(
+  context: Client,
+  options: ContainerListBlobFlatSegmentApacheArrowOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?restype=container&comp=list{?prefix,marker,maxresults,include,timeout,startFrom,endBefore}",
+    {
+      prefix: options?.prefix,
+      marker: options?.marker,
+      maxresults: options?.maxPageSize,
+      include: !options?.include
+        ? options?.include
+        : options?.include.map((p: any) => {
+            return p;
+          }),
+      timeout: options?.timeout,
+      startFrom: options?.startFrom,
+      endBefore: options?.endBefore,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "x-ms-version": context.version ?? "2026-12-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/vnd.apache.arrow.stream,application/xml",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listBlobFlatSegmentApacheArrowDeserialize(
+  result: PathUncheckedResponse & ContainerListBlobFlatSegmentApacheArrowResponse,
+): Promise<ContainerListBlobFlatSegmentApacheArrowResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._listBlobFlatSegmentApacheArrowDeserializeExceptionHeaders(result),
+    };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
+}
+
+export function _listBlobFlatSegmentApacheArrowDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _listBlobFlatSegmentApacheArrowDeserializeExceptionHeaders(
+  result: PathUncheckedResponse,
+): { errorCode?: string; xMsCopySourceErrorCode?: string; xMsCopySourceStatusCode?: number } {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+/** Returns a list of the blobs in Apache Arrow format as raw data, to be deserialized by the client. */
+export async function listBlobFlatSegmentApacheArrow(
+  context: Client,
+  options: ContainerListBlobFlatSegmentApacheArrowOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+  } & ContainerListBlobFlatSegmentApacheArrowResponse &
+    StorageCompatResponseInfo<
+      ContainerListBlobFlatSegmentApacheArrowResponse,
+      {
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _listBlobFlatSegmentApacheArrowSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const result = await getBinaryStreamResponse(streamableMethod);
+  const parsedBody = await _listBlobFlatSegmentApacheArrowDeserialize(result);
+  const parsedHeaders = _listBlobFlatSegmentApacheArrowDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
@@ -358,7 +648,7 @@ export function _listBlobsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -374,7 +664,9 @@ export async function _listBlobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._listBlobsDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -432,8 +724,7 @@ export function _listBlobsDeserializeExceptionHeaders(result: PathUncheckedRespo
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The List Blobs operation returns a list of the blobs under the specified container. */
+/** Returns a list of the blobs in the specified container. */
 export async function listBlobs(
   context: Client,
   options: ContainerListBlobsOptionalParams = { requestOptions: {} },
@@ -486,7 +777,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -516,7 +807,9 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._changeLeaseDeserializeExceptionHeaders(result),
@@ -584,8 +877,7 @@ export function _changeLeaseDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Change Lease operation is used to change the ID of an existing lease. */
+/** Change the ID of an existing lease. */
 export async function changeLease(
   context: Client,
   leaseId: string,
@@ -641,7 +933,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -672,7 +964,9 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._breakLeaseDeserializeExceptionHeaders(result),
@@ -740,8 +1034,7 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+/** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
 export async function breakLease(
   context: Client,
   options: ContainerBreakLeaseOptionalParams = { requestOptions: {} },
@@ -796,7 +1089,7 @@ export function _renewLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -825,7 +1118,9 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._renewLeaseDeserializeExceptionHeaders(result),
@@ -893,8 +1188,7 @@ export function _renewLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Renew Lease operation renews an existing lease. */
+/** Renews an existing lease. */
 export async function renewLease(
   context: Client,
   leaseId: string,
@@ -950,7 +1244,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -979,7 +1273,9 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._releaseLeaseDeserializeExceptionHeaders(result),
@@ -1042,8 +1338,7 @@ export function _releaseLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
+/** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
 export async function releaseLease(
   context: Client,
   leaseId: string,
@@ -1097,7 +1392,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1129,7 +1424,9 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._acquireLeaseDeserializeExceptionHeaders(result),
@@ -1197,8 +1494,7 @@ export function _acquireLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Acquire Lease operation requests a new lease on a container. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+/** Requests a new lease on the specified container. */
 export async function acquireLease(
   context: Client,
   duration: number,
@@ -1262,7 +1558,7 @@ export function _findBlobsByTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1278,7 +1574,9 @@ export async function _findBlobsByTagsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._findBlobsByTagsDeserializeExceptionHeaders(result),
@@ -1339,8 +1637,7 @@ export function _findBlobsByTagsDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Filter Blobs operation enables callers to list blobs in a container whose tags match a given search expression.  Filter blobs searches within the given container. */
+/** Lists blobs in the specified container whose tags match a given search expression. */
 export async function findBlobsByTags(
   context: Client,
   filterExpression: string,
@@ -1396,7 +1693,7 @@ export function _submitBatchSend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1414,7 +1711,9 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._submitBatchDeserializeExceptionHeaders(result),
@@ -1427,7 +1726,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return _submitBatchRequestDeserializer(result.body) as any;
+  return _submitBatchResponseDeserializer(result.body) as any;
 }
 
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
@@ -1467,8 +1766,7 @@ export function _submitBatchDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
+/** Allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
   contentType: string,
@@ -1514,7 +1812,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1531,7 +1829,9 @@ export async function _renameDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._renameDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1587,8 +1887,7 @@ export function _renameDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Renames an existing container. */
+/** Renames the specified existing container. */
 export async function rename(
   context: Client,
   sourceContainerName: string,
@@ -1632,7 +1931,7 @@ export function _restoreSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1651,7 +1950,9 @@ export async function _restoreDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._restoreDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1707,8 +2008,7 @@ export function _restoreDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Restores a previously-deleted container. */
+/** Restores the specified previously-deleted container. */
 export async function restore(
   context: Client,
   options: ContainerRestoreOptionalParams = { requestOptions: {} },
@@ -1749,7 +2049,7 @@ export function _setAccessPolicySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1771,9 +2071,9 @@ export function _setAccessPolicySend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: !options["containerAcl"]
-        ? options["containerAcl"]
-        : signedIdentifiersXmlSerializer(options["containerAcl"]),
+      body: !options?.containerAcl
+        ? options?.containerAcl
+        : signedIdentifiersXmlSerializer(options?.containerAcl),
     });
 }
 
@@ -1781,7 +2081,9 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setAccessPolicyDeserializeExceptionHeaders(result),
@@ -1844,8 +2146,7 @@ export function _setAccessPolicyDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
+/** Sets the permissions for the specified container. */
 export async function setAccessPolicy(
   context: Client,
   options: ContainerSetAccessPolicyOptionalParams = { requestOptions: {} },
@@ -1897,7 +2198,7 @@ export function _getAccessPolicySend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1914,7 +2215,9 @@ export async function _getAccessPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getAccessPolicyDeserializeExceptionHeaders(result),
@@ -1981,8 +2284,7 @@ export function _getAccessPolicyDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
+/** Gets the permissions for the specified container. */
 export async function getAccessPolicy(
   context: Client,
   options: ContainerGetAccessPolicyOptionalParams = { requestOptions: {} },
@@ -2039,7 +2341,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2060,7 +2362,9 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setMetadataDeserializeExceptionHeaders(result),
@@ -2123,8 +2427,7 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** operation sets one or more user-defined name-value pairs for the specified container. */
+/** Sets user-defined metadata for the specified container. */
 export async function setMetadata(
   context: Client,
   options: ContainerSetMetadataOptionalParams = { requestOptions: {} },
@@ -2176,7 +2479,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2204,7 +2507,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -2260,8 +2565,7 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection */
+/** Deletes the specified container. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -2306,7 +2610,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2320,7 +2624,9 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPropertiesDeserializeExceptionHeaders(result),
@@ -2422,8 +2728,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs */
+/** Returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs. */
 export async function getProperties(
   context: Client,
   options: ContainerGetPropertiesOptionalParams = { requestOptions: {} },
@@ -2493,7 +2798,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2513,7 +2818,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -2573,8 +2880,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** Creates a new container under the specified account. If the container with the same name already exists, the operation fails. */
+/** Creates a new container in the specified account. If the container with the same name already exists, the operation fails. */
 export async function create(
   context: Client,
   options: ContainerCreateOptionalParams = { requestOptions: {} },

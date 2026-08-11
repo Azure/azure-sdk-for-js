@@ -16,6 +16,7 @@ const playwrightServiceAdditionalOptions = {
   useCloudHostedBrowsers: true, // Use cloud hosted browsers
   credential: azureCredential, // Custom token credential for Entra ID authentication
   runName: "JavaScript V1 - Sample Run", // Run name for the test run
+  sourceType: "PlaywrightWorkspacesTestRun", // Identifies the tool that initiated the remote browser sessions
 };
 
 export default defineConfig(

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Storage Connector.
  *
  * @summary update a Storage Connector.
- * x-ms-original-file: 2025-08-01/StorageConnectorCRUD/StorageConnectors_Update.json
+ * x-ms-original-file: 2026-04-01/StorageConnectorCRUD/StorageConnectors_Update.json
  */
 async function updateConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();

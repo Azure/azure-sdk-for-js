@@ -428,11 +428,6 @@ export interface VirtualMachinesOperations {
     options?: VirtualMachinesListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachine>;
   /** The operation to delete a virtual machine. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmName: string,
@@ -499,7 +494,6 @@ export interface VirtualMachinesOperations {
     options?: VirtualMachinesGetOptionalParams,
   ) => Promise<VirtualMachine>;
 }
-
 function _getVirtualMachines(context: ComputeManagementContext) {
   return {
     listByLocation: (location: string, options?: VirtualMachinesListByLocationOptionalParams) =>
@@ -938,7 +932,6 @@ function _getVirtualMachines(context: ComputeManagementContext) {
       get(context, resourceGroupName, vmName, options),
   };
 }
-
 export function _getVirtualMachinesOperations(
   context: ComputeManagementContext,
 ): VirtualMachinesOperations {

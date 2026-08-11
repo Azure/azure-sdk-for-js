@@ -1,101 +1,30 @@
 {
   "name": "@azure/arm-advisor",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "4.0.0-beta.1",
   "description": "A generated SDK for AdvisorManagementClient.",
-  "version": "3.2.1",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "dependencies": {
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
+  "browser": "./dist/browser/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/advisor/arm-advisor"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/advisorManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor/README.md",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview"
-  },
-  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -104,11 +33,290 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/workloads": {
+      "browser": {
+        "types": "./dist/browser/api/workloads/index.d.ts",
+        "default": "./dist/browser/api/workloads/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workloads/index.d.ts",
+        "default": "./dist/esm/api/workloads/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workloads/index.d.ts",
+        "default": "./dist/commonjs/api/workloads/index.js"
+      }
+    },
+    "./api/assessmentTypes": {
+      "browser": {
+        "types": "./dist/browser/api/assessmentTypes/index.d.ts",
+        "default": "./dist/browser/api/assessmentTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/assessmentTypes/index.d.ts",
+        "default": "./dist/esm/api/assessmentTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/assessmentTypes/index.d.ts",
+        "default": "./dist/commonjs/api/assessmentTypes/index.js"
+      }
+    },
+    "./api/configurations": {
+      "browser": {
+        "types": "./dist/browser/api/configurations/index.d.ts",
+        "default": "./dist/browser/api/configurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configurations/index.d.ts",
+        "default": "./dist/esm/api/configurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configurations/index.d.ts",
+        "default": "./dist/commonjs/api/configurations/index.js"
+      }
+    },
+    "./api/triageResources": {
+      "browser": {
+        "types": "./dist/browser/api/triageResources/index.d.ts",
+        "default": "./dist/browser/api/triageResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/triageResources/index.d.ts",
+        "default": "./dist/esm/api/triageResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/triageResources/index.d.ts",
+        "default": "./dist/commonjs/api/triageResources/index.js"
+      }
+    },
+    "./api/triageRecommendations": {
+      "browser": {
+        "types": "./dist/browser/api/triageRecommendations/index.d.ts",
+        "default": "./dist/browser/api/triageRecommendations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/triageRecommendations/index.d.ts",
+        "default": "./dist/esm/api/triageRecommendations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/triageRecommendations/index.d.ts",
+        "default": "./dist/commonjs/api/triageRecommendations/index.js"
+      }
+    },
+    "./api/resiliencyReviews": {
+      "browser": {
+        "types": "./dist/browser/api/resiliencyReviews/index.d.ts",
+        "default": "./dist/browser/api/resiliencyReviews/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/resiliencyReviews/index.d.ts",
+        "default": "./dist/esm/api/resiliencyReviews/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/resiliencyReviews/index.d.ts",
+        "default": "./dist/commonjs/api/resiliencyReviews/index.js"
+      }
+    },
+    "./api/assessments": {
+      "browser": {
+        "types": "./dist/browser/api/assessments/index.d.ts",
+        "default": "./dist/browser/api/assessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/assessments/index.d.ts",
+        "default": "./dist/esm/api/assessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/assessments/index.d.ts",
+        "default": "./dist/commonjs/api/assessments/index.js"
+      }
+    },
+    "./api/advisorScores": {
+      "browser": {
+        "types": "./dist/browser/api/advisorScores/index.d.ts",
+        "default": "./dist/browser/api/advisorScores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/advisorScores/index.d.ts",
+        "default": "./dist/esm/api/advisorScores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/advisorScores/index.d.ts",
+        "default": "./dist/commonjs/api/advisorScores/index.js"
+      }
+    },
+    "./api/suppressions": {
+      "browser": {
+        "types": "./dist/browser/api/suppressions/index.d.ts",
+        "default": "./dist/browser/api/suppressions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/suppressions/index.d.ts",
+        "default": "./dist/esm/api/suppressions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/suppressions/index.d.ts",
+        "default": "./dist/commonjs/api/suppressions/index.js"
+      }
+    },
+    "./api/recommendations": {
+      "browser": {
+        "types": "./dist/browser/api/recommendations/index.d.ts",
+        "default": "./dist/browser/api/recommendations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recommendations/index.d.ts",
+        "default": "./dist/esm/api/recommendations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recommendations/index.d.ts",
+        "default": "./dist/commonjs/api/recommendations/index.js"
+      }
+    },
+    "./api/recommendationMetadata": {
+      "browser": {
+        "types": "./dist/browser/api/recommendationMetadata/index.d.ts",
+        "default": "./dist/browser/api/recommendationMetadata/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recommendationMetadata/index.d.ts",
+        "default": "./dist/esm/api/recommendationMetadata/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recommendationMetadata/index.d.ts",
+        "default": "./dist/commonjs/api/recommendationMetadata/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
-  "imports": {
-    "#platform/*": {
-      "default": "./src/*.ts"
-    }
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/advisor/arm-advisor"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/advisorManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-advisor",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview"
   }
 }

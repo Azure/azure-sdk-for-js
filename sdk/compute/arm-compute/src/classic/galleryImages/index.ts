@@ -31,11 +31,6 @@ export interface GalleryImagesOperations {
     options?: GalleryImagesListByGalleryOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryImage>;
   /** Delete a gallery image. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
@@ -112,7 +107,6 @@ export interface GalleryImagesOperations {
     options?: GalleryImagesGetOptionalParams,
   ) => Promise<GalleryImage>;
 }
-
 function _getGalleryImages(context: ComputeManagementContext) {
   return {
     listByGallery: (
@@ -242,7 +236,6 @@ function _getGalleryImages(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, galleryName, galleryImageName, options),
   };
 }
-
 export function _getGalleryImagesOperations(
   context: ComputeManagementContext,
 ): GalleryImagesOperations {

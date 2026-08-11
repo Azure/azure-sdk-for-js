@@ -56,7 +56,7 @@ export async function _listDeserialize(
   return _pagedEvaluationRuleDeserializer(result.body);
 }
 
-/** List all evaluation rules. */
+/** Returns the evaluation rules configured for the project, optionally filtered by action type, agent name, or enabled state. */
 export function list(
   context: Client,
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
@@ -94,6 +94,9 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -112,7 +115,7 @@ export async function _createOrUpdateDeserialize(
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Create or update an evaluation rule. */
+/** Creates a new evaluation rule, or replaces the existing rule when the identifier matches. */
 export async function createOrUpdate(
   context: Client,
   id: string,
@@ -155,7 +158,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete an evaluation rule. */
+/** Removes the specified evaluation rule from the project. */
 export async function $delete(
   context: Client,
   id: string,
@@ -198,7 +201,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Get an evaluation rule. */
+/** Retrieves the specified evaluation rule and its configuration. */
 export async function get(
   context: Client,
   id: string,

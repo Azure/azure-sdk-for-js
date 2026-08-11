@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetch the report summary of all the storage task assignments and instances in an account
  *
  * @summary fetch the report summary of all the storage task assignments and instances in an account
- * x-ms-original-file: 2025-08-01/storageTaskAssignmentsList/ListStorageTaskAssignmentsInstancesReportSummary.json
+ * x-ms-original-file: 2026-04-01/storageTaskAssignmentsList/ListStorageTaskAssignmentsInstancesReportSummary.json
  */
 async function listStorageTaskAssignmentsInstancesReportSummary() {
   const credential = new DefaultAzureCredential();

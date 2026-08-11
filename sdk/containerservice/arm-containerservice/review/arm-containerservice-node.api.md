@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -252,6 +254,10 @@ export interface AgentPoolsGetUpgradeProfileOptionalParams extends OperationOpti
 }
 
 // @public
+export interface AgentPoolsListBootstrapDataOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface AgentPoolsListOptionalParams extends OperationOptions {
 }
 
@@ -290,6 +296,7 @@ export interface AgentPoolsOperations {
     getAvailableAgentPoolVersions: (resourceGroupName: string, resourceName: string, options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams) => Promise<AgentPoolAvailableVersions>;
     getUpgradeProfile: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetUpgradeProfileOptionalParams) => Promise<AgentPoolUpgradeProfile>;
     list: (resourceGroupName: string, resourceName: string, options?: AgentPoolsListOptionalParams) => PagedAsyncIterableIterator<AgentPool>;
+    listBootstrapData: (resourceGroupName: string, resourceName: string, agentPoolName: string, body: ListBootstrapDataRequest, options?: AgentPoolsListBootstrapDataOptionalParams) => Promise<PoolBootstrapData>;
     upgradeNodeImageVersion: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -352,6 +359,69 @@ export interface AgentPoolWindowsProfile {
 }
 
 // @public
+export interface AlertConfiguration extends ProxyResource {
+    properties?: AlertConfigurationProperties;
+}
+
+// @public
+export type AlertConfigurationMode = string;
+
+// @public
+export interface AlertConfigurationProperties {
+    mode: AlertConfigurationMode;
+    notification: AlertNotification;
+    readonly provisioningState?: AlertConfigurationProvisioningState;
+}
+
+// @public
+export type AlertConfigurationProvisioningState = string;
+
+// @public
+export interface AlertConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AlertConfigurationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AlertConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AlertConfigurationsListByManagedClusterOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AlertConfigurationsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, configurationName: string, resource: AlertConfiguration, options?: AlertConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AlertConfiguration>, AlertConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, configurationName: string, resource: AlertConfiguration, options?: AlertConfigurationsCreateOrUpdateOptionalParams) => Promise<AlertConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, configurationName: string, options?: AlertConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, configurationName: string, options?: AlertConfigurationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, configurationName: string, resource: AlertConfiguration, options?: AlertConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AlertConfiguration>, AlertConfiguration>;
+    delete: (resourceGroupName: string, resourceName: string, configurationName: string, options?: AlertConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, resourceName: string, configurationName: string, options?: AlertConfigurationsGetOptionalParams) => Promise<AlertConfiguration>;
+    listByManagedCluster: (resourceGroupName: string, resourceName: string, options?: AlertConfigurationsListByManagedClusterOptionalParams) => PagedAsyncIterableIterator<AlertConfiguration>;
+}
+
+// @public
+export interface AlertNotification {
+    actionGroupId: string;
+}
+
+// @public
+export interface AllowedSubject {
+    namespaceSelector: LabelSelector;
+    serviceAccountSelector?: LabelSelector;
+}
+
+// @public
 export type ArtifactSource = string;
 
 // @public
@@ -381,6 +451,63 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type BackendPoolType = string;
+
+// @public
+export interface BastionProfile {
+    readonly bastionId?: string;
+    enabled?: boolean;
+    publicIpAddressId?: string;
+    scaleUnits?: number;
+    sku?: BastionSku;
+}
+
+// @public
+export type BastionSku = string;
+
+// @public
+export interface BootstrapAzureConfig {
+    readonly bootstrapToken?: BootstrapTokenInfo;
+    readonly resourceManagerEndpoint?: string;
+    readonly targetAgentPoolName?: string;
+    readonly targetCluster?: BootstrapTargetCluster;
+}
+
+// @public
+export interface BootstrapComponentVersions {
+    readonly containerd?: string;
+    readonly kubernetes?: string;
+    readonly runc?: string;
+}
+
+// @public
+export interface BootstrapKubeletConfig {
+    readonly caCertData?: string;
+    readonly clusterFqdn?: string;
+}
+
+// @public
+export interface BootstrapNetworkingConfig {
+    readonly cniVersion?: string;
+    readonly dnsServiceIP?: string;
+}
+
+// @public
+export interface BootstrapNodeConfig {
+    readonly kubelet?: BootstrapKubeletConfig;
+    readonly labels?: Record<string, string>;
+    readonly maxPods?: number;
+    readonly taints?: string[];
+}
+
+// @public
+export interface BootstrapTargetCluster {
+    readonly resourceId?: string;
+}
+
+// @public
+export interface BootstrapTokenInfo {
+    readonly token?: string;
+}
 
 // @public
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
@@ -433,12 +560,14 @@ export class ContainerServiceClient {
     constructor(credential: TokenCredential, options?: ContainerServiceClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
     readonly agentPools: AgentPoolsOperations;
+    readonly alertConfigurations: AlertConfigurationsOperations;
     readonly containerService: ContainerServiceOperations;
     readonly identityBindings: IdentityBindingsOperations;
     readonly jwtAuthenticators: JWTAuthenticatorsOperations;
     readonly loadBalancers: LoadBalancersOperations;
     readonly machines: MachinesOperations;
     readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
+    readonly maintenanceWindows: MaintenanceWindowsOperations;
     readonly managedClusters: ManagedClustersOperations;
     readonly managedClusterSnapshots: ManagedClusterSnapshotsOperations;
     readonly managedNamespaces: ManagedNamespacesOperations;
@@ -474,11 +603,13 @@ export interface ContainerServiceListNodeImageVersionsOptionalParams extends Ope
 // @public
 export interface ContainerServiceNetworkProfile {
     advancedNetworking?: AdvancedNetworking;
+    bastionProfile?: BastionProfile;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
+    natGatewayId?: string;
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
     networkDataplane?: NetworkDataplane;
     networkMode?: NetworkMode;
@@ -686,6 +817,7 @@ export interface IdentityBindingOidcIssuerProfile {
 
 // @public
 export interface IdentityBindingProperties {
+    allowedSubjects?: AllowedSubject[];
     managedIdentity: IdentityBindingManagedIdentityProfile;
     readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
     readonly provisioningState?: IdentityBindingProvisioningState;
@@ -742,6 +874,8 @@ export interface IPTag {
 
 // @public
 export type IpvsScheduler = string;
+
+export { isRestError }
 
 // @public
 export interface IstioCertificateAuthority {
@@ -924,8 +1058,25 @@ export enum KnownAgentPoolSSHAccess {
 // @public
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
+    FlexNodes = "FlexNodes",
     VirtualMachines = "VirtualMachines",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownAlertConfigurationMode {
+    Disabled = "Disabled",
+    Managed = "Managed"
+}
+
+// @public
+export enum KnownAlertConfigurationProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -937,7 +1088,14 @@ export enum KnownArtifactSource {
 // @public
 export enum KnownBackendPoolType {
     NodeIP = "NodeIP",
-    NodeIPConfiguration = "NodeIPConfiguration"
+    NodeIPConfiguration = "NodeIPConfiguration",
+    PodIP = "PodIP"
+}
+
+// @public
+export enum KnownBastionSku {
+    Premium = "Premium",
+    Standard = "Standard"
 }
 
 // @public
@@ -1116,6 +1274,7 @@ export enum KnownLicenseType {
 // @public
 export enum KnownLoadBalancerSku {
     Basic = "basic",
+    Service = "service",
     Standard = "standard"
 }
 
@@ -1402,6 +1561,13 @@ export enum KnownResourceIdentityType {
 }
 
 // @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownResourceSkuCapacityScaleType {
     Automatic = "Automatic",
     Manual = "Manual",
@@ -1526,7 +1692,9 @@ export enum KnownVersions {
     V20260101 = "2026-01-01",
     V20260201 = "2026-02-01",
     V20260301 = "2026-03-01",
-    V20260302Preview = "2026-03-02-preview"
+    V20260401 = "2026-04-01",
+    V20260501 = "2026-05-01",
+    V20260502Preview = "2026-05-02-preview"
 }
 
 // @public
@@ -1635,6 +1803,10 @@ export interface LinuxOSConfig {
     sysctls?: SysctlConfig;
     transparentHugePageDefrag?: string;
     transparentHugePageEnabled?: string;
+}
+
+// @public
+export interface ListBootstrapDataRequest {
 }
 
 // @public
@@ -1863,6 +2035,7 @@ export interface MachineStatus {
 // @public
 export interface MaintenanceConfiguration extends ProxyResource {
     maintenanceWindow?: MaintenanceWindow;
+    maintenanceWindowId?: string;
     notAllowedTime?: TimeSpan[];
     timeInWeek?: TimeInWeek[];
 }
@@ -1870,6 +2043,7 @@ export interface MaintenanceConfiguration extends ProxyResource {
 // @public
 export interface MaintenanceConfigurationProperties {
     maintenanceWindow?: MaintenanceWindow;
+    maintenanceWindowId?: string;
     notAllowedTime?: TimeSpan[];
     timeInWeek?: TimeInWeek[];
 }
@@ -1906,6 +2080,66 @@ export interface MaintenanceWindow {
     startDate?: Date;
     startTime: string;
     utcOffset?: string;
+}
+
+// @public
+export interface MaintenanceWindowResource extends TrackedResource {
+    properties?: MaintenanceWindowResourceProperties;
+}
+
+// @public
+export interface MaintenanceWindowResourceProperties {
+    durationHours: number;
+    notAllowedDates?: DateSpan[];
+    readonly provisioningState?: ResourceProvisioningState;
+    schedule: Schedule;
+    startDate?: Date;
+    startTime: string;
+    utcOffset?: string;
+}
+
+// @public
+export interface MaintenanceWindowsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceWindowsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceWindowsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceWindowResource>, MaintenanceWindowResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => Promise<MaintenanceWindowResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MaintenanceWindowResource>, MaintenanceWindowResource>;
+    delete: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsGetOptionalParams) => Promise<MaintenanceWindowResource>;
+    list: (resourceGroupName: string, options?: MaintenanceWindowsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceWindowResource>;
+    listBySubscription: (options?: MaintenanceWindowsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MaintenanceWindowResource>;
+    updateTags: (resourceGroupName: string, maintenanceWindowName: string, properties: TagsObject, options?: MaintenanceWindowsUpdateTagsOptionalParams) => Promise<MaintenanceWindowResource>;
+}
+
+// @public
+export interface MaintenanceWindowsUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2505,11 +2739,11 @@ export interface ManagedClusterSecurityProfileDefender {
 export interface ManagedClusterSecurityProfileDefenderSecurityGating {
     allowSecretAccess?: boolean;
     enabled?: boolean;
-    identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[];
+    identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity[];
 }
 
 // @public
-export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem {
+export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
     azureContainerRegistry?: string;
     identity?: UserAssignedIdentity;
 }
@@ -2741,7 +2975,7 @@ export interface ManagedClustersOperations {
     delete: (resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams) => Promise<ManagedCluster>;
     getAccessProfile: (resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams) => Promise<ManagedClusterAccessProfile>;
-    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult>;
+    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult | void>;
     getGuardrailsVersions: (location: string, version: string, options?: ManagedClustersGetGuardrailsVersionsOptionalParams) => Promise<GuardrailsAvailableVersion>;
     getMeshRevisionProfile: (location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams) => Promise<MeshRevisionProfile>;
     getMeshUpgradeProfile: (resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams) => Promise<MeshUpgradeProfile>;
@@ -3234,6 +3468,14 @@ export type PodLinkLocalAccess = string;
 export type PolicyRule = string;
 
 // @public
+export interface PoolBootstrapData {
+    readonly azure?: BootstrapAzureConfig;
+    readonly components?: BootstrapComponentVersions;
+    readonly networking?: BootstrapNetworkingConfig;
+    readonly node?: BootstrapNodeConfig;
+}
+
+// @public
 export interface PortRange {
     portEnd?: number;
     portStart?: number;
@@ -3382,6 +3624,9 @@ export interface Resource {
 export type ResourceIdentityType = string;
 
 // @public
+export type ResourceProvisioningState = string;
+
+// @public
 export interface ResourceQuota {
     cpuLimit?: string;
     cpuRequest?: string;
@@ -3470,6 +3715,8 @@ export interface ResourceSkuZoneDetails {
     readonly name?: string[];
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerServiceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -3548,11 +3795,6 @@ export interface SchedulerInstanceProfile {
 
 // @public
 export interface SchedulerProfile {
-    schedulerInstanceProfiles?: SchedulerProfileSchedulerInstanceProfiles;
-}
-
-// @public
-export interface SchedulerProfileSchedulerInstanceProfiles {
     upstream?: SchedulerInstanceProfile;
 }
 

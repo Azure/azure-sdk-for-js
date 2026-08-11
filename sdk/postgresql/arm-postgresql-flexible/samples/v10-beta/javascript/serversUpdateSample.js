@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersPromoteReplicaAsForcedStandaloneServer.json
+ * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsForcedStandaloneServer.json
  */
 async function promoteAReadReplicaToAStandaloneServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function promoteAReadReplicaToAStandaloneServerWithForcedDataSynchronizati
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersPromoteReplicaAsForcedSwitchover.json
+ * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsForcedSwitchover.json
  */
 async function switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizationMeaningThatItDoesnTWaitForDataInTheReadReplicaToBeSynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function switchOverAReadReplicaToPrimaryServerWithForcedDataSynchronizatio
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersPromoteReplicaAsPlannedStandaloneServer.json
+ * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsPlannedStandaloneServer.json
  */
 async function promoteAReadReplicaToAStandaloneServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesThePromotionToAStandaloneServer() {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function promoteAReadReplicaToAStandaloneServerWithPlannedDataSynchronizat
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersPromoteReplicaAsPlannedSwitchover.json
+ * x-ms-original-file: 2026-04-01-preview/ServersPromoteReplicaAsPlannedSwitchover.json
  */
 async function switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizationMeaningThatItWaitsForDataInTheReadReplicaToBeFullySynchronizedWithItsSourceServerBeforeItInitiatesTheSwitchingOfRolesBetweenTheReadReplicaAndThePrimaryServer() {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function switchOverAReadReplicaToPrimaryServerWithPlannedDataSynchronizati
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdate.json
  */
 async function updateAnExistingServer() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function updateAnExistingServer() {
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdateWithCustomMaintenanceWindow.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithCustomMaintenanceWindow.json
  */
 async function updateAnExistingServerWithCustomMaintenanceWindow() {
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function updateAnExistingServerWithCustomMaintenanceWindow() {
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdateWithDataEncryptionEnabled.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithDataEncryptionEnabled.json
  */
 async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey() {
   const credential = new DefaultAzureCredential();
@@ -148,7 +148,7 @@ async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdateWithDataEncryptionEnabledAutoUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithDataEncryptionEnabledAutoUpdate.json
  */
 async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKeyWithAutomaticKeyVersionUpdate() {
   const credential = new DefaultAzureCredential();
@@ -185,7 +185,7 @@ async function updateAnExistingServerWithDataEncryptionBasedOnCustomerManagedKey
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdateWithMajorVersionUpgrade.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithMajorVersionUpgrade.json
  */
 async function updateAnExistingServerToUpgradeTheMajorVersionOfPostgreSQLDatabaseEngine() {
   const credential = new DefaultAzureCredential();
@@ -202,7 +202,7 @@ async function updateAnExistingServerToUpgradeTheMajorVersionOfPostgreSQLDatabas
  * This sample demonstrates how to updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
  *
  * @summary updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.
- * x-ms-original-file: 2026-01-01-preview/ServersUpdateWithMicrosoftEntraEnabled.json
+ * x-ms-original-file: 2026-04-01-preview/ServersUpdateWithMicrosoftEntraEnabled.json
  */
 async function updateAnExistingServerWithMicrosoftEntraAuthenticationEnabled() {
   const credential = new DefaultAzureCredential();

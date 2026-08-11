@@ -35,11 +35,6 @@ export interface VirtualMachineScaleSetVMExtensionsOperations {
     options?: VirtualMachineScaleSetVMExtensionsListOptionalParams,
   ) => Promise<VirtualMachineScaleSetVMExtensionsListResult>;
   /** The operation to delete the VMSS VM extension. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmScaleSetName: string,
@@ -142,7 +137,6 @@ export interface VirtualMachineScaleSetVMExtensionsOperations {
     options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSetVMExtension>;
 }
-
 function _getVirtualMachineScaleSetVMExtensions(context: ComputeManagementContext) {
   return {
     list: (
@@ -311,7 +305,6 @@ function _getVirtualMachineScaleSetVMExtensions(context: ComputeManagementContex
     ) => get(context, resourceGroupName, vmScaleSetName, instanceId, vmExtensionName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetVMExtensionsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetVMExtensionsOperations {

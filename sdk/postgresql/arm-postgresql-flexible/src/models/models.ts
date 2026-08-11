@@ -543,19 +543,19 @@ export function migrationStatusDeserializer(item: any): MigrationStatus {
 
 /** State of migration. */
 export enum KnownMigrationState {
-  /** InProgress */
+  /** Migration is in progress. */
   InProgress = "InProgress",
-  /** WaitingForUserAction */
+  /** Migration is waiting for user action. */
   WaitingForUserAction = "WaitingForUserAction",
-  /** Canceled */
+  /** Migration has been canceled. */
   Canceled = "Canceled",
-  /** Failed */
+  /** Migration has failed. */
   Failed = "Failed",
-  /** Succeeded */
+  /** Migration has succeeded. */
   Succeeded = "Succeeded",
-  /** ValidationFailed */
+  /** Validation for migration has failed. */
   ValidationFailed = "ValidationFailed",
-  /** CleaningUp */
+  /** Migration is cleaning up resources. */
   CleaningUp = "CleaningUp",
 }
 
@@ -564,13 +564,13 @@ export enum KnownMigrationState {
  * {@link KnownMigrationState} can be used interchangeably with MigrationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InProgress** \
- * **WaitingForUserAction** \
- * **Canceled** \
- * **Failed** \
- * **Succeeded** \
- * **ValidationFailed** \
- * **CleaningUp**
+ * **InProgress**: Migration is in progress. \
+ * **WaitingForUserAction**: Migration is waiting for user action. \
+ * **Canceled**: Migration has been canceled. \
+ * **Failed**: Migration has failed. \
+ * **Succeeded**: Migration has succeeded. \
+ * **ValidationFailed**: Validation for migration has failed. \
+ * **CleaningUp**: Migration is cleaning up resources.
  */
 export type MigrationState = string;
 
@@ -596,29 +596,29 @@ export function migrationSubstateDetailsDeserializer(item: any): MigrationSubsta
 
 /** Substate of migration. */
 export enum KnownMigrationSubstate {
-  /** PerformingPreRequisiteSteps */
+  /** Performing pre-requisite steps for migration. */
   PerformingPreRequisiteSteps = "PerformingPreRequisiteSteps",
-  /** WaitingForLogicalReplicationSetupRequestOnSourceDB */
+  /** Waiting for logical replication setup request on source database. */
   WaitingForLogicalReplicationSetupRequestOnSourceDB = "WaitingForLogicalReplicationSetupRequestOnSourceDB",
-  /** WaitingForDBsToMigrateSpecification */
+  /** Waiting for databases to migrate specification. */
   WaitingForDBsToMigrateSpecification = "WaitingForDBsToMigrateSpecification",
-  /** WaitingForTargetDBOverwriteConfirmation */
+  /** Waiting for target database overwrite confirmation. */
   WaitingForTargetDBOverwriteConfirmation = "WaitingForTargetDBOverwriteConfirmation",
-  /** WaitingForDataMigrationScheduling */
+  /** Waiting for data migration scheduling. */
   WaitingForDataMigrationScheduling = "WaitingForDataMigrationScheduling",
-  /** WaitingForDataMigrationWindow */
+  /** Waiting for data migration window. */
   WaitingForDataMigrationWindow = "WaitingForDataMigrationWindow",
-  /** MigratingData */
+  /** Migrating data. */
   MigratingData = "MigratingData",
-  /** WaitingForCutoverTrigger */
+  /** Waiting for cutover trigger. */
   WaitingForCutoverTrigger = "WaitingForCutoverTrigger",
-  /** CompletingMigration */
+  /** Completing migration. */
   CompletingMigration = "CompletingMigration",
-  /** Completed */
+  /** Migration completed. */
   Completed = "Completed",
-  /** CancelingRequestedDBMigrations */
+  /** Canceling requested database migrations. */
   CancelingRequestedDBMigrations = "CancelingRequestedDBMigrations",
-  /** ValidationInProgress */
+  /** Validation in progress. */
   ValidationInProgress = "ValidationInProgress",
 }
 
@@ -627,18 +627,18 @@ export enum KnownMigrationSubstate {
  * {@link KnownMigrationSubstate} can be used interchangeably with MigrationSubstate,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PerformingPreRequisiteSteps** \
- * **WaitingForLogicalReplicationSetupRequestOnSourceDB** \
- * **WaitingForDBsToMigrateSpecification** \
- * **WaitingForTargetDBOverwriteConfirmation** \
- * **WaitingForDataMigrationScheduling** \
- * **WaitingForDataMigrationWindow** \
- * **MigratingData** \
- * **WaitingForCutoverTrigger** \
- * **CompletingMigration** \
- * **Completed** \
- * **CancelingRequestedDBMigrations** \
- * **ValidationInProgress**
+ * **PerformingPreRequisiteSteps**: Performing pre-requisite steps for migration. \
+ * **WaitingForLogicalReplicationSetupRequestOnSourceDB**: Waiting for logical replication setup request on source database. \
+ * **WaitingForDBsToMigrateSpecification**: Waiting for databases to migrate specification. \
+ * **WaitingForTargetDBOverwriteConfirmation**: Waiting for target database overwrite confirmation. \
+ * **WaitingForDataMigrationScheduling**: Waiting for data migration scheduling. \
+ * **WaitingForDataMigrationWindow**: Waiting for data migration window. \
+ * **MigratingData**: Migrating data. \
+ * **WaitingForCutoverTrigger**: Waiting for cutover trigger. \
+ * **CompletingMigration**: Completing migration. \
+ * **Completed**: Migration completed. \
+ * **CancelingRequestedDBMigrations**: Canceling requested database migrations. \
+ * **ValidationInProgress**: Validation in progress.
  */
 export type MigrationSubstate = string;
 
@@ -711,17 +711,17 @@ export function databaseMigrationStateDeserializer(item: any): DatabaseMigration
 
 /** Migration state of a database. */
 export enum KnownMigrationDatabaseState {
-  /** InProgress */
+  /** Migration is in progress for the database. */
   InProgress = "InProgress",
-  /** WaitingForCutoverTrigger */
+  /** Migration is waiting for cutover trigger for the database. */
   WaitingForCutoverTrigger = "WaitingForCutoverTrigger",
-  /** Failed */
+  /** Migration has failed for the database. */
   Failed = "Failed",
-  /** Canceled */
+  /** Migration has been canceled for the database. */
   Canceled = "Canceled",
-  /** Succeeded */
+  /** Migration has succeeded for the database. */
   Succeeded = "Succeeded",
-  /** Canceling */
+  /** Migration is being canceled for the database. */
   Canceling = "Canceling",
 }
 
@@ -730,12 +730,12 @@ export enum KnownMigrationDatabaseState {
  * {@link KnownMigrationDatabaseState} can be used interchangeably with MigrationDatabaseState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InProgress** \
- * **WaitingForCutoverTrigger** \
- * **Failed** \
- * **Canceled** \
- * **Succeeded** \
- * **Canceling**
+ * **InProgress**: Migration is in progress for the database. \
+ * **WaitingForCutoverTrigger**: Migration is waiting for cutover trigger for the database. \
+ * **Failed**: Migration has failed for the database. \
+ * **Canceled**: Migration has been canceled for the database. \
+ * **Succeeded**: Migration has succeeded for the database. \
+ * **Canceling**: Migration is being canceled for the database.
  */
 export type MigrationDatabaseState = string;
 
@@ -771,24 +771,24 @@ export function validationDetailsDeserializer(item: any): ValidationDetails {
   };
 }
 
-/** Validation status for migration. */
+/** Validation state for migration. */
 export enum KnownValidationState {
-  /** Failed */
+  /** Validation has failed. */
   Failed = "Failed",
-  /** Succeeded */
+  /** Validation has succeeded. */
   Succeeded = "Succeeded",
-  /** Warning */
+  /** Validation has succeeded with warnings. */
   Warning = "Warning",
 }
 
 /**
- * Validation status for migration. \
+ * Validation state for migration. \
  * {@link KnownValidationState} can be used interchangeably with ValidationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Failed** \
- * **Succeeded** \
- * **Warning**
+ * **Failed**: Validation has failed. \
+ * **Succeeded**: Validation has succeeded. \
+ * **Warning**: Validation has succeeded with warnings.
  */
 export type ValidationState = string;
 
@@ -872,138 +872,138 @@ export function dbLevelValidationStatusDeserializer(item: any): DbLevelValidatio
   };
 }
 
-/** Mode used to perform the migration: Online or Offline. */
+/** Mode used to perform the migration. */
 export enum KnownMigrationMode {
-  /** Offline */
+  /** Offline migration mode. */
   Offline = "Offline",
-  /** Online */
+  /** Online migration mode. */
   Online = "Online",
 }
 
 /**
- * Mode used to perform the migration: Online or Offline. \
+ * Mode used to perform the migration. \
  * {@link KnownMigrationMode} can be used interchangeably with MigrationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Offline** \
- * **Online**
+ * **Offline**: Offline migration mode. \
+ * **Online**: Online migration mode.
  */
 export type MigrationMode = string;
 
-/** Supported option for a migration */
+/** Supported option for a migration. */
 export enum KnownMigrationOption {
-  /** Validate */
+  /** Validate the migration without performing it. */
   Validate = "Validate",
-  /** Migrate */
+  /** Perform the migration. */
   Migrate = "Migrate",
-  /** ValidateAndMigrate */
+  /** Validate and perform the migration. */
   ValidateAndMigrate = "ValidateAndMigrate",
 }
 
 /**
- * Supported option for a migration \
+ * Supported option for a migration. \
  * {@link KnownMigrationOption} can be used interchangeably with MigrationOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Validate** \
- * **Migrate** \
- * **ValidateAndMigrate**
+ * **Validate**: Validate the migration without performing it. \
+ * **Migrate**: Perform the migration. \
+ * **ValidateAndMigrate**: Validate and perform the migration.
  */
 export type MigrationOption = string;
 
-/** Source server type used for the migration: ApsaraDB_RDS, AWS, AWS_AURORA, AWS_EC2, AWS_RDS, AzureVM, Crunchy_PostgreSQL, Digital_Ocean_Droplets, Digital_Ocean_PostgreSQL, EDB, EDB_Oracle_Server, EDB_PostgreSQL, GCP, GCP_AlloyDB, GCP_CloudSQL, GCP_Compute, Heroku_PostgreSQL, Huawei_Compute, Huawei_RDS, OnPremises, PostgreSQLCosmosDB, PostgreSQLFlexibleServer, PostgreSQLSingleServer, or Supabase_PostgreSQL */
+/** Source server type used for the migration. */
 export enum KnownSourceType {
-  /** OnPremises */
+  /** On-premises PostgreSQL server. */
   OnPremises = "OnPremises",
-  /** AWS */
+  /** Amazon Web Services PostgreSQL server. */
   AWS = "AWS",
-  /** GCP */
+  /** Google Cloud Platform PostgreSQL server. */
   GCP = "GCP",
-  /** AzureVM */
+  /** Azure Virtual Machine PostgreSQL server. */
   AzureVM = "AzureVM",
-  /** PostgreSQLSingleServer */
+  /** Azure Database for PostgreSQL single server. */
   PostgreSQLSingleServer = "PostgreSQLSingleServer",
-  /** AWS_RDS */
+  /** Amazon RDS for PostgreSQL. */
   AWSRDS = "AWS_RDS",
-  /** AWS_AURORA */
+  /** Amazon Aurora for PostgreSQL. */
   AWSAurora = "AWS_AURORA",
-  /** AWS_EC2 */
+  /** Amazon EC2 for PostgreSQL. */
   AWSEC2 = "AWS_EC2",
-  /** GCP_CloudSQL */
+  /** Google Cloud SQL for PostgreSQL. */
   GCPCloudSQL = "GCP_CloudSQL",
-  /** GCP_AlloyDB */
+  /** Google Cloud AlloyDB for PostgreSQL. */
   GCPAlloyDB = "GCP_AlloyDB",
-  /** GCP_Compute */
+  /** Google Compute Engine for PostgreSQL. */
   GCPCompute = "GCP_Compute",
-  /** EDB */
+  /** EnterpriseDB PostgreSQL server. */
   EDB = "EDB",
-  /** EDB_Oracle_Server */
+  /** EnterpriseDB Oracle Server. */
   EDBOracleServer = "EDB_Oracle_Server",
-  /** EDB_PostgreSQL */
+  /** EnterpriseDB PostgreSQL server. */
   EDBPostgreSQL = "EDB_PostgreSQL",
-  /** PostgreSQLFlexibleServer */
+  /** Azure Database for PostgreSQL flexible server. */
   PostgreSQLFlexibleServer = "PostgreSQLFlexibleServer",
-  /** PostgreSQLCosmosDB */
+  /** .NET Cosmos DB for PostgreSQL */
   PostgreSQLCosmosDB = "PostgreSQLCosmosDB",
-  /** Huawei_RDS */
+  /** Huawei RDS for PostgreSQL */
   HuaweiRDS = "Huawei_RDS",
-  /** Huawei_Compute */
+  /** Huawei Compute for PostgreSQL */
   HuaweiCompute = "Huawei_Compute",
-  /** Heroku_PostgreSQL */
+  /** Heroku PostgreSQL */
   HerokuPostgreSQL = "Heroku_PostgreSQL",
-  /** Crunchy_PostgreSQL */
+  /** Crunchy PostgreSQL */
   CrunchyPostgreSQL = "Crunchy_PostgreSQL",
-  /** ApsaraDB_RDS */
+  /** ApsaraDB RDS for PostgreSQL */
   ApsaraDBRDS = "ApsaraDB_RDS",
-  /** Digital_Ocean_Droplets */
+  /** Digital Ocean Droplets for PostgreSQL */
   DigitalOceanDroplets = "Digital_Ocean_Droplets",
-  /** Digital_Ocean_PostgreSQL */
+  /** Digital Ocean PostgreSQL */
   DigitalOceanPostgreSQL = "Digital_Ocean_PostgreSQL",
-  /** Supabase_PostgreSQL */
+  /** Supabase PostgreSQL */
   SupabasePostgreSQL = "Supabase_PostgreSQL",
 }
 
 /**
- * Source server type used for the migration: ApsaraDB_RDS, AWS, AWS_AURORA, AWS_EC2, AWS_RDS, AzureVM, Crunchy_PostgreSQL, Digital_Ocean_Droplets, Digital_Ocean_PostgreSQL, EDB, EDB_Oracle_Server, EDB_PostgreSQL, GCP, GCP_AlloyDB, GCP_CloudSQL, GCP_Compute, Heroku_PostgreSQL, Huawei_Compute, Huawei_RDS, OnPremises, PostgreSQLCosmosDB, PostgreSQLFlexibleServer, PostgreSQLSingleServer, or Supabase_PostgreSQL \
+ * Source server type used for the migration. \
  * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **OnPremises** \
- * **AWS** \
- * **GCP** \
- * **AzureVM** \
- * **PostgreSQLSingleServer** \
- * **AWS_RDS** \
- * **AWS_AURORA** \
- * **AWS_EC2** \
- * **GCP_CloudSQL** \
- * **GCP_AlloyDB** \
- * **GCP_Compute** \
- * **EDB** \
- * **EDB_Oracle_Server** \
- * **EDB_PostgreSQL** \
- * **PostgreSQLFlexibleServer** \
- * **PostgreSQLCosmosDB** \
- * **Huawei_RDS** \
- * **Huawei_Compute** \
- * **Heroku_PostgreSQL** \
- * **Crunchy_PostgreSQL** \
- * **ApsaraDB_RDS** \
- * **Digital_Ocean_Droplets** \
- * **Digital_Ocean_PostgreSQL** \
- * **Supabase_PostgreSQL**
+ * **OnPremises**: On-premises PostgreSQL server. \
+ * **AWS**: Amazon Web Services PostgreSQL server. \
+ * **GCP**: Google Cloud Platform PostgreSQL server. \
+ * **AzureVM**: Azure Virtual Machine PostgreSQL server. \
+ * **PostgreSQLSingleServer**: Azure Database for PostgreSQL single server. \
+ * **AWS_RDS**: Amazon RDS for PostgreSQL. \
+ * **AWS_AURORA**: Amazon Aurora for PostgreSQL. \
+ * **AWS_EC2**: Amazon EC2 for PostgreSQL. \
+ * **GCP_CloudSQL**: Google Cloud SQL for PostgreSQL. \
+ * **GCP_AlloyDB**: Google Cloud AlloyDB for PostgreSQL. \
+ * **GCP_Compute**: Google Compute Engine for PostgreSQL. \
+ * **EDB**: EnterpriseDB PostgreSQL server. \
+ * **EDB_Oracle_Server**: EnterpriseDB Oracle Server. \
+ * **EDB_PostgreSQL**: EnterpriseDB PostgreSQL server. \
+ * **PostgreSQLFlexibleServer**: Azure Database for PostgreSQL flexible server. \
+ * **PostgreSQLCosmosDB**: .NET Cosmos DB for PostgreSQL \
+ * **Huawei_RDS**: Huawei RDS for PostgreSQL \
+ * **Huawei_Compute**: Huawei Compute for PostgreSQL \
+ * **Heroku_PostgreSQL**: Heroku PostgreSQL \
+ * **Crunchy_PostgreSQL**: Crunchy PostgreSQL \
+ * **ApsaraDB_RDS**: ApsaraDB RDS for PostgreSQL \
+ * **Digital_Ocean_Droplets**: Digital Ocean Droplets for PostgreSQL \
+ * **Digital_Ocean_PostgreSQL**: Digital Ocean PostgreSQL \
+ * **Supabase_PostgreSQL**: Supabase PostgreSQL
  */
 export type SourceType = string;
 
 /** SSL mode used by a migration. Default SSL mode for 'PostgreSQLSingleServer' is 'VerifyFull'. Default SSL mode for other source types is 'Prefer'. */
 export enum KnownSslMode {
-  /** Prefer */
+  /** Prefer SSL connection. If the server does not support SSL, the connection will be established without SSL. */
   Prefer = "Prefer",
-  /** Require */
+  /** Require SSL connection. If the server does not support SSL, the connection will fail. */
   Require = "Require",
-  /** VerifyCA */
+  /** Require SSL connection and verify the server certificate against the CA certificate. */
   VerifyCA = "VerifyCA",
-  /** VerifyFull */
+  /** Require SSL connection, verify the server certificate against the CA certificate, and verify that the server hostname matches the certificate. */
   VerifyFull = "VerifyFull",
 }
 
@@ -1012,10 +1012,10 @@ export enum KnownSslMode {
  * {@link KnownSslMode} can be used interchangeably with SslMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Prefer** \
- * **Require** \
- * **VerifyCA** \
- * **VerifyFull**
+ * **Prefer**: Prefer SSL connection. If the server does not support SSL, the connection will be established without SSL. \
+ * **Require**: Require SSL connection. If the server does not support SSL, the connection will fail. \
+ * **VerifyCA**: Require SSL connection and verify the server certificate against the CA certificate. \
+ * **VerifyFull**: Require SSL connection, verify the server certificate against the CA certificate, and verify that the server hostname matches the certificate.
  */
 export type SslMode = string;
 
@@ -1057,11 +1057,11 @@ export function serverSkuDeserializer(item: any): ServerSku {
 
 /** Tier of the compute assigned to a server. */
 export enum KnownSkuTier {
-  /** Burstable */
+  /** Cost-effective tier for infrequent CPU usage, ideal for development and testing workloads with low performance requirements. */
   Burstable = "Burstable",
-  /** GeneralPurpose */
+  /** Balanced compute and memory for most workloads, offering scalable performance and I/O throughput. */
   GeneralPurpose = "GeneralPurpose",
-  /** MemoryOptimized */
+  /** High memory-to-core ratio for demanding workloads needing fast in-memory processing and high concurrency. */
   MemoryOptimized = "MemoryOptimized",
 }
 
@@ -1070,9 +1070,9 @@ export enum KnownSkuTier {
  * {@link KnownSkuTier} can be used interchangeably with SkuTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Burstable** \
- * **GeneralPurpose** \
- * **MemoryOptimized**
+ * **Burstable**: Cost-effective tier for infrequent CPU usage, ideal for development and testing workloads with low performance requirements. \
+ * **GeneralPurpose**: Balanced compute and memory for most workloads, offering scalable performance and I\/O throughput. \
+ * **MemoryOptimized**: High memory-to-core ratio for demanding workloads needing fast in-memory processing and high concurrency.
  */
 export type SkuTier = string;
 
@@ -1126,9 +1126,9 @@ export function adminCredentialsDeserializer(item: any): AdminCredentials {
 
 /** Indicates whether to setup logical replication on source server, if needed. */
 export enum KnownLogicalReplicationOnSourceServer {
-  /** True */
+  /** Logical replication will be set up on the source server. */
   True = "True",
-  /** False */
+  /** Logical replication will not be set up on the source server. */
   False = "False",
 }
 
@@ -1137,34 +1137,34 @@ export enum KnownLogicalReplicationOnSourceServer {
  * {@link KnownLogicalReplicationOnSourceServer} can be used interchangeably with LogicalReplicationOnSourceServer,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Logical replication will be set up on the source server. \
+ * **False**: Logical replication will not be set up on the source server.
  */
 export type LogicalReplicationOnSourceServer = string;
 
-/** Indicates if databases on the target server can be overwritten when already present. If set to 'False', when the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. */
+/** Indicates if databases on the target server can be overwritten when already present. */
 export enum KnownOverwriteDatabasesOnTargetServer {
-  /** True */
+  /** Databases on the target server can be overwritten when already present. */
   True = "True",
-  /** False */
+  /** Databases on the target server cannot be overwritten when already present. When the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. */
   False = "False",
 }
 
 /**
- * Indicates if databases on the target server can be overwritten when already present. If set to 'False', when the migration workflow detects that the database already exists on the target server, it will wait for a confirmation. \
+ * Indicates if databases on the target server can be overwritten when already present. \
  * {@link KnownOverwriteDatabasesOnTargetServer} can be used interchangeably with OverwriteDatabasesOnTargetServer,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Databases on the target server can be overwritten when already present. \
+ * **False**: Databases on the target server cannot be overwritten when already present. When the migration workflow detects that the database already exists on the target server, it will wait for a confirmation.
  */
 export type OverwriteDatabasesOnTargetServer = string;
 
 /** Indicates if roles and permissions must be migrated. */
 export enum KnownMigrateRolesAndPermissions {
-  /** True */
+  /** Roles and permissions will be migrated. */
   True = "True",
-  /** False */
+  /** Roles and permissions will not be migrated. */
   False = "False",
 }
 
@@ -1173,16 +1173,16 @@ export enum KnownMigrateRolesAndPermissions {
  * {@link KnownMigrateRolesAndPermissions} can be used interchangeably with MigrateRolesAndPermissions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Roles and permissions will be migrated. \
+ * **False**: Roles and permissions will not be migrated.
  */
 export type MigrateRolesAndPermissions = string;
 
 /** Indicates if data migration must start right away. */
 export enum KnownStartDataMigration {
-  /** True */
+  /** Data migration must start right away. */
   True = "True",
-  /** False */
+  /** Data migration must not start right away. */
   False = "False",
 }
 
@@ -1191,16 +1191,16 @@ export enum KnownStartDataMigration {
  * {@link KnownStartDataMigration} can be used interchangeably with StartDataMigration,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Data migration must start right away. \
+ * **False**: Data migration must not start right away.
  */
 export type StartDataMigration = string;
 
 /** Indicates if cutover must be triggered for the entire migration. */
 export enum KnownTriggerCutover {
-  /** True */
+  /** Cutover must be triggered for the entire migration. */
   True = "True",
-  /** False */
+  /** Cutover must not be triggered for the entire migration. */
   False = "False",
 }
 
@@ -1209,16 +1209,16 @@ export enum KnownTriggerCutover {
  * {@link KnownTriggerCutover} can be used interchangeably with TriggerCutover,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Cutover must be triggered for the entire migration. \
+ * **False**: Cutover must not be triggered for the entire migration.
  */
 export type TriggerCutover = string;
 
 /** Indicates if cancel must be triggered for the entire migration. */
 export enum KnownCancel {
-  /** True */
+  /** Cancel must be triggered for the entire migration. */
   True = "True",
-  /** False */
+  /** Cancel must not be triggered for the entire migration. */
   False = "False",
 }
 
@@ -1227,8 +1227,8 @@ export enum KnownCancel {
  * {@link KnownCancel} can be used interchangeably with Cancel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **True** \
- * **False**
+ * **True**: Cancel must be triggered for the entire migration. \
+ * **False**: Cancel must not be triggered for the entire migration.
  */
 export type Cancel = string;
 
@@ -1271,8 +1271,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1564,9 +1564,9 @@ export function migrationNameAvailabilityDeserializer(item: any): MigrationNameA
 
 /** Migration name availability reason. */
 export enum KnownMigrationNameAvailabilityReason {
-  /** Invalid */
+  /** Migration name is invalid. */
   Invalid = "Invalid",
-  /** AlreadyExists */
+  /** Migration name already exists. */
   AlreadyExists = "AlreadyExists",
 }
 
@@ -1575,8 +1575,8 @@ export enum KnownMigrationNameAvailabilityReason {
  * {@link KnownMigrationNameAvailabilityReason} can be used interchangeably with MigrationNameAvailabilityReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
+ * **Invalid**: Migration name is invalid. \
+ * **AlreadyExists**: Migration name already exists.
  */
 export type MigrationNameAvailabilityReason = string;
 
@@ -1805,21 +1805,21 @@ export function serverPropertiesDeserializer(item: any): ServerProperties {
 
 /** Major version of PostgreSQL database engine. */
 export enum KnownPostgresMajorVersion {
-  /** 18 */
+  /** PostgreSQL 18. */
   Eighteen = "18",
-  /** 17 */
+  /** PostgreSQL 17. */
   Seventeen = "17",
-  /** 16 */
+  /** PostgreSQL 16. */
   Sixteen = "16",
-  /** 15 */
+  /** PostgreSQL 15. */
   Fifteen = "15",
-  /** 14 */
+  /** PostgreSQL 14. */
   Fourteen = "14",
-  /** 13 */
+  /** PostgreSQL 13. */
   Thirteen = "13",
-  /** 12 */
+  /** PostgreSQL 12. */
   Twelve = "12",
-  /** 11 */
+  /** PostgreSQL 11. */
   Eleven = "11",
 }
 
@@ -1828,56 +1828,56 @@ export enum KnownPostgresMajorVersion {
  * {@link KnownPostgresMajorVersion} can be used interchangeably with PostgresMajorVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **18** \
- * **17** \
- * **16** \
- * **15** \
- * **14** \
- * **13** \
- * **12** \
- * **11**
+ * **18**: PostgreSQL 18. \
+ * **17**: PostgreSQL 17. \
+ * **16**: PostgreSQL 16. \
+ * **15**: PostgreSQL 15. \
+ * **14**: PostgreSQL 14. \
+ * **13**: PostgreSQL 13. \
+ * **12**: PostgreSQL 12. \
+ * **11**: PostgreSQL 11.
  */
 export type PostgresMajorVersion = string;
 
-/** Possible states of a server. */
+/** State of a server. */
 export enum KnownServerState {
-  /** Ready */
+  /** Server is healthy and not undergoing any operations at the management or control plane level. This doesn't mean that the server is fully operational at the data plane level. */
   Ready = "Ready",
-  /** Dropping */
+  /** Server is being deleted. */
   Dropping = "Dropping",
-  /** Disabled */
+  /** Server is disabled. Typical reasons include: the subscription on which the server is deployed is explicitly disabled or canceled by the administrator, the spending limit has been reached, or the bill is past due. May also happen when the server is being moved to another resource group or subscription. */
   Disabled = "Disabled",
-  /** Starting */
+  /** PostgreSQL database engine is being restarted. */
   Starting = "Starting",
-  /** Stopping */
+  /** Compute resources associated with the server are being stopped and deallocated. If the server has high availability enabled, the compute resources of the standby server are also stopped and deallocated. */
   Stopping = "Stopping",
-  /** Stopped */
+  /** Compute resources associated with the server are being stopped and deallocated. */
   Stopped = "Stopped",
-  /** Updating */
+  /** Server is undergoing some changes which may or may not impact the availability of the PostgreSQL database engine. For example, the compute resources of the server are being scaled up or down, which may cause temporary unavailability of the database engine. Or, for example, a firewall rule is being added or removed, which doesn't cause any unavailability of the database engine. */
   Updating = "Updating",
-  /** Restarting */
+  /** PostgreSQL database engine is being restarted. */
   Restarting = "Restarting",
-  /** Inaccessible */
+  /** Server isn't accessible, because the key provided to encrypt and decrypt the data is in invalid state. */
   Inaccessible = "Inaccessible",
-  /** Provisioning */
+  /** Server is in the process of being created. */
   Provisioning = "Provisioning",
 }
 
 /**
- * Possible states of a server. \
+ * State of a server. \
  * {@link KnownServerState} can be used interchangeably with ServerState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ready** \
- * **Dropping** \
- * **Disabled** \
- * **Starting** \
- * **Stopping** \
- * **Stopped** \
- * **Updating** \
- * **Restarting** \
- * **Inaccessible** \
- * **Provisioning**
+ * **Ready**: Server is healthy and not undergoing any operations at the management or control plane level. This doesn't mean that the server is fully operational at the data plane level. \
+ * **Dropping**: Server is being deleted. \
+ * **Disabled**: Server is disabled. Typical reasons include: the subscription on which the server is deployed is explicitly disabled or canceled by the administrator, the spending limit has been reached, or the bill is past due. May also happen when the server is being moved to another resource group or subscription. \
+ * **Starting**: PostgreSQL database engine is being restarted. \
+ * **Stopping**: Compute resources associated with the server are being stopped and deallocated. If the server has high availability enabled, the compute resources of the standby server are also stopped and deallocated. \
+ * **Stopped**: Compute resources associated with the server are being stopped and deallocated. \
+ * **Updating**: Server is undergoing some changes which may or may not impact the availability of the PostgreSQL database engine. For example, the compute resources of the server are being scaled up or down, which may cause temporary unavailability of the database engine. Or, for example, a firewall rule is being added or removed, which doesn't cause any unavailability of the database engine. \
+ * **Restarting**: PostgreSQL database engine is being restarted. \
+ * **Inaccessible**: Server isn't accessible, because the key provided to encrypt and decrypt the data is in invalid state. \
+ * **Provisioning**: Server is in the process of being created.
  */
 export type ServerState = string;
 
@@ -1919,53 +1919,53 @@ export function storageDeserializer(item: any): Storage {
   };
 }
 
-/** Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size. */
+/** Indicates if the server is configured to automatically grow storage size when available space is nearing zero and conditions allow for automatic growing storage size. */
 export enum KnownStorageAutoGrow {
-  /** Enabled */
+  /** Server should automatically grow storage size when available space is nearing zero and conditions allow for automatically growing storage size. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Server should not automatically grow storage size when available space is nearing zero. */
   Disabled = "Disabled",
 }
 
 /**
- * Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and conditions allow for automatically growing storage size. \
+ * Indicates if the server is configured to automatically grow storage size when available space is nearing zero and conditions allow for automatic growing storage size. \
  * {@link KnownStorageAutoGrow} can be used interchangeably with StorageAutoGrow,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Server should automatically grow storage size when available space is nearing zero and conditions allow for automatically growing storage size. \
+ * **Disabled**: Server should not automatically grow storage size when available space is nearing zero.
  */
 export type StorageAutoGrow = string;
 
 /** Storage tier of a server. */
 export enum KnownAzureManagedDiskPerformanceTier {
-  /** P1 */
+  /** Entry-level SSD for minimal IOPS, ideal for light development or testing workloads. */
   P1 = "P1",
-  /** P2 */
+  /** Slightly higher IOPS for small-scale applications needing consistent low latency. */
   P2 = "P2",
-  /** P3 */
+  /** Balanced performance for basic production workloads with moderate throughput. */
   P3 = "P3",
-  /** P4 */
+  /** Enhanced IOPS for growing apps with predictable performance needs. */
   P4 = "P4",
-  /** P6 */
+  /** Mid-tier SSD for steady workloads requiring reliable throughput and latency. */
   P6 = "P6",
-  /** P10 */
+  /** Popular choice for general-purpose production workloads with scalable performance. */
   P10 = "P10",
-  /** P15 */
+  /** High IOPS tier for demanding apps with frequent read/write operations. */
   P15 = "P15",
-  /** P20 */
+  /** Entry point for high-performance Solid State Disks (SSDs), suitable for small-scale I/O-intensive workloads. */
   P20 = "P20",
-  /** P30 */
+  /** Balanced tier for moderate throughput and latency-sensitive applications. */
   P30 = "P30",
-  /** P40 */
+  /** Enhanced performance for growing production workloads with consistent IOPS demands. */
   P40 = "P40",
-  /** P50 */
+  /** Optimized for enterprise-grade applications needing sustained high throughput. */
   P50 = "P50",
-  /** P60 */
+  /** High-capacity tier for large databases and analytics workloads with elevated IOPS. */
   P60 = "P60",
-  /** P70 */
+  /** Designed for mission-critical systems requiring ultra-low latency and high concurrency. */
   P70 = "P70",
-  /** P80 */
+  /** Top-tier SSD for maximum IOPS and throughput, ideal for the most demanding workloads. */
   P80 = "P80",
 }
 
@@ -1974,41 +1974,41 @@ export enum KnownAzureManagedDiskPerformanceTier {
  * {@link KnownAzureManagedDiskPerformanceTier} can be used interchangeably with AzureManagedDiskPerformanceTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **P1** \
- * **P2** \
- * **P3** \
- * **P4** \
- * **P6** \
- * **P10** \
- * **P15** \
- * **P20** \
- * **P30** \
- * **P40** \
- * **P50** \
- * **P60** \
- * **P70** \
- * **P80**
+ * **P1**: Entry-level SSD for minimal IOPS, ideal for light development or testing workloads. \
+ * **P2**: Slightly higher IOPS for small-scale applications needing consistent low latency. \
+ * **P3**: Balanced performance for basic production workloads with moderate throughput. \
+ * **P4**: Enhanced IOPS for growing apps with predictable performance needs. \
+ * **P6**: Mid-tier SSD for steady workloads requiring reliable throughput and latency. \
+ * **P10**: Popular choice for general-purpose production workloads with scalable performance. \
+ * **P15**: High IOPS tier for demanding apps with frequent read\/write operations. \
+ * **P20**: Entry point for high-performance Solid State Disks (SSDs), suitable for small-scale I\/O-intensive workloads. \
+ * **P30**: Balanced tier for moderate throughput and latency-sensitive applications. \
+ * **P40**: Enhanced performance for growing production workloads with consistent IOPS demands. \
+ * **P50**: Optimized for enterprise-grade applications needing sustained high throughput. \
+ * **P60**: High-capacity tier for large databases and analytics workloads with elevated IOPS. \
+ * **P70**: Designed for mission-critical systems requiring ultra-low latency and high concurrency. \
+ * **P80**: Top-tier SSD for maximum IOPS and throughput, ideal for the most demanding workloads.
  */
 export type AzureManagedDiskPerformanceTier = string;
 
-/** Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS. */
+/** Type of storage assigned to a server. If not specified, it defaults to Premium_LRS. */
 export enum KnownStorageType {
-  /** Premium_LRS */
+  /** Standard Solid State Disk (SSD) backed storage offering consistent performance for general purpose workloads. */
   PremiumLRS = "Premium_LRS",
-  /** PremiumV2_LRS */
+  /** Next generation Solid State Disk (SSD) storage with improved scalability and performance for demanding enterprise workloads. */
   PremiumV2LRS = "PremiumV2_LRS",
-  /** UltraSSD_LRS */
+  /** High-end Solid State Disk (SSD) storage designed for extreme IOPS and latency-sensitive applications. */
   UltraSSDLRS = "UltraSSD_LRS",
 }
 
 /**
- * Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified, it defaults to Premium_LRS. \
+ * Type of storage assigned to a server. If not specified, it defaults to Premium_LRS. \
  * {@link KnownStorageType} can be used interchangeably with StorageType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Premium_LRS** \
- * **PremiumV2_LRS** \
- * **UltraSSD_LRS**
+ * **Premium_LRS**: Standard Solid State Disk (SSD) backed storage offering consistent performance for general purpose workloads. \
+ * **PremiumV2_LRS**: Next generation Solid State Disk (SSD) storage with improved scalability and performance for demanding enterprise workloads. \
+ * **UltraSSD_LRS**: High-end Solid State Disk (SSD) storage designed for extreme IOPS and latency-sensitive applications.
  */
 export type StorageType = string;
 
@@ -2040,9 +2040,9 @@ export function authConfigDeserializer(item: any): AuthConfig {
 
 /** Indicates if the server supports Microsoft Entra authentication. */
 export enum KnownMicrosoftEntraAuth {
-  /** Enabled */
+  /** Server supports Microsoft Entra authentication. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Server does not support Microsoft Entra authentication. */
   Disabled = "Disabled",
 }
 
@@ -2051,16 +2051,16 @@ export enum KnownMicrosoftEntraAuth {
  * {@link KnownMicrosoftEntraAuth} can be used interchangeably with MicrosoftEntraAuth,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Server supports Microsoft Entra authentication. \
+ * **Disabled**: Server does not support Microsoft Entra authentication.
  */
 export type MicrosoftEntraAuth = string;
 
 /** Indicates if the server supports password based authentication. */
 export enum KnownPasswordBasedAuth {
-  /** Enabled */
+  /** Server supports password based authentication. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Server does not support password based authentication. */
   Disabled = "Disabled",
 }
 
@@ -2069,8 +2069,8 @@ export enum KnownPasswordBasedAuth {
  * {@link KnownPasswordBasedAuth} can be used interchangeably with PasswordBasedAuth,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Server supports password based authentication. \
+ * **Disabled**: Server does not support password based authentication.
  */
 export type PasswordBasedAuth = string;
 
@@ -2090,6 +2090,10 @@ export interface DataEncryption {
   readonly primaryEncryptionKeyStatus?: EncryptionKeyStatus;
   /** Status of key used by a server configured with data encryption based on customer managed key, to encrypt the geographically redundant storage associated to the server when it is configured to support geographically redundant backups. */
   readonly geoBackupEncryptionKeyStatus?: EncryptionKeyStatus;
+  /** Client id of multi-tenant Microsoft Entra application. */
+  primaryFederatedIdentityClientId?: string;
+  /** Client id of multi-tenant Microsoft Entra application for when it is configured to support geographically redundant backups. */
+  geoBackupFederatedIdentityClientId?: string;
 }
 
 export function dataEncryptionSerializer(item: DataEncryption): any {
@@ -2099,6 +2103,8 @@ export function dataEncryptionSerializer(item: DataEncryption): any {
     geoBackupKeyURI: item["geoBackupKeyURI"],
     geoBackupUserAssignedIdentityId: item["geoBackupUserAssignedIdentityId"],
     type: item["type"],
+    primaryFederatedIdentityClientId: item["primaryFederatedIdentityClientId"],
+    geoBackupFederatedIdentityClientId: item["geoBackupFederatedIdentityClientId"],
   };
 }
 
@@ -2111,14 +2117,16 @@ export function dataEncryptionDeserializer(item: any): DataEncryption {
     type: item["type"],
     primaryEncryptionKeyStatus: item["primaryEncryptionKeyStatus"],
     geoBackupEncryptionKeyStatus: item["geoBackupEncryptionKeyStatus"],
+    primaryFederatedIdentityClientId: item["primaryFederatedIdentityClientId"],
+    geoBackupFederatedIdentityClientId: item["geoBackupFederatedIdentityClientId"],
   };
 }
 
 /** Data encryption type used by a server. */
 export enum KnownDataEncryptionType {
-  /** SystemManaged */
+  /** Encryption managed by Azure using platform managed keys for simplicity and compliance. */
   SystemManaged = "SystemManaged",
-  /** AzureKeyVault */
+  /** Encryption using customer managed keys stored in Azure Key Vault for enhanced control and security. */
   AzureKeyVault = "AzureKeyVault",
 }
 
@@ -2127,16 +2135,16 @@ export enum KnownDataEncryptionType {
  * {@link KnownDataEncryptionType} can be used interchangeably with DataEncryptionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SystemManaged** \
- * **AzureKeyVault**
+ * **SystemManaged**: Encryption managed by Azure using platform managed keys for simplicity and compliance. \
+ * **AzureKeyVault**: Encryption using customer managed keys stored in Azure Key Vault for enhanced control and security.
  */
 export type DataEncryptionType = string;
 
 /** Status of key used by a server configured with data encryption based on customer managed key, to encrypt the primary storage associated to the server. */
 export enum KnownEncryptionKeyStatus {
-  /** Valid */
+  /** Key is valid and can be used for encryption. */
   Valid = "Valid",
-  /** Invalid */
+  /** Key is invalid and cannot be used for encryption. Possible causes include key deletion, permission changes, key being disabled, key type not supported, or current date being outside of validity period associated to the key. */
   Invalid = "Invalid",
 }
 
@@ -2145,8 +2153,8 @@ export enum KnownEncryptionKeyStatus {
  * {@link KnownEncryptionKeyStatus} can be used interchangeably with EncryptionKeyStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Valid** \
- * **Invalid**
+ * **Valid**: Key is valid and can be used for encryption. \
+ * **Invalid**: Key is invalid and cannot be used for encryption. Possible causes include key deletion, permission changes, key being disabled, key type not supported, or current date being outside of validity period associated to the key.
  */
 export type EncryptionKeyStatus = string;
 
@@ -2179,9 +2187,9 @@ export function backupDeserializer(item: any): Backup {
 
 /** Indicates if the server is configured to create geographically redundant backups. */
 export enum KnownGeographicallyRedundantBackup {
-  /** Enabled */
+  /** Server is configured to create geographically redundant backups. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Server is not configured to create geographically redundant backups. */
   Disabled = "Disabled",
 }
 
@@ -2190,8 +2198,8 @@ export enum KnownGeographicallyRedundantBackup {
  * {@link KnownGeographicallyRedundantBackup} can be used interchangeably with GeographicallyRedundantBackup,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Server is configured to create geographically redundant backups. \
+ * **Disabled**: Server is not configured to create geographically redundant backups.
  */
 export type GeographicallyRedundantBackup = string;
 
@@ -2223,9 +2231,9 @@ export function networkDeserializer(item: any): Network {
 
 /** Indicates if public network access is enabled or not. */
 export enum KnownServerPublicNetworkAccessState {
-  /** Enabled */
+  /** Public network access is enabled. This allows the server to be accessed from the public internet, provided the necessary firewall rule that allows incoming traffic originating from the connecting client is in place. This is compatible with the use of private endpoints to connect to this server. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Public network access is disabled. This means the server cannot be accessed from the public internet, but only via private endpoints. */
   Disabled = "Disabled",
 }
 
@@ -2234,8 +2242,8 @@ export enum KnownServerPublicNetworkAccessState {
  * {@link KnownServerPublicNetworkAccessState} can be used interchangeably with ServerPublicNetworkAccessState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Public network access is enabled. This allows the server to be accessed from the public internet, provided the necessary firewall rule that allows incoming traffic originating from the connecting client is in place. This is compatible with the use of private endpoints to connect to this server. \
+ * **Disabled**: Public network access is disabled. This means the server cannot be accessed from the public internet, but only via private endpoints.
  */
 export type ServerPublicNetworkAccessState = string;
 
@@ -2261,41 +2269,45 @@ export function highAvailabilityDeserializer(item: any): HighAvailability {
   };
 }
 
-/** Modes of high availability supported for this compute. */
+/** Mode of high availability supported for this compute. */
 export enum KnownPostgreSqlFlexibleServerHighAvailabilityMode {
-  /** Disabled */
+  /** High availability is disabled for the server. */
   Disabled = "Disabled",
-  /** ZoneRedundant */
+  /** High availability is enabled for the server, with standby server in a different availability zone than that of the primary. */
   ZoneRedundant = "ZoneRedundant",
-  /** SameZone */
+  /** High availability is enabled for the server, with standby server in the same availability zone as the primary. */
   SameZone = "SameZone",
 }
 
 /**
- * Modes of high availability supported for this compute. \
+ * Mode of high availability supported for this compute. \
  * {@link KnownPostgreSqlFlexibleServerHighAvailabilityMode} can be used interchangeably with PostgreSqlFlexibleServerHighAvailabilityMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Disabled** \
- * **ZoneRedundant** \
- * **SameZone**
+ * **Disabled**: High availability is disabled for the server. \
+ * **ZoneRedundant**: High availability is enabled for the server, with standby server in a different availability zone than that of the primary. \
+ * **SameZone**: High availability is enabled for the server, with standby server in the same availability zone as the primary.
  */
 export type PostgreSqlFlexibleServerHighAvailabilityMode = string;
 
 /** Possible states of the standby server created when high availability is set to SameZone or ZoneRedundant. */
 export enum KnownHighAvailabilityState {
-  /** NotEnabled */
+  /** High availability is not enabled for the server. */
   NotEnabled = "NotEnabled",
-  /** CreatingStandby */
+  /** Standby server is being created. */
   CreatingStandby = "CreatingStandby",
-  /** ReplicatingData */
+  /** Data is being replicated to the standby server. */
   ReplicatingData = "ReplicatingData",
-  /** FailingOver */
+  /** Failover operation to the standby server is in progress. */
   FailingOver = "FailingOver",
-  /** Healthy */
+  /** Standby server is healthy and ready to take over in case of a failover. */
   Healthy = "Healthy",
-  /** RemovingStandby */
+  /** Standby server is being removed. */
   RemovingStandby = "RemovingStandby",
+  /** Standby server is being recreated. */
+  RecreatingStandby = "RecreatingStandby",
+  /** Compute is being updated due to a failover. */
+  ComputeUpdatingByFailover = "ComputeUpdatingByFailover",
 }
 
 /**
@@ -2303,12 +2315,14 @@ export enum KnownHighAvailabilityState {
  * {@link KnownHighAvailabilityState} can be used interchangeably with HighAvailabilityState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotEnabled** \
- * **CreatingStandby** \
- * **ReplicatingData** \
- * **FailingOver** \
- * **Healthy** \
- * **RemovingStandby**
+ * **NotEnabled**: High availability is not enabled for the server. \
+ * **CreatingStandby**: Standby server is being created. \
+ * **ReplicatingData**: Data is being replicated to the standby server. \
+ * **FailingOver**: Failover operation to the standby server is in progress. \
+ * **Healthy**: Standby server is healthy and ready to take over in case of a failover. \
+ * **RemovingStandby**: Standby server is being removed. \
+ * **RecreatingStandby**: Standby server is being recreated. \
+ * **ComputeUpdatingByFailover**: Compute is being updated due to a failover.
  */
 export type HighAvailabilityState = string;
 
@@ -2344,13 +2358,13 @@ export function maintenanceWindowDeserializer(item: any): MaintenanceWindow {
 
 /** Role of the server in a replication set. */
 export enum KnownReplicationRole {
-  /** None */
+  /** No replication role assigned; the server operates independently. */
   None = "None",
-  /** Primary */
+  /** Acts as the source server for replication to one or more replicas. */
   Primary = "Primary",
-  /** AsyncReplica */
+  /** Receives data asynchronously from a primary server within the same region. */
   AsyncReplica = "AsyncReplica",
-  /** GeoAsyncReplica */
+  /** Receives data asynchronously from a primary server in a different region for geographical redundancy. */
   GeoAsyncReplica = "GeoAsyncReplica",
 }
 
@@ -2359,10 +2373,10 @@ export enum KnownReplicationRole {
  * {@link KnownReplicationRole} can be used interchangeably with ReplicationRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **Primary** \
- * **AsyncReplica** \
- * **GeoAsyncReplica**
+ * **None**: No replication role assigned; the server operates independently. \
+ * **Primary**: Acts as the source server for replication to one or more replicas. \
+ * **AsyncReplica**: Receives data asynchronously from a primary server within the same region. \
+ * **GeoAsyncReplica**: Receives data asynchronously from a primary server in a different region for geographical redundancy.
  */
 export type ReplicationRole = string;
 
@@ -2398,59 +2412,59 @@ export function replicaDeserializer(item: any): Replica {
   };
 }
 
-/** Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating */
+/** Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. */
 export enum KnownReplicationState {
-  /** The read replica server is fully synchronized and actively replicating data from the primary server. */
+  /** Read replica server is fully synchronized and actively replicating data from the primary server. */
   Active = "Active",
-  /** The read replica server is behind the primary server and is currently catching up with pending changes. */
+  /** Read replica server is behind the primary server and is currently catching up with pending changes. */
   Catchup = "Catchup",
-  /** The read replica server is being created and is in process of getting initialized. */
+  /** Read replica server is being created and is in process of getting initialized. */
   Provisioning = "Provisioning",
-  /** The read replica server is undergoing some changes it can be changing compute size of promoting it to primary server. */
+  /** Read replica server is undergoing some changes it can be changing compute size of promoting it to primary server. */
   Updating = "Updating",
   /** Replication has failed or been interrupted. */
   Broken = "Broken",
-  /** The read replica server is being reconfigured, possibly due to changes in source or settings. */
+  /** Read replica server is being reconfigured, possibly due to changes in source or settings. */
   Reconfiguring = "Reconfiguring",
 }
 
 /**
- * Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating \
+ * Indicates the replication state of a read replica. This property is returned only when the target server is a read replica. \
  * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: The read replica server is fully synchronized and actively replicating data from the primary server. \
- * **Catchup**: The read replica server is behind the primary server and is currently catching up with pending changes. \
- * **Provisioning**: The read replica server is being created and is in process of getting initialized. \
- * **Updating**: The read replica server is undergoing some changes it can be changing compute size of promoting it to primary server. \
+ * **Active**: Read replica server is fully synchronized and actively replicating data from the primary server. \
+ * **Catchup**: Read replica server is behind the primary server and is currently catching up with pending changes. \
+ * **Provisioning**: Read replica server is being created and is in process of getting initialized. \
+ * **Updating**: Read replica server is undergoing some changes it can be changing compute size of promoting it to primary server. \
  * **Broken**: Replication has failed or been interrupted. \
- * **Reconfiguring**: The read replica server is being reconfigured, possibly due to changes in source or settings.
+ * **Reconfiguring**: Read replica server is being reconfigured, possibly due to changes in source or settings.
  */
 export type ReplicationState = string;
 
-/** Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server. */
+/** Type of operation to apply on the read replica. This property is write only. */
 export enum KnownReadReplicaPromoteMode {
-  /** Read replica will become an independent server. */
+  /** Read replica will become an independent server, and a completely independent entity from the replication set. */
   Standalone = "Standalone",
   /** Read replica will swap roles with primary server. */
   Switchover = "Switchover",
 }
 
 /**
- * Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover means that the read replica will roles with the primary server. \
+ * Type of operation to apply on the read replica. This property is write only. \
  * {@link KnownReadReplicaPromoteMode} can be used interchangeably with ReadReplicaPromoteMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Standalone**: Read replica will become an independent server. \
+ * **Standalone**: Read replica will become an independent server, and a completely independent entity from the replication set. \
  * **Switchover**: Read replica will swap roles with primary server.
  */
 export type ReadReplicaPromoteMode = string;
 
 /** Data synchronization option to use when processing the operation specified in the promoteMode property. This property is write only. */
 export enum KnownReadReplicaPromoteOption {
-  /** The operation will wait for data in the read replica to be fully synchronized with its source server, before it initiates the operation. */
+  /** Wait for data in the read replica to be fully synchronized with its source server before it initiates the operation. */
   Planned = "Planned",
-  /** The operation will not wait for data in the read replica to be synchronized with its source server, before it initiates the operation. */
+  /** Initiate the operation immediately, without waiting for data in the read replica to be synchronized with its source server. */
   Forced = "Forced",
 }
 
@@ -2459,26 +2473,26 @@ export enum KnownReadReplicaPromoteOption {
  * {@link KnownReadReplicaPromoteOption} can be used interchangeably with ReadReplicaPromoteOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Planned**: The operation will wait for data in the read replica to be fully synchronized with its source server, before it initiates the operation. \
- * **Forced**: The operation will not wait for data in the read replica to be synchronized with its source server, before it initiates the operation.
+ * **Planned**: Wait for data in the read replica to be fully synchronized with its source server before it initiates the operation. \
+ * **Forced**: Initiate the operation immediately, without waiting for data in the read replica to be synchronized with its source server.
  */
 export type ReadReplicaPromoteOption = string;
 
 /** Creation mode of a new server. */
 export enum KnownCreateMode {
-  /** Default */
+  /** If the operation is triggered on a non-existing server, it's equivalent to 'Create'. If the operation is triggered on an existing server, it's equivalent to 'Update'. */
   Default = "Default",
-  /** Create */
+  /** Operation creates a new server. */
   Create = "Create",
-  /** Update */
+  /** Operation updates an existing server. */
   Update = "Update",
-  /** PointInTimeRestore */
+  /** Operation restores an existing backup of an existing server. This operation creates a new server, and then restores on it the backup of an existing server at a specific point in time. */
   PointInTimeRestore = "PointInTimeRestore",
-  /** GeoRestore */
+  /** Operation restores an existing backup of an existing server, on the paired region of the existing server. This operation creates a new server on the paired region of the existing server, and then restores on it the backup of an existing server at a specific point in time, in a different region. This operation is only supported on existing servers that were created with geographically redundant backups enabled. */
   GeoRestore = "GeoRestore",
-  /** Replica */
+  /** Operation creates a replica of an existing server. This operation creates a new server, restores a base backup of the existing server (referred to as primary), and configures physical replication to asynchronously stream all changes which are recorded in the transaction log of the primary. */
   Replica = "Replica",
-  /** ReviveDropped */
+  /** Operation creates a new server, initialized with the backup of a server that was recently deleted. */
   ReviveDropped = "ReviveDropped",
 }
 
@@ -2487,13 +2501,13 @@ export enum KnownCreateMode {
  * {@link KnownCreateMode} can be used interchangeably with CreateMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default** \
- * **Create** \
- * **Update** \
- * **PointInTimeRestore** \
- * **GeoRestore** \
- * **Replica** \
- * **ReviveDropped**
+ * **Default**: If the operation is triggered on a non-existing server, it's equivalent to 'Create'. If the operation is triggered on an existing server, it's equivalent to 'Update'. \
+ * **Create**: Operation creates a new server. \
+ * **Update**: Operation updates an existing server. \
+ * **PointInTimeRestore**: Operation restores an existing backup of an existing server. This operation creates a new server, and then restores on it the backup of an existing server at a specific point in time. \
+ * **GeoRestore**: Operation restores an existing backup of an existing server, on the paired region of the existing server. This operation creates a new server on the paired region of the existing server, and then restores on it the backup of an existing server at a specific point in time, in a different region. This operation is only supported on existing servers that were created with geographically redundant backups enabled. \
+ * **Replica**: Operation creates a replica of an existing server. This operation creates a new server, restores a base backup of the existing server (referred to as primary), and configures physical replication to asynchronously stream all changes which are recorded in the transaction log of the primary. \
+ * **ReviveDropped**: Operation creates a new server, initialized with the backup of a server that was recently deleted.
  */
 export type CreateMode = string;
 
@@ -2597,8 +2611,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -2794,13 +2808,13 @@ export function userIdentityDeserializer(item: any): UserIdentity {
 
 /** Types of identities associated with a server. */
 export enum KnownIdentityType {
-  /** None */
+  /** No managed identity is assigned to the server. */
   None = "None",
-  /** UserAssigned */
+  /** One or more managed identities provided by the user are assigned to the server. */
   UserAssigned = "UserAssigned",
-  /** SystemAssigned */
+  /** Azure automatically creates and manages the identity associated to the lifecycle of the server. */
   SystemAssigned = "SystemAssigned",
-  /** SystemAssigned,UserAssigned */
+  /** Both system-assigned and user-assigned identities are assigned to the server. */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
@@ -2809,10 +2823,10 @@ export enum KnownIdentityType {
  * {@link KnownIdentityType} can be used interchangeably with IdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **UserAssigned** \
- * **SystemAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **None**: No managed identity is assigned to the server. \
+ * **UserAssigned**: One or more managed identities provided by the user are assigned to the server. \
+ * **SystemAssigned**: Azure automatically creates and manages the identity associated to the lifecycle of the server. \
+ * **SystemAssigned,UserAssigned**: Both system-assigned and user-assigned identities are assigned to the server.
  */
 export type IdentityType = string;
 
@@ -3026,9 +3040,9 @@ export function authConfigForPatchSerializer(item: AuthConfigForPatch): any {
 
 /** Update mode of an existing server. */
 export enum KnownCreateModeForPatch {
-  /** Default */
+  /** It's equivalent to 'Update'. */
   Default = "Default",
-  /** Update */
+  /** Operation updates an existing server. */
   Update = "Update",
 }
 
@@ -3037,8 +3051,8 @@ export enum KnownCreateModeForPatch {
  * {@link KnownCreateModeForPatch} can be used interchangeably with CreateModeForPatch,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Default** \
- * **Update**
+ * **Default**: It's equivalent to 'Update'. \
+ * **Update**: Operation updates an existing server.
  */
 export type CreateModeForPatch = string;
 
@@ -3083,13 +3097,13 @@ export function restartParameterSerializer(item: RestartParameter): any {
 
 /** Failover mode. */
 export enum KnownFailoverMode {
-  /** PlannedFailover */
+  /** Trigger a failover from primary to standby without killing the primary database process first. This is a graceful failover that attempts to preserve data consistency. */
   PlannedFailover = "PlannedFailover",
-  /** ForcedFailover */
+  /** Terminate the primary database process first, then triggers the failover. This is more aggressive and used when the primary is unresponsive or in an unhealthy state. */
   ForcedFailover = "ForcedFailover",
-  /** PlannedSwitchover */
+  /** Similar to 'PlannedFailover' but prefers a switch over operation where roles are swapped between primary and standby. */
   PlannedSwitchover = "PlannedSwitchover",
-  /** ForcedSwitchover */
+  /** Terminate the primary database process first, and then triggers a switch over with role swapping. */
   ForcedSwitchover = "ForcedSwitchover",
 }
 
@@ -3098,22 +3112,22 @@ export enum KnownFailoverMode {
  * {@link KnownFailoverMode} can be used interchangeably with FailoverMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PlannedFailover** \
- * **ForcedFailover** \
- * **PlannedSwitchover** \
- * **ForcedSwitchover**
+ * **PlannedFailover**: Trigger a failover from primary to standby without killing the primary database process first. This is a graceful failover that attempts to preserve data consistency. \
+ * **ForcedFailover**: Terminate the primary database process first, then triggers the failover. This is more aggressive and used when the primary is unresponsive or in an unhealthy state. \
+ * **PlannedSwitchover**: Similar to 'PlannedFailover' but prefers a switch over operation where roles are swapped between primary and standby. \
+ * **ForcedSwitchover**: Terminate the primary database process first, and then triggers a switch over with role swapping.
  */
 export type FailoverMode = string;
 
-/** The status of a network migration operation. */
+/** Status of a network migration operation. */
 export interface MigrateNetworkStatus {
-  /** The ID of the subscription. */
+  /** Identifier of the subscription. */
   subscriptionId?: string;
-  /** The name of the resource group. */
+  /** Name of the resource group. */
   resourceGroupName?: string;
-  /** The name of the server. */
+  /** Name of the server. */
   serverName?: string;
-  /** The state of the network migration operation. */
+  /** State of the network migration operation. */
   readonly state?: NetworkMigrationState;
 }
 
@@ -3126,35 +3140,91 @@ export function migrateNetworkStatusDeserializer(item: any): MigrateNetworkStatu
   };
 }
 
-/** The state of the network migration operation. */
+/** State of the network migration operation. */
 export enum KnownNetworkMigrationState {
-  /** The network migration is pending. */
+  /** Network migration is pending. */
   Pending = "Pending",
-  /** The network migration is in progress. */
+  /** Network migration is in progress. */
   InProgress = "InProgress",
-  /** The network migration succeeded. */
+  /** Network migration succeeded. */
   Succeeded = "Succeeded",
-  /** The network migration failed. */
+  /** Network migration failed. */
   Failed = "Failed",
-  /** The network migration cancellation is in progress. */
+  /** Network migration cancellation is in progress. */
   CancelInProgress = "CancelInProgress",
-  /** The network migration was cancelled. */
+  /** Network migration was cancelled. */
   Cancelled = "Cancelled",
 }
 
 /**
- * The state of the network migration operation. \
+ * State of the network migration operation. \
  * {@link KnownNetworkMigrationState} can be used interchangeably with NetworkMigrationState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending**: The network migration is pending. \
- * **InProgress**: The network migration is in progress. \
- * **Succeeded**: The network migration succeeded. \
- * **Failed**: The network migration failed. \
- * **CancelInProgress**: The network migration cancellation is in progress. \
- * **Cancelled**: The network migration was cancelled.
+ * **Pending**: Network migration is pending. \
+ * **InProgress**: Network migration is in progress. \
+ * **Succeeded**: Network migration succeeded. \
+ * **Failed**: Network migration failed. \
+ * **CancelInProgress**: Network migration cancellation is in progress. \
+ * **Cancelled**: Network migration was cancelled.
  */
 export type NetworkMigrationState = string;
+
+/** Request model for starting a major version upgrade precheck. */
+export interface StartMajorVersionUpgradePrecheckRequest {
+  /** The target major version to upgrade to. */
+  targetVersion: PostgresMajorVersion;
+}
+
+export function startMajorVersionUpgradePrecheckRequestSerializer(
+  item: StartMajorVersionUpgradePrecheckRequest,
+): any {
+  return { targetVersion: item["targetVersion"] };
+}
+
+/** Response model for starting a major version upgrade precheck. */
+export interface StartMajorVersionUpgradePrecheckResponse {
+  /** The precheck validation ID. */
+  name?: string;
+  /** The time when the precheck was created. */
+  createTime?: Date;
+  /** The status of the precheck validation. */
+  status?: MajorVersionUpgradePrecheckStatus;
+}
+
+export function startMajorVersionUpgradePrecheckResponseDeserializer(
+  item: any,
+): StartMajorVersionUpgradePrecheckResponse {
+  return {
+    name: item["name"],
+    createTime: !item["createTime"] ? item["createTime"] : new Date(item["createTime"]),
+    status: item["status"],
+  };
+}
+
+/** The status of the major version upgrade precheck. */
+export enum KnownMajorVersionUpgradePrecheckStatus {
+  /** Executing prechecks against the source server */
+  Validating = "Validating",
+  /** Validation succeeded */
+  Succeeded = "Succeeded",
+  /** Validation failed */
+  Failed = "Failed",
+  /** Validation canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The status of the major version upgrade precheck. \
+ * {@link KnownMajorVersionUpgradePrecheckStatus} can be used interchangeably with MajorVersionUpgradePrecheckStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Validating**: Executing prechecks against the source server \
+ * **Succeeded**: Validation succeeded \
+ * **Failed**: Validation failed \
+ * **Canceled**: Validation canceled
+ */
+export type MajorVersionUpgradePrecheckStatus = string;
 
 /** Configuration (also known as server parameter). */
 export interface Configuration extends ProxyResource {
@@ -3244,17 +3314,17 @@ export function configurationPropertiesDeserializer(item: any): ConfigurationPro
 
 /** Data type of the configuration (also known as server parameter). */
 export enum KnownConfigurationDataType {
-  /** Boolean */
+  /** A boolean value. */
   Boolean = "Boolean",
-  /** Numeric */
+  /** A numeric value. */
   Numeric = "Numeric",
-  /** Integer */
+  /** An integer value. */
   Integer = "Integer",
-  /** Enumeration */
+  /** An enumeration value. */
   Enumeration = "Enumeration",
-  /** String */
+  /** A string value. */
   String = "String",
-  /** Set */
+  /** A set of values. */
   Set = "Set",
 }
 
@@ -3263,20 +3333,20 @@ export enum KnownConfigurationDataType {
  * {@link KnownConfigurationDataType} can be used interchangeably with ConfigurationDataType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Boolean** \
- * **Numeric** \
- * **Integer** \
- * **Enumeration** \
- * **String** \
- * **Set**
+ * **Boolean**: A boolean value. \
+ * **Numeric**: A numeric value. \
+ * **Integer**: An integer value. \
+ * **Enumeration**: An enumeration value. \
+ * **String**: A string value. \
+ * **Set**: A set of values.
  */
 export type ConfigurationDataType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -3656,7 +3726,7 @@ export function virtualEndpointResourcePropertiesDeserializer(
 
 /** Type of endpoint for the virtual endpoints. */
 export enum KnownVirtualEndpointType {
-  /** ReadWrite */
+  /** Read-write endpoint. */
   ReadWrite = "ReadWrite",
 }
 
@@ -3665,7 +3735,7 @@ export enum KnownVirtualEndpointType {
  * {@link KnownVirtualEndpointType} can be used interchangeably with VirtualEndpointType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ReadWrite**
+ * **ReadWrite**: Read-write endpoint.
  */
 export type VirtualEndpointType = string;
 
@@ -3713,6 +3783,361 @@ export function virtualEndpointArraySerializer(result: Array<VirtualEndpoint>): 
 export function virtualEndpointArrayDeserializer(result: Array<VirtualEndpoint>): any[] {
   return result.map((item) => {
     return virtualEndpointDeserializer(item);
+  });
+}
+
+/** Maintenance event resource for a PostgreSQL flexible server. */
+export interface MaintenanceEventResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MaintenanceEventResourceProperties;
+}
+
+export function maintenanceEventResourceDeserializer(item: any): MaintenanceEventResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : maintenanceEventResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a maintenance event resource. */
+export interface MaintenanceEventResourceProperties {
+  /** A service-generated identifier for this maintenance event, assigned by the platform (e.g., 'YL1T-HFG'). The format is not contractual and clients should not attempt to parse or construct this value. */
+  readonly maintenanceEventId?: string;
+  /** The maintenance type (e.g., 'PlannedMaintenance'). */
+  readonly maintenanceType: MaintenanceType;
+  /** The human-readable description of the maintenance event. */
+  readonly description?: string;
+  /** The customer-facing status of the maintenance event. */
+  readonly status: MaintenanceEventStatus;
+  /** The scheduled start time of the maintenance event (UTC). */
+  readonly startTime: Date;
+  /** The scheduled end time of the maintenance event (UTC). */
+  readonly endTime: Date;
+  /** The estimated downtime as an ISO 8601 duration string (e.g., 'PT60S' = 60 seconds). */
+  readonly estimatedDowntime?: string;
+  /** A value indicating whether this maintenance event can be rescheduled by the customer. */
+  readonly deferrable: boolean;
+  /** The latest date/time this maintenance event can be postponed to (UTC). Present only when deferrable is true. */
+  readonly deferralDeadline?: Date;
+  /** The previous scheduled start time before the most recent reschedule (UTC). Null if the event has never been rescheduled. */
+  readonly rescheduledFrom?: Date;
+  /** The time this maintenance event record was last updated (UTC). */
+  readonly lastUpdatedTime?: Date;
+  /** The initial scheduled start time before any reschedule (UTC). Equals startTime when the event has never been rescheduled. */
+  readonly originalStartTime: Date;
+}
+
+export function maintenanceEventResourcePropertiesDeserializer(
+  item: any,
+): MaintenanceEventResourceProperties {
+  return {
+    maintenanceEventId: item["maintenanceEventId"],
+    maintenanceType: item["maintenanceType"],
+    description: item["description"],
+    status: item["status"],
+    startTime: new Date(item["startTime"]),
+    endTime: new Date(item["endTime"]),
+    estimatedDowntime: item["estimatedDowntime"],
+    deferrable: item["deferrable"],
+    deferralDeadline: !item["deferralDeadline"]
+      ? item["deferralDeadline"]
+      : new Date(item["deferralDeadline"]),
+    rescheduledFrom: !item["rescheduledFrom"]
+      ? item["rescheduledFrom"]
+      : new Date(item["rescheduledFrom"]),
+    lastUpdatedTime: !item["lastUpdatedTime"]
+      ? item["lastUpdatedTime"]
+      : new Date(item["lastUpdatedTime"]),
+    originalStartTime: new Date(item["originalStartTime"]),
+  };
+}
+
+/** Type of a maintenance event resource. */
+export enum KnownMaintenanceType {
+  /** Planned maintenance event. */
+  PlannedMaintenance = "PlannedMaintenance",
+}
+
+/**
+ * Type of a maintenance event resource. \
+ * {@link KnownMaintenanceType} can be used interchangeably with MaintenanceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PlannedMaintenance**: Planned maintenance event.
+ */
+export type MaintenanceType = string;
+
+/** The status of a maintenance event. */
+export enum KnownMaintenanceEventStatus {
+  /** The maintenance event is scheduled and has not yet started. */
+  Planned = "Planned",
+  /** The maintenance event is currently in progress. */
+  InProgress = "InProgress",
+  /** The maintenance event has completed successfully. */
+  Complete = "Complete",
+  /** The maintenance event has been rescheduled (postponed) by the customer. */
+  Rescheduled = "Rescheduled",
+  /** The maintenance event was canceled, failed, or timed out. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The status of a maintenance event. \
+ * {@link KnownMaintenanceEventStatus} can be used interchangeably with MaintenanceEventStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Planned**: The maintenance event is scheduled and has not yet started. \
+ * **InProgress**: The maintenance event is currently in progress. \
+ * **Complete**: The maintenance event has completed successfully. \
+ * **Rescheduled**: The maintenance event has been rescheduled (postponed) by the customer. \
+ * **Canceled**: The maintenance event was canceled, failed, or timed out.
+ */
+export type MaintenanceEventStatus = string;
+
+/** The response of a MaintenanceEventResource list operation. */
+export interface _MaintenanceEventResourceListResult {
+  /** The MaintenanceEventResource items on this page */
+  value: MaintenanceEventResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _maintenanceEventResourceListResultDeserializer(
+  item: any,
+): _MaintenanceEventResourceListResult {
+  return {
+    value: maintenanceEventResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function maintenanceEventResourceArrayDeserializer(
+  result: Array<MaintenanceEventResource>,
+): any[] {
+  return result.map((item) => {
+    return maintenanceEventResourceDeserializer(item);
+  });
+}
+
+/** Parameters to reschedule a maintenance event. */
+export interface MaintenanceEventRescheduleRequest {
+  /** New start time in RFC3339 format. */
+  postponeToDateTime: Date;
+}
+
+export function maintenanceEventRescheduleRequestSerializer(
+  item: MaintenanceEventRescheduleRequest,
+): any {
+  return { postponeToDateTime: item["postponeToDateTime"].toISOString() };
+}
+
+/** Response model for maintenance event reschedule and apply-now actions. */
+export interface MaintenanceEventActionResponse {
+  /** The maintenance event name (maintenance ID). */
+  maintenanceEventId?: string;
+  /** The full Azure resource ID of the server. */
+  serverId?: string;
+  /** The status of the maintenance event. */
+  status?: MaintenanceEventStatus;
+  /** The planned start time of the maintenance event (UTC). */
+  plannedStartTime?: Date;
+  /** The planned end time of the maintenance event (UTC). */
+  plannedEndTime?: Date;
+  /** A value indicating whether this was an apply-now (immediate) action. True for ApplyNow; false for Reschedule. */
+  appliedNow?: boolean;
+  /** The time this maintenance event record was last updated (UTC). */
+  lastUpdatedTime?: Date;
+}
+
+export function maintenanceEventActionResponseDeserializer(
+  item: any,
+): MaintenanceEventActionResponse {
+  return {
+    maintenanceEventId: item["maintenanceEventId"],
+    serverId: item["serverId"],
+    status: item["status"],
+    plannedStartTime: !item["plannedStartTime"]
+      ? item["plannedStartTime"]
+      : new Date(item["plannedStartTime"]),
+    plannedEndTime: !item["plannedEndTime"]
+      ? item["plannedEndTime"]
+      : new Date(item["plannedEndTime"]),
+    appliedNow: item["appliedNow"],
+    lastUpdatedTime: !item["lastUpdatedTime"]
+      ? item["lastUpdatedTime"]
+      : new Date(item["lastUpdatedTime"]),
+  };
+}
+
+/** Major version upgrade precheck resource for a PostgreSQL flexible server. */
+export interface MajorVersionUpgradePrecheckResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MajorVersionUpgradePrecheckResourceProperties;
+}
+
+export function majorVersionUpgradePrecheckResourceDeserializer(
+  item: any,
+): MajorVersionUpgradePrecheckResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : majorVersionUpgradePrecheckResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Major version upgrade precheck resource with validation results. */
+export interface MajorVersionUpgradePrecheckResourceProperties {
+  /** The time when the precheck was created. */
+  createTime?: Date;
+  /** The status of the precheck validation. */
+  status?: MajorVersionUpgradePrecheckStatus;
+  /** The detailed result of the precheck operation. */
+  precheckResult?: PrecheckResult;
+  /** The target PostgreSQL major version for the upgrade. */
+  targetVersion?: PostgresMajorVersion;
+  /** Array of policy validation details. */
+  policyDetails?: PolicyDetail[];
+}
+
+export function majorVersionUpgradePrecheckResourcePropertiesDeserializer(
+  item: any,
+): MajorVersionUpgradePrecheckResourceProperties {
+  return {
+    createTime: !item["createTime"] ? item["createTime"] : new Date(item["createTime"]),
+    status: item["status"],
+    precheckResult: !item["precheckResult"]
+      ? item["precheckResult"]
+      : precheckResultDeserializer(item["precheckResult"]),
+    targetVersion: item["targetVersion"],
+    policyDetails: !item["policyDetails"]
+      ? item["policyDetails"]
+      : policyDetailArrayDeserializer(item["policyDetails"]),
+  };
+}
+
+/** Precheck result details. */
+export interface PrecheckResult {
+  /** The action performed. */
+  action?: string;
+  /** The upgrade sequence information. */
+  upgradeSequence?: UpgradeSequence;
+  /** Array of error information. */
+  errorInfo?: PrecheckErrorInfo[];
+}
+
+export function precheckResultDeserializer(item: any): PrecheckResult {
+  return {
+    action: item["action"],
+    upgradeSequence: !item["upgradeSequence"]
+      ? item["upgradeSequence"]
+      : upgradeSequenceDeserializer(item["upgradeSequence"]),
+    errorInfo: !item["errorInfo"]
+      ? item["errorInfo"]
+      : precheckErrorInfoArrayDeserializer(item["errorInfo"]),
+  };
+}
+
+/** Upgrade sequence information. */
+export interface UpgradeSequence {
+  /** The source PostgreSQL version. */
+  sourceVersion?: PostgresMajorVersion;
+  /** The target PostgreSQL version. */
+  targetVersion?: PostgresMajorVersion;
+}
+
+export function upgradeSequenceDeserializer(item: any): UpgradeSequence {
+  return {
+    sourceVersion: item["sourceVersion"],
+    targetVersion: item["targetVersion"],
+  };
+}
+
+export function precheckErrorInfoArrayDeserializer(result: Array<PrecheckErrorInfo>): any[] {
+  return result.map((item) => {
+    return precheckErrorInfoDeserializer(item);
+  });
+}
+
+/** Error information from precheck validation. */
+export interface PrecheckErrorInfo {
+  /** The error code. */
+  errorCode?: number;
+  /** The error message. */
+  errorMessage?: string;
+}
+
+export function precheckErrorInfoDeserializer(item: any): PrecheckErrorInfo {
+  return {
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+  };
+}
+
+export function policyDetailArrayDeserializer(result: Array<PolicyDetail>): any[] {
+  return result.map((item) => {
+    return policyDetailDeserializer(item);
+  });
+}
+
+/** Policy validation details. */
+export interface PolicyDetail {
+  /** The name of the policy. */
+  policyName?: string;
+  /** Whether the policy validation passed. */
+  passed?: boolean;
+  /** The error code if validation failed. */
+  errorCode?: number;
+  /** The error message if validation failed. */
+  errorMessage?: string;
+  /** Description of what the policy validates. */
+  policyDescription?: string;
+}
+
+export function policyDetailDeserializer(item: any): PolicyDetail {
+  return {
+    policyName: item["policyName"],
+    passed: item["passed"],
+    errorCode: item["errorCode"],
+    errorMessage: item["errorMessage"],
+    policyDescription: item["policyDescription"],
+  };
+}
+
+/** The response of a MajorVersionUpgradePrecheckResource list operation. */
+export interface _MajorVersionUpgradePrecheckResourceListResult {
+  /** The MajorVersionUpgradePrecheckResource items on this page */
+  value: MajorVersionUpgradePrecheckResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _majorVersionUpgradePrecheckResourceListResultDeserializer(
+  item: any,
+): _MajorVersionUpgradePrecheckResourceListResult {
+  return {
+    value: majorVersionUpgradePrecheckResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function majorVersionUpgradePrecheckResourceArrayDeserializer(
+  result: Array<MajorVersionUpgradePrecheckResource>,
+): any[] {
+  return result.map((item) => {
+    return majorVersionUpgradePrecheckResourceDeserializer(item);
   });
 }
 
@@ -3765,13 +4190,13 @@ export function administratorMicrosoftEntraPropertiesDeserializer(
 
 /** Type of Microsoft Entra principal to which the server administrator is associated. */
 export enum KnownPrincipalType {
-  /** The principal type is not known or not specified. */
+  /** Principal type is not known or not specified. */
   Unknown = "Unknown",
   /** A Microsoft Entra user. */
   User = "User",
   /** A Microsoft Entra group. */
   Group = "Group",
-  /** A Microsoft Entra service principal, typically representing an application or service identity */
+  /** A Microsoft Entra service principal, typically representing an application or service identity. */
   ServicePrincipal = "ServicePrincipal",
 }
 
@@ -3780,10 +4205,10 @@ export enum KnownPrincipalType {
  * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown**: The principal type is not known or not specified. \
+ * **Unknown**: Principal type is not known or not specified. \
  * **User**: A Microsoft Entra user. \
  * **Group**: A Microsoft Entra group. \
- * **ServicePrincipal**: A Microsoft Entra service principal, typically representing an application or service identity
+ * **ServicePrincipal**: A Microsoft Entra service principal, typically representing an application or service identity.
  */
 export type PrincipalType = string;
 
@@ -4114,21 +4539,21 @@ export function serverSkuCapabilityDeserializer(item: any): ServerSkuCapability 
   };
 }
 
-/** Modes of high availability supported for this compute. */
+/** Mode of high availability supported for this compute. */
 export enum KnownHighAvailabilityMode {
-  /** ZoneRedundant */
+  /** High availability is supported for this compute, with standby server in a different availability zone than that of the primary. */
   ZoneRedundant = "ZoneRedundant",
-  /** SameZone */
+  /** High availability is supported for this compute, with standby server in the same availability zone as the primary. */
   SameZone = "SameZone",
 }
 
 /**
- * Modes of high availability supported for this compute. \
+ * Mode of high availability supported for this compute. \
  * {@link KnownHighAvailabilityMode} can be used interchangeably with HighAvailabilityMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ZoneRedundant** \
- * **SameZone**
+ * **ZoneRedundant**: High availability is supported for this compute, with standby server in a different availability zone than that of the primary. \
+ * **SameZone**: High availability is supported for this compute, with standby server in the same availability zone as the primary.
  */
 export type HighAvailabilityMode = string;
 
@@ -4155,9 +4580,9 @@ export function supportedFeatureDeserializer(item: any): SupportedFeature {
 
 /** Status of the feature. Indicates if the feature is enabled or not. */
 export enum KnownFeatureStatus {
-  /** Enabled */
+  /** Feature is enabled. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Feature is disabled. */
   Disabled = "Disabled",
 }
 
@@ -4166,8 +4591,8 @@ export enum KnownFeatureStatus {
  * {@link KnownFeatureStatus} can be used interchangeably with FeatureStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Feature is enabled. \
+ * **Disabled**: Feature is disabled.
  */
 export type FeatureStatus = string;
 
@@ -4207,9 +4632,9 @@ export function serverVersionCapabilityDeserializer(item: any): ServerVersionCap
 
 /** Indicates if fast provisioning is supported. 'Enabled' means fast provisioning is supported. 'Disabled' stands for fast provisioning is not supported. Will be deprecated in the future. Look to Supported Features for 'FastProvisioning'. */
 export enum KnownFastProvisioningSupport {
-  /** Enabled */
+  /** Fast provisioning is supported. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Fast provisioning is not supported. */
   Disabled = "Disabled",
 }
 
@@ -4218,8 +4643,8 @@ export enum KnownFastProvisioningSupport {
  * {@link KnownFastProvisioningSupport} can be used interchangeably with FastProvisioningSupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Fast provisioning is supported. \
+ * **Disabled**: Fast provisioning is not supported.
  */
 export type FastProvisioningSupport = string;
 
@@ -4259,119 +4684,119 @@ export function fastProvisioningEditionCapabilityDeserializer(
   };
 }
 
-/** Indicates if geographically redundant backups are supported in this location. 'Enabled' means geographically redundant backups are supported. 'Disabled' stands for geographically redundant backup is not supported. Will be deprecated in the future. Look to Supported Features for 'GeoBackup'. */
+/** Indicates if geographically redundant backups are supported in this location. Will be deprecated in the future. Look to Supported Features for 'GeoBackup'. */
 export enum KnownGeographicallyRedundantBackupSupport {
-  /** Enabled */
+  /** Geographically redundant backups are supported in this location. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Geographically redundant backups are not supported in this location. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if geographically redundant backups are supported in this location. 'Enabled' means geographically redundant backups are supported. 'Disabled' stands for geographically redundant backup is not supported. Will be deprecated in the future. Look to Supported Features for 'GeoBackup'. \
+ * Indicates if geographically redundant backups are supported in this location. Will be deprecated in the future. Look to Supported Features for 'GeoBackup'. \
  * {@link KnownGeographicallyRedundantBackupSupport} can be used interchangeably with GeographicallyRedundantBackupSupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Geographically redundant backups are supported in this location. \
+ * **Disabled**: Geographically redundant backups are not supported in this location.
  */
 export type GeographicallyRedundantBackupSupport = string;
 
-/** Indicates if high availability with zone redundancy is supported in this location. 'Enabled' means high availability with zone redundancy is supported. 'Disabled' stands for high availability with zone redundancy is not supported. Will be deprecated in the future. Look to Supported Features for  'ZoneRedundantHa'. */
+/** Indicates if high availability with zone redundancy is supported in this location. Will be deprecated in the future. Look to Supported Features for  'ZoneRedundantHa'. */
 export enum KnownZoneRedundantHighAvailabilitySupport {
-  /** Enabled */
+  /** High availability with zone redundancy is supported. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** High availability with zone redundancy is not supported. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if high availability with zone redundancy is supported in this location. 'Enabled' means high availability with zone redundancy is supported. 'Disabled' stands for high availability with zone redundancy is not supported. Will be deprecated in the future. Look to Supported Features for  'ZoneRedundantHa'. \
+ * Indicates if high availability with zone redundancy is supported in this location. Will be deprecated in the future. Look to Supported Features for  'ZoneRedundantHa'. \
  * {@link KnownZoneRedundantHighAvailabilitySupport} can be used interchangeably with ZoneRedundantHighAvailabilitySupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: High availability with zone redundancy is supported. \
+ * **Disabled**: High availability with zone redundancy is not supported.
  */
 export type ZoneRedundantHighAvailabilitySupport = string;
 
-/** Indicates if high availability with zone redundancy is supported in conjunction with geographically redundant backups in this location. 'Enabled' means high availability with zone redundancy is supported in conjunction with geographically redundant backups is supported. 'Disabled' stands for high availability with zone redundancy is supported in conjunction with geographically redundant backups is not supported. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHaAndGeoBackup'. */
+/** Indicates if high availability with zone redundancy is supported in conjunction with geographically redundant backups in this location. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHaAndGeoBackup'. */
 export enum KnownZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport {
-  /** Enabled */
+  /** High availability with zone redundancy is supported in conjunction with geographically redundant backups. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** High availability with zone redundancy is not supported in conjunction with geographically redundant backups. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if high availability with zone redundancy is supported in conjunction with geographically redundant backups in this location. 'Enabled' means high availability with zone redundancy is supported in conjunction with geographically redundant backups is supported. 'Disabled' stands for high availability with zone redundancy is supported in conjunction with geographically redundant backups is not supported. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHaAndGeoBackup'. \
+ * Indicates if high availability with zone redundancy is supported in conjunction with geographically redundant backups in this location. Will be deprecated in the future. Look to Supported Features for 'ZoneRedundantHaAndGeoBackup'. \
  * {@link KnownZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport} can be used interchangeably with ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: High availability with zone redundancy is supported in conjunction with geographically redundant backups. \
+ * **Disabled**: High availability with zone redundancy is not supported in conjunction with geographically redundant backups.
  */
 export type ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport = string;
 
-/** Indicates if storage autogrow is supported in this location. 'Enabled' means storage autogrow is supported. 'Disabled' stands for storage autogrow is not supported. Will be deprecated in the future. Look to Supported Features for 'StorageAutoGrowth'. */
+/** Indicates if storage autogrow is supported in this location. Will be deprecated in the future. Look to Supported Features for 'StorageAutoGrowth'. */
 export enum KnownStorageAutoGrowthSupport {
-  /** Enabled */
+  /** Storage autogrow is supported. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Storage autogrow is not supported. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if storage autogrow is supported in this location. 'Enabled' means storage autogrow is supported. 'Disabled' stands for storage autogrow is not supported. Will be deprecated in the future. Look to Supported Features for 'StorageAutoGrowth'. \
+ * Indicates if storage autogrow is supported in this location. Will be deprecated in the future. Look to Supported Features for 'StorageAutoGrowth'. \
  * {@link KnownStorageAutoGrowthSupport} can be used interchangeably with StorageAutoGrowthSupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Storage autogrow is supported. \
+ * **Disabled**: Storage autogrow is not supported.
  */
 export type StorageAutoGrowthSupport = string;
 
-/** Indicates if resizing the storage, without interrupting the operation of the database engine, is supported in this location for the given subscription. 'Enabled' means resizing the storage without interrupting the operation of the database engine is supported. 'Disabled' means resizing the storage without interrupting the operation of the database engine is not supported. Will be deprecated in the future. Look to Supported Features for 'OnlineResize'. */
+/** Indicates if resizing the storage, without interrupting the operation of the database engine, is supported in this location for the given subscription. Will be deprecated in the future. Look to Supported Features for 'OnlineResize'. */
 export enum KnownOnlineStorageResizeSupport {
-  /** Enabled */
+  /** Resizing the storage without interrupting the operation of the database engine is supported. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Resizing the storage without interrupting the operation of the database engine is not supported. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if resizing the storage, without interrupting the operation of the database engine, is supported in this location for the given subscription. 'Enabled' means resizing the storage without interrupting the operation of the database engine is supported. 'Disabled' means resizing the storage without interrupting the operation of the database engine is not supported. Will be deprecated in the future. Look to Supported Features for 'OnlineResize'. \
+ * Indicates if resizing the storage, without interrupting the operation of the database engine, is supported in this location for the given subscription. Will be deprecated in the future. Look to Supported Features for 'OnlineResize'. \
  * {@link KnownOnlineStorageResizeSupport} can be used interchangeably with OnlineStorageResizeSupport,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Resizing the storage without interrupting the operation of the database engine is supported. \
+ * **Disabled**: Resizing the storage without interrupting the operation of the database engine is not supported.
  */
 export type OnlineStorageResizeSupport = string;
 
-/** Indicates if this location is restricted. 'Enabled' means location is restricted. 'Disabled' stands for location is not restricted. Will be deprecated in the future. Look to Supported Features for 'Restricted'. */
+/** Indicates if this location is restricted. Will be deprecated in the future. Look to Supported Features for 'Restricted'. */
 export enum KnownLocationRestricted {
-  /** Enabled */
+  /** Location is restricted. */
   Enabled = "Enabled",
-  /** Disabled */
+  /** Location is not restricted. */
   Disabled = "Disabled",
 }
 
 /**
- * Indicates if this location is restricted. 'Enabled' means location is restricted. 'Disabled' stands for location is not restricted. Will be deprecated in the future. Look to Supported Features for 'Restricted'. \
+ * Indicates if this location is restricted. Will be deprecated in the future. Look to Supported Features for 'Restricted'. \
  * {@link KnownLocationRestricted} can be used interchangeably with LocationRestricted,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: Location is restricted. \
+ * **Disabled**: Location is not restricted.
  */
 export type LocationRestricted = string;
 
 /** Base object for representing capability */
 export interface CapabilityBase {
-  /** The status of the capability. */
+  /** Status of the capability. */
   readonly status?: CapabilityStatus;
-  /** The reason for the capability not being available. */
+  /** Reason for the capability not being available. */
   readonly reason?: string;
 }
 
@@ -4382,7 +4807,7 @@ export function capabilityBaseDeserializer(item: any): CapabilityBase {
   };
 }
 
-/** The status of the capability. */
+/** Status of the capability. */
 export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 
 /** List of log files. */
@@ -4477,7 +4902,7 @@ export function backupRequestBaseSerializer(item: BackupRequestBase): any {
   return { backupSettings: backupSettingsSerializer(item["backupSettings"]) };
 }
 
-/** The settings for the long term backup. */
+/** Settings for the long term backup. */
 export interface BackupSettings {
   /** Backup Name for the current backup */
   backupName: string;
@@ -4487,7 +4912,7 @@ export function backupSettingsSerializer(item: BackupSettings): any {
   return { backupName: item["backupName"] };
 }
 
-/** Response for the LTR pre-backup API call */
+/** Response for the LTR pre-backup API call. */
 export interface LtrPreBackupResponse {
   /** Number of storage containers the plugin will use during backup. More than one containers may be used for size limitations, parallelism, or redundancy etc. */
   numberOfContainers: number;
@@ -4513,9 +4938,9 @@ export function backupsLongTermRetentionResponsePropertiesDeserializer(
   };
 }
 
-/** The request that is made for a long term retention backup. */
+/** Request made for a long term retention backup. */
 export interface BackupsLongTermRetentionRequest extends BackupRequestBase {
-  /** Backup store detail for target server */
+  /** Backup store detail for target server. */
   targetDetails: BackupStoreDetails;
 }
 
@@ -4544,25 +4969,25 @@ export function backupStoreDetailsSerializer(item: BackupStoreDetails): any {
 
 /** Response for the LTR backup API call */
 export interface BackupsLongTermRetentionResponse {
-  /** Size of datasource in bytes */
+  /** Size of datasource in bytes. */
   datasourceSizeInBytes?: number;
-  /** Data transferred in bytes */
+  /** Data transferred in bytes. */
   dataTransferredInBytes?: number;
-  /** Name of Backup operation */
+  /** Name of Backup operation. */
   backupName?: string;
-  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc */
+  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc. */
   backupMetadata?: string;
-  /** Service-set extensible enum indicating the status of operation */
+  /** Service-set extensible enum indicating the status of operation. */
   status?: ExecutionStatus;
   /** Start time of the operation. */
   startTime?: Date;
   /** End time of the operation. */
   endTime?: Date;
-  /** PercentageCompleted */
+  /** Percentage completed. */
   percentComplete?: number;
-  /** The error code. */
+  /** Error code. */
   readonly errorCode?: string;
-  /** The error message. */
+  /** Error message. */
   readonly errorMessage?: string;
 }
 
@@ -4578,25 +5003,25 @@ export function backupsLongTermRetentionResponseDeserializer(
 
 /** Response for the backup request. */
 export interface LtrBackupOperationResponseProperties {
-  /** Size of datasource in bytes */
+  /** Size of datasource in bytes. */
   datasourceSizeInBytes?: number;
-  /** Data transferred in bytes */
+  /** Data transferred in bytes. */
   dataTransferredInBytes?: number;
-  /** Name of Backup operation */
+  /** Name of Backup operation. */
   backupName?: string;
-  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc */
+  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc. */
   backupMetadata?: string;
-  /** Service-set extensible enum indicating the status of operation */
+  /** Service-set extensible enum indicating the status of operation. */
   status: ExecutionStatus;
   /** Start time of the operation. */
   startTime: Date;
   /** End time of the operation. */
   endTime?: Date;
-  /** PercentageCompleted */
+  /** Percentage completed. */
   percentComplete?: number;
-  /** The error code. */
+  /** Error code. */
   readonly errorCode?: string;
-  /** The error message. */
+  /** Error message. */
   readonly errorMessage?: string;
 }
 
@@ -4617,51 +5042,51 @@ export function ltrBackupOperationResponsePropertiesDeserializer(
   };
 }
 
-/** Service-set extensible enum indicating the status of operation */
+/** Service-set extensible enumeration indicating the status of operation. */
 export enum KnownExecutionStatus {
-  /** Running */
+  /** Operation is currently running. */
   Running = "Running",
-  /** Cancelled */
+  /** Operation has been cancelled. */
   Cancelled = "Cancelled",
-  /** Failed */
+  /** Operation has failed. */
   Failed = "Failed",
-  /** Succeeded */
+  /** Operation has succeeded. */
   Succeeded = "Succeeded",
 }
 
 /**
- * Service-set extensible enum indicating the status of operation \
+ * Service-set extensible enumeration indicating the status of operation. \
  * {@link KnownExecutionStatus} can be used interchangeably with ExecutionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Running** \
- * **Cancelled** \
- * **Failed** \
- * **Succeeded**
+ * **Running**: Operation is currently running. \
+ * **Cancelled**: Operation has been cancelled. \
+ * **Failed**: Operation has failed. \
+ * **Succeeded**: Operation has succeeded.
  */
 export type ExecutionStatus = string;
 
 /** Response for the LTR backup Operation API call */
 export interface BackupsLongTermRetentionOperation extends ProxyResource {
-  /** Size of datasource in bytes */
+  /** Size of datasource in bytes. */
   datasourceSizeInBytes?: number;
-  /** Data transferred in bytes */
+  /** Data transferred in bytes. */
   dataTransferredInBytes?: number;
-  /** Name of Backup operation */
+  /** Name of Backup operation. */
   backupName?: string;
-  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc */
+  /** Metadata to be stored in RP. Store everything that will be required to perform a successful restore using this Recovery point. e.g. Versions, DataFormat etc. */
   backupMetadata?: string;
-  /** Service-set extensible enum indicating the status of operation */
+  /** Service-set extensible enum indicating the status of operation. */
   status?: ExecutionStatus;
   /** Start time of the operation. */
   startTime?: Date;
   /** End time of the operation. */
   endTime?: Date;
-  /** PercentageCompleted */
+  /** Percentage completed. */
   percentComplete?: number;
-  /** The error code. */
+  /** Error code. */
   readonly errorCode?: string;
-  /** The error message. */
+  /** Error message. */
   readonly errorMessage?: string;
 }
 
@@ -4768,7 +5193,7 @@ export type ThreatProtectionState = "Enabled" | "Disabled";
 
 /** Known values of {@link ThreatProtectionName} that the service accepts. */
 export enum KnownThreatProtectionName {
-  /** Default */
+  /** Default advanced threat protection settings. */
   Default = "Default",
 }
 
@@ -4854,9 +5279,9 @@ export function backupAutomaticAndOnDemandPropertiesDeserializer(
 
 /** Type of backup. */
 export enum KnownBackupType {
-  /** Full */
+  /** A full backup taken automatically by the service. These backups are retained for a period of time as defined by the backup retention policy, and they cannot be deleted by the customer. */
   Full = "Full",
-  /** Customer On-Demand */
+  /** A full backup triggered by the customer. These backups are retained for a period of time as defined by the backup retention policy, and they can also be deleted by the customer. */
   CustomerOnDemand = "Customer On-Demand",
 }
 
@@ -4865,8 +5290,8 @@ export enum KnownBackupType {
  * {@link KnownBackupType} can be used interchangeably with BackupType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Full** \
- * **Customer On-Demand**
+ * **Full**: A full backup taken automatically by the service. These backups are retained for a period of time as defined by the backup retention policy, and they cannot be deleted by the customer. \
+ * **Customer On-Demand**: A full backup triggered by the customer. These backups are retained for a period of time as defined by the backup retention policy, and they can also be deleted by the customer.
  */
 export type BackupType = string;
 
@@ -4927,21 +5352,21 @@ export function tuningOptionsPropertiesDeserializer(item: any): TuningOptionsPro
   };
 }
 
-/** The name of the tuning option. */
+/** Name of the tuning option. */
 export enum KnownTuningOptionParameterEnum {
-  /** index */
+  /** Index related recommendations. */
   Index = "index",
-  /** table */
+  /** Table related recommendations. */
   Table = "table",
 }
 
 /**
- * The name of the tuning option. \
+ * Name of the tuning option. \
  * {@link KnownTuningOptionParameterEnum} can be used interchangeably with TuningOptionParameterEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **index** \
- * **table**
+ * **index**: Index related recommendations. \
+ * **table**: Table related recommendations.
  */
 export type TuningOptionParameterEnum = string;
 
@@ -5094,15 +5519,15 @@ export function objectRecommendationPropertiesDeserializer(
 
 /** Type for this recommendation. */
 export enum KnownRecommendationTypeEnum {
-  /** CreateIndex */
+  /** Recommendation to create an index to improve query performance. */
   CreateIndex = "CreateIndex",
-  /** DropIndex */
+  /** Recommendation to drop an existing index because it's duplicate or unused. */
   DropIndex = "DropIndex",
-  /** ReIndex */
+  /** Recommendation to reindex an existing invalid index. */
   ReIndex = "ReIndex",
-  /** AnalyzeTable */
+  /** Recommendation to analyze a table to update statistics for the query optimizer. */
   AnalyzeTable = "AnalyzeTable",
-  /** VacuumTable */
+  /** Recommendation to vacuum a table to reclaim storage and optimize performance. */
   VacuumTable = "VacuumTable",
 }
 
@@ -5111,11 +5536,11 @@ export enum KnownRecommendationTypeEnum {
  * {@link KnownRecommendationTypeEnum} can be used interchangeably with RecommendationTypeEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CreateIndex** \
- * **DropIndex** \
- * **ReIndex** \
- * **AnalyzeTable** \
- * **VacuumTable**
+ * **CreateIndex**: Recommendation to create an index to improve query performance. \
+ * **DropIndex**: Recommendation to drop an existing index because it's duplicate or unused. \
+ * **ReIndex**: Recommendation to reindex an existing invalid index. \
+ * **AnalyzeTable**: Recommendation to analyze a table to update statistics for the query optimizer. \
+ * **VacuumTable**: Recommendation to vacuum a table to reclaim storage and optimize performance.
  */
 export type RecommendationTypeEnum = string;
 
@@ -5403,28 +5828,53 @@ export function delegatedSubnetUsageDeserializer(item: any): DelegatedSubnetUsag
   };
 }
 
-/** Known values of {@link MigrationListFilter} that the service accepts. */
+/** Indicates the filter to apply when listing migrations. */
 export enum KnownMigrationListFilter {
-  /** Active */
+  /** Only active (in-progress) migrations. */
   Active = "Active",
-  /** All */
+  /** All migrations. */
   All = "All",
 }
 
-/** Type of MigrationListFilter */
+/**
+ * Indicates the filter to apply when listing migrations. \
+ * {@link KnownMigrationListFilter} can be used interchangeably with MigrationListFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Only active (in-progress) migrations. \
+ * **All**: All migrations.
+ */
 export type MigrationListFilter = string;
+
+/** Filter for maintenance event status. */
+export enum KnownMaintenanceEventStatusFilter {
+  /** Return events that have a scheduled or in progress status. */
+  Upcoming = "Upcoming",
+  /** Return events that have a completed status. */
+  Past = "Past",
+}
+
+/**
+ * Filter for maintenance event status. \
+ * {@link KnownMaintenanceEventStatusFilter} can be used interchangeably with MaintenanceEventStatusFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upcoming**: Return events that have a scheduled or in progress status. \
+ * **Past**: Return events that have a completed status.
+ */
+export type MaintenanceEventStatusFilter = string;
 
 /** Recommendations list filter. Retrieves recommendations based on type. */
 export enum KnownRecommendationTypeParameterEnum {
-  /** CreateIndex */
+  /** Recommendation to create an index to improve query performance. */
   CreateIndex = "CreateIndex",
-  /** DropIndex */
+  /** Recommendation to drop an existing index because it's duplicate or unused. */
   DropIndex = "DropIndex",
-  /** ReIndex */
+  /** Recommendation to reindex an existing invalid index. */
   ReIndex = "ReIndex",
-  /** AnalyzeTable */
+  /** Recommendation to analyze a table to update statistics for the query optimizer. */
   AnalyzeTable = "AnalyzeTable",
-  /** VacuumTable */
+  /** Recommendation to vacuum a table to reclaim storage and optimize performance. */
   VacuumTable = "VacuumTable",
 }
 
@@ -5433,11 +5883,11 @@ export enum KnownRecommendationTypeParameterEnum {
  * {@link KnownRecommendationTypeParameterEnum} can be used interchangeably with RecommendationTypeParameterEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CreateIndex** \
- * **DropIndex** \
- * **ReIndex** \
- * **AnalyzeTable** \
- * **VacuumTable**
+ * **CreateIndex**: Recommendation to create an index to improve query performance. \
+ * **DropIndex**: Recommendation to drop an existing index because it's duplicate or unused. \
+ * **ReIndex**: Recommendation to reindex an existing invalid index. \
+ * **AnalyzeTable**: Recommendation to analyze a table to update statistics for the query optimizer. \
+ * **VacuumTable**: Recommendation to vacuum a table to reclaim storage and optimize performance.
  */
 export type RecommendationTypeParameterEnum = string;
 
@@ -5447,6 +5897,8 @@ export enum KnownVersions {
   V20250801 = "2025-08-01",
   /** The 2026-01-01-preview API version. */
   V20260101 = "2026-01-01-preview",
+  /** The 2026-04-01-preview API version. */
+  V20260401 = "2026-04-01-preview",
 }
 
 export function _migrationPropertiesSerializer(item: Migration): any {

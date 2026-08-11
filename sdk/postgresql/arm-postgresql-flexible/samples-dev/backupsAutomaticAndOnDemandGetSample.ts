@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information of an on demand backup, given its name.
  *
  * @summary gets information of an on demand backup, given its name.
- * x-ms-original-file: 2026-01-01-preview/BackupsAutomaticAndOnDemandGet.json
+ * x-ms-original-file: 2026-04-01-preview/BackupsAutomaticAndOnDemandGet.json
  */
 async function getAnOnDemandBackupGivenItsName(): Promise<void> {
   const credential = new DefaultAzureCredential();

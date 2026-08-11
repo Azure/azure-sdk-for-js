@@ -10,6 +10,9 @@
 
 ### Other Changes
 
+- Replaced shell command strings with safe, structured process execution.
+  [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
 ## 1.0.1 (2025-08-08)
 
 ### Other Changes

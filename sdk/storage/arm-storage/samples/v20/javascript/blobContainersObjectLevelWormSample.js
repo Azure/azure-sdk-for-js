@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation migrates a blob container from container level WORM to object level immutability enabled container. Prerequisites require a container level immutability policy either in locked or unlocked state, Account level versioning must be enabled and there should be no Legal hold on the container.
  *
  * @summary this operation migrates a blob container from container level WORM to object level immutability enabled container. Prerequisites require a container level immutability policy either in locked or unlocked state, Account level versioning must be enabled and there should be no Legal hold on the container.
- * x-ms-original-file: 2025-08-01/ObjectLevelWormContainerMigration.json
+ * x-ms-original-file: 2026-04-01/ObjectLevelWormContainerMigration.json
  */
 async function versionLevelWormContainerMigration() {
   const credential = new DefaultAzureCredential();

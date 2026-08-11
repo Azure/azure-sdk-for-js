@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
-import { errorXmlDeserializer } from "../../models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer } from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -41,7 +41,7 @@ export function _sealSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -74,7 +74,9 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._sealDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -140,8 +142,7 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
+/** Seals the append blob to make it read-only. */
 export async function seal(
   context: Client,
   options: AppendBlobSealOptionalParams = { requestOptions: {} },
@@ -194,7 +195,7 @@ export function _appendBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -304,7 +305,9 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._appendBlockFromUrlDeserializeExceptionHeaders(result),
@@ -324,7 +327,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -342,7 +345,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -410,8 +413,7 @@ export function _appendBlockFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Append Block From URL operation creates a new block to be committed as part of an append blob where the contents are read from a URL. */
+/** Uploads a new block of data from the specified URL to the end of an append blob. */
 export async function appendBlockFromUrl(
   context: Client,
   sourceUrl: string,
@@ -422,7 +424,7 @@ export async function appendBlockFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -438,7 +440,7 @@ export async function appendBlockFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -482,7 +484,7 @@ export function _appendBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -553,7 +555,9 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._appendBlockDeserializeExceptionHeaders(result),
@@ -573,7 +577,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -592,7 +596,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -665,8 +669,7 @@ export function _appendBlockDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Append Block operation commits a new block of data to the end of an append blob. */
+/** Uploads a new block of data to the end of an append blob. */
 export async function appendBlock(
   context: Client,
   body: Uint8Array,
@@ -677,7 +680,7 @@ export async function appendBlock(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -694,7 +697,7 @@ export async function appendBlock(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -736,7 +739,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -815,7 +818,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -900,8 +905,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Create operation creates a new append blob. */
+/** Creates a new append blob. */
 export async function create(
   context: Client,
   options: AppendBlobCreateOptionalParams = { requestOptions: {} },

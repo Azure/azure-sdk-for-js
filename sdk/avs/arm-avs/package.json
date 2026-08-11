@@ -3,7 +3,7 @@
   "version": "7.1.1",
   "description": "A generated SDK for AzureVMwareSolutionAPI.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

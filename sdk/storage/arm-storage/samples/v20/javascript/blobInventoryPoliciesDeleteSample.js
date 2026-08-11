@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the blob inventory policy associated with the specified storage account.
  *
  * @summary deletes the blob inventory policy associated with the specified storage account.
- * x-ms-original-file: 2025-08-01/StorageAccountDeleteBlobInventoryPolicy.json
+ * x-ms-original-file: 2026-04-01/StorageAccountDeleteBlobInventoryPolicy.json
  */
 async function storageAccountDeleteBlobInventoryPolicy() {
   const credential = new DefaultAzureCredential();

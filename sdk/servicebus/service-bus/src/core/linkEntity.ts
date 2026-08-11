@@ -26,6 +26,19 @@ import type { ServiceBusLogger } from "../log.js";
 import { ServiceBusError } from "../serviceBusError.js";
 
 /**
+ * The base delay (in milliseconds) before retrying a failed CBS token renewal.
+ * The delay doubles on each consecutive failure, capped at
+ * {@link maxTokenRenewalRetryDelayInMs}.
+ * @internal
+ */
+const tokenRenewalRetryBaseDelayInMs = 3000;
+/**
+ * The maximum delay (in milliseconds) between CBS token renewal retries.
+ * @internal
+ */
+const maxTokenRenewalRetryDelayInMs = 60000;
+
+/**
  * @internal
  * Options passed to the constructor of LinkEntity
  */
@@ -139,6 +152,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the Client Entity is due for token renewal.
    */
   private _tokenRenewalTimer?: NodeJS.Timeout;
+  /**
+   * The number of consecutive failed token renewal attempts. Drives the retry
+   * backoff and is reset to 0 after a successful renewal or when the link closes.
+   */
+  private _tokenRenewalRetryCount = 0;
   /**
    * Indicates token timeout
    */
@@ -345,6 +363,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timeout);
     this._tokenRenewalTimer = undefined;
+    this._tokenRenewalRetryCount = 0;
 
     if (this._link) {
       try {
@@ -516,10 +535,73 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   }
 
   /**
+   * Renews the CBS token once. On success the next renewal is scheduled at the
+   * full margin (via `_negotiateClaim`) and the retry backoff is reset. On
+   * failure the renewal is re-armed with an exponential, capped backoff so a
+   * transient credential error (for example a failed AAD getToken during
+   * workload-identity rotation) self-heals instead of permanently stopping
+   * renewal. This mirrors the proactive-renewal behavior of the Go and Java
+   * Service Bus SDKs.
+   */
+  private async _renewToken(): Promise<void> {
+    try {
+      await this._negotiateClaim({
+        setTokenRenewal: true,
+        abortSignal: undefined,
+        timeoutInMs: Constants.defaultOperationTimeoutInMs,
+      });
+      // A successful renewal reschedules the next renewal at the full margin
+      // (via `_negotiateClaim` -> `_ensureTokenRenewal`), so reset the backoff.
+      this._tokenRenewalRetryCount = 0;
+    } catch (err: any) {
+      this._logger.logError(
+        err,
+        "%s %s '%s' with address %s, an error occurred while renewing the token",
+        this.logPrefix,
+        this._type,
+        this.name,
+        this.address,
+      );
+      // Re-arm the renewal on failure so renewal keeps retrying instead of
+      // stopping after a single error. Back off exponentially, capped at
+      // `maxTokenRenewalRetryDelayInMs`. There is intentionally no maximum retry
+      // count: a transient credential failure can take a while to clear (for
+      // example a workload-identity rotation completing), and giving up would
+      // leave the token permanently un-renewed - the failure this retry loop
+      // exists to prevent (issue #38467).
+      // Retries are bounded by the link lifetime instead - `closeLinkImpl`
+      // clears the timer and resets the counter. The counter only drives the
+      // backoff, so its unbounded growth is harmless (`Math.min` caps the delay).
+      const retryDelayInMs = Math.min(
+        tokenRenewalRetryBaseDelayInMs * 2 ** this._tokenRenewalRetryCount,
+        maxTokenRenewalRetryDelayInMs,
+      );
+      this._tokenRenewalRetryCount++;
+      this._logger.verbose(
+        "%s %s '%s' with address %s, retrying token renewal in %d milliseconds (attempt %d).",
+        this.logPrefix,
+        this._type,
+        this.name,
+        this.address,
+        retryDelayInMs,
+        this._tokenRenewalRetryCount,
+      );
+      this._ensureTokenRenewal(retryDelayInMs);
+    }
+  }
+
+  /**
    * Ensures that the token is renewed within the predefined renewal margin.
    */
-  private _ensureTokenRenewal(): void {
-    if (!this._tokenTimeout) {
+  private _ensureTokenRenewal(nextRenewalTimeoutInMs?: number): void {
+    // A renewal that is still in flight when `close()` runs would otherwise
+    // schedule a fresh timer here, after `closeLinkImpl` already cleared one,
+    // leaving a self-refiring timer on a permanently closed link.
+    if (this._wasClosedPermanently) {
+      return;
+    }
+    const renewalTimeoutInMs = nextRenewalTimeoutInMs ?? this._tokenTimeout;
+    if (!renewalTimeoutInMs) {
       return;
     }
     // Clear the existing token renewal timer.
@@ -528,32 +610,17 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (this._tokenRenewalTimer) {
       clearTimeout(this._tokenRenewalTimer);
     }
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim({
-          setTokenRenewal: true,
-          abortSignal: undefined,
-          timeoutInMs: Constants.defaultOperationTimeoutInMs,
-        });
-      } catch (err: any) {
-        this._logger.logError(
-          err,
-          "%s %s '%s' with address %s, an error occurred while renewing the token",
-          this.logPrefix,
-          this._type,
-          this.name,
-          this.address,
-        );
-      }
-    }, this._tokenTimeout);
+    this._tokenRenewalTimer = setTimeout(() => {
+      void this._renewToken();
+    }, renewalTimeoutInMs);
     this._logger.verbose(
       "%s %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this.logPrefix,
       this._type,
       this.name,
       this.address,
-      this._tokenTimeout,
-      new Date(Date.now() + this._tokenTimeout).toString(),
+      renewalTimeoutInMs,
+      new Date(Date.now() + renewalTimeoutInMs).toString(),
     );
   }
 }

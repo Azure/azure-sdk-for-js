@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  updateImmutabilityPolicyLock,
+  updateImmutabilityPolicy,
   revokeAccess,
   grantAccess,
   list,
@@ -12,6 +14,8 @@ export {
   get,
 } from "./operations.js";
 export type {
+  SnapshotsUpdateImmutabilityPolicyLockOptionalParams,
+  SnapshotsUpdateImmutabilityPolicyOptionalParams,
   SnapshotsRevokeAccessOptionalParams,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsListOptionalParams,

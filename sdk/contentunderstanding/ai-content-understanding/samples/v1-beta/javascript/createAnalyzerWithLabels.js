@@ -202,6 +202,32 @@ async function main() {
   );
   console.log(`  Knowledge sources: ${result.knowledgeSources?.length ?? 0}`);
 
+  // If training data was provided, test the analyzer with a sample document.
+  if (trainingDataSasUrl) {
+    console.log("\nTesting analyzer with sample document...");
+    // Assets folder is at ../assets relative to samples/v1/javascript or samples/v1/typescript
+    const sampleInvoicePath = path.join("..", "..", "assets", "sample_invoice.pdf");
+    const sampleInvoiceBytes = fs.readFileSync(sampleInvoicePath);
+    const analyzePoller = client.analyzeBinary(analyzerId, sampleInvoiceBytes, "application/pdf");
+    const analyzeResult = await analyzePoller.pollUntilDone();
+    console.log("Analysis completed!");
+
+    if (analyzeResult.contents && analyzeResult.contents.length > 0) {
+      const content = analyzeResult.contents[0];
+      console.log(`Extracted fields: ${content.fields ? Object.keys(content.fields).length : 0}`);
+      if (content.fields) {
+        const merchantField = content.fields["MerchantName"];
+        if (merchantField && merchantField.type === "string" && merchantField.value !== undefined) {
+          console.log(`  MerchantName: ${merchantField.value}`);
+        }
+        const totalField = content.fields["TotalPrice"];
+        if (totalField && totalField.type === "string" && totalField.value !== undefined) {
+          console.log(`  TotalPrice: ${totalField.value}`);
+        }
+      }
+    }
+  }
+
   // Clean up - delete the analyzer
   await client.deleteAnalyzer(analyzerId);
   console.log(`Analyzer '${analyzerId}' deleted.`);

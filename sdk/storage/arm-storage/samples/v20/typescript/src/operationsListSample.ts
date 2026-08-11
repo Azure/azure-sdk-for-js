@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available Storage Rest API operations.
  *
  * @summary lists all of the available Storage Rest API operations.
- * x-ms-original-file: 2025-08-01/OperationsList.json
+ * x-ms-original-file: 2026-04-01/OperationsList.json
  */
 async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

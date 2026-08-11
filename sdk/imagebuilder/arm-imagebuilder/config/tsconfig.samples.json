@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-imagebuilder": [
-        "../dist/esm"
-      ]
+      "@azure/arm-imagebuilder": ["../dist/esm"]
     }
   }
 }

@@ -41,18 +41,18 @@
     "update-snippets": "echo skipped"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "@eslint/js": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "typescript": "catalog:",
-    "typescript-eslint": "~8.58.0"
+    "typescript-eslint": "catalog:"
   }
 }

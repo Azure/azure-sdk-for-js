@@ -113,7 +113,7 @@ Before declaring a regeneration done, do a post-regeneration audit:
 5. **Add conversion functions** in `src/serviceUtils.ts` for every new request/response type that needs public ↔ generated translation. Simple pass-throughs can stay inline in the convenience client, but anything with field renames, enum widening, or polymorphic discrimination belongs in `serviceUtils.ts`.
 6. **Export every new public symbol** from `src/index.ts`. This file is intentionally skipped during the customization merge, so new exports are never added automatically. The `ae-forgotten-export` lint error catches the most obvious omissions; it does not catch missing operations or types that are never referenced internally.
 7. **Run `api-extractor`** (via `pnpm run extract-api` or the package build) and inspect `review/search-documents-node.api.md`. Cross-check that every new operation and every new model from steps 1–3 appears. **If a symbol isn't in the API report, it is not part of the public package, even if it compiles.**
-8. **Update the changelog** under `CHANGELOG.md` → `Features Added` (and `Breaking Changes` if applicable). Every new public symbol or method should be mentioned.
+8. **Update the changelog** under `CHANGELOG.md` → `Features Added` (and `Breaking Changes` if applicable). Every new public symbol or method should be mentioned. When preparing a release, replace the `(Unreleased)` placeholder next to the version heading with today's date in `YYYY-MM-DD` form (e.g. `## 13.1.0-beta.1 (2026-05-28)`); leave the placeholder in place for non-release commits.
 
 Then add a public method per new operation:
 

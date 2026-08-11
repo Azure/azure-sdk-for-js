@@ -1,5 +1,19 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/guestConfigurationConnectedVMwarevSphereAssignmentsReports": "./src/api/guestConfigurationConnectedVMwarevSphereAssignmentsReports/index.ts"
+  "./api/guestConfigurationAssignmentReportsVmss": "./src/api/guestConfigurationAssignmentReportsVmss/index.ts"
+  "./api/guestConfigurationHcrpAssignmentReports": "./src/api/guestConfigurationHcrpAssignmentReports/index.ts"
+  "./api/guestConfigurationAssignmentReports": "./src/api/guestConfigurationAssignmentReports/index.ts"
+  "./api/guestConfigurationConnectedVMwarevSphereAssignments": "./src/api/guestConfigurationConnectedVMwarevSphereAssignments/index.ts"
+  "./api/guestConfigurationAssignmentsVmss": "./src/api/guestConfigurationAssignmentsVmss/index.ts"
+  "./api/guestConfigurationHcrpAssignments": "./src/api/guestConfigurationHcrpAssignments/index.ts"
+  "./api/guestConfigurationAssignments": "./src/api/guestConfigurationAssignments/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

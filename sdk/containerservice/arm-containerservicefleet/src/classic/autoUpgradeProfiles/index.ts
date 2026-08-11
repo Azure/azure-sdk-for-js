@@ -27,11 +27,6 @@ export interface AutoUpgradeProfilesOperations {
     options?: AutoUpgradeProfilesListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<AutoUpgradeProfile>;
   /** Delete a AutoUpgradeProfile */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -54,7 +49,6 @@ export interface AutoUpgradeProfilesOperations {
     options?: AutoUpgradeProfilesGetOptionalParams,
   ) => Promise<AutoUpgradeProfile>;
 }
-
 function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -91,7 +85,6 @@ function _getAutoUpgradeProfiles(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
   };
 }
-
 export function _getAutoUpgradeProfilesOperations(
   context: ContainerServiceFleetContext,
 ): AutoUpgradeProfilesOperations {

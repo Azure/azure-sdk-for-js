@@ -77,6 +77,20 @@ describe("snippets", () => {
     });
   });
 
+  it("ReadmeSampleRealtimeNativeVoice", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    const session = await client.startSession("azure-realtime");
+    // @ts-preserve-whitespace
+    await session.updateSession({
+      voice: {
+        type: "azure-realtime-native",
+        name: "ava",
+      },
+    });
+  });
+
   it("ReadmeSampleEventHandling", async () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";
@@ -259,6 +273,40 @@ describe("snippets", () => {
     function sendAudioChunk(audioBuffer: ArrayBuffer) {
       session.sendAudio(audioBuffer);
     }
+  });
+
+  it("ReadmeSampleStreamInputText", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    const session = await client.startSession("gpt-realtime-mini");
+    // @ts-preserve-whitespace
+    // Create the conversation item that the streamed text is appended to
+    const itemId = "user-message-1";
+    await session.addConversationItem({
+      type: "message",
+      role: "user",
+      id: itemId,
+      content: [{ type: "input_text", text: "" }],
+    });
+    // @ts-preserve-whitespace
+    // Stream the text in chunks as `input_text.delta` events
+    for (const chunk of ["Tell me ", "a fun fact ", "about the ocean."]) {
+      await session.sendEvent({
+        type: "input_text.delta",
+        id: itemId,
+        delta: chunk,
+      });
+    }
+    // @ts-preserve-whitespace
+    // Signal that the streamed text is complete with a single `input_text.done` event
+    await session.sendEvent({
+      type: "input_text.done",
+      id: itemId,
+    });
+    // @ts-preserve-whitespace
+    // Ask the model to respond to the streamed text
+    await session.sendEvent({ type: "response.create" });
   });
 });
 

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DataGenerationJobType,
-  DataGenerationJobScenario,
-  PageOrder,
-} from "../../../models/models.js";
+import { PageOrder } from "../../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -22,6 +18,8 @@ export interface BetaDatasetsCancelGenerationJobOptionalParams extends Operation
 
 /** Optional parameters. */
 export interface BetaDatasetsCreateGenerationJobOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "DataGenerationJobs=V1Preview";
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
@@ -54,10 +52,6 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
    * subsequent call can include before=obj_foo in order to fetch the previous page of the list.
    */
   before?: string;
-  /** Filter data generation jobs by their scenario. */
-  scenario?: DataGenerationJobScenario;
-  /** Filter data generation jobs by their type. */
-  typeParam?: DataGenerationJobType[];
 }
 
 /** Optional parameters. */

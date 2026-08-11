@@ -1,6 +1,6 @@
 # Release History
 
-## 4.14.0-beta.4 (Unreleased)
+## 4.14.0-beta.5 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,19 @@
 
 ### Bugs Fixed
 
-- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#1512](https://github.com/microsoft/ApplicationInsights-node.js/issues/1512)
 
 ### Other Changes
+
+- Replaced shell-based developer credential commands with safe, structured
+  process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+
+## 4.14.0-beta.4 (2026-06-08)
+
+### Bugs Fixed
+
+- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
+- Fixed `handleMsalError` to preserve the original MSAL error via `cause` on `AuthenticationRequiredError`, allowing callers to access `.claims` on the underlying error. [#38722](https://github.com/Azure/azure-sdk-for-js/pull/38722)
 
 ## 4.14.0-beta.3 (2026-04-08)
 

@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** List the operations for the provider */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: NetAppManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: NetAppManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),

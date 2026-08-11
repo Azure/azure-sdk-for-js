@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a server's Advanced Threat Protection settings.
  *
  * @summary creates or updates a server's Advanced Threat Protection settings.
- * x-ms-original-file: 2026-01-01-preview/AdvancedThreatProtectionSettingsCreateOrUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/AdvancedThreatProtectionSettingsCreateOrUpdate.json
  */
 async function updateTheAdvancedThreatProtectionSettingsOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

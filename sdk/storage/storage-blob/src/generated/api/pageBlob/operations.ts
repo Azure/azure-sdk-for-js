@@ -8,7 +8,7 @@ import {
   PageList,
   pageListXmlDeserializer,
   SequenceNumberActionType,
-} from "../../models/azure/storage/blobs/models.js";
+} from "../../models/models.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -53,7 +53,7 @@ export function _copyIncrementalSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -84,7 +84,9 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._copyIncrementalDeserializeExceptionHeaders(result),
@@ -154,8 +156,7 @@ export function _copyIncrementalDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31. */
+/** Copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. */
 export async function copyIncremental(
   context: Client,
   copySource: string,
@@ -213,7 +214,7 @@ export function _setSequenceNumberSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -248,7 +249,9 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._setSequenceNumberDeserializeExceptionHeaders(result),
@@ -313,8 +316,7 @@ export function _setSequenceNumberDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
+/** Updates the sequence number of the specified page blob. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
 export async function setSequenceNumber(
   context: Client,
   sequenceNumberAction: SequenceNumberActionType,
@@ -370,7 +372,7 @@ export function _resizeSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -414,7 +416,9 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._resizeDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -476,8 +480,7 @@ export function _resizeDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Resize operation increases the size of the page blob to the specified size. */
+/** Changes the size of the specified page blob. */
 export async function resize(
   context: Client,
   size: number,
@@ -536,7 +539,7 @@ export function _getPageRangesDiffSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -574,7 +577,9 @@ export async function _getPageRangesDiffDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDiffDeserializeExceptionHeaders(result),
@@ -645,8 +650,7 @@ export function _getPageRangesDiffDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+/** Returns the list of page ranges in the diff between the specified page blob and the specified previous snapshot. */
 export async function getPageRangesDiff(
   context: Client,
   options: PageBlobGetPageRangesDiffOptionalParams = { requestOptions: {} },
@@ -706,7 +710,7 @@ export function _getPageRangesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -739,7 +743,9 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._getPageRangesDeserializeExceptionHeaders(result),
@@ -810,8 +816,7 @@ export function _getPageRangesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+/** Returns the list of valid page ranges for the specified page blob. */
 export async function getPageRanges(
   context: Client,
   options: PageBlobGetPageRangesOptionalParams = { requestOptions: {} },
@@ -872,7 +877,7 @@ export function _uploadPagesFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -893,7 +898,7 @@ export function _uploadPagesFromUrlSend(
             }
           : {}),
         "content-length": contentLength,
-        "x-ms-range": range,
+        range: range,
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
           : {}),
@@ -978,7 +983,9 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesFromUrlDeserializeExceptionHeaders(result),
@@ -998,7 +1005,7 @@ export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedRespo
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1015,7 +1022,7 @@ export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedRespo
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1074,8 +1081,7 @@ export function _uploadPagesFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
+/** Writes a range of pages to the specified page blob where the contents are read from a URL. */
 export async function uploadPagesFromUrl(
   context: Client,
   sourceUrl: string,
@@ -1088,7 +1094,7 @@ export async function uploadPagesFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1103,7 +1109,7 @@ export async function uploadPagesFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1148,7 +1154,7 @@ export function _clearPagesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1203,7 +1209,9 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._clearPagesDeserializeExceptionHeaders(result),
@@ -1223,7 +1231,7 @@ export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   date: Date;
   version: string;
@@ -1237,7 +1245,7 @@ export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1281,8 +1289,7 @@ export function _clearPagesDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Clear Pages operation clears a range of pages from a page blob */
+/** Clears a range of pages from the specified page blob. */
 export async function clearPages(
   context: Client,
   range: string,
@@ -1292,7 +1299,7 @@ export async function clearPages(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     date: Date;
     version: string;
@@ -1304,7 +1311,7 @@ export async function clearPages(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       date: Date;
       version: string;
@@ -1345,7 +1352,7 @@ export function _uploadPagesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1421,7 +1428,9 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._uploadPagesDeserializeExceptionHeaders(result),
@@ -1441,7 +1450,7 @@ export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1459,7 +1468,7 @@ export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -1523,8 +1532,7 @@ export function _uploadPagesDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Upload Pages operation writes a range of pages to a page blob */
+/** Writes a range of pages to the specified page blob. */
 export async function uploadPages(
   context: Client,
   body: Uint8Array,
@@ -1536,7 +1544,7 @@ export async function uploadPages(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1552,7 +1560,7 @@ export async function uploadPages(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       blobSequenceNumber: number;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1594,7 +1602,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1678,7 +1686,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorXmlDeserializer(result.body);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
     error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
@@ -1763,8 +1773,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
-/** The Create operation creates a new page blob. */
+/** Creates a new page blob. */
 export async function create(
   context: Client,
   size: number,

@@ -27,11 +27,6 @@ export interface FleetUpdateStrategiesOperations {
     options?: FleetUpdateStrategiesListByFleetOptionalParams,
   ) => PagedAsyncIterableIterator<FleetUpdateStrategy>;
   /** Delete a FleetUpdateStrategy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -54,7 +49,6 @@ export interface FleetUpdateStrategiesOperations {
     options?: FleetUpdateStrategiesGetOptionalParams,
   ) => Promise<FleetUpdateStrategy>;
 }
-
 function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
   return {
     listByFleet: (
@@ -84,7 +78,6 @@ function _getFleetUpdateStrategies(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, updateStrategyName, options),
   };
 }
-
 export function _getFleetUpdateStrategiesOperations(
   context: ContainerServiceFleetContext,
 ): FleetUpdateStrategiesOperations {

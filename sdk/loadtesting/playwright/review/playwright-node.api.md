@@ -17,6 +17,9 @@ export type BrowserConnectOptions = EndpointOptions & {
 };
 
 // @public
+export type BrowserSessionSourceTypeValue = "PlaywrightWorkspacesTestRun" | "Others";
+
+// @public
 export const createAzurePlaywrightConfig: (baseConfig: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
 
 // @public
@@ -42,6 +45,7 @@ export type PlaywrightServiceAdditionalOptions = {
     credential?: TokenCredential;
     runName?: string;
     apiVersion?: "2025-09-01";
+    sourceType?: BrowserSessionSourceTypeValue;
 };
 
 // @public

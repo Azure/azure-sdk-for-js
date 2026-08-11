@@ -37,7 +37,7 @@ export function _listByStorageAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,9 @@ export async function _listByStorageAccountDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -75,7 +77,7 @@ export function listByStorageAccount(
     () => _listByStorageAccountSend(context, resourceGroupName, accountName, options),
     _listByStorageAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -93,7 +95,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +108,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -128,7 +132,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, dataShareName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +151,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +169,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -188,7 +194,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, dataShareName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<DataShare>, DataShare>;
 }
 
@@ -207,7 +213,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +231,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }
@@ -248,7 +256,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, dataShareName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<DataShare>, DataShare>;
 }
 
@@ -266,7 +274,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       dataShareName: dataShareName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +290,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer_1(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
 
     throw error;
   }

@@ -42,11 +42,6 @@ export interface FleetsOperations {
     options?: FleetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Fleet>;
   /** Delete a Fleet */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -73,7 +68,6 @@ export interface FleetsOperations {
     options?: FleetsGetOptionalParams,
   ) => Promise<Fleet>;
 }
-
 function _getFleets(context: ContainerServiceFleetContext) {
   return {
     listCredentials: (
@@ -105,7 +99,6 @@ function _getFleets(context: ContainerServiceFleetContext) {
       get(context, resourceGroupName, fleetName, options),
   };
 }
-
 export function _getFleetsOperations(context: ContainerServiceFleetContext): FleetsOperations {
   return {
     ..._getFleets(context),
