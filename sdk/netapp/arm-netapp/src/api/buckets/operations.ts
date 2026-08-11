@@ -54,7 +54,7 @@ export function _refreshCertificateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +100,7 @@ export function refreshCertificate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -123,7 +123,7 @@ export function _generateAkvCredentialsSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +177,7 @@ export function generateAkvCredentials(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -200,7 +200,7 @@ export function _generateCredentialsSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +269,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +308,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    },
   );
 }
 
@@ -330,7 +334,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -376,7 +380,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -399,7 +403,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,7 +456,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -475,7 +479,7 @@ export function _createOrUpdateSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -528,7 +532,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Bucket>, Bucket>;
 }
 
@@ -550,7 +554,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       bucketName: bucketName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
