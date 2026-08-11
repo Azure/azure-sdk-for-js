@@ -165,9 +165,9 @@ function projectArrowTable(table: Table): ParsedBlobListArrowSegment {
       versionId: asString(i, "VersionId"),
       isCurrentVersion: asBoolean(i, "IsCurrentVersion"),
       properties,
-      metadata: asMap(i, "Metadata"),
+      metadata: { additionalProperties: asMap(i, "Metadata") },
       blobTags: toBlobTags(asMap(i, "Tags")),
-      objectReplicationMetadata: asMap(i, "OrMetadata"),
+      objectReplicationMetadata: { additionalProperties: asMap(i, "OrMetadata") },
       hasVersionsOnly: asBoolean(i, "HasVersionsOnly"),
     });
   }

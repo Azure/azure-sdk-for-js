@@ -644,20 +644,20 @@ export interface ContainerGetAccountInfoOptions extends CommonOptions {
  * {@link BlobItem} shape, decoding the name and parsing tags / object-replication
  * metadata. Shared by the XML and Apache Arrow list paths so they cannot drift.
  */
-function mapBlobItemTsp(blobItemInternal: BlobItemTsp): BlobItem {
+function mapBlobItemTsp(blobItemTsp: BlobItemTsp): BlobItem {
   const blobItem: BlobItem = {
-    ...blobItemInternal,
-    metadata: blobItemInternal.metadata?.additionalProperties,
+    ...blobItemTsp,
+    metadata: blobItemTsp.metadata?.additionalProperties,
     properties: {
-      ...blobItemInternal.properties,
+      ...blobItemTsp.properties,
       immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
-        blobItemInternal.properties.immutabilityPolicyMode,
+        blobItemTsp.properties.immutabilityPolicyMode,
       ),
     },
-    name: BlobNameToString(blobItemInternal.name),
-    tags: toTags(blobItemInternal.blobTags),
+    name: BlobNameToString(blobItemTsp.name),
+    tags: toTags(blobItemTsp.blobTags),
     objectReplicationSourceProperties: parseObjectReplicationRecord(
-      blobItemInternal.objectReplicationMetadata?.additionalProperties,
+      blobItemTsp.objectReplicationMetadata?.additionalProperties,
     ),
   };
   return blobItem;
@@ -1505,12 +1505,21 @@ export class ContainerClient extends StorageClient {
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const { parsed: xmlResponse, bodyAsText } =
+      const { parsed: nonArrowResponse, bodyAsText } =
         await deserializeListBlobFlatSegmentXml(rawResponse);
+      const converted1 = ConvertInternalResponseOfListBlobFlat(nonArrowResponse);
       return {
         ...adjustedResponse,
         _response: { ...adjustedResponse._response, bodyAsText }, // _response is made non-enumerable
-        ...ConvertInternalResponseOfListBlobFlat(xmlResponse),
+        ...converted1,
+        segment: {
+          blobItems: converted1.segment.blobItems.map((b) => {
+            return {
+              ...b,
+              tags: toTags(b.blobTags),
+            };
+          }),
+        },
       } as unknown as WithResponse<
         ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
         ContainerListBlobFlatSegmentHeaders,
@@ -1534,9 +1543,18 @@ export class ContainerClient extends StorageClient {
       blobItems: parsed.blobItems,
       continuationToken: parsed.nextMarker,
     };
+    const converted2 = ConvertInternalResponseOfListBlobFlat(arrowResponse);
     return {
       ...adjustedResponse,
-      ...ConvertInternalResponseOfListBlobFlat(arrowResponse),
+      ...converted2,
+      segment: {
+        blobItems: converted2.segment.blobItems.map((b) => {
+          return {
+            ...b,
+            tags: toTags(b.blobTags),
+          };
+        }),
+      },
     } as unknown as WithResponse<
       ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
       ContainerListBlobFlatSegmentHeaders,
