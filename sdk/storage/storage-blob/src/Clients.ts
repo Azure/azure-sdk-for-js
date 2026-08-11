@@ -5777,11 +5777,10 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobListPageRangesSegmentOptions = {},
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeItemSegments(
       offset,
       count,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);
@@ -6038,12 +6037,11 @@ export class PageBlobClient extends BlobClient {
     prevSnapshotOrUrl: string,
     options?: PageBlobListPageRangesDiffSegmentOptions,
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
       offset,
       count,
       prevSnapshotOrUrl,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);
