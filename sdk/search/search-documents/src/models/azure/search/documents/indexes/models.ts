@@ -8129,7 +8129,7 @@ export enum KnownBlobIndexerParsingMode {
  * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
  * **markdown**: Set to markdown to extract content from markdown files.
  */
-export type BlobIndexerParsingMode = string;
+export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 
 /** Response from a List Files request. */
 export interface _ListKnowledgeSourceFilesResult {

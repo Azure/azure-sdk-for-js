@@ -395,7 +395,7 @@ export type BlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
 // @public (undocumented)
 export type BlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
 
-// @public (undocumented)
+// @public
 export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 
 // @public (undocumented)
@@ -1819,8 +1819,7 @@ export interface KnowledgeSourceFile {
     readonly fileSizeBytes?: number;
     readonly lastUpdatedAt?: Date;
     readonly metadata?: Record<string, string>;
-    // Warning: (ae-forgotten-export) The symbol "BlobIndexerParsingMode_2" needs to be exported by the entry point index.d.ts
-    readonly parsingMode?: BlobIndexerParsingMode_2;
+    readonly parsingMode?: BlobIndexerParsingMode;
     readonly prefix?: string;
 }
 

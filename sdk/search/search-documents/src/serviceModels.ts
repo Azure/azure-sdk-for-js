@@ -13,6 +13,7 @@ import type {
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
+  BlobIndexerParsingMode,
   BM25Similarity,
   CharFilterName,
   ChatCompletionExtraParametersBehavior,
@@ -55,7 +56,6 @@ import type {
   KnowledgeSourceContentExtractionMode,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
-  KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
@@ -3587,7 +3587,6 @@ export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {}
 export type AnalyzerNames = `${KnownLexicalAnalyzerName}`;
 export type BlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
 export type BlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
-export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;

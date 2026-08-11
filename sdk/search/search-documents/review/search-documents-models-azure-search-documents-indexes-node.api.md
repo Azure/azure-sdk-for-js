@@ -162,7 +162,7 @@ export type BlobIndexerDataToExtract = string;
 export type BlobIndexerImageAction = string;
 
 // @public
-export type BlobIndexerParsingMode = string;
+export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 
 // @public
 export type BlobIndexerPDFTextRotationAlgorithm = string;

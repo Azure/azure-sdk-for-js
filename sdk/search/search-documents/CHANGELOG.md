@@ -12,6 +12,7 @@
 - Added `retrieveStream` method to `KnowledgeRetrievalClient`, which streams retrieval progress and results as server-sent events instead of waiting for the full retrieval to complete. It returns an `AsyncIterable` of `KnowledgeBaseRetrievalStreamEvent`, along with the new `RetrieveStreamOptions`, `KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode` types.
 - Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
 - Exported types that were previously reachable only indirectly: `KnowledgeSourceResultsProcessing`, `KnownKnowledgeSourceResultsProcessing`, `SearchIndexKnowledgeSourceQueryHints`, `SearchIndexKnowledgeSourceFilterHint`, `SearchIndexKnowledgeSourceBoost`, `SearchIndexKnowledgeSourceBoostUnion`, `SearchIndexKnowledgeSourceFieldValueBoost`, `SearchIndexKnowledgeSourceMultiWordExpressionBoost`, `SearchIndexKnowledgeSourceBoostKind`, `KnownSearchIndexKnowledgeSourceBoostKind`, `FileKnowledgeSourceExtractionMode`, `KnownFileKnowledgeSourceExtractionMode`, `KnowledgeBaseActivityRecordModel`, and `KnowledgeRetrievalAutoReasoningEffort`.
+- `KnowledgeSourceFile.parsingMode` is now typed as `BlobIndexerParsingMode` instead of a bare `string`, so it accepts the same known values as the rest of the library.
 
 ### Breaking Changes
 

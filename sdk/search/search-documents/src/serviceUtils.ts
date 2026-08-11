@@ -63,6 +63,7 @@ import type {
   SqlIntegratedChangeTrackingPolicy,
   StopAnalyzer,
   TokenFilterUnion,
+  BlobIndexerParsingMode,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   SearchResult,
@@ -80,7 +81,6 @@ import type {
   AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
-  BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
   CharFilter,
   CognitiveServicesAccount,
