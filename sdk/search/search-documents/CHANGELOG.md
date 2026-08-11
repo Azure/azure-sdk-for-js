@@ -11,11 +11,12 @@
 - Added `logicalReasoningEffort` on `KnowledgeBaseAgenticReasoningActivityRecord`, reporting the reasoning effort requested by the customer as distinct from the `retrievalReasoningEffort` used for billing.
 - Added `retrieveStream` method to `KnowledgeRetrievalClient`, which streams retrieval progress and results as server-sent events instead of waiting for the full retrieval to complete. It returns an `AsyncIterable` of `KnowledgeBaseRetrievalStreamEvent`, along with the new `RetrieveStreamOptions`, `KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode` types.
 - Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
+- Exported types that were previously reachable only indirectly: `KnowledgeSourceResultsProcessing`, `KnownKnowledgeSourceResultsProcessing`, `SearchIndexKnowledgeSourceQueryHints`, `SearchIndexKnowledgeSourceFilterHint`, `SearchIndexKnowledgeSourceBoost`, `SearchIndexKnowledgeSourceBoostUnion`, `SearchIndexKnowledgeSourceFieldValueBoost`, `SearchIndexKnowledgeSourceMultiWordExpressionBoost`, `SearchIndexKnowledgeSourceBoostKind`, `KnownSearchIndexKnowledgeSourceBoostKind`, `FileKnowledgeSourceExtractionMode`, `KnownFileKnowledgeSourceExtractionMode`, `KnowledgeBaseActivityRecordModel`, and `KnowledgeRetrievalAutoReasoningEffort`.
 
 ### Breaking Changes
 
 - Removed `WorkIQAttribution`, along with the `attributions` property that referenced it, from knowledge base response types.
-- Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`.
+- Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`. Use the `resultsProcessing` property on `McpServerTool` with `KnownKnowledgeSourceResultsProcessing` instead, mapping the former `reranked` value to `rerank`.
 - Renamed the `elapsedInMs` property to `elapsedMs` on activity record types.
 - Renamed the `modelName` property to `model` (now typed as `KnowledgeBaseActivityRecordModel`) on model activity record types.
 - Renamed the `totalSynchronizations` property to `totalSynchronization` on indexer status types.

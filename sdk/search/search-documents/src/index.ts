@@ -108,6 +108,8 @@ export {
   type WebKnowledgeSourceParams,
   type KnowledgeBaseModelWebSummarizationActivityRecord,
   type WorkIQKnowledgeSourceParams,
+  type KnowledgeBaseActivityRecordModel,
+  type KnowledgeRetrievalAutoReasoningEffort,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
   type AIFoundryModelCatalogName,
@@ -383,11 +385,25 @@ export {
   type McpServerNoneOutputParsing,
   KnownMcpServerAuthenticationKind,
   KnownMcpServerOutputParsingKind,
+  KnownKnowledgeSourceResultsProcessing,
+  type KnowledgeSourceResultsProcessing,
+  type SearchIndexKnowledgeSourceQueryHints,
+  type SearchIndexKnowledgeSourceFilterHint,
+  type SearchIndexKnowledgeSourceBoostUnion,
+  type SearchIndexKnowledgeSourceBoost,
+  type SearchIndexKnowledgeSourceFieldValueBoost,
+  type SearchIndexKnowledgeSourceMultiWordExpressionBoost,
+  type SearchIndexKnowledgeSourceBoostKind,
+  KnownSearchIndexKnowledgeSourceBoostKind,
   type KnowledgeSourceFile,
   type WordDelimiterTokenFilter,
   type ContentUnderstandingSkillChunkingMethod,
   type SharePointConnectorAppRegistration,
 } from "./models/azure/search/documents/indexes/index.js";
+export {
+  type FileKnowledgeSourceExtractionMode,
+  KnownFileKnowledgeSourceExtractionMode,
+} from "./models/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export type {

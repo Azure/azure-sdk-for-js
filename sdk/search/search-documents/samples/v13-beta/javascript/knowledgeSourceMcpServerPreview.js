@@ -23,8 +23,8 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const {
   KnowledgeRetrievalClient,
+  KnownKnowledgeSourceResultsProcessing,
   KnownMcpServerOutputParsingKind,
-  KnownMcpServerToolInclusionMode,
   SearchIndexClient,
 } = require("@azure/search-documents");
 
@@ -67,7 +67,7 @@ async function main() {
         {
           name: "search",
           outputParsing: { kind: KnownMcpServerOutputParsingKind.Auto },
-          inclusionMode: KnownMcpServerToolInclusionMode.Reranked,
+          resultsProcessing: KnownKnowledgeSourceResultsProcessing.Rerank,
           maxOutputTokens: 2048,
         },
         {

@@ -24,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import type { KnowledgeBase, McpServerKnowledgeSource } from "@azure/search-documents";
 import {
   KnowledgeRetrievalClient,
+  KnownKnowledgeSourceResultsProcessing,
   KnownMcpServerOutputParsingKind,
-  KnownMcpServerToolInclusionMode,
   SearchIndexClient,
 } from "@azure/search-documents";
 
@@ -69,7 +69,7 @@ async function main(): Promise<void> {
         {
           name: "search",
           outputParsing: { kind: KnownMcpServerOutputParsingKind.Auto },
-          inclusionMode: KnownMcpServerToolInclusionMode.Reranked,
+          resultsProcessing: KnownKnowledgeSourceResultsProcessing.Rerank,
           maxOutputTokens: 2048,
         },
         {
