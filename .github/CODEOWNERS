@@ -590,7 +590,7 @@
 # PRLabel: %Mgmt
 /sdk/features/arm-features/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
