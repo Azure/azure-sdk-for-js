@@ -1,0 +1,39 @@
+name: AI Projects TypeSpec regeneration
+description: Regenerate @azure/ai-projects from a pinned TypeSpec commit using Copilot cloud agent
+title: "[ai-projects] regen from <commit-hash> against main"
+labels:
+  - AI Projects
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Complete the title as `[ai-projects] regen from <40-character-commit> against <base-branch>`.
+        After creating the issue, assign it to Copilot, select the **ai-projects-regen** custom agent, and select the same starting branch entered below.
+
+  - type: input
+    id: typespec-commit
+    attributes:
+      label: TypeSpec commit
+      description: Full 40-character commit SHA from Azure/azure-rest-api-specs.
+      placeholder: 0123456789abcdef0123456789abcdef01234567
+    validations:
+      required: true
+
+  - type: input
+    id: base-branch
+    attributes:
+      label: Base branch
+      description: Branch in Azure/azure-sdk-for-js that Copilot must branch from.
+      value: main
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: assignment-check
+    attributes:
+      label: Assignment check
+      options:
+        - label: >-
+            ai-projects-typespec-regen:v1 - The title, base branch field, and
+            Copilot starting branch all match.
+          required: true

@@ -1,9 +1,12 @@
 # Open a draft regeneration PR for sdk/ai/ai-projects.
 #
 # Usage:
-#   ./open-pr.ps1 -TspCommit <40-char-sha> [-BranchName <name>] [-Remote origin]
+#   ./open-pr.ps1 -TspCommit <40-char-sha> [-BranchName <name>] [-BaseBranch main] [-Remote origin]
+#   ./open-pr.ps1 -TspCommit <40-char-sha> -ManagedAgentSession [-BaseBranch main]
 #
-# Stages five logical commits, pushes to origin, and opens a DRAFT PR via `gh`.
+# Stages three to five logical commits, pushes to origin, and opens a DRAFT PR via `gh`.
+# In a managed Copilot agent session, stages the commits but leaves branch and
+# pull-request publishing to the session.
 # Run from sdk/ai/ai-projects/. Never force-pushes.
 
 [CmdletBinding()]
@@ -13,7 +16,11 @@ param(
 
   [string]$BranchName,
 
-  [string]$Remote = 'origin'
+  [string]$Remote = 'origin',
+
+  [string]$BaseBranch = 'main',
+
+  [switch]$ManagedAgentSession
 )
 
 $ErrorActionPreference = 'Stop'
@@ -23,7 +30,7 @@ if ($TspCommit -notmatch '^[0-9a-f]{40}$') {
 }
 $shortSha = $TspCommit.Substring(0, 7)
 
-if (-not $BranchName) {
+if (-not $ManagedAgentSession -and -not $BranchName) {
   $today = (Get-Date).ToString('yyyyMMdd')
   $BranchName = "regen/ai-projects/$shortSha-$today"
 }
@@ -39,32 +46,46 @@ try {
     throw "Refusing to proceed: changes detected outside sdk/ai/ai-projects/:`n$($dirty -join "`n")"
   }
 
-  # 2. Create branch from HEAD.
-  Write-Host "Creating branch $BranchName"
-  & git switch -c $BranchName
-  if ($LASTEXITCODE -ne 0) { throw "git switch -c $BranchName failed." }
+  # 2. Use the branch owned by the Copilot session, or create a branch for a
+  # manually dispatched task.
+  if ($ManagedAgentSession) {
+    $currentBranch = (& git branch --show-current).Trim()
+    if (-not $currentBranch) {
+      throw 'Managed agent session must be running on a named branch.'
+    }
+    Write-Host "Using managed agent branch $currentBranch"
+  }
+  else {
+    Write-Host "Creating branch $BranchName"
+    & git switch -c $BranchName
+    if ($LASTEXITCODE -ne 0) { throw "git switch -c $BranchName failed." }
+  }
 
   $pkg = 'sdk/ai/ai-projects'
 
   function Commit-Group {
     param(
       [string]$Title,
-      [string[]]$Paths
+      [string[]]$Paths,
+      [switch]$AllowEmpty
     )
     foreach ($p in $Paths) {
       & git add -- $p 2>$null
     }
     $staged = & git diff --cached --name-only
     if (-not $staged) {
-      Write-Host "  (skip) no changes for: $Title"
-      return
+      if ($AllowEmpty) {
+        Write-Host "  (skip) no changes for: $Title"
+        return
+      }
+      throw "Required commit group has no changes: $Title"
     }
     Write-Host "  commit: $Title"
     & git commit -m $Title | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "git commit failed for: $Title" }
   }
 
-  # 3. Stage five logical commits in order.
+  # 3. Stage three to five logical commits in order.
   Commit-Group "[ai-projects] regen: emitter output @ $shortSha" @(
     "$pkg/generated",
     "$pkg/tsp-location.saved.yaml"
@@ -74,26 +95,33 @@ try {
   Commit-Group "[ai-projects] regen: post-emitter edits" @(
     "$pkg/src",
     "$pkg/review",
-    "$pkg/scripts/post-emitter-workarounds.md"
+    "$pkg/scripts/post-emitter-workarounds.md",
+    "$pkg/.github/skills/apply-post-emitter-edits/references/parameter-renames.yml"
   )
 
   Commit-Group "[ai-projects] regen: samples for new features" @(
     "$pkg/samples-dev"
-  )
+  ) -AllowEmpty
 
   Commit-Group "[ai-projects] regen: tests for new GA features" @(
     "$pkg/test"
-  )
+  ) -AllowEmpty
 
   Commit-Group "[ai-projects] regen: changelog" @(
     "$pkg/CHANGELOG.md",
     "$pkg/package.json"
   )
 
-  # Optional: skill scaffolding for the regen workflow itself.
-  Commit-Group "[ai-projects] regen: skills for the regeneration workflow" @(
-    "$pkg/.github"
-  )
+  $remaining = & git status --porcelain -- $pkg
+  if ($remaining) {
+    throw "Uncategorized changes remain under ${pkg}:`n$($remaining -join "`n")"
+  }
+
+  if ($ManagedAgentSession) {
+    Write-Host "Prepared regeneration commits on $currentBranch."
+    Write-Host 'Branch push and pull-request updates are owned by the Copilot agent session.'
+    return
+  }
 
   # 4. Push (no force).
   Write-Host "Pushing $BranchName to $Remote"
@@ -111,29 +139,13 @@ Regenerates ``@azure/ai-projects`` from upstream TypeSpec.
 
 See [CHANGELOG.md](sdk/ai/ai-projects/CHANGELOG.md) ``Unreleased`` section for the full classified change list.
 
-## New regeneration-workflow skills
-
-This PR also seeds (or updates) the Copilot skills under ``sdk/ai/ai-projects/.github/skills/`` that were used to produce it. Each is a self-contained ``SKILL.md`` with bundled scripts/templates/references that VS Code Copilot loads on demand:
-
-- **regenerate-from-typespec** — resolves the latest commit on ``feature/foundry-release`` (or a chosen ref), renames ``tsp-location.saved.yaml`` ↔ ``tsp-location.yaml``, and runs ``npm run generate:client`` against a clean working tree.
-- **apply-post-emitter-edits** — walks the resulting ``git diff``, resolves diff3 conflict markers (always taking the custom side), enforces protected files, propagates genuinely-new public types from ``generated/`` to ``src/``, deduplicates redeclared symbols, repairs renamed positional parameters, and verifies the build + API extraction.
-- **author-samples** — buckets new public-API additions into ``samples-dev/<feature>/`` skeletons and validates with ``npm run build:samples``. Cascade-rename aware so existing samples that called the renamed surface are patched in lockstep.
-- **author-tests** — scaffolds ``.skip``-ped Vitest specs under ``test/public/`` for new **non-beta** GA features with ``TODO(<feature>): unskip after recording added`` markers; runs ``npm run test:node`` to confirm compilation only.
-- **update-changelog** — inserts an ``## Unreleased`` entry classified into Breaking Changes / Features Added / Bugs Fixed / Other Changes.
-- **open-regeneration-pr** — (this skill) commits the regen output as five (or six, with skills) logical commits and opens a draft PR via ``gh``.
-
-## Skill updates in this PR
-
-- ``regenerate-from-typespec`` now captures upstream TypeSpec commit descriptions for the old-exclusive/new-inclusive range in ``temp/typespec-commit-descriptions.md`` before running the emitter.
-- ``apply-post-emitter-edits`` now treats ``temp/typespec-commit-descriptions.md`` as a validation guide when deciding whether SDK diff changes match upstream TypeSpec intent, including intentional non-additive model changes.
-- ``update-changelog`` now summarizes new public methods/routes without enumerating every generated helper model, class, union member, or enum value introduced to support them.
-
 ## Verification checklist
 
 - [ ] ``npx dev-tool run build-package`` (all four targets)
 - [ ] ``npm run check-format``
 - [ ] ``npm run build:samples``
-- [ ] ``npm run test:node`` (skipped specs are expected for newly added GA features)
+- [ ] ``npx tsc -p tsconfig.test.node.json --noEmit``
+- [ ] Targeted ESLint for new or edited test specs
 - [ ] ``review/ai-projects-node.api.md`` reviewed for unintended breaking changes
 - [ ] ``CHANGELOG.md`` ``Unreleased`` header bumped to a real version
 
@@ -144,7 +156,7 @@ This PR also seeds (or updates) the Copilot skills under ``sdk/ai/ai-projects/.g
   $bodyFile = New-TemporaryFile
   Set-Content -Path $bodyFile -Value $body -NoNewline
   try {
-    & gh pr create --draft --title $title --body-file $bodyFile --base main --head $BranchName
+    & gh pr create --draft --title $title --body-file $bodyFile --base $BaseBranch --head $BranchName
     if ($LASTEXITCODE -ne 0) { throw "gh pr create failed." }
   }
   finally {

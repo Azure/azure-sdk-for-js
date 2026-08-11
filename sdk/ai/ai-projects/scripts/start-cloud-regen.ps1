@@ -40,7 +40,7 @@
 #      -ResolveOnly).
 #   3. Defaults -BranchName to regen/ai-projects/<short-sha>-<yyyyMMdd>.
 #   4. Renders cloud-regen-prompt.template.md into a temp file with
-#      {{TSP_COMMIT}} and {{BRANCH_NAME}} substituted.
+#      {{TSP_COMMIT}}, {{BRANCH_NAME}}, and {{BASE_BRANCH}} substituted.
 #   5. -DryRun: prints the rendered prompt and exits.
 #      Otherwise: invokes `gh agent-task create -R $Repo -b $BaseBranch -F <tmp>`
 #      (with --follow when requested).
@@ -118,7 +118,8 @@ Write-Host "Base branch:     $BaseBranch"
 $template = Get-Content -Path $templatePath -Raw
 $rendered = $template.
   Replace('{{TSP_COMMIT}}', $TspCommit).
-  Replace('{{BRANCH_NAME}}', $BranchName)
+  Replace('{{BRANCH_NAME}}', $BranchName).
+  Replace('{{BASE_BRANCH}}', $BaseBranch)
 
 if ($rendered -match '\{\{[A-Z_]+\}\}') {
   throw "Unresolved placeholders remain in rendered prompt: $($Matches[0])"
