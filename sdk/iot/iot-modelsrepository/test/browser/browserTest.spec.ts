@@ -33,7 +33,7 @@ describe("resolver -  browser", () => {
       };
 
       const sendRequestStub = vi.spyOn(ServiceClient.prototype, "sendRequest");
-      sendRequestStub.mockImplementationOnce((request: PipelineRequest) => {
+      sendRequestStub.mockImplementation((request: PipelineRequest) => {
         expect(request.url, "URL not formatted for request correctly.").to.equal(expectedUri);
         const pipelineResponse: any = {
           request,
