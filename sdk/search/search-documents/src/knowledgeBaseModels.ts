@@ -7,7 +7,14 @@ import type {
   KnowledgeSourceReference,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
+  KnowledgeBaseActivityRecordType,
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseErrorDetail,
+  KnowledgeBaseMessage,
+  KnowledgeBaseReferenceUnion,
+  KnowledgeBaseRetrievalResponse,
   KnowledgeRetrievalOutputMode,
+  KnowledgeRetrievalReasoningEffort,
   KnowledgeRetrievalReasoningEffortUnion,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
@@ -19,6 +26,152 @@ export interface RetrieveOptions extends OperationOptions {
    */
   querySourceAuthorization?: string;
 }
+
+/**
+ * Options for the streaming knowledge base retrieval operation.
+ */
+export interface RetrieveStreamOptions extends OperationOptions {
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+}
+
+/**
+ * Emitted once retrieval preflight validation completes, before any activity begins.
+ */
+export interface KnowledgeBaseRetrievalStartedEvent {
+  /**
+   * A service-generated identifier that correlates all events in this retrieval stream.
+   */
+  requestId: string;
+  /**
+   * The name of the knowledge base being queried.
+   */
+  knowledgeBaseName: string;
+  /**
+   * The effective output mode for this retrieval.
+   */
+  outputMode: KnowledgeRetrievalOutputMode;
+  /**
+   * The effective reasoning effort for this retrieval.
+   */
+  reasoningEffort: KnowledgeRetrievalReasoningEffort;
+}
+
+/**
+ * Emitted immediately before an individual retrieval activity begins executing.
+ */
+export interface KnowledgeBaseActivityStartedEvent {
+  /**
+   * The ID of the activity record, matching the `id` on the corresponding activity completed event.
+   */
+  id: number;
+  /**
+   * The type of the activity that has started.
+   */
+  type: KnowledgeBaseActivityRecordType;
+  /**
+   * The time at which the activity started.
+   */
+  startedAt: Date;
+  /**
+   * The knowledge source used by the activity, when the activity targets a knowledge source.
+   */
+  knowledgeSourceName?: string;
+}
+
+/**
+ * Emitted when a fully validated and post-processed synthesized answer is available.
+ */
+export interface KnowledgeBaseAnswerCompletedEvent {
+  /**
+   * The zero-based index of the completed message in the final response array.
+   */
+  messageIndex: number;
+  /**
+   * The completed answer message.
+   */
+  message: KnowledgeBaseMessage;
+}
+
+/**
+ * Emitted in place of a response completed event if retrieval fails after the stream starts.
+ */
+export interface KnowledgeBaseStreamErrorEvent {
+  /**
+   * The error detail explaining why the retrieval stream failed.
+   */
+  error?: KnowledgeBaseErrorDetail;
+  /**
+   * Activity records that completed before the retrieval failed.
+   */
+  activity?: KnowledgeBaseActivityRecordUnion[];
+}
+
+/**
+ * The semantic HTTP status of a completed streaming retrieval. `200` indicates the retrieval
+ * completed successfully, `206` that it completed with partial results.
+ */
+export type KnowledgeBaseRetrievalStatusCode = number;
+
+/**
+ * Emitted after retrieval completes successfully. This is the final event of a successful stream.
+ */
+export interface KnowledgeBaseResponseCompletedEvent {
+  /**
+   * The semantic HTTP status of the completed retrieval.
+   */
+  statusCode: KnowledgeBaseRetrievalStatusCode;
+  /**
+   * The authoritative completed retrieval response.
+   */
+  response: KnowledgeBaseRetrievalResponse;
+}
+
+/**
+ * The set of server-sent events emitted while streaming a knowledge base retrieval.
+ *
+ * The stream ends after the terminal `response.completed` event, or after an `error` event if the
+ * retrieval fails before completing. Narrow on the `event` property to access the typed payload.
+ */
+export type KnowledgeBaseRetrievalStreamEvent =
+  | {
+      /** The retrieval stream has started; no activity or answer content has been produced yet. */
+      event: "retrieval.started";
+      data: KnowledgeBaseRetrievalStartedEvent;
+    }
+  | {
+      /** An individual activity (e.g. a search index or web retrieval step) has started executing. */
+      event: "activity.started";
+      data: KnowledgeBaseActivityStartedEvent;
+    }
+  | {
+      /** An individual activity has finished executing, successfully or not. */
+      event: "activity.completed";
+      data: KnowledgeBaseActivityRecordUnion;
+    }
+  | {
+      /** The answer message has finished streaming and is now complete. */
+      event: "answer.completed";
+      data: KnowledgeBaseAnswerCompletedEvent;
+    }
+  | {
+      /** The references used to produce the response are available. */
+      event: "references.completed";
+      data: KnowledgeBaseReferenceUnion[];
+    }
+  | {
+      /** The retrieval failed before the stream could complete normally. */
+      event: "error";
+      data: KnowledgeBaseStreamErrorEvent;
+    }
+  | {
+      /** The retrieval has completed successfully; this is the final event of the stream. */
+      event: "response.completed";
+      data: KnowledgeBaseResponseCompletedEvent;
+    };
 
 export interface KnowledgeBase {
   /**

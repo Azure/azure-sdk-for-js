@@ -81,9 +81,11 @@ export interface IndexedSqlKnowledgeSourceParams extends KnowledgeSourceParams {
 
 // @public
 export interface KnowledgeBaseActivityRecord {
+    completedAt?: Date;
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
+    startedAt?: Date;
     type: KnowledgeBaseActivityRecordType;
     warning?: string;
 }
@@ -102,6 +104,7 @@ export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityR
 
 // @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
+    logicalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     reasoningTokens?: number;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";

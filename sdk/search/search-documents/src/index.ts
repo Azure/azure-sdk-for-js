@@ -451,7 +451,18 @@ export type {
   VectorQueryKind,
   VectorSearchOptions,
 } from "./indexModels.js";
-export type { KnowledgeBase, RetrieveOptions } from "./knowledgeBaseModels.js";
+export type {
+  KnowledgeBase,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseRetrievalStatusCode,
+  KnowledgeBaseRetrievalStreamEvent,
+  KnowledgeBaseStreamErrorEvent,
+  RetrieveOptions,
+  RetrieveStreamOptions,
+} from "./knowledgeBaseModels.js";
 export {
   KnowledgeRetrievalClient,
   type KnowledgeRetrievalClientOptions,

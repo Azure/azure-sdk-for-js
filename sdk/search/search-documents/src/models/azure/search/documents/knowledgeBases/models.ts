@@ -1464,6 +1464,10 @@ export interface KnowledgeBaseActivityRecord {
   /** The type of the activity record. */
   /** The discriminator possible values: searchIndex, azureBlob, indexedSharePoint, indexedOneLake, web, remoteSharePoint, workIQ, fabricDataAgent, fabricOntology, mcpServer, file, indexedSql, modelQueryPlanning, modelAnswerSynthesis, modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
+  /** The time at which the activity started. */
+  startedAt?: Date;
+  /** The time at which the activity completed. */
+  completedAt?: Date;
   /** The elapsed time in milliseconds for the retrieval activity. */
   elapsedMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
@@ -1476,6 +1480,8 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -1734,6 +1740,8 @@ export function knowledgeBaseSearchIndexActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -1876,6 +1884,8 @@ export function knowledgeBaseAzureBlobActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -1932,6 +1942,8 @@ export function knowledgeBaseIndexedSharePointActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -1990,6 +2002,8 @@ export function knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2044,6 +2058,8 @@ export function knowledgeBaseWebActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2107,6 +2123,8 @@ export function knowledgeBaseRemoteSharePointActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2163,6 +2181,8 @@ export function knowledgeBaseWorkIQActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2214,6 +2234,8 @@ export function knowledgeBaseFabricDataAgentActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2265,6 +2287,8 @@ export function knowledgeBaseFabricOntologyActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2316,6 +2340,8 @@ export function knowledgeBaseMcpServerActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2376,6 +2402,8 @@ export function knowledgeBaseFileActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2432,6 +2460,8 @@ export function knowledgeBaseIndexedSqlActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2482,6 +2512,8 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2528,6 +2560,8 @@ export function knowledgeBaseModelAnswerSynthesisActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2557,6 +2591,8 @@ export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2576,6 +2612,8 @@ export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBa
   reasoningTokens?: number;
   /** The retrieval reasoning effort configuration. */
   retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+  /** The logical reasoning effort requested by the customer. This is distinct from `retrievalReasoningEffort`, which reports the reasoning effort used for billing. */
+  logicalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
@@ -2584,6 +2622,8 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    completedAt: !item["completedAt"] ? item["completedAt"] : new Date(item["completedAt"]),
     elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     warning: item["warning"],
@@ -2591,6 +2631,9 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]
       ? item["retrievalReasoningEffort"]
       : knowledgeRetrievalReasoningEffortUnionDeserializer(item["retrievalReasoningEffort"]),
+    logicalReasoningEffort: !item["logicalReasoningEffort"]
+      ? item["logicalReasoningEffort"]
+      : knowledgeRetrievalReasoningEffortUnionDeserializer(item["logicalReasoningEffort"]),
   };
 }
 

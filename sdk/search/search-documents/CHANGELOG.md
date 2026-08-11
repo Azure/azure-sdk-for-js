@@ -7,6 +7,9 @@
 - Regenerated from the `2026-08-01-preview` Search service API.
 - Added `KnowledgeRetrievalAutoReasoningEffort` reasoning effort variant for knowledge retrieval.
 - Added `citationUrl` on knowledge base activity/reference response types.
+- Added `startedAt` and `completedAt` on knowledge base activity record response types.
+- Added `logicalReasoningEffort` on `KnowledgeBaseAgenticReasoningActivityRecord`, reporting the reasoning effort requested by the customer as distinct from the `retrievalReasoningEffort` used for billing.
+- Added `retrieveStream` method to `KnowledgeRetrievalClient`, which streams retrieval progress and results as server-sent events instead of waiting for the full retrieval to complete. It returns an `AsyncIterable` of `KnowledgeBaseRetrievalStreamEvent`, along with the new `RetrieveStreamOptions`, `KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode` types.
 - Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
 
 ### Breaking Changes

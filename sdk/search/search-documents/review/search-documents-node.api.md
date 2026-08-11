@@ -209,9 +209,11 @@ export interface BaseDataDeletionDetectionPolicy {
 
 // @public
 export interface BaseKnowledgeBaseActivityRecord {
+    completedAt?: Date;
     elapsedMs?: number;
     error?: KnowledgeBaseErrorDetail;
     id: number;
+    startedAt?: Date;
     type: KnowledgeBaseActivityRecordType;
     warning?: string;
 }
@@ -1461,10 +1463,25 @@ export type KnowledgeBaseActivityRecord = KnowledgeBaseSearchIndexActivityRecord
 export type KnowledgeBaseActivityRecordType = string;
 
 // @public
+export interface KnowledgeBaseActivityStartedEvent {
+    id: number;
+    knowledgeSourceName?: string;
+    startedAt: Date;
+    type: KnowledgeBaseActivityRecordType;
+}
+
+// @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    logicalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     reasoningTokens?: number;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedEvent {
+    message: KnowledgeBaseMessage;
+    messageIndex: number;
 }
 
 // @public
@@ -1624,6 +1641,12 @@ export interface KnowledgeBaseRemoteSharePointReference extends BaseKnowledgeBas
 }
 
 // @public
+export interface KnowledgeBaseResponseCompletedEvent {
+    response: KnowledgeBaseRetrievalResponse;
+    statusCode: KnowledgeBaseRetrievalStatusCode;
+}
+
+// @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: BaseKnowledgeRetrievalIntent[];
@@ -1646,11 +1669,52 @@ export interface KnowledgeBaseRetrievalResponse {
 }
 
 // @public
+export interface KnowledgeBaseRetrievalStartedEvent {
+    knowledgeBaseName: string;
+    outputMode: KnowledgeRetrievalOutputMode;
+    reasoningEffort: BaseKnowledgeRetrievalReasoningEffort;
+    requestId: string;
+}
+
+// @public
+export type KnowledgeBaseRetrievalStatusCode = number;
+
+// @public
+export type KnowledgeBaseRetrievalStreamEvent = {
+    event: "retrieval.started";
+    data: KnowledgeBaseRetrievalStartedEvent;
+} | {
+    event: "activity.started";
+    data: KnowledgeBaseActivityStartedEvent;
+} | {
+    event: "activity.completed";
+    data: KnowledgeBaseActivityRecord;
+} | {
+    event: "answer.completed";
+    data: KnowledgeBaseAnswerCompletedEvent;
+} | {
+    event: "references.completed";
+    data: KnowledgeBaseReference[];
+} | {
+    event: "error";
+    data: KnowledgeBaseStreamErrorEvent;
+} | {
+    event: "response.completed";
+    data: KnowledgeBaseResponseCompletedEvent;
+};
+
+// @public
 export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseReference {
     citationUrl?: string;
     docKey?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "searchIndex";
+}
+
+// @public
+export interface KnowledgeBaseStreamErrorEvent {
+    activity?: KnowledgeBaseActivityRecord[];
+    error?: KnowledgeBaseErrorDetail;
 }
 
 // @public
@@ -1674,6 +1738,7 @@ export class KnowledgeRetrievalClient {
     readonly pipeline: Pipeline;
     // (undocumented)
     retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptions): Promise<KnowledgeBaseRetrievalResponse>;
+    retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptions): Promise<AsyncIterable<KnowledgeBaseRetrievalStreamEvent>>;
     readonly serviceVersion: string;
 }
 
@@ -3499,6 +3564,11 @@ export interface ResyncIndexerOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface RetrieveOptions extends OperationOptions {
+    querySourceAuthorization?: string;
+}
+
+// @public
+export interface RetrieveStreamOptions extends OperationOptions {
     querySourceAuthorization?: string;
 }
 
