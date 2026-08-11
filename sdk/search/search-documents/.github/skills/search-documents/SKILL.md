@@ -7,6 +7,7 @@ description: 'Domain knowledge for @azure/search-documents. Covers architecture,
 
 ## Common Pitfalls
 
+- **Regeneration must pin the preview api-version** — the spec's `tspconfig.yaml` pins `@azure-tools/typespec-ts` to the GA `api-version`, so `tsp-client update` without an `api-version=` emitter option silently regenerates the GA surface and deletes preview-only operations and models. The `generate:client` script carries the override; keep it in sync with the targeted preview.
 - **Generated sub-client ≠ convenience client** — `src/search/searchClient.ts` is the GENERATED sub-client (overwritten on regeneration). `src/searchClient.ts` is the HAND-AUTHORED convenience client. Adding methods to the generated file does nothing for consumers. Always edit the hand-authored file at the `src/` root. See the "Generated vs Hand-Authored Files" table in Architecture.
 - **New operations must be wired through the convenience layer** — after regeneration, new operations appearing in generated files are NOT available to consumers until explicitly exposed via the hand-authored convenience clients, model files, and `src/index.ts`. Do not stop at regeneration. See "Exposing New Operations and Models" below.
 - **New models must be wired through the convenience layer** — likewise, new generated `interface` / `type` / `enum` declarations (including new discriminated-union members like additional `*KnowledgeSource`, `*Skill`, `*Vectorizer`, or `*Activity` kinds) are invisible to consumers until mirrored in `src/serviceModels.ts` / `src/indexModels.ts` / `src/knowledgeBaseModels.ts`, plumbed through any `serviceUtils.ts` dispatch tables that switch on `kind`, and re-exported from `src/index.ts`.
@@ -67,13 +68,14 @@ The convenience layer converts between generated and public types via `src/servi
 Generation command (from `package.json`):
 
 ```
-tsp-client update -d --emitter-options="ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
+tsp-client update -d --emitter-options="api-version=2026-08-01-preview;ignore-nullable-on-optional=true;wrap-non-model-return=false" && npm run format && npx dev-tool customization apply --skip index.ts
 ```
 
 Run via: `npm run generate:client`. **All changes must be committed first** — the 3-way merge requires committed state.
 
 **Important flags:**
 
+- `api-version=2026-08-01-preview` — **required**. The spec's `tspconfig.yaml` pins `@azure-tools/typespec-ts` to the GA `api-version: "2026-04-01"`. Without this override the emitter silently generates the GA surface and drops every preview-only operation and model. Bump this value when moving to a newer preview.
 - `ignore-nullable-on-optional=true` — mitigates TypeSpec's `T | null` on optional properties
 - `wrap-non-model-return=false` — prevents wrapping non-model return types
 - `--skip index.ts` — barrel export is manually maintained
