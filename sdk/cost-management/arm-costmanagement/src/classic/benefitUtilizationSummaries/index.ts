@@ -42,7 +42,6 @@ export interface BenefitUtilizationSummariesOperations {
     options?: BenefitUtilizationSummariesListByBillingAccountIdOptionalParams,
   ) => PagedAsyncIterableIterator<BenefitUtilizationSummaryUnion>;
 }
-
 function _getBenefitUtilizationSummaries(context: CostManagementContext) {
   return {
     listBySavingsPlanId: (
@@ -65,7 +64,6 @@ function _getBenefitUtilizationSummaries(context: CostManagementContext) {
     ) => listByBillingAccountId(context, billingAccountId, options),
   };
 }
-
 export function _getBenefitUtilizationSummariesOperations(
   context: CostManagementContext,
 ): BenefitUtilizationSummariesOperations {

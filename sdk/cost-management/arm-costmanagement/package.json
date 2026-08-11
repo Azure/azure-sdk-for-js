@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-costmanagement",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for CostManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -200,6 +200,20 @@
       "require": {
         "types": "./dist/commonjs/api/generateCostDetailsReport/index.d.ts",
         "default": "./dist/commonjs/api/generateCostDetailsReport/index.js"
+      }
+    },
+    "./api/markupRules": {
+      "browser": {
+        "types": "./dist/browser/api/markupRules/index.d.ts",
+        "default": "./dist/browser/api/markupRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/markupRules/index.d.ts",
+        "default": "./dist/esm/api/markupRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/markupRules/index.d.ts",
+        "default": "./dist/commonjs/api/markupRules/index.js"
       }
     },
     "./api/settings": {

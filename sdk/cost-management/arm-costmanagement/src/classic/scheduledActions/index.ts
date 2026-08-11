@@ -97,7 +97,6 @@ export interface ScheduledActionsOperations {
   /** Get the private scheduled action by name. */
   get: (name: string, options?: ScheduledActionsGetOptionalParams) => Promise<ScheduledAction>;
 }
-
 function _getScheduledActions(context: CostManagementContext) {
   return {
     checkNameAvailabilityByScope: (
@@ -138,7 +137,6 @@ function _getScheduledActions(context: CostManagementContext) {
     get: (name: string, options?: ScheduledActionsGetOptionalParams) => get(context, name, options),
   };
 }
-
 export function _getScheduledActionsOperations(
   context: CostManagementContext,
 ): ScheduledActionsOperations {

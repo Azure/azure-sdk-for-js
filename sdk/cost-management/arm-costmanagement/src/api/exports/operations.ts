@@ -34,7 +34,7 @@ export function _getExecutionHistorySend(
     {
       scope: scope,
       exportName: exportName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,6 @@ export async function _getExecutionHistoryDeserialize(
 
   return exportExecutionListResultDeserializer(result.body);
 }
-
 /** The operation to get the run history of an export for the defined scope and export name. */
 export async function getExecutionHistory(
   context: Client,
@@ -84,7 +83,7 @@ export function _executeSend(
     {
       scope: scope,
       exportName: exportName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +111,6 @@ export async function _executeDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to run an export. */
 export async function execute(
   context: Client,
@@ -133,7 +131,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.CostManagement/exports{?api%2Dversion,%24expand}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
     },
     {
@@ -159,7 +157,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<E
 
   return exportListResultDeserializer(result.body);
 }
-
 /** The operation to list all exports at the given scope. */
 export async function list(
   context: Client,
@@ -181,7 +178,7 @@ export function _$deleteSend(
     {
       scope: scope,
       exportName: exportName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,7 +200,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a export. */
 export async function $delete(
   context: Client,
@@ -227,7 +223,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       exportName: exportName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,7 +250,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return exportDeserializer(result.body);
 }
-
 /** The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag. */
 export async function createOrUpdate(
   context: Client,
@@ -278,7 +273,7 @@ export function _getSend(
     {
       scope: scope,
       exportName: exportName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
     },
     {
@@ -304,7 +299,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
 
   return exportDeserializer(result.body);
 }
-
 /** The operation to get the export for the defined scope by export name. */
 export async function get(
   context: Client,
