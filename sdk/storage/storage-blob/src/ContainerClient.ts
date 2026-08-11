@@ -1505,9 +1505,11 @@ export class ContainerClient extends StorageClient {
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (!isApacheArrow(rawResponse.contentType)) {
-      const { parsed: xmlResponse } = await deserializeListBlobFlatSegmentXml(rawResponse);
+      const { parsed: xmlResponse, bodyAsText } =
+        await deserializeListBlobFlatSegmentXml(rawResponse);
       return {
         ...adjustedResponse,
+        _response: { ...adjustedResponse._response, bodyAsText }, // _response is made non-enumerable
         ...ConvertInternalResponseOfListBlobFlat(xmlResponse),
       } as unknown as WithResponse<
         ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders,
