@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.1 (2026-08-12)
 
 ### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#1512](https://github.com/microsoft/ApplicationInsights-node.js/issues/1512)
 
 ## 1.3.0 (2026-04-08)
 
