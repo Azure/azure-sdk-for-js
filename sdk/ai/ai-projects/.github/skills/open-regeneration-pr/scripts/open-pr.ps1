@@ -45,6 +45,12 @@ if (-not $repoRoot) { throw "Not inside a git repo." }
 
 Push-Location $repoRoot
 try {
+  $staged = & git diff --cached --name-only
+  if ($LASTEXITCODE -ne 0) { throw 'Failed to inspect the Git index.' }
+  if ($staged) {
+    throw "Refusing to proceed: the Git index must be empty before creating logical commits:`n$($staged -join "`n")"
+  }
+
   $dirty = & git status --porcelain | Where-Object { $_ -and ($_ -notmatch '^.. sdk/ai/ai-projects/') }
   if ($dirty) {
     throw "Refusing to proceed: changes detected outside sdk/ai/ai-projects/:`n$($dirty -join "`n")"
@@ -53,14 +59,26 @@ try {
   # 2. Use the branch owned by the Copilot session, or create a branch for a
   # manually dispatched task.
   if ($ManagedAgentSession) {
-    [string]$currentBranch = & git branch --show-current
-    $currentBranch = $currentBranch.Trim()
+    $currentBranch = (@(& git branch --show-current) -join '').Trim()
     if (-not $currentBranch) {
       throw 'Managed agent session must be running on a named branch.'
     }
     Write-Host "Using managed agent branch $currentBranch"
   }
   else {
+    Write-Host "Fetching $BaseBranch from $Remote"
+    & git fetch --no-tags -- $Remote $BaseBranch
+    if ($LASTEXITCODE -ne 0) { throw "Failed to fetch $BaseBranch from $Remote." }
+
+    $currentHead = (@(& git rev-parse HEAD) -join '').Trim()
+    $fetchedBase = (@(& git rev-parse FETCH_HEAD) -join '').Trim()
+    if (-not $currentHead -or -not $fetchedBase) {
+      throw 'Failed to resolve the current HEAD or fetched base commit.'
+    }
+    if ($currentHead -cne $fetchedBase) {
+      throw "Manual mode must start at $Remote/$BaseBranch ($fetchedBase), but HEAD is $currentHead."
+    }
+
     Write-Host "Creating branch $BranchName"
     & git switch -c $BranchName
     if ($LASTEXITCODE -ne 0) { throw "git switch -c $BranchName failed." }

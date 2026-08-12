@@ -1497,7 +1497,7 @@ Prerequisites:
 - Membership in an organization with the GitHub Copilot coding agent enabled for the target repo.
 - Push access to the target repo (the cloud agent uses its own GitHub App identity to push and open the draft PR).
 
-Caveat: the dispatched prompt runs `pnpm install --filter @azure/ai-projects...` and `pnpm --filter @azure/ai-projects... build` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
+Caveat: the dispatched prompt runs `pnpm install --filter "@azure/ai-projects..."` and `pnpm turbo build --filter="@azure/ai-projects..." --token 1` inline at the start of the task. If the cloud agent's sandbox blocks those network calls, the task will fail at setup; in that case run the skills locally, or coordinate with the SDK build team to add a centrally-managed `copilot-setup-steps.yml` workflow at the repo root.
 
 ## Contributing
 
