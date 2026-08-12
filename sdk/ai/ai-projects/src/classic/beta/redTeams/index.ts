@@ -20,7 +20,6 @@ export interface BetaRedTeamsOperations {
   /** Retrieves the specified redteam and its configuration. */
   get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
 }
-
 function _getBetaRedTeams(context: AIProjectContext) {
   return {
     create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) =>
@@ -29,7 +28,6 @@ function _getBetaRedTeams(context: AIProjectContext) {
     get: (name: string, options?: BetaRedTeamsGetOptionalParams) => get(context, name, options),
   };
 }
-
 export function _getBetaRedTeamsOperations(context: AIProjectContext): BetaRedTeamsOperations {
   return {
     ..._getBetaRedTeams(context),

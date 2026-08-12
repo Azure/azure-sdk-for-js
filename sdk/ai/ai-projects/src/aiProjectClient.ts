@@ -79,6 +79,36 @@ export class AIProjectClient {
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/aiProjectClient.ts
+    this._client = createAIProject(endpointParam, credential, options);
+    this.pipeline = this._client.pipeline;
+    this.toolboxes = _getToolboxesOperations(this._client);
+    this.indexes = _getIndexesOperations(this._client);
+    this.deployments = _getDeploymentsOperations(this._client);
+    this.datasets = _getDatasetsOperations(this._client);
+    this.connections = _getConnectionsOperations(this._client);
+    this.evaluationRules = _getEvaluationRulesOperations(this._client);
+    this.agents = _getAgentsOperations(this._client);
+    this.beta = _getBetaOperations(this._client);
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/aiProjectClient.ts
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
+    this._client = createAIProject(endpointParam, credential, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
+    this.pipeline = this._client.pipeline;
+    this.toolboxes = _getToolboxesOperations(this._client);
+    this.indexes = _getIndexesOperations(this._client);
+    this.deployments = _getDeploymentsOperations(this._client);
+    this.datasets = _getDatasetsOperations(this._client);
+    this.connections = _getConnectionsOperations(this._client);
+    this.evaluationRules = _getEvaluationRulesOperations(this._client);
+    this.agents = _getAgentsOperations(this._client);
+    this.beta = _getBetaOperations(this._client);
+=======
     this._endpoint = endpoint;
     this._credential = credential;
     this._options = options;
@@ -109,6 +139,7 @@ export class AIProjectClient {
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/aiProjectClient.ts
   }
 
   /** The operation groups for toolboxes */

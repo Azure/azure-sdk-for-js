@@ -27,7 +27,6 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
 }
-
 /** Optional parameters. */
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -35,7 +34,6 @@ export interface BetaInsightsGetOptionalParams extends OperationOptions {
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
 }
-
 /** Optional parameters. */
 export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */

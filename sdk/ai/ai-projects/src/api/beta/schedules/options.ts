@@ -11,13 +11,10 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
   /** Filter by the enabled status. */
   enabled?: boolean;
 }
-
 /** Optional parameters. */
 export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface BetaSchedulesListOptionalParams extends OperationOptions {
   /** Filter by the type of schedule. */
@@ -25,9 +22,7 @@ export interface BetaSchedulesListOptionalParams extends OperationOptions {
   /** Filter by the enabled status. */
   enabled?: boolean;
 }
-
 /** Optional parameters. */
 export interface BetaSchedulesGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {}

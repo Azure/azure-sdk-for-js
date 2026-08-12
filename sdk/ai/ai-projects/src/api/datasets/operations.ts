@@ -71,8 +71,15 @@ export async function _getCredentialsDeserialize(
 
   return datasetCredentialDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/datasets/operations.ts
+/** Retrieves the SAS credential to access the storage account associated with a dataset version. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
+
+/** Retrieves the SAS credential to access the storage account associated with a dataset version. */
+=======
 
 /** Get the SAS credential to access the storage account associated with a Dataset version. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
 export async function getCredentials(
   context: Client,
   name: string,
@@ -122,8 +129,15 @@ export async function _pendingUploadDeserialize(
 
   return pendingUploadResponseDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/datasets/operations.ts
+/** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/datasets/operations.ts
+
+/** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
+=======
 
 /** Start a new or get an existing pending upload of a dataset for a specific version. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/datasets/operations.ts
 export async function pendingUpload(
   context: Client,
   name: string,
@@ -174,7 +188,6 @@ export async function _createOrUpdateDeserialize(
 
   return datasetVersionUnionDeserializer(result.body);
 }
-
 /** Create a new or update an existing DatasetVersion with the given version id */
 export async function createOrUpdate(
   context: Client,
@@ -215,7 +228,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
 export async function $delete(
   context: Client,
@@ -261,7 +273,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Da
 
   return datasetVersionUnionDeserializer(result.body);
 }
-
 /** Get the specific version of the DatasetVersion. The service returns 404 Not Found error if the DatasetVersion does not exist. */
 export async function get(
   context: Client,
@@ -305,7 +316,6 @@ export async function _listDeserialize(
 
   return _pagedDatasetVersionDeserializer(result.body);
 }
-
 /** List the latest version of each DatasetVersion */
 export function list(
   context: Client,
@@ -354,7 +364,6 @@ export async function _listVersionsDeserialize(
 
   return _pagedDatasetVersionDeserializer(result.body);
 }
-
 /** List all versions of the given DatasetVersion */
 export function listVersions(
   context: Client,

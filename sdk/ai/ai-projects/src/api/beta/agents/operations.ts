@@ -70,8 +70,15 @@ export async function _deleteOptimizationJobDeserialize(
 
   return;
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/beta/agents/operations.ts
+/** Deletes the job and its candidate artifacts, canceling the job first if it is non-terminal. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
+
+/** Deletes the job and its candidate artifacts, canceling the job first if it is non-terminal. */
+=======
 
 /** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 export async function deleteOptimizationJob(
   context: Client,
   jobId: string,
@@ -121,8 +128,15 @@ export async function _cancelOptimizationJobDeserialize(
 
   return optimizationJobDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/beta/agents/operations.ts
+/** Requests cancellation of a running or queued job and returns an error if the job is already in a terminal state. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
+
+/** Requests cancellation of a running or queued job and returns an error if the job is already in a terminal state. */
+=======
 
 /** Request cancellation of a running or queued job. Returns an error if the job is already in a terminal state. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 export async function cancelOptimizationJob(
   context: Client,
   jobId: string,
@@ -176,8 +190,15 @@ export async function _listOptimizationJobsDeserialize(
 
   return _agentsPagedResultOptimizationJobListItemDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/beta/agents/operations.ts
+/** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
+
+/** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
+=======
 
 /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 export function listOptimizationJobs(
   context: Client,
   options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
@@ -231,8 +252,15 @@ export async function _getOptimizationJobDeserialize(
 
   return optimizationJobDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/beta/agents/operations.ts
+/** Retrieves an optimization job by its identifier. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
+
+/** Retrieves an optimization job by its identifier. */
+=======
 
 /** Get an optimization job by id. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 export async function getOptimizationJob(
   context: Client,
   jobId: string,
@@ -292,8 +320,15 @@ export async function _createOptimizationJobDeserialize(
 
   return optimizationJobResultDeserializer(result.body.result);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/beta/agents/operations.ts
+/** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
+
+/** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
+=======
 
 /** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 export function createOptimizationJob(
   context: Client,
   job: OptimizationJob,

@@ -47,7 +47,6 @@ export interface BetaSchedulesOperations {
   /** Delete a schedule. */
   delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
 }
-
 function _getBetaSchedules(context: AIProjectContext) {
   return {
     listRuns: (scheduleId: string, options?: BetaSchedulesListRunsOptionalParams) =>
@@ -66,7 +65,6 @@ function _getBetaSchedules(context: AIProjectContext) {
       $delete(context, scheduleId, options),
   };
 }
-
 export function _getBetaSchedulesOperations(context: AIProjectContext): BetaSchedulesOperations {
   return {
     ..._getBetaSchedules(context),

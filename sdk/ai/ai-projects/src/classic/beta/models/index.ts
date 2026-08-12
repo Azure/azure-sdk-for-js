@@ -84,7 +84,6 @@ export interface BetaModelsOperations {
     options?: BetaModelsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ModelVersion>;
 }
-
 function _getBetaModels(context: AIProjectContext) {
   return {
     getCredentials: (
@@ -120,7 +119,6 @@ function _getBetaModels(context: AIProjectContext) {
       listVersions(context, name, options),
   };
 }
-
 export function _getBetaModelsOperations(context: AIProjectContext): BetaModelsOperations {
   return {
     ..._getBetaModels(context),

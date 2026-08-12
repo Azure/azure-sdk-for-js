@@ -51,7 +51,6 @@ export interface BetaAgentsOperations {
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
   ) => PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
 }
-
 function _getBetaAgents(context: AIProjectContext) {
   return {
     deleteOptimizationJob: (
@@ -72,7 +71,6 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => createOptimizationJob(context, job, options),
   };
 }
-
 export function _getBetaAgentsOperations(context: AIProjectContext): BetaAgentsOperations {
   return {
     ..._getBetaAgents(context),

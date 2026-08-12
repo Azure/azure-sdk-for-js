@@ -86,11 +86,18 @@ export interface DatasetsOperations {
     options?: DatasetUploadOptions,
   ) => Promise<DatasetVersionUnion>;
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/classic/datasets/index.ts
+function _getDatasets(context: AIProjectContext) {
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/classic/datasets/index.ts
+
+function _getDatasets(context: AIProjectContext) {
+=======
 
 function _getDatasets(
   context: AIProjectContext,
   projectOptions: AIProjectClientOptionalParams = {},
 ) {
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/classic/datasets/index.ts
   return {
     getCredentials: (
       name: string,
@@ -126,11 +133,18 @@ function _getDatasets(
     ) => uploadFolder(context, name, version, folderPath, { ...options, projectOptions }),
   };
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/classic/datasets/index.ts
+export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/classic/datasets/index.ts
+
+export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
+=======
 
 export function _getDatasetsOperations(
   context: AIProjectContext,
   projectOptions: AIProjectClientOptionalParams = {},
 ): DatasetsOperations {
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/classic/datasets/index.ts
   return {
     ..._getDatasets(context, projectOptions),
   };

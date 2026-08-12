@@ -51,8 +51,15 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedConnectionDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/connections/operations.ts
+/** Returns the connections available in the current project, optionally filtered by type or default status. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/connections/operations.ts
+
+/** Returns the connections available in the current project, optionally filtered by type or default status. */
+=======
 
 /** List all connections in the project, without populating connection credentials */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/connections/operations.ts
 export function list(
   context: Client,
   options: ConnectionsListOptionalParams = { requestOptions: {} },
@@ -103,8 +110,15 @@ export async function _getWithCredentialsDeserialize(
 
   return connectionDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/connections/operations.ts
+/** Retrieves the specified connection together with its credential values. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/connections/operations.ts
+
+/** Retrieves the specified connection together with its credential values. */
+=======
 
 /** Get a connection by name, with its connection credentials */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/connections/operations.ts
 export async function getWithCredentials(
   context: Client,
   name: string,
@@ -149,8 +163,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return connectionDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/connections/operations.ts
+/** Retrieves the specified connection and its configuration details without including credential values. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/connections/operations.ts
+
+/** Retrieves the specified connection and its configuration details without including credential values. */
+=======
 
 /** Get a connection by name, without populating connection credentials */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/connections/operations.ts
 export async function get(
   context: Client,
   name: string,

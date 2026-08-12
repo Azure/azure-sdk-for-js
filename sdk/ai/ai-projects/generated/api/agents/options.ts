@@ -17,7 +17,6 @@ export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions 
   /** Whether to recursively delete directory contents. The service defaults to `false` if a value is not specified by the caller. */
   recursive?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
   /** The directory path to list, relative to the session home directory. Defaults to the home directory if not provided. */
@@ -45,16 +44,12 @@ export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsListSessionsOptionalParams extends OperationOptions {
   /**
@@ -80,28 +75,21 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsStopSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsDeleteSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsGetSessionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsCreateSessionOptionalParams extends OperationOptions {
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
   agentSessionId?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDisableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsEnableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions {
   /**
@@ -110,10 +98,8 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
    */
   agentVersion?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
   /** The endpoint configuration for the agent */
@@ -121,7 +107,6 @@ export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
-
 /** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
@@ -151,16 +136,13 @@ export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /** (Preview) Whether to include draft versions in the listing. The service defaults to `false` if a value is not specified by the caller (only non-draft versions are returned). */
   includeDrafts?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
   /** For Hosted Agents, if `true`, force-deletes the version even if it has active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsGetVersionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
   /**
@@ -175,7 +157,6 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -196,7 +177,6 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   /** (Preview) Whether this agent version is a draft (candidate) rather than a release. The service defaults to `false` if a value is not specified by the caller. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. */
   draft?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsListOptionalParams extends OperationOptions {
   /** Filter agents by kind. If not provided, all agents are returned. */
@@ -224,13 +204,11 @@ export interface AgentsListOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsDeleteOptionalParams extends OperationOptions {
   /** For Hosted Agents, if `true`, force-deletes the agent even if its versions have active sessions, cascading deletion to all associated sessions. The service defaults to `false` if a value is not specified by the caller. This value is not relevant for other Agent types. */
   force?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
   /**
@@ -245,7 +223,6 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
   /**
@@ -260,7 +237,6 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
   /** A human-readable description of the agent. */
   description?: string;
 }
-
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -279,7 +255,6 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
 }
-
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -306,6 +281,5 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** Optional agent card for the agent */
   agentCard?: AgentCard;
 }
-
 /** Optional parameters. */
 export interface AgentsGetOptionalParams extends OperationOptions {}

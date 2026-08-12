@@ -1,19 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/*
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
+/**
+=======
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+=======
 /* eslint-disable tsdoc/syntax */
 
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
@@ -47,8 +65,15 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    state_source: item["state_source"],
+    versions: _agentObjectVersionsDeserializer(item["versions"]),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    versions: _agentObjectVersionsDeserializer(item["versions"]),
+=======
     state_source: item["state_source"],
     versions: _agentVersionsDeserializer(item["versions"]),
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
       : agentEndpointConfigDeserializer(item["agent_endpoint"]),
@@ -428,11 +453,727 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "mcp":
       return mcpToolSerializer(item as MCPTool);
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/** Authentication configuration for a telemetry endpoint. */
+export interface TelemetryEndpointAuth {
+  /** The authentication type. */
+  /** The discriminator possible values: header */
+  type: TelemetryEndpointAuthType;
+}
+
+export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
+  return { type: item["type"] };
+}
+
+export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TelemetryEndpointAuthUnion */
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+export function telemetryEndpointAuthUnionSerializer(item: TelemetryEndpointAuthUnion): any {
+  switch (item.type) {
+    case "header":
+      return headerTelemetryEndpointAuthSerializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthSerializer(item);
+  }
+}
+
+export function telemetryEndpointAuthUnionDeserializer(item: any): TelemetryEndpointAuthUnion {
+  switch (item["type"]) {
+    case "header":
+      return headerTelemetryEndpointAuthDeserializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthDeserializer(item);
+  }
+}
+
+/** The type of authentication for a telemetry endpoint. */
+export type TelemetryEndpointAuthType = "header";
+
+/** Header-based secret authentication for a telemetry endpoint. The resolved secret value is injected as an HTTP header. */
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+  /** The authentication type, always 'header' for header-based secret authentication. */
+  type: "header";
+  /** The name of the HTTP header to inject the secret value into. */
+  header_name: string;
+  /** The identifier of the secret store or connection. */
+  secret_id: string;
+  /** The key within the secret to retrieve the authentication value. */
+  secret_key: string;
+}
+
+export function headerTelemetryEndpointAuthSerializer(item: HeaderTelemetryEndpointAuth): any {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTelemetryEndpointAuth {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+/** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+  /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
+  kind: "OTLP";
+  /** The OTLP collector endpoint URL. */
+  endpoint: string;
+  /** The transport protocol for the OTLP endpoint. */
+  protocol: TelemetryTransportProtocol;
+}
+
+export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+/** The transport protocol for telemetry export. */
+export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+/** The prompt agent definition */
+export interface PromptAgentDefinition extends AgentDefinition {
+  kind: "prompt";
+  /** The model deployment to use for this agent. */
+  model: string;
+  /** A system (or developer) message inserted into the model's context. */
+  instructions?: string;
+  /**
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature, called nucleus sampling,
+   * where the model considers the results of the tokens with top_p probability
+   * mass. So 0.1 means only the tokens comprising the top 10% probability mass
+   * are considered. We generally recommend altering this or `temperature` but not both.
+   * Defaults to `1`.
+   */
+  top_p?: number;
+  reasoning?: Reasoning;
+  /**
+   * An array of tools the model may call while generating a response. You
+   * can specify which tool to use by setting the `tool_choice` parameter.
+   */
+  tools?: ToolUnion[];
+  /**
+   * How the model should select which tool (or tools) to use when generating a response.
+   * See the `tools` parameter to see how to specify which tools the model can call.
+   */
+  tool_choice?: string | ToolChoiceParamUnion;
+  /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+  text?: PromptAgentDefinitionTextOptions;
+  /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+}
+
+export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceSerializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsSerializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+  };
+}
+
+export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceDeserializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsDeserializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+  };
+}
+
+/**
+ * **gpt-5 and o-series models only**
+ * Configuration options for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ */
+export interface Reasoning {
+  /**
+   * Controls the reasoning execution mode for the request.
+   *   When returned on a response, this is the effective execution mode.
+   */
+  mode?: ReasoningModeEnum;
+  effort?: ReasoningEffort;
+  summary?: "auto" | "concise" | "detailed";
+  context?: "auto" | "current_turn" | "all_turns";
+  generate_summary?: "auto" | "concise" | "detailed";
+}
+
+export function reasoningSerializer(item: Reasoning): any {
+  return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumSerializer(item["mode"]),
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+export function reasoningDeserializer(item: any): Reasoning {
+  return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumDeserializer(item["mode"]),
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+/** Alias for ReasoningModeEnum */
+export type ReasoningModeEnum = string | "standard" | "pro";
+
+export function reasoningModeEnumSerializer(item: ReasoningModeEnum): any {
+  return item;
+}
+
+export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
+  return item;
+}
+
+/**
+ * Constrains effort on reasoning for reasoning models. Currently supported
+ * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
+ * Reducing reasoning effort can result in faster responses and fewer tokens
+ * used on reasoning in a response. Not all reasoning models support every
+ * value. See the
+ * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+ * for model-specific support.
+ */
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
+
+export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionSerializer(item);
+  });
+}
+
+export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionDeserializer(item);
+  });
+}
+
+/** A tool that can be used to generate a response. */
+export interface Tool {
+  type: ToolType;
+}
+
+export function toolSerializer(item: Tool): any {
+  return { type: item["type"] };
+}
+
+export function toolDeserializer(item: any): Tool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolUnion */
+export type ToolUnion =
+  | BingGroundingTool
+  | MicrosoftFabricPreviewTool
+  | SharepointPreviewTool
+  | AzureAISearchTool
+  | OpenApiTool
+  | BingCustomSearchPreviewTool
+  | BrowserAutomationPreviewTool
+  | AzureFunctionTool
+  | CaptureStructuredOutputsTool
+  | A2APreviewTool
+  | WorkIQPreviewTool
+  | FabricIQPreviewTool
+  | MemorySearchPreviewTool
+  | CodeInterpreterTool
+  | FileSearchTool
+  | WebSearchTool
+  | MCPTool
+  | FunctionTool
+  | ComputerUsePreviewTool
+  | ProgrammaticToolCallingParam
+  | ImageGenTool
+  | LocalShellToolParam
+  | FunctionShellToolParam
+  | CustomToolParam
+  | WebSearchPreviewTool
+  | ApplyPatchToolParam
+  | ComputerTool
+  | NamespaceToolParam
+  | ToolSearchToolParam
+  | Tool;
+
+export function toolUnionSerializer(item: ToolUnion): any {
+  switch (item.type) {
+    case "bing_grounding":
+      return bingGroundingToolSerializer(item as BingGroundingTool);
+
+    case "fabric_dataagent_preview":
+      return microsoftFabricPreviewToolSerializer(item as MicrosoftFabricPreviewTool);
+
+    case "sharepoint_grounding_preview":
+      return sharepointPreviewToolSerializer(item as SharepointPreviewTool);
+
+    case "azure_ai_search":
+      return azureAISearchToolSerializer(item as AzureAISearchTool);
+
+    case "openapi":
+      return openApiToolSerializer(item as OpenApiTool);
+
+    case "bing_custom_search_preview":
+      return bingCustomSearchPreviewToolSerializer(item as BingCustomSearchPreviewTool);
+
+    case "browser_automation_preview":
+      return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "azure_function":
+      return azureFunctionToolSerializer(item as AzureFunctionTool);
+
+    case "capture_structured_outputs":
+      return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
+
+    case "a2a_preview":
+      return a2APreviewToolSerializer(item as A2APreviewTool);
+
+    case "work_iq_preview":
+      return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
+
+    case "memory_search_preview":
+      return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "code_interpreter":
+      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
+
+    case "file_search":
+      return fileSearchToolSerializer(item as FileSearchTool);
+
+    case "web_search":
+      return webSearchToolSerializer(item as WebSearchTool);
+
+    case "mcp":
+      return mcpToolSerializer(item as MCPTool);
+
     case "function":
       return functionToolSerializer(item as FunctionTool);
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Authentication configuration for a telemetry endpoint. */
+export interface TelemetryEndpointAuth {
+  /** The authentication type. */
+  /** The discriminator possible values: header */
+  type: TelemetryEndpointAuthType;
+}
+
+export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
+  return { type: item["type"] };
+}
+
+export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TelemetryEndpointAuthUnion */
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+export function telemetryEndpointAuthUnionSerializer(item: TelemetryEndpointAuthUnion): any {
+  switch (item.type) {
+    case "header":
+      return headerTelemetryEndpointAuthSerializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthSerializer(item);
+  }
+}
+
+export function telemetryEndpointAuthUnionDeserializer(item: any): TelemetryEndpointAuthUnion {
+  switch (item["type"]) {
+    case "header":
+      return headerTelemetryEndpointAuthDeserializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthDeserializer(item);
+  }
+}
+
+/** The type of authentication for a telemetry endpoint. */
+export type TelemetryEndpointAuthType = "header";
+
+/** Header-based secret authentication for a telemetry endpoint. The resolved secret value is injected as an HTTP header. */
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+  /** The authentication type, always 'header' for header-based secret authentication. */
+  type: "header";
+  /** The name of the HTTP header to inject the secret value into. */
+  header_name: string;
+  /** The identifier of the secret store or connection. */
+  secret_id: string;
+  /** The key within the secret to retrieve the authentication value. */
+  secret_key: string;
+}
+
+export function headerTelemetryEndpointAuthSerializer(item: HeaderTelemetryEndpointAuth): any {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTelemetryEndpointAuth {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+/** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+  /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
+  kind: "OTLP";
+  /** The OTLP collector endpoint URL. */
+  endpoint: string;
+  /** The transport protocol for the OTLP endpoint. */
+  protocol: TelemetryTransportProtocol;
+}
+
+export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+/** The transport protocol for telemetry export. */
+export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+/** The prompt agent definition */
+export interface PromptAgentDefinition extends AgentDefinition {
+  kind: "prompt";
+  /** The model deployment to use for this agent. */
+  model: string;
+  /** A system (or developer) message inserted into the model's context. */
+  instructions?: string;
+  /**
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature, called nucleus sampling,
+   * where the model considers the results of the tokens with top_p probability
+   * mass. So 0.1 means only the tokens comprising the top 10% probability mass
+   * are considered. We generally recommend altering this or `temperature` but not both.
+   * Defaults to `1`.
+   */
+  top_p?: number;
+  reasoning?: Reasoning;
+  /**
+   * An array of tools the model may call while generating a response. You
+   * can specify which tool to use by setting the `tool_choice` parameter.
+   */
+  tools?: ToolUnion[];
+  /**
+   * How the model should select which tool (or tools) to use when generating a response.
+   * See the `tools` parameter to see how to specify which tools the model can call.
+   */
+  tool_choice?: string | ToolChoiceParamUnion;
+  /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+  text?: PromptAgentDefinitionTextOptions;
+  /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+}
+
+export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceSerializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsSerializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+  };
+}
+
+export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceDeserializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsDeserializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+  };
+}
+
+/**
+ * **gpt-5 and o-series models only**
+ * Configuration options for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ */
+export interface Reasoning {
+  effort?: ReasoningEffort;
+  summary?: "auto" | "concise" | "detailed";
+  context?: "auto" | "current_turn" | "all_turns";
+  generate_summary?: "auto" | "concise" | "detailed";
+}
+
+export function reasoningSerializer(item: Reasoning): any {
+  return {
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+export function reasoningDeserializer(item: any): Reasoning {
+  return {
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+/**
+ * Constrains effort on reasoning for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ * Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
+ * reasoning effort can result in faster responses and fewer tokens used
+ * on reasoning in a response.
+ * - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
+ * - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
+ * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+ * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+ */
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+
+export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionSerializer(item);
+  });
+}
+
+export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionDeserializer(item);
+  });
+}
+
+/** A tool that can be used to generate a response. */
+export interface Tool {
+  type: ToolType;
+}
+
+export function toolSerializer(item: Tool): any {
+  return { type: item["type"] };
+}
+
+export function toolDeserializer(item: any): Tool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolUnion */
+export type ToolUnion =
+  | BingGroundingTool
+  | MicrosoftFabricPreviewTool
+  | SharepointPreviewTool
+  | AzureAISearchTool
+  | OpenApiTool
+  | BingCustomSearchPreviewTool
+  | BrowserAutomationPreviewTool
+  | AzureFunctionTool
+  | CaptureStructuredOutputsTool
+  | A2APreviewTool
+  | WorkIQPreviewTool
+  | FabricIQPreviewTool
+  | MemorySearchPreviewTool
+  | CodeInterpreterTool
+  | FileSearchTool
+  | WebSearchTool
+  | MCPTool
+  | FunctionTool
+  | ComputerUsePreviewTool
+  | ImageGenTool
+  | LocalShellToolParam
+  | FunctionShellToolParam
+  | CustomToolParam
+  | WebSearchPreviewTool
+  | ApplyPatchToolParam
+  | ComputerTool
+  | NamespaceToolParam
+  | ToolSearchToolParam
+  | Tool;
+
+export function toolUnionSerializer(item: ToolUnion): any {
+  switch (item.type) {
+    case "bing_grounding":
+      return bingGroundingToolSerializer(item as BingGroundingTool);
+
+    case "fabric_dataagent_preview":
+      return microsoftFabricPreviewToolSerializer(item as MicrosoftFabricPreviewTool);
+
+    case "sharepoint_grounding_preview":
+      return sharepointPreviewToolSerializer(item as SharepointPreviewTool);
+
+    case "azure_ai_search":
+      return azureAISearchToolSerializer(item as AzureAISearchTool);
+
+    case "openapi":
+      return openApiToolSerializer(item as OpenApiTool);
+
+    case "bing_custom_search_preview":
+      return bingCustomSearchPreviewToolSerializer(item as BingCustomSearchPreviewTool);
+
+    case "browser_automation_preview":
+      return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "azure_function":
+      return azureFunctionToolSerializer(item as AzureFunctionTool);
+
+    case "capture_structured_outputs":
+      return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
+
+    case "a2a_preview":
+      return a2APreviewToolSerializer(item as A2APreviewTool);
+
+    case "work_iq_preview":
+      return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
+
+    case "memory_search_preview":
+      return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "code_interpreter":
+      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
+
+    case "file_search":
+      return fileSearchToolSerializer(item as FileSearchTool);
+
+    case "web_search":
+      return webSearchToolSerializer(item as WebSearchTool);
+
+    case "mcp":
+      return mcpToolSerializer(item as MCPTool);
+
+    case "function":
+      return functionToolSerializer(item as FunctionTool);
+=======
+    case "function":
+      return functionToolSerializer(item as FunctionTool);
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 
     case "computer_use_preview":
       return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
+
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
       return imageGenToolSerializer(item as ImageGenTool);
@@ -525,6 +1266,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "computer_use_preview":
       return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
 
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
+
     case "image_generation":
       return imageGenToolDeserializer(item as ImageGenTool);
 
@@ -566,6 +1310,7 @@ export type ToolType =
   | "web_search"
   | "mcp"
   | "code_interpreter"
+  | "programmatic_tool_calling"
   | "image_generation"
   | "local_shell"
   | "shell"
@@ -1884,6 +2629,7 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1902,6 +2648,11 @@ export interface CodeInterpreterTool extends Tool {
 export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1916,6 +2667,11 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
 export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1927,6 +2683,8 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
   };
 }
 
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
 /** Alias for _CodeInterpreterToolContainer */
 export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
 
@@ -2882,6 +3640,124 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
   };
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ */
+export interface MCPTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ */
+export interface MCPTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+=======
 /** A tool that allows the model to execute shell commands. */
 export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
@@ -2892,6 +3768,7 @@ export interface FunctionShellToolParam extends Tool {
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   description?: string;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   tool_configs?: Record<string, ToolConfig>;
 }
@@ -2899,11 +3776,50 @@ export interface FunctionShellToolParam extends Tool {
 export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
   return {
     type: item["type"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+=======
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
@@ -2913,11 +3829,58 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
 export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
   return {
     type: item["type"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+=======
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
@@ -2995,6 +3958,33 @@ export function functionShellToolParamEnvironmentUnionDeserializer(
   }
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+export interface FunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  description?: string;
+  parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+export interface FunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  description?: string;
+  parameters: Record<string, any> | null;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+=======
 /** Type of FunctionShellToolParamEnvironmentType */
 export type FunctionShellToolParamEnvironmentType =
   "container_auto" | "local" | "container_reference";
@@ -3045,6 +4035,7 @@ export interface LocalSkillParam {
   description: string;
   /** The path to the directory containing the skill. */
   path: string;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function localSkillParamSerializer(item: LocalSkillParam): any {
@@ -3055,7 +4046,23 @@ export function localSkillParamDeserializer(item: any): LocalSkillParam {
   return {
     name: item["name"],
     description: item["description"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    parameters: item["parameters"],
+    output_schema: item["output_schema"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    parameters: item["parameters"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+=======
     path: item["path"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3078,7 +4085,39 @@ export function functionShellToolParamEnvironmentContainerReferenceParamDeserial
 ): FunctionShellToolParamEnvironmentContainerReferenceParam {
   return {
     type: item["type"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+=======
     container_id: item["container_id"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3126,10 +4165,114 @@ export function containerSkillUnionArraySerializer(result: Array<ContainerSkillU
   });
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/** model interface ProgrammaticToolCallingParam */
+export interface ProgrammaticToolCallingParam extends Tool {
+  /** The type of the tool. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+  return { type: item["type"] };
+}
+
+export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A tool that generates images using the GPT image models. */
+export interface ImageGenTool extends Tool {
+  /** The type of the image generation tool. Always `image_generation`. */
+  type: "image_generation";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+  /**
+   * The quality of the generated image. One of `low`, `medium`, `high`,
+   *   or `auto`. Default: `auto`.
+   */
+  quality?: "low" | "medium" | "high" | "auto";
+  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+  /**
+   * The output format of the generated image. One of `png`, `webp`, or
+   *   `jpeg`. Default: `png`.
+   */
+  output_format?: "png" | "webp" | "jpeg";
+  /** Compression level for the output image. Default: 100. */
+  output_compression?: number;
+  /** Moderation level for the generated image. Default: `auto`. */
+  moderation?: "auto" | "low";
+  /**
+   * Background type for the generated image. One of `transparent`,
+   *   `opaque`, or `auto`. Default: `auto`.
+   */
+  background?: "transparent" | "opaque" | "auto";
+  input_fidelity?: InputFidelity;
+  /**
+   * Optional mask for inpainting. Contains `image_url`
+   *   (string, optional) and `file_id` (string, optional).
+   */
+  input_image_mask?: ImageGenToolInputImageMask;
+  /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
+  partial_images?: number;
+  /** Whether to generate a new image or edit an existing image. Default: `auto`. */
+  action?: ImageGenAction;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A tool that generates images using the GPT image models. */
+export interface ImageGenTool extends Tool {
+  /** The type of the image generation tool. Always `image_generation`. */
+  type: "image_generation";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+  /**
+   * The quality of the generated image. One of `low`, `medium`, `high`,
+   *   or `auto`. Default: `auto`.
+   */
+  quality?: "low" | "medium" | "high" | "auto";
+  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+  /**
+   * The output format of the generated image. One of `png`, `webp`, or
+   *   `jpeg`. Default: `png`.
+   */
+  output_format?: "png" | "webp" | "jpeg";
+  /** Compression level for the output image. Default: 100. */
+  output_compression?: number;
+  /** Moderation level for the generated image. Default: `auto`. */
+  moderation?: "auto" | "low";
+  /**
+   * Background type for the generated image. One of `transparent`,
+   *   `opaque`, or `auto`. Default: `auto`.
+   */
+  background?: "transparent" | "opaque" | "auto";
+  input_fidelity?: InputFidelity;
+  /**
+   * Optional mask for inpainting. Contains `image_url`
+   *   (string, optional) and `file_id` (string, optional).
+   */
+  input_image_mask?: ImageGenToolInputImageMask;
+  /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
+  partial_images?: number;
+  /** Whether to generate a new image or edit an existing image. Default: `auto`. */
+  action?: ImageGenAction;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+=======
 export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkillUnion>): any[] {
   return result.map((item) => {
     return containerSkillUnionDeserializer(item);
   });
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 /** model interface ContainerSkill */
@@ -3232,6 +4375,26 @@ export function inlineSkillParamDeserializer(item: any): InlineSkillParam {
   };
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/** A tool that allows the model to execute shell commands. */
+export interface FunctionShellToolParam extends Tool {
+  /** The type of the shell tool. Always `shell`. */
+  type: "shell";
+  environment?: FunctionShellToolParamEnvironmentUnion;
+  allowed_callers?: CallableToolAllowedCaller[];
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A tool that allows the model to execute shell commands. */
+export interface FunctionShellToolParam extends Tool {
+  /** The type of the shell tool. Always `shell`. */
+  type: "shell";
+  environment?: FunctionShellToolParamEnvironmentUnion;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+=======
 /** Inline skill payload */
 export interface InlineSkillSourceParam {
   /** The type of the inline skill source. Must be `base64`. */
@@ -3261,6 +4424,7 @@ export interface CustomToolParam extends Tool {
   /** The name of the custom tool, used to identify it in tool calls. */
   name: string;
   /** Optional description of the custom tool, used to provide more context. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   description?: string;
   /** The input format for the custom tool. Default is unconstrained text. */
   format?: CustomToolParamFormatUnion;
@@ -3271,6 +4435,21 @@ export interface CustomToolParam extends Tool {
 export function customToolParamSerializer(item: CustomToolParam): any {
   return {
     type: item["type"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+=======
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
     name: item["name"],
     description: item["description"],
     format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
@@ -3281,6 +4460,21 @@ export function customToolParamSerializer(item: CustomToolParam): any {
 export function customToolParamDeserializer(item: any): CustomToolParam {
   return {
     type: item["type"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+=======
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
     name: item["name"],
     description: item["description"],
     format: !item["format"]
@@ -3558,6 +4752,7 @@ export interface FunctionToolParam {
   type: "function";
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolParamSerializer(item: FunctionToolParam): any {
@@ -3612,9 +4807,22 @@ export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
     type: item["type"],
     execution: item["execution"],
     description: item["description"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+=======
     parameters: !item["parameters"]
       ? item["parameters"]
       : emptyModelParamSerializer(item["parameters"]),
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3623,9 +4831,26 @@ export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam 
     type: item["type"],
     execution: item["execution"],
     description: item["description"],
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+=======
     parameters: !item["parameters"]
       ? item["parameters"]
       : emptyModelParamDeserializer(item["parameters"]),
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3817,20 +5042,53 @@ export type TelemetryEndpointKind = "OTLP";
 /** The type of telemetry data to export. */
 export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+/** Allows the assistant to create, delete, or update files using unified diffs. */
+export interface ApplyPatchToolParam extends Tool {
+  /** The type of the tool. Always `apply_patch`. */
+  type: "apply_patch";
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Allows the assistant to create, delete, or update files using unified diffs. */
+export interface ApplyPatchToolParam extends Tool {
+  /** The type of the tool. Always `apply_patch`. */
+  type: "apply_patch";
+=======
 /** Authentication configuration for a telemetry endpoint. */
 export interface TelemetryEndpointAuth {
   /** The authentication type. */
   /** The discriminator possible values: header */
   type: TelemetryEndpointAuthType;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+  return {
+    type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+  return { type: item["type"] };
+=======
 export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
   return { type: item["type"] };
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3890,6 +5148,83 @@ export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTeleme
   };
 }
 
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+export function _namespaceToolParamToolArraySerializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolSerializer(item);
+  });
+}
+
+export function _namespaceToolParamToolArrayDeserializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _NamespaceToolParamTool */
+export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
+
+export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
+  return item;
+}
+
+export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
+  return item;
+}
+
+/** model interface FunctionToolParam */
+export interface FunctionToolParam {
+  name: string;
+  description?: string;
+  parameters?: EmptyModelParam;
+  strict?: boolean;
+  type: "function";
+  output_schema?: Record<string, any>;
+  /** Whether this function should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+export function _namespaceToolParamToolArraySerializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolSerializer(item);
+  });
+}
+
+export function _namespaceToolParamToolArrayDeserializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _NamespaceToolParamTool */
+export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
+
+export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
+  return item;
+}
+
+export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
+  return item;
+}
+
+/** model interface FunctionToolParam */
+export interface FunctionToolParam {
+  name: string;
+  description?: string;
+  parameters?: EmptyModelParam;
+  strict?: boolean;
+  type: "function";
+  /** Whether this function should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+=======
 /** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
 export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
@@ -3898,10 +5233,36 @@ export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   endpoint: string;
   /** The transport protocol for the OTLP endpoint. */
   protocol: TelemetryTransportProtocol;
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
   return {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    output_schema: item["output_schema"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -3909,11 +5270,41 @@ export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): an
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
 export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
   return {
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -3921,6 +5312,7 @@ export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpo
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -4088,6 +5480,7 @@ export type ToolChoiceParamUnion =
   | ToolChoiceFunction
   | ToolChoiceMCP
   | ToolChoiceCustom
+  | SpecificProgrammaticToolCallingParam
   | SpecificApplyPatchParam
   | SpecificFunctionShellParam
   | ToolChoiceFileSearch
@@ -4113,6 +5506,11 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 
     case "custom":
       return toolChoiceCustomSerializer(item as ToolChoiceCustom);
+
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamSerializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
 
     case "apply_patch":
       return specificApplyPatchParamSerializer(item as SpecificApplyPatchParam);
@@ -4165,6 +5563,11 @@ export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnio
     case "custom":
       return toolChoiceCustomDeserializer(item as ToolChoiceCustom);
 
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamDeserializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
+
     case "apply_patch":
       return specificApplyPatchParamDeserializer(item as SpecificApplyPatchParam);
 
@@ -4208,6 +5611,7 @@ export type ToolChoiceParamType =
   | "function"
   | "mcp"
   | "custom"
+  | "programmatic_tool_calling"
   | "apply_patch"
   | "shell"
   | "file_search"
@@ -4318,6 +5722,26 @@ export function toolChoiceCustomDeserializer(item: any): ToolChoiceCustom {
   return {
     type: item["type"],
     name: item["name"],
+  };
+}
+
+/** model interface SpecificProgrammaticToolCallingParam */
+export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
+  /** The tool to call. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function specificProgrammaticToolCallingParamSerializer(
+  item: SpecificProgrammaticToolCallingParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function specificProgrammaticToolCallingParamDeserializer(
+  item: any,
+): SpecificProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
   };
 }
 
@@ -7058,6 +8482,7 @@ export type ToolboxToolType =
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -7075,6 +8500,11 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -7089,6 +8519,11 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -7249,6 +8684,7 @@ export interface MCPToolboxTool extends ToolboxTool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -7274,6 +8710,11 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -7304,6 +8745,11 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -10248,6 +11694,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 export interface ResponseUsageInputTokensDetails {
   /** The number of cached input tokens used. */
   cached_tokens: number;
+  cache_write_tokens: number;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -10255,6 +11702,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 ): ResponseUsageInputTokensDetails {
   return {
     cached_tokens: item["cached_tokens"],
+    cache_write_tokens: item["cache_write_tokens"],
   };
 }
 
@@ -13483,7 +14931,10 @@ export type AgentType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
-  "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
+  | "WorkflowAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
+  | "DraftAgents=V1Preview"
+  | "VoiceAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */

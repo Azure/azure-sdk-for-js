@@ -13,13 +13,11 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ConnectionsGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

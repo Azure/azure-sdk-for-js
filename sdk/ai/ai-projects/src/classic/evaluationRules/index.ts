@@ -27,7 +27,6 @@ export interface EvaluationRulesOperations {
   /** Get an evaluation rule. */
   get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
 }
-
 function _getEvaluationRules(context: AIProjectContext) {
   return {
     list: (options?: EvaluationRulesListOptionalParams) => list(context, options),
@@ -41,7 +40,6 @@ function _getEvaluationRules(context: AIProjectContext) {
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => get(context, id, options),
   };
 }
-
 export function _getEvaluationRulesOperations(
   context: AIProjectContext,
 ): EvaluationRulesOperations {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
-import { NodeReadableStream } from "../static-helpers/platform-types.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
@@ -21,6 +21,8 @@ export interface Agent {
   name: string;
   /** The operational state of the agent. Controls whether the agent endpoint accepts or rejects requests. */
   readonly state: AgentState;
+  /** The source of the agent's operational state. When the agent is disabled, indicates where the disabled state originates from. Empty when not derived from a specific source. */
+  readonly state_source?: AgentStateSource;
   /** The latest version of the agent. */
   versions: {
     latest: AgentVersion;
@@ -42,6 +44,7 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+    state_source: item["state_source"],
     versions: _agentObjectVersionsDeserializer(item["versions"]),
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
@@ -63,6 +66,8 @@ export function agentDeserializer(item: any): Agent {
 
 /** The operational state of an agent. */
 export type AgentState = "enabled" | "disabled";
+/** Indicates the source of an agent's operational state. Empty when the state is not derived from a specific source. */
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
 /** model interface _AgentObjectVersions */
 export interface _AgentObjectVersions {
@@ -679,6 +684,11 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
+  /**
+   * Controls the reasoning execution mode for the request.
+   *   When returned on a response, this is the effective execution mode.
+   */
+  mode?: ReasoningModeEnum;
   effort?: ReasoningEffort;
   summary?: "auto" | "concise" | "detailed";
   context?: "auto" | "current_turn" | "all_turns";
@@ -687,6 +697,7 @@ export interface Reasoning {
 
 export function reasoningSerializer(item: Reasoning): any {
   return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumSerializer(item["mode"]),
     effort: item["effort"],
     summary: item["summary"],
     context: item["context"],
@@ -696,6 +707,7 @@ export function reasoningSerializer(item: Reasoning): any {
 
 export function reasoningDeserializer(item: any): Reasoning {
   return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumDeserializer(item["mode"]),
     effort: item["effort"],
     summary: item["summary"],
     context: item["context"],
@@ -703,18 +715,27 @@ export function reasoningDeserializer(item: any): Reasoning {
   };
 }
 
+/** Alias for ReasoningModeEnum */
+export type ReasoningModeEnum = string | "standard" | "pro";
+
+export function reasoningModeEnumSerializer(item: ReasoningModeEnum): any {
+  return item;
+}
+
+export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
+  return item;
+}
+
 /**
- * Constrains effort on reasoning for
- * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
- * Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
- * reasoning effort can result in faster responses and fewer tokens used
- * on reasoning in a response.
- * - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
- * - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
- * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
- * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+ * Constrains effort on reasoning for reasoning models. Currently supported
+ * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
+ * Reducing reasoning effort can result in faster responses and fewer tokens
+ * used on reasoning in a response. Not all reasoning models support every
+ * value. See the
+ * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+ * for model-specific support.
  */
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
 export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
   return result.map((item) => {
@@ -764,6 +785,7 @@ export type ToolUnion =
   | MCPTool
   | FunctionTool
   | ComputerUsePreviewTool
+  | ProgrammaticToolCallingParam
   | ImageGenTool
   | LocalShellToolParam
   | FunctionShellToolParam
@@ -833,6 +855,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "computer_use_preview":
       return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
+
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
       return imageGenToolSerializer(item as ImageGenTool);
@@ -925,6 +950,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "computer_use_preview":
       return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
 
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
+
     case "image_generation":
       return imageGenToolDeserializer(item as ImageGenTool);
 
@@ -966,6 +994,7 @@ export type ToolType =
   | "web_search"
   | "mcp"
   | "code_interpreter"
+  | "programmatic_tool_calling"
   | "image_generation"
   | "local_shell"
   | "shell"
@@ -2291,6 +2320,7 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -2309,6 +2339,11 @@ export interface CodeInterpreterTool extends Tool {
 export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -2323,6 +2358,11 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
 export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -2334,6 +2374,8 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
   };
 }
 
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
 /** Alias for _CodeInterpreterToolContainer */
 export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
 
@@ -2986,6 +3028,7 @@ export interface MCPTool extends Tool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -3008,6 +3051,11 @@ export function mcpToolSerializer(item: MCPTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -3036,6 +3084,11 @@ export function mcpToolDeserializer(item: any): MCPTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -3077,9 +3130,11 @@ export interface FunctionTool extends Tool {
   name: string;
   description?: string;
   parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
   strict: boolean | null;
   /** Whether this function is deferred and loaded via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolSerializer(item: FunctionTool): any {
@@ -3088,8 +3143,14 @@ export function functionToolSerializer(item: FunctionTool): any {
     name: item["name"],
     description: item["description"],
     parameters: item["parameters"],
+    output_schema: item["output_schema"],
     strict: item["strict"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3103,8 +3164,18 @@ export function functionToolDeserializer(item: any): FunctionTool {
       : Object.fromEntries(
           Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
         ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     strict: item["strict"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3140,6 +3211,22 @@ export function computerUsePreviewToolDeserializer(item: any): ComputerUsePrevie
 
 /** Type of ComputerEnvironment */
 export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+/** model interface ProgrammaticToolCallingParam */
+export interface ProgrammaticToolCallingParam extends Tool {
+  /** The type of the tool. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+  return { type: item["type"] };
+}
+
+export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
+  };
+}
 
 /** A tool that generates images using the GPT image models. */
 export interface ImageGenTool extends Tool {
@@ -3295,6 +3382,7 @@ export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
   environment?: FunctionShellToolParamEnvironmentUnion;
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -3309,6 +3397,11 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -3323,6 +3416,11 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -3677,6 +3775,7 @@ export interface CustomToolParam extends Tool {
   format?: CustomToolParamFormatUnion;
   /** Whether this tool should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function customToolParamSerializer(item: CustomToolParam): any {
@@ -3686,6 +3785,11 @@ export function customToolParamSerializer(item: CustomToolParam): any {
     description: item["description"],
     format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3698,6 +3802,11 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
       ? item["format"]
       : customToolParamFormatUnionDeserializer(item["format"]),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3869,15 +3978,28 @@ export type SearchContentType = "text" | "image";
 export interface ApplyPatchToolParam extends Tool {
   /** The type of the tool. Always `apply_patch`. */
   type: "apply_patch";
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
-  return { type: item["type"] };
+  return {
+    type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 export function applyPatchToolParamDeserializer(item: any): ApplyPatchToolParam {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3961,8 +4083,10 @@ export interface FunctionToolParam {
   parameters?: EmptyModelParam;
   strict?: boolean;
   type: "function";
+  output_schema?: Record<string, any>;
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolParamSerializer(item: FunctionToolParam): any {
@@ -3974,7 +4098,13 @@ export function functionToolParamSerializer(item: FunctionToolParam): any {
       : emptyModelParamSerializer(item["parameters"]),
     strict: item["strict"],
     type: item["type"],
+    output_schema: item["output_schema"],
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3987,7 +4117,17 @@ export function functionToolParamDeserializer(item: any): FunctionToolParam {
       : emptyModelParamDeserializer(item["parameters"]),
     strict: item["strict"],
     type: item["type"],
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
     defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -4076,6 +4216,7 @@ export type ToolChoiceParamUnion =
   | ToolChoiceFunction
   | ToolChoiceMCP
   | ToolChoiceCustom
+  | SpecificProgrammaticToolCallingParam
   | SpecificApplyPatchParam
   | SpecificFunctionShellParam
   | ToolChoiceFileSearch
@@ -4101,6 +4242,11 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 
     case "custom":
       return toolChoiceCustomSerializer(item as ToolChoiceCustom);
+
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamSerializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
 
     case "apply_patch":
       return specificApplyPatchParamSerializer(item as SpecificApplyPatchParam);
@@ -4153,6 +4299,11 @@ export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnio
     case "custom":
       return toolChoiceCustomDeserializer(item as ToolChoiceCustom);
 
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamDeserializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
+
     case "apply_patch":
       return specificApplyPatchParamDeserializer(item as SpecificApplyPatchParam);
 
@@ -4196,6 +4347,7 @@ export type ToolChoiceParamType =
   | "function"
   | "mcp"
   | "custom"
+  | "programmatic_tool_calling"
   | "apply_patch"
   | "shell"
   | "file_search"
@@ -4308,6 +4460,26 @@ export function toolChoiceCustomDeserializer(item: any): ToolChoiceCustom {
   return {
     type: item["type"],
     name: item["name"],
+  };
+}
+
+/** model interface SpecificProgrammaticToolCallingParam */
+export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
+  /** The tool to call. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function specificProgrammaticToolCallingParamSerializer(
+  item: SpecificProgrammaticToolCallingParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function specificProgrammaticToolCallingParamDeserializer(
+  item: any,
+): SpecificProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
   };
 }
 
@@ -7077,6 +7249,7 @@ export type ToolboxToolType =
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -7094,6 +7267,11 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -7108,6 +7286,11 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -7268,6 +7451,7 @@ export interface MCPToolboxTool extends ToolboxTool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -7293,6 +7477,11 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -7323,6 +7512,11 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -10343,6 +10537,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
   cached_tokens: number;
+  cache_write_tokens: number;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -10350,6 +10545,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 ): ResponseUsageInputTokensDetails {
   return {
     cached_tokens: item["cached_tokens"],
+    cache_write_tokens: item["cache_write_tokens"],
   };
 }
 
@@ -13636,7 +13832,10 @@ export type AgentObjectType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
-  "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
+  | "WorkflowAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
+  | "DraftAgents=V1Preview"
+  | "VoiceAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */

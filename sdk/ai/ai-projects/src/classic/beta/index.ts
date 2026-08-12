@@ -50,7 +50,6 @@ export interface BetaOperations {
   /** Operations for managing agents. */
   agents: BetaAgentsOperations;
 }
-
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
     /** Operations for managing data generation jobs. */

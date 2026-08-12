@@ -316,8 +316,15 @@ export interface AgentsOperations {
   /** Retrieves the agent. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/classic/agents/index.ts
+function _getAgents(context: AIProjectContext) {
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
+
+function _getAgents(context: AIProjectContext) {
+=======
 
 function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingConfig) {
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
   return {
     deleteSessionFile: (
       agentName: string,
@@ -480,11 +487,18 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/classic/agents/index.ts
+export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/classic/agents/index.ts
+
+export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
+=======
 
 export function _getAgentsOperations(
   context: AIProjectContext,
   tracingConfig?: ResolvedTracingConfig,
 ): AgentsOperations {
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/classic/agents/index.ts
   return {
     ..._getAgents(context, tracingConfig),
   };

@@ -87,7 +87,6 @@ export async function _deleteGenerationJobDeserialize(
 
   return;
 }
-
 /**
  * Deletes an evaluator generation job by its ID. Deletes the job record only;
  * the generated evaluator (if any) is preserved.
@@ -141,7 +140,6 @@ export async function _cancelGenerationJobDeserialize(
 
   return evaluatorGenerationJobDeserializer(result.body);
 }
-
 /** Cancels an evaluator generation job by its ID. */
 export async function cancelGenerationJob(
   context: Client,
@@ -194,7 +192,6 @@ export async function _listGenerationJobsDeserialize(
 
   return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
 }
-
 /**
  * Returns a list of evaluator generation jobs. The List API has up to a few
  * seconds of propagation delay, so a recently created job may not appear
@@ -254,7 +251,6 @@ export async function _getGenerationJobDeserialize(
 
   return evaluatorGenerationJobDeserializer(result.body);
 }
-
 /** Gets the details of an evaluator generation job by its ID. */
 export async function getGenerationJob(
   context: Client,
@@ -314,7 +310,6 @@ export async function _createGenerationJobDeserialize(
 
   return evaluatorVersionDeserializer(result.body.result);
 }
-
 /**
  * Creates an evaluator generation job. The service generates rubric-based evaluator
  * definitions from the provided source materials asynchronously.
@@ -383,7 +378,6 @@ export async function _getCredentialsDeserialize(
 
   return datasetCredentialDeserializer(result.body);
 }
-
 /** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
 export async function getCredentials(
   context: Client,
@@ -441,7 +435,6 @@ export async function _pendingUploadDeserialize(
 
   return pendingUploadResponseDeserializer(result.body);
 }
-
 /** Initiates a new pending upload or retrieves an existing one for the specified evaluator version. */
 export async function pendingUpload(
   context: Client,
@@ -495,7 +488,6 @@ export async function _updateVersionDeserialize(
 
   return evaluatorVersionDeserializer(result.body);
 }
-
 /** Updates the specified evaluator version in place. */
 export async function updateVersion(
   context: Client,
@@ -547,7 +539,6 @@ export async function _createVersionDeserialize(
 
   return evaluatorVersionDeserializer(result.body);
 }
-
 /** Creates a new evaluator version with an auto-incremented version identifier. */
 export async function createVersion(
   context: Client,
@@ -591,7 +582,6 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
 export async function deleteVersion(
   context: Client,
@@ -641,7 +631,6 @@ export async function _getVersionDeserialize(
 
   return evaluatorVersionDeserializer(result.body);
 }
-
 /** Retrieves the specified evaluator version, returning 404 if it does not exist. */
 export async function getVersion(
   context: Client,
@@ -689,7 +678,6 @@ export async function _listDeserialize(
 
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
-
 /** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
@@ -751,7 +739,6 @@ export async function _listVersionsDeserialize(
 
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
-
 /** Returns the available versions for the specified evaluator. */
 export function listVersions(
   context: Client,

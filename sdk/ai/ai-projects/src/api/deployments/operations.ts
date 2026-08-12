@@ -47,7 +47,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedDeploymentDeserializer(result.body);
 }
-
 /** Returns the deployed models available in the current project, optionally filtered by publisher, model name, or deployment type. */
 export function list(
   context: Client,
@@ -97,8 +96,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return deploymentUnionDeserializer(result.body);
 }
+<<<<<<< /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/result/src/api/deployments/operations.ts
+/** Retrieves a deployed model. */
+||||||| /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/base/sdk/ai/ai-projects/generated/api/deployments/operations.ts
+
+/** Retrieves a deployed model. */
+=======
 
 /** Get a deployed model. */
+>>>>>>> /mnt/vss/_work/1/s/azure-sdk-for-js_tmp/azsdk-dev-toolux1FvL/custom/sdk/ai/ai-projects/src/api/deployments/operations.ts
 export async function get(
   context: Client,
   name: string,

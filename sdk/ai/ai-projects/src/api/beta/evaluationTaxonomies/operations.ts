@@ -60,7 +60,6 @@ export async function _updateDeserialize(
 
   return evaluationTaxonomyDeserializer(result.body);
 }
-
 /** Modifies the specified evaluation taxonomy with the provided changes. */
 export async function update(
   context: Client,
@@ -111,7 +110,6 @@ export async function _createDeserialize(
 
   return evaluationTaxonomyDeserializer(result.body);
 }
-
 /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
 export async function create(
   context: Client,
@@ -156,7 +154,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Removes the specified evaluation taxonomy from the project. */
 export async function $delete(
   context: Client,
@@ -203,7 +200,6 @@ export async function _listDeserialize(
 
   return _pagedEvaluationTaxonomyDeserializer(result.body);
 }
-
 /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
 export function list(
   context: Client,
@@ -261,7 +257,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
 
   return evaluationTaxonomyDeserializer(result.body);
 }
-
 /** Retrieves the specified evaluation taxonomy. */
 export async function get(
   context: Client,

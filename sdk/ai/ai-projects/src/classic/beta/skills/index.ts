@@ -90,7 +90,6 @@ export interface BetaSkillsOperations {
   /** Retrieves a skill. */
   get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
 }
-
 function _getBetaSkills(context: AIProjectContext) {
   return {
     deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) =>
@@ -118,7 +117,6 @@ function _getBetaSkills(context: AIProjectContext) {
     get: (name: string, options?: BetaSkillsGetOptionalParams) => get(context, name, options),
   };
 }
-
 export function _getBetaSkillsOperations(context: AIProjectContext): BetaSkillsOperations {
   return {
     ..._getBetaSkills(context),

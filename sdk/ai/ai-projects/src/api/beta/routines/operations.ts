@@ -81,7 +81,6 @@ export async function _dispatchDeserialize(
 
   return dispatchRoutineResponseDeserializer(result.body);
 }
-
 /** Queues an asynchronous dispatch for the specified routine. */
 export async function dispatch(
   context: Client,
@@ -138,7 +137,6 @@ export async function _listRunsDeserialize(
 
   return _agentsPagedResultRoutineRunDeserializer(result.body);
 }
-
 /** Returns prior runs recorded for the specified routine. */
 export function listRuns(
   context: Client,
@@ -200,7 +198,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified routine. */
 export async function $delete(
   context: Client,
@@ -259,7 +256,6 @@ export async function _listDeserialize(
     has_more: body["has_more"] ?? false,
   };
 }
-
 /** Returns the routines available in the current project. */
 export function list(
   context: Client,
@@ -316,7 +312,6 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
 
   return routineDeserializer(result.body);
 }
-
 /** Disables the specified routine so it no longer runs. */
 export async function disable(
   context: Client,
@@ -365,7 +360,6 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
 
   return routineDeserializer(result.body);
 }
-
 /** Enables the specified routine so it can be dispatched. */
 export async function enable(
   context: Client,
@@ -414,7 +408,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
 
   return routineDeserializer(result.body);
 }
-
 /** Retrieves the specified routine and its current configuration. */
 export async function get(
   context: Client,
@@ -473,7 +466,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return routineDeserializer(result.body);
 }
-
 /** Creates a new routine or replaces an existing routine with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
