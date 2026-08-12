@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#1512](https://github.com/microsoft/ApplicationInsights-node.js/issues/1512)
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39425](https://github.com/Azure/azure-sdk-for-js/pull/39425)
 
 ### Other Changes
 
