@@ -470,7 +470,7 @@ export class DataLakePathClient extends StorageClient {
       // How to handle long delete loop?
       do {
         response = adjustResponse(
-          await this.pathContext.delete({
+          await this.pathContext.deletePath({
             ...updatedOptions,
             continuation,
             recursive,

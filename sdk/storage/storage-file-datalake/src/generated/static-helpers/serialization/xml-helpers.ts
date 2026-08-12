@@ -4,8 +4,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { XMLBuilder, XMLParser, XmlBuilderOptions } from "fast-xml-parser";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /**
  * XML serialization options for a property or model

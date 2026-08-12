@@ -8,7 +8,7 @@ export {
   flushData,
   setAccessControlRecursive,
   setAccessControl,
-  $delete,
+  deletePath,
   getProperties,
   read,
   lease,

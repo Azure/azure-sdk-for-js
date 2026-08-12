@@ -2,7 +2,7 @@
   "apiVersions": {
     "Storage.DataLake": "2026-06-06"
   },
-  "emitterVersion": "0.55.2",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.DataLake",
     "CrossLanguageDefinitionId": {

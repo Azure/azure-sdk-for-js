@@ -9,7 +9,7 @@ import {
   flushData,
   setAccessControlRecursive,
   setAccessControl,
-  $delete,
+  deletePath,
   getProperties,
   read,
   lease,
@@ -201,12 +201,7 @@ export interface PathOperations {
     >
   >;
   /** Delete the file or directory. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deletePath: (
     options?: PathDeleteOptionalParams,
   ) => Promise<
     {
@@ -463,6 +458,7 @@ export interface PathOperations {
     >
   >;
 }
+
 function _getPath(context: DataLakeContext) {
   return {
     undelete: (options?: PathUndeleteOptionalParams) => undelete(context, options),
@@ -477,7 +473,7 @@ function _getPath(context: DataLakeContext) {
     ) => setAccessControlRecursive(context, mode, options),
     setAccessControl: (options?: PathSetAccessControlOptionalParams) =>
       setAccessControl(context, options),
-    delete: (options?: PathDeleteOptionalParams) => $delete(context, options),
+    deletePath: (options?: PathDeleteOptionalParams) => deletePath(context, options),
     getProperties: (options?: PathGetPropertiesOptionalParams) => getProperties(context, options),
     read: (options?: PathReadOptionalParams) => read(context, options),
     lease: (leaseAction: PathLeaseAction, options?: PathLeaseOptionalParams) =>
@@ -487,6 +483,7 @@ function _getPath(context: DataLakeContext) {
     create: (options?: PathCreateOptionalParams) => create(context, options),
   };
 }
+
 export function _getPathOperations(context: DataLakeContext): PathOperations {
   return {
     ..._getPath(context),

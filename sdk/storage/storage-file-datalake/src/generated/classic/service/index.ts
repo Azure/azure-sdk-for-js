@@ -35,6 +35,7 @@ export interface ServiceOperations {
       >
   >;
 }
+
 function _getService(context: DataLakeContext) {
   return {
     listFileSystems: (
@@ -43,6 +44,7 @@ function _getService(context: DataLakeContext) {
     ) => listFileSystems(context, resource, options),
   };
 }
+
 export function _getServiceOperations(context: DataLakeContext): ServiceOperations {
   return {
     ..._getService(context),

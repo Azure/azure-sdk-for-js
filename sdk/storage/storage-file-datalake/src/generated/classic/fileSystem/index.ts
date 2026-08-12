@@ -5,7 +5,7 @@ import { DataLakeContext } from "../../api/dataLakeContext.js";
 import {
   listBlobHierarchySegment,
   listPaths,
-  $delete,
+  deleteFileSystem,
   getProperties,
   setProperties,
   create,
@@ -79,12 +79,7 @@ export interface FileSystemOperations {
       >
   >;
   /** Marks the FileSystem for deletion. When a FileSystem is deleted, a FileSystem with the same identifier cannot be created for at least 30 seconds. While the filesystem is being deleted, attempts to create a filesystem with the same identifier will fail with status code 409 (Conflict), with the service returning additional error information indicating that the filesystem is being deleted. All other operations, including operations on any files or directories within the filesystem, will fail with status code 404 (Not Found) while the filesystem is being deleted. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteFileSystem: (
     resource: FileSystemResourceType,
     options?: FileSystemDeleteOptionalParams,
   ) => Promise<
@@ -177,14 +172,17 @@ export interface FileSystemOperations {
     >
   >;
 }
+
 function _getFileSystem(context: DataLakeContext) {
   return {
     listBlobHierarchySegment: (options?: FileSystemListBlobHierarchySegmentOptionalParams) =>
       listBlobHierarchySegment(context, options),
     listPaths: (recursive: boolean, options?: FileSystemListPathsOptionalParams) =>
       listPaths(context, recursive, options),
-    delete: (resource: FileSystemResourceType, options?: FileSystemDeleteOptionalParams) =>
-      $delete(context, resource, options),
+    deleteFileSystem: (
+      resource: FileSystemResourceType,
+      options?: FileSystemDeleteOptionalParams,
+    ) => deleteFileSystem(context, resource, options),
     getProperties: (
       resource: FileSystemResourceType,
       options?: FileSystemGetPropertiesOptionalParams,
@@ -197,6 +195,7 @@ function _getFileSystem(context: DataLakeContext) {
       create(context, resource, options),
   };
 }
+
 export function _getFileSystemOperations(context: DataLakeContext): FileSystemOperations {
   return {
     ..._getFileSystem(context),

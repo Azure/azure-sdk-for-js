@@ -4,7 +4,7 @@
 export {
   listBlobHierarchySegment,
   listPaths,
-  $delete,
+  deleteFileSystem,
   getProperties,
   setProperties,
   create,

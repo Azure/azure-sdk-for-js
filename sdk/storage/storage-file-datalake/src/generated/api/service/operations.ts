@@ -118,6 +118,7 @@ export function _listFileSystemsDeserializeExceptionHeaders(result: PathUnchecke
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** List filesystems and their properties in given account. */
 export async function listFileSystems(
   context: Client,

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { DataLakeContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   storageErrorDeserializer,
   SetAccessControlRecursiveResponse,
@@ -38,6 +37,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -127,6 +127,7 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Undelete a path that was previously soft deleted. */
 export async function undelete(
   context: Client,
@@ -243,6 +244,7 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Sets the time a blob will expire and be deleted. */
 export async function setExpiry(
   context: Client,
@@ -446,6 +448,7 @@ export function _appendDataDeserializeExceptionHeaders(result: PathUncheckedResp
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Append data to the file. */
 export async function appendData(
   context: Client,
@@ -658,6 +661,7 @@ export function _flushDataDeserializeExceptionHeaders(result: PathUncheckedRespo
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Set the owner, group, permissions, or access control list for a path. */
 export async function flushData(
   context: Client,
@@ -797,6 +801,7 @@ export function _setAccessControlRecursiveDeserializeExceptionHeaders(
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Set the access control list for a path and sub-paths. */
 export async function setAccessControlRecursive(
   context: Client,
@@ -938,6 +943,7 @@ export function _setAccessControlDeserializeExceptionHeaders(result: PathUncheck
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Set the owner, group, permissions, or access control list for a path. */
 export async function setAccessControl(
   context: Client,
@@ -972,7 +978,7 @@ export async function setAccessControl(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
-export function _$deleteSend(
+export function _deletePathSend(
   context: Client,
   options: PathDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -1019,14 +1025,17 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deletePathDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
       error.details = storageErrorDeserializer(result.body);
     }
-    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._deletePathDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -1038,7 +1047,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+export function _deletePathDeserializeHeaders(result: PathUncheckedResponse): {
   continuation?: string;
   deletionId?: string;
   date: Date;
@@ -1071,7 +1080,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _deletePathDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
 } {
   return {
@@ -1081,13 +1090,9 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Delete the file or directory. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deletePath(
   context: Client,
   options: PathDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
@@ -1111,9 +1116,12 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, { ...options, onResponse: _storageCompat.onResponse });
-  await _$deleteDeserialize(result);
-  const parsedHeaders = _$deleteDeserializeHeaders(result);
+  const result = await _deletePathSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  await _deletePathDeserialize(result);
+  const parsedHeaders = _deletePathDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
@@ -1348,6 +1356,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Get Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function getProperties(
   context: Client,
@@ -1632,6 +1641,7 @@ export function _readDeserializeExceptionHeaders(result: PathUncheckedResponse):
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Read the contents of a file. For read operations, range requests are supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function read(
   context: Client,
@@ -1819,6 +1829,7 @@ export function _leaseDeserializeExceptionHeaders(result: PathUncheckedResponse)
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Create and manage a lease to restrict write and delete access to the path. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function lease(
   context: Client,
@@ -2062,6 +2073,7 @@ export function _updateDeserializeExceptionHeaders(result: PathUncheckedResponse
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Uploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. Concurrent writes to the same file using multiple clients are not supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function update(
   context: Client,
@@ -2314,6 +2326,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Create or rename a file or directory. By default, the destination is overwritten and if the destination already exists and has a lease the lease is broken. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). To fail if the destination already exists, use a conditional request with If-None-Match: "*". */
 export async function create(
   context: Client,

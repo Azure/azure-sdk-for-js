@@ -126,6 +126,7 @@ export function _listBlobHierarchySegmentDeserializeExceptionHeaders(
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** The List Blobs operation returns a list of the blobs under the specified container. */
 export async function listBlobHierarchySegment(
   context: Client,
@@ -256,6 +257,7 @@ export function _listPathsDeserializeExceptionHeaders(result: PathUncheckedRespo
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** List FileSystem paths and their properties. */
 export async function listPaths(
   context: Client,
@@ -296,7 +298,7 @@ export async function listPaths(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
-export function _$deleteSend(
+export function _deleteFileSystemSend(
   context: Client,
   resource: FileSystemResourceType,
   options: FileSystemDeleteOptionalParams = { requestOptions: {} },
@@ -339,14 +341,17 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteFileSystemDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
       error.details = storageErrorDeserializer(result.body);
     }
-    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._deleteFileSystemDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -358,7 +363,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+export function _deleteFileSystemDeserializeHeaders(result: PathUncheckedResponse): {
   date: Date;
   version: string;
   requestId?: string;
@@ -379,7 +384,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _deleteFileSystemDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
 } {
   return {
@@ -389,13 +394,9 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Marks the FileSystem for deletion. When a FileSystem is deleted, a FileSystem with the same identifier cannot be created for at least 30 seconds. While the filesystem is being deleted, attempts to create a filesystem with the same identifier will fail with status code 409 (Conflict), with the service returning additional error information indicating that the filesystem is being deleted. All other operations, including operations on any files or directories within the filesystem, will fail with status code 404 (Not Found) while the filesystem is being deleted. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteFileSystem(
   context: Client,
   resource: FileSystemResourceType,
   options: FileSystemDeleteOptionalParams = { requestOptions: {} },
@@ -411,12 +412,12 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, resource, {
+  const result = await _deleteFileSystemSend(context, resource, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
-  await _$deleteDeserialize(result);
-  const parsedHeaders = _$deleteDeserializeHeaders(result);
+  await _deleteFileSystemDeserialize(result);
+  const parsedHeaders = _deleteFileSystemDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
@@ -517,6 +518,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** All system and user-defined filesystem properties are specified in the response headers. */
 export async function getProperties(
   context: Client,
@@ -657,6 +659,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Set properties for the FileSystem. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations). */
 export async function setProperties(
   context: Client,
@@ -782,6 +785,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : result.headers["x-ms-error-code"],
   };
 }
+
 /** Create a FileSystem rooted at the specified location. If the FileSystem already exists, the operation fails. This operation does not support conditional HTTP requests. */
 export async function create(
   context: Client,

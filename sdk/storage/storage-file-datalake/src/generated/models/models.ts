@@ -7,12 +7,12 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import {
   XmlPropertyDeserializeMetadata,
   deserializeFromXml,
   deserializeXmlObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
 
 /** The storage error response. */
@@ -1031,15 +1031,20 @@ export function fileSystemItemDeserializer(item: any): FileSystemItem {
 
 /** The value must be "filesystem" for all filesystem operations. */
 export type FileSystemResourceType = "filesystem";
+
 /** Include this parameter to specify one or more datasets to include in the response. */
 export type ListBlobsIncludeItem =
   "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
+
 /** The show only filter for list blobs. */
 export type ListBlobsShowOnly = "deleted";
+
 /** Required only for Create File and Create Directory. The value must be "file" or "directory". */
 export type PathResourceType = "directory" | "file";
+
 /** The rename mode. The value must be "legacy" or "posix". */
 export type PathRenameMode = "legacy" | "posix";
+
 /** The encryption algorithm type. */
 export type EncryptionAlgorithmType = "AES256";
 
@@ -1066,17 +1071,23 @@ export enum KnownPathExpiryOptions {
  * **Absolute**: Absolute time.
  */
 export type PathExpiryOptions = string;
+
 /** The action to perform on the path during update. */
 export type PathUpdateAction =
   "append" | "flush" | "setProperties" | "setAccessControl" | "setAccessControlRecursive";
+
 /** The mode for recursive access control operations. */
 export type PathSetAccessControlRecursiveMode = "set" | "modify" | "remove";
+
 /** The lease action for Path_Lease. */
 export type PathLeaseAction = "acquire" | "break" | "change" | "renew" | "release";
+
 /** The action for Path_GetProperties. */
 export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
+
 /** The lease action for append and flush operations. */
 export type LeaseAction = "acquire" | "auto-renew" | "release" | "acquire-release";
+
 /** The value must be "account" for all account operations. */
 export type AccountResourceType = "account";
 
