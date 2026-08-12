@@ -7,7 +7,7 @@
 
 import {
   InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
+  type InteractiveBrowserCredentialNodeOptions,
 } from "@azure/identity";
 
 import dotenv from "dotenv";

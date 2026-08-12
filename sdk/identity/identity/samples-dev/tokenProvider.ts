@@ -5,7 +5,7 @@
  * @summary demonstrates how to get a bearer token.
  */
 
-import { PipelineRequest, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, type PipelineRequest } from "@azure/core-rest-pipeline";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 import { config } from "dotenv";
 
