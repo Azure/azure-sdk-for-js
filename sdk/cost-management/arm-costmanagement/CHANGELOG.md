@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-08-12)
+## 1.1.0 (2026-08-12)
 
 ### Features Added
   - Added operation group MarkupRulesOperations
@@ -14,8 +14,6 @@
   - Added Interface MarkupRulesListOptionalParams
   - Enum KnownScope has a new value ManagementGroup
   - Enum KnownVersions has a new value V20260601
-
-### Breaking Changes
   - Operation ForecastOperations.usage has a new signature
   - Operation QueryOperations.usage has a new signature
 
