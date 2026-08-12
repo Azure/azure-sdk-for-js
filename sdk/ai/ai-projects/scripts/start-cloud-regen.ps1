@@ -27,9 +27,12 @@
 #                tsp-location.saved.yaml on the target branch.
 #   -BranchName  Target branch the cloud agent will push to. Default:
 #                regen/ai-projects/<short-sha>-<yyyyMMdd>.
+#                Must start with an ASCII letter or digit and contain only
+#                ASCII letters, digits, '.', '_', '/', and '-'.
 #   -Repo        owner/name of the azure-sdk-for-js repo to dispatch
 #                against. Default: Azure/azure-sdk-for-js.
 #   -BaseBranch  Base branch for the draft PR. Default: main.
+#                Uses the same character restrictions as -BranchName.
 #   -Follow      Pass --follow to `gh agent-task create`.
 #   -DryRun      Render the prompt locally and exit without dispatching.
 #
@@ -71,6 +74,24 @@ $packageRoot = Split-Path -Parent $scriptDir
 $templatePath = Join-Path $scriptDir 'cloud-regen-prompt.template.md'
 $resolveScript = Join-Path $packageRoot '.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1'
 
+function Assert-ConservativeBranchName {
+  param(
+    [string]$Value,
+    [string]$ParameterName
+  )
+
+  if (-not $Value -or $Value -cnotmatch '^[A-Za-z0-9][A-Za-z0-9._/-]*\z') {
+    throw "$ParameterName must start with an ASCII letter or digit and contain only ASCII letters, digits, '.', '_', '/', and '-'."
+  }
+}
+
+function ConvertTo-PowerShellSingleQuotedLiteral {
+  param([string]$Value)
+
+  $escaped = $Value.Replace("'", "''")
+  return "'$escaped'"
+}
+
 if (-not (Test-Path $templatePath)) {
   throw "Prompt template not found at $templatePath"
 }
@@ -110,16 +131,24 @@ if (-not $BranchName) {
   $today = (Get-Date).ToString('yyyyMMdd')
   $BranchName = "regen/ai-projects/$shortSha-$today"
 }
+Assert-ConservativeBranchName -Value $BranchName -ParameterName 'BranchName'
+Assert-ConservativeBranchName -Value $BaseBranch -ParameterName 'BaseBranch'
 Write-Host "Target branch:   $BranchName"
 Write-Host "Repo:            $Repo"
 Write-Host "Base branch:     $BaseBranch"
 
 # 4. Render the prompt template.
+$tspCommitPowerShellLiteral = ConvertTo-PowerShellSingleQuotedLiteral $TspCommit
+$branchNamePowerShellLiteral = ConvertTo-PowerShellSingleQuotedLiteral $BranchName
+$baseBranchPowerShellLiteral = ConvertTo-PowerShellSingleQuotedLiteral $BaseBranch
 $template = Get-Content -Path $templatePath -Raw
 $rendered = $template.
   Replace('{{TSP_COMMIT}}', $TspCommit).
   Replace('{{BRANCH_NAME}}', $BranchName).
-  Replace('{{BASE_BRANCH}}', $BaseBranch)
+  Replace('{{BASE_BRANCH}}', $BaseBranch).
+  Replace('{{TSP_COMMIT_PS_LITERAL}}', $tspCommitPowerShellLiteral).
+  Replace('{{BRANCH_NAME_PS_LITERAL}}', $branchNamePowerShellLiteral).
+  Replace('{{BASE_BRANCH_PS_LITERAL}}', $baseBranchPowerShellLiteral)
 
 if ($rendered -match '\{\{[A-Z_]+\}\}') {
   throw "Unresolved placeholders remain in rendered prompt: $($Matches[0])"

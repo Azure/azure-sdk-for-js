@@ -47,7 +47,7 @@ Read: `sdk/ai/ai-projects/.github/skills/regenerate-from-typespec/SKILL.md`
 Pass the resolved commit SHA explicitly:
 
 ```powershell
-./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT}}
+./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT_PS_LITERAL}}
 npm run generate:client
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly
 ```
@@ -109,7 +109,7 @@ Read: `sdk/ai/ai-projects/.github/skills/open-regeneration-pr/SKILL.md`
 Run:
 
 ```powershell
-./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT}} -BranchName {{BRANCH_NAME}} -BaseBranch {{BASE_BRANCH}}
+./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT_PS_LITERAL}} -BranchName {{BRANCH_NAME_PS_LITERAL}} -BaseBranch {{BASE_BRANCH_PS_LITERAL}}
 ```
 
 Append `-SamplesNoOp` only if `author-samples` explicitly completed as a
