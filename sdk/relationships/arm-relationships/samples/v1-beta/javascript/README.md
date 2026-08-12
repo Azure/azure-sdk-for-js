@@ -2,15 +2,19 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-relationships in some common scenarios.
 
-| **File Name**                                                                                                 | **Description**                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [dependencyOfRelationshipsCreateOrUpdateSample.js][dependencyofrelationshipscreateorupdatesample]             | create a DependencyOfRelationship x-ms-original-file: 2023-09-01-preview/DependencyOfRelationships_CreateOrUpdate.json             |
-| [dependencyOfRelationshipsDeleteSample.js][dependencyofrelationshipsdeletesample]                             | delete a DependencyOfRelationship x-ms-original-file: 2023-09-01-preview/DependencyOfRelationships_Delete.json                     |
-| [dependencyOfRelationshipsGetSample.js][dependencyofrelationshipsgetsample]                                   | get a DependencyOfRelationship x-ms-original-file: 2023-09-01-preview/DependencyOfRelationships_Get.json                           |
-| [operationsListSample.js][operationslistsample]                                                               | list the operations for the provider x-ms-original-file: 2023-09-01-preview/Operations_List_MaximumSet_Gen.json                    |
-| [serviceGroupMemberRelationshipsCreateOrUpdateSample.js][servicegroupmemberrelationshipscreateorupdatesample] | create a ServiceGroupMemberRelationship x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_CreateOrUpdate.json |
-| [serviceGroupMemberRelationshipsDeleteSample.js][servicegroupmemberrelationshipsdeletesample]                 | delete a ServiceGroupMemberRelationship x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_Delete.json         |
-| [serviceGroupMemberRelationshipsGetSample.js][servicegroupmemberrelationshipsgetsample]                       | get a ServiceGroupMemberRelationship x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_Get.json               |
+| **File Name**                                                                                                 | **Description**                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [containsRelationshipsListByResourceGroupSample.js][containsrelationshipslistbyresourcegroupsample]           | list ContainsRelationship resources by resource group x-ms-original-file: 2026-03-01-preview/ContainsRelationships_ListByResourceGroup.json      |
+| [containsRelationshipsListBySubscriptionSample.js][containsrelationshipslistbysubscriptionsample]             | list ContainsRelationship resources by subscription ID x-ms-original-file: 2026-03-01-preview/ContainsRelationships_ListBySubscription.json      |
+| [dependencyOfRelationshipsCreateOrUpdateSample.js][dependencyofrelationshipscreateorupdatesample]             | create a DependencyOfRelationship x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_CreateOrUpdate.json                           |
+| [dependencyOfRelationshipsDeleteSample.js][dependencyofrelationshipsdeletesample]                             | delete a DependencyOfRelationship x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_Delete.json                                   |
+| [dependencyOfRelationshipsGetSample.js][dependencyofrelationshipsgetsample]                                   | get a DependencyOfRelationship x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_Get.json                                         |
+| [dependencyOfRelationshipsListByParentSample.js][dependencyofrelationshipslistbyparentsample]                 | list DependencyOfRelationship resources by parent x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_ListByParent.json             |
+| [operationsListSample.js][operationslistsample]                                                               | list the operations for the provider x-ms-original-file: 2026-03-01-preview/Operations_List_MaximumSet_Gen.json                                  |
+| [serviceGroupMemberRelationshipsCreateOrUpdateSample.js][servicegroupmemberrelationshipscreateorupdatesample] | create a ServiceGroupMemberRelationship x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_CreateOrUpdate.json               |
+| [serviceGroupMemberRelationshipsDeleteSample.js][servicegroupmemberrelationshipsdeletesample]                 | delete a ServiceGroupMemberRelationship x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_Delete.json                       |
+| [serviceGroupMemberRelationshipsGetSample.js][servicegroupmemberrelationshipsgetsample]                       | get a ServiceGroupMemberRelationship x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_Get.json                             |
+| [serviceGroupMemberRelationshipsListByParentSample.js][servicegroupmemberrelationshipslistbyparentsample]     | list ServiceGroupMemberRelationship resources by parent x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_ListByParent.json |
 
 ## Prerequisites
 
@@ -37,26 +41,30 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dependencyOfRelationshipsCreateOrUpdateSample.js
+node containsRelationshipsListByResourceGroupSample.js
 ```
 
 Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-node dependencyOfRelationshipsCreateOrUpdateSample.js
+node containsRelationshipsListByResourceGroupSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[containsrelationshipslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/containsRelationshipsListByResourceGroupSample.js
+[containsrelationshipslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/containsRelationshipsListBySubscriptionSample.js
 [dependencyofrelationshipscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/dependencyOfRelationshipsCreateOrUpdateSample.js
 [dependencyofrelationshipsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/dependencyOfRelationshipsDeleteSample.js
 [dependencyofrelationshipsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/dependencyOfRelationshipsGetSample.js
+[dependencyofrelationshipslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/dependencyOfRelationshipsListByParentSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/operationsListSample.js
 [servicegroupmemberrelationshipscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/serviceGroupMemberRelationshipsCreateOrUpdateSample.js
 [servicegroupmemberrelationshipsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/serviceGroupMemberRelationshipsDeleteSample.js
 [servicegroupmemberrelationshipsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/serviceGroupMemberRelationshipsGetSample.js
+[servicegroupmemberrelationshipslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/relationships/arm-relationships/samples/v1-beta/javascript/serviceGroupMemberRelationshipsListByParentSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-relationships?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relationships/arm-relationships/README.md

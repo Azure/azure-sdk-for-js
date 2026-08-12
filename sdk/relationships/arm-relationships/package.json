@@ -42,6 +42,20 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/containsRelationships": {
+      "browser": {
+        "types": "./dist/browser/api/containsRelationships/index.d.ts",
+        "default": "./dist/browser/api/containsRelationships/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/containsRelationships/index.d.ts",
+        "default": "./dist/esm/api/containsRelationships/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/containsRelationships/index.d.ts",
+        "default": "./dist/commonjs/api/containsRelationships/index.js"
+      }
+    },
     "./api/serviceGroupMemberRelationships": {
       "browser": {
         "types": "./dist/browser/api/serviceGroupMemberRelationships/index.d.ts",
