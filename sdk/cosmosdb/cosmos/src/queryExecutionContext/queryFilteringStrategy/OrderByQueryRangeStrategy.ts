@@ -143,6 +143,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         `Unable to resume ORDER BY query from continuation token. The ORDER BY sort direction configuration ` +
           `in the query plan is invalid or missing. This may indicate a client version mismatch or corrupted continuation token. ` +
           `Please retry the query without a continuation token. Original error: ${error}`,
+        { cause: error },
       );
     }
 
@@ -201,6 +202,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
             `in the query plan is invalid or incompatible with the continuation token format. ` +
             `This may indicate a client version mismatch or corrupted continuation token. ` +
             `Please retry the query without a continuation token. Original error: ${error}`,
+          { cause: error },
         );
       }
     }
