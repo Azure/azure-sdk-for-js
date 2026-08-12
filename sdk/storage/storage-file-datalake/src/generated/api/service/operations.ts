@@ -61,7 +61,9 @@ export async function _listFileSystemsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = storageErrorDeserializer(result.body);
+    }
     error.details = {
       ...(error.details as any),
       ..._listFileSystemsDeserializeExceptionHeaders(result),
@@ -116,7 +118,6 @@ export function _listFileSystemsDeserializeExceptionHeaders(result: PathUnchecke
         : result.headers["x-ms-error-code"],
   };
 }
-
 /** List filesystems and their properties in given account. */
 export async function listFileSystems(
   context: Client,

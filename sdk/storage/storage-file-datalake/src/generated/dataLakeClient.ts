@@ -20,14 +20,7 @@ export class DataLakeClient {
     credential: TokenCredential,
     options: DataLakeClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createDataLake(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createDataLake(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.service = _getServiceOperations(this._client);
     this.path = _getPathOperations(this._client);

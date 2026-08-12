@@ -23,7 +23,6 @@ export interface FileSystemListBlobHierarchySegmentOptionalParams extends Operat
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
-
 /** Optional parameters. */
 export interface FileSystemListPathsOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -41,7 +40,6 @@ export interface FileSystemListPathsOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
-
 /** Optional parameters. */
 export interface FileSystemDeleteOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -53,7 +51,6 @@ export interface FileSystemDeleteOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
-
 /** Optional parameters. */
 export interface FileSystemGetPropertiesOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -61,7 +58,6 @@ export interface FileSystemGetPropertiesOptionalParams extends OperationOptions 
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
-
 /** Optional parameters. */
 export interface FileSystemSetPropertiesOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -75,7 +71,6 @@ export interface FileSystemSetPropertiesOptionalParams extends OperationOptions 
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
-
 /** Optional parameters. */
 export interface FileSystemCreateOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */

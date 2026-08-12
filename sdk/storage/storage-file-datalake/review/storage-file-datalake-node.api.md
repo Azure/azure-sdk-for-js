@@ -33,6 +33,7 @@ import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import type { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { NodeJSReadableStream } from '@azure/storage-blob';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';

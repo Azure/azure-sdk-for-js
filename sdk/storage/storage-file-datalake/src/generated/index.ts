@@ -57,3 +57,4 @@ export type {
 } from "./api/path/index.js";
 export type { ServiceListFileSystemsOptionalParams } from "./api/service/index.js";
 export type { FileSystemOperations, PathOperations, ServiceOperations } from "./classic/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

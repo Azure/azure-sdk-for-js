@@ -463,7 +463,6 @@ export interface PathOperations {
     >
   >;
 }
-
 function _getPath(context: DataLakeContext) {
   return {
     undelete: (options?: PathUndeleteOptionalParams) => undelete(context, options),
@@ -488,7 +487,6 @@ function _getPath(context: DataLakeContext) {
     create: (options?: PathCreateOptionalParams) => create(context, options),
   };
 }
-
 export function _getPathOperations(context: DataLakeContext): PathOperations {
   return {
     ..._getPath(context),

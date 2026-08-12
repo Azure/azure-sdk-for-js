@@ -177,7 +177,6 @@ export interface FileSystemOperations {
     >
   >;
 }
-
 function _getFileSystem(context: DataLakeContext) {
   return {
     listBlobHierarchySegment: (options?: FileSystemListBlobHierarchySegmentOptionalParams) =>
@@ -198,7 +197,6 @@ function _getFileSystem(context: DataLakeContext) {
       create(context, resource, options),
   };
 }
-
 export function _getFileSystemOperations(context: DataLakeContext): FileSystemOperations {
   return {
     ..._getFileSystem(context),

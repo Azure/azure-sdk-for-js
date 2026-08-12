@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import {
   XmlPropertyDeserializeMetadata,
   deserializeFromXml,
@@ -8,12 +15,6 @@ import {
 } from "../static-helpers/serialization/xml-helpers.js";
 import { stringToUint8Array } from "@azure/core-util";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The storage error response. */
 export interface StorageError {
   /** The service error response object. */
@@ -1032,13 +1033,7 @@ export function fileSystemItemDeserializer(item: any): FileSystemItem {
 export type FileSystemResourceType = "filesystem";
 /** Include this parameter to specify one or more datasets to include in the response. */
 export type ListBlobsIncludeItem =
-  | "copy"
-  | "deleted"
-  | "metadata"
-  | "snapshots"
-  | "uncommittedblobs"
-  | "versions"
-  | "tags";
+  "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
 /** The show only filter for list blobs. */
 export type ListBlobsShowOnly = "deleted";
 /** Required only for Create File and Create Directory. The value must be "file" or "directory". */
@@ -1073,11 +1068,7 @@ export enum KnownPathExpiryOptions {
 export type PathExpiryOptions = string;
 /** The action to perform on the path during update. */
 export type PathUpdateAction =
-  | "append"
-  | "flush"
-  | "setProperties"
-  | "setAccessControl"
-  | "setAccessControlRecursive";
+  "append" | "flush" | "setProperties" | "setAccessControl" | "setAccessControlRecursive";
 /** The mode for recursive access control operations. */
 export type PathSetAccessControlRecursiveMode = "set" | "modify" | "remove";
 /** The lease action for Path_Lease. */
@@ -1109,5 +1100,5 @@ export type PathReadResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
