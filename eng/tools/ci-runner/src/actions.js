@@ -69,15 +69,8 @@ export function executeActions(
 
       case "pack":
       case "lint":
-        exitCode = runInPackageDirs(action, packageDirs);
-        break;
       case "update-snippets":
-        exitCode = runInPackageDirs(
-          action,
-          packageDirs,
-          (packageDir) =>
-            `Snippet update failed in ${tryGetPkgRelativePath(packageDir)}. Run "pnpm update-snippets" from that directory and commit the resulting changes.`,
-        );
+        exitCode = runInPackageDirs(action, packageDirs);
         break;
       case "check-format":
         exitCode = runInPackageDirs(
