@@ -2,10 +2,19 @@
 
 ## 2.4.1 (Unreleased)
 
+### Features Added
+
+- Add programmatic tool calling support, including caller restrictions and function output schemas.
+- Add reasoning modes, the `max` reasoning effort, cache-write token usage, and the `VoiceAgents=V1Preview` agent opt-in key.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
 - Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+### Other Changes
+
+- Add a sample demonstrating how to configure a prompt agent for programmatic tool calling.
 
 ## 2.4.0 (2026-08-04)
 
