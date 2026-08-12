@@ -7,15 +7,15 @@ import type {
   DefaultAzureCredentialResourceIdOptions,
 } from "./defaultAzureCredentialOptions.js";
 
-import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
-import { AzureCliCredential } from "./azureCliCredential.js";
-import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
-import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
+import { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
+import { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
+import { AzureCliCredential } from "#platform/credentials/azureCliCredential";
+import { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
+import { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
 import { ChainedTokenCredential } from "./chainedTokenCredential.js";
-import { EnvironmentCredential } from "./environmentCredential.js";
+import { EnvironmentCredential } from "#platform/credentials/environmentCredential";
 import type { TokenCredential } from "@azure/core-auth";
-import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
+import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
 import { credentialLogger } from "../util/logging.js";
 import {
   createDefaultAzureCliCredential,

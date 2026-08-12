@@ -4,7 +4,7 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, processEnvVars } from "../util/logging.js";
 
-import { ClientAssertionCredential } from "./clientAssertionCredential.js";
+import { ClientAssertionCredential } from "#platform/credentials/clientAssertionCredential";
 import { CredentialUnavailableError } from "../errors.js";
 import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
 import { checkTenantId } from "../util/tenantIdUtils.js";
