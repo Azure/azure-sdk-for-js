@@ -103,11 +103,25 @@ export type KnowledgeBaseActivityRecordType = string;
 export type KnowledgeBaseActivityRecordUnion = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | KnowledgeBaseActivityRecord;
 
 // @public
+export interface KnowledgeBaseActivityStartedEvent {
+    id: number;
+    knowledgeSourceName?: string;
+    startedAt: Date;
+    type: KnowledgeBaseActivityRecordType;
+}
+
+// @public
 export interface KnowledgeBaseAgenticReasoningActivityRecord extends KnowledgeBaseActivityRecord {
     logicalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     reasoningTokens?: number;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     type: "agenticReasoning";
+}
+
+// @public
+export interface KnowledgeBaseAnswerCompletedEvent {
+    message: KnowledgeBaseMessage;
+    messageIndex: number;
 }
 
 // @public
@@ -413,6 +427,12 @@ export interface KnowledgeBaseRemoteSharePointReference extends KnowledgeBaseRef
 }
 
 // @public
+export interface KnowledgeBaseResponseCompletedEvent {
+    response: KnowledgeBaseRetrievalResponse;
+    statusCode: KnowledgeBaseRetrievalStatusCode;
+}
+
+// @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: KnowledgeRetrievalIntentUnion[];
@@ -433,6 +453,17 @@ export interface KnowledgeBaseRetrievalResponse {
     response?: KnowledgeBaseMessage[];
     responseSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
 }
+
+// @public
+export interface KnowledgeBaseRetrievalStartedEvent {
+    knowledgeBaseName: string;
+    outputMode: KnowledgeRetrievalOutputMode;
+    reasoningEffort: KnowledgeRetrievalReasoningEffortUnion;
+    requestId: string;
+}
+
+// @public
+export type KnowledgeBaseRetrievalStatusCode = number;
 
 // @public
 export interface KnowledgeBaseSearchIndexActivityArguments {
@@ -461,6 +492,12 @@ export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReferenc
     docKey?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "searchIndex";
+}
+
+// @public
+export interface KnowledgeBaseStreamErrorEvent {
+    activity?: KnowledgeBaseActivityRecordUnion[];
+    error?: KnowledgeBaseErrorDetail;
 }
 
 // @public
@@ -583,6 +620,9 @@ export interface KnowledgeSourceIngestionParameters {
 }
 
 // @public
+export type KnowledgeSourceNetworkAccessMode = string;
+
+// @public
 export interface KnowledgeSourceParams {
     alwaysQuerySource?: boolean;
     enableImageServing?: boolean;
@@ -678,6 +718,12 @@ export enum KnownKnowledgeBaseReferenceType {
 }
 
 // @public
+export enum KnownKnowledgeBaseRetrievalStatusCode {
+    OK = 200,
+    PartialContent = 206
+}
+
+// @public
 export enum KnownKnowledgeRetrievalIntentType {
     Semantic = "semantic"
 }
@@ -694,6 +740,12 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
     Low = "low",
     Medium = "medium",
     Minimal = "minimal"
+}
+
+// @public
+export enum KnownKnowledgeSourceNetworkAccessMode {
+    Private = "private",
+    Public = "public"
 }
 
 // @public

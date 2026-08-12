@@ -7,21 +7,16 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import {
+  FileContents,
+  createFilePartDescriptor,
+} from "../../../../../static-helpers/multipartHelpers.js";
 import { buildNewlineCollection } from "../../../../../static-helpers/serialization/build-newline-collection.js";
 import { buildPipeCollection } from "../../../../../static-helpers/serialization/build-pipe-collection.js";
 import { areAllPropsUndefined } from "../../../../../static-helpers/serialization/check-prop-undefined.js";
 import { parseNewlineCollection } from "../../../../../static-helpers/serialization/parse-newline-collection.js";
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
-import {
-  KnowledgeBaseRetrieveDefaults,
-  knowledgeBaseRetrieveDefaultsSerializer,
-  knowledgeBaseRetrieveDefaultsDeserializer,
-  WorkIQKnowledgeSourceParameters,
-  workIQKnowledgeSourceParametersSerializer,
-  workIQKnowledgeSourceParametersDeserializer,
-  FileKnowledgeSourceExtractionMode,
-} from "../../../../models.js";
 import {
   knowledgeRetrievalReasoningEffortUnionSerializer,
   knowledgeRetrievalReasoningEffortUnionDeserializer,
@@ -5681,6 +5676,34 @@ export function knowledgeBaseAzureOpenAIModelDeserializer(
   };
 }
 
+/** Persisted request-wide defaults for knowledge base retrieve requests. Each value provides the default for the matching retrieve-request field; service defaults apply when unset, and request-time values take precedence when present. */
+export interface KnowledgeBaseRetrieveDefaults {
+  /** The default maximum runtime in seconds for a retrieve request. */
+  maxRuntimeInSeconds?: number;
+  /** The default maximum number of documents in the retrieve output. */
+  maxOutputDocuments?: number;
+  /** The default maximum size, in tokens, of the content in the retrieve output. */
+  maxOutputSizeInTokens?: number;
+}
+
+export function knowledgeBaseRetrieveDefaultsSerializer(item: KnowledgeBaseRetrieveDefaults): any {
+  return {
+    maxRuntimeInSeconds: item["maxRuntimeInSeconds"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    maxOutputSizeInTokens: item["maxOutputSizeInTokens"],
+  };
+}
+
+export function knowledgeBaseRetrieveDefaultsDeserializer(
+  item: any,
+): KnowledgeBaseRetrieveDefaults {
+  return {
+    maxRuntimeInSeconds: item["maxRuntimeInSeconds"],
+    maxOutputDocuments: item["maxOutputDocuments"],
+    maxOutputSizeInTokens: item["maxOutputSizeInTokens"],
+  };
+}
+
 /** Result from listing knowledge bases. */
 export interface _ListKnowledgeBasesResult {
   /** The knowledge bases in the service. */
@@ -7209,6 +7232,54 @@ export function workIQKnowledgeSourceDeserializer(item: any): WorkIQKnowledgeSou
   };
 }
 
+/** Parameters for a WorkIQ knowledge source. */
+export interface WorkIQKnowledgeSourceParameters {
+  /** The customer-owned Microsoft Entra app registration configuration used for on-behalf-of authentication to the Work IQ API. The customer registers a tenant-owned Entra app, grants it the WorkIQAgent.Ask delegated permission, and configures a federated credential so Azure AI Search can authenticate as that app without a stored client secret. */
+  entraAppAuthentication: EntraAppAuthentication;
+}
+
+export function workIQKnowledgeSourceParametersSerializer(
+  item: WorkIQKnowledgeSourceParameters,
+): any {
+  return {
+    entraAppAuthentication: entraAppAuthenticationSerializer(item["entraAppAuthentication"]),
+  };
+}
+
+export function workIQKnowledgeSourceParametersDeserializer(
+  item: any,
+): WorkIQKnowledgeSourceParameters {
+  return {
+    entraAppAuthentication: entraAppAuthenticationDeserializer(item["entraAppAuthentication"]),
+  };
+}
+
+/** Configuration for a customer-owned Microsoft Entra app registration used for federated credential-based on-behalf-of authentication. */
+export interface EntraAppAuthentication {
+  /** The application (client) ID of the customer-owned Entra app registration. */
+  applicationId: string;
+  /** The federated credential ID configured on the app registration, enabling the search service to authenticate as the app without a stored client secret. */
+  federatedCredentialId: string;
+  /** The tenant ID of the app registration. Required when the app registration is in a different tenant than the search service. If omitted, the search service's tenant is used. */
+  tenantId?: string;
+}
+
+export function entraAppAuthenticationSerializer(item: EntraAppAuthentication): any {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function entraAppAuthenticationDeserializer(item: any): EntraAppAuthentication {
+  return {
+    applicationId: item["applicationId"],
+    federatedCredentialId: item["federatedCredentialId"],
+    tenantId: item["tenantId"],
+  };
+}
+
 /** Configuration for a knowledge source backed by an MCP (Model Context Protocol) server. */
 export interface McpServerKnowledgeSource extends KnowledgeSource {
   /** The discriminator value. */
@@ -8131,6 +8202,53 @@ export enum KnownBlobIndexerParsingMode {
  */
 export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 
+/** The extraction effort applied to an individual file. 'minimal' (the default) uses built-in extraction; 'standard' uses Content Understanding. */
+export enum KnownFileKnowledgeSourceExtractionMode {
+  /** Built-in extraction was performed. */
+  Minimal = "minimal",
+  /** Content Understanding extraction was performed. */
+  Standard = "standard",
+}
+
+/**
+ * The extraction effort applied to an individual file. 'minimal' (the default) uses built-in extraction; 'standard' uses Content Understanding. \
+ * {@link KnownFileKnowledgeSourceExtractionMode} can be used interchangeably with FileKnowledgeSourceExtractionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **minimal**: Built-in extraction was performed. \
+ * **standard**: Content Understanding extraction was performed.
+ */
+export type FileKnowledgeSourceExtractionMode = string;
+
+/** Multipart request for uploading a file to a File knowledge source. */
+export interface UploadKnowledgeSourceFileMultipartRequest {
+  /** The JSON metadata describing the file. */
+  metadata: FileUploadMetadata;
+  /** The raw file content. */
+  content: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function uploadKnowledgeSourceFileMultipartRequestSerializer(
+  item: UploadKnowledgeSourceFileMultipartRequest,
+): any {
+  return [
+    { name: "metadata", body: fileUploadMetadataSerializer(item["metadata"]) },
+    createFilePartDescriptor("content", item["content"]),
+  ];
+}
+
+/** The JSON 'metadata' part of a multipart/form-data file upload: the full file name/path and custom key/value metadata. The parsing mode and extraction mode are both chosen by the service and are not supplied by the caller. */
+export interface FileUploadMetadata {
+  /** The full relative file name/path to store the file under (prefixes are derived from it). */
+  fileName?: string;
+  /** Custom key/value metadata to store with the file. */
+  metadata?: Record<string, string>;
+}
+
+export function fileUploadMetadataSerializer(item: FileUploadMetadata): any {
+  return { fileName: item["fileName"], metadata: item["metadata"] };
+}
+
 /** Response from a List Files request. */
 export interface _ListKnowledgeSourceFilesResult {
   /** The list of files. */
@@ -8152,6 +8270,23 @@ export function knowledgeSourceFileArrayDeserializer(result: Array<KnowledgeSour
   return result.map((item) => {
     return knowledgeSourceFileDeserializer(item);
   });
+}
+
+/** Multipart request for updating a file in a File knowledge source. */
+export interface UpdateKnowledgeSourceFileRequest {
+  /** The JSON metadata describing the file. */
+  metadata: FileUploadMetadata;
+  /** The raw file content. */
+  content: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function updateKnowledgeSourceFileRequestSerializer(
+  item: UpdateKnowledgeSourceFileRequest,
+): any {
+  return [
+    { name: "metadata", body: fileUploadMetadataSerializer(item["metadata"]) },
+    createFilePartDescriptor("content", item["content"]),
+  ];
 }
 
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
@@ -13576,6 +13711,21 @@ export function skillNamesSerializer(item: SkillNames): any {
         }),
   };
 }
+
+/** Specifies how the search parameter is interpreted when narrowing down a listing result set. Currently only 'prefix' is supported. */
+export enum KnownListingSearchType {
+  /** Matches items whose name starts with the value of the search parameter. */
+  Prefix = "prefix",
+}
+
+/**
+ * Specifies how the search parameter is interpreted when narrowing down a listing result set. Currently only 'prefix' is supported. \
+ * {@link KnownListingSearchType} can be used interchangeably with ListingSearchType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **prefix**: Matches items whose name starts with the value of the search parameter.
+ */
+export type ListingSearchType = string;
 
 export function _searchResourceEncryptionKeyAccessCredentialsSerializer(
   item: SearchResourceEncryptionKey,

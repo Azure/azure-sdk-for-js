@@ -70,9 +70,14 @@ export async function _retrieveStreamDeserialize(
   return result.body;
 }
 /**
- * KnowledgeBase retrieves relevant data from backing stores, streaming progress and results as
- * server-sent events on the same connection as they become available, instead of waiting for the
- * full retrieval to complete.
+ * Retrieves relevant data from backing stores and streams progress and results as server-sent
+ * events.
+ *
+ * Process the response incrementally using server-sent event framing. Each event contains an
+ * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
+ * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
+ * clients may expose the raw response without typed event parsing. Do not deserialize the
+ * complete response body as a single JSON document.
  */
 export async function retrieveStream(
   context: Client,

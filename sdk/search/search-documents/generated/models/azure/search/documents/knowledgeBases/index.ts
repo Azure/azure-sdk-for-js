@@ -17,6 +17,7 @@ export type {
   AIServices,
   AssetStore,
   FreshnessPolicy,
+  KnowledgeSourceNetworkAccessMode,
   KnowledgeSourceStatus,
   SynchronizationState,
   KnowledgeSourceSynchronizationError,
@@ -102,12 +103,20 @@ export type {
   KnowledgeBaseMcpServerReference,
   KnowledgeBaseFileReference,
   KnowledgeBaseIndexedSqlReference,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
 } from "./models.js";
 export {
   KnownKnowledgeRetrievalReasoningEffortKind,
   KnownKnowledgeRetrievalOutputMode,
+  KnownKnowledgeSourceNetworkAccessMode,
   KnownKnowledgeBaseMessageContentType,
   KnownKnowledgeRetrievalIntentType,
   KnownKnowledgeBaseActivityRecordType,
   KnownKnowledgeBaseReferenceType,
+  KnownKnowledgeBaseRetrievalStatusCode,
 } from "./models.js";

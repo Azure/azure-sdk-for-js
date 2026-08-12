@@ -400,16 +400,16 @@ export {
   type WordDelimiterTokenFilter,
   type ContentUnderstandingSkillChunkingMethod,
   type SharePointConnectorAppRegistration,
-} from "./models/azure/search/documents/indexes/index.js";
-export {
   type FileKnowledgeSourceExtractionMode,
-  KnownFileKnowledgeSourceExtractionMode,
   type ListingSearchType,
-  KnownListingSearchType,
   type WorkIQKnowledgeSourceParameters,
   type EntraAppAuthentication,
   type KnowledgeBaseRetrieveDefaults,
-} from "./models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
+export {
+  KnownFileKnowledgeSourceExtractionMode,
+  KnownListingSearchType,
+} from "./models/azure/search/documents/indexes/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export type {

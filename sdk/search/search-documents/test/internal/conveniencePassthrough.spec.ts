@@ -105,11 +105,7 @@ describe("convenience layer carries generated fields", () => {
         tenantId: "tenant",
       },
     };
-    const client = captureClient(
-      { name: "wiq", kind: "workIQ", workIQParameters },
-      captured,
-      201,
-    );
+    const client = captureClient({ name: "wiq", kind: "workIQ", workIQParameters }, captured, 201);
 
     const created = await client.createKnowledgeSource({
       name: "wiq",

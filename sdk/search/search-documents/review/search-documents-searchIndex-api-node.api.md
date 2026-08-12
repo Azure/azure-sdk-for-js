@@ -369,14 +369,7 @@ export interface SearchIndexContext extends Client {
 }
 
 // @public
-export function updateKnowledgeSourceFile(context: SearchIndexContext, fileId: string, body: {
-    metadata: FileUploadMetadata;
-    content: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-}, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+export function updateKnowledgeSourceFile(context: SearchIndexContext, fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
@@ -387,14 +380,7 @@ export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOption
 export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
-export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, body: {
-    metadata: FileUploadMetadata;
-    content: FileContents | {
-        contents: FileContents;
-        contentType?: string;
-        filename?: string;
-    };
-}, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
 export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {

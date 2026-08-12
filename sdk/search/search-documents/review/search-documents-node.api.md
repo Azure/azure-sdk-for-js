@@ -1691,7 +1691,7 @@ export interface KnowledgeBaseRetrievalResponse {
 export interface KnowledgeBaseRetrievalStartedEvent {
     knowledgeBaseName: string;
     outputMode: KnowledgeRetrievalOutputMode;
-    reasoningEffort: BaseKnowledgeRetrievalReasoningEffort;
+    reasoningEffort: KnowledgeRetrievalReasoningEffortUnion;
     requestId: string;
 }
 

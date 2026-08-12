@@ -2,22 +2,32 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { KnowledgeBaseRetrieveDefaults } from "./models/index.js";
 import type {
   CorsOptions,
   KnowledgeSourceReference,
+  KnowledgeBaseRetrieveDefaults,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
-  KnowledgeBaseActivityRecordType,
   KnowledgeBaseActivityRecordUnion,
-  KnowledgeBaseErrorDetail,
-  KnowledgeBaseMessage,
   KnowledgeBaseReferenceUnion,
-  KnowledgeBaseRetrievalResponse,
   KnowledgeRetrievalOutputMode,
-  KnowledgeRetrievalReasoningEffort,
   KnowledgeRetrievalReasoningEffortUnion,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
+
+export type {
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
+};
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveOptions extends OperationOptions {
@@ -37,98 +47,6 @@ export interface RetrieveStreamOptions extends OperationOptions {
    * enforce security restrictions on documents.
    */
   querySourceAuthorization?: string;
-}
-
-/**
- * Emitted once retrieval preflight validation completes, before any activity begins.
- */
-export interface KnowledgeBaseRetrievalStartedEvent {
-  /**
-   * A service-generated identifier that correlates all events in this retrieval stream.
-   */
-  requestId: string;
-  /**
-   * The name of the knowledge base being queried.
-   */
-  knowledgeBaseName: string;
-  /**
-   * The effective output mode for this retrieval.
-   */
-  outputMode: KnowledgeRetrievalOutputMode;
-  /**
-   * The effective reasoning effort for this retrieval.
-   */
-  reasoningEffort: KnowledgeRetrievalReasoningEffort;
-}
-
-/**
- * Emitted immediately before an individual retrieval activity begins executing.
- */
-export interface KnowledgeBaseActivityStartedEvent {
-  /**
-   * The ID of the activity record, matching the `id` on the corresponding activity completed event.
-   */
-  id: number;
-  /**
-   * The type of the activity that has started.
-   */
-  type: KnowledgeBaseActivityRecordType;
-  /**
-   * The time at which the activity started.
-   */
-  startedAt: Date;
-  /**
-   * The knowledge source used by the activity, when the activity targets a knowledge source.
-   */
-  knowledgeSourceName?: string;
-}
-
-/**
- * Emitted when a fully validated and post-processed synthesized answer is available.
- */
-export interface KnowledgeBaseAnswerCompletedEvent {
-  /**
-   * The zero-based index of the completed message in the final response array.
-   */
-  messageIndex: number;
-  /**
-   * The completed answer message.
-   */
-  message: KnowledgeBaseMessage;
-}
-
-/**
- * Emitted in place of a response completed event if retrieval fails after the stream starts.
- */
-export interface KnowledgeBaseStreamErrorEvent {
-  /**
-   * The error detail explaining why the retrieval stream failed.
-   */
-  error?: KnowledgeBaseErrorDetail;
-  /**
-   * Activity records that completed before the retrieval failed.
-   */
-  activity?: KnowledgeBaseActivityRecordUnion[];
-}
-
-/**
- * The semantic HTTP status of a completed streaming retrieval. `200` indicates the retrieval
- * completed successfully, `206` that it completed with partial results.
- */
-export type KnowledgeBaseRetrievalStatusCode = number;
-
-/**
- * Emitted after retrieval completes successfully. This is the final event of a successful stream.
- */
-export interface KnowledgeBaseResponseCompletedEvent {
-  /**
-   * The semantic HTTP status of the completed retrieval.
-   */
-  statusCode: KnowledgeBaseRetrievalStatusCode;
-  /**
-   * The authoritative completed retrieval response.
-   */
-  response: KnowledgeBaseRetrievalResponse;
 }
 
 /**

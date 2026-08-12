@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentKeysOrIds } from "../../models/azure/search/documents/indexes/models.js";
-import { ListingSearchType } from "../../models/models.js";
+import {
+  DocumentKeysOrIds,
+  ListingSearchType,
+} from "../../models/azure/search/documents/indexes/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

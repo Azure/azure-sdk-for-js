@@ -17,6 +17,7 @@
 - Added `workIQParameters` on `WorkIQKnowledgeSource` and `corsOptions` on `FileKnowledgeSource`, and exported the supporting `WorkIQKnowledgeSourceParameters`, `EntraAppAuthentication`, and `KnowledgeBaseRetrieveDefaults` types.
 - Added `queryHints` on the Azure Blob, indexed OneLake, and indexed SharePoint knowledge source parameter types.
 - Added `search`, `pageSize`, and `searchType` options to the index, alias, index stats summary, knowledge base, and knowledge source list methods, along with the `ListingSearchType` and `KnownListingSearchType` types.
+- The knowledge retrieval streaming event payloads (`KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode`) are now defined by the service spec rather than hand-authored. As a result, `KnowledgeBaseRetrievalStartedEvent.reasoningEffort` is now typed as the discriminated `KnowledgeRetrievalReasoningEffortUnion` instead of the open base type, so it can be narrowed by its `kind`.
 
 ### Breaking Changes
 

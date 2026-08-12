@@ -5,62 +5,11 @@
 ```ts
 
 // @public
-export interface EntraAppAuthentication {
-    applicationId: string;
-    federatedCredentialId: string;
-    tenantId?: string;
-}
-
-// @public
-export type FileKnowledgeSourceExtractionMode = string;
-
-// @public
-export interface FileUploadMetadata {
-    fileName?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface KnowledgeBaseRetrieveDefaults {
-    maxOutputDocuments?: number;
-    maxOutputSizeInTokens?: number;
-    maxRuntimeInSeconds?: number;
-}
-
-// @public
-export type KnowledgeSourceNetworkAccessMode = string;
-
-// @public
-export enum KnownFileKnowledgeSourceExtractionMode {
-    Minimal = "minimal",
-    Standard = "standard"
-}
-
-// @public
-export enum KnownKnowledgeSourceNetworkAccessMode {
-    Private = "private",
-    Public = "public"
-}
-
-// @public
-export enum KnownListingSearchType {
-    Prefix = "prefix"
-}
-
-// @public
 export enum KnownVersions {
     V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
     V20260501Preview = "2026-05-01-preview",
     V20260801Preview = "2026-08-01-preview"
-}
-
-// @public
-export type ListingSearchType = string;
-
-// @public
-export interface WorkIQKnowledgeSourceParameters {
-    entraAppAuthentication: EntraAppAuthentication;
 }
 
 // (No @packageDocumentation comment for this package)

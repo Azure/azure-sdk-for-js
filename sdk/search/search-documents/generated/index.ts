@@ -10,21 +10,7 @@ import {
 import { NodeReadableStream } from "./static-helpers/platform-types.js";
 
 export { SearchClient } from "./search/searchClient.js";
-export type {
-  KnowledgeBaseRetrieveDefaults,
-  KnowledgeSourceNetworkAccessMode,
-  WorkIQKnowledgeSourceParameters,
-  EntraAppAuthentication,
-  FileKnowledgeSourceExtractionMode,
-  FileUploadMetadata,
-  ListingSearchType,
-} from "./models/index.js";
-export {
-  KnownKnowledgeSourceNetworkAccessMode,
-  KnownFileKnowledgeSourceExtractionMode,
-  KnownListingSearchType,
-  KnownVersions,
-} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
   ErrorDetail,
@@ -260,6 +246,7 @@ export type {
   KnowledgeBaseModelUnion,
   KnowledgeBaseModelKind,
   KnowledgeBaseAzureOpenAIModel,
+  KnowledgeBaseRetrieveDefaults,
   KnowledgeSource,
   KnowledgeSourceUnion,
   KnowledgeSourceKind,
@@ -298,6 +285,8 @@ export type {
   RemoteSharePointKnowledgeSource,
   RemoteSharePointKnowledgeSourceParameters,
   WorkIQKnowledgeSource,
+  WorkIQKnowledgeSourceParameters,
+  EntraAppAuthentication,
   McpServerKnowledgeSource,
   McpServerKnowledgeSourceParameters,
   McpServerAuthentication,
@@ -327,6 +316,10 @@ export type {
   KnowledgeSourceSynchronizationStatus,
   KnowledgeSourceFile,
   BlobIndexerParsingMode,
+  FileKnowledgeSourceExtractionMode,
+  UploadKnowledgeSourceFileMultipartRequest,
+  FileUploadMetadata,
+  UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   ServiceCounters,
   ResourceCounter,
@@ -455,6 +448,7 @@ export type {
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
   ListSkillsetsResult,
   SkillNames,
+  ListingSearchType,
 } from "./models/azure/search/documents/indexes/index.js";
 export {
   KnownSearchFieldDataType,
@@ -489,6 +483,7 @@ export {
   KnownSplitSkillLanguage,
   KnownKnowledgeSourceSynchronizationStatus,
   KnownBlobIndexerParsingMode,
+  KnownFileKnowledgeSourceExtractionMode,
   KnownSearchIndexerDataSourceType,
   KnownIndexerPermissionOption,
   KnownIndexerResyncOption,
@@ -525,6 +520,7 @@ export {
   KnownChatCompletionExtraParametersBehavior,
   KnownChatCompletionResponseFormatType,
   KnownIndexProjectionMode,
+  KnownListingSearchType,
 } from "./models/azure/search/documents/indexes/index.js";
 export type {
   KnowledgeRetrievalReasoningEffort,
@@ -542,6 +538,7 @@ export type {
   AIServices,
   AssetStore,
   FreshnessPolicy,
+  KnowledgeSourceNetworkAccessMode,
   KnowledgeSourceStatus,
   SynchronizationState,
   KnowledgeSourceSynchronizationError,
@@ -627,14 +624,22 @@ export type {
   KnowledgeBaseMcpServerReference,
   KnowledgeBaseFileReference,
   KnowledgeBaseIndexedSqlReference,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
   KnownKnowledgeRetrievalReasoningEffortKind,
   KnownKnowledgeRetrievalOutputMode,
+  KnownKnowledgeSourceNetworkAccessMode,
   KnownKnowledgeBaseMessageContentType,
   KnownKnowledgeRetrievalIntentType,
   KnownKnowledgeBaseActivityRecordType,
   KnownKnowledgeBaseReferenceType,
+  KnownKnowledgeBaseRetrievalStatusCode,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export type {
   AutocompletePostOptionalParams,

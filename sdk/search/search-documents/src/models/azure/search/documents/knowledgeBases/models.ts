@@ -7,7 +7,6 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { KnowledgeSourceNetworkAccessMode } from "../../../../models.js";
 import {
   searchIndexerDataIdentityUnionSerializer,
   searchIndexerDataIdentityUnionDeserializer,
@@ -469,6 +468,24 @@ export function freshnessPolicyDeserializer(item: any): FreshnessPolicy {
     boostingDuration: item["boostingDuration"],
   };
 }
+
+/** Specifies the network access mode for knowledge source ingestion. Default is 'public'. */
+export enum KnownKnowledgeSourceNetworkAccessMode {
+  /** Ingestion runs in the standard, publicly reachable execution environment. This is the default. */
+  Public = "public",
+  /** Ingestion runs in a private execution environment so it can reach data sources and dependencies over a private network (private endpoint / shared private link). */
+  Private = "private",
+}
+
+/**
+ * Specifies the network access mode for knowledge source ingestion. Default is 'public'. \
+ * {@link KnownKnowledgeSourceNetworkAccessMode} can be used interchangeably with KnowledgeSourceNetworkAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **public**: Ingestion runs in the standard, publicly reachable execution environment. This is the default. \
+ * **private**: Ingestion runs in a private execution environment so it can reach data sources and dependencies over a private network (private endpoint \/ shared private link).
+ */
+export type KnowledgeSourceNetworkAccessMode = string;
 
 /** Represents the status and synchronization history of a knowledge source. */
 export interface KnowledgeSourceStatus {
@@ -3170,3 +3187,120 @@ export function knowledgeBaseIndexedSqlReferenceDeserializer(
     citationUrl: item["citationUrl"],
   };
 }
+
+/** Emitted once retrieval preflight validation completes, before any activity begins. */
+export interface KnowledgeBaseRetrievalStartedEvent {
+  /** A service-generated identifier that correlates all events in this retrieval stream. */
+  requestId: string;
+  /** The name of the knowledge base being queried. */
+  knowledgeBaseName: string;
+  /** The effective output mode for this retrieval. */
+  outputMode: KnowledgeRetrievalOutputMode;
+  /** The effective reasoning effort for this retrieval. */
+  reasoningEffort: KnowledgeRetrievalReasoningEffortUnion;
+}
+
+export function knowledgeBaseRetrievalStartedEventDeserializer(
+  item: any,
+): KnowledgeBaseRetrievalStartedEvent {
+  return {
+    requestId: item["requestId"],
+    knowledgeBaseName: item["knowledgeBaseName"],
+    outputMode: item["outputMode"],
+    reasoningEffort: knowledgeRetrievalReasoningEffortUnionDeserializer(item["reasoningEffort"]),
+  };
+}
+
+/** Emitted immediately before an individual retrieval activity begins executing. */
+export interface KnowledgeBaseActivityStartedEvent {
+  /** The ID of the activity record, matching the `id` on the corresponding `activity.completed` event. */
+  id: number;
+  /** The type of the activity that has started. */
+  type: KnowledgeBaseActivityRecordType;
+  /** The time at which the activity started. */
+  startedAt: Date;
+  /** The knowledge source used by the activity, when the activity targets a knowledge source. */
+  knowledgeSourceName?: string;
+}
+
+export function knowledgeBaseActivityStartedEventDeserializer(
+  item: any,
+): KnowledgeBaseActivityStartedEvent {
+  return {
+    id: item["id"],
+    type: item["type"],
+    startedAt: new Date(item["startedAt"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+  };
+}
+
+/** Emitted when a fully validated and post-processed synthesized answer is available. */
+export interface KnowledgeBaseAnswerCompletedEvent {
+  /** The zero-based index of the completed message in the final response array. */
+  messageIndex: number;
+  /** The completed answer message. */
+  message: KnowledgeBaseMessage;
+}
+
+export function knowledgeBaseAnswerCompletedEventDeserializer(
+  item: any,
+): KnowledgeBaseAnswerCompletedEvent {
+  return {
+    messageIndex: item["messageIndex"],
+    message: knowledgeBaseMessageDeserializer(item["message"]),
+  };
+}
+
+/** Emitted in place of `response.completed` if retrieval fails after the stream starts. */
+export interface KnowledgeBaseStreamErrorEvent {
+  /** The error detail explaining why the retrieval stream failed. */
+  error?: KnowledgeBaseErrorDetail;
+  /** Activity records that completed before the retrieval failed. */
+  activity?: KnowledgeBaseActivityRecordUnion[];
+}
+
+export function knowledgeBaseStreamErrorEventDeserializer(
+  item: any,
+): KnowledgeBaseStreamErrorEvent {
+  return {
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    activity: !item["activity"]
+      ? item["activity"]
+      : knowledgeBaseActivityRecordUnionArrayDeserializer(item["activity"]),
+  };
+}
+
+/** Emitted after retrieval completes successfully. */
+export interface KnowledgeBaseResponseCompletedEvent {
+  /** The semantic HTTP status of the completed retrieval. */
+  statusCode: KnowledgeBaseRetrievalStatusCode;
+  /** The authoritative completed retrieval response. */
+  response: KnowledgeBaseRetrievalResponse;
+}
+
+export function knowledgeBaseResponseCompletedEventDeserializer(
+  item: any,
+): KnowledgeBaseResponseCompletedEvent {
+  return {
+    statusCode: item["statusCode"],
+    response: knowledgeBaseRetrievalResponseDeserializer(item["response"]),
+  };
+}
+
+/** The semantic HTTP status of a completed streaming retrieval. */
+export enum KnownKnowledgeBaseRetrievalStatusCode {
+  /** The retrieval completed successfully. */
+  OK = 200,
+  /** The retrieval completed with partial results. */
+  PartialContent = 206,
+}
+
+/**
+ * The semantic HTTP status of a completed streaming retrieval. \
+ * {@link KnownKnowledgeBaseRetrievalStatusCode} can be used interchangeably with KnowledgeBaseRetrievalStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **200**: The retrieval completed successfully. \
+ * **206**: The retrieval completed with partial results.
+ */
+export type KnowledgeBaseRetrievalStatusCode = number;

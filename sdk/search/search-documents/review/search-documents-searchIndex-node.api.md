@@ -294,23 +294,9 @@ export class SearchIndexClient {
     listKnowledgeSourceFiles(name: string, options?: ListKnowledgeSourceFilesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceFile>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
     readonly pipeline: Pipeline;
-    updateKnowledgeSourceFile(fileId: string, body: {
-        metadata: FileUploadMetadata;
-        content: FileContents | {
-            contents: FileContents;
-            contentType?: string;
-            filename?: string;
-        };
-    }, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+    updateKnowledgeSourceFile(fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
     uploadKnowledgeSourceFile(contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
-    uploadKnowledgeSourceFileMultipart(body: {
-        metadata: FileUploadMetadata;
-        content: FileContents | {
-            contents: FileContents;
-            contentType?: string;
-            filename?: string;
-        };
-    }, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFileMultipart(body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
 }
 
 // @public

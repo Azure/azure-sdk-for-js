@@ -3,8 +3,9 @@
 
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import type { WorkIQKnowledgeSourceParameters, ListingSearchType } from "./models/index.js";
 import type {
+  WorkIQKnowledgeSourceParameters,
+  ListingSearchType,
   AIFoundryModelCatalogName,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,

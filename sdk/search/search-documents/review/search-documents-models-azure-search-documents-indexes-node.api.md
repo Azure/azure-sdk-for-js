@@ -538,6 +538,13 @@ export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
 }
 
 // @public
+export interface EntraAppAuthentication {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
+}
+
+// @public
 export interface ExhaustiveKnnAlgorithmConfiguration extends VectorSearchAlgorithmConfiguration {
     kind: "exhaustiveKnn";
     parameters?: ExhaustiveKnnParameters;
@@ -593,10 +600,19 @@ export interface FileKnowledgeSource extends KnowledgeSource {
 }
 
 // @public
+export type FileKnowledgeSourceExtractionMode = string;
+
+// @public
 export interface FileKnowledgeSourceParameters {
     readonly createdResources?: CreatedResources;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
     queryHints?: SearchIndexKnowledgeSourceQueryHints;
+}
+
+// @public
+export interface FileUploadMetadata {
+    fileName?: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -898,6 +914,13 @@ export type KnowledgeBaseModelKind = string;
 export type KnowledgeBaseModelUnion = KnowledgeBaseAzureOpenAIModel | KnowledgeBaseModel;
 
 // @public
+export interface KnowledgeBaseRetrieveDefaults {
+    maxOutputDocuments?: number;
+    maxOutputSizeInTokens?: number;
+    maxRuntimeInSeconds?: number;
+}
+
+// @public
 export interface KnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
@@ -1130,6 +1153,12 @@ export enum KnownEntityRecognitionSkillLanguage {
     Tr = "tr",
     ZhHans = "zh-Hans",
     ZhHant = "zh-Hant"
+}
+
+// @public
+export enum KnownFileKnowledgeSourceExtractionMode {
+    Minimal = "minimal",
+    Standard = "standard"
 }
 
 // @public
@@ -1427,6 +1456,11 @@ export enum KnownLexicalTokenizerName {
     Standard = "standard_v2",
     UaxUrlEmail = "uax_url_email",
     Whitespace = "whitespace"
+}
+
+// @public
+export enum KnownListingSearchType {
+    Prefix = "prefix"
 }
 
 // @public
@@ -2026,6 +2060,9 @@ export interface ListIndexersResult {
     readonly indexers: SearchIndexer[];
     readonly odataNextLink?: string;
 }
+
+// @public
+export type ListingSearchType = string;
 
 // @public
 export interface ListSkillsetsResult {
@@ -3049,6 +3086,26 @@ export interface UniqueTokenFilter extends TokenFilter {
 }
 
 // @public
+export interface UpdateKnowledgeSourceFileRequest {
+    content: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: FileUploadMetadata;
+}
+
+// @public
+export interface UploadKnowledgeSourceFileMultipartRequest {
+    content: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: FileUploadMetadata;
+}
+
+// @public
 export type VectorEncodingFormat = string;
 
 // @public
@@ -3204,6 +3261,11 @@ export interface WordDelimiterTokenFilter extends TokenFilter {
 export interface WorkIQKnowledgeSource extends KnowledgeSource {
     kind: "workIQ";
     workIQParameters: WorkIQKnowledgeSourceParameters;
+}
+
+// @public
+export interface WorkIQKnowledgeSourceParameters {
+    entraAppAuthentication: EntraAppAuthentication;
 }
 
 // (No @packageDocumentation comment for this package)

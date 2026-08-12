@@ -18,12 +18,12 @@ import {
   KnowledgeBase,
   KnowledgeSourceUnion,
   KnowledgeSourceFile,
+  UploadKnowledgeSourceFileMultipartRequest,
+  UpdateKnowledgeSourceFileRequest,
   SearchServiceStatistics,
   IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
 import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { FileUploadMetadata } from "../models/models.js";
-import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   listIndexStatsSummary,
@@ -137,10 +137,7 @@ export class SearchIndexClient {
   /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional extraction override) and a 'content' part with the raw file bytes. */
   updateKnowledgeSourceFile(
     fileId: string,
-    body: {
-      metadata: FileUploadMetadata;
-      content: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-    },
+    body: UpdateKnowledgeSourceFileRequest,
     name: string,
     options: UpdateKnowledgeSourceFileOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
@@ -166,10 +163,7 @@ export class SearchIndexClient {
 
   /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional parsing/extraction overrides) and a 'content' part with the raw file bytes. */
   uploadKnowledgeSourceFileMultipart(
-    body: {
-      metadata: FileUploadMetadata;
-      content: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-    },
+    body: UploadKnowledgeSourceFileMultipartRequest,
     name: string,
     options: UploadKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
   ): Promise<KnowledgeSourceFile> {
