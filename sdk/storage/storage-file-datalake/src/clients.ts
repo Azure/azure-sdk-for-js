@@ -4,7 +4,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient, Tags } from "@azure/storage-blob";
@@ -725,9 +725,20 @@ export class DataLakePathClient extends StorageClient {
         );
         return {
           ...response,
-          _response: response._response,
+          _response: {
+            ...response._response,
+            parsedHeaders: {
+              ...response._response.parsedHeaders,
+              contentMD5: response.contentMD5
+                ? uint8ArrayToString(response.contentMD5, "base64")
+                : undefined,
+            },
+          },
           isDirectory: response.resourceType === "directory",
           permissions: toPermissions(response.permissions),
+          contentMD5: response.contentMD5
+            ? uint8ArrayToString(response.contentMD5, "base64")
+            : undefined,
         };
       },
     );

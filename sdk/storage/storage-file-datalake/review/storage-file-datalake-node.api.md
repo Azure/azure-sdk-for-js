@@ -11,11 +11,8 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
-<<<<<<< HEAD
-import { ClientOptions } from '@azure-rest/core-client';
-=======
 import type { BlobTags } from '@azure/storage-blob';
->>>>>>> upstream/storage/blob-typespec-based
+import { ClientOptions } from '@azure-rest/core-client';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
 import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import { Credential as Credential_2 } from '@azure/storage-common';
@@ -63,12 +60,8 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
-<<<<<<< HEAD
-import { TokenCredential } from '@azure/core-auth';
-=======
 import { Tags } from '@azure/storage-blob';
-import type { TokenCredential } from '@azure/core-auth';
->>>>>>> upstream/storage/blob-typespec-based
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
