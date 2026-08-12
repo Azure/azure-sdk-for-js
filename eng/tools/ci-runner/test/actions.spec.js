@@ -103,6 +103,30 @@ describe("executeActions", () => {
     assert.strictEqual(resultCode, 1);
   });
 
+  it("should report actionable remediation when formatting fails", () => {
+    vi.mocked(spawnPnpmRun).mockReturnValueOnce(1);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const resultCode = executeActions(
+      "check-format",
+      ["storage"],
+      [],
+      "azure-storage-file-datalake",
+    );
+
+    assert.strictEqual(resultCode, 1);
+    assert.ok(
+      errorSpy.mock.calls.some((call) =>
+        String(call[0])
+          .replaceAll("\\", "/")
+          .includes(
+            'Formatting check failed in sdk/storage/storage-file-datalake. Run "pnpm format"',
+          ),
+      ),
+    );
+    errorSpy.mockRestore();
+  });
+
   it("should route check-package-version to verifyPackages function", () => {
     vi.mocked(verifyPackages).mockReturnValueOnce(0);
     const resultCode = executeActions(

@@ -6,6 +6,25 @@
 import { spawnPnpm, spawnPnpmRun, spawnPnpmWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { runTestProxyRestore } from "./testProxyRestore.js";
+import { relative, resolve, sep } from "node:path";
+
+/**
+ * Log an actionable failure and publish it as an Azure Pipelines issue when
+ * running in CI. Pipeline issues are forwarded to the associated GitHub check.
+ *
+ * @param {string} message
+ */
+function reportFailure(message) {
+  console.error(message);
+
+  if (process.env.TF_BUILD) {
+    const escapedMessage = message
+      .replaceAll("%", "%AZP25")
+      .replaceAll("\r", "%0D")
+      .replaceAll("\n", "%0A");
+    console.log(`##vso[task.logissue type=error]${escapedMessage}`);
+  }
+}
 
 /**
  * Helper to run a global pnpm command
@@ -146,14 +165,18 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
  *
  * @param {string} action - which action to execute
  * @param {string[]} packageDirs - An array of package folder paths
- * @param { (dir: string) => void} [onError] - An error callback when a command fails in a directory
+ * @param {(dir: string, exitCode: number) => string} [getFailureMessage] - Creates an actionable failure message
  */
-export function runInPackageDirs(action, packageDirs, onError) {
+export function runInPackageDirs(action, packageDirs, getFailureMessage) {
   let exitCode = 0;
   for (const packageDir of packageDirs) {
     let dirExitCode = spawnPnpmRun(packageDir, action);
-    if (dirExitCode !== 0 && onError) {
-      onError(packageDir);
+    if (dirExitCode !== 0) {
+      const relativePackageDir = relative(getBaseDir(), resolve(packageDir)).split(sep).join("/");
+      const failureMessage = getFailureMessage
+        ? getFailureMessage(packageDir, dirExitCode)
+        : `Command "pnpm run ${action}" failed with exit code ${dirExitCode} in ${relativePackageDir}.`;
+      reportFailure(failureMessage);
     }
     exitCode = exitCode || dirExitCode;
   }
