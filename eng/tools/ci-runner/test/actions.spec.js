@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { afterEach, assert, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
 import { spawnPnpmRun, spawnPnpm } from "../src/spawn.js";
 import { verifyPackages } from "../src/verifyPackages.js";
@@ -26,8 +26,13 @@ vi.mock("../src/verifyPackages.js", async () => {
 });
 
 describe("executeActions", () => {
+  beforeEach(() => {
+    vi.stubEnv("TF_BUILD", "");
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("should pass global actions directly to", () => {

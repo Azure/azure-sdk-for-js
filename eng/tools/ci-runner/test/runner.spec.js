@@ -3,7 +3,7 @@
 
 // @ts-check
 
-import { afterEach, assert, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeEach, describe, it, vi } from "vitest";
 import { join as pathJoin } from "node:path";
 import { getBaseDir } from "../src/env.js";
 import { runAllWithDirection, runInPackageDirs } from "../src/runner.js";
@@ -237,6 +237,10 @@ describe("runAllWithDirection two-pass resolution", () => {
 });
 
 describe("runInPackageDirs failure reporting", () => {
+  beforeEach(() => {
+    vi.stubEnv("TF_BUILD", "");
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
