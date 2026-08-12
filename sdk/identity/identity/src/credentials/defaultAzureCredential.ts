@@ -7,15 +7,15 @@ import type {
   DefaultAzureCredentialResourceIdOptions,
 } from "./defaultAzureCredentialOptions.js";
 
-import { ManagedIdentityCredential } from "#platform/credentials/managedIdentityCredential/index";
-import { VisualStudioCodeCredential } from "#platform/credentials/visualStudioCodeCredential";
-import { AzureCliCredential } from "#platform/credentials/azureCliCredential";
-import { AzureDeveloperCliCredential } from "#platform/credentials/azureDeveloperCliCredential";
-import { AzurePowerShellCredential } from "#platform/credentials/azurePowerShellCredential";
+import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential.js";
+import { AzureCliCredential } from "./azureCliCredential.js";
+import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential.js";
+import { AzurePowerShellCredential } from "./azurePowerShellCredential.js";
 import { ChainedTokenCredential } from "./chainedTokenCredential.js";
-import { EnvironmentCredential } from "#platform/credentials/environmentCredential";
+import { EnvironmentCredential } from "./environmentCredential.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { WorkloadIdentityCredential } from "#platform/credentials/workloadIdentityCredential";
+import { WorkloadIdentityCredential } from "./workloadIdentityCredential.js";
 import { credentialLogger } from "../util/logging.js";
 import {
   createDefaultAzureCliCredential,
@@ -54,7 +54,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that works for most
  * applications that use Azure SDK client libraries. For more information, see
- * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
+ * [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
  *
  * The following credential types will be tried, in order:
  *

@@ -9,8 +9,7 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Optional parameters for the {@link ClientCertificateCredential} class.
  */
 export interface ClientCertificateCredentialOptions
-  extends
-    MultiTenantTokenCredentialOptions,
+  extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions,
     AuthorityValidationOptions {
   /**

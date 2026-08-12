@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions.js";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");
@@ -16,12 +15,12 @@ export class AzureCliCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  constructor(_options?: AzureCliCredentialOptions) {
+  constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

@@ -1,34 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureDeveloperCliCredential } from "@azure/identity";
-import {
-  azureDeveloperCliPublicErrorMessages,
-  developerCliCredentialInternals,
-} from "$internal/credentials/azureDeveloperCliCredential.js";
+import { azureDeveloperCliPublicErrorMessages } from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import { processUtils } from "$internal/util/processUtils.js";
+import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { ProcessError } from "@azure/core-process";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azdCommands: string[] = [];
-  let azdArgumentLists: string[][] = [];
-  let azdOptions: { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number }[] = [];
+  let azdOptions: { cwd: string; timeout?: number }[] = [];
 
   beforeEach(async function () {
     azdCommands = [];
-    azdArgumentLists = [];
     azdOptions = [];
-    vi.spyOn(processUtils, "execFileWithResult").mockImplementation(async (file, args, options) => {
-      azdCommands.push([file, ...args].join(" "));
-      azdArgumentLists.push(args);
-      azdOptions.push(
-        options as { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number },
-      );
-      return { stdout, stderr, error: null };
-    });
+    vi.spyOn(child_process, "exec").mockImplementation(
+      (command, options, callback): ChildProcess => {
+        azdCommands.push(command as string);
+        azdOptions.push(options as { cwd: string; timeout?: number });
+        if (callback) {
+          callback(null, stdout, stderr);
+        }
+        // Bypassing the type check. We don't use this return value in our code.
+        return {} as ChildProcess;
+      },
+    );
   });
 
   afterEach(async function () {
@@ -44,16 +41,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
-    assert.deepEqual(azdArgumentLists[0], [
-      "auth",
-      "token",
-      "--output",
-      "json",
-      "--no-prompt",
-      "--scope",
-      "https://service/.default",
-    ]);
-    assert.isTrue(azdOptions[0].allowWindowsBatchFiles);
     // Used a working directory, and a shell
     assert.deepEqual(
       {
@@ -127,19 +114,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     }
   });
 
-  it("returns a meaningful error when spawning Azure Developer CLI fails with ENOENT", async () => {
-    vi.mocked(processUtils.execFileWithResult).mockResolvedValueOnce({
-      stdout: "",
-      stderr: "",
-      error: new ProcessError("The executable could not be found.", { code: "ENOENT" }),
-    });
-
-    const credential = new AzureDeveloperCliCredential();
-    await expect(credential.getToken("https://service/.default")).rejects.toMatchObject({
-      message: azureDeveloperCliPublicErrorMessages.notInstalled,
-    });
-  });
-
   it("get access token when azure cli not login in", async () => {
     stdout = "";
     stderr = azureDeveloperCliPublicErrorMessages.login;
@@ -170,7 +144,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     // Verify the command includes --no-prompt to prevent hanging on debug prompts
     const command = azdCommands[0];
-    assert.isTrue(command.includes("--no-prompt"), "Command should include --no-prompt flag");
+    assert.ok(command.includes("--no-prompt"), "Command should include --no-prompt flag");
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
@@ -298,217 +272,4 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       );
     });
   }
-
-  describe("parseAzdStderr", () => {
-    it("parses valid JSON with data.message", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: { message: "\nERROR: fetching token: authentication failed\n" },
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, "ERROR: fetching token: authentication failed");
-    });
-
-    it("trims whitespace from data.message", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: { message: "  \n  ERROR: test error  \n  " },
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, "ERROR: test error");
-    });
-
-    it("returns raw stderr when JSON parsing fails", () => {
-      const invalidJson = "not valid json";
-      const result = developerCliCredentialInternals.parseAzdStderr(invalidJson);
-      assert.equal(result, "not valid json");
-    });
-
-    it("returns raw stderr when data.message is missing", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: {},
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, json);
-    });
-
-    it("returns raw stderr when data.message is empty", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: { message: "" },
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, json);
-    });
-
-    it("returns raw stderr when data.message is only whitespace", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: { message: "   \n  \n  " },
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, json);
-    });
-
-    it("returns raw stderr when data is missing", () => {
-      const json = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, json);
-    });
-
-    it("extracts structured error field (v1.24.0+ single line)", () => {
-      const aadError =
-        "fetching token: failed to authenticate:\n(invalid_tenant) AADSTS90002: Tenant 'test' not found";
-      const json = JSON.stringify({
-        error: aadError,
-        links: [{ title: "azd auth login reference", url: "https://example.com" }],
-        message: "Authentication with Azure failed.",
-        suggestion: "Run 'azd auth login' to sign in again.",
-      });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, aadError);
-    });
-
-    it("prefers structured error preceded by empty consoleMessage (v1.23.7 - v1.23.15)", () => {
-      const aadError = "fetching token: failed to authenticate";
-      const input =
-        JSON.stringify({
-          type: "consoleMessage",
-          timestamp: "2026-04-13T17:43:24.7558297-07:00",
-          data: { message: "\n" },
-        }) +
-        "\n" +
-        JSON.stringify({
-          error: aadError,
-          message: "Authentication with Azure failed.",
-          suggestion: "Run 'azd auth login' to sign in again.",
-        });
-      const result = developerCliCredentialInternals.parseAzdStderr(input);
-      assert.equal(result, aadError);
-    });
-
-    it("prefers structured error over non-empty consoleMessage", () => {
-      const aadError = "AADSTS70008: Refresh token expired";
-      const input =
-        JSON.stringify({
-          type: "consoleMessage",
-          timestamp: "2024-01-01T00:00:00Z",
-          data: { message: "some informational console output" },
-        }) +
-        "\n" +
-        JSON.stringify({
-          error: aadError,
-          message: "Authentication with Azure failed.",
-        });
-      const result = developerCliCredentialInternals.parseAzdStderr(input);
-      assert.equal(result, aadError);
-    });
-
-    it("falls back to first non-empty consoleMessage when no structured error", () => {
-      const firstMessage = "ERROR: fetching token: interactive login needed";
-      const input =
-        JSON.stringify({
-          type: "consoleMessage",
-          data: { message: "\n" },
-        }) +
-        "\n" +
-        JSON.stringify({
-          type: "consoleMessage",
-          data: { message: firstMessage },
-        }) +
-        "\n" +
-        JSON.stringify({
-          type: "consoleMessage",
-          data: { message: "trailing detail" },
-        });
-      const result = developerCliCredentialInternals.parseAzdStderr(input);
-      assert.equal(result, firstMessage);
-    });
-
-    it("returns raw stderr when structured error field is empty", () => {
-      const json = JSON.stringify({ error: "   ", message: "Authentication failed." });
-      const result = developerCliCredentialInternals.parseAzdStderr(json);
-      assert.equal(result, json);
-    });
-  });
-
-  describe("error message parsing integration", () => {
-    it("parses JSON error message from stderr", async () => {
-      stdout = "";
-      stderr = JSON.stringify({
-        type: "consoleMessage",
-        timestamp: "2024-01-01T00:00:00Z",
-        data: { message: "\nERROR: fetching token: authentication failed\n" },
-      });
-      const credential = new AzureDeveloperCliCredential();
-      try {
-        await credential.getToken("https://service/.default");
-        assert.fail("Expected error to be thrown");
-      } catch (error: any) {
-        assert.equal(error.message, "ERROR: fetching token: authentication failed");
-      }
-    });
-
-    it("uses raw stderr when JSON parsing fails", async () => {
-      stdout = "";
-      stderr = "plain text error message";
-      const credential = new AzureDeveloperCliCredential();
-      try {
-        await credential.getToken("https://service/.default");
-        assert.fail("Expected error to be thrown");
-      } catch (error: any) {
-        assert.equal(error.message, "plain text error message");
-      }
-    });
-
-    it("parses structured error from azd v1.24.0+ stderr", async () => {
-      const aadError = "AADSTS90002: Tenant 'test' not found";
-      stdout = "";
-      stderr = JSON.stringify({
-        error: aadError,
-        message: "Authentication with Azure failed.",
-        suggestion: "Run 'azd auth login' to sign in again.",
-      });
-      const credential = new AzureDeveloperCliCredential();
-      try {
-        await credential.getToken("https://service/.default");
-        assert.fail("Expected error to be thrown");
-      } catch (error: any) {
-        assert.equal(error.message, aadError);
-      }
-    });
-
-    it("parses structured error preceded by empty consoleMessage from azd v1.23.7-v1.23.15 stderr", async () => {
-      const aadError = "AADSTS90002: Tenant 'test' not found";
-      stdout = "";
-      stderr =
-        JSON.stringify({
-          type: "consoleMessage",
-          timestamp: "2026-04-13T17:43:24.7558297-07:00",
-          data: { message: "\n" },
-        }) +
-        "\n" +
-        JSON.stringify({
-          error: aadError,
-          message: "Authentication with Azure failed.",
-          suggestion: "Run 'azd auth login' to sign in again.",
-        });
-      const credential = new AzureDeveloperCliCredential();
-      try {
-        await credential.getToken("https://service/.default");
-        assert.fail("Expected error to be thrown");
-      } catch (error: any) {
-        assert.equal(error.message, aadError);
-      }
-    });
-  });
 });

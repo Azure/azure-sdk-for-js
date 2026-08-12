@@ -54,7 +54,8 @@ export type DefaultAzureCredentialEnvVars =
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
 export interface DefaultAzureCredentialOptions
-  extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+  extends MultiTenantTokenCredentialOptions,
+    AuthorityValidationOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.
@@ -62,8 +63,8 @@ export interface DefaultAzureCredentialOptions
   tenantId?: string;
 
   /**
-   * Timeout configurable for making token requests for developer credentials, namely, {@link AzurePowerShellCredential},
-   * {@link AzureDeveloperCliCredential}, and {@link AzureCliCredential}.
+   * Timeout configurable for making token requests for developer credentials, namely, {@link AzurePowershellCredential},
+   * {@link AzureDeveloperCliCredential} and {@link AzureCliCredential}.
    * Process timeout for credentials should be provided in milliseconds.
    */
   processTimeoutInMs?: number;

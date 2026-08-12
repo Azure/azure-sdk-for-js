@@ -421,7 +421,7 @@ importers:
     dependencies:
       '@azure/identity':
         specifier: ^4.9.0
-        version: 4.13.1
+        version: link:../../../sdk/identity/identity
       '@azure/storage-blob':
         specifier: ^12.27.0
         version: 12.33.0
@@ -1016,7 +1016,7 @@ importers:
         version: link:../../core/core-util
       '@azure/identity':
         specifier: ^4.13.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1530,7 +1530,7 @@ importers:
         version: 1.4.0
       '@azure/identity':
         specifier: ^4.0.1
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/storage-blob':
         specifier: ^12.17.0
         version: 12.33.0
@@ -4682,7 +4682,7 @@ importers:
         version: link:../ai-language-text
       '@azure/identity':
         specifier: ^4.5.0
-        version: 4.13.1
+        version: link:../../identity/identity
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -15424,7 +15424,7 @@ importers:
         version: link:../ai-form-recognizer
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -16702,9 +16702,6 @@ importers:
       '@azure/core-client':
         specifier: ^1.9.2
         version: link:../../core/core-client
-      '@azure/core-process':
-        specifier: ^1.0.0
-        version: link:../../core/core-process
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
@@ -16721,11 +16718,11 @@ importers:
         specifier: ^5.5.0
         version: 5.17.3
       '@azure/msal-node':
-        specifier: ^5.1.5
+        specifier: ^5.1.0
         version: 5.4.3
       open:
-        specifier: ^11.0.0
-        version: 11.0.0
+        specifier: ^10.1.0
+        version: 10.2.0
       tslib:
         specifier: ^2.2.0
         version: 2.8.1
@@ -16763,9 +16760,6 @@ importers:
       assertion-error:
         specifier: ^2.0.1
         version: 2.0.1
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -16781,12 +16775,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.62.1
-      prettier:
-        specifier: 'catalog:'
-        version: 3.9.6
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -16801,7 +16789,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/identity':
         specifier: ^4.7.0
-        version: 4.13.1
+        version: link:../identity
       '@azure/msal-node':
         specifier: ^5.1.0
         version: 5.4.3
@@ -16874,7 +16862,7 @@ importers:
         version: link:../../core/core-auth
       '@azure/identity':
         specifier: ^4.7.0
-        version: 4.13.1
+        version: link:../identity
       '@azure/msal-node':
         specifier: ^5.1.0
         version: 5.4.3
@@ -16947,7 +16935,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../identity
       '@azure/identity-cache-persistence':
         specifier: ^1.2.0
         version: link:../identity-cache-persistence
@@ -16987,7 +16975,7 @@ importers:
     dependencies:
       '@azure/identity':
         specifier: ^4.11.0
-        version: 4.13.1
+        version: link:../identity
       '@azure/msal-node':
         specifier: ^5.1.0
         version: 5.4.3
@@ -18139,7 +18127,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/keyvault-certificates':
         specifier: ^4.9.0
         version: 4.10.3
@@ -18337,7 +18325,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/keyvault-keys':
         specifier: ^4.9.0
         version: 4.10.2
@@ -18471,7 +18459,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/keyvault-secrets':
         specifier: ^4.9.0
         version: link:../keyvault-secrets
@@ -22404,7 +22392,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/monitor-ingestion':
         specifier: ^1.1.0
         version: link:../monitor-ingestion
@@ -22456,7 +22444,7 @@ importers:
         version: link:../../core/core-tracing
       '@azure/identity':
         specifier: ^4.13.1
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/logger':
         specifier: ^1.3.0
         version: link:../../core/logger
@@ -28805,7 +28793,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/schema-registry':
         specifier: 1.3.0
         version: 1.3.0
@@ -29170,7 +29158,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/search-documents':
         specifier: 12.1.0
         version: 12.1.0
@@ -33621,7 +33609,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       '@azure/template':
         specifier: workspace:^
         version: link:../template
@@ -34008,7 +33996,7 @@ importers:
         version: link:../../core/core-util
       '@azure/identity':
         specifier: ^4.5.0
-        version: 4.13.1
+        version: link:../../identity/identity
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -34218,7 +34206,7 @@ importers:
         version: link:../ai-text-analytics
       '@azure/identity':
         specifier: ^4.8.0
-        version: 4.13.1
+        version: link:../../identity/identity
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -39728,10 +39716,6 @@ packages:
     resolution: {integrity: sha1-ZPYeQsu7LuwgcanawLKLoeZdUIQ=}
     engines: {node: '>=0.10.0'}
 
-  is-in-ssh@1.0.0:
-    resolution: {integrity: sha1-jrc8HKu6d3SNOJWI7uoTKmMFdiI=}
-    engines: {node: '>=20'}
-
   is-inside-container@1.0.0:
     resolution: {integrity: sha1-6B+6aZZi6zHb2vJnZqYdSBRxfqQ=}
     engines: {node: '>=14.16'}
@@ -40484,10 +40468,6 @@ packages:
     resolution: {integrity: sha1-udhVvgB2IOgLb7BfrJgUH+Yttzw=}
     engines: {node: '>=18'}
 
-  open@11.0.0:
-    resolution: {integrity: sha1-iX5hMvmU01VMvPcuDfmPF2p+X2I=}
-    engines: {node: '>=20'}
-
   open@7.4.2:
     resolution: {integrity: sha1-uBR+Jtzz5CYxbHMAif1x7dKcIyE=}
     engines: {node: '>=8'}
@@ -40737,10 +40717,6 @@ packages:
   postgres-interval@1.2.0:
     resolution: {integrity: sha1-tGDILLFYdQd4iBmgaqD//bNURpU=}
     engines: {node: '>=0.10.0'}
-
-  powershell-utils@0.1.0:
-    resolution: {integrity: sha1-WkLJqCT7Ty8lHMtBqq5zMU9dasI=}
-    engines: {node: '>=20'}
 
   prebuild-install@7.1.3:
     resolution: {integrity: sha1-1jCrrSsUdEPyCiEpF76uaLgJLuw=}
@@ -41851,10 +41827,6 @@ packages:
     resolution: {integrity: sha1-h4PU32cdTVA2W+LuTHGRegVXuqs=}
     engines: {node: '>=18'}
 
-  wsl-utils@0.3.1:
-    resolution: {integrity: sha1-lHmDbd8DviZ6rTq/w8sfbgyfHtE=}
-    engines: {node: '>=20'}
-
   xdg-basedir@5.1.0:
     resolution: {integrity: sha1-HvuhlCXnO+G8byps61Kj0siEwMk=}
     engines: {node: '>=12'}
@@ -41987,7 +41959,7 @@ snapshots:
     dependencies:
       '@azure/app-configuration': 1.12.1
       '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/identity': 4.13.0
+      '@azure/identity': 4.13.1
       '@azure/keyvault-secrets': 4.11.2
       jsonc-parser: 3.3.1
     transitivePeerDependencies:
@@ -46738,8 +46710,6 @@ snapshots:
     dependencies:
       is-extglob: 2.1.1
 
-  is-in-ssh@1.0.0: {}
-
   is-inside-container@1.0.0:
     dependencies:
       is-docker: 3.0.0
@@ -47645,15 +47615,6 @@ snapshots:
       is-inside-container: 1.0.0
       wsl-utils: 0.1.0
 
-  open@11.0.0:
-    dependencies:
-      default-browser: 5.5.0
-      define-lazy-prop: 3.0.0
-      is-in-ssh: 1.0.0
-      is-inside-container: 1.0.0
-      powershell-utils: 0.1.0
-      wsl-utils: 0.3.1
-
   open@7.4.2:
     dependencies:
       is-docker: 2.2.1
@@ -47886,8 +47847,6 @@ snapshots:
   postgres-interval@1.2.0:
     dependencies:
       xtend: 4.0.2
-
-  powershell-utils@0.1.0: {}
 
   prebuild-install@7.1.3:
     dependencies:
@@ -49084,11 +49043,6 @@ snapshots:
   wsl-utils@0.1.0:
     dependencies:
       is-wsl: 3.1.1
-
-  wsl-utils@0.3.1:
-    dependencies:
-      is-wsl: 3.1.1
-      powershell-utils: 0.1.0
 
   xdg-basedir@5.1.0: {}
 

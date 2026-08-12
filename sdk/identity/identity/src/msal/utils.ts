@@ -6,16 +6,15 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../erro
 import type { CredentialLogger } from "../util/logging.js";
 import { credentialLogger, formatError } from "../util/logging.js";
 import { DefaultAuthority, DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
-import { randomUUID as coreRandomUUID, isNodeLike } from "@azure/core-util";
+import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
 import type { AzureLogLevel } from "@azure/logger";
 import type { GetTokenOptions } from "@azure/core-auth";
-import type { AccountInfo, AuthError } from "#platform/msal/msal";
-import { LogLevel } from "#platform/msal/msal";
+import { msalCommon } from "./msal.js";
 
 export interface ILoggerCallback {
-  (level: LogLevel, message: string, containsPii: boolean): void;
+  (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
 }
 
 const logger = credentialLogger("IdentityUtils");
@@ -51,6 +50,22 @@ export function ensureValidMsalToken(
   if (!msalToken.accessToken) {
     throw error(`Response had no "accessToken" property.`);
   }
+}
+
+/**
+ * Returns the authority host from either the options bag or the AZURE_AUTHORITY_HOST environment variable.
+ *
+ * Defaults to {@link DefaultAuthorityHost}.
+ * @internal
+ */
+export function getAuthorityHost(options?: { authorityHost?: string }): string {
+  let authorityHost = options?.authorityHost;
+
+  if (!authorityHost && isNodeLike) {
+    authorityHost = process.env.AZURE_AUTHORITY_HOST;
+  }
+
+  return authorityHost ?? DefaultAuthorityHost;
 }
 
 /**
@@ -98,22 +113,22 @@ export const defaultLoggerCallback: (
   logger: CredentialLogger,
   platform?: "Node" | "Browser",
 ) => ILoggerCallback =
-  (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNodeLike ? "Node" : "Browser") =>
+  (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
     if (containsPii) {
       return;
     }
     switch (level) {
-      case LogLevel.Error:
+      case msalCommon.LogLevel.Error:
         credLogger.info(`MSAL ${platform} V2 error: ${message}`);
         return;
-      case LogLevel.Info:
+      case msalCommon.LogLevel.Info:
         credLogger.info(`MSAL ${platform} V2 info message: ${message}`);
         return;
-      case LogLevel.Verbose:
+      case msalCommon.LogLevel.Verbose:
         credLogger.info(`MSAL ${platform} V2 verbose message: ${message}`);
         return;
-      case LogLevel.Warning:
+      case msalCommon.LogLevel.Warning:
         credLogger.info(`MSAL ${platform} V2 warning: ${message}`);
         return;
     }
@@ -122,19 +137,19 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): LogLevel {
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
   switch (logLevel) {
     case "error":
-      return LogLevel.Error;
+      return msalCommon.LogLevel.Error;
     case "info":
-      return LogLevel.Info;
+      return msalCommon.LogLevel.Info;
     case "verbose":
-      return LogLevel.Verbose;
+      return msalCommon.LogLevel.Verbose;
     case "warning":
-      return LogLevel.Warning;
+      return msalCommon.LogLevel.Warning;
     default:
       // default msal logging level should be Info
-      return LogLevel.Info;
+      return msalCommon.LogLevel.Info;
   }
 }
 
@@ -162,7 +177,7 @@ export function handleMsalError(
     error.name === "ClientAuthError" ||
     error.name === "BrowserAuthError"
   ) {
-    const msalError = error as AuthError;
+    const msalError = error as msalCommon.AuthError;
     switch (msalError.errorCode) {
       case "endpoints_resolution_error":
         logger.info(formatError(scopes, error.message));
@@ -200,16 +215,11 @@ export function handleMsalError(
     );
     return error;
   }
-  return new AuthenticationRequiredError({
-    scopes,
-    getTokenOptions,
-    message: error.message,
-    cause: error,
-  });
+  return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
 }
 
 // transformations
-export function publicToMsal(account: AuthenticationRecord): AccountInfo {
+export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
   return {
     localAccountId: account.homeAccountId,
     environment: account.authority,

@@ -4,13 +4,13 @@
 import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
+import { isNode } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
-import { SDK_VERSION } from "../constants.js";
+import { DefaultAuthorityHost, SDK_VERSION } from "../constants.js";
 import { tracingClient } from "../util/tracing.js";
 import { logger } from "../util/logging.js";
 import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
@@ -19,15 +19,8 @@ import {
   parseExpirationTimestamp,
   parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils.js";
-import { getAuthorityHost } from "../util/authorityHost.js";
 
 const noCorrelationId = "noCorrelationId";
-const HttpStatus = {
-  CLIENT_ERROR_RANGE_START: 400,
-  CLIENT_ERROR_RANGE_END: 499,
-  SERVER_ERROR_RANGE_START: 500,
-  SERVER_ERROR_RANGE_END: 599,
-};
 
 /**
  * An internal type used to communicate details of a token request's
@@ -42,6 +35,22 @@ export interface TokenResponse {
    * The refresh token if the 'offline_access' scope was used.
    */
   refreshToken?: string;
+}
+
+/**
+ * @internal
+ */
+export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
+  // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.
+  let authorityHost = options?.authorityHost;
+
+  // The AZURE_AUTHORITY_HOST environment variable can only be provided in Node.js.
+  if (isNode) {
+    authorityHost = authorityHost ?? process.env.AZURE_AUTHORITY_HOST;
+  }
+
+  // If the authorityHost is not provided, we use the default one from the public cloud: https://login.microsoftonline.com
+  return authorityHost ?? DefaultAuthorityHost;
 }
 
 /**
@@ -65,7 +74,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
 
-    const baseUri = getAuthorityHost(options);
+    const baseUri = getIdentityClientAuthorityHost(options);
     if (!baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
     }
@@ -261,7 +270,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.logIdentifiers(response);
 
     return {
-      body: this.parseResponseBody(response) as T,
+      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status,
     };
@@ -286,7 +295,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.logIdentifiers(response);
 
     return {
-      body: this.parseResponseBody(response) as T,
+      body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
       status: response.status,
     };
@@ -325,7 +334,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       }
       const base64Metadata = accessToken.split(".")[1];
       const { appid, upn, tid, oid } = JSON.parse(
-        uint8ArrayToString(stringToUint8Array(base64Metadata, "base64url"), "utf-8"),
+        Buffer.from(base64Metadata, "base64").toString("utf8"),
       );
 
       logger.info(
@@ -339,53 +348,5 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         e.message,
       );
     }
-  }
-
-  /**
-   * Parses the response body if possible. Add error properties if parsing fails.
-   * This follows MSAL INetworkModule behavior so the response is in expected format.
-   */
-  private parseResponseBody(response: PipelineResponse) {
-    let parsedBody: {};
-    try {
-      parsedBody = JSON.parse(response.bodyAsText || "");
-    } catch (error) {
-      logger.info(`IdentityClient: Could not parse response body: ${error}`);
-      let errorType;
-      let errorDescriptionHelper;
-      /**
-       * Determine error type based on status code ranges following MSAL patterns:
-       * Client error responses (400 – 499)
-       * Server error responses (500 – 599)
-       */
-      if (
-        response.status >= HttpStatus.CLIENT_ERROR_RANGE_START &&
-        response.status <= HttpStatus.CLIENT_ERROR_RANGE_END
-      ) {
-        errorType = "client_error";
-        errorDescriptionHelper = "A client";
-      } else if (
-        response.status >= HttpStatus.SERVER_ERROR_RANGE_START &&
-        response.status <= HttpStatus.SERVER_ERROR_RANGE_END
-      ) {
-        errorType = "server_error";
-        errorDescriptionHelper = "A server";
-      } else {
-        errorType = "unknown_error";
-        errorDescriptionHelper = "An unknown";
-      }
-
-      const errorDescriptionLines = [
-        `${errorDescriptionHelper} error occured.`,
-        `Http status code: ${response.status}`,
-        `Http status message: ${response.bodyAsText || "Unknown"}`,
-        `Headers: ${JSON.stringify(response.headers)}`,
-      ];
-      parsedBody = {
-        error: errorType,
-        error_description: errorDescriptionLines.join("\n"),
-      };
-    }
-    return parsedBody;
   }
 }

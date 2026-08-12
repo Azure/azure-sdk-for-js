@@ -11,11 +11,10 @@ import { delay, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential, type GetTokenOptions } from "@azure/identity";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
-import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
+describe("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   beforeEach(async function (ctx) {
@@ -38,8 +37,8 @@ describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
     );
 
     const token = await credential.getToken(scope);
-    assert.isDefined(token?.token);
-    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("authenticates when cae enabled", async function () {
@@ -51,8 +50,8 @@ describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
     );
 
     const token = await credential.getToken(scope, { enableCae: true });
-    assert.isDefined(token?.token);
-    assert.isTrue(token?.expiresOnTimestamp! > Date.now());
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("allows cancelling the authentication", async function () {
@@ -80,7 +79,7 @@ describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
-    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
+    assert.ok(error?.message.includes("endpoints_resolution_error"));
   });
 
   it("supports tracing", async () => {

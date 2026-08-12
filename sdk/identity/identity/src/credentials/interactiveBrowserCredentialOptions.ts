@@ -21,8 +21,7 @@ export type BrowserLoginStyle = "redirect" | "popup";
  * Defines the common options for the InteractiveBrowserCredential class.
  */
 export interface InteractiveBrowserCredentialNodeOptions
-  extends
-    InteractiveCredentialOptions,
+  extends InteractiveCredentialOptions,
     CredentialPersistenceOptions,
     BrowserCustomizationOptions,
     BrokerAuthOptions {

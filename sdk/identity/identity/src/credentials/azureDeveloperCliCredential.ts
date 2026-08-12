@@ -5,6 +5,7 @@ import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-
 import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
 import type { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
+import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
@@ -12,8 +13,6 @@ import {
 } from "../util/tenantIdUtils.js";
 import { tracingClient } from "../util/tracing.js";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-import { processUtils } from "../util/processUtils.js";
 
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
@@ -36,59 +35,6 @@ export const azureDeveloperCliPublicErrorMessages = {
  * @internal
  */
 export const developerCliCredentialInternals = {
-  /**
-   * Parses azd stderr JSON output to extract a human-readable error message.
-   *
-   * Three formats are supported across azd versions:
-   * - pre-v1.23.7: `{"type":"consoleMessage","data":{"message":"..."}}`
-   * - v1.23.7 - v1.23.15: an empty `consoleMessage` line followed by `{"error":"...","message":"...","suggestion":"..."}`
-   * - v1.24.0+: `{"error":"...","message":"...","suggestion":"..."}`
-   *
-   * The structured `error` field is preferred. If absent, falls back to the
-   * first non-empty `data.message` from a legacy `consoleMessage` line. If
-   * neither is found, the raw stderr is returned unchanged so plain-text and
-   * malformed output continue to surface to callers.
-   *
-   * @param stderr - The stderr output from azd command
-   * @returns The parsed error message or raw stderr
-   * @internal
-   */
-  parseAzdStderr(stderr: string): string {
-    if (!stderr?.trim()) {
-      return stderr;
-    }
-
-    let fallback: string | undefined;
-
-    for (const rawLine of stderr.split("\n")) {
-      const line = rawLine.trim();
-      if (!line.startsWith("{")) {
-        continue;
-      }
-
-      let parsed: any;
-      try {
-        parsed = JSON.parse(line);
-      } catch {
-        // Not valid JSON on this line; continue.
-        continue;
-      }
-
-      if (typeof parsed?.error === "string" && parsed.error.trim()) {
-        return parsed.error.trim();
-      }
-
-      if (fallback === undefined) {
-        const message = parsed?.data?.message;
-        if (typeof message === "string" && message.trim()) {
-          fallback = message.trim();
-        }
-      }
-    }
-
-    return fallback ?? stderr;
-  },
-
   /**
    * @internal
    */
@@ -127,24 +73,38 @@ export const developerCliCredentialInternals = {
 
     let claimsSections: string[] = [];
     if (claims) {
-      const encodedClaims = uint8ArrayToString(stringToUint8Array(claims, "utf-8"), "base64");
+      const encodedClaims = btoa(claims);
       claimsSections = ["--claims", encodedClaims];
     }
-    const args = [
-      "auth",
-      "token",
-      "--output",
-      "json",
-      "--no-prompt",
-      ...scopes.reduce<string[]>((previous, current) => previous.concat("--scope", current), []),
-      ...tenantSection,
-      ...claimsSections,
-    ];
-    return processUtils.execFileWithResult("azd", args, {
-      allowWindowsBatchFiles: true,
-      cwd: developerCliCredentialInternals.getSafeWorkingDir(),
-      encoding: "utf8",
-      timeout,
+    return new Promise((resolve, reject) => {
+      try {
+        const args = [
+          "auth",
+          "token",
+          "--output",
+          "json",
+          "--no-prompt",
+          ...scopes.reduce<string[]>(
+            (previous, current) => previous.concat("--scope", current),
+            [],
+          ),
+          ...tenantSection,
+          ...claimsSections,
+        ];
+        const command = ["azd", ...args].join(" ");
+        child_process.exec(
+          command,
+          {
+            cwd: developerCliCredentialInternals.getSafeWorkingDir(),
+            timeout,
+          },
+          (error, stdout, stderr) => {
+            resolve({ stdout, stderr, error });
+          },
+        );
+      } catch (err: any) {
+        reject(err);
+      }
     });
   },
 };
@@ -281,8 +241,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           } as AccessToken;
         } catch (e: any) {
           if (obj.stderr) {
-            const errorMessage = developerCliCredentialInternals.parseAzdStderr(obj.stderr);
-            throw new CredentialUnavailableError(errorMessage);
+            throw new CredentialUnavailableError(obj.stderr);
           }
           throw e;
         }

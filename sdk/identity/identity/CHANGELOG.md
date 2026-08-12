@@ -1,34 +1,5 @@
 # Release History
 
-## 4.14.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#1512](https://github.com/microsoft/ApplicationInsights-node.js/issues/1512)
-
-### Other Changes
-
-- Replaced shell-based developer credential commands with safe, structured
-  process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
-
-## 4.14.0-beta.4 (2026-06-08)
-
-### Bugs Fixed
-
-- Fixed `AzureDeveloperCliCredential` to correctly parse error messages from Azure Developer CLI v1.23.7 and later, which previously caused raw JSON to surface in the credential error instead of the underlying error text. [#38416](https://github.com/Azure/azure-sdk-for-js/pull/38416)
-- Fixed `handleMsalError` to preserve the original MSAL error via `cause` on `AuthenticationRequiredError`, allowing callers to access `.claims` on the underlying error. [#38722](https://github.com/Azure/azure-sdk-for-js/pull/38722)
-
-## 4.14.0-beta.3 (2026-04-08)
-
-### Other Changes
-
-- Reduced bundle size by optimizing imports from `@azure/msal-node`, e.g. achieving a ~61kb reduction (from 851kb to 790kb) when importing `ClientCertificateCredential`. [#36942](https://github.com/Azure/azure-sdk-for-js/pull/36942)
-- Updated `@azure/msal-node` to `^5.1.0` and `@azure/msal-browser` to `^5.5.0`. [#37836](https://github.com/Azure/azure-sdk-for-js/pull/37836)
-
 ## 4.13.1 (2026-03-18)
 
 ### Other Changes
@@ -38,27 +9,6 @@
   - Replaced deprecated `createPublicClientApplication()` with `createStandardPublicClientApplication()`
   - Updated `handleRedirectPromise` to use options object instead of string parameter
   - Replaced deprecated `tokenQueryParameters` with `extraQueryParameters` in MSAL node flows
-
-## 4.14.0-beta.2 (2026-02-10)
-
-### Breaking Changes
-
-- Renamed `enableAzureKubernetesTokenProxy` in `WorkloadIdentityCredentialOptions` to `enableAzureProxy`. [#36728](https://github.com/Azure/azure-sdk-for-js/pull/36728)
-
-### Bugs Fixed
-
-- Fixed an issue where `AzureDeveloperCliCredential` error messages included raw JSON output from `azd auth token` instead of clean, user-friendly messages. The credential now parses the JSON stderr output to extract and display only the error message. [#37268](https://github.com/Azure/azure-sdk-for-js/pull/37268)
-- Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
-
-### Other Changes
-
-- Refactored and cleaned up `MsalClientOptions` to eliminate nested property duplication, replaced `getIdentityClientAuthorityHost` with `getAuthorityHost`, and removed deprecated `isNode` in favor of `isNodeLike`. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)
-
-## 4.14.0-beta.1 (2025-11-06)
-
-### Features Added
-
-- Added Kubernetes token proxy support (identity binding mode) to `WorkloadIdentityCredential`. When enabled via the `enableAzureKubernetesTokenProxy ` option, the credential redirects token requests to an AKS-provided proxy to work around Entra ID's limit on federated identity credentials per managed identity. This feature is opt-in and only available when using `WorkloadIdentityCredential` directly (not supported by `DefaultAzureCredential` or `ManagedIdentityCredential`). [#36218](https://github.com/Azure/azure-sdk-for-js/pull/36218)
 
 ## 4.13.0 (2025-10-07)
 

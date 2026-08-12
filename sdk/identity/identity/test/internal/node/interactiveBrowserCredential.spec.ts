@@ -9,6 +9,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
+import type http from "node:http";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 declare global {
@@ -32,6 +33,7 @@ vi.mock("open", async () => {
 
 describe("InteractiveBrowserCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
+  let listen: http.Server | undefined;
   let recorder: Recorder;
 
   beforeEach(async function (ctx) {
@@ -41,6 +43,9 @@ describe("InteractiveBrowserCredential (internal)", function () {
   });
 
   afterEach(async function () {
+    if (listen) {
+      listen.close();
+    }
     await cleanup();
   });
 

@@ -39,7 +39,8 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
  * Defines options for the InteractiveBrowserCredential class for Node.js.
  */
 export interface DeviceCodeCredentialOptions
-  extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+  extends InteractiveCredentialOptions,
+    CredentialPersistenceOptions {
   /**
    * The Microsoft Entra tenant (directory) ID.
    */

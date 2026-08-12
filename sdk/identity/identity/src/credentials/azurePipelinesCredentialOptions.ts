@@ -9,7 +9,6 @@ import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCreden
  * Optional parameters for the {@link AzurePipelinesCredential} class.
  */
 export interface AzurePipelinesCredentialOptions
-  extends
-    MultiTenantTokenCredentialOptions,
+  extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions,
     AuthorityValidationOptions {}

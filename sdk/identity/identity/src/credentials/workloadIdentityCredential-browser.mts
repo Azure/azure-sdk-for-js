@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions.js";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
@@ -19,7 +18,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  constructor(_options?: WorkloadIdentityCredentialOptions) {
+  constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
@@ -27,10 +26,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
-  public getToken(
-    _scopes: string | string[],
-    _options?: GetTokenOptions,
-  ): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
