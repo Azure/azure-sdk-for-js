@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-08-11)
+## 2.0.0 (2026-08-12)
 
 ### Features Added
   - Added operation group MarkupRulesOperations
