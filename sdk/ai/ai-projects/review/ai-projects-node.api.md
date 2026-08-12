@@ -118,7 +118,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition;
@@ -470,6 +470,7 @@ export interface ApiKeyCredentials extends BaseCredentials {
 
 // @public
 export interface ApplyPatchToolParam extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     type: "apply_patch";
 }
 
@@ -1284,6 +1285,9 @@ export interface BrowserAutomationToolParameters {
 }
 
 // @public
+export type CallableToolAllowedCaller = "direct" | "programmatic";
+
+// @public
 export interface CaptureStructuredOutputsTool extends Tool {
     description?: string;
     name?: string;
@@ -1340,6 +1344,7 @@ export type CodeDependencyResolution = "bundled" | "remote_build";
 
 // @public
 export interface CodeInterpreterTool extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     container?: string | AutoCodeInterpreterToolParam;
     description?: string;
     name?: string;
@@ -1349,6 +1354,7 @@ export interface CodeInterpreterTool extends Tool {
 
 // @public
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
+    allowed_callers?: CallableToolAllowedCaller[];
     container?: string | AutoCodeInterpreterToolParam;
     // (undocumented)
     type: "code_interpreter";
@@ -1573,6 +1579,7 @@ export interface CustomTextFormatParam extends CustomToolParamFormat {
 
 // @public
 export interface CustomToolParam extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     defer_loading?: boolean;
     description?: string;
     format?: CustomToolParamFormatUnion;
@@ -2314,6 +2321,7 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
     name?: string;
@@ -2346,9 +2354,11 @@ export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvir
 
 // @public
 export interface FunctionTool extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     defer_loading?: boolean;
     description?: string;
     name: string;
+    output_schema?: Record<string, unknown>;
     parameters?: Record<string, unknown>;
     strict?: boolean;
     type: "function";
@@ -2356,11 +2366,13 @@ export interface FunctionTool extends Tool {
 
 // @public
 export interface FunctionToolParam {
+    allowed_callers?: CallableToolAllowedCaller[];
     defer_loading?: boolean;
     // (undocumented)
     description?: string;
     // (undocumented)
     name: string;
+    output_schema?: Record<string, any>;
     // (undocumented)
     parameters?: EmptyModelParam;
     // (undocumented)
@@ -2705,6 +2717,7 @@ export interface McpProtocolConfiguration {
 
 // @public
 export interface MCPTool extends Tool {
+    allowed_callers?: CallableToolAllowedCaller[];
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
     connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
@@ -2722,6 +2735,7 @@ export interface MCPTool extends Tool {
 
 // @public
 export interface MCPToolboxTool extends ToolboxTool {
+    allowed_callers?: CallableToolAllowedCaller[];
     // (undocumented)
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
@@ -3219,6 +3233,11 @@ export interface ProceduralMemoryItem extends MemoryItem {
 }
 
 // @public
+export interface ProgrammaticToolCallingParam extends Tool {
+    type: "programmatic_tool_calling";
+}
+
+// @public
 export interface PromotionInfo {
     agent_name: string;
     agent_version: string;
@@ -3306,12 +3325,16 @@ export interface Reasoning {
     effort?: ReasoningEffort;
     // (undocumented)
     generate_summary?: "auto" | "concise" | "detailed";
+    mode?: ReasoningModeEnum;
     // (undocumented)
     summary?: "auto" | "concise" | "detailed";
 }
 
 // @public
-export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
+
+// @public
+export type ReasoningModeEnum = string | "standard" | "pro";
 
 // @public
 export interface RecurrenceSchedule {
@@ -3369,6 +3392,7 @@ export interface ResponsesProtocolConfiguration {
 
 // @public
 export interface ResponseUsageInputTokensDetails {
+    cache_write_tokens: number;
     cached_tokens: number;
 }
 
@@ -3653,6 +3677,11 @@ export interface SpecificApplyPatchParam extends ToolChoiceParam {
 // @public
 export interface SpecificFunctionShellParam extends ToolChoiceParam {
     type: "shell";
+}
+
+// @public
+export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
+    type: "programmatic_tool_calling";
 }
 
 // @public
@@ -3979,10 +4008,10 @@ export interface ToolChoiceParam {
 }
 
 // @public
-export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter" | "computer" | "computer_use";
+export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "programmatic_tool_calling" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter" | "computer" | "computer_use";
 
 // @public
-export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceComputer | ToolChoiceComputerUse | ToolChoiceParam;
+export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificProgrammaticToolCallingParam | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceComputer | ToolChoiceComputerUse | ToolChoiceParam;
 
 // @public
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
@@ -4032,10 +4061,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
