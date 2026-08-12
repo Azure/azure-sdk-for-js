@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@azure/storage-file-datalake": ["./dist/browser/index.d.ts"],
+      "@azure/storage-file-datalake/package.json": ["./package.json"],
       "@azure/storage-file-datalake/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
