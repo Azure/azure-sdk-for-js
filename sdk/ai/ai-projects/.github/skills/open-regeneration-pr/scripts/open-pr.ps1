@@ -1,8 +1,8 @@
 # Open a draft regeneration PR for sdk/ai/ai-projects.
 #
 # Usage:
-#   ./open-pr.ps1 -TspCommit <40-char-sha> [-BranchName <name>] [-BaseBranch main] [-Remote origin]
-#   ./open-pr.ps1 -TspCommit <40-char-sha> -ManagedAgentSession [-BaseBranch main]
+#   ./open-pr.ps1 -TspCommit <40-char-sha> [-BranchName <name>] [-BaseBranch main] [-Remote origin] [-SamplesNoOp] [-TestsNoOp]
+#   ./open-pr.ps1 -TspCommit <40-char-sha> -ManagedAgentSession [-BaseBranch main] [-SamplesNoOp] [-TestsNoOp]
 #
 # Stages three to five logical commits, pushes to origin, and opens a DRAFT PR via `gh`.
 # In a managed Copilot agent session, stages the commits but leaves branch and
@@ -19,6 +19,10 @@ param(
   [string]$Remote = 'origin',
 
   [string]$BaseBranch = 'main',
+
+  [switch]$SamplesNoOp,
+
+  [switch]$TestsNoOp,
 
   [switch]$ManagedAgentSession
 )
@@ -49,7 +53,8 @@ try {
   # 2. Use the branch owned by the Copilot session, or create a branch for a
   # manually dispatched task.
   if ($ManagedAgentSession) {
-    $currentBranch = (& git branch --show-current).Trim()
+    [string]$currentBranch = & git branch --show-current
+    $currentBranch = $currentBranch.Trim()
     if (-not $currentBranch) {
       throw 'Managed agent session must be running on a named branch.'
     }
@@ -67,18 +72,21 @@ try {
     param(
       [string]$Title,
       [string[]]$Paths,
-      [switch]$AllowEmpty
+      [switch]$NoOp
     )
     foreach ($p in $Paths) {
       & git add -- $p 2>$null
     }
     $staged = & git diff --cached --name-only
     if (-not $staged) {
-      if ($AllowEmpty) {
+      if ($NoOp) {
         Write-Host "  (skip) no changes for: $Title"
         return
       }
       throw "Required commit group has no changes: $Title"
+    }
+    if ($NoOp) {
+      throw "Commit group was marked as a no-op but has changes: $Title"
     }
     Write-Host "  commit: $Title"
     & git commit -m $Title | Out-Null
@@ -101,11 +109,11 @@ try {
 
   Commit-Group "[ai-projects] regen: samples for new features" @(
     "$pkg/samples-dev"
-  ) -AllowEmpty
+  ) -NoOp:$SamplesNoOp
 
   Commit-Group "[ai-projects] regen: tests for new GA features" @(
     "$pkg/test"
-  ) -AllowEmpty
+  ) -NoOp:$TestsNoOp
 
   Commit-Group "[ai-projects] regen: changelog" @(
     "$pkg/CHANGELOG.md",
