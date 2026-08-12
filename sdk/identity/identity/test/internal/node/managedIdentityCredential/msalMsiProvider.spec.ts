@@ -258,7 +258,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       });
 
       it("handles an unreachable network error", async function () {
-        acquireTokenStub.mockRejectedValue(new AuthError("network_error"));
+        acquireTokenStub.mockRejectedValue(new AuthError("network_error", "testID"));
         const credential = new ManagedIdentityCredential();
         await expect(credential.getToken("scope")).rejects.toThrow(CredentialUnavailableError);
       });

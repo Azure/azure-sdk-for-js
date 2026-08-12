@@ -1,8 +1,8 @@
 # Release History
 
-## 4.13.2 (2026-08-10)
+## 4.13.2 (2026-08-12)
 
-### Bugs Fixed
+### Other Changes
 
 - Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency.
 
