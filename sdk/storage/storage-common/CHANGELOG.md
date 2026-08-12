@@ -1,5 +1,17 @@
 # Release History
 
+## 12.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- add the missing export of `storageRedirectRangeHeaderPolicy` for browsers
+
+### Other Changes
+
 ## 12.5.0 (2026-08-03)
 
 ### Features Added
