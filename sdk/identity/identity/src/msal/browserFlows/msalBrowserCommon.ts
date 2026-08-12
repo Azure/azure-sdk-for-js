@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalBrowser from "@azure/msal-browser";
+import type * as msalBrowser from "@azure/msal-browser";
 
 import type { MsalBrowserFlowOptions } from "./msalBrowserOptions.js";
 import {

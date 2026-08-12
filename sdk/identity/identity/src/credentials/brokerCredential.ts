@@ -14,8 +14,8 @@ import { tracingClient } from "../util/tracing.js";
 import type { MsalClient, MsalClientOptions } from "../msal/nodeFlows/msalClient.js";
 import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import { DeveloperSignOnClientId } from "../constants.js";
-import { TokenCredentialOptions } from "../tokenCredentialOptions.js";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
+import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 
 const logger = credentialLogger("BrokerCredential");

@@ -16,7 +16,7 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInsta
 import type { IdentityClient } from "$internal/client/identityClient.js";
 import { serviceFabricErrorMessage } from "$internal/credentials/managedIdentityCredential/utils.js";
 import { logger } from "@azure/identity";
-import { InternalManagedIdentityCredentialOptions } from "$internal/credentials/managedIdentityCredential/options.js";
+import type { InternalManagedIdentityCredentialOptions } from "$internal/credentials/managedIdentityCredential/options.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<

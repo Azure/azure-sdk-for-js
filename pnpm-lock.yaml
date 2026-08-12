@@ -16702,6 +16702,9 @@ importers:
       '@azure/core-client':
         specifier: ^1.9.2
         version: link:../../core/core-client
+      '@azure/core-process':
+        specifier: ^1.0.0
+        version: link:../../core/core-process
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
