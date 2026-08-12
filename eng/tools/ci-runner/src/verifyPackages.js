@@ -8,6 +8,7 @@ import path from "node:path";
 
 import { spawnGitWithOutput, spawnPnpmWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
+import { reportFailure } from "./reporting.js";
 
 /**
  * Checks if a specific version of a package is published on the npm registry.
@@ -147,7 +148,9 @@ export function verifyPackages(packageNames, packageDirs) {
 
     const packageJsonPath = path.join(packageDir, "package.json");
     if (!fs.existsSync(packageJsonPath)) {
-      console.error(`package.json not found at ${packageJsonPath}`);
+      reportFailure(
+        `Package version check failed for ${packageName}: package.json not found at ${packageJsonPath}.`,
+      );
       exitCode = 1;
       continue;
     }
@@ -170,8 +173,8 @@ export function verifyPackages(packageNames, packageDirs) {
     try {
       modifiedFiles = getModifiedFilesSinceTag(tag, packageDir);
     } catch (err) {
-      console.error(
-        `  ✗ Could not diff against tag "${tag}": ${err instanceof Error ? err.message : String(err)}`,
+      reportFailure(
+        `Package version check failed for ${packageName}@${version}: could not diff against tag "${tag}": ${err instanceof Error ? err.message : String(err)}`,
       );
       exitCode = 1;
       continue;
@@ -184,15 +187,12 @@ export function verifyPackages(packageNames, packageDirs) {
     if (relevantFiles.length === 0) {
       console.log(`  ✓ Version ${version} is published and no files modified since release — OK`);
     } else {
-      console.error(
-        `  ✗ Version ${version} is already published but files have been modified since tag "${tag}":`,
+      reportFailure(
+        `Package version check failed for ${packageName}@${version}: source files changed after published tag "${tag}". Run "npx dev-tool package increment-version" from ${relativePackageDir} and commit the resulting changes.`,
       );
       for (const file of relevantFiles) {
         console.error(`    - ${file}`);
       }
-      console.error(
-        `  Please bump the version in ${packageJsonPath}. You can do this using "dev-tool package increment-version" from the package folder.`,
-      );
       exitCode = 1;
     }
   }
