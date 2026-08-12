@@ -13,7 +13,7 @@ steps:
   # hardlinking instead of copying. The df output makes the disk layout visible
   # in the log so the redirection can be confirmed to actually free root space.
   - pwsh: |
-      $cacheRoot = Join-Path $env:AGENT_BUILDDIRECTORY 'cache'
+      $cacheRoot = Join-Path $env:AGENT_TEMPDIRECTORY 'cache'
       $npmCache = Join-Path $cacheRoot 'npm'
       $pnpmStore = Join-Path $cacheRoot 'pnpm/store'
       $playwrightBrowsers = Join-Path $cacheRoot 'ms-playwright'
