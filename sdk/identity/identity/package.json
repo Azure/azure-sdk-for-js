@@ -55,7 +55,11 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/identity/identity"
+  },
   "keywords": [
     "azure",
     "cloud",

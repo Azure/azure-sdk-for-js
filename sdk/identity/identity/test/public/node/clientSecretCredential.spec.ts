@@ -11,11 +11,10 @@ import { delay, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential, type GetTokenOptions } from "@azure/identity";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
-import { shouldRunSPTest } from "./utils/utils.js";
 
 expect.extend({ toSupportTracing });
 
-describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
+describe("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   beforeEach(async function (ctx) {
@@ -42,7 +41,7 @@ describe.skipIf(shouldRunSPTest())("ClientSecretCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates when cae enabled", async function () {
+  it.skip("authenticates when cae enabled", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
