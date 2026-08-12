@@ -44,6 +44,12 @@ async function main(): Promise<void> {
     name: KNOWLEDGE_SOURCE_NAME,
     kind: "workIQ",
     description: "Retrieves Work IQ signals scoped to the calling user.",
+    workIQParameters: {
+      entraAppAuthentication: {
+        applicationId: process.env.WORKIQ_APPLICATION_ID ?? "<application id>",
+        federatedCredentialId: process.env.WORKIQ_FEDERATED_CREDENTIAL_ID ?? "<credential id>",
+      },
+    },
   };
 
   try {

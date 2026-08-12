@@ -3,6 +3,7 @@
 
 import type { OperationOptions } from "@azure-rest/core-client";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import type { WorkIQKnowledgeSourceParameters, ListingSearchType } from "./models/index.js";
 import type {
   AIFoundryModelCatalogName,
   AIServicesAccountKey,
@@ -14,6 +15,8 @@ import type {
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BlobIndexerParsingMode,
+  KnowledgeSourceResultsProcessing,
+  SearchIndexKnowledgeSourceQueryHints,
   BM25Similarity,
   CharFilterName,
   ChatCompletionExtraParametersBehavior,
@@ -169,7 +172,20 @@ export type ListSynonymMapsOptions = OperationOptions;
 /**
  * Options for a list indexes operation.
  */
-export type ListIndexesOptions = OperationOptions;
+export interface ListIndexesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 
 /**
  * Options for a list indexers operation.
@@ -307,6 +323,18 @@ export interface ListIndexStatsSummaryOptions extends OperationOptions {
   skip?: number;
   /** A value that specifies whether to fetch the total count of items. Default is false. */
   count?: boolean;
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
 }
 
 /**
@@ -352,7 +380,20 @@ export type GetAliasOptions = OperationOptions;
 /**
  * Options for list aliases operation.
  */
-export type ListAliasesOptions = OperationOptions;
+export interface ListAliasesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 
 /**
  * Search Alias object.
@@ -3137,6 +3178,10 @@ export interface BaseKnowledgeSource {
    * A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your knowledge base definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your knowledge base definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your knowledge base definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
+  /**
+   * Controls whether this knowledge source's results are reranked. Defaults to `rerank` when not specified.
+   */
+  resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
 
 /**
@@ -3194,6 +3239,10 @@ export interface AzureBlobKnowledgeSourceParameters {
   readonly createdResources?: { [propertyName: string]: string };
   /** Consolidates all general ingestion settings. */
   ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /**
+   * Optional hints that describe how the knowledge source should be queried.
+   */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 /**
@@ -3225,6 +3274,10 @@ export interface IndexedOneLakeKnowledgeSourceParameters {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdResources?: { [propertyName: string]: string };
+  /**
+   * Optional hints that describe how the knowledge source should be queried.
+   */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 /**
@@ -3272,6 +3325,10 @@ export interface IndexedSharePointKnowledgeSourceParameters {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdResources?: { [propertyName: string]: string };
+  /**
+   * Optional hints that describe how the knowledge source should be queried.
+   */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 /**
@@ -3308,6 +3365,10 @@ export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
    * Polymorphic discriminator, which specifies the different types this object can be
    */
   kind: "workIQ";
+  /**
+   * The parameters for the WorkIQ knowledge source, including the customer-owned Entra app configuration used for on-behalf-of authentication.
+   */
+  workIQParameters: WorkIQKnowledgeSourceParameters;
 }
 
 /**
@@ -3384,6 +3445,10 @@ export interface FileKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the File knowledge source.
    */
   fileParameters: FileKnowledgeSourceParameters;
+  /**
+   * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge source.
+   */
+  corsOptions?: CorsOptions;
 }
 
 /**
@@ -3462,7 +3527,20 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeBaseOptions extends OperationOptions {}
-export interface ListKnowledgeBasesOptions extends OperationOptions {}
+export interface ListKnowledgeBasesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 export interface CreateKnowledgeBaseOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeSourceOptions extends OperationOptions {
@@ -3478,7 +3556,20 @@ export interface DeleteKnowledgeSourceOptions extends OperationOptions {
   onlyIfUnchanged?: boolean;
 }
 export interface GetKnowledgeSourceOptions extends OperationOptions {}
-export interface ListKnowledgeSourcesOptions extends OperationOptions {}
+export interface ListKnowledgeSourcesOptions extends OperationOptions {
+  /**
+   * A string used to narrow down the listing so that fewer results need to be paged through. If
+   * omitted or an empty string is passed, no narrowing is applied.
+   */
+  search?: string;
+  /**
+   * The maximum number of items to return in a single page. The server enforces a maximum; if
+   * omitted, the server determines a suitable default.
+   */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 export interface CreateKnowledgeSourceOptions extends OperationOptions {}
 export interface GetKnowledgeSourceStatusOptions extends OperationOptions {}
 export interface UploadKnowledgeSourceFileOptions extends OperationOptions {}

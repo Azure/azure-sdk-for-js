@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { KnowledgeBaseRetrieveDefaults } from "./models/index.js";
 import type {
   CorsOptions,
   KnowledgeSourceReference,
@@ -218,4 +219,10 @@ export interface KnowledgeBase {
    * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
    */
   corsOptions?: CorsOptions;
+  /**
+   * Persisted request-wide retrieve defaults for this knowledge base. These values apply to
+   * retrieve requests that omit the corresponding fields; request-time values take precedence
+   * when present.
+   */
+  retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
 }

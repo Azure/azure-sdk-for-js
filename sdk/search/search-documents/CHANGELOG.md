@@ -13,6 +13,10 @@
 - Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
 - Exported types that were previously reachable only indirectly: `KnowledgeSourceResultsProcessing`, `KnownKnowledgeSourceResultsProcessing`, `SearchIndexKnowledgeSourceQueryHints`, `SearchIndexKnowledgeSourceFilterHint`, `SearchIndexKnowledgeSourceBoost`, `SearchIndexKnowledgeSourceBoostUnion`, `SearchIndexKnowledgeSourceFieldValueBoost`, `SearchIndexKnowledgeSourceMultiWordExpressionBoost`, `SearchIndexKnowledgeSourceBoostKind`, `KnownSearchIndexKnowledgeSourceBoostKind`, `FileKnowledgeSourceExtractionMode`, `KnownFileKnowledgeSourceExtractionMode`, `KnowledgeBaseActivityRecordModel`, and `KnowledgeRetrievalAutoReasoningEffort`.
 - `KnowledgeSourceFile.parsingMode` is now typed as `BlobIndexerParsingMode` instead of a bare `string`, so it accepts the same known values as the rest of the library.
+- Added `retrieveDefaults` on `KnowledgeBase`, and `resultsProcessing` on knowledge sources, so the stored defaults returned by the `2026-08-01-preview` service are visible on the public models.
+- Added `workIQParameters` on `WorkIQKnowledgeSource` and `corsOptions` on `FileKnowledgeSource`, and exported the supporting `WorkIQKnowledgeSourceParameters`, `EntraAppAuthentication`, and `KnowledgeBaseRetrieveDefaults` types.
+- Added `queryHints` on the Azure Blob, indexed OneLake, and indexed SharePoint knowledge source parameter types.
+- Added `search`, `pageSize`, and `searchType` options to the index, alias, index stats summary, knowledge base, and knowledge source list methods, along with the `ListingSearchType` and `KnownListingSearchType` types.
 
 ### Breaking Changes
 
@@ -25,6 +29,7 @@
 ### Bugs Fixed
 
 - Fixed `SearchIndexerClient.resetDocuments` so that the `dataSourceDocumentIds` option is correctly forwarded to the service.
+- Fixed continuation for every paged operation. The generated paging metadata referenced the raw wire property name (`NextLink` or `@odata.nextLink`) rather than the deserialized property name (`nextLink` or `odataNextLink`), so the continuation link was never found and iteration silently stopped after the first page. This affected `listIndexes`, `listIndexesNames`, `listAliases`, `listAliasesNames`, `listIndexStatsSummary`, `listKnowledgeBases`, `listKnowledgeSources`, and `listKnowledgeSourceFiles`.
 
 ### Other Changes
 

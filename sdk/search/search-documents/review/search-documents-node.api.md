@@ -129,6 +129,7 @@ export interface AzureBlobKnowledgeSourceParameters {
     folderPath?: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
     isAdlsGen2?: boolean;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -251,6 +252,7 @@ export interface BaseKnowledgeSource {
     etag?: string;
     kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "indexedSql" | "file" | "web" | "remoteSharePoint" | "workIQ" | "mcpServer" | "fabricDataAgent" | "fabricOntology";
     name: string;
+    resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
 
 // @public
@@ -900,6 +902,13 @@ export interface EntityRecognitionSkillV3 extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
 }
 
+// @public
+export interface EntraAppAuthentication {
+    applicationId: string;
+    federatedCredentialId: string;
+    tenantId?: string;
+}
+
 // @public (undocumented)
 export type ExcludedODataTypes = Date | GeographyPoint;
 
@@ -1000,6 +1009,7 @@ export interface FieldMappingFunction {
 
 // @public
 export interface FileKnowledgeSource extends BaseKnowledgeSource {
+    corsOptions?: CorsOptions;
     fileParameters: FileKnowledgeSourceParameters;
     kind: "file";
 }
@@ -1200,6 +1210,7 @@ export interface IndexedOneLakeKnowledgeSourceParameters {
     fabricWorkspaceId: string;
     ingestionParameters?: KnowledgeSourceIngestionParameters;
     lakehouseId: string;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
     targetPath?: string;
 }
 
@@ -1227,6 +1238,7 @@ export interface IndexedSharePointKnowledgeSourceParameters {
     };
     ingestionParameters?: KnowledgeSourceIngestionParameters;
     query?: string;
+    queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
 // @public
@@ -1442,6 +1454,7 @@ export interface KnowledgeBase {
     outputMode?: KnowledgeRetrievalOutputMode;
     retrievalInstructions?: string;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
+    retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
 }
 
 // Warning: (ae-forgotten-export) The symbol "KnowledgeBaseSearchIndexActivityRecord" needs to be exported by the entry point index.d.ts
@@ -1708,6 +1721,13 @@ export type KnowledgeBaseRetrievalStreamEvent = {
     event: "response.completed";
     data: KnowledgeBaseResponseCompletedEvent;
 };
+
+// @public
+export interface KnowledgeBaseRetrieveDefaults {
+    maxOutputDocuments?: number;
+    maxOutputSizeInTokens?: number;
+    maxRuntimeInSeconds?: number;
+}
 
 // @public
 export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseReference {
@@ -2452,6 +2472,11 @@ export { KnownLexicalNormalizerName }
 export { KnownLexicalNormalizerName as KnownNormalizerNames }
 
 // @public
+export enum KnownListingSearchType {
+    Prefix = "prefix"
+}
+
+// @public
 export enum KnownMarkdownHeaderDepth {
     H1 = "h1",
     H2 = "h2",
@@ -3095,7 +3120,11 @@ export interface LimitTokenFilter extends BaseTokenFilter {
 }
 
 // @public
-export type ListAliasesOptions = OperationOptions;
+export interface ListAliasesOptions extends OperationOptions {
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+}
 
 // @public
 export type ListDataSourceConnectionsOptions = OperationOptions;
@@ -3104,17 +3133,30 @@ export type ListDataSourceConnectionsOptions = OperationOptions;
 export type ListIndexersOptions = OperationOptions;
 
 // @public
-export type ListIndexesOptions = OperationOptions;
+export interface ListIndexesOptions extends OperationOptions {
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+}
 
 // @public
 export interface ListIndexStatsSummaryOptions extends OperationOptions {
     count?: boolean;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     skip?: number;
     top?: number;
 }
 
+// @public
+export type ListingSearchType = string;
+
 // @public (undocumented)
 export interface ListKnowledgeBasesOptions extends OperationOptions {
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public (undocumented)
@@ -3123,6 +3165,9 @@ export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface ListKnowledgeSourcesOptions extends OperationOptions {
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -4785,6 +4830,12 @@ export interface WordDelimiterTokenFilter extends BaseTokenFilter {
 // @public
 export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
     kind: "workIQ";
+    workIQParameters: WorkIQKnowledgeSourceParameters;
+}
+
+// @public
+export interface WorkIQKnowledgeSourceParameters {
+    entraAppAuthentication: EntraAppAuthentication;
 }
 
 // @public

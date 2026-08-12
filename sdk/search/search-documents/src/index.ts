@@ -404,6 +404,11 @@ export {
 export {
   type FileKnowledgeSourceExtractionMode,
   KnownFileKnowledgeSourceExtractionMode,
+  type ListingSearchType,
+  KnownListingSearchType,
+  type WorkIQKnowledgeSourceParameters,
+  type EntraAppAuthentication,
+  type KnowledgeBaseRetrieveDefaults,
 } from "./models/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
