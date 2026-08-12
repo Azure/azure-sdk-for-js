@@ -7,5 +7,6 @@
       "@azure/storage-file-datalake/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["src", "test", "package.json"]
 }

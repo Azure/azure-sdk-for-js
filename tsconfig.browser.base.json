@@ -13,7 +13,7 @@
       "$internal/*": ["./dist/browser/*"]
     }
   },
-  "include": ["${configDir}/src", "${configDir}/test", "${configDir}/package.json"],
+  "include": ["${configDir}/src", "${configDir}/test"],
   "exclude": [
     "${configDir}/src/**/*-react-native.*",
     "${configDir}/test/**/node",
