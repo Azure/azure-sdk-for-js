@@ -2,10 +2,14 @@
 
 ## 2.4.1 (Unreleased)
 
+### Breaking Changes
+
+- Add the required `cache_write_tokens` property to `ResponseUsageInputTokensDetails`.
+
 ### Features Added
 
 - Add programmatic tool calling support, including caller restrictions and function output schemas.
-- Add reasoning modes, the `max` reasoning effort, cache-write token usage, and the `VoiceAgents=V1Preview` agent opt-in key.
+- Add reasoning modes, the `max` reasoning effort, and the `VoiceAgents=V1Preview` agent opt-in key.
 
 ### Bugs Fixed
 
