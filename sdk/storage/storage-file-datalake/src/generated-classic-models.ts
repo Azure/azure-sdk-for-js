@@ -749,13 +749,7 @@ export enum KnownEncryptionAlgorithmType {
 export type EncryptionAlgorithmType = string;
 /** Defines values for ListBlobsIncludeItem. */
 export type ListBlobsIncludeItem =
-  | "copy"
-  | "deleted"
-  | "metadata"
-  | "snapshots"
-  | "uncommittedblobs"
-  | "versions"
-  | "tags";
+  "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
 /** Defines values for PathResourceType. */
 export type PathResourceType = "directory" | "file";
 /** Defines values for PathRenameMode. */
@@ -764,11 +758,7 @@ export type PathRenameMode = "legacy" | "posix";
 export type PathExpiryOptions = "NeverExpire" | "RelativeToCreation" | "RelativeToNow" | "Absolute";
 /** Defines values for PathUpdateAction. */
 export type PathUpdateAction =
-  | "append"
-  | "flush"
-  | "setProperties"
-  | "setAccessControl"
-  | "setAccessControlRecursive";
+  "append" | "flush" | "setProperties" | "setAccessControl" | "setAccessControlRecursive";
 /** Defines values for PathSetAccessControlRecursiveMode. */
 export type PathSetAccessControlRecursiveMode = "set" | "modify" | "remove";
 /** Defines values for PathLeaseAction. */
