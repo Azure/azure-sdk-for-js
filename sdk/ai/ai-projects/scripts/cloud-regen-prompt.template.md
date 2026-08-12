@@ -112,6 +112,10 @@ Run:
 ./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT}} -BranchName {{BRANCH_NAME}} -BaseBranch {{BASE_BRANCH}}
 ```
 
+Append `-SamplesNoOp` only if `author-samples` explicitly completed as a
+documented no-op, and append `-TestsNoOp` only if `author-tests` explicitly
+completed as a documented no-op.
+
 This stages three to five non-empty logical commits, pushes to `origin`
 (no force), and opens a DRAFT PR via `gh pr create`. Sample and test
 commits are omitted when those skills are documented no-ops.

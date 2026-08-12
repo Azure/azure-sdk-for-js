@@ -19,6 +19,8 @@ description: "Commit ai-projects regeneration output and finish a draft GitHub P
 | `branchName`          | `regen/ai-projects/<short-sha>-<yyyyMMdd>` | Branch name to create outside a managed agent session.                                |
 | `baseBranch`          | `main`                                     | Branch from which the task starts and which the PR targets.                           |
 | `remote`              | `origin`                                   | Git remote to push to outside a managed agent session.                                |
+| `samplesNoOp`         | `false`                                    | Assert that `author-samples` completed as a documented no-op.                         |
+| `testsNoOp`           | `false`                                    | Assert that `author-tests` completed as a documented no-op.                           |
 | `managedAgentSession` | `false`                                    | Keep the current Copilot-owned branch and leave push/PR publication to the session.   |
 
 ## Prerequisites
@@ -60,6 +62,8 @@ When this workflow started by assigning an issue to Copilot, the session already
    -ManagedAgentSession
 ```
 
+Pass `-SamplesNoOp` or `-TestsNoOp` only when the corresponding authoring skill explicitly completed as a documented no-op; omit each switch when that skill produced changes.
+
 Managed mode keeps the current branch and prepares the same logical commits, but does not switch branches, push, or call `gh pr create`. The Copilot session publishes its existing branch and updates its existing draft PR.
 
 ### Step 2: Verify
@@ -74,5 +78,5 @@ Managed mode keeps the current branch and prepares the same logical commits, but
 - **Never** opens a non-draft PR — humans flip it to "ready for review".
 - In managed mode, **never** creates a branch, pushes manually, or opens a second PR.
 - **Never** stages files outside `sdk/ai/ai-projects/`.
-- Requires emitter output, post-emitter edits, and changelog commit groups to be non-empty. Empty sample and test groups are allowed only when their skills were documented no-ops.
+- Requires emitter output, post-emitter edits, and changelog commit groups to be non-empty. Empty sample and test groups require the corresponding explicit no-op switch, and a group marked as a no-op must not contain changes.
 - Aborts before publishing if any package changes remain outside the recognized commit groups.
