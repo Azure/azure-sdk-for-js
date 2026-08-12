@@ -16,8 +16,8 @@ Before installing dependencies or editing files:
 2. Require the title to match exactly:
    `[ai-projects] regen from <40-lowercase-hex-characters> against <base-branch>`.
 3. Read `TypeSpec commit` and `Base branch` from the issue body. Require both values to match the title.
-4. Require the base branch to contain no whitespace and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
-5. Require a named working branch other than the base branch. Confirm `origin/<base-branch>` exists and is an ancestor of `HEAD`. If the assignment started from the wrong branch, stop without making changes and report the mismatch.
+4. Require the entire base branch to case-sensitively match the conservative ASCII pattern `^[A-Za-z0-9][A-Za-z0-9._/-]*\z` and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
+5. Require a named working branch other than the base branch. Fetch `origin/<base-branch>`, then require the fetched branch tip to equal `HEAD` exactly. If the assignment started from the wrong branch, stop without making changes and report both commit IDs.
 
 Do not infer, shorten, or silently correct either input.
 
@@ -51,12 +51,14 @@ For the sixth skill, the issue assignment already owns the working branch and dr
 
 ```powershell
 ./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 `
-  -TspCommit <validated-commit> `
-  -BaseBranch <validated-base-branch> `
+  -TspCommit '<validated-commit>' `
+  -BaseBranch '<validated-base-branch>' `
   -ManagedAgentSession
 ```
 
-The result may contain three to five non-empty regeneration commits, always in this relative order: emitter output, post-emitter edits, samples, tests, changelog. Empty sample or test groups are valid; all other unexplained empty groups are failures.
+Append `-SamplesNoOp` only when `author-samples` explicitly completed as a documented no-op, and append `-TestsNoOp` only when `author-tests` explicitly completed as a documented no-op.
+
+The result may contain three to five non-empty regeneration commits, always in this relative order: emitter output, post-emitter edits, samples, tests, changelog. Empty sample or test groups require the corresponding explicit no-op switch; all other unexplained empty groups are failures.
 
 ## Finish the managed pull request
 

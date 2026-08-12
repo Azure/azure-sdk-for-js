@@ -27,6 +27,7 @@ description: "Commit ai-projects regeneration output and finish a draft GitHub P
 
 - For manually dispatched tasks, `gh` CLI installed and authenticated against `Azure/azure-sdk-for-js`.
 - Clean working tree apart from changes under `sdk/ai/ai-projects/`.
+- Empty Git index; the script stages each logical commit group itself.
 
 ## Procedure
 
@@ -40,8 +41,8 @@ Run from `sdk/ai/ai-projects/` (the script `cd`s to the repo root as needed).
 
 The script ([scripts/open-pr.ps1](./scripts/open-pr.ps1)) does:
 
-1. Aborts if there are unstaged changes outside `sdk/ai/ai-projects/`.
-2. Creates branch `regen/ai-projects/<short-sha>-<yyyyMMdd>` from current `HEAD`.
+1. Aborts if the Git index is non-empty or there are unstaged changes outside `sdk/ai/ai-projects/`.
+2. In manual mode, fetches `remote/baseBranch`, requires the current `HEAD` to equal that fetched tip, then creates `regen/ai-projects/<short-sha>-<yyyyMMdd>`.
 3. Stages three to five non-empty logical commits, each scoped via path filters:
    - `[ai-projects] regen: emitter output @ <short-sha>` — `generated/`, `tsp-location.saved.yaml`.
    - `[ai-projects] regen: post-emitter edits` — `src/`, API reports, and post-emitter workaround data (excluding samples/tests).
@@ -78,5 +79,7 @@ Managed mode keeps the current branch and prepares the same logical commits, but
 - **Never** opens a non-draft PR — humans flip it to "ready for review".
 - In managed mode, **never** creates a branch, pushes manually, or opens a second PR.
 - **Never** stages files outside `sdk/ai/ai-projects/`.
+- Rejects a non-empty Git index before staging any logical commit group.
+- In manual mode, requires `HEAD` to equal the freshly fetched `remote/baseBranch` tip.
 - Requires emitter output, post-emitter edits, and changelog commit groups to be non-empty. Empty sample and test groups require the corresponding explicit no-op switch, and a group marked as a no-op must not contain changes.
 - Aborts before publishing if any package changes remain outside the recognized commit groups.
