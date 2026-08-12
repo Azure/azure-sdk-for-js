@@ -1,9 +1,9 @@
 {
   "name": "@azure/ai-content-understanding",
-  "version": "1.2.0-beta.2",
+  "version": "1.2.0-beta.3",
   "description": "Azure Content Understanding Rest Client",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

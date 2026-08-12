@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a scope map with the specified parameters.
  *
  * @summary updates a scope map with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/ScopeMapUpdate.json
+ * x-ms-original-file: 2026-03-01-preview/ScopeMapUpdate.json
  */
 async function scopeMapUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -15,7 +15,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListOptionalParams,
   ) => Promise<PrivateLinkResourcesListResult>;
 }
-
 function _getPrivateLinkResources(context: ContainerServiceContext) {
   return {
     list: (
@@ -25,7 +24,6 @@ function _getPrivateLinkResources(context: ContainerServiceContext) {
     ) => list(context, resourceGroupName, resourceName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: ContainerServiceContext,
 ): PrivateLinkResourcesOperations {

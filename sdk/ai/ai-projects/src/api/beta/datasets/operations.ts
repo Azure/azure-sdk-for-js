@@ -4,16 +4,20 @@
 import { AIProjectContext as Client } from "../../index.js";
 import type {
   DataGenerationJob,
+  DataGenerationJobResult,
   _AgentsPagedResultDataGenerationJob,
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
   dataGenerationJobSerializer,
   dataGenerationJobDeserializer,
+  dataGenerationJobResultDeserializer,
   _agentsPagedResultDataGenerationJobDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaDatasetsDeleteGenerationJobOptionalParams,
@@ -43,9 +47,7 @@ export function _deleteGenerationJobSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -57,7 +59,9 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -65,7 +69,7 @@ export async function _deleteGenerationJobDeserialize(
   return;
 }
 
-/** Deletes a data generation job by its ID. */
+/** Removes the specified data generation job and its associated output. */
 export async function deleteGenerationJob(
   context: Client,
   jobId: string,
@@ -93,9 +97,7 @@ export function _cancelGenerationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -108,7 +110,9 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -116,7 +120,7 @@ export async function _cancelGenerationJobDeserialize(
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Cancels a data generation job by its ID. */
+/** Cancels the specified data generation job if it is still in progress. */
 export async function cancelGenerationJob(
   context: Client,
   jobId: string,
@@ -144,9 +148,7 @@ export function _createGenerationJobSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -157,26 +159,45 @@ export function _createGenerationJobSend(
 
 export async function _createGenerationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataGenerationJob> {
-  const expectedStatuses = ["201"];
+): Promise<DataGenerationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return dataGenerationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return dataGenerationJobResultDeserializer(result.body.result);
 }
 
-/** Creates a data generation job. */
-export async function createGenerationJob(
+/** Submits a new data generation job for asynchronous execution. */
+export function createGenerationJob(
   context: Client,
   job: DataGenerationJob,
   options: BetaDatasetsCreateGenerationJobOptionalParams = { requestOptions: {} },
-): Promise<DataGenerationJob> {
-  const result = await _createGenerationJobSend(context, job, options);
-  return _createGenerationJobDeserialize(result);
+): JobPoller<DataGenerationJobResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createGenerationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createGenerationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "DataGenerationJobs=V1Preview",
+    },
+  });
 }
 
 export function _listGenerationJobsSend(
@@ -199,9 +220,7 @@ export function _listGenerationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -214,7 +233,9 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -254,9 +275,7 @@ export function _getGenerationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -269,7 +288,9 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,7 +298,7 @@ export async function _getGenerationJobDeserialize(
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Gets the details of a data generation job by its ID. */
+/** Retrieves the specified data generation job and its current status. */
 export async function getGenerationJob(
   context: Client,
   jobId: string,

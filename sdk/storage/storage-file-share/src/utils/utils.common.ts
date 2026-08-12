@@ -9,13 +9,15 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import type {
   DirectoryItem,
   FileItem,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
+  RangeModel,
+  ShareFileRange,
 } from "../generatedModels.js";
 import {
   HttpAuthorization,
@@ -26,6 +28,8 @@ import {
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNodeLike } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
@@ -713,6 +717,34 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = result._response.parsedHeaders;
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  (result as any)._response = compatResponse;
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
+}
+
 export function StringEncodedToString(name: StringEncoded): string {
   if (name.encoded) {
     return decodeURIComponent(name.content!);
@@ -788,6 +820,51 @@ export function ConvertInternalResponseOfListHandles(
  */
 export function removeEmptyString(value: string | undefined): string | undefined {
   return value ? value : undefined;
+}
+
+/**
+ * Merges the valid ranges and cleared ranges returned by the service into a single
+ * ordered sequence of {@link ShareFileRange} items, sorted by start position.
+ *
+ * This uses a two-pointer merge and assumes each input array is already sorted ascending
+ * by `start`, which is guaranteed by the List Ranges service response. If that invariant
+ * ever changes, the inputs must be sorted before merging to preserve output ordering.
+ *
+ * On a tie (equal `start`), the valid data range is emitted before the cleared range.
+ * @internal
+ */
+export function* extractShareFileRangeItems(
+  ranges: RangeModel[] = [],
+  clearRanges: RangeModel[] = [],
+): IterableIterator<ShareFileRange> {
+  let rangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (rangeIndex < ranges.length && clearRangeIndex < clearRanges.length) {
+    if (ranges[rangeIndex].start <= clearRanges[clearRangeIndex].start) {
+      yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+      ++rangeIndex;
+    } else {
+      yield {
+        start: clearRanges[clearRangeIndex].start,
+        end: clearRanges[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; rangeIndex < ranges.length; ++rangeIndex) {
+    yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+  }
+
+  for (; clearRangeIndex < clearRanges.length; ++clearRangeIndex) {
+    yield {
+      start: clearRanges[clearRangeIndex].start,
+      end: clearRanges[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
 }
 
 export function asSharePermission(value: string | SharePermission): SharePermission {

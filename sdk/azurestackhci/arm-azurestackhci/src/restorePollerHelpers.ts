@@ -4,26 +4,6 @@
 import type { AzureStackHCIClient } from "./azureStackHCIClient.js";
 import { _$deleteDeserialize } from "./api/updateSummaries/operations.js";
 import {
-  _releaseDevicesDeserialize,
-  _claimDevicesDeserialize,
-  _updateDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeDevicePools,
-  _createOrUpdateDeserialize,
-} from "./api/devicePools/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeClusterJobs,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeClusterJobs,
-} from "./api/clusterJobs/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeEdgeMachineJobs,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeEdgeMachineJobs,
-} from "./api/edgeMachineJobs/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeEdgeMachines,
-  _updateDeserialize as _updateDeserializeEdgeMachines,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeEdgeMachines,
-} from "./api/edgeMachines/operations.js";
-import {
   _checkHealthDeserialize,
   _checkUpdatesDeserialize,
 } from "./api/updateSummariesOperationGroup/operations.js";
@@ -35,12 +15,12 @@ import {
 import { _$deleteDeserialize as _$deleteDeserializeUpdateRuns } from "./api/updateRuns/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeSecuritySettings,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeSecuritySettings,
+  _createOrUpdateDeserialize,
 } from "./api/securitySettings/operations.js";
 import {
   _upgradeDeserialize,
   _$deleteDeserialize as _$deleteDeserializeExtensions,
-  _updateDeserialize as _updateDeserializeExtensions,
+  _updateDeserialize,
   _createDeserialize,
 } from "./api/extensions/operations.js";
 import {
@@ -59,7 +39,6 @@ import {
 import {
   _configureRemoteSupportDeserialize,
   _triggerLogCollectionDeserialize,
-  _changeRingDeserialize,
   _extendSoftwareAssuranceBenefitDeserialize,
   _createIdentityDeserialize,
   _uploadCertificateDeserialize,
@@ -111,8 +90,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -145,39 +123,6 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries/default":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/devicePools/{devicePoolName}/releaseDevices":
-    { deserializer: _releaseDevicesDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/devicePools/{devicePoolName}/claimDevices":
-    { deserializer: _claimDevicesDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/devicePools/{devicePoolName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/devicePools/{devicePoolName}":
-    { deserializer: _$deleteDeserializeDevicePools, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/devicePools/{devicePoolName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/jobs/{jobsName}":
-    { deserializer: _$deleteDeserializeClusterJobs, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/jobs/{jobsName}":
-    {
-      deserializer: _createOrUpdateDeserializeClusterJobs,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/jobs/{jobsName}":
-    { deserializer: _$deleteDeserializeEdgeMachineJobs, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/jobs/{jobsName}":
-    {
-      deserializer: _createOrUpdateDeserializeEdgeMachineJobs,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}":
-    { deserializer: _$deleteDeserializeEdgeMachines, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}":
-    { deserializer: _updateDeserializeEdgeMachines, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}":
-    {
-      deserializer: _createOrUpdateDeserializeEdgeMachines,
-      expectedStatuses: ["200", "201", "202"],
-    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries/default/checkHealth":
     { deserializer: _checkHealthDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries/default/checkUpdates":
@@ -193,21 +138,18 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings/{securitySettingsName}":
     { deserializer: _$deleteDeserializeSecuritySettings, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings/{securitySettingsName}":
-    {
-      deserializer: _createOrUpdateDeserializeSecuritySettings,
-      expectedStatuses: ["200", "201", "202"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}/upgrade":
     { deserializer: _upgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}":
     { deserializer: _$deleteDeserializeExtensions, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}":
-    { deserializer: _updateDeserializeExtensions, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/validate": {
     deserializer: _validateDeserialize,
-    expectedStatuses: ["202", "200", "201"],
+    expectedStatuses: ["200", "202", "201"],
   },
   "DELETE /{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}": {
     deserializer: _$deleteDeserializeEdgeDevices,
@@ -235,22 +177,20 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/configureRemoteSupport":
-    { deserializer: _configureRemoteSupportDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _configureRemoteSupportDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/triggerLogCollection":
-    { deserializer: _triggerLogCollectionDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/changeRing":
-    { deserializer: _changeRingDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _triggerLogCollectionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/extendSoftwareAssuranceBenefit":
     {
       deserializer: _extendSoftwareAssuranceBenefitDeserialize,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/createClusterIdentity":
     { deserializer: _createIdentityDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/uploadCertificate":
     { deserializer: _uploadCertificateDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSecretsLocations":
-    { deserializer: _updateSecretsLocationsDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _updateSecretsLocationsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}":
     { deserializer: _$deleteDeserializeClusters, expectedStatuses: ["200", "202", "204"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/initializeDisableProcess":

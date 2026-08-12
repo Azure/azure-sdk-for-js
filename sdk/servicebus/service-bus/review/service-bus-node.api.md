@@ -11,6 +11,7 @@ import type { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import type { HttpMethods } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import type { NamedKeyCredential } from '@azure/core-auth';
@@ -19,6 +20,7 @@ import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import type { SASCredential } from '@azure/core-auth';
@@ -180,8 +182,15 @@ export interface HttpResponse {
     status: number;
 }
 
+export { isRestError }
+
 // @public
 export function isServiceBusError(err: unknown): err is ServiceBusError;
+
+// @public
+export interface ListMessageSessionsOptions extends OperationOptionsBase {
+    sessionStateUpdatedAfter?: Date;
+}
 
 // @public
 export interface MessageHandlers {
@@ -276,6 +285,8 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
 
+export { RestError }
+
 export { RetryMode }
 
 export { RetryOptions }
@@ -345,6 +356,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listMessageSessions(queueName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
+    listMessageSessions(topicName: string, subscriptionName: string, options?: ListMessageSessionsOptions): PagedAsyncIterableIterator<string, string[]>;
 }
 
 // @public

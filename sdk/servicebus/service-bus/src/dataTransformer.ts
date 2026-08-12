@@ -20,9 +20,7 @@ export const valueSectionTypeCode = 0x77 as const;
  */
 export interface RheaAmqpSection {
   typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
+    typeof dataSectionTypeCode | typeof sequenceSectionTypeCode | typeof valueSectionTypeCode;
   content: any;
 }
 

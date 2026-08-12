@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export type { AgentPoolsOperations } from "./agentPools/index.js";
+export type { AlertConfigurationsOperations } from "./alertConfigurations/index.js";
 export type { ContainerServiceOperations } from "./containerService/index.js";
 export type { IdentityBindingsOperations } from "./identityBindings/index.js";
 export type { JWTAuthenticatorsOperations } from "./jwtAuthenticators/index.js";

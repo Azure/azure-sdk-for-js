@@ -24,8 +24,6 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
-import type { BetaToolboxesOperations } from "./toolboxes/index.js";
-import { _getBetaToolboxesOperations } from "./toolboxes/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
@@ -33,8 +31,6 @@ export interface BetaOperations {
   datasets: BetaDatasetsOperations;
   /** Operations for managing skills. */
   skills: BetaSkillsOperations;
-  /** Operations for managing toolboxes. */
-  toolboxes: BetaToolboxesOperations;
   /** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
   /** Operations for managing routines. */
@@ -61,8 +57,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     datasets: _getBetaDatasetsOperations(context),
     /** Operations for managing skills. */
     skills: _getBetaSkillsOperations(context),
-    /** Operations for managing toolboxes. */
-    toolboxes: _getBetaToolboxesOperations(context),
     /** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
     /** Operations for managing routines. */

@@ -12,3 +12,4 @@ export type * from "./models.js";
 export type * from "./outputModels.js";
 
 export default PurviewDataMapClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

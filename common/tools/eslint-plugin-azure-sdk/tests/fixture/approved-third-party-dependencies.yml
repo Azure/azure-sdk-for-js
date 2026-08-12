@@ -1,0 +1,15 @@
+# Test fixture for ts-package-json-approved-dependencies.
+allowed:
+  - tslib
+  - left-pad
+  - "@widgets/*"
+exceptions:
+  - dependency: special-dep
+    packages:
+      - "@azure/allowed-package"
+  - dependency: special-dep
+    packages:
+      - "@azure/also-allowed-package"
+  - dependency: "@scoped-exception/*"
+    packages:
+      - "@azure/allowed-package"

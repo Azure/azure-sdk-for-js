@@ -1,4 +1,42 @@
+# Job-scoped prelude: agent verification, Node install, and authenticated npmrc.
+#
+# Include this ONCE per job (or stage), from the job template itself. Do not
+# include it from a step template - ADO does not de-duplicate step templates, so
+# nesting it causes UseNode and npmAuthenticate to run several times per job.
 steps:
+  # Linux CI agents have limited space on the root disk ('/'), where many Node
+  # tools cache under the home directory. Redirect the largest caches to
+  # Agent.TempDirectory, which lives on a roomier disk, by configuring each
+  # tool through its own supported environment variable. HOME is left untouched
+  # so credentials and unrelated tool state are unaffected. The pnpm store stays
+  # on the same filesystem as the workspace node_modules so pnpm can keep
+  # hardlinking instead of copying. The df output makes the disk layout visible
+  # in the log so the redirection can be confirmed to actually free root space.
+  #
+  # NOTE: Tools invoked inside `turbo run` (e.g. `playwright install` during
+  # test:browser) only see env vars that turbo is configured to pass through.
+  # PLAYWRIGHT_BROWSERS_PATH is added to the test:browser task's passThroughEnv
+  # in the root turbo.json so the browser download honors this redirect.
+  - pwsh: |
+      $cacheRoot = Join-Path $env:AGENT_TEMPDIRECTORY 'cache'
+      $npmCache = Join-Path $cacheRoot 'npm'
+      $pnpmStore = Join-Path $cacheRoot 'pnpm/store'
+      $playwrightBrowsers = Join-Path $cacheRoot 'ms-playwright'
+
+      foreach ($dir in @($npmCache, $pnpmStore, $playwrightBrowsers)) {
+        New-Item -Path $dir -ItemType Directory -Force | Out-Null
+      }
+
+      Write-Host "Redirecting Linux tool caches under $cacheRoot"
+      Write-Host "##vso[task.setvariable variable=npm_config_cache]$npmCache"
+      Write-Host "##vso[task.setvariable variable=pnpm_config_store_dir]$pnpmStore"
+      Write-Host "##vso[task.setvariable variable=PLAYWRIGHT_BROWSERS_PATH]$playwrightBrowsers"
+
+      Write-Host "Filesystem usage for HOME ($env:HOME) and Agent.TempDirectory ($env:AGENT_TEMPDIRECTORY):"
+      df -h $env:HOME $env:AGENT_TEMPDIRECTORY
+    displayName: "Redirect tool caches off root disk (Linux)"
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
     parameters:
       AgentImage: $(OSVmImage)
@@ -6,6 +44,3 @@ steps:
   - template: use-node-version.yml
 
   - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-    parameters:
-      npmrcPath: $(CommonNpmrcPath)
-      registryUrl: '$(PublicDevOpsRegistry)'

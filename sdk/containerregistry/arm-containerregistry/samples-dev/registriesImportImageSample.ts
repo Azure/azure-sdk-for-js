@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to copies an image to this container registry from the specified container registry.
  *
  * @summary copies an image to this container registry from the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ImportImageByManifestDigest.json
+ * x-ms-original-file: 2026-03-01-preview/ImportImageByManifestDigest.json
  */
 async function importImageByManifestDigest(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function importImageByManifestDigest(): Promise<void> {
  * This sample demonstrates how to copies an image to this container registry from the specified container registry.
  *
  * @summary copies an image to this container registry from the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ImportImageByTag.json
+ * x-ms-original-file: 2026-03-01-preview/ImportImageByTag.json
  */
 async function importImageByTag(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function importImageByTag(): Promise<void> {
  * This sample demonstrates how to copies an image to this container registry from the specified container registry.
  *
  * @summary copies an image to this container registry from the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ImportImageFromPublicRegistry.json
+ * x-ms-original-file: 2026-03-01-preview/ImportImageFromPublicRegistry.json
  */
 async function importImageFromPublicRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();

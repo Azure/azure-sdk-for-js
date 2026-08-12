@@ -1,3 +1,10 @@
 {
-  "extends": "../../../../eng/tsconfigs/test.node.json"
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-extendedlocation": ["../src/index.ts"],
+      "@azure/arm-extendedlocation/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
 }

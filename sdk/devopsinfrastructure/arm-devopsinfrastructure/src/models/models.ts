@@ -690,9 +690,7 @@ export function organizationProfileDeserializer(item: any): OrganizationProfile 
 
 /** Alias for OrganizationProfileUnion */
 export type OrganizationProfileUnion =
-  | GitHubOrganizationProfile
-  | AzureDevOpsOrganizationProfile
-  | OrganizationProfile;
+  GitHubOrganizationProfile | AzureDevOpsOrganizationProfile | OrganizationProfile;
 
 export function organizationProfileUnionSerializer(item: OrganizationProfileUnion): any {
   switch (item.kind) {

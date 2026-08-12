@@ -10,6 +10,7 @@
     "src/test.ts",
     "src/client.ts",
     "src/test-browser.mts",
+    "core-process/src/client.ts",
     "tests/test.ts",
     "service-bus/package.json",
     "invalid/package.json",
@@ -17,6 +18,7 @@
     "service-bus-rest/package.json",
     "service-bus/not_package.json",
     "service-bus/api-extractor.json",
+    "sdk/test-package/package.json",
     "test.js"
   ]
 }

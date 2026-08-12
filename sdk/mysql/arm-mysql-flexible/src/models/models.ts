@@ -1806,12 +1806,7 @@ export function backupAndExportResponsePropertiesDeserializer(
 
 /** The operation status */
 export type OperationStatus =
-  | "Pending"
-  | "InProgress"
-  | "Succeeded"
-  | "Failed"
-  | "CancelInProgress"
-  | "Canceled";
+  "Pending" | "InProgress" | "Succeeded" | "Failed" | "CancelInProgress" | "Canceled";
 
 /** Represents ValidateBackup API Response */
 export interface ValidateBackupResponse {
@@ -3589,9 +3584,7 @@ export function operationProgressResponseTypeDeserializer(
 
 /** Alias for OperationProgressResponseTypeUnion */
 export type OperationProgressResponseTypeUnion =
-  | BackupAndExportResponseType
-  | ImportFromStorageResponseType
-  | OperationProgressResponseType;
+  BackupAndExportResponseType | ImportFromStorageResponseType | OperationProgressResponseType;
 
 export function operationProgressResponseTypeUnionDeserializer(
   item: any,

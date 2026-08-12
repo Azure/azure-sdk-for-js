@@ -73,7 +73,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ru
 
   return runCommandDocumentDeserializer(result.body);
 }
-
 /** Gets specific run command for a subscription in a location. */
 export async function get(
   context: Client,
@@ -122,7 +121,6 @@ export async function _listDeserialize(
 
   return _runCommandListResultDeserializer(result.body);
 }
-
 /** Lists all available run commands for a subscription in a location. */
 export function list(
   context: Client,
@@ -178,7 +176,6 @@ export async function _listByVirtualMachineDeserialize(
 
   return _virtualMachineRunCommandsListResultDeserializer(result.body);
 }
-
 /** The operation to get all run commands of a Virtual Machine. */
 export function listByVirtualMachine(
   context: Client,
@@ -231,7 +228,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the run command. */
 export function $delete(
   context: Client,
@@ -294,7 +290,6 @@ export async function _updateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to update the run command. */
 export function update(
   context: Client,
@@ -358,7 +353,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to create or update the run command. */
 export function createOrUpdate(
   context: Client,
@@ -420,7 +414,6 @@ export async function _getByVirtualMachineDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to get the run command. */
 export async function getByVirtualMachine(
   context: Client,

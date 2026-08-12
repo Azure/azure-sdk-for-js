@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { CloudHsmClusterBackupStatusGetOptionalParams } from "../../api/cloudHsmClusterBackupStatus/options.js";
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
 import { get } from "../../api/cloudHsmClusterBackupStatus/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CloudHsmClusterBackupStatusGetOptionalParams } from "../../api/cloudHsmClusterBackupStatus/options.js";
+import type { BackupResult } from "../../models/models.js";
 
 /** Interface representing a CloudHsmClusterBackupStatus operations. */
 export interface CloudHsmClusterBackupStatusOperations {
@@ -14,9 +14,8 @@ export interface CloudHsmClusterBackupStatusOperations {
     cloudHsmClusterName: string,
     jobId: string,
     options?: CloudHsmClusterBackupStatusGetOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => Promise<BackupResult | void>;
 }
-
 function _getCloudHsmClusterBackupStatus(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     get: (
@@ -27,7 +26,6 @@ function _getCloudHsmClusterBackupStatus(context: AzureDedicatedHSMResourceProvi
     ) => get(context, resourceGroupName, cloudHsmClusterName, jobId, options),
   };
 }
-
 export function _getCloudHsmClusterBackupStatusOperations(
   context: AzureDedicatedHSMResourceProviderContext,
 ): CloudHsmClusterBackupStatusOperations {

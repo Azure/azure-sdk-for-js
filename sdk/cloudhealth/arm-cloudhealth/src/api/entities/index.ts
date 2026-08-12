@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 export {
+  getSignalRecommendations,
+  getDataAnnotations,
+  addDataAnnotation,
   ingestHealthReport,
   getSignalHistory,
   getHistory,
@@ -11,6 +14,9 @@ export {
   get,
 } from "./operations.js";
 export type {
+  EntitiesGetSignalRecommendationsOptionalParams,
+  EntitiesGetDataAnnotationsOptionalParams,
+  EntitiesAddDataAnnotationOptionalParams,
   EntitiesIngestHealthReportOptionalParams,
   EntitiesGetSignalHistoryOptionalParams,
   EntitiesGetHistoryOptionalParams,

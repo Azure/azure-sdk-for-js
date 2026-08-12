@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary aPI to check for resource name availability.
  * A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
  * or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: 2025-08-01/CheckNameAvailability_Available.json
+ * x-ms-original-file: 2026-05-01/CheckNameAvailability_Available.json
  */
 async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAnd
  * @summary aPI to check for resource name availability.
  * A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
  * or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: 2025-08-01/CheckNameAvailability_NotAvailable.json
+ * x-ms-original-file: 2026-05-01/CheckNameAvailability_NotAvailable.json
  */
 async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists(): Promise<void> {
   const credential = new DefaultAzureCredential();

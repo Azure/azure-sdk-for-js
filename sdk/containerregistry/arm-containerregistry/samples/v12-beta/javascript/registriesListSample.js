@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the container registries under the specified subscription.
  *
  * @summary lists all the container registries under the specified subscription.
- * x-ms-original-file: 2026-01-01-preview/RegistryList.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryList.json
  */
 async function registryList() {
   const credential = new DefaultAzureCredential();

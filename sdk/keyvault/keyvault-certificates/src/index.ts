@@ -1062,14 +1062,17 @@ export class CertificateClient {
     policy: CertificatePolicy,
     options: UpdateCertificatePolicyOptions = {},
   ): Promise<CertificatePolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "CertificateClient.updateCertificatePolicy",
       options,
       async (updatedOptions) => {
         const corePolicy = toCorePolicy(undefined, policy);
-        await this.client.updateCertificatePolicy(certificateName, corePolicy, updatedOptions);
-        return toPublicPolicy(parsedBody);
+        const response = await this.client.updateCertificatePolicy(
+          certificateName,
+          corePolicy,
+          updatedOptions,
+        );
+        return toPublicPolicy(response);
       },
     );
   }
@@ -1536,3 +1539,4 @@ export class CertificateClient {
     return poller;
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -17,8 +17,7 @@ import type { PollerOptions } from "./PollerOptions.js";
  * https://aka.ms/azsdk/formrecognizer/features
  */
 export type FormRecognizerFeature =
-  | (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature]
-  | (string & {});
+  (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});
 
 /**
  * Known feature flags supported by the Form Recognizer clients.

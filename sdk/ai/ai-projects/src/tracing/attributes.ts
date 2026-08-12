@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Span } from "@opentelemetry/api";
-import { isContentRecordingEnabled } from "./configuration.js";
 import { formatInputMessages, formatOutputMessages } from "./formatters.js";
 import type { Response as OAIResponse } from "openai/resources/responses/responses";
 
@@ -84,38 +83,50 @@ export function setServerAttributes(span: SpanLike, endpoint: string): void {
  * Sets agent-related attributes on the span from an Agent response.
  * When content recording is disabled, only IDs and types are set.
  */
-export function setAgentAttributes(span: SpanLike, agent: Agent): void {
+export function setAgentAttributes(
+  span: SpanLike,
+  agent: Agent,
+  contentRecording: boolean = false,
+): void {
   const version = agent.versions?.latest;
   const agentId = version?.version ? `${agent.name}:${version.version}` : agent.name;
   span.setAttribute(GEN_AI_AGENT_ID, agentId);
   span.setAttribute(GEN_AI_AGENT_NAME, agent.name);
 
   if (version) {
-    setAgentVersionAttributes(span, version);
+    setAgentVersionAttributes(span, version, contentRecording);
   }
 }
 
 /**
  * Sets agent version attributes on the span.
  */
-export function setAgentVersionAttributes(span: SpanLike, version: AgentVersion): void {
+export function setAgentVersionAttributes(
+  span: SpanLike,
+  version: AgentVersion,
+  contentRecording: boolean = false,
+): void {
   const agentId = version.version ? `${version.name}:${version.version}` : version.name;
   span.setAttribute(GEN_AI_AGENT_ID, agentId);
   span.setAttribute(GEN_AI_AGENT_NAME, version.name);
   span.setAttribute(GEN_AI_AGENT_VERSION, version.version);
   span.setAttribute(GEN_AI_AGENT_TYPE, version.definition?.kind ?? "unknown");
 
-  if (isContentRecordingEnabled() && version.description) {
+  if (contentRecording && version.description) {
     span.setAttribute(GEN_AI_AGENT_DESCRIPTION, version.description);
   }
-  setDefinitionAttributes(span, version.definition);
+  setDefinitionAttributes(span, version.definition, contentRecording);
 }
 
 /**
  * Sets attributes from the agent definition.
  * Only sets content-sensitive attributes when content recording is enabled.
  */
-export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinitionUnion): void {
+export function setDefinitionAttributes(
+  span: SpanLike,
+  definition: AgentDefinitionUnion,
+  contentRecording: boolean = false,
+): void {
   if (!definition) return;
 
   span.setAttribute(GEN_AI_AGENT_TYPE, definition.kind ?? "unknown");
@@ -124,7 +135,7 @@ export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinit
     const promptDef = definition as PromptAgentDefinition;
     // Always set instructions attribute; structured as [{"type":"text","content":"..."}]
     // When content recording is off, omit the content field
-    if (isContentRecordingEnabled() && promptDef.instructions) {
+    if (contentRecording && promptDef.instructions) {
       span.setAttribute(
         GEN_AI_SYSTEM_MESSAGE,
         JSON.stringify([{ type: "text", content: promptDef.instructions }]),
@@ -163,7 +174,7 @@ export function setDefinitionAttributes(span: SpanLike, definition: AgentDefinit
     const workflowDef = definition as WorkflowAgentDefinition;
     const fullSpan = span as Span;
     const contentArray =
-      isContentRecordingEnabled() && workflowDef.workflow
+      contentRecording && workflowDef.workflow
         ? [{ type: "workflow", content: workflowDef.workflow }]
         : [];
     fullSpan.addEvent(GEN_AI_AGENT_WORKFLOW_EVENT, {
@@ -235,6 +246,7 @@ export function setCommonSpanAttributes(
   serverPort: number | undefined,
   body: Record<string, unknown>,
   agentName?: string,
+  contentRecording: boolean = false,
 ): void {
   span.setAttribute(GEN_AI_OPERATION_NAME, operationName);
   span.setAttribute(AZ_NAMESPACE, AZ_NAMESPACE_VALUE);
@@ -260,7 +272,7 @@ export function setCommonSpanAttributes(
   }
 
   // Input messages are always set (content is stripped when recording is off)
-  const inputMessages = formatInputMessages(body);
+  const inputMessages = formatInputMessages(body, contentRecording);
   if (inputMessages) {
     span.setAttribute(GEN_AI_INPUT_MESSAGES, inputMessages);
   }
@@ -277,7 +289,7 @@ export function setCommonSpanAttributes(
   }
 
   // system_instructions only for non-agent (chat) operations (content-sensitive)
-  if (isContentRecordingEnabled()) {
+  if (contentRecording) {
     if (!agentName) {
       if (body.instructions) {
         span.setAttribute(
@@ -294,7 +306,11 @@ export function setCommonSpanAttributes(
 /**
  * Sets response span attributes from an OpenAI Response object.
  */
-export function setResponseSpanAttributes(span: SpanLike, response: OAIResponse): void {
+export function setResponseSpanAttributes(
+  span: SpanLike,
+  response: OAIResponse,
+  contentRecording: boolean = false,
+): void {
   setResponseAttributes(span, {
     id: response.id,
     model: typeof response.model === "string" ? response.model : undefined,
@@ -308,7 +324,10 @@ export function setResponseSpanAttributes(span: SpanLike, response: OAIResponse)
   });
 
   // Output messages are always set (content is stripped when recording is off)
-  const outputMessages = formatOutputMessages(response as unknown as Record<string, unknown>);
+  const outputMessages = formatOutputMessages(
+    response as unknown as Record<string, unknown>,
+    contentRecording,
+  );
   if (outputMessages) {
     span.setAttribute(GEN_AI_OUTPUT_MESSAGES, outputMessages);
   }

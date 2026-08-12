@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-storagesync",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0",
   "description": "A generated SDK for MicrosoftStorageSync.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -290,6 +290,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagesync?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagesync"
   }
 }

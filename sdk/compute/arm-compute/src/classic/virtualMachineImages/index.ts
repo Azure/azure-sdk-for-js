@@ -78,7 +78,6 @@ export interface VirtualMachineImagesOperations {
     options?: VirtualMachineImagesListByEdgeZoneOptionalParams,
   ) => Promise<VmImagesInEdgeZoneListResult>;
 }
-
 function _getVirtualMachineImages(context: ComputeManagementContext) {
   return {
     get: (
@@ -126,7 +125,6 @@ function _getVirtualMachineImages(context: ComputeManagementContext) {
     ) => listByEdgeZone(context, location, edgeZone, options),
   };
 }
-
 export function _getVirtualMachineImagesOperations(
   context: ComputeManagementContext,
 ): VirtualMachineImagesOperations {

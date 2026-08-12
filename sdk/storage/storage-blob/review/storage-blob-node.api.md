@@ -19,6 +19,7 @@ import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -33,6 +34,7 @@ import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-ht
 import { RestError } from '@azure/core-rest-pipeline';
 import { StorageBrowserPolicy } from '@azure/storage-common';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageResponseFormat } from '@azure/storage-common';
 import { StorageRetryOptions } from '@azure/storage-common';
 import { StorageRetryPolicy } from '@azure/storage-common';
 import { StorageRetryPolicyFactory } from '@azure/storage-common';
@@ -457,7 +459,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: SyncCopyStatusType;
+    copyStatus?: "success";
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -545,6 +547,9 @@ export type BlobDeleteResponse = WithResponse<BlobDeleteHeaders, BlobDeleteHeade
 // @public
 export interface BlobDownloadHeaders {
     acceptRanges?: string;
+    accessTier?: string;
+    accessTierChangedOn?: Date;
+    accessTierInferred?: boolean;
     blobCommittedBlockCount?: number;
     blobContentMD5?: Uint8Array;
     blobSequenceNumber?: number;
@@ -591,6 +596,7 @@ export interface BlobDownloadHeaders {
         [propertyName: string]: string;
     };
     requestId?: string;
+    smartAccessTier?: string;
     structuredBodyType?: string;
     structuredContentLength?: number;
     tagCount?: number;
@@ -984,6 +990,7 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
+    // (undocumented)
     smartAccessTier?: AccessTier;
     // (undocumented)
     tagCount?: number;
@@ -1535,6 +1542,7 @@ export interface BlockBlobPutBlobFromUrlHeaders {
     requestId?: string;
     version?: string;
     versionId?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
@@ -1655,6 +1663,7 @@ export interface BlockBlobUploadHeaders {
     structuredBodyType?: string;
     version?: string;
     versionId?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
@@ -1671,6 +1680,8 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
     tier?: BlockBlobTier | string;
+    transactionalContentCrc64?: Uint8Array;
+    transactionalContentMD5?: Uint8Array;
 }
 
 // @public
@@ -2013,6 +2024,7 @@ export type ContainerListBlobHierarchySegmentResponse = WithResponse<ListBlobsHi
 // @public
 export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    endBefore?: string;
     includeCopy?: boolean;
     includeDeleted?: boolean;
     includeDeletedWithVersions?: boolean;
@@ -2024,6 +2036,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeUncommitedBlobs?: boolean;
     includeVersions?: boolean;
     prefix?: string;
+    responseFormat?: StorageResponseFormat;
     startFrom?: string;
 }
 
@@ -2296,6 +2309,8 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+export { isRestError }
 
 // @public
 export enum KnownEncryptionAlgorithmType {
@@ -3272,6 +3287,8 @@ export interface StoragePipelineOptions {
     retryOptions?: StorageRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
+
+export { StorageResponseFormat }
 
 export { StorageRetryOptions }
 

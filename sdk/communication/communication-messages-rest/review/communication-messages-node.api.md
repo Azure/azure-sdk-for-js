@@ -12,6 +12,7 @@ import type { CommunicationTokenCredential } from '@azure/communication-common';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import type { ParticipantsRemovedEvent } from '@azure/communication-signaling';
@@ -19,6 +20,7 @@ import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -653,6 +655,8 @@ export interface InternalConversationParticipantOutput extends ConversationParti
     kind: "internal";
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: GetMedia200Response | GetMediaDefaultResponse): response is GetMediaDefaultResponse;
 
@@ -1253,6 +1257,8 @@ export interface RemoveParticipantsResultOutput {
 
 // @public
 export type RepeatabilityResultOutput = "accepted" | "rejected";
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

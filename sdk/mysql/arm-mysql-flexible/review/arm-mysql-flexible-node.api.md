@@ -1399,7 +1399,7 @@ export interface Server extends TrackedResource {
     sku?: MySQLServerSku;
     sourceServerResourceId?: string;
     readonly state?: ServerState;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: ServerVersion;
 }
 
@@ -1470,7 +1470,7 @@ export interface ServerForUpdate {
     network?: Network;
     replicationRole?: ReplicationRole;
     sku?: MySQLServerSku;
-    storage?: Storage;
+    storage?: Storage_2;
     tags?: Record<string, string>;
     version?: ServerVersion;
 }
@@ -1503,7 +1503,7 @@ export interface ServerProperties {
     restorePointInTime?: Date;
     sourceServerResourceId?: string;
     readonly state?: ServerState;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: ServerVersion;
 }
 
@@ -1517,7 +1517,7 @@ export interface ServerPropertiesForUpdate {
     maintenanceWindow?: MaintenanceWindow;
     network?: Network;
     replicationRole?: ReplicationRole;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: ServerVersion;
 }
 
@@ -1716,7 +1716,7 @@ export interface SkuCapabilityV2 {
 }
 
 // @public
-export interface Storage {
+interface Storage_2 {
     autoGrow?: EnableStatusEnum;
     autoIoScaling?: EnableStatusEnum;
     iops?: number;
@@ -1725,6 +1725,7 @@ export interface Storage {
     storageSizeGB?: number;
     readonly storageSku?: string;
 }
+export { Storage_2 as Storage }
 
 // @public
 export interface StorageEditionCapability {

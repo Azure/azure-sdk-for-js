@@ -1,4 +1,4 @@
 directory: specification/cloudhealth/CloudHealth.Management
-commit: 969cdf203d7093f4947ddaea9bc10010c7b6de83
+commit: 2605aac932e54e2f6c1b335bc034a1edc44d5783
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

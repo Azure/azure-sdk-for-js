@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an Agent Deployment by name.
  *
  * @summary gets an Agent Deployment by name.
- * x-ms-original-file: 2026-03-15-preview/AgentDeployment/get.json
+ * x-ms-original-file: 2026-05-15-preview/AgentDeployment/get.json
  */
 async function getAgentDeployment() {
   const credential = new DefaultAzureCredential();

@@ -139,6 +139,7 @@ $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
 Log "Creating additional required role assignments for resource access."
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $testApplicationOid
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $testApplicationOid
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM EKM Administrator" -ObjectID $testApplicationOid
 Log "Role assignments created for '$testApplicationOid'"
 
 Log "Associating managed identity with managed HSM"

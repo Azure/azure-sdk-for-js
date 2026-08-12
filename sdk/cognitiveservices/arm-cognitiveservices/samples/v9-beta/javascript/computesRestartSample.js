@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary restarts a running ContainerInstance compute resource.
  * This is a long-running operation that returns 202 Accepted.
  * Only applicable when computeType is ContainerInstance.
- * x-ms-original-file: 2026-03-15-preview/RestartContainerInstanceCompute.json
+ * x-ms-original-file: 2026-05-15-preview/RestartContainerInstanceCompute.json
  */
 async function restartContainerInstanceCompute() {
   const credential = new DefaultAzureCredential();

@@ -37,7 +37,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,7 +64,6 @@ export async function _listDeserialize(
 
   return _backupPoliciesListDeserializer(result.body);
 }
-
 /** List backup policies for Netapp Account */
 export function list(
   context: Client,
@@ -77,7 +76,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    },
   );
 }
 
@@ -95,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupPolicyName: backupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +120,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete backup policy */
 export function $delete(
   context: Client,
@@ -132,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupPolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -151,7 +153,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupPolicyName: backupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +180,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return backupPolicyDeserializer(result.body);
 }
-
 /** Patch a backup policy for Netapp Account */
 export function update(
   context: Client,
@@ -194,7 +195,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, backupPolicyName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BackupPolicy>, BackupPolicy>;
 }
 
@@ -213,7 +214,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupPolicyName: backupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +241,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return backupPolicyDeserializer(result.body);
 }
-
 /** Create a backup policy for Netapp Account */
 export function create(
   context: Client,
@@ -256,7 +256,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, backupPolicyName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<BackupPolicy>, BackupPolicy>;
 }
 
@@ -274,7 +274,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupPolicyName: backupPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +299,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ba
 
   return backupPolicyDeserializer(result.body);
 }
-
 /** Get a particular backup Policy */
 export async function get(
   context: Client,

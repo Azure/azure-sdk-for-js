@@ -450,10 +450,7 @@ export class BlobServiceClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: BlobServiceClientOptions,
@@ -841,10 +838,9 @@ export class BlobServiceClient extends StorageClient {
     tagFilterSqlExpression: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
-    let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
-      marker,
+      undefined,
       options,
     )) {
       yield* segment.blobs;
@@ -997,8 +993,7 @@ export class BlobServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListContainersSegmentOptions = {},
   ): AsyncIterableIterator<ContainerItem> {
-    let marker: string | undefined;
-    for await (const segment of this.listSegments(marker, options)) {
+    for await (const segment of this.listSegments(undefined, options)) {
       yield* segment.containerItems;
     }
   }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the network security perimeter configuration for a private link scope.
  *
  * @summary gets the network security perimeter configuration for a private link scope.
- * x-ms-original-file: 2025-09-16-preview/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: 2026-06-16-preview/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationGet.json
  */
 async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope() {
   const credential = new DefaultAzureCredential();

@@ -42,7 +42,7 @@ import type {
   ShareSetPropertiesHeaders,
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type {
   FileDownloadResponse,
   FilePosixProperties,
@@ -583,11 +583,9 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 export type {
   CopyStatusType,
   DeleteSnapshotsOptionType,
-  FileDownloadOptionalParams,
   FileGetRangeListHeaders,
   FileLastWrittenMode,
   FileServiceProperties,
-  FileUploadRangeFromURLOptionalParams,
   PermissionCopyModeType,
   ListSharesIncludeType,
   FileRange as RangeModel,
@@ -655,7 +653,7 @@ export type {
   ShareAccessTier,
   ShareRootSquash,
   UserDelegationKey as UserDelegationKeyModel,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 
 export type {
   FileDownloadResponse as RawFileDownloadResponse,
@@ -719,6 +717,26 @@ export interface ListFilesAndDirectoriesSegmentResponse {
 
 /** Defines values for AccessRight. */
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
+/**
+ * A range of bytes within an Azure file, as returned by {@link ShareFileClient.listRanges}
+ * and {@link ShareFileClient.listRangesDiff}.
+ */
+export interface ShareFileRange {
+  /**
+   * Start byte position of the range.
+   */
+  start: number;
+  /**
+   * End byte position of the range, inclusive.
+   */
+  end: number;
+  /**
+   * Indicates whether this range is a cleared range (`true`) or a valid data range (`false`).
+   * When listing ranges via {@link ShareFileClient.listRanges}, this is always `false`.
+   */
+  isClear: boolean;
+}
 
 /** A listed Azure Storage handle item. */
 export interface HandleItem {

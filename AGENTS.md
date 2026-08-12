@@ -33,6 +33,11 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 | Authoritative API design guidelines | https://azure.github.io/azure-sdk/typescript_design.html |
 | Other deep dives | `documentation/` (browse the directory) |
 
+> **Before pushing any code change** — including changes outside `sdk/` — run
+> the checks defined by CI for the affected package locally. Package managers
+> and scripts vary for non-workspace `eng/*` tools. See
+> `.github/skills/sdk-workflow/SKILL.md` § "Before you push".
+
 The skills above carry workflow guidance the rest of this repo's
 contributor docs assume agents will find. Read them on demand — don't
 load them all up front.
@@ -65,6 +70,10 @@ lint rule or CI check, not an eval).
 - Always consult `.github/skills/find-package-skill/SKILL.md` (and the
   relevant package-specific `SKILL.md` if one is registered there)
   **before** modifying a package under `sdk/`.
+- When pushing new commits to an **existing** pull request, re-check that
+  the PR description still matches the current changes. If iterating has
+  made it inaccurate or incomplete, update the description in the same
+  step — don't leave a stale description behind.
 
 ## Where new guidance belongs
 

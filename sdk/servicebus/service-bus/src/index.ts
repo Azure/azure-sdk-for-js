@@ -19,6 +19,7 @@ export type { ServiceBusClientOptions } from "./constructorHelpers.js";
 export type { CorrelationRuleFilter } from "./core/managementClient.js";
 export type {
   DeleteMessagesOptions,
+  ListMessageSessionsOptions,
   PurgeMessagesOptions,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
@@ -84,3 +85,4 @@ export type {
   TransferProgressEvent,
   WebResourceLike,
 } from "./util/compat/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

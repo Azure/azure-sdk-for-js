@@ -1,5 +1,19 @@
 # Release History
 
+## 4.11.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed `updateCertificatePolicy` returning a policy built from an unassigned
+  variable instead of the updated policy returned by the service.
+  [#39461](https://github.com/Azure/azure-sdk-for-js/pull/39461)
+
+### Other Changes
+
 ## 4.11.0-beta.1 (2026-06-04)
 
 ### Features Added

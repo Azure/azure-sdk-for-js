@@ -122,10 +122,26 @@ export class StorageCRC64Calculator {
 }
 
 // @public
+export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;
+
+// @public
+export const storageRedirectRangeHeaderPolicyName = "storageRedirectRangeHeaderPolicy";
+
+// @public
 export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public
 export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+
+// @public
+export const StorageResponseFormat: {
+    readonly Auto: "Auto";
+    readonly Xml: "Xml";
+    readonly Arrow: "Arrow";
+};
+
+// @public
+export type StorageResponseFormat = (typeof StorageResponseFormat)[keyof typeof StorageResponseFormat];
 
 // @public
 export interface StorageRetryOptions {

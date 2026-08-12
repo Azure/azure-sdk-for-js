@@ -2,3 +2,5 @@
 npm --prefix eng/common/tsp-client ci
 npm install -g pnpm
 npm --prefix eng/tools/js-sdk-release-tools ci
+echo "Installed @azure-tools/js-sdk-release-tools version:"
+npm --prefix eng/tools/js-sdk-release-tools ls @azure-tools/js-sdk-release-tools || true

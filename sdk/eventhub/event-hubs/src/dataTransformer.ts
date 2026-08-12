@@ -143,9 +143,7 @@ function tryToJsonDecode(body: unknown): unknown {
  */
 export interface RheaAmqpSection {
   typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
+    typeof dataSectionTypeCode | typeof sequenceSectionTypeCode | typeof valueSectionTypeCode;
   content: any;
 }
 

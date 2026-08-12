@@ -5,7 +5,7 @@
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
@@ -49,7 +49,7 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-rest-pipeline": "^1.16.3",
     "@azure/core-tracing": "^1.1.2",
-    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api": "^1.9.1",
     "tslib": "^2.6.3",
     "vitest": "catalog:testing"
   },

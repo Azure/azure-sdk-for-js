@@ -72,7 +72,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Gets the SAS credential to access the storage account associated with a Dataset version. */
+/** Retrieves the SAS credential to access the storage account associated with a dataset version. */
 export async function getCredentials(
   context: Client,
   name: string,

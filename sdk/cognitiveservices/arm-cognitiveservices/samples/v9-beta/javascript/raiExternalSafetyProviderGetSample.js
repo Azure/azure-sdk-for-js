@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified external safety provider associated with the Subscription
  *
  * @summary gets the specified external safety provider associated with the Subscription
- * x-ms-original-file: 2026-03-15-preview/GetRaiExternalSafetyProvider.json
+ * x-ms-original-file: 2026-05-15-preview/GetRaiExternalSafetyProvider.json
  */
 async function getRaiExternalSafetyProvider() {
   const credential = new DefaultAzureCredential();

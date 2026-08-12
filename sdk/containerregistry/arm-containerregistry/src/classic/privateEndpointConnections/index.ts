@@ -29,11 +29,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsListOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection associated with the container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

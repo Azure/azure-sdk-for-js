@@ -749,7 +749,7 @@ export interface GroupStateItem {
    */
   state?: Record<string, string>;
   /**
-   * Unix epoch timestamp in milliseconds when the state was last updated
+   * Server time, in Unix epoch milliseconds, when this state was last updated.
    */
   updatedAt: number;
 }

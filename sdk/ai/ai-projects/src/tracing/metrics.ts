@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as nodeModule from "node:module";
+import { metrics } from "@opentelemetry/api";
+import type { Histogram } from "@opentelemetry/api";
 import {
   GEN_AI_CLIENT_OPERATION_DURATION,
   GEN_AI_CLIENT_TOKEN_USAGE,
@@ -14,51 +15,25 @@ import {
   ERROR_TYPE,
 } from "./constants.js";
 
-/**
- * Minimal subset of the OpenTelemetry Histogram interface we need.
- * Avoids a hard dependency on `@opentelemetry/api`.
- */
-interface Histogram {
-  record(value: number, attributes?: Record<string, string | number>): void;
-}
-
-let _metricsResolved = false;
 let operationDurationHistogram: Histogram | undefined;
 let tokenUsageHistogram: Histogram | undefined;
 
 /**
  * Lazily initializes OTel metrics histograms on first use.
- * Uses the same synchronous require pattern as tracingClient.ts so that
- * histograms are guaranteed to be available by the first recording call.
  */
 function ensureMetrics(): void {
-  if (_metricsResolved) return;
-  _metricsResolved = true;
-  try {
-    let _require: ((id: string) => unknown) | undefined;
-    if (typeof require === "function") {
-      _require = require;
-    } else if (typeof import.meta.url === "string") {
-      _require = nodeModule.createRequire(import.meta.url);
-    }
-    if (!_require) {
-      return;
-    }
-    const otelApi = _require("@opentelemetry/api") as typeof import("@opentelemetry/api");
-    const meter = otelApi.metrics.getMeter("@azure/ai-projects");
+  if (operationDurationHistogram) return;
+  const meter = metrics.getMeter("@azure/ai-projects");
 
-    operationDurationHistogram = meter.createHistogram(GEN_AI_CLIENT_OPERATION_DURATION, {
-      description: "Duration of GenAI operations",
-      unit: "s",
-    });
+  operationDurationHistogram = meter.createHistogram(GEN_AI_CLIENT_OPERATION_DURATION, {
+    description: "Duration of GenAI operations",
+    unit: "s",
+  });
 
-    tokenUsageHistogram = meter.createHistogram(GEN_AI_CLIENT_TOKEN_USAGE, {
-      description: "Token usage for GenAI operations",
-      unit: "{token}",
-    });
-  } catch {
-    // @opentelemetry/api not available — metrics disabled
-  }
+  tokenUsageHistogram = meter.createHistogram(GEN_AI_CLIENT_TOKEN_USAGE, {
+    description: "Token usage for GenAI operations",
+    unit: "{token}",
+  });
 }
 
 interface MetricDimensions {

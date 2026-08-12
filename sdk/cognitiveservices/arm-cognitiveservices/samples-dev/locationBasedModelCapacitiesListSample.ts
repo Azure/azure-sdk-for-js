@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacities.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacities.json
  */
 async function listLocationBasedModelCapacities(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function listLocationBasedModelCapacities(): Promise<void> {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesClassicScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesClassicScope.json
  */
 async function listLocationBasedModelCapacitiesClassicScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function listLocationBasedModelCapacitiesClassicScope(): Promise<void> {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesDataZoneScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesDataZoneScope.json
  */
 async function listLocationBasedModelCapacitiesDataZoneScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function listLocationBasedModelCapacitiesDataZoneScope(): Promise<void> {
  * This sample demonstrates how to list Location Based ModelCapacities.
  *
  * @summary list Location Based ModelCapacities.
- * x-ms-original-file: 2026-03-15-preview/ListLocationBasedModelCapacitiesGlobalScope.json
+ * x-ms-original-file: 2026-05-15-preview/ListLocationBasedModelCapacitiesGlobalScope.json
  */
 async function listLocationBasedModelCapacitiesGlobalScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -45,7 +45,7 @@ export function _getVolumeLatestRestoreStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _getVolumeLatestRestoreStatusDeserialize(
 
   return restoreStatusDeserializer(result.body);
 }
-
 /** Get the latest status of the restore for a volume */
 export async function getVolumeLatestRestoreStatus(
   context: Client,
@@ -109,7 +108,7 @@ export function _getLatestStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +135,6 @@ export async function _getLatestStatusDeserialize(
 
   return backupStatusDeserializer(result.body);
 }
-
 /** Get the latest status of the backup for a volume */
 export async function getLatestStatus(
   context: Client,
@@ -171,7 +169,7 @@ export function _listByVaultSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
       "%24filter": options?.filter,
     },
     {
@@ -199,7 +197,6 @@ export async function _listByVaultDeserialize(
 
   return _backupsListDeserializer(result.body);
 }
-
 /** List all backups Under a Backup Vault */
 export function listByVault(
   context: Client,
@@ -213,7 +210,11 @@ export function listByVault(
     () => _listByVaultSend(context, resourceGroupName, accountName, backupVaultName, options),
     _listByVaultDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    },
   );
 }
 
@@ -233,7 +234,7 @@ export function _$deleteSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +256,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a Backup under the Backup Vault */
 export function $delete(
   context: Client,
@@ -271,7 +271,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -291,7 +291,7 @@ export function _updateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +318,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return backupDeserializer(result.body);
 }
-
 /** Patch a Backup under the Backup Vault */
 export function update(
   context: Client,
@@ -334,7 +333,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Backup>, Backup>;
 }
 
@@ -355,7 +354,7 @@ export function _createSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,7 +381,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return backupDeserializer(result.body);
 }
-
 /** Create a backup under the Backup Vault */
 export function create(
   context: Client,
@@ -407,7 +405,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<Backup>, Backup>;
 }
 
@@ -427,7 +425,7 @@ export function _getSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,7 +450,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ba
 
   return backupDeserializer(result.body);
 }
-
 /** Get the specified Backup under Backup Vault. */
 export async function get(
   context: Client,

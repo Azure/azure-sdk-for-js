@@ -1044,14 +1044,7 @@ export function autoPatchingSettingsDeserializer(item: any): AutoPatchingSetting
 
 /** Day of week to apply the patch on. */
 export type DayOfWeek =
-  | "Everyday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+  "Everyday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 /** Additional Patch to be enable or enabled on the SQL Virtual Machine. */
 export enum KnownAdditionalVmPatch {
@@ -1848,13 +1841,7 @@ export function scheduleDeserializer(item: any): Schedule {
 
 /** Day of the week to run assessment. */
 export type AssessmentDayOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 /** Additional VM Patching solution enabled on the Virtual Machine */
 export enum KnownAdditionalOsPatch {

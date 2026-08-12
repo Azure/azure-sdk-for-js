@@ -626,10 +626,7 @@ export interface CustomAnalyzer {
  * Contains the possible cases for Analyzer.
  */
 export type LexicalAnalyzer =
-  | CustomAnalyzer
-  | PatternAnalyzer
-  | LuceneStandardAnalyzer
-  | StopAnalyzer;
+  CustomAnalyzer | PatternAnalyzer | LuceneStandardAnalyzer | StopAnalyzer;
 
 /**
  * A skill that calls a language model via Azure AI Foundry's Chat Completions endpoint.
@@ -673,8 +670,7 @@ export interface WebApiSkill extends BaseSearchIndexerSkill {
    * Polymorphic discriminator, which specifies the different types this object can be
    */
   odatatype:
-    | "#Microsoft.Skills.Custom.WebApiSkill"
-    | "#Microsoft.Skills.Custom.ChatCompletionSkill";
+    "#Microsoft.Skills.Custom.WebApiSkill" | "#Microsoft.Skills.Custom.ChatCompletionSkill";
   /**
    * The url for the Web API.
    */
@@ -846,8 +842,7 @@ export interface LuceneStandardTokenizer {
    * Polymorphic Discriminator
    */
   odatatype:
-    | "#Microsoft.Azure.Search.StandardTokenizerV2"
-    | "#Microsoft.Azure.Search.StandardTokenizer";
+    "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.StandardTokenizer";
   /**
    * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
    * underscores, can only start and end with alphanumeric characters, and is limited to 128
@@ -902,8 +897,7 @@ export interface KeywordTokenizer {
    * Polymorphic Discriminator
    */
   odatatype:
-    | "#Microsoft.Azure.Search.KeywordTokenizerV2"
-    | "#Microsoft.Azure.Search.KeywordTokenizer";
+    "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
   /**
    * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
    * underscores, can only start and end with alphanumeric characters, and is limited to 128
@@ -975,8 +969,7 @@ export interface NGramTokenFilter {
    * Polymorphic Discriminator
    */
   odatatype:
-    | "#Microsoft.Azure.Search.NGramTokenFilterV2"
-    | "#Microsoft.Azure.Search.NGramTokenFilter";
+    "#Microsoft.Azure.Search.NGramTokenFilterV2" | "#Microsoft.Azure.Search.NGramTokenFilter";
   /**
    * The name of the token filter. It must only contain letters, digits, spaces, dashes or
    * underscores, can only start and end with alphanumeric characters, and is limited to 128
@@ -2206,22 +2199,19 @@ export enum KnownAnalyzerNames {
  * Contains the possible cases for DataChangeDetectionPolicy.
  */
 export type DataChangeDetectionPolicy =
-  | HighWaterMarkChangeDetectionPolicy
-  | SqlIntegratedChangeTrackingPolicy;
+  HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
 
 /**
  * Contains the possible cases for SearchIndexerDataIdentity.
  */
 export type SearchIndexerDataIdentity =
-  | SearchIndexerDataNoneIdentity
-  | SearchIndexerDataUserAssignedIdentity;
+  SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity;
 
 /**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
 export type DataDeletionDetectionPolicy =
-  | SoftDeleteColumnDeletionDetectionPolicy
-  | NativeBlobSoftDeleteDeletionDetectionPolicy;
+  SoftDeleteColumnDeletionDetectionPolicy | NativeBlobSoftDeleteDeletionDetectionPolicy;
 
 /**
  * Represents a datasource definition, which can be used to configure an indexer.
@@ -2316,8 +2306,7 @@ export interface VectorSearch {
  * Contains configuration options specific to the algorithm used during indexing and/or querying.
  */
 export type VectorSearchAlgorithmConfiguration =
-  | HnswAlgorithmConfiguration
-  | ExhaustiveKnnAlgorithmConfiguration;
+  HnswAlgorithmConfiguration | ExhaustiveKnnAlgorithmConfiguration;
 
 /**
  * Contains configuration options specific to the algorithm used during indexing and/or querying.
@@ -2520,9 +2509,7 @@ export interface WebApiParameters {
  * Contains configuration options on how to vectorize text vector queries.
  */
 export type VectorSearchVectorizer =
-  | AzureMachineLearningVectorizer
-  | AzureOpenAIVectorizer
-  | WebApiVectorizer;
+  AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
