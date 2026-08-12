@@ -117,7 +117,6 @@ export interface BetaSkillsOperations {
     options?: BetaSkillsGetOptionalParams,
   ) => Promise<Skill>;
 }
-
 function _getBetaSkills(context: AIProjectContext) {
   return {
     deleteVersion: (
@@ -179,7 +178,6 @@ function _getBetaSkills(context: AIProjectContext) {
     ) => get(context, name, foundryFeatures, options),
   };
 }
-
 export function _getBetaSkillsOperations(context: AIProjectContext): BetaSkillsOperations {
   return {
     ..._getBetaSkills(context),

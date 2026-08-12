@@ -314,7 +314,6 @@ export interface AgentsOperations {
   /** Retrieves an agent definition by its unique name. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
-
 function _getAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
@@ -431,7 +430,6 @@ function _getAgents(context: AIProjectContext) {
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
-
 export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
   return {
     ..._getAgents(context),

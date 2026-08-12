@@ -6,16 +6,12 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DeleteVersionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ToolboxesDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ToolboxesUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface GetVersionOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ListVersionsOptionalParams extends OperationOptions {
   /**
@@ -41,7 +37,6 @@ export interface ListVersionsOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface ToolboxesListOptionalParams extends OperationOptions {
   /**
@@ -67,10 +62,8 @@ export interface ToolboxesListOptionalParams extends OperationOptions {
    */
   before?: string;
 }
-
 /** Optional parameters. */
 export interface ToolboxesGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface CreateVersionOptionalParams extends OperationOptions {
   /** A human-readable description of the toolbox. */

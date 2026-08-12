@@ -15,7 +15,6 @@ export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
   /** A direct action-input override sent downstream when testing a routine. */
   payload?: RoutineDispatchPayloadUnion;
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -31,13 +30,11 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
   /** The ordering direction. Supported values are asc and desc. */
   order?: string;
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -51,25 +48,21 @@ export interface BetaRoutinesListOptionalParams extends OperationOptions {
   /** The ordering direction. Supported values are asc and desc. */
   order?: string;
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Routines=V1Preview";
 }
-
 /** Optional parameters. */
 export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
