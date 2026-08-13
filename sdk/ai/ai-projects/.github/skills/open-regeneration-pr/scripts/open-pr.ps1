@@ -63,6 +63,9 @@ try {
     if (-not $currentBranch) {
       throw 'Managed agent session must be running on a named branch.'
     }
+    if ($currentBranch -ceq $BaseBranch) {
+      throw 'Managed agent session must not run directly on the base branch.'
+    }
     Write-Host "Using managed agent branch $currentBranch"
   }
   else {
