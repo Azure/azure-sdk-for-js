@@ -402,7 +402,7 @@ export function serializeAsConfigurationSettingParam(
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
-  kvp: T | undefined,
+  kvp: T | void,
   status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   const source = (kvp ?? {}) as T;
