@@ -536,7 +536,17 @@ console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMes
 // across all of the topic's subscriptions. These counts are served by the 2024-05 service API
 // version and later; on an older version they are `undefined`.
 const topicName = "my-topic";
+const subscriptionName = "my-subscription";
 await serviceBusAdministrationClient.createTopic(topicName);
+// A new subscription carries a default rule with a SQL TrueFilter. Adding a correlation rule
+// gives the topic one of each, so the counts below aggregate across the subscription's rules.
+await serviceBusAdministrationClient.createSubscription(topicName, subscriptionName);
+await serviceBusAdministrationClient.createRule(
+  topicName,
+  subscriptionName,
+  "my-correlation-rule",
+  { correlationId: "my-correlation-id" },
+);
 const topicRuntimeProperties =
   await serviceBusAdministrationClient.getTopicRuntimeProperties(topicName);
 console.log(`SQL filter count = ${topicRuntimeProperties.sqlFilterCount}`);

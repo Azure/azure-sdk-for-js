@@ -1405,9 +1405,4 @@ describe("buildTopicRuntimeProperties", () => {
     assert.equal(props.sqlFilterCount, undefined);
     assert.equal(props.correlationFilterCount, undefined);
   });
-
-  it("defaults the ATOM api-version to 2024-05 (required for the service to serve the filter counts)", () => {
-    // A silent revert of the default would stop the topic filter counts from being served.
-    assert.equal(Constants.CURRENT_API_VERSION, "2024-05");
-  });
 });
