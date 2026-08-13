@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeallocateExample() {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function virtualMachineBulkOperationsBulkDeallocateExample() {
  * This sample demonstrates how to bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDeallocate_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeallocateGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

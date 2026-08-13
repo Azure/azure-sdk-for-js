@@ -138,6 +138,7 @@ export interface ScheduledActionsOperations {
     options?: ScheduledActionsGetOptionalParams,
   ) => Promise<ScheduledAction>;
 }
+
 function _getScheduledActions(context: ComputeContext) {
   return {
     triggerManualOccurrence: (
@@ -214,6 +215,7 @@ function _getScheduledActions(context: ComputeContext) {
     ) => get(context, resourceGroupName, scheduledActionName, options),
   };
 }
+
 export function _getScheduledActionsOperations(
   context: ComputeContext,
 ): ScheduledActionsOperations {

@@ -15,6 +15,7 @@ export interface ScheduledActionOperationStatusOperations {
     options?: ScheduledActionOperationStatusGetOptionalParams,
   ) => Promise<OperationStatusResult>;
 }
+
 function _getScheduledActionOperationStatus(context: ComputeContext) {
   return {
     get: (
@@ -24,6 +25,7 @@ function _getScheduledActionOperationStatus(context: ComputeContext) {
     ) => get(context, location, operationId, options),
   };
 }
+
 export function _getScheduledActionOperationStatusOperations(
   context: ComputeContext,
 ): ScheduledActionOperationStatusOperations {

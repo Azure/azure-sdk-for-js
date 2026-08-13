@@ -65,6 +65,7 @@ export interface OccurrencesOperations {
     options?: OccurrencesGetOptionalParams,
   ) => Promise<Occurrence>;
 }
+
 function _getOccurrences(context: ComputeContext) {
   return {
     delay: (
@@ -100,6 +101,7 @@ function _getOccurrences(context: ComputeContext) {
     ) => get(context, resourceGroupName, scheduledActionName, occurrenceId, options),
   };
 }
+
 export function _getOccurrencesOperations(context: ComputeContext): OccurrencesOperations {
   return {
     ..._getOccurrences(context),

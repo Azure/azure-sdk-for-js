@@ -3,12 +3,14 @@
 
 import type { ComputeContext as Client } from "../index.js";
 import type {
+  GetOperationStatusResponse,
   OperationStatusResult,
   LocationBasedBulkCreateCustom,
   _BulkCreateCustomListResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  getOperationStatusResponseDeserializer,
   operationStatusResultDeserializer,
   locationBasedBulkCreateCustomSerializer,
   locationBasedBulkCreateCustomDeserializer,
@@ -21,6 +23,7 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   BulkCreateCustomListBySubscriptionOptionalParams,
   BulkCreateCustomListByResourceGroupOptionalParams,
+  BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
   BulkCreateCustomCancelOptionalParams,
   BulkCreateCustomDeleteOptionalParams,
   BulkCreateCustomCreateOrUpdateOptionalParams,
@@ -41,7 +44,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +71,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _bulkCreateCustomListResultDeserializer(result.body);
 }
+
 /** List BulkCreateCustom resources by subscriptionId. */
 export function listBySubscription(
   context: Client,
@@ -82,7 +86,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
 }
@@ -99,7 +103,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +130,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _bulkCreateCustomListResultDeserializer(result.body);
 }
+
 /** List BulkCreateCustom resources by resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -141,9 +146,69 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-06-preview",
+      apiVersion: context.apiVersion ?? "2026-08-06-preview",
     },
   );
+}
+
+export function _virtualMachinesGetOperationStatusSend(
+  context: Client,
+  resourceGroupName: string,
+  location: string,
+  name: string,
+  options: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}/virtualMachinesGetOperationStatus{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      location: location,
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _virtualMachinesGetOperationStatusDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetOperationStatusResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return getOperationStatusResponseDeserializer(result.body);
+}
+
+/** Gets the operation status for virtual machines in a BulkCreateCustom operation. */
+export async function virtualMachinesGetOperationStatus(
+  context: Client,
+  resourceGroupName: string,
+  location: string,
+  name: string,
+  options: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams = { requestOptions: {} },
+): Promise<GetOperationStatusResponse> {
+  const result = await _virtualMachinesGetOperationStatusSend(
+    context,
+    resourceGroupName,
+    location,
+    name,
+    options,
+  );
+  return _virtualMachinesGetOperationStatusDeserialize(result);
 }
 
 export function _cancelSend(
@@ -160,7 +225,7 @@ export function _cancelSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,6 +247,7 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
+
 /** Cancels BulkCreateCustom instances that have not yet launched. */
 export function cancel(
   context: Client,
@@ -195,7 +261,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -213,7 +279,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
       deleteInstances: options?.deleteInstances,
     },
     {
@@ -236,6 +302,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes BulkCreateCustoms. */
 export function $delete(
   context: Client,
@@ -249,7 +316,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, location, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -268,7 +335,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,6 +364,7 @@ export async function _createOrUpdateDeserialize(
 
   return locationBasedBulkCreateCustomDeserializer(result.body);
 }
+
 /** Creates or updates BulkCreateCustoms. */
 export function createOrUpdate(
   context: Client,
@@ -312,7 +380,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, location, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-06-preview",
+    apiVersion: context.apiVersion ?? "2026-08-06-preview",
   }) as PollerLike<OperationState<LocationBasedBulkCreateCustom>, LocationBasedBulkCreateCustom>;
 }
 
@@ -328,7 +396,7 @@ export function _getAsyncOperationStatusSend(
       subscriptionId: context.subscriptionId,
       location: location,
       asyncOperationId: asyncOperationId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -355,6 +423,7 @@ export async function _getAsyncOperationStatusDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
+
 /** Get the status of an async operation of a BulkCreateCustom. */
 export async function getAsyncOperationStatus(
   context: Client,
@@ -380,7 +449,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -407,6 +476,7 @@ export async function _getDeserialize(
 
   return locationBasedBulkCreateCustomDeserializer(result.body);
 }
+
 /** Gets an instance of BulkCreateCustoms. */
 export async function get(
   context: Client,
