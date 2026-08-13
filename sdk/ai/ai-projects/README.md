@@ -1478,7 +1478,9 @@ Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/t
 
 ## Regenerating from TypeSpec (maintainers)
 
-This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The full workflow is encoded as six skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-specs`. The six regeneration stages and their issue-assigned orchestrator are encoded as skills under [.github/skills/](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills) and can be driven end-to-end by a GitHub Copilot coding-agent task.
+
+The repository-level `ai-projects-regen` custom agent is only a GitHub discovery entry point. The issue-assigned workflow is owned by the package-local [`run-issue-regeneration` skill](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/run-issue-regeneration).
 
 To dispatch a regen as a cloud agent task, run from this directory:
 
