@@ -16803,7 +16803,7 @@ importers:
         specifier: ^4.7.0
         version: 4.13.1
       '@azure/msal-node':
-        specifier: ^5.1.0
+        specifier: ^5.1.5
         version: 5.4.3
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
@@ -16876,7 +16876,7 @@ importers:
         specifier: ^4.7.0
         version: 4.13.1
       '@azure/msal-node':
-        specifier: ^5.1.0
+        specifier: ^5.1.5
         version: 5.4.3
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
@@ -16989,7 +16989,7 @@ importers:
         specifier: ^4.11.0
         version: 4.13.1
       '@azure/msal-node':
-        specifier: ^5.1.0
+        specifier: ^5.1.5
         version: 5.4.3
       '@azure/msal-node-extensions':
         specifier: ^5.1.0

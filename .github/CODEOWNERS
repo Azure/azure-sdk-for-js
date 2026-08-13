@@ -76,6 +76,9 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %Azure.Core
 
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @sagar0207 @SwayGom @sjkwak @hmlam
+
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
 
