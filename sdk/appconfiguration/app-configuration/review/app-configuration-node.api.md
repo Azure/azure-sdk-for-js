@@ -72,10 +72,6 @@ export interface CheckConfigurationSettingsOptions extends OperationOptions, Lis
 }
 
 // @public
-export interface CheckFeatureFlagsOptions extends ListFeatureFlagsOptions {
-}
-
-// @public
 export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue | SnapshotReferenceValue = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
@@ -191,7 +187,6 @@ export class FeatureFlagClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
     addFeatureFlag(featureFlag: AddFeatureFlagParam, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
     addFeatureFlag(name: string, enabled: boolean, label?: string, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
-    checkFeatureFlags(options?: CheckFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     deleteFeatureFlag(id: FeatureFlagId, options?: DeleteFeatureFlagOptions): Promise<DeleteFeatureFlagResponse>;
     getFeatureFlag(id: FeatureFlagId, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;

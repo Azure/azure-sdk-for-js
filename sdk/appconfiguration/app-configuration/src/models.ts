@@ -714,9 +714,6 @@ export interface ListFeatureFlagsOptions extends OperationOptions {
   pageEtags?: string[];
 }
 
-/** Options for checking feature flags for changes without retrieving response bodies. */
-export interface CheckFeatureFlagsOptions extends ListFeatureFlagsOptions {}
-
 /**
  * A page of feature flags and the corresponding HTTP response
  */

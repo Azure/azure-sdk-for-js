@@ -7,7 +7,6 @@
 import type {
   AddFeatureFlagParam,
   AddFeatureFlagResponse,
-  CheckFeatureFlagsOptions,
   DeleteFeatureFlagOptions,
   DeleteFeatureFlagResponse,
   FeatureFlag,
@@ -43,7 +42,6 @@ import type { FeatureFlag as GeneratedFeatureFlag } from "./generated/models/mod
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import { listLabels } from "./internal/listLabels.js";
 import { listFeatureFlags } from "./internal/listFeatureFlags.js";
-import { checkFeatureFlags } from "./internal/checkFeatureFlags.js";
 import { listFeatureFlagRevisions } from "./internal/listFeatureFlagRevisions.js";
 import { tracingClient } from "./internal/tracing.js";
 import {
@@ -411,52 +409,6 @@ export class FeatureFlagClient {
     return listFeatureFlags(
       this._context,
       "FeatureFlagClient.listFeatureFlags",
-      {
-        name: nameFilter,
-        label: labelFilter,
-        tags: tagsFilter,
-        acceptDatetime: acceptDateTime?.toISOString(),
-        select: formatFeatureFlagFieldsForSelect(fields),
-      },
-      pageEtags,
-      restOptions,
-    );
-  }
-
-  /**
-   * Checks feature flags for changes using HEAD requests without retrieving response bodies.
-   *
-   * Example usage:
-   * ```ts snippet:CheckFeatureFlags
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { FeatureFlagClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new FeatureFlagClient(endpoint, credential);
-   *
-   * const pages = client.checkFeatureFlags({ nameFilter: "MyFeatureFlag" }).byPage();
-   * for await (const page of pages) {
-   *   console.log(`Feature flag page etag: ${page.etag}`);
-   * }
-   * ```
-   * @param options - Optional parameters for the request.
-   */
-  checkFeatureFlags(
-    options: CheckFeatureFlagsOptions = {},
-  ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings> {
-    const {
-      nameFilter,
-      labelFilter,
-      tagsFilter,
-      acceptDateTime,
-      fields,
-      pageEtags,
-      ...restOptions
-    } = options;
-    return checkFeatureFlags(
-      this._context,
-      "FeatureFlagClient.checkFeatureFlags",
       {
         name: nameFilter,
         label: labelFilter,

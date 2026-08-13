@@ -369,17 +369,6 @@ describe("snippets", () => {
     }
   });
 
-  it("CheckFeatureFlags", async () => {
-    const endpoint = "https://example.azconfig.io";
-    const credential = new DefaultAzureCredential();
-    const client = new FeatureFlagClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    const pages = client.checkFeatureFlags({ nameFilter: "MyFeatureFlag" }).byPage();
-    for await (const page of pages) {
-      console.log(`Feature flag page etag: ${page.etag}`);
-    }
-  });
-
   it("ListFeatureFlagRevisions", async () => {
     const endpoint = "https://example.azconfig.io";
     const credential = new DefaultAzureCredential();
