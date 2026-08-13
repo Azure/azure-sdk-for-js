@@ -568,6 +568,11 @@ export class ContentUnderstandingClient {
   /**
    * Extract content and fields from input inline (synchronous, no polling).
    *
+   * @param analyzerId - The analyzer to use (e.g. `"prebuilt-layout"`).
+   * @param inputs - The URL-based inputs to analyze.
+   * @param options - Optional operation parameters.
+   * @returns The analysis result returned directly by the service.
+   *
    * @remarks Available only when the client is configured for service API version `2026-06-01-preview`.
    */
   async analyzeInline(
@@ -636,6 +641,7 @@ export class ContentUnderstandingClient {
    * @param binaryInput - The raw bytes to analyze.
    * @param options - Optional operation parameters, including `contentType` (MIME type),
    *                  `contentRange`, `allowInputTruncation`, etc.
+   * @returns The analysis result returned directly by the service.
    *
    * @remarks Available only when the client is configured for service API version `2026-06-01-preview`.
    */

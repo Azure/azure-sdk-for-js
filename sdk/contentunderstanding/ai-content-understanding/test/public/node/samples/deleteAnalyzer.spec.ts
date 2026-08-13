@@ -83,22 +83,22 @@ forEachServiceVersion("Sample: deleteAnalyzer", ({ apiVersion }) => {
     // ========== Post-delete verification ==========
     // getting a deleted analyzer should throw a RestError with status 404 (or 400 in
     // some deployments), not silently succeed.
-    let deletionVerified = false;
+    let capturedError: unknown;
     let capturedStatus: number | undefined;
     try {
       await client.getAnalyzer(testAnalyzerId);
-      assert.fail(
-        `Expected error when getting deleted analyzer '${testAnalyzerId}', but call succeeded`,
-      );
     } catch (error) {
+      capturedError = error;
       const restError = error as { statusCode?: number; code?: string; message?: string };
       capturedStatus = restError.statusCode;
-      deletionVerified = true;
       console.log(
         `Verified analyzer was deleted (statusCode=${capturedStatus}, code=${restError.code})`,
       );
     }
-    assert.ok(deletionVerified, "Deletion should be verified by a thrown error");
+    assert.ok(
+      capturedError,
+      `Expected error when getting deleted analyzer '${testAnalyzerId}', but call succeeded`,
+    );
     if (capturedStatus !== undefined) {
       assert.ok(
         capturedStatus === 404 || capturedStatus === 400,
