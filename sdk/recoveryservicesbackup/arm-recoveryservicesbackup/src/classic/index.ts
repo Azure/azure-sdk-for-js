@@ -18,6 +18,7 @@ export type { BackupStatusOperations } from "./backupStatus/index.js";
 export type { BackupUsageSummariesOperations } from "./backupUsageSummaries/index.js";
 export type { BackupWorkloadItemsOperations } from "./backupWorkloadItems/index.js";
 export type { BMSPrepareDataMoveOperationResultOperations } from "./bmsPrepareDataMoveOperationResult/index.js";
+export type { ConfigureSourceScanOperations } from "./configureSourceScan/index.js";
 export type { DeletedProtectionContainersOperations } from "./deletedProtectionContainers/index.js";
 export type { ExportJobsOperationResultsOperations } from "./exportJobsOperationResults/index.js";
 export type { FeatureSupportOperations } from "./featureSupport/index.js";

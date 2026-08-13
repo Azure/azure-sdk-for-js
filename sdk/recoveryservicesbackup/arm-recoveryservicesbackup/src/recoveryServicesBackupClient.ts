@@ -52,6 +52,8 @@ import type { BackupsOperations } from "./classic/backups/index.js";
 import { _getBackupsOperations } from "./classic/backups/index.js";
 import type { BMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
 import { _getBMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
+import type { ConfigureSourceScanOperations } from "./classic/configureSourceScan/index.js";
+import { _getConfigureSourceScanOperations } from "./classic/configureSourceScan/index.js";
 import type { DeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
 import { _getDeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
 import type { ExportJobsOperationResultsOperations } from "./classic/exportJobsOperationResults/index.js";
@@ -162,14 +164,7 @@ export class RecoveryServicesBackupClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRecoveryServicesBackup(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRecoveryServicesBackup(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.operation = _getOperationOperations(this._client);
     this.privateEndpoint = _getPrivateEndpointOperations(this._client);
@@ -227,6 +222,7 @@ export class RecoveryServicesBackupClient {
     this.recoveryPointsRecommendedForMove = _getRecoveryPointsRecommendedForMoveOperations(
       this._client,
     );
+    this.configureSourceScan = _getConfigureSourceScanOperations(this._client);
     this.backups = _getBackupsOperations(this._client);
     this.protectedItems = _getProtectedItemsOperations(this._client);
     this.backupResourceEncryptionConfigs = _getBackupResourceEncryptionConfigsOperations(
@@ -504,6 +500,8 @@ export class RecoveryServicesBackupClient {
   public readonly protectedItemOperationStatuses: ProtectedItemOperationStatusesOperations;
   /** The operation groups for recoveryPointsRecommendedForMove */
   public readonly recoveryPointsRecommendedForMove: RecoveryPointsRecommendedForMoveOperations;
+  /** The operation groups for configureSourceScan */
+  public readonly configureSourceScan: ConfigureSourceScanOperations;
   /** The operation groups for backups */
   public readonly backups: BackupsOperations;
   /** The operation groups for protectedItems */

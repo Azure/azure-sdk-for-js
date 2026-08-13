@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservicesbackup)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples)
 
 ## Getting started

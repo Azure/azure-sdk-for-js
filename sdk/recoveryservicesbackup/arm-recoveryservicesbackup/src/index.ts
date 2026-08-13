@@ -101,9 +101,6 @@ export type {
   AzureVmWorkloadSAPHanaDatabaseProtectedItem,
   AzureVmWorkloadSAPHanaDBInstanceProtectedItem,
   AzureVmWorkloadSQLDatabaseProtectedItem,
-  ProtectionLevel,
-  AzureVmWorkloadSQLInstanceProtectedItem,
-  InstanceProtectionReadiness,
   DPMProtectedItem,
   DPMProtectedItemExtendedInfo,
   GenericProtectedItem,
@@ -116,6 +113,8 @@ export type {
   AzureWorkloadBackupRequest,
   BackupType,
   IaasVMBackupRequest,
+  ProtectedItemConfigureSourceScanRequest,
+  SourceScanAction,
   ListRecoveryPointsRecommendedForMoveRequest,
   RecoveryPointResource,
   RecoveryPoint,
@@ -126,6 +125,7 @@ export type {
   ThreatSeverity,
   AzureFileShareRecoveryPoint,
   RecoveryPointProperties,
+  RecoveryPointImmutabilityProperties,
   RecoveryPointTierInformation,
   RecoveryPointTierStatus,
   AzureWorkloadPointInTimeRecoveryPoint,
@@ -146,7 +146,6 @@ export type {
   AzureWorkloadSQLRecoveryPointExtendedInfo,
   SQLDataDirectory,
   SQLDataDirectoryType,
-  DatabaseInRP,
   GenericRecoveryPoint,
   IaasVMRecoveryPoint,
   KeyAndSecretDetails,
@@ -155,6 +154,8 @@ export type {
   RecoveryPointDiskConfiguration,
   DiskInformation,
   ExtendedLocation,
+  DataDiskDetails,
+  DiskDetails,
   ResourceList,
   ProtectionContainerResource,
   ProtectionContainer,
@@ -181,6 +182,8 @@ export type {
   AzureSqlContainer,
   AzureStorageContainer,
   AcquireStorageAccountLock,
+  AccessType,
+  IdentityInfo,
   GenericContainer,
   GenericContainerExtendedInfo,
   ContainerIdentityInfo,
@@ -200,9 +203,6 @@ export type {
   AzureVmWorkloadSAPHanaSystemWorkloadItem,
   AzureVmWorkloadSQLDatabaseWorkloadItem,
   AzureVmWorkloadSQLInstanceWorkloadItem,
-  UpdateRecoveryPointRequest,
-  PatchRecoveryPointInput,
-  PatchRecoveryPointPropertiesInput,
   RestoreRequestResource,
   RestoreRequest,
   RestoreRequestUnion,
@@ -242,9 +242,10 @@ export type {
   IaasVMRestoreRequest,
   IaasVMRestoreRequestUnion,
   EncryptionDetails,
-  IdentityInfo,
   IdentityBasedRestoreDetails,
   SecuredVMDetails,
+  DataDiskEncryptionSettings,
+  PerDiskEncryptionSetId,
   TargetDiskNetworkAccessSettings,
   TargetDiskNetworkAccessOption,
   IaasVMRestoreWithRehydrationRequest,
@@ -257,7 +258,6 @@ export type {
   ProtectionPolicy,
   ProtectionPolicyUnion,
   AzureVmWorkloadProtectionPolicy,
-  VMWorkloadPolicyType,
   Settings,
   SubProtectionPolicy,
   PolicyType,
@@ -403,7 +403,6 @@ export type {
   AzureVmWorkloadSAPHanaSystemProtectableItem,
   AzureVmWorkloadSAPHanaDBInstance,
   AzureVmWorkloadSAPHanaHSRProtectableItem,
-  AzureVmWorkloadSAPHanaScaleoutProtectableItem,
   AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   AzureVmWorkloadSQLDatabaseProtectableItem,
   AzureVmWorkloadSQLInstanceProtectableItem,
@@ -454,9 +453,8 @@ export {
   KnownProtectedItemState,
   KnownLastBackupStatus,
   KnownProtectedItemHealthStatus,
-  KnownProtectionLevel,
-  KnownInstanceProtectionReadiness,
   KnownBackupType,
+  KnownSourceScanAction,
   KnownThreatStatus,
   KnownThreatState,
   KnownThreatSeverity,
@@ -466,6 +464,7 @@ export {
   KnownWorkloadType,
   KnownOperationType,
   KnownAcquireStorageAccountLock,
+  KnownAccessType,
   KnownBackupItemType,
   KnownProtectionStatus,
   KnownRecoveryType,
@@ -474,7 +473,6 @@ export {
   KnownOverwriteOptions,
   KnownRecoveryMode,
   KnownRehydrationPriority,
-  KnownVMWorkloadPolicyType,
   KnownPolicyType,
   KnownScheduleRunType,
   KnownRetentionDurationType,
@@ -535,6 +533,7 @@ export type { BackupStatusGetOptionalParams } from "./api/backupStatus/index.js"
 export type { BackupUsageSummariesListOptionalParams } from "./api/backupUsageSummaries/index.js";
 export type { BackupWorkloadItemsListOptionalParams } from "./api/backupWorkloadItems/index.js";
 export type { BMSPrepareDataMoveOperationResultGetOptionalParams } from "./api/bmsPrepareDataMoveOperationResult/index.js";
+export type { ConfigureSourceScanExecuteOptionalParams } from "./api/configureSourceScan/index.js";
 export type { DeletedProtectionContainersListOptionalParams } from "./api/deletedProtectionContainers/index.js";
 export type { ExportJobsOperationResultsGetOptionalParams } from "./api/exportJobsOperationResults/index.js";
 export type { FeatureSupportValidateOptionalParams } from "./api/featureSupport/index.js";
@@ -587,7 +586,6 @@ export type {
 export type { ProtectionPolicyOperationResultsGetOptionalParams } from "./api/protectionPolicyOperationResults/index.js";
 export type { ProtectionPolicyOperationStatusesGetOptionalParams } from "./api/protectionPolicyOperationStatuses/index.js";
 export type {
-  RecoveryPointsUpdateOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
 } from "./api/recoveryPoints/index.js";
@@ -623,6 +621,7 @@ export type {
   BackupUsageSummariesOperations,
   BackupWorkloadItemsOperations,
   BMSPrepareDataMoveOperationResultOperations,
+  ConfigureSourceScanOperations,
   DeletedProtectionContainersOperations,
   ExportJobsOperationResultsOperations,
   FeatureSupportOperations,
@@ -662,3 +661,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

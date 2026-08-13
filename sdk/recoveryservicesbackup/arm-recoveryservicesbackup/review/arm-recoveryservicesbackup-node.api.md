@@ -7,12 +7,17 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AccessType = string;
 
 // @public
 export type AcquireStorageAccountLock = string;
@@ -114,6 +119,7 @@ export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
 // @public
 export interface AzureFileShareRestoreRequest extends RestoreRequest {
     copyOptions?: CopyOptions;
+    identityInfo?: IdentityInfo;
     objectType: "AzureFileShareRestoreRequest";
     recoveryType?: RecoveryType;
     restoreFileSpecs?: RestoreFileSpecs[];
@@ -306,8 +312,10 @@ export interface AzureSqlProtectionPolicy extends ProtectionPolicy {
 
 // @public
 export interface AzureStorageContainer extends ProtectionContainer {
+    accessType?: AccessType;
     acquireStorageAccountLock?: AcquireStorageAccountLock;
     containerType: "StorageContainer";
+    identityInfo?: IdentityInfo;
     operationType?: OperationType;
     protectedItemCount?: number;
     resourceGroup?: string;
@@ -398,14 +406,14 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadSAPAseDatabaseProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSAPHanaScaleoutProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem | AzureVmWorkloadProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadSAPAseDatabaseProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem | AzureVmWorkloadProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
@@ -420,7 +428,7 @@ export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     parentType?: string;
     protectedItemDataSourceId?: string;
     protectedItemHealthStatus?: ProtectedItemHealthStatus;
-    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "AzureVmWorkloadSQLInstance";
+    protectedItemType: "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase";
     protectionState?: ProtectionState;
     readonly protectionStatus?: string;
     serverName?: string;
@@ -438,7 +446,7 @@ export interface AzureVmWorkloadProtectedItemExtendedInfo {
 }
 
 // @public
-export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSAPHanaDBInstanceProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem | AzureVmWorkloadSQLInstanceProtectedItem | AzureVmWorkloadProtectedItem;
+export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSAPHanaDBInstanceProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem | AzureVmWorkloadProtectedItem;
 
 // @public
 export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
@@ -446,7 +454,6 @@ export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
     makePolicyConsistent?: boolean;
     settings?: Settings;
     subProtectionPolicy?: SubProtectionPolicy[];
-    vmWorkloadPolicyType?: VMWorkloadPolicyType;
     workLoadType?: WorkloadType;
 }
 
@@ -506,11 +513,6 @@ export interface AzureVmWorkloadSAPHanaHSRProtectableItem extends AzureVmWorkloa
 }
 
 // @public
-export interface AzureVmWorkloadSAPHanaScaleoutProtectableItem extends AzureVmWorkloadProtectableItem {
-    protectableItemType: "HanaScaleoutContainer";
-}
-
-// @public
 export interface AzureVmWorkloadSAPHanaSystemProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SAPHanaSystem";
 }
@@ -533,9 +535,7 @@ export interface AzureVmWorkloadSQLDatabaseProtectableItem extends AzureVmWorklo
 
 // @public
 export interface AzureVmWorkloadSQLDatabaseProtectedItem extends AzureVmWorkloadProtectedItem {
-    parentProtectedItem?: string;
     protectedItemType: "AzureVmWorkloadSQLDatabase";
-    protectionLevel?: ProtectionLevel;
 }
 
 // @public
@@ -546,13 +546,6 @@ export interface AzureVmWorkloadSQLDatabaseWorkloadItem extends AzureVmWorkloadI
 // @public
 export interface AzureVmWorkloadSQLInstanceProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "SQLInstance";
-}
-
-// @public
-export interface AzureVmWorkloadSQLInstanceProtectedItem extends AzureVmWorkloadProtectedItem {
-    childDBNames?: string[];
-    instanceProtectionReadiness?: InstanceProtectionReadiness;
-    protectedItemType: "AzureVmWorkloadSQLInstance";
 }
 
 // @public
@@ -779,7 +772,6 @@ export interface AzureWorkloadSQLRecoveryPoint extends AzureWorkloadRecoveryPoin
 export interface AzureWorkloadSQLRecoveryPointExtendedInfo {
     dataDirectoryPaths?: SQLDataDirectory[];
     dataDirectoryTimeInUTC?: Date;
-    includedDatabases?: DatabaseInRP[];
 }
 
 // @public
@@ -1191,7 +1183,7 @@ export interface BMSPrepareDataMoveOperationResultGetOptionalParams extends Oper
 
 // @public
 export interface BMSPrepareDataMoveOperationResultOperations {
-    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: BMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion>;
+    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: BMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion | void>;
 }
 
 // @public
@@ -1247,6 +1239,20 @@ export interface ClientScriptForConnect {
 }
 
 // @public
+export interface ConfigureSourceScanExecuteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigureSourceScanOperations {
+    // @deprecated (undocumented)
+    beginExecute: (resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, body: ProtectedItemConfigureSourceScanRequest, options?: ConfigureSourceScanExecuteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginExecuteAndWait: (resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, body: ProtectedItemConfigureSourceScanRequest, options?: ConfigureSourceScanExecuteOptionalParams) => Promise<void>;
+    execute: (resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, body: ProtectedItemConfigureSourceScanRequest, options?: ConfigureSourceScanExecuteOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
 export interface ContainerIdentityInfo {
     aadTenantId?: string;
     audience?: string;
@@ -1285,9 +1291,15 @@ export interface DailySchedule {
 }
 
 // @public
-export interface DatabaseInRP {
-    datasourceId?: string;
-    datasourceName?: string;
+export interface DataDiskDetails {
+    encryptedDataDisks?: DiskDetails[];
+}
+
+// @public
+export interface DataDiskEncryptionSettings {
+    dataDiskEncryptionIdentity?: string;
+    dataDiskEncryptionSetId?: string;
+    perDiskEncryptionSetIds?: PerDiskEncryptionSetId[];
 }
 
 // @public
@@ -1316,6 +1328,12 @@ export interface DeletedProtectionContainersListOptionalParams extends Operation
 // @public
 export interface DeletedProtectionContainersOperations {
     list: (resourceGroupName: string, vaultName: string, options?: DeletedProtectionContainersListOptionalParams) => PagedAsyncIterableIterator<ProtectionContainerResource>;
+}
+
+// @public
+export interface DiskDetails {
+    diskName?: string;
+    lun?: number;
 }
 
 // @public
@@ -1673,6 +1691,7 @@ export type IaaSVMProtectableItemUnion = AzureIaaSClassicComputeVMProtectableIte
 
 // @public
 export interface IaasVMRecoveryPoint extends RecoveryPoint {
+    dataDiskMetadata?: DataDiskDetails;
     extendedLocation?: ExtendedLocation;
     isInstantIlrSessionActive?: boolean;
     isManagedVirtualMachine?: boolean;
@@ -1785,9 +1804,6 @@ export interface InquiryValidation {
 }
 
 // @public
-export type InstanceProtectionReadiness = string;
-
-// @public
 export interface InstantItemRecoveryTarget {
     clientScripts?: ClientScriptForConnect[];
 }
@@ -1799,6 +1815,8 @@ export interface InstantRPAdditionalDetails {
     // (undocumented)
     azureBackupRGNameSuffix?: string;
 }
+
+export { isRestError }
 
 // @public
 export interface ItemLevelRecoveryConnectionsOperations {
@@ -1889,6 +1907,12 @@ export interface KeyAndSecretDetails {
     bekDetails?: BEKDetails;
     encryptionMechanism?: string;
     kekDetails?: KEKDetails;
+}
+
+// @public
+export enum KnownAccessType {
+    IdentityBased = "IdentityBased",
+    KeyBased = "KeyBased"
 }
 
 // @public
@@ -2069,15 +2093,6 @@ export enum KnownInquiryStatus {
 }
 
 // @public
-export enum KnownInstanceProtectionReadiness {
-    PartialProtection = "PartialProtection",
-    ProtectionError = "ProtectionError",
-    Ready = "Ready",
-    ScheduleDisabled = "ScheduleDisabled",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownLastBackupStatus {
     Healthy = "Healthy",
     Invalid = "Invalid",
@@ -2188,12 +2203,6 @@ export enum KnownProtectionIntentItemType {
     AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent",
     Invalid = "Invalid",
     RecoveryServiceVaultItem = "RecoveryServiceVaultItem"
-}
-
-// @public
-export enum KnownProtectionLevel {
-    Database = "Database",
-    DatabaseUnderInstance = "DatabaseUnderInstance"
 }
 
 // @public
@@ -2319,7 +2328,14 @@ export enum KnownSoftDeleteFeatureState {
 }
 
 // @public
+export enum KnownSourceScanAction {
+    Disable = "Disable",
+    Enable = "Enable"
+}
+
+// @public
 export enum KnownSourceSideScanStatus {
+    ConfigurationFailed = "ConfigurationFailed",
     Configured = "Configured",
     NotApplicable = "NotApplicable",
     NotConfigured = "NotConfigured"
@@ -2329,6 +2345,7 @@ export enum KnownSourceSideScanStatus {
 export enum KnownSourceSideScanSummary {
     Healthy = "Healthy",
     NotApplicable = "NotApplicable",
+    NoThreatsReported = "NoThreatsReported",
     Suspicious = "Suspicious",
     Unknown = "Unknown"
 }
@@ -2427,15 +2444,9 @@ export enum KnownVersions {
     V20250201 = "2025-02-01",
     V20250801 = "2025-08-01",
     V20260101 = "2026-01-01",
-    V20260131Preview = "2026-01-31-preview"
-}
-
-// @public
-export enum KnownVMWorkloadPolicyType {
-    Invalid = "Invalid",
-    SnapshotV1 = "SnapshotV1",
-    SnapshotV2 = "SnapshotV2",
-    Streaming = "Streaming"
+    V20260201 = "2026-02-01",
+    V20260501 = "2026-05-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -2752,13 +2763,9 @@ export interface PageSettings {
 }
 
 // @public
-export interface PatchRecoveryPointInput {
-    recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
-}
-
-// @public
-export interface PatchRecoveryPointPropertiesInput {
-    expiryTime?: Date;
+export interface PerDiskEncryptionSetId {
+    diskEncryptionSetId?: string;
+    lun?: number;
 }
 
 // @public
@@ -2931,10 +2938,16 @@ export interface ProtectedItem {
     protectedItemType: string;
     resourceGuardOperationRequests?: string[];
     softDeleteRetentionPeriodInDays?: number;
+    readonly sourceLocation?: string;
     sourceResourceId?: string;
     sourceSideScanInfo?: SourceSideScanInfo;
     readonly vaultId?: string;
     readonly workloadType?: DataSourceType;
+}
+
+// @public
+export interface ProtectedItemConfigureSourceScanRequest {
+    sourceScanAction?: SourceScanAction;
 }
 
 // @public
@@ -2946,7 +2959,7 @@ export interface ProtectedItemOperationResultsGetOptionalParams extends Operatio
 
 // @public
 export interface ProtectedItemOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: ProtectedItemOperationResultsGetOptionalParams) => Promise<ProtectedItemResource>;
+    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, operationId: string, options?: ProtectedItemOperationResultsGetOptionalParams) => Promise<ProtectedItemResource | void>;
 }
 
 // @public
@@ -3008,6 +3021,7 @@ export interface ProtectionContainer {
     healthStatus?: string;
     protectableObjectType?: string;
     registrationStatus?: string;
+    readonly sourceLocation?: string;
 }
 
 // @public
@@ -3016,7 +3030,7 @@ export interface ProtectionContainerOperationResultsGetOptionalParams extends Op
 
 // @public
 export interface ProtectionContainerOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: ProtectionContainerOperationResultsGetOptionalParams) => Promise<ProtectionContainerResource>;
+    get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: ProtectionContainerOperationResultsGetOptionalParams) => Promise<ProtectionContainerResource | void>;
 }
 
 // @public
@@ -3125,9 +3139,6 @@ export interface ProtectionIntentValidateOptionalParams extends OperationOptions
 }
 
 // @public
-export type ProtectionLevel = string;
-
-// @public
 export interface ProtectionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
     // (undocumented)
     xMsAuthorizationAuxiliary?: string;
@@ -3148,7 +3159,7 @@ export interface ProtectionPoliciesOperations {
     beginDelete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams) => Promise<ProtectionPolicyResource>;
+    createOrUpdate: (vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams) => Promise<ProtectionPolicyResource | void>;
     delete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesGetOptionalParams) => Promise<ProtectionPolicyResource>;
 }
@@ -3221,6 +3232,12 @@ export interface RecoveryPointDiskConfiguration {
 }
 
 // @public
+export interface RecoveryPointImmutabilityProperties {
+    expiryTime?: Date;
+    isImmutable: boolean;
+}
+
+// @public
 export interface RecoveryPointMoveReadinessInfo {
     // (undocumented)
     additionalInfo?: string;
@@ -3231,6 +3248,7 @@ export interface RecoveryPointMoveReadinessInfo {
 // @public
 export interface RecoveryPointProperties {
     expiryTime?: string;
+    immutabilityProperties?: RecoveryPointImmutabilityProperties;
     isSoftDeleted?: boolean;
     ruleName?: string;
 }
@@ -3263,7 +3281,6 @@ export interface RecoveryPointsListOptionalParams extends OperationOptions {
 export interface RecoveryPointsOperations {
     get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: RecoveryPointsGetOptionalParams) => Promise<RecoveryPointResource>;
     list: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: RecoveryPointsListOptionalParams) => PagedAsyncIterableIterator<RecoveryPointResource>;
-    update: (resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: UpdateRecoveryPointRequest, options?: RecoveryPointsUpdateOptionalParams) => Promise<RecoveryPointResource>;
 }
 
 // @public
@@ -3273,10 +3290,6 @@ export interface RecoveryPointsRecommendedForMoveListOptionalParams extends Oper
 // @public
 export interface RecoveryPointsRecommendedForMoveOperations {
     list: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: ListRecoveryPointsRecommendedForMoveRequest, options?: RecoveryPointsRecommendedForMoveListOptionalParams) => PagedAsyncIterableIterator<RecoveryPointResource>;
-}
-
-// @public
-export interface RecoveryPointsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3336,6 +3349,7 @@ export class RecoveryServicesBackupClient {
     bmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
     readonly bmsPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResultOperations;
     bmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
+    readonly configureSourceScan: ConfigureSourceScanOperations;
     readonly deletedProtectionContainers: DeletedProtectionContainersOperations;
     readonly exportJobsOperationResults: ExportJobsOperationResultsOperations;
     readonly featureSupport: FeatureSupportOperations;
@@ -3473,6 +3487,8 @@ export interface ResourceList {
     nextLink?: string;
 }
 
+export { RestError }
+
 // @public
 export interface RestoreFileSpecs {
     fileSpecType?: string;
@@ -3562,6 +3578,7 @@ export type ScheduleRunType = string;
 
 // @public
 export interface SecuredVMDetails {
+    dataDiskEncryptionSettings?: DataDiskEncryptionSettings;
     securedVMOsDiskEncryptionSetId?: string;
 }
 
@@ -3655,6 +3672,9 @@ export interface SnapshotRestoreParameters {
 
 // @public
 export type SoftDeleteFeatureState = string;
+
+// @public
+export type SourceScanAction = string;
 
 // @public
 export interface SourceSideScanInfo {
@@ -3832,11 +3852,6 @@ export interface UnlockDeleteResponse {
 }
 
 // @public
-export interface UpdateRecoveryPointRequest {
-    properties?: PatchRecoveryPointInput;
-}
-
-// @public
 export type UsagesUnit = string;
 
 // @public
@@ -3891,7 +3906,7 @@ export interface ValidateOperationResultsGetOptionalParams extends OperationOpti
 
 // @public
 export interface ValidateOperationResultsOperations {
-    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: ValidateOperationResultsGetOptionalParams) => Promise<ValidateOperationsResponse>;
+    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: ValidateOperationResultsGetOptionalParams) => Promise<ValidateOperationsResponse | void>;
 }
 
 // @public
@@ -3963,9 +3978,6 @@ export type VaultStorageConfigOperationResultResponseUnion = PrepareDataMoveResp
 
 // @public
 export type VaultSubResourceType = string;
-
-// @public
-export type VMWorkloadPolicyType = string;
 
 // @public
 export interface WeeklyRetentionFormat {

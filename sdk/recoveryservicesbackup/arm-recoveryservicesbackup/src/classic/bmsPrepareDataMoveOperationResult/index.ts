@@ -14,7 +14,7 @@ export interface BMSPrepareDataMoveOperationResultOperations {
     resourceGroupName: string,
     operationId: string,
     options?: BMSPrepareDataMoveOperationResultGetOptionalParams,
-  ) => Promise<VaultStorageConfigOperationResultResponseUnion>;
+  ) => Promise<VaultStorageConfigOperationResultResponseUnion | void>;
 }
 
 function _getBMSPrepareDataMoveOperationResult(context: RecoveryServicesBackupContext) {

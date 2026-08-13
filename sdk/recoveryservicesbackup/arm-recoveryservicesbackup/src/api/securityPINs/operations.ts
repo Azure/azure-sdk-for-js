@@ -25,7 +25,7 @@ export function _getSend(
       vaultName: vaultName,
       resourceGroupName: resourceGroupName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,9 +41,9 @@ export function _getSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: !options["parameters"]
-      ? options["parameters"]
-      : securityPinBaseSerializer(options["parameters"]),
+    body: !options?.parameters
+      ? options?.parameters
+      : securityPinBaseSerializer(options?.parameters),
   });
 }
 
@@ -51,7 +51,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
