@@ -39,7 +39,7 @@ import type { SnapshotReferenceValue } from "../snapshotReference.js";
 import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapshotReference.js";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.

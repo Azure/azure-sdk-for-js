@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
+- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0.
 
 ### Other Changes
 
