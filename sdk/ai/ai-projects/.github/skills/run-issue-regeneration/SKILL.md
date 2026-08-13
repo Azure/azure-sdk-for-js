@@ -1,6 +1,6 @@
 ---
 name: run-issue-regeneration
-description: Runs the issue-assigned @azure/ai-projects TypeSpec regeneration workflow from validated issue inputs through a reviewable draft pull request.
+description: Runs the issue-assigned @azure/ai-projects TypeSpec regeneration workflow from required issue-description inputs through a reviewable draft pull request.
 ---
 
 # Run an issue-assigned TypeSpec regeneration
@@ -11,14 +11,12 @@ Run the `@azure/ai-projects` TypeSpec regeneration from its pinned upstream comm
 
 Before installing dependencies or editing files:
 
-1. Require the issue body marker `ai-projects-typespec-regen:v1`.
-2. Require the title to match exactly:
-   `[ai-projects] regen from <40-lowercase-hex-characters> against <base-branch>`.
-3. Read `TypeSpec commit` and `Base branch` from the issue body. Require both values to match the title.
-4. Require the entire base branch to case-sensitively match the conservative ASCII pattern `^[A-Za-z0-9][A-Za-z0-9._/-]*\z` and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
-5. Require a named working branch other than the base branch. Fetch `origin/<base-branch>`, then require the fetched branch tip to equal `HEAD` exactly. If the assignment started from the wrong branch, stop without making changes and report both commit IDs.
+1. Read exactly one unambiguous value labeled `TypeSpec commit` and exactly one unambiguous value labeled `Base branch` from the issue description. If either value is missing, duplicated, or ambiguous, stop without making changes and report the required labels.
+2. Require the TypeSpec commit to match `^[0-9a-f]{40}$` exactly.
+3. Require the entire base branch to case-sensitively match the conservative ASCII pattern `^[A-Za-z0-9][A-Za-z0-9._/-]*\z` and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
+4. Require a named working branch other than the base branch. Fetch `origin/<base-branch>`, then require the fetched branch tip to equal `HEAD` exactly. If the assignment started from the wrong branch, stop without making changes and report both commit IDs.
 
-Do not infer, shorten, or silently correct either input.
+Do not derive either input from the issue title. Do not infer, shorten, or silently correct either input.
 
 ## Set up the repository
 

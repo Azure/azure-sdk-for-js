@@ -1482,6 +1482,15 @@ This package is regenerated from the TypeSpec spec in `Azure/azure-rest-api-spec
 
 The repository-level `ai-projects-regen` custom agent is only a GitHub discovery entry point. The issue-assigned workflow is owned by the package-local [`run-issue-regeneration` skill](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/.github/skills/run-issue-regeneration).
 
+To start the workflow from an issue, include exactly one value for each required label in the issue description:
+
+```text
+TypeSpec commit: <40-character-lowercase-SHA>
+Base branch: <branch>
+```
+
+Assign the issue to Copilot, select the `ai-projects-regen` custom agent, and select the same starting branch named in the description. The agent stops before making changes when either value is missing or invalid.
+
 To dispatch a regen as a cloud agent task, run from this directory:
 
 ```powershell
