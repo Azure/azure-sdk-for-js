@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fixed a regression introduced in 1.12.0 that placed the App Configuration SDK identifier before
+  custom User-Agent prefixes.
+
 ### Other Changes
 
 ## 1.12.1 (2026-06-22)
