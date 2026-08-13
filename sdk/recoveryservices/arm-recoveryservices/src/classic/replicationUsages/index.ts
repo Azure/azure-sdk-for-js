@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { list } from "../../api/replicationUsages/operations.js";
-import type { ReplicationUsagesListOptionalParams } from "../../api/replicationUsages/options.js";
-import type { ReplicationUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ReplicationUsagesListOptionalParams } from "../../api/replicationUsages/options.js";
+import { ReplicationUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReplicationUsages operations. */
 export interface ReplicationUsagesOperations {

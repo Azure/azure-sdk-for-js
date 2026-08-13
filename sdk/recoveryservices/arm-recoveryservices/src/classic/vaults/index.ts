@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import {
   listByResourceGroup,
   listBySubscriptionId,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/vaults/operations.js";
-import type {
+import {
   VaultsListByResourceGroupOptionalParams,
   VaultsListBySubscriptionIdOptionalParams,
   VaultsDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "../../api/vaults/options.js";
-import type { Vault, PatchVault } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Vault, PatchVault } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Vaults operations. */
 export interface VaultsOperations {

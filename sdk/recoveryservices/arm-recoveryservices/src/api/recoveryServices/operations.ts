@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext as Client } from "../index.js";
-import type {
-  CheckNameAvailabilityParameters,
-  CheckNameAvailabilityResult,
-  ResourceCapabilities,
-  CapabilitiesResponse,
-} from "../../models/models.js";
+import { RecoveryServicesContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  CheckNameAvailabilityParameters,
   checkNameAvailabilityParametersSerializer,
+  CheckNameAvailabilityResult,
   checkNameAvailabilityResultDeserializer,
+  ResourceCapabilities,
   resourceCapabilitiesSerializer,
+  CapabilitiesResponse,
   capabilitiesResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _capabilitiesSend(
   context: Client,
@@ -34,7 +36,7 @@ export function _capabilitiesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,7 +90,7 @@ export function _checkNameAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

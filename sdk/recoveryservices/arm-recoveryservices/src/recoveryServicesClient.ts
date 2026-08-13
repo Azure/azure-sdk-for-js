@@ -1,36 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext, RecoveryServicesClientOptionalParams } from "./api/index.js";
-import { createRecoveryServices } from "./api/index.js";
+import {
+  RecoveryServicesContext,
+  RecoveryServicesClientOptionalParams,
+  createRecoveryServices,
+} from "./api/index.js";
 import { getOperationResult, getOperationStatus } from "./api/operations.js";
-import type {
+import {
   GetOperationResultOptionalParams,
   GetOperationStatusOptionalParams,
 } from "./api/options.js";
-import type { DeletedVaultsOperations } from "./classic/deletedVaults/index.js";
-import { _getDeletedVaultsOperations } from "./classic/deletedVaults/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { RecoveryServicesOperations } from "./classic/recoveryServices/index.js";
-import { _getRecoveryServicesOperations } from "./classic/recoveryServices/index.js";
-import type { RegisteredIdentitiesOperations } from "./classic/registeredIdentities/index.js";
-import { _getRegisteredIdentitiesOperations } from "./classic/registeredIdentities/index.js";
-import type { ReplicationUsagesOperations } from "./classic/replicationUsages/index.js";
-import { _getReplicationUsagesOperations } from "./classic/replicationUsages/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { VaultCertificatesOperations } from "./classic/vaultCertificates/index.js";
-import { _getVaultCertificatesOperations } from "./classic/vaultCertificates/index.js";
-import type { VaultExtendedInfoOperations } from "./classic/vaultExtendedInfo/index.js";
-import { _getVaultExtendedInfoOperations } from "./classic/vaultExtendedInfo/index.js";
-import type { VaultsOperations } from "./classic/vaults/index.js";
-import { _getVaultsOperations } from "./classic/vaults/index.js";
-import type { OperationResource, Vault } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DeletedVaultsOperations,
+  _getDeletedVaultsOperations,
+} from "./classic/deletedVaults/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  RecoveryServicesOperations,
+  _getRecoveryServicesOperations,
+} from "./classic/recoveryServices/index.js";
+import {
+  RegisteredIdentitiesOperations,
+  _getRegisteredIdentitiesOperations,
+} from "./classic/registeredIdentities/index.js";
+import {
+  ReplicationUsagesOperations,
+  _getReplicationUsagesOperations,
+} from "./classic/replicationUsages/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import {
+  VaultCertificatesOperations,
+  _getVaultCertificatesOperations,
+} from "./classic/vaultCertificates/index.js";
+import {
+  VaultExtendedInfoOperations,
+  _getVaultExtendedInfoOperations,
+} from "./classic/vaultExtendedInfo/index.js";
+import { VaultsOperations, _getVaultsOperations } from "./classic/vaults/index.js";
+import { OperationResource, Vault } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { RecoveryServicesClientOptionalParams } from "./api/recoveryServicesContext.js";
 
@@ -59,14 +73,7 @@ export class RecoveryServicesClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRecoveryServices(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRecoveryServices(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.recoveryServices = _getRecoveryServicesOperations(this._client);
     this.vaultExtendedInfo = _getVaultExtendedInfoOperations(this._client);
@@ -86,7 +93,7 @@ export class RecoveryServicesClient {
     vaultName: string,
     operationId: string,
     options: GetOperationResultOptionalParams = { requestOptions: {} },
-  ): Promise<Vault | undefined> {
+  ): Promise<Vault | void> {
     return getOperationResult(this._client, resourceGroupName, vaultName, operationId, options);
   }
 
