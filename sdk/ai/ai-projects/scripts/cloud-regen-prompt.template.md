@@ -10,29 +10,24 @@ Inputs (substituted by `start-cloud-regen.ps1` before dispatch):
 
 - TypeSpec commit SHA: `{{TSP_COMMIT}}`
 - Target branch name: `{{BRANCH_NAME}}`
-- Base branch name: `{{BASE_BRANCH}}`
 
 ## Setup
 
-From the repo root, install dependencies and build the package:
-
-```bash
-pnpm install --filter "@azure/ai-projects..."
-pnpm turbo build --filter="@azure/ai-projects..." --token 1
-```
-
-If either command fails because of network sandboxing, **STOP** and surface
-the error — do not invent workarounds. The launcher has a documented caveat
-about this.
-
-Then `cd sdk/ai/ai-projects/`. All subsequent commands run from this directory
-unless a SKILL.md says otherwise. Confirm the package working tree is clean:
-
-```bash
-git status -- .
-```
-
-If it is dirty, **STOP** and surface the diff.
+1. From the repo root, install dependencies and build the package:
+   ```bash
+   pnpm install --filter @azure/ai-projects...
+   pnpm --filter @azure/ai-projects... build
+   ```
+   If either command fails because of network sandboxing, **STOP** and
+   surface the error — do not invent workarounds. The launcher has a
+   documented caveat about this.
+2. `cd sdk/ai/ai-projects/`. All subsequent commands run from this
+   directory unless a SKILL.md says otherwise.
+3. Confirm the working tree is clean under `sdk/ai/ai-projects/`:
+   ```bash
+   git status -- .
+   ```
+   If it is dirty, **STOP** and surface the diff.
 
 ## Skill execution order
 
@@ -47,7 +42,7 @@ Read: `sdk/ai/ai-projects/.github/skills/regenerate-from-typespec/SKILL.md`
 Pass the resolved commit SHA explicitly:
 
 ```powershell
-./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT_PS_LITERAL}}
+./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -Commit {{TSP_COMMIT}}
 npm run generate:client
 ./.github/skills/regenerate-from-typespec/scripts/update-tsp-commit.ps1 -RestoreOnly
 ```
@@ -89,9 +84,7 @@ Step 2 of the previous skill. Validate with `npm run build:samples`.
 Read: `sdk/ai/ai-projects/.github/skills/author-tests/SKILL.md`
 
 Generate `.skip`-ped Vitest specs for new GA (non-beta) features only.
-Do not attempt to record cassettes or run live tests. Validate with
-`npx tsc -p tsconfig.test.node.json --noEmit` and run ESLint on each new
-or edited spec as documented by the skill.
+Do not attempt to record cassettes. Validate with `npm run test:node`.
 
 ### 5. update-changelog
 
@@ -109,23 +102,18 @@ Read: `sdk/ai/ai-projects/.github/skills/open-regeneration-pr/SKILL.md`
 Run:
 
 ```powershell
-./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT_PS_LITERAL}} -BranchName {{BRANCH_NAME_PS_LITERAL}} -BaseBranch {{BASE_BRANCH_PS_LITERAL}}
+./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT}} -BranchName {{BRANCH_NAME}}
 ```
 
-Append `-SamplesNoOp` only if `author-samples` explicitly completed as a
-documented no-op, and append `-TestsNoOp` only if `author-tests` explicitly
-completed as a documented no-op.
-
-This stages three to five non-empty logical commits, pushes to `origin`
-(no force), and opens a DRAFT PR via `gh pr create`. Sample and test
-commits are omitted when those skills are documented no-ops.
+This stages the five logical commits, pushes to `origin` (no force), and
+opens a DRAFT PR via `gh pr create`.
 
 ## Success criteria
 
-- `git log --oneline` on `{{BRANCH_NAME}}` shows three to five non-empty
-  `[ai-projects] regen: ...` commits in relative order: emitter output,
-  post-emitter edits, samples (when needed), tests (when needed), changelog.
-- The PR is open as a **draft** against `{{BASE_BRANCH}}` with title
+- `git log --oneline` on `{{BRANCH_NAME}}` shows exactly five
+  `[ai-projects] regen: ...` commits in the order: emitter output,
+  post-emitter edits, samples, tests, changelog.
+- The PR is open as a **draft** against the base branch with title
   `[ai-projects] Regenerate from azure-rest-api-specs@<short-sha>`.
 - `npx dev-tool run build-package` is green for all four targets on the
   final commit.
@@ -140,7 +128,8 @@ commits are omitted when those skills are documented no-ops.
 - `apply-post-emitter-edits` Step 2 classification is genuinely ambiguous
   (i.e. you cannot tell if a missing export is a rename or a new type).
 - The `foundryFeatures` rule is violated in a shape not covered by Step 4.
-- The test TypeScript or targeted ESLint validation fails.
+- `npm run test:node` fails for reasons unrelated to missing recordings
+  (e.g. a TypeScript error in a generated test file).
 - Any step's documented success criteria are not met after one focused
   remediation attempt.
 
