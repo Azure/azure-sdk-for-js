@@ -103,6 +103,29 @@ function processFile(filePath) {
   return false;
 }
 
+/** Remove duplicate public type re-exports introduced by overlapping TypeSpec views. */
+function deduplicateTypeExports(content) {
+  const seen = new Set();
+  return content.replace(/export type \{([\s\S]*?)\} from ("[^"\n]+";)/g, (_match, body, source) => {
+    const entries = body
+      .split(",")
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .filter((entry) => {
+        const normalized = entry.replace(/\/\*[\s\S]*?\*\//g, "").trim();
+        const exportedName = normalized.split(/\s+as\s+/).at(-1);
+        if (!exportedName || seen.has(exportedName)) {
+          return false;
+        }
+        seen.add(exportedName);
+        return true;
+      });
+    return entries.length
+      ? `export type {\n  ${entries.join(",\n  ")},\n} from ${source}`
+      : "";
+  });
+}
+
 function main() {
   console.log(`Running post-emitter fixes on: ${srcDir}`);
   const files = getAllTsFiles(srcDir);
@@ -112,6 +135,17 @@ function main() {
     const relativePath = relative(srcDir, file);
     if (processFile(file)) {
       console.log(`  Fixed: ${relativePath}`);
+      modifiedCount++;
+    }
+  }
+
+  for (const relativePath of ["index.ts", "models/index.ts"]) {
+    const filePath = join(srcDir, relativePath);
+    const original = readFileSync(filePath, "utf8");
+    const modified = deduplicateTypeExports(original);
+    if (modified !== original) {
+      writeFileSync(filePath, modified, "utf8");
+      console.log(`  Deduplicated exports: ${relativePath}`);
       modifiedCount++;
     }
   }

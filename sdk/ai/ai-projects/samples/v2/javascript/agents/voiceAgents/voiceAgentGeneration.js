@@ -1,0 +1,64 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates generating, retrieving, updating, listing, and deleting a voice agent.
+ *
+ * @summary manages a generated voice agent through the unified Foundry agents API.
+ */
+
+const { AIProjectClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+const projectEndpoint = getRequiredEnvironmentVariable("FOUNDRY_PROJECT_ENDPOINT");
+const preview = "VoiceAgents=V1Preview";
+
+async function main() {
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const generated = await project.agents.generateAgent("voice");
+
+  try {
+    console.log(`Generated ${generated.name}, version ${generated.versions.latest.version}`);
+
+    const retrieved = await project.agents.get(generated.name);
+    const definition = retrieved.versions.latest.definition;
+    if (definition.kind !== "voice") {
+      throw new Error(`Expected a voice definition, received ${definition.kind}.`);
+    }
+    console.log(`Retrieved ${retrieved.name}, state ${retrieved.state}`);
+
+    const updated = await project.agents.update(
+      generated.name,
+      {
+        ...definition,
+        instructions: "You are a concise, friendly, and helpful voice assistant.",
+      },
+      { foundryFeatures: preview },
+    );
+    console.log(`Updated ${updated.name}, version ${updated.versions.latest.version}`);
+
+    console.log("Voice agents:");
+    for await (const agent of project.agents.list({ kind: "voice", limit: 20 })) {
+      console.log(`- ${agent.name} (${agent.state})`);
+    }
+  } finally {
+    await project.agents.delete(generated.name);
+    console.log(`Deleted ${generated.name}`);
+  }
+}
+
+function getRequiredEnvironmentVariable(name) {
+  const value = process.env[name]?.trim();
+  if (!value) {
+    throw new Error(`Set ${name} before running this sample.`);
+  }
+  return value;
+}
+
+main().catch((error) => {
+  console.error("The sample encountered an error:", error);
+  process.exitCode = 1;
+});
+
+module.exports = { main };

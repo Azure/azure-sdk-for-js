@@ -74,7 +74,6 @@ export async function _listRunsDeserialize(
 
   return _pagedScheduleRunDeserializer(result.body);
 }
-
 /** Returns schedule runs that match the supplied filters. */
 export function listRuns(
   context: Client,
@@ -134,7 +133,6 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
 
   return scheduleRunDeserializer(result.body);
 }
-
 /** Retrieves the specified run for a schedule. */
 export async function getRun(
   context: Client,
@@ -186,7 +184,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return scheduleDeserializer(result.body);
 }
-
 /** Creates a new schedule or updates an existing schedule with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
@@ -235,7 +232,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedScheduleDeserializer(result.body);
 }
-
 /** Returns schedules that match the supplied type and enabled filters. */
 export function list(
   context: Client,
@@ -287,7 +283,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return scheduleDeserializer(result.body);
 }
-
 /** Retrieves the specified schedule resource. */
 export async function get(
   context: Client,
@@ -331,7 +326,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified schedule resource. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.

@@ -72,7 +72,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedInsightDeserializer(result.body);
 }
-
 /** Returns insights in reverse chronological order, with the most recent entries first. */
 export function list(
   context: Client,
@@ -130,7 +129,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return insightDeserializer(result.body);
 }
-
 /** Retrieves the specified insight report and its results. */
 export async function get(
   context: Client,
@@ -194,7 +192,6 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 
   return insightDeserializer(result.body);
 }
-
 /** Generates an insights report from the provided evaluation configuration. */
 export async function generate(
   context: Client,

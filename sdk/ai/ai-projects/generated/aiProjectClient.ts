@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext, AIProjectClientOptionalParams, createAIProject } from "./api/index.js";
+import {
+  AgentEndpointConversationsOperations,
+  _getAgentEndpointConversationsOperations,
+} from "./classic/agentEndpointConversations/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
 import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
@@ -13,6 +17,10 @@ import {
 } from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { ToolboxesOperations, _getToolboxesOperations } from "./classic/toolboxes/index.js";
+import {
+  VoiceAgentWebSocketOperations,
+  _getVoiceAgentWebSocketOperations,
+} from "./classic/voiceAgentWebSocket/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -28,14 +36,7 @@ export class AIProjectClient {
     credential: TokenCredential,
     options: AIProjectClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAIProject(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAIProject(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.toolboxes = _getToolboxesOperations(this._client);
     this.indexes = _getIndexesOperations(this._client);
@@ -43,6 +44,8 @@ export class AIProjectClient {
     this.datasets = _getDatasetsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
     this.evaluationRules = _getEvaluationRulesOperations(this._client);
+    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(this._client);
+    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._client);
     this.agents = _getAgentsOperations(this._client);
     this.beta = _getBetaOperations(this._client);
   }
@@ -59,6 +62,10 @@ export class AIProjectClient {
   public readonly connections: ConnectionsOperations;
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
+  /** The operation groups for agentEndpointConversations */
+  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** The operation groups for voiceAgentWebSocket */
+  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta */

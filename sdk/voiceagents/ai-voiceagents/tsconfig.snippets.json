@@ -1,4 +1,0 @@
-{
-  "extends": ["../../../tsconfig.snippets.base.json"],
-  "exclude": ["src/**/*-browser.mts"]
-}

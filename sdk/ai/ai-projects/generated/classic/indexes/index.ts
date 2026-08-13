@@ -39,7 +39,6 @@ export interface IndexesOperations {
     options?: IndexesListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<IndexUnion>;
 }
-
 function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
@@ -57,7 +56,6 @@ function _getIndexes(context: AIProjectContext) {
       listVersions(context, name, options),
   };
 }
-
 export function _getIndexesOperations(context: AIProjectContext): IndexesOperations {
   return {
     ..._getIndexes(context),

@@ -68,7 +68,6 @@ export interface ToolboxesOperations {
     options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
-
 function _getToolboxes(context: AIProjectContext) {
   return {
     deleteVersion: (name: string, version: string, options?: DeleteVersionOptionalParams) =>
@@ -90,7 +89,6 @@ function _getToolboxes(context: AIProjectContext) {
     ) => createVersion(context, name, tools, options),
   };
 }
-
 export function _getToolboxesOperations(context: AIProjectContext): ToolboxesOperations {
   return {
     ..._getToolboxes(context),

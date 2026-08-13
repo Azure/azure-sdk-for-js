@@ -71,7 +71,6 @@ export interface DatasetsOperations {
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
 }
-
 function _getDatasets(context: AIProjectContext) {
   return {
     getCredentials: (
@@ -100,7 +99,6 @@ function _getDatasets(context: AIProjectContext) {
       listVersions(context, name, options),
   };
 }
-
 export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
   return {
     ..._getDatasets(context),

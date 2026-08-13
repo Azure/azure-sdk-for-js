@@ -1,5 +1,33 @@
 # Release History
 
+## 2.5.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added Voice Agent definitions to the unified `project.agents` operations, including
+  `generateAgent` with the `VoiceAgents=V1Preview` opt-in.
+- Added `project.realtime` for authenticated, bidirectional Voice Agent sessions with typed server
+  events and helpers for text, PCM audio, session updates, response control, and local function
+  outputs. The deprecated `project.streaming` alias is retained for migration compatibility.
+- Added persisted Voice Agent conversation operations through
+  `project.agentEndpointConversations` and the generated WebSocket route contract through
+  `project.voiceAgentWebSocket`.
+- Added Node.js and browser realtime transports with proxy, cancellation, bounded shutdown, and
+  browser-compatible upgrade authentication support.
+- Added a `store` override on `connectVoiceAgent`/`project.realtime.connect()` to persist or skip
+  persisting the conversation for a single session, regardless of the agent's configured default.
+- Documented the terminal `409 Conflict` (`error.code = agent_disabled`) WebSocket handshake
+  failure for a disabled voice agent.
+- Aligned the live `response.created`/`response.done` payload with the upstream OpenAI Realtime
+  response shape: `conversation_id`, `output_modalities`, and a nested `audio` object replace the
+  earlier flat `modalities`/`voice`/`output_audio_format` fields.
+
+### Other Changes
+
+- Added Voice Agent generation, realtime text/function, PCM audio, and local browser console
+  samples under `agents/voiceAgents/`. Live execution requires the preview service contract to be
+  deployed in the selected Foundry project and region.
+
 ## 2.4.0 (2026-08-04)
 
 ### Breaking Changes

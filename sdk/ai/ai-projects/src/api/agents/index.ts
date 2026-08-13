@@ -28,6 +28,7 @@ export {
   updateAgentFromManifest,
   createAgentFromManifest,
   update,
+  generateAgent,
   create,
   get,
 } from "./operations.js";
@@ -58,6 +59,9 @@ export type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsUpdateAgentOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
+  AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";

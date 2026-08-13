@@ -31,7 +31,6 @@ export interface BetaRedTeamsOperations {
     options?: BetaRedTeamsGetOptionalParams,
   ) => Promise<RedTeam>;
 }
-
 function _getBetaRedTeams(context: AIProjectContext) {
   return {
     create: (
@@ -48,7 +47,6 @@ function _getBetaRedTeams(context: AIProjectContext) {
     ) => get(context, name, foundryFeatures, options),
   };
 }
-
 export function _getBetaRedTeamsOperations(context: AIProjectContext): BetaRedTeamsOperations {
   return {
     ..._getBetaRedTeams(context),

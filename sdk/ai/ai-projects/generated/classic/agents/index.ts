@@ -28,6 +28,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   updateAgent,
+  generateAgent,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
@@ -57,6 +58,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -64,6 +66,7 @@ import {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
+  AgentKind,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   CreateAgentVersionFromCodeContent,
@@ -305,6 +308,15 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  generateAgent: (
+    foundryFeatures: "VoiceAgents=V1Preview",
+    kind: AgentKind,
+    options?: AgentsGenerateAgentOptionalParams,
+  ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
     name: string,
@@ -314,7 +326,6 @@ export interface AgentsOperations {
   /** Retrieves an agent definition by its unique name. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
-
 function _getAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
@@ -423,6 +434,11 @@ function _getAgents(context: AIProjectContext) {
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
+    generateAgent: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      kind: AgentKind,
+      options?: AgentsGenerateAgentOptionalParams,
+    ) => generateAgent(context, foundryFeatures, kind, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
@@ -431,7 +447,6 @@ function _getAgents(context: AIProjectContext) {
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
-
 export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
   return {
     ..._getAgents(context),

@@ -85,7 +85,6 @@ export async function _getCredentialsDeserialize(
 
   return datasetCredentialDeserializer(result.body);
 }
-
 /** Retrieves temporary credentials for accessing the storage backing the specified model version. */
 export async function getCredentials(
   context: Client,
@@ -149,7 +148,6 @@ export async function _pendingUploadDeserialize(
 
   return modelPendingUploadResponseDeserializer(result.body);
 }
-
 /** Initiates a new pending upload or retrieves an existing one for the specified model version. */
 export async function pendingUpload(
   context: Client,
@@ -214,7 +212,6 @@ export async function _pendingCreateVersionDeserialize(result: PathUncheckedResp
 
   return _createAsyncResponseDeserializer(result.body);
 }
-
 /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a location header for polling the operation status. */
 export async function pendingCreateVersion(
   context: Client,
@@ -279,7 +276,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return modelVersionDeserializer(result.body);
 }
-
 /** Updates an existing model version identified by its version ID. */
 export async function update(
   context: Client,
@@ -334,7 +330,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Removes the specified model version. Returns 200 whether the version existed or not. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -390,7 +385,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
 
   return modelVersionDeserializer(result.body);
 }
-
 /** Retrieves the specified model version, returning 404 if it does not exist. */
 export async function get(
   context: Client,
@@ -437,7 +431,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedModelVersionDeserializer(result.body);
 }
-
 /** List the latest version of each ModelVersion */
 export function list(
   context: Client,
@@ -491,7 +484,6 @@ export async function _listVersionsDeserialize(
 
   return _pagedModelVersionDeserializer(result.body);
 }
-
 /** List all versions of the given ModelVersion */
 export function listVersions(
   context: Client,

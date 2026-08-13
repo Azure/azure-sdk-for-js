@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -2978,9 +2978,9 @@
+@@ -3399,9 +3399,9 @@
      readonly type: "None";
  }
  
@@ -16,7 +16,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export type NodeReadableStream = never;
  
  // @public
- export interface OneTimeTrigger extends Trigger {
-     timeZone?: string;
+ export interface OmitPropertiesRealtimeResponse {
+     conversation_id?: string;
 
 ```
