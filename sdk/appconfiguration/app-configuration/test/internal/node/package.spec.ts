@@ -38,4 +38,40 @@ describe("packagejson related tests", () => {
     assert.exists(userAgent, "Expected a User-Agent header to be sent");
     assert.include(userAgent!, `azsdk-js-app-configuration/${packageVersion}`);
   });
+
+  it("sends custom request headers", async () => {
+    const customHeaderValue = "custom-header-value";
+    let customHeader: string | undefined;
+    const client = new AppConfigurationClient(
+      "https://myresource.azconfig.io",
+      {
+        getToken: (_scopes) => {
+          return Promise.resolve({
+            token: "fakevalue",
+            expiresOnTimestamp: new Date().getTime() + 24 * 60 * 60 * 1000,
+          });
+        },
+      } as TokenCredential,
+      {
+        httpClient: {
+          sendRequest: async (request) => {
+            customHeader = request.headers.get("x-custom-header");
+            throw new Error("only a test");
+          },
+        },
+      },
+    );
+
+    try {
+      await client.getSnapshot("name", {
+        requestOptions: {
+          headers: { "x-custom-header": customHeaderValue },
+        },
+      });
+    } catch {
+      // no-op, we don't care about the response, only the custom request header
+    }
+
+    assert.equal(customHeader, customHeaderValue);
+  });
 });

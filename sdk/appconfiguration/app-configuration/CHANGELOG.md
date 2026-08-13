@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed custom request headers not being sent after the TypeSpec migration in 1.12.0.
+
 ### Other Changes
 
 ## 1.12.1 (2026-06-22)
