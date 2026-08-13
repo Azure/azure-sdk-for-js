@@ -33,7 +33,7 @@ describe("snippets", () => {
       };
     }
     // @ts-preserve-whitespace
-    for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
+    for await (const page of listSecrets().byPage()) {
       for (const secret of page) {
         console.log("secret: ", secret);
       }

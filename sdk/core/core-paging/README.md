@@ -34,7 +34,7 @@ function listSecrets(
   };
 }
 
-for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
+for await (const page of listSecrets().byPage()) {
   for (const secret of page) {
     console.log("secret: ", secret);
   }
@@ -44,7 +44,7 @@ for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
 And using the types:
 
 ```
-  for await (let page of client.listSecrets().byPage({ maxPageSize: 2 })) {
+  for await (let page of client.listSecrets().byPage()) {
     for (const secret of page) {
       console.log("secret: ", secret);
     }
