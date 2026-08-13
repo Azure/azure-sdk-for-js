@@ -1,42 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext as Client } from "../index.js";
-import type {
-  Entity,
-  _EntityListResult,
-  EntityHistoryRequest,
-  EntityHistoryResponse,
-  SignalHistoryRequest,
-  SignalHistoryResponse,
-  HealthReportRequest,
-  AddDataAnnotationRequest,
-  DataAnnotation,
-  GetDataAnnotationsRequest,
-  GetDataAnnotationsResponse,
-  GetSignalRecommendationsResponse,
-} from "../../models/models.js";
+import { CloudHealthContext as Client } from "../index.js";
 import {
-  errorResponseDeserializer,
+  Entity,
   entitySerializer,
   entityDeserializer,
-  _entityListResultDeserializer,
+  EntityHistoryRequest,
   entityHistoryRequestSerializer,
+  EntityHistoryResponse,
   entityHistoryResponseDeserializer,
+  SignalHistoryRequest,
   signalHistoryRequestSerializer,
+  SignalHistoryResponse,
   signalHistoryResponseDeserializer,
+  HealthReportRequest,
   healthReportRequestSerializer,
+  AddDataAnnotationRequest,
   addDataAnnotationRequestSerializer,
+  DataAnnotation,
   dataAnnotationDeserializer,
+  GetDataAnnotationsRequest,
   getDataAnnotationsRequestSerializer,
+  GetDataAnnotationsResponse,
   getDataAnnotationsResponseDeserializer,
+  GetSignalRecommendationsResponse,
   getSignalRecommendationsResponseDeserializer,
+} from "../../models/microsoft/cloudHealth/models.js";
+import {
+  errorResponseDeserializer,
+  _EntityListResult,
+  _entityListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   EntitiesGetSignalRecommendationsOptionalParams,
   EntitiesGetDataAnnotationsOptionalParams,
   EntitiesAddDataAnnotationOptionalParams,
@@ -48,9 +50,13 @@ import type {
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSignalRecommendationsSend(
   context: Client,
@@ -66,7 +72,7 @@ export function _getSignalRecommendationsSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,7 +133,7 @@ export function _getDataAnnotationsSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +198,7 @@ export function _addDataAnnotationSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,7 +263,7 @@ export function _ingestHealthReportSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,7 +325,7 @@ export function _getSignalHistorySend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +390,7 @@ export function _getHistorySend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -446,7 +452,7 @@ export function _listByHealthModelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
       timestamp: !options?.timestamp ? options?.timestamp : options?.timestamp.toISOString(),
     },
     {
@@ -487,11 +493,7 @@ export function listByHealthModel(
     () => _listByHealthModelSend(context, resourceGroupName, healthModelName, options),
     _listByHealthModelDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-05-01-preview" },
   );
 }
 
@@ -509,7 +511,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -546,7 +548,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, healthModelName, entityName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -565,7 +567,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -615,7 +617,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<Entity>, Entity>;
 }
 
@@ -633,7 +635,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

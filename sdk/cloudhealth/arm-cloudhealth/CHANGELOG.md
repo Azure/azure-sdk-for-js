@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.4 (2026-08-13)
+Compared with version 1.0.0-beta.3
+
+### Breaking Changes
+  - Interface CloudHealthClientOptionalParams no longer has parameter apiVersion
+  - Removed Enum KnownVersions
+
 ## 1.0.0-beta.3 (2026-07-12)
 Compared with version 1.0.0-beta.2
 

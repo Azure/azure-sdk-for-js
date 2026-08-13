@@ -1,30 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext as Client } from "../index.js";
-import type {
-  AuthenticationSetting,
-  _AuthenticationSettingListResult,
-} from "../../models/models.js";
+import { CloudHealthContext as Client } from "../index.js";
 import {
-  errorResponseDeserializer,
+  AuthenticationSetting,
   authenticationSettingSerializer,
   authenticationSettingDeserializer,
+} from "../../models/microsoft/cloudHealth/models.js";
+import {
+  errorResponseDeserializer,
+  _AuthenticationSettingListResult,
   _authenticationSettingListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AuthenticationSettingsListByHealthModelOptionalParams,
   AuthenticationSettingsDeleteOptionalParams,
   AuthenticationSettingsCreateOrUpdateOptionalParams,
   AuthenticationSettingsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByHealthModelSend(
   context: Client,
@@ -38,7 +44,7 @@ export function _listByHealthModelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,11 +84,7 @@ export function listByHealthModel(
     () => _listByHealthModelSend(context, resourceGroupName, healthModelName, options),
     _listByHealthModelDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-05-01-preview" },
   );
 }
 
@@ -100,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       authenticationSettingName: authenticationSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +139,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, healthModelName, authenticationSettingName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +158,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       authenticationSettingName: authenticationSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +210,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<AuthenticationSetting>, AuthenticationSetting>;
 }
 
@@ -226,7 +228,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       authenticationSettingName: authenticationSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

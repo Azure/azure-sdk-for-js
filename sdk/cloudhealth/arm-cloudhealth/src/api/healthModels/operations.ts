@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext as Client } from "../index.js";
-import type {
-  HealthModel,
-  HealthModelUpdate,
-  _HealthModelListResult,
-} from "../../models/models.js";
+import { CloudHealthContext as Client } from "../index.js";
 import {
-  errorResponseDeserializer,
+  HealthModel,
   healthModelSerializer,
   healthModelDeserializer,
+} from "../../models/microsoft/cloudHealth/models.js";
+import {
+  errorResponseDeserializer,
+  HealthModelUpdate,
   healthModelUpdateSerializer,
+  _HealthModelListResult,
   _healthModelListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   HealthModelsListBySubscriptionOptionalParams,
   HealthModelsListByResourceGroupOptionalParams,
   HealthModelsDeleteOptionalParams,
@@ -26,9 +28,13 @@ import type {
   HealthModelsCreateOptionalParams,
   HealthModelsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -38,7 +44,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CloudHealth/healthmodels{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,11 +82,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-05-01-preview" },
   );
 }
 
@@ -94,7 +96,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,11 +135,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-05-01-preview" },
   );
 }
 
@@ -153,7 +151,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +186,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, healthModelName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -205,7 +203,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +245,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, healthModelName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<HealthModel>, HealthModel>;
 }
 
@@ -264,7 +262,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +304,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, healthModelName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: "2026-05-01-preview",
   }) as PollerLike<OperationState<HealthModel>, HealthModel>;
 }
 
@@ -322,7 +320,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
