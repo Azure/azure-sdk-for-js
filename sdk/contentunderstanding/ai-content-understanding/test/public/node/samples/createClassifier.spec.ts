@@ -8,17 +8,18 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import { type ContentAnalyzer, type ContentAnalyzerConfig } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, createClient, testPollingOptions } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 
-describe("Sample: createClassifier", () => {
+forEachServiceVersion("Sample: createClassifier", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
   let testAnalyzerId: string;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = createClient(recorder);
+    client = createClient(recorder, apiVersion);
     // Generate a unique analyzer ID
     testAnalyzerId = recorder.variable(
       "createClassifierTestId",
@@ -95,15 +96,64 @@ describe("Sample: createClassifier", () => {
     assert.equal(result.analyzerId, testAnalyzerId, "Analyzer ID should match");
     console.log(`Classifier '${testAnalyzerId}' created successfully!`);
 
-    if (result.description) {
-      console.log(`Description: ${result.description}`);
-    }
+    // ========== Classifier creation verification ==========
+    // . All values here are defined by this test itself in
+    // the create payload above, so they are portable across environments.
 
-    // Verify content categories were set
-    if (result.config && result.config.contentCategories) {
-      const categoryCount = Object.keys(result.config.contentCategories).length;
-      assert.equal(categoryCount, 3, "Should have 3 content categories");
-      console.log(`Content categories verified: ${categoryCount} categories`);
+    // Verify base properties.
+    assert.strictEqual(
+      result.baseAnalyzerId,
+      "prebuilt-document",
+      "Base analyzer ID should match",
+    );
+    assert.strictEqual(
+      result.description,
+      "Custom classifier for financial document categorization",
+      "Description should match",
+    );
+
+    // Verify classifier config (all values sent in the create payload).
+    assert.ok(result.config, "Classifier config should not be null");
+    assert.strictEqual(result.config?.returnDetails, true, "config.returnDetails should be true");
+    assert.strictEqual(result.config?.enableSegment, true, "config.enableSegment should be true");
+
+    // Verify content categories.
+    assert.ok(
+      result.config?.contentCategories,
+      "Config should include contentCategories",
+    );
+    const categories = result.config?.contentCategories ?? {};
+    assert.strictEqual(
+      Object.keys(categories).length,
+      3,
+      "Should have 3 content categories",
+    );
+    for (const name of ["Loan_Application", "Invoice", "Bank_Statement"]) {
+      assert.ok(
+        categories[name],
+        `Should contain '${name}' category`,
+      );
+      assert.ok(
+        categories[name]?.description,
+        `'${name}' category should have a description`,
+      );
     }
+    // The Invoice category was configured with `analyzerId: "prebuilt-invoice"` so
+    // matched segments route to prebuilt-invoice for field extraction. This is
+    // preserved by the 2026-06-01-preview API. The 2025-11-01 GA response strips
+    // per-category `analyzerId`, so we only assert this on preview via a guard.
+    const invoiceAnalyzerId = categories.Invoice?.analyzerId;
+    if (invoiceAnalyzerId !== undefined && invoiceAnalyzerId !== null) {
+      assert.strictEqual(
+        invoiceAnalyzerId,
+        "prebuilt-invoice",
+        "Invoice category should route to 'prebuilt-invoice' (preview API)",
+      );
+    }
+    console.log(`Content categories verified: ${Object.keys(categories).length} categories`);
+
+    // Verify models mapping.
+    assert.ok(result.models, "Models should not be null");
+    assert.ok(result.models?.completion, "Should contain 'completion' model mapping");
   });
 });

@@ -7,8 +7,9 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, getSampleFilePath } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 import fs from "node:fs";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -21,7 +22,7 @@ import type {
   PipelineRequest,
 } from "@azure/core-rest-pipeline";
 
-describe("Sample: analyzeReturnRawJson", () => {
+forEachServiceVersion("Sample: analyzeReturnRawJson", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
 
@@ -32,7 +33,7 @@ describe("Sample: analyzeReturnRawJson", () => {
     client = new ContentUnderstandingClient(
       endpoint,
       key ? new AzureKeyCredential(key) : createTestCredential(),
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion }),
     );
   });
 
@@ -70,12 +71,30 @@ describe("Sample: analyzeReturnRawJson", () => {
     assert.ok(rawResponse, "Should have captured raw response");
     assert.ok(rawResponse?.bodyAsText, "Should have raw JSON body");
 
+    // ========== Raw response structural verification ==========
+    // . The captured HTTP response must be a 2xx
+    // success and the body must be a non-empty, parseable JSON envelope with a
+    // Succeeded status and a non-empty result.contents array.
+    assert.ok(
+      rawResponse!.status >= 200 && rawResponse!.status < 300,
+      `Raw response status should be 2xx, but was ${rawResponse!.status}`,
+    );
+
     const rawJson = rawResponse!.bodyAsText!;
+    assert.ok(rawJson.length > 0, "Raw JSON body should not be empty");
     const parsedRawJson = JSON.parse(rawJson);
 
     assert.equal(parsedRawJson.status, "Succeeded", "Parsed raw JSON should have correct status");
     assert.ok(parsedRawJson.result, "Should have result in raw JSON");
     assert.ok(parsedRawJson.result.contents, "Should have contents in result");
+    assert.ok(
+      Array.isArray(parsedRawJson.result.contents),
+      "result.contents should be an array",
+    );
+    assert.ok(
+      parsedRawJson.result.contents.length > 0,
+      "result.contents should have at least one element",
+    );
 
     console.log(`Result contains ${parsedRawJson.result.contents.length} content(s)`);
   });

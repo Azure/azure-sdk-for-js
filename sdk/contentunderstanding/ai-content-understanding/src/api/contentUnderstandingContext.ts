@@ -3,9 +3,8 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface ContentUnderstandingContext extends Client {
   /** The API version to use for this operation. */
@@ -20,8 +19,11 @@ export interface ContentUnderstandingClientOptionalParams extends ClientOptions 
   apiVersion?: string;
 }
 
-// CUSTOMIZATION: EMITTER-FIX: Renamed 'endpointParam' to 'endpoint' for clarity and consistency.
-// The emitter generates 'endpointParam' but 'endpoint' is the standard name.
+// CUSTOMIZATION: EMITTER-FIX: Renamed the emitter-generated `endpointParam` parameter to
+// `endpoint` on the `createContentUnderstanding` factory. The rest of the SDK — including
+// the public `ContentUnderstandingClient` constructor — uses `endpoint`, so aligning the
+// factory param keeps the low-level API consistent and eliminates a `Parameter names in the
+// signature and its documentation` lint hit.
 export function createContentUnderstanding(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
@@ -31,8 +33,8 @@ export function createContentUnderstanding(
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-content-understanding/1.2.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

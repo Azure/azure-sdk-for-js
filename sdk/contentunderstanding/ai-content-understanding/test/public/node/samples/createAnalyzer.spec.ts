@@ -12,22 +12,23 @@ import {
   type ContentAnalyzerConfig,
   type ContentFieldSchema,
 } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
   createClient,
   testPollingOptions,
   TEST_INVOICE_URL,
 } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 
-describe("Sample: createAnalyzer", () => {
+forEachServiceVersion("Sample: createAnalyzer", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
   let testAnalyzerId: string;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = createClient(recorder);
+    client = createClient(recorder, apiVersion);
     // Generate a unique analyzer ID with prefix to avoid conflicts with other tests
     testAnalyzerId = recorder.variable(
       "createAnalyzerTestId",
@@ -111,22 +112,95 @@ describe("Sample: createAnalyzer", () => {
     assert.equal(result.baseAnalyzerId, "prebuilt-document", "Base analyzer ID should match");
     console.log(`Analyzer '${testAnalyzerId}' created successfully`);
 
-    // Verify analyzer config
-    if (result.config) {
-      console.log("Analyzer config verified");
+    // ========== Analyzer creation verification ==========
+    // . All values here are defined by this test itself in the
+    // create payload above, so they are portable across environments and stable in
+    // playback (the recording captures the response the service returned for our
+    // specific create request). Both the GA (2025-11-01) and preview (2026-06-01-preview)
+    // recordings return the full merged resource on the create LRO GET.
+
+    // Verify analyzer config (all values sent in the create payload).
+    assert.ok(result.config, "Analyzer config should not be null");
+    assert.strictEqual(result.config?.enableFormula, true, "config.enableFormula should be true");
+    assert.strictEqual(result.config?.enableLayout, true, "config.enableLayout should be true");
+    assert.strictEqual(result.config?.enableOcr, true, "config.enableOcr should be true");
+    assert.strictEqual(
+      result.config?.estimateFieldSourceAndConfidence,
+      true,
+      "config.estimateFieldSourceAndConfidence should be true",
+    );
+    assert.strictEqual(result.config?.returnDetails, true, "config.returnDetails should be true");
+
+    // Verify field schema.
+    assert.ok(result.fieldSchema, "Field schema should not be null");
+    assert.strictEqual(
+      result.fieldSchema?.name,
+      "company_schema",
+      "Field schema name should match",
+    );
+    assert.strictEqual(
+      result.fieldSchema?.description,
+      "Schema for extracting company information",
+      "Field schema description should match",
+    );
+    assert.ok(result.fieldSchema?.fields, "Field schema fields should not be null");
+    const fieldCount = Object.keys(result.fieldSchema?.fields ?? {}).length;
+    assert.strictEqual(fieldCount, 4, "Should have 4 custom fields");
+    console.log(`Field schema verified: ${result.fieldSchema?.name} (${fieldCount} fields)`);
+
+    // Verify individual fields.
+    const companyName = result.fieldSchema?.fields.company_name;
+    assert.ok(companyName, "Should contain company_name field");
+    assert.strictEqual(companyName?.type, "string", "company_name should be string type");
+    assert.strictEqual(companyName?.method, "extract", "company_name should use extract method");
+    assert.ok(companyName?.description, "company_name should have a description");
+
+    const totalAmount = result.fieldSchema?.fields.total_amount;
+    assert.ok(totalAmount, "Should contain total_amount field");
+    assert.strictEqual(totalAmount?.type, "number", "total_amount should be number type");
+    assert.strictEqual(totalAmount?.method, "extract", "total_amount should use extract method");
+    assert.ok(totalAmount?.description, "total_amount should have a description");
+
+    const summary = result.fieldSchema?.fields.document_summary;
+    assert.ok(summary, "Should contain document_summary field");
+    assert.strictEqual(summary?.type, "string", "document_summary should be string type");
+    assert.strictEqual(
+      summary?.method,
+      "generate",
+      "document_summary should use generate method",
+    );
+    assert.ok(summary?.description, "document_summary should have a description");
+
+    const docType = result.fieldSchema?.fields.document_type;
+    assert.ok(docType, "Should contain document_type field");
+    assert.strictEqual(docType?.type, "string", "document_type should be string type");
+    assert.strictEqual(
+      docType?.method,
+      "classify",
+      "document_type should use classify method",
+    );
+    assert.ok(docType?.description, "document_type should have a description");
+    assert.ok(docType?.enum, "document_type should have enum values");
+    assert.strictEqual(docType?.enum?.length, 5, "document_type should have 5 enum values");
+    for (const expected of ["invoice", "receipt", "contract", "report", "other"]) {
+      assert.ok(
+        docType?.enum?.includes(expected),
+        `document_type enum should contain '${expected}'`,
+      );
     }
 
-    // Verify field schema
-    if (result.fieldSchema) {
-      assert.equal(result.fieldSchema.name, "company_schema", "Field schema name should match");
-      console.log(`Field schema name verified: ${result.fieldSchema.name}`);
-
-      if (result.fieldSchema.fields) {
-        const fieldCount = Object.keys(result.fieldSchema.fields).length;
-        assert.equal(fieldCount, 4, "Should have 4 fields");
-        console.log(`Field count verified: ${fieldCount} fields`);
-      }
-    }
+    // Verify models mapping (both keys are sent by the sample).
+    assert.ok(result.models, "Models should not be null");
+    assert.ok(
+      Object.keys(result.models ?? {}).length >= 2,
+      "Should have at least 2 model mappings",
+    );
+    assert.ok(result.models?.completion, "Should contain 'completion' model mapping");
+    assert.strictEqual(
+      result.models?.embedding,
+      "text-embedding-3-large",
+      "Embedding model should match the sample-defined 'text-embedding-3-large'",
+    );
 
     // Analyze a document using the custom analyzer
     const analyzePoller = client.analyze(

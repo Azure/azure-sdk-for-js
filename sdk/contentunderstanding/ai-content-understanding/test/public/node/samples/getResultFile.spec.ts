@@ -58,30 +58,62 @@ describe("Sample: getResultFile", () => {
     assert.ok(result, "Result should not be null");
     assert.ok(result.contents, "Result contents should not be null");
 
-    if (result.contents.length > 0) {
-      const content = result.contents[0];
+    // ========== Video analysis result verification ==========
+    // . Live-only (whole test is gated by isLiveMode()).
+    assert.ok(operationId, "Should have operation ID");
+    assert.ok(operationId!.length > 0, "Operation ID should have length > 0");
+    assert.ok(
+      !operationId!.includes(" "),
+      "Operation ID should not contain spaces",
+    );
+    assert.ok(result.contents!.length > 0, "Video analysis should have at least one content");
 
-      // For video analysis, check for audioVisual content
-      if (content.kind === "audioVisual") {
-        const videoContent = content as AudioVisualContent;
+    const content = result.contents[0];
+    // Video analysis always produces audioVisual content.
+    assert.strictEqual(
+      content.kind,
+      "audioVisual",
+      "prebuilt-videoSearch should produce audioVisual-kind content",
+    );
 
-        if (videoContent.keyFrameTimesMs && videoContent.keyFrameTimesMs.length > 0) {
-          console.log(`Total keyframes: ${videoContent.keyFrameTimesMs.length}`);
-          const firstFrameTimeMs = videoContent.keyFrameTimesMs[0];
-          console.log(`First keyframe time: ${firstFrameTimeMs} ms`);
+    // For video analysis, check for audioVisual content
+    if (content.kind === "audioVisual") {
+      const videoContent = content as AudioVisualContent;
 
-          if (operationId) {
-            // Get the first keyframe as an example
-            const framePath = `keyframes/${firstFrameTimeMs}`;
-            console.log(`Getting result file: ${framePath}`);
+      // Video should always have keyframes.
+      assert.ok(
+        videoContent.keyFrameTimesMs,
+        "Video content should have keyFrameTimesMs",
+      );
+      assert.ok(
+        videoContent.keyFrameTimesMs!.length > 0,
+        "Video content should have at least one keyframe",
+      );
 
-            const imageBytes = await client.getResultFile(operationId, framePath);
-            assert.ok(imageBytes, "Image bytes should not be null");
-            assert.ok(imageBytes.length > 0, "Image bytes should not be empty");
-            console.log(`Retrieved keyframe image (${imageBytes.length.toLocaleString()} bytes)`);
-          }
-        }
+      // Verify every keyframe time is a non-negative number.
+      for (const t of videoContent.keyFrameTimesMs!) {
+        assert.ok(
+          t >= 0,
+          `Keyframe timestamp should be >= 0, but was ${t}`,
+        );
       }
+
+      console.log(`Total keyframes: ${videoContent.keyFrameTimesMs!.length}`);
+      const firstFrameTimeMs = videoContent.keyFrameTimesMs![0];
+      console.log(`First keyframe time: ${firstFrameTimeMs} ms`);
+      assert.ok(
+        firstFrameTimeMs >= 0,
+        `First keyframe time should be >= 0, but was ${firstFrameTimeMs}`,
+      );
+
+      // Get the first keyframe as an example
+      const framePath = `keyframes/${firstFrameTimeMs}`;
+      console.log(`Getting result file: ${framePath}`);
+
+      const imageBytes = await client.getResultFile(operationId!, framePath);
+      assert.ok(imageBytes, "Image bytes should not be null");
+      assert.ok(imageBytes.length > 0, "Image bytes should not be empty");
+      console.log(`Retrieved keyframe image (${imageBytes.length.toLocaleString()} bytes)`);
     }
   });
 });

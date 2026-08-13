@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import type { ErrorModel } from "@azure-rest/core-client";
-import { uint8ArrayToString } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { ErrorModel } from "@azure-rest/core-client";
+import { uint8ArrayToString } from "@azure/core-util";
+
+export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
+  return result.map((item) => {
+    return analysisInputSerializer(item);
+  });
+}
+
 /** Additional input to analyze. */
 export interface AnalysisInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
@@ -33,12 +39,6 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     mimeType: item["mimeType"],
     range: item["contentRange"],
   };
-}
-
-export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
-  return result.map((item) => {
-    return analysisInputSerializer(item);
-  });
 }
 
 /** Provides status details for analyze operations. */
@@ -80,6 +80,8 @@ export interface AnalysisResult {
   createdAt?: Date;
   /** Warnings encountered while analyzing the document. */
   warnings?: ErrorModel[];
+  /** Additional diagnostic information about the analysis. */
+  infos?: ErrorModel[];
   /**
    *   The string encoding format for content spans in the response.
    *   Possible values are 'codePoint', 'utf16', and `utf8`.  Default is `codePoint`.")
@@ -87,6 +89,13 @@ export interface AnalysisResult {
   stringEncoding?: string;
   /** The extracted content. */
   contents: AnalysisContentUnion[];
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `usage` is populated by the `ContentUnderstandingClient`
+  // convenience methods (`analyze` / `analyzeBinary` / `analyzeInline` / `analyzeBinaryInline`)
+  // from the enclosing envelope (`ContentAnalyzerAnalyzeOperationStatus.usage` for LRO or
+  // `ContentAnalyzerInlineResponse.usage` for inline) so callers get a uniform `result.usage`
+  // accessor regardless of transport.
+  /** Analyze usage / metering details. */
+  usage?: UsageDetails;
 }
 
 export function analysisResultDeserializer(item: any): AnalysisResult {
@@ -97,6 +106,11 @@ export function analysisResultDeserializer(item: any): AnalysisResult {
     warnings: !item["warnings"]
       ? item["warnings"]
       : item["warnings"].map((p: any) => {
+          return p;
+        }),
+    infos: !item["infos"]
+      ? item["infos"]
+      : item["infos"].map((p: any) => {
           return p;
         }),
     stringEncoding: item["stringEncoding"],
@@ -127,6 +141,8 @@ export interface AnalysisContent {
   markdown?: string;
   /** Extracted fields from the content. */
   fields?: Record<string, ContentFieldUnion>;
+  /** Metadata extracted from the input as string key/value pairs, such as author, title, creation date, or media properties. Keys and values are strings. Only keys with extracted values are present. */
+  metadata?: Record<string, string>;
 }
 
 export function analysisContentDeserializer(item: any): AnalysisContent {
@@ -138,6 +154,9 @@ export function analysisContentDeserializer(item: any): AnalysisContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -181,9 +200,9 @@ export interface ContentField {
   confidence?: number;
   /** Encoded source that identifies the position of the field value in the content. */
   source?: string;
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Added `value` property to provide a convenient way to access field values,
-  // aligning with .NET SDK design for cross-language consistency.
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Use `unknown` instead of `any` for type safety.
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Base `value` property on the discriminated `ContentField`
+  // union. Each concrete subclass (StringField, DateField, ...) narrows the type. Provides a
+  // uniform accessor instead of forcing callers to check `fieldType` before reading `value{Type}`.
   /** The value of the field. */
   value?: unknown;
 }
@@ -274,9 +293,7 @@ export function contentSpanDeserializer(item: any): ContentSpan {
 export interface StringField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "string";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueString` with `value` for a simpler, consistent API.
-  // /** String field value. */
-  // valueString?: string;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueString` is projected as the uniform `value` accessor.
   /** The value of the field. */
   value?: string;
 }
@@ -288,7 +305,7 @@ export function stringFieldDeserializer(item: any): StringField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueString`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueString` into `value`.
     value: item["valueString"],
   };
 }
@@ -297,10 +314,8 @@ export function stringFieldDeserializer(item: any): StringField {
 export interface DateField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "date";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueDate` with `value` for a simpler, consistent API.
-  // /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
-  // valueDate?: Date;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueDate` is projected as the uniform `value` accessor.
+  /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
   value?: Date;
 }
 
@@ -311,7 +326,7 @@ export function dateFieldDeserializer(item: any): DateField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueDate`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueDate` into `value`.
     value: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
   };
 }
@@ -320,10 +335,8 @@ export function dateFieldDeserializer(item: any): DateField {
 export interface TimeField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "time";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueTime` with `value` for a simpler, consistent API.
-  // /** Time field value, in ISO 8601 (hh:mm:ss) format. */
-  // valueTime?: string;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueTime` is projected as the uniform `value` accessor.
+  /** Time field value, in ISO 8601 (hh:mm:ss) format. */
   value?: string;
 }
 
@@ -334,7 +347,7 @@ export function timeFieldDeserializer(item: any): TimeField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueTime`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueTime` into `value`.
     value: item["valueTime"],
   };
 }
@@ -343,10 +356,8 @@ export function timeFieldDeserializer(item: any): TimeField {
 export interface NumberField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "number";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueNumber` with `value` for a simpler, consistent API.
-  // /** Number field value. */
-  // valueNumber?: number;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueNumber` is projected as the uniform `value` accessor.
+  /** Number field value. */
   value?: number;
 }
 
@@ -357,7 +368,7 @@ export function numberFieldDeserializer(item: any): NumberField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueNumber`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueNumber` into `value`.
     value: item["valueNumber"],
   };
 }
@@ -366,10 +377,8 @@ export function numberFieldDeserializer(item: any): NumberField {
 export interface IntegerField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "integer";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueInteger` with `value` for a simpler, consistent API.
-  // /** Integer field value. */
-  // valueInteger?: number;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueInteger` is projected as the uniform `value` accessor.
+  /** Integer field value. */
   value?: number;
 }
 
@@ -380,7 +389,7 @@ export function integerFieldDeserializer(item: any): IntegerField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueInteger`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueInteger` into `value`.
     value: item["valueInteger"],
   };
 }
@@ -389,10 +398,8 @@ export function integerFieldDeserializer(item: any): IntegerField {
 export interface BooleanField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "boolean";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueBoolean` with `value` for a simpler, consistent API.
-  // /** Boolean field value. */
-  // valueBoolean?: boolean;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueBoolean` is projected as the uniform `value` accessor.
+  /** Boolean field value. */
   value?: boolean;
 }
 
@@ -403,7 +410,7 @@ export function booleanFieldDeserializer(item: any): BooleanField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueBoolean`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueBoolean` into `value`.
     value: item["valueBoolean"],
   };
 }
@@ -412,25 +419,22 @@ export function booleanFieldDeserializer(item: any): BooleanField {
 export interface ArrayField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "array";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueArray` with `value` for a simpler, consistent API.
-  // /** Array field value. */
-  // valueArray?: ContentFieldUnion[];
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueArray` is projected as the uniform `value` accessor.
+  /** Array field value. */
   value?: ContentFieldUnion[];
 }
 
 export function arrayFieldDeserializer(item: any): ArrayField {
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueArray`
-  const value = !item["valueArray"]
-    ? item["valueArray"]
-    : contentFieldUnionArrayDeserializer(item["valueArray"]);
   return {
     type: item["type"],
     spans: !item["spans"] ? item["spans"] : contentSpanArrayDeserializer(item["spans"]),
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    value: value,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueArray` into `value`.
+    value: !item["valueArray"]
+      ? item["valueArray"]
+      : contentFieldUnionArrayDeserializer(item["valueArray"]),
   };
 }
 
@@ -444,25 +448,22 @@ export function contentFieldUnionArrayDeserializer(result: Array<ContentFieldUni
 export interface ObjectField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "object";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueObject` with `value` for a simpler, consistent API.
-  // /** Object field value. */
-  // valueObject?: Record<string, ContentFieldUnion>;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueObject` is projected as the uniform `value` accessor.
+  /** Object field value. */
   value?: Record<string, ContentFieldUnion>;
 }
 
 export function objectFieldDeserializer(item: any): ObjectField {
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueObject`
-  const value = !item["valueObject"]
-    ? item["valueObject"]
-    : contentFieldUnionRecordDeserializer(item["valueObject"]);
   return {
     type: item["type"],
     spans: !item["spans"] ? item["spans"] : contentSpanArrayDeserializer(item["spans"]),
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    value: value,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueObject` into `value`.
+    value: !item["valueObject"]
+      ? item["valueObject"]
+      : contentFieldUnionRecordDeserializer(item["valueObject"]),
   };
 }
 
@@ -470,10 +471,8 @@ export function objectFieldDeserializer(item: any): ObjectField {
 export interface JsonField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "json";
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueJson` with `value` for a simpler, consistent API.
-  // /** JSON field value. */
-  // valueJson?: any;
-  /** The value of the field. */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `valueJson` is projected as the uniform `value` accessor.
+  /** JSON field value. */
   value?: unknown;
 }
 
@@ -484,7 +483,7 @@ export function jsonFieldDeserializer(item: any): JsonField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire-format `valueJson`
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Read wire-format `valueJson` into `value`.
     value: item["valueJson"],
   };
 }
@@ -514,10 +513,14 @@ export interface DocumentContent extends AnalysisContent {
   figures?: DocumentFigureUnion[];
   /** List of annotations in the document.  Only if enableAnnotations and returnDetails are true. */
   annotations?: DocumentAnnotation[];
+  /** List of signatures in the document.  Only if enableLayout and returnDetails are true. */
+  signatures?: DocumentSignature[];
   /** List of hyperlinks in the document.  Only if returnDetails are true. */
   hyperlinks?: DocumentHyperlink[];
   /** List of detected content segments.  Only if enableSegment is true. */
   segments?: DocumentContentSegment[];
+  /** List of document chunks.  Only if chunkingStrategy is configured on the analyzer. */
+  chunks?: DocumentChunk[];
 }
 
 export function documentContentDeserializer(item: any): DocumentContent {
@@ -529,6 +532,9 @@ export function documentContentDeserializer(item: any): DocumentContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     startPageNumber: item["startPageNumber"],
     endPageNumber: item["endPageNumber"],
     unit: item["unit"],
@@ -546,12 +552,16 @@ export function documentContentDeserializer(item: any): DocumentContent {
     annotations: !item["annotations"]
       ? item["annotations"]
       : documentAnnotationArrayDeserializer(item["annotations"]),
+    signatures: !item["signatures"]
+      ? item["signatures"]
+      : documentSignatureArrayDeserializer(item["signatures"]),
     hyperlinks: !item["hyperlinks"]
       ? item["hyperlinks"]
       : documentHyperlinkArrayDeserializer(item["hyperlinks"]),
     segments: !item["segments"]
       ? item["segments"]
       : documentContentSegmentArrayDeserializer(item["segments"]),
+    chunks: !item["chunks"] ? item["chunks"] : documentChunkArrayDeserializer(item["chunks"]),
   };
 }
 
@@ -1178,6 +1188,40 @@ export function documentAnnotationCommentDeserializer(item: any): DocumentAnnota
   };
 }
 
+export function documentSignatureArrayDeserializer(result: Array<DocumentSignature>): any[] {
+  return result.map((item) => {
+    return documentSignatureDeserializer(item);
+  });
+}
+
+/** Signature detected in a document. */
+export interface DocumentSignature {
+  /** Signature identifier. */
+  id: string;
+  /** Encoded source that identifies the position of the signature in the content. */
+  source?: string;
+  /** Span of the signature in the markdown content. */
+  span?: ContentSpan;
+  /** Child elements of the signature, such as paragraphs containing text within the signature region. */
+  elements?: string[];
+  /** Semantic role of the signature. */
+  role?: SemanticRole;
+}
+
+export function documentSignatureDeserializer(item: any): DocumentSignature {
+  return {
+    id: item["id"],
+    source: item["source"],
+    span: !item["span"] ? item["span"] : contentSpanDeserializer(item["span"]),
+    elements: !item["elements"]
+      ? item["elements"]
+      : item["elements"].map((p: any) => {
+          return p;
+        }),
+    role: item["role"],
+  };
+}
+
 export function documentHyperlinkArrayDeserializer(result: Array<DocumentHyperlink>): any[] {
   return result.map((item) => {
     return documentHyperlinkDeserializer(item);
@@ -1225,6 +1269,10 @@ export interface DocumentContentSegment {
   startPageNumber: number;
   /** End page number (1-indexed) of the segment. */
   endPageNumber: number;
+  /** Confidence of the segmentation and category classification. */
+  confidence?: number;
+  /** Encoded source that identifies the position of the segment in the content. Can be used as the 'range' input to route this segment to a sub-analyzer. */
+  source?: string;
 }
 
 export function documentContentSegmentDeserializer(item: any): DocumentContentSegment {
@@ -1234,6 +1282,29 @@ export function documentContentSegmentDeserializer(item: any): DocumentContentSe
     span: contentSpanDeserializer(item["span"]),
     startPageNumber: item["startPageNumber"],
     endPageNumber: item["endPageNumber"],
+    confidence: item["confidence"],
+    source: item["source"],
+  };
+}
+
+export function documentChunkArrayDeserializer(result: Array<DocumentChunk>): any[] {
+  return result.map((item) => {
+    return documentChunkDeserializer(item);
+  });
+}
+
+/** A chunk of document content, defined by one or more spans in the markdown. */
+export interface DocumentChunk {
+  /** List of spans defining the chunk's position(s) in the markdown content. */
+  spans: ContentSpan[];
+  /** Encoded source expression describing the visual bounding polygons of the chunk's content on the page. Derived from the union of layout objects (paragraphs, tables, figures) that compose the chunk. */
+  source?: string;
+}
+
+export function documentChunkDeserializer(item: any): DocumentChunk {
+  return {
+    spans: contentSpanArrayDeserializer(item["spans"]),
+    source: item["source"],
   };
 }
 
@@ -1268,6 +1339,9 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
     path: item["path"],
     markdown: item["markdown"],
     fields: !item["fields"] ? item["fields"] : contentFieldUnionRecordDeserializer(item["fields"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     startTimeMs: item["startTimeMs"],
     endTimeMs: item["endTimeMs"],
     width: item["width"],
@@ -1277,8 +1351,9 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
-    // CUSTOMIZATION: SERVICE-FIX: Accept both `keyFrameTimesMs` (camelCase) and `KeyFrameTimesMs` (PascalCase)
-    // due to a known service issue returning PascalCase for this property.
+    // CUSTOMIZATION: SERVICE-FIX: The CU service occasionally emits `KeyFrameTimesMs`
+    // (PascalCase) instead of the schema-correct `keyFrameTimesMs` (camelCase). Read whichever
+    // key is populated so playback recordings and live responses both surface the value.
     keyFrameTimesMs: (() => {
       const val = item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"];
       return !val ? val : val.map((p: any) => p);
@@ -1407,12 +1482,29 @@ export interface UsageDetails {
    * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
    */
   documentPagesStandard?: number;
+  /**
+   * The number of document pages processed at the minimal level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesMinimalInline?: number;
+  /**
+   * The number of document pages processed at the basic level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesBasicInline?: number;
+  /**
+   * The number of document pages processed at the standard level by an inline analyze operation.
+   * For documents without explicit pages (ex. txt, html), every 3000 UTF-16 characters is counted as one page.
+   */
+  documentPagesStandardInline?: number;
   /** The hours of audio processed. */
   audioHours?: number;
   /** The hours of video processed. */
   videoHours?: number;
   /** The number of contextualization tokens consumed for preparing context, generating confidence scores, source grounding, and output formatting. */
   contextualizationTokens?: number;
+  /** The number of advanced contextualization tokens consumed for preparing context, generating confidence scores, source grounding, and output formatting. */
+  advancedContextualizationTokens?: number;
   /** The number of LLM and embedding tokens consumed, grouped by model (ex. GTP 4.1) and type (ex. input, cached input, output). */
   tokens?: Record<string, number>;
 }
@@ -1422,12 +1514,36 @@ export function usageDetailsDeserializer(item: any): UsageDetails {
     documentPagesMinimal: item["documentPagesMinimal"],
     documentPagesBasic: item["documentPagesBasic"],
     documentPagesStandard: item["documentPagesStandard"],
+    documentPagesMinimalInline: item["documentPagesMinimalInline"],
+    documentPagesBasicInline: item["documentPagesBasicInline"],
+    documentPagesStandardInline: item["documentPagesStandardInline"],
     audioHours: item["audioHours"],
     videoHours: item["videoHours"],
     contextualizationTokens: item["contextualizationTokens"],
+    advancedContextualizationTokens: item["advancedContextualizationTokens"],
     tokens: !item["tokens"]
       ? item["tokens"]
       : Object.fromEntries(Object.entries(item["tokens"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Provides inline response details for analyze operations. */
+export interface ContentAnalyzerInlineResponse {
+  /** The status of the inline analyze request. */
+  status: OperationState;
+  /** The result of the inline analyze request. */
+  result: AnalysisResult;
+  /** Usage details of the inline analyze request. */
+  usage?: UsageDetails;
+}
+
+export function contentAnalyzerInlineResponseDeserializer(
+  item: any,
+): ContentAnalyzerInlineResponse {
+  return {
+    status: item["status"],
+    result: analysisResultDeserializer(item["result"]),
+    usage: !item["usage"] ? item["usage"] : usageDetailsDeserializer(item["usage"]),
   };
 }
 
@@ -1560,6 +1676,19 @@ export interface ContentAnalyzerConfig {
    * Only return content(s) from additional analyzers specified in contentCategories, if any.
    */
   omitContent?: boolean;
+  /** Workflow used for content analysis. */
+  workflow?: ContentAnalyzerWorkflow;
+  /**
+   * When true, input that exceeds the service's processable-unit limit is truncated to the limit and returned as a
+   * partial result with a warning, instead of failing. Field extraction and segmentation, where configured, run over
+   * the processed content and may be inaccurate. Defaults to false. Overridable per request by the allowInputTruncation
+   * query parameter.
+   */
+  allowInputTruncation?: boolean;
+  /** Enable sub-page segmentation. When true, segments may cover a portion of a page instead of full pages. */
+  allowInPageSegments?: boolean;
+  /** Strategy for chunking document content into smaller units for RAG scenarios. When omitted, chunking is disabled. */
+  chunkingStrategy?: ChunkingStrategyUnion;
 }
 
 export function contentAnalyzerConfigSerializer(item: ContentAnalyzerConfig): any {
@@ -1586,6 +1715,12 @@ export function contentAnalyzerConfigSerializer(item: ContentAnalyzerConfig): an
     enableSegment: item["enableSegment"],
     segmentPerPage: item["segmentPerPage"],
     omitContent: item["omitContent"],
+    workflow: item["workflow"],
+    allowInputTruncation: item["allowInputTruncation"],
+    allowInPageSegments: item["allowInPageSegments"],
+    chunkingStrategy: !item["chunkingStrategy"]
+      ? item["chunkingStrategy"]
+      : chunkingStrategyUnionSerializer(item["chunkingStrategy"]),
   };
 }
 
@@ -1613,6 +1748,12 @@ export function contentAnalyzerConfigDeserializer(item: any): ContentAnalyzerCon
     enableSegment: item["enableSegment"],
     segmentPerPage: item["segmentPerPage"],
     omitContent: item["omitContent"],
+    workflow: item["workflow"],
+    allowInputTruncation: item["allowInputTruncation"],
+    allowInPageSegments: item["allowInPageSegments"],
+    chunkingStrategy: !item["chunkingStrategy"]
+      ? item["chunkingStrategy"]
+      : chunkingStrategyUnionDeserializer(item["chunkingStrategy"]),
   };
 }
 
@@ -1669,6 +1810,71 @@ export function contentCategoryDefinitionDeserializer(item: any): ContentCategor
   };
 }
 
+/** Workflow used for document analysis. */
+export type ContentAnalyzerWorkflow = "default" | "agentic";
+
+/** Strategy for chunking document content. The `kind` property serves as the discriminator. */
+export interface ChunkingStrategy {
+  /** The chunking strategy kind. */
+  /** The discriminator possible values: semantic */
+  kind: ChunkingStrategyKind;
+}
+
+export function chunkingStrategySerializer(item: ChunkingStrategy): any {
+  return { kind: item["kind"] };
+}
+
+export function chunkingStrategyDeserializer(item: any): ChunkingStrategy {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for ChunkingStrategyUnion */
+export type ChunkingStrategyUnion = SemanticChunkingStrategy | ChunkingStrategy;
+
+export function chunkingStrategyUnionSerializer(item: ChunkingStrategyUnion): any {
+  switch (item.kind) {
+    case "semantic":
+      return semanticChunkingStrategySerializer(item as SemanticChunkingStrategy);
+
+    default:
+      return chunkingStrategySerializer(item);
+  }
+}
+
+export function chunkingStrategyUnionDeserializer(item: any): ChunkingStrategyUnion {
+  switch (item["kind"]) {
+    case "semantic":
+      return semanticChunkingStrategyDeserializer(item as SemanticChunkingStrategy);
+
+    default:
+      return chunkingStrategyDeserializer(item);
+  }
+}
+
+/** The kind of chunking strategy. */
+export type ChunkingStrategyKind = "semantic";
+
+/** Semantic chunking strategy that splits content into semantically meaningful, size-controlled chunks. */
+export interface SemanticChunkingStrategy extends ChunkingStrategy {
+  /** The chunking strategy kind. */
+  kind: "semantic";
+  /** Target chunk size expressed in tokens. Interpreted as a soft limit; the chunking process may slightly exceed this value to respect semantic or structural boundaries. */
+  maxTokens?: number;
+}
+
+export function semanticChunkingStrategySerializer(item: SemanticChunkingStrategy): any {
+  return { kind: item["kind"], maxTokens: item["maxTokens"] };
+}
+
+export function semanticChunkingStrategyDeserializer(item: any): SemanticChunkingStrategy {
+  return {
+    kind: item["kind"],
+    maxTokens: item["maxTokens"],
+  };
+}
+
 /** Schema of fields to be extracted from documents. */
 export interface ContentFieldSchema {
   /** The name of the field schema. */
@@ -1716,8 +1922,9 @@ export function contentFieldDefinitionRecordSerializer(
 export function contentFieldDefinitionRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ContentFieldDefinition> {
-  // CUSTOMIZATION: EMITTER-FIX: Added null/undefined guard to prevent runtime error when
-  // `definitions` property in `ContentFieldSchema` is optional and not present.
+  // CUSTOMIZATION: EMITTER-FIX: The emitter emits a plain `Object.keys(item).map(...)` here,
+  // which throws when the record is missing. `ContentFieldSchema.definitions` is optional and
+  // frequently omitted, so guard against a nullish input and return it unchanged.
   if (!item) {
     return item;
   }
@@ -2022,4 +2229,6 @@ export function recordMergePatchUpdateSerializer(item: RecordMergePatchUpdate): 
 export enum KnownVersions {
   /** The 2025-11-01 version of the Content Understanding service. */
   V20251101 = "2025-11-01",
+  /** The 2026-06-01-preview version of the Content Understanding service. */
+  V20260601Preview = "2026-06-01-preview",
 }

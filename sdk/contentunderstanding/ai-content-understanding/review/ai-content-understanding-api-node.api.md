@@ -4,14 +4,14 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorModel } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState as OperationState_2 } from '@azure/core-lro';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function analyze(context: ContentUnderstandingContext, analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalysisResult>, AnalysisResult>;
@@ -20,15 +20,41 @@ export function analyze(context: ContentUnderstandingContext, analyzerId: string
 export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, input: Uint8Array, contentType: string, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalysisResult>, AnalysisResult>;
 
 // @public
-export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+export function analyzeBinaryInline(context: ContentUnderstandingContext, analyzerId: string, input: Uint8Array, contentType: string, options?: AnalyzeBinaryInlineOptionalParams): Promise<ContentAnalyzerInlineResponse>;
+
+// @public
+export interface AnalyzeBinaryInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     contentRange?: string;
+    contentType?: string;
+    processingLocation?: ProcessingLocation;
+    stringEncoding?: string;
+}
+
+// @public
+export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    contentRange?: string;
+    contentType?: string;
     processingLocation?: ProcessingLocation;
     stringEncoding?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export function analyzeInline(context: ContentUnderstandingContext, analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeInlineOptionalParams): Promise<ContentAnalyzerInlineResponse>;
+
+// @public
+export interface AnalyzeInlineOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
+    modelDeployments?: Record<string, string>;
+    processingLocation?: ProcessingLocation;
+    stringEncoding?: string;
+}
+
+// @public
 export interface AnalyzeOptionalParams extends OperationOptions {
+    allowInputTruncation?: boolean;
     modelDeployments?: Record<string, string>;
     processingLocation?: ProcessingLocation;
     stringEncoding?: string;

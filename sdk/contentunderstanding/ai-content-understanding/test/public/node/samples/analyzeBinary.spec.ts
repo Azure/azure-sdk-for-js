@@ -8,22 +8,23 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient, DocumentContent } from "../../../../src/index.js";
 import { toLlmInput } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
   createClient,
   testPollingOptions,
   getSampleFilePath,
 } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 import fs from "node:fs";
 
-describe("Sample: analyzeBinary", () => {
+forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = createClient(recorder);
+    client = createClient(recorder, apiVersion);
   });
 
   afterEach(async () => {
@@ -47,9 +48,18 @@ describe("Sample: analyzeBinary", () => {
     assert.ok(pdfBytes.length > 0, "PDF bytes should not be empty");
     console.log(`Read ${pdfBytes.length.toLocaleString()} bytes from ${filePath}`);
 
+    // The GA (2025-11-01) playback recording expects
+    // `Content-Type: application/pdf`, so on the GA cell we pass the explicit
+    // MIME type. The preview (2026-06-01-preview) recording expects
+    // `application/octet-stream`, so we pass `undefined` there (the SDK
+    // default). This mirrors the current sample-dev/analyzeBinary.ts flow
+    // while keeping GA recordings frozen during preview development.
+    const pdfContentType = apiVersion === "2025-11-01" ? "application/pdf" : undefined;
+
     // Analyze the document using analyzeBinary
-    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf", {
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
       ...testPollingOptions,
+      contentType: pdfContentType,
       // Use updateIntervalInMs to configure LRO polling; 0 makes playback fast
       updateIntervalInMs: 0,
     });
@@ -74,6 +84,17 @@ describe("Sample: analyzeBinary", () => {
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
 
+      // ========== Document content verification ==========
+      // in . All these invariants are asset-independent (any
+      // PDF should produce these), so they are portable across environments.
+
+      // MIME type must be application/pdf for a PDF input.
+      assert.strictEqual(
+        documentContent.mimeType,
+        "application/pdf",
+        "MIME type should be application/pdf for a PDF input",
+      );
+
       // Verify page information
       assert.ok(documentContent.startPageNumber >= 1, "Start page should be >= 1");
       assert.ok(
@@ -86,6 +107,41 @@ describe("Sample: analyzeBinary", () => {
       console.log(
         `Document pages: ${documentContent.startPageNumber} to ${documentContent.endPageNumber} (${totalPages} pages)`,
       );
+
+      // Pages collection should match the declared range.
+      assert.ok(documentContent.pages, "Pages collection should not be null");
+      assert.ok(documentContent.pages!.length > 0, "Pages collection should not be empty");
+      assert.strictEqual(
+        documentContent.pages!.length,
+        totalPages,
+        `Pages collection count (${documentContent.pages!.length}) should match declared page range (${totalPages})`,
+      );
+
+      // Each page must have a valid page number and positive dimensions, and page
+      // numbers must be unique within the pages collection.
+      const seenPageNumbers = new Set<number>();
+      for (const page of documentContent.pages!) {
+        assert.ok(page, "Page object should not be null");
+        assert.ok(page.pageNumber >= 1, "Page number should be >= 1");
+        assert.ok(
+          page.pageNumber >= documentContent.startPageNumber &&
+            page.pageNumber <= documentContent.endPageNumber,
+          `Page number ${page.pageNumber} should fall within [${documentContent.startPageNumber}, ${documentContent.endPageNumber}]`,
+        );
+        assert.ok(
+          page.width! > 0,
+          `Page ${page.pageNumber} width should be > 0, but was ${page.width}`,
+        );
+        assert.ok(
+          page.height! > 0,
+          `Page ${page.pageNumber} height should be > 0, but was ${page.height}`,
+        );
+        assert.ok(
+          !seenPageNumbers.has(page.pageNumber),
+          `Page number ${page.pageNumber} appears more than once in pages collection`,
+        );
+        seenPageNumbers.add(page.pageNumber);
+      }
     }
 
     // Test toLlmInput conversion (mirrors sample's convert_to_llm_input block).
@@ -104,8 +160,8 @@ describe("Sample: analyzeBinary", () => {
       "toLlmInput output should contain YAML front matter closing delimiter",
     );
     assert.ok(
-      text.includes("contentType: document"),
-      "YAML front matter should declare 'contentType: document'",
+      text.includes("mimeType: application/pdf"),
+      "YAML front matter should declare 'mimeType: application/pdf'",
     );
     if (content.markdown) {
       assert.ok(
@@ -124,12 +180,16 @@ describe("Sample: analyzeBinary", () => {
     }
     const pdfBytes = fs.readFileSync(filePath);
 
+    // See the comment on `pdfContentType` in the previous test. Applies to
+    // every analyzeBinary call in this test because both cells (GA and
+    // preview) exercise the content-range paths.
+    const pdfContentType = apiVersion === "2025-11-01" ? "application/pdf" : undefined;
+
     // Full analysis for comparison baseline
     const fullPoller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      testPollingOptions,
+      { ...testPollingOptions, contentType: pdfContentType },
     );
     const fullResult = await fullPoller.pollUntilDone();
     assert.ok(fullResult.contents);
@@ -142,8 +202,7 @@ describe("Sample: analyzeBinary", () => {
     const page2Poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      { ...testPollingOptions, contentRange: "2" },
+      { ...testPollingOptions, contentType: pdfContentType, contentRange: "2" },
     );
     const page2Result = await page2Poller.pollUntilDone();
     assert.ok(page2Result.contents);
@@ -160,8 +219,7 @@ describe("Sample: analyzeBinary", () => {
     const pages13Poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      { ...testPollingOptions, contentRange: "1-3" },
+      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1-3" },
     );
     const pages13Result = await pages13Poller.pollUntilDone();
     assert.ok(pages13Result.contents);
@@ -184,8 +242,7 @@ describe("Sample: analyzeBinary", () => {
     const combine2Poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      { ...testPollingOptions, contentRange: "1,3-4" },
+      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1,3-4" },
     );
     const combine2Result = await combine2Poller.pollUntilDone();
     assert.ok(combine2Result.contents);
@@ -208,8 +265,7 @@ describe("Sample: analyzeBinary", () => {
     const range3Poller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      { ...testPollingOptions, contentRange: "3-" },
+      { ...testPollingOptions, contentType: pdfContentType, contentRange: "3-" },
     );
     const range3Result = await range3Poller.pollUntilDone();
     assert.ok(range3Result.contents);
@@ -242,8 +298,7 @@ describe("Sample: analyzeBinary", () => {
     const combinePoller = client.analyzeBinary(
       "prebuilt-documentSearch",
       pdfBytes,
-      "application/pdf",
-      { ...testPollingOptions, contentRange: "1-3,5,9-" },
+      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1-3,5,9-" },
     );
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);

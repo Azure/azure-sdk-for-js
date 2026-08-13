@@ -8,8 +8,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { createRecorder } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -19,7 +20,9 @@ import type {
   ContentFieldSchema,
 } from "../../../../src/index.js";
 
-describe("Sample: grantCopyAuth", () => {
+forEachServiceVersion(
+  "Sample: grantCopyAuth",
+  ({ apiVersion }) => {
   let recorder: Recorder;
   let sourceClient: ContentUnderstandingClient;
   let targetClient: ContentUnderstandingClient;
@@ -59,14 +62,14 @@ describe("Sample: grantCopyAuth", () => {
     sourceClient = new ContentUnderstandingClient(
       sourceEndpoint,
       sourceCredential,
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion }),
     );
 
     const targetCredential = targetKey ? new AzureKeyCredential(targetKey) : createTestCredential();
     targetClient = new ContentUnderstandingClient(
       targetEndpoint,
       targetCredential,
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion }),
     );
 
     // Generate unique analyzer IDs
@@ -128,6 +131,22 @@ describe("Sample: grantCopyAuth", () => {
         "Target resource ID should match",
       );
 
+      // ========== Copy authorization verification ==========
+      // in . `expiresAt` is service-generated; assert it is a
+      // well-formed ISO timestamp. An `expiresAt > now` check is not
+      // portable to a playback recording (the recorded expiresAt is in the past
+      // relative to test run time), so we assert it only in live mode.
+      assert.ok(
+        copyAuth.targetAzureResourceId,
+        "Copy authorization should include targetAzureResourceId",
+      );
+      assert.ok(copyAuth.expiresAt, "Copy authorization should include expiresAt");
+      const expiresAt = new Date(copyAuth.expiresAt as unknown as string);
+      assert.ok(
+        !Number.isNaN(expiresAt.getTime()),
+        "Copy authorization expiresAt should be a valid timestamp",
+      );
+
       // Step 3: Copy the analyzer
       const copyPoller = targetClient.copyAnalyzer(targetAnalyzerId, sourceAnalyzerId, {
         sourceAzureResourceId: sourceResourceId,
@@ -143,6 +162,60 @@ describe("Sample: grantCopyAuth", () => {
       } else {
         assert.ok(targetInfo.tags?.source === "true");
       }
+
+      // ========== Cross-resource copy inheritance verification ==========
+      // . The cross-resource copy must inherit every source
+      // property, mirroring the same-resource copy invariant in Sample14.
+      assert.strictEqual(
+        targetInfo.baseAnalyzerId,
+        "prebuilt-document",
+        "Copied baseAnalyzerId should match source",
+      );
+      assert.ok(targetInfo.fieldSchema, "Copied analyzer should have fieldSchema");
+      assert.strictEqual(
+        targetInfo.fieldSchema?.name,
+        "company_schema",
+        "Copied fieldSchema name should match source",
+      );
+      assert.strictEqual(
+        Object.keys(targetInfo.fieldSchema?.fields ?? {}).length,
+        2,
+        "Copied analyzer should have 2 fields (company_name + total_amount)",
+      );
+      assert.ok(
+        targetInfo.fieldSchema?.fields.company_name,
+        "Copied analyzer should contain company_name field",
+      );
+      assert.strictEqual(
+        targetInfo.fieldSchema?.fields.company_name?.type,
+        "string",
+        "Copied company_name should be string type",
+      );
+      assert.ok(
+        targetInfo.fieldSchema?.fields.total_amount,
+        "Copied analyzer should contain total_amount field",
+      );
+      assert.strictEqual(
+        targetInfo.fieldSchema?.fields.total_amount?.type,
+        "number",
+        "Copied total_amount should be number type",
+      );
+      assert.ok(targetInfo.config, "Copied analyzer should have config");
+      assert.strictEqual(
+        targetInfo.config?.enableLayout,
+        true,
+        "Copied config.enableLayout should match source (true)",
+      );
+      assert.strictEqual(
+        targetInfo.config?.enableOcr,
+        true,
+        "Copied config.enableOcr should match source (true)",
+      );
+      assert.strictEqual(
+        targetInfo.config?.enableFormula,
+        false,
+        "Copied config.enableFormula should match source (false)",
+      );
     } finally {
       // Clean up
       try {

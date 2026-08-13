@@ -12,17 +12,18 @@ import {
   type ContentAnalyzerConfig,
   type ContentFieldSchema,
 } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, createClient, testPollingOptions } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 
-describe("Sample: updateAnalyzer", () => {
+forEachServiceVersion("Sample: updateAnalyzer", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
   let testAnalyzerId: string;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = createClient(recorder);
+    client = createClient(recorder, apiVersion);
     // Generate a unique analyzer ID with prefix to avoid conflicts with other tests
     testAnalyzerId = recorder.variable(
       "updateAnalyzerTestId",
@@ -70,6 +71,31 @@ describe("Sample: updateAnalyzer", () => {
     const currentAnalyzer = await client.getAnalyzer(testAnalyzerId);
     console.log(`Current description: ${currentAnalyzer.description}`);
 
+    // ========== Pre-update verification ==========
+    // . All values here are defined by this test itself in the
+    // create payload above, so they are portable across environments.
+    assert.strictEqual(
+      currentAnalyzer.description,
+      "Initial description",
+      "Initial description should match what was created",
+    );
+    assert.strictEqual(
+      currentAnalyzer.baseAnalyzerId,
+      "prebuilt-document",
+      "Base analyzer ID should match what was created",
+    );
+    assert.ok(currentAnalyzer.tags, "Initial tags should not be null");
+    assert.strictEqual(
+      Object.keys(currentAnalyzer.tags ?? {}).length,
+      1,
+      "Should have exactly 1 initial tag",
+    );
+    assert.strictEqual(
+      currentAnalyzer.tags?.tag1,
+      "tag1_initial_value",
+      "Initial tag1 value should match",
+    );
+
     // Create an updated analyzer with new description and tags
     const updatedAnalyzer: ContentAnalyzer = {
       baseAnalyzerId: currentAnalyzer.baseAnalyzerId,
@@ -88,11 +114,54 @@ describe("Sample: updateAnalyzer", () => {
     assert.equal(updateResult.description, "Updated description", "Description should be updated");
     console.log(`Analyzer updated. New description: ${updateResult.description}`);
 
+    // ========== Post-update verification ==========
+    // Both the GA (2025-11-01) and preview (2026-06-01-preview) PATCH responses echo
+    // description, tags, and baseAnalyzerId. Additional fields (fieldSchema, models) are
+    // only present on preview; those assertions are gated defensively so the same
+    // recording works across both API versions without a re-record.
+    assert.notStrictEqual(
+      updateResult.description,
+      currentAnalyzer.description,
+      "Description should have changed from the initial value",
+    );
+    assert.strictEqual(
+      updateResult.baseAnalyzerId,
+      "prebuilt-document",
+      "baseAnalyzerId should be preserved after update",
+    );
+    assert.strictEqual(
+      updateResult.baseAnalyzerId,
+      currentAnalyzer.baseAnalyzerId,
+      "baseAnalyzerId should equal the pre-update value",
+    );
+
     // Verify tags
-    if (updateResult.tags) {
-      assert.equal(updateResult.tags["tag1"], "tag1_updated_value", "tag1 should be updated");
-      assert.equal(updateResult.tags["tag3"], "tag3_value", "tag3 should be added");
-      console.log("Tags verified after update");
+    assert.ok(updateResult.tags, "Update result should include tags");
+    assert.strictEqual(
+      updateResult.tags?.tag1,
+      "tag1_updated_value",
+      "tag1 should be updated",
+    );
+    assert.notStrictEqual(
+      updateResult.tags?.tag1,
+      "tag1_initial_value",
+      "tag1 should no longer be the initial value",
+    );
+    assert.strictEqual(updateResult.tags?.tag3, "tag3_value", "tag3 should be added");
+    console.log("Tags verified after update");
+
+    // Preview API returns the full merged resource so fieldSchema is preserved. GA
+    // returns a stripped body without fieldSchema; the guard skips this assertion.
+    if (updateResult.fieldSchema) {
+      assert.strictEqual(
+        updateResult.fieldSchema.name,
+        "demo_schema",
+        "fieldSchema name should be preserved after update (preview API)",
+      );
+      assert.ok(
+        updateResult.fieldSchema.fields.company_name,
+        "company_name field should still exist after update (preview API)",
+      );
     }
   });
 });
