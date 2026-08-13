@@ -8,7 +8,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import { type DocumentContent } from "../../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
   createClient,
@@ -16,15 +16,16 @@ import {
   getSampleFilePath,
   TEST_DOCUMENT_URL,
 } from "./sampleTestUtils.js";
+import { forEachServiceVersion } from "../../../utils/multiVersion.js";
 import fs from "node:fs";
 
-describe("Sample: analyzeConfigs", () => {
+forEachServiceVersion("Sample: analyzeConfigs", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = createClient(recorder);
+    client = createClient(recorder, apiVersion);
   });
 
   afterEach(async () => {
@@ -55,8 +56,17 @@ describe("Sample: analyzeConfigs", () => {
     console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
     console.log("Note: prebuilt-documentSearch has formulas, layout, and OCR enabled by default.");
 
-    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, "application/pdf", {
+    // The GA (2025-11-01) playback recording expects
+    // `Content-Type: application/pdf`, so on the GA cell we pass the explicit
+    // MIME type. The preview (2026-06-01-preview) recording expects
+    // `application/octet-stream`, so we pass `undefined` there (the SDK
+    // default). This mirrors the current sample-dev/analyzeConfigs.ts flow
+    // while keeping GA recordings frozen during preview development.
+    const pdfContentType = apiVersion === "2025-11-01" ? "application/pdf" : undefined;
+
+    const poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
       ...testPollingOptions,
+      contentType: pdfContentType,
       updateIntervalInMs: 0,
     });
     const result = await poller.pollUntilDone();
@@ -68,8 +78,26 @@ describe("Sample: analyzeConfigs", () => {
 
     const content = result.contents[0];
 
+    // ========== Configured document verification ==========
+    // region in . prebuilt-documentSearch on a PDF should
+    // always produce document-kind content with application/pdf MIME type and pages.
+    assert.strictEqual(
+      content.kind,
+      "document",
+      "prebuilt-documentSearch on a PDF should produce document-kind content",
+    );
+    assert.ok(content.markdown, "Configured analysis should produce markdown content");
+
     if (content.kind === "document") {
       const documentContent = content as DocumentContent;
+
+      assert.strictEqual(
+        documentContent.mimeType,
+        "application/pdf",
+        "MIME type should be application/pdf for a PDF input",
+      );
+      assert.ok(documentContent.pages, "Pages collection should be present");
+      assert.ok(documentContent.pages!.length > 0, "Pages collection should not be empty");
 
       // Check for figures (which may include charts)
       if (documentContent.figures && documentContent.figures.length > 0) {
@@ -86,6 +114,23 @@ describe("Sample: analyzeConfigs", () => {
       // Check for tables
       if (documentContent.tables && documentContent.tables.length > 0) {
         console.log(`Found ${documentContent.tables.length} table(s)`);
+      }
+
+      // Check for signatures (preview API surface — populated when layout details are enabled).
+      // Guarded so it stays playback-safe against older recordings that pre-date the preview field.
+      if (documentContent.signatures && documentContent.signatures.length > 0) {
+        console.log(`Found ${documentContent.signatures.length} signature(s)`);
+        for (const signature of documentContent.signatures) {
+          assert.ok(signature.id, "Each signature should have an id");
+          if (signature.span) {
+            assert.ok(signature.span.length > 0, "Signature span length should be positive");
+          }
+          if (signature.elements) {
+            for (const element of signature.elements) {
+              assert.ok(element, "Signature element identifiers should not be empty");
+            }
+          }
+        }
       }
     }
   });
