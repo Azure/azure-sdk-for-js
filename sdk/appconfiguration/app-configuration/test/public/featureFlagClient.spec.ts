@@ -125,4 +125,39 @@ describe("FeatureFlagClient", () => {
       assert.isUndefined(request.headers.get("if-none-match"));
     }
   });
+
+  it("URL-encodes tag filters for feature flag lists and revisions", async () => {
+    const requests: PipelineRequest[] = [];
+    const mockHttpClient: HttpClient = {
+      sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
+        requests.push(request);
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: JSON.stringify({ items: [] }),
+        };
+      },
+    };
+    const client = new FeatureFlagClient(
+      "https://example.azconfig.io",
+      {
+        getToken: async () => ({ token: "token", expiresOnTimestamp: Date.now() + 60_000 }),
+      },
+      { httpClient: mockHttpClient },
+    );
+    const tagsFilter = ["tier=beta & canary"];
+
+    for await (const _page of client.listFeatureFlags({ tagsFilter }).byPage()) {
+      // Iterate to send the request.
+    }
+    for await (const _page of client.listFeatureFlagRevisions({ tagsFilter }).byPage()) {
+      // Iterate to send the request.
+    }
+
+    assert.lengthOf(requests, 2);
+    for (const request of requests) {
+      assert.include(request.url, "tags=tier%3Dbeta%20%26%20canary");
+    }
+  });
 });

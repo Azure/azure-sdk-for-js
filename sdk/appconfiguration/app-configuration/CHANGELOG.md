@@ -12,7 +12,7 @@
 
 ### Bugs Fixed
 
-- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
+- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/pull/39594)
 
 ### Other Changes
 

@@ -33,6 +33,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { RestError } from "@azure/core-rest-pipeline";
 import {
   checkAndFormatIfAndIfNoneMatch,
+  formatFeatureFlagFiltersAndSelect,
   formatFeatureFlagFieldsForSelect,
   toFeatureFlagCompatResponse,
 } from "./internal/helpers.js";
@@ -410,11 +411,8 @@ export class FeatureFlagClient {
       this._context,
       "FeatureFlagClient.listFeatureFlags",
       {
-        name: nameFilter,
-        label: labelFilter,
-        tags: tagsFilter,
+        ...formatFeatureFlagFiltersAndSelect({ nameFilter, labelFilter, tagsFilter, fields }),
         acceptDatetime: acceptDateTime?.toISOString(),
-        select: formatFeatureFlagFieldsForSelect(fields),
       },
       pageEtags,
       restOptions,
@@ -448,12 +446,7 @@ export class FeatureFlagClient {
     return listFeatureFlagRevisions(
       this._context,
       "FeatureFlagClient.listFeatureFlagRevisions",
-      {
-        name: nameFilter,
-        label: labelFilter,
-        tags: tagsFilter,
-        select: formatFeatureFlagFieldsForSelect(fields),
-      },
+      formatFeatureFlagFiltersAndSelect({ nameFilter, labelFilter, tagsFilter, fields }),
       acceptDateTime?.toISOString(),
       restOptions,
     );

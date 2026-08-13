@@ -17,6 +17,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
+  formatFeatureFlagFiltersAndSelect,
   formatFeatureFlagFieldsForSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
@@ -132,6 +133,22 @@ describe("helper methods", () => {
       });
 
       assert.deepEqual(result.select, ["locked", "value"]);
+    });
+  });
+
+  it("encodes feature flag tag filters", () => {
+    const result = formatFeatureFlagFiltersAndSelect({
+      nameFilter: "flag*",
+      labelFilter: "label*",
+      tagsFilter: ["tier=beta & canary"],
+      fields: ["lastModified", "enabled"],
+    });
+
+    assert.deepEqual(result, {
+      name: "flag*",
+      label: "label*",
+      tags: ["tier%3Dbeta%20%26%20canary"],
+      select: ["last_modified", "enabled"],
     });
   });
 

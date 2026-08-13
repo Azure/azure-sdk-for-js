@@ -11,6 +11,8 @@ import {
   type HttpResponseFields,
   type ListRevisionsOptions,
   type ListSettingsOptions,
+  type ListFeatureFlagRevisionsOptions,
+  type ListFeatureFlagsOptions,
   type ListSnapshotsOptions,
   type ConfigurationSnapshot,
   type SnapshotResponse,
@@ -141,6 +143,26 @@ export function formatFiltersAndSelect(
     tags: listConfigOptions.tagsFilter?.map((t) => encodeURIComponent(t)),
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
+  };
+}
+
+/**
+ * Transforms feature flag list filters into their generated client equivalents.
+ * @internal
+ */
+export function formatFeatureFlagFiltersAndSelect(
+  options: ListFeatureFlagsOptions | ListFeatureFlagRevisionsOptions,
+): {
+  name: string | undefined;
+  label: string | undefined;
+  tags: string[] | undefined;
+  select: FeatureFlagFields[] | undefined;
+} {
+  return {
+    name: options.nameFilter,
+    label: options.labelFilter,
+    tags: options.tagsFilter?.map((tag) => encodeURIComponent(tag)),
+    select: formatFeatureFlagFieldsForSelect(options.fields),
   };
 }
 

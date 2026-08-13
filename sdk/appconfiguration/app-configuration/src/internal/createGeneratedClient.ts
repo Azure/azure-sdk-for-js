@@ -17,7 +17,7 @@ import { queryParamPolicy } from "./queryParamPolicy.js";
 import { emptyBodyPolicy } from "./emptyBodyPolicy.js";
 import { getScope } from "./helpers.js";
 import { logger } from "../logger.js";
-import { appConfigurationApiVersion, packageVersion } from "./constants.js";
+import { appConfigurationApiVersion } from "./constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 
@@ -89,14 +89,6 @@ export function createConfiguredGeneratedClient(
 
   const generatedClientOptions: GeneratedAppConfigurationClientOptionalParams = {
     ...appConfigOptions,
-    userAgentOptions: {
-      ...appConfigOptions.userAgentOptions,
-      userAgentPrefix: `azsdk-js-app-configuration/${packageVersion}${
-        appConfigOptions.userAgentOptions?.userAgentPrefix
-          ? ` ${appConfigOptions.userAgentOptions.userAgentPrefix}`
-          : ""
-      }`,
-    },
     loggingOptions: {
       logger: logger.info,
     },
