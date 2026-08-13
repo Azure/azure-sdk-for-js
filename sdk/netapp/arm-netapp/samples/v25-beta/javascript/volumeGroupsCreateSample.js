@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2026-04-15-preview/VolumeGroups_Create_Custom.json
+ * x-ms-original-file: 2026-05-15-preview/VolumeGroups_Create_Custom.json
  */
 async function volumeGroupsCreateCustom() {
   const credential = new DefaultAzureCredential();
@@ -465,7 +465,7 @@ async function volumeGroupsCreateCustom() {
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2026-04-15-preview/VolumeGroups_Create_Custom_SMB.json
+ * x-ms-original-file: 2026-05-15-preview/VolumeGroups_Create_Custom_SMB.json
  */
 async function volumeGroupsCreateCustomSMB() {
   const credential = new DefaultAzureCredential();
@@ -742,7 +742,7 @@ async function volumeGroupsCreateCustomSMB() {
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2026-04-15-preview/VolumeGroups_Create_Oracle.json
+ * x-ms-original-file: 2026-05-15-preview/VolumeGroups_Create_Oracle.json
  */
 async function volumeGroupsCreateOracle() {
   const credential = new DefaultAzureCredential();
@@ -1199,7 +1199,7 @@ async function volumeGroupsCreateOracle() {
  * This sample demonstrates how to create a volume group along with specified volumes
  *
  * @summary create a volume group along with specified volumes
- * x-ms-original-file: 2026-04-15-preview/VolumeGroups_Create_SapHana.json
+ * x-ms-original-file: 2026-05-15-preview/VolumeGroups_Create_SapHana.json
  */
 async function volumeGroupsCreateSapHana() {
   const credential = new DefaultAzureCredential();

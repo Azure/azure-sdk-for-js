@@ -21,7 +21,7 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {
-  /** Update an evaluation taxonomy. */
+  /** Modifies the specified evaluation taxonomy with the provided changes. */
   update: (
     foundryFeatures: "Evaluations=V1Preview",
     name: string,

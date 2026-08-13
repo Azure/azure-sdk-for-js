@@ -118,7 +118,10 @@ describe("receive and delete", () => {
   });
 
   describe("Streaming Receiver in ReceiveAndDelete mode", function (): void {
-    let errorFromErrorHandler: Error | undefined;
+    // NOTE: this is never reassigned, so the `=== undefined` assertion below is
+    // trivially true. Wiring processError to capture the error is tracked in
+    // https://github.com/Azure/azure-sdk-for-js/issues/39462.
+    const errorFromErrorHandler: Error | undefined = undefined;
 
     afterEach(async () => {
       await afterEachTest();

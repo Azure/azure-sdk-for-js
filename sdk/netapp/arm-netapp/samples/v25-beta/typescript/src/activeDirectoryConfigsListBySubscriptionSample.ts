@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all active directory configurations within the subscription
  *
  * @summary list all active directory configurations within the subscription
- * x-ms-original-file: 2026-04-15-preview/ActiveDirectoryConfigs_ListBySubscription.json
+ * x-ms-original-file: 2026-05-15-preview/ActiveDirectoryConfigs_ListBySubscription.json
  */
 async function activeDirectoryConfigsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

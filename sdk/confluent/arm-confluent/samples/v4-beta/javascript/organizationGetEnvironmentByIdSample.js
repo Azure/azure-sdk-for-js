@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Environment details by environment Id
  *
  * @summary get Environment details by environment Id
- * x-ms-original-file: 2025-08-18-preview/Organization_GetEnvironmentById_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetEnvironmentById_MaximumSet_Gen.json
  */
 async function organizationGetEnvironmentByIdMaximumSet() {
   const credential = new DefaultAzureCredential();

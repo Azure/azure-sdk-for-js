@@ -12,7 +12,7 @@ import {
   patchEnum,
   isPropertyMethod,
   patchRoutes,
-} from "typescript-codegen-breaking-change-detector";
+} from "../../breaking-change-detector/index.js";
 import { SDKType } from "../../common/types.js";
 import { join } from "path";
 import {

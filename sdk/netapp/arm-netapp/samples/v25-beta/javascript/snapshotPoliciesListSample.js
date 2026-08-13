@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list snapshot policy
  *
  * @summary list snapshot policy
- * x-ms-original-file: 2026-04-15-preview/SnapshotPolicies_List.json
+ * x-ms-original-file: 2026-05-15-preview/SnapshotPolicies_List.json
  */
 async function snapshotPoliciesList() {
   const credential = new DefaultAzureCredential();

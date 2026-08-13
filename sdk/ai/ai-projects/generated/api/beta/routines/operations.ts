@@ -80,16 +80,10 @@ export async function _dispatchDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -146,16 +140,10 @@ export async function _listRunsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -209,16 +197,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -277,16 +259,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -340,16 +316,10 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -399,16 +369,10 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -458,16 +422,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -526,16 +484,10 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 

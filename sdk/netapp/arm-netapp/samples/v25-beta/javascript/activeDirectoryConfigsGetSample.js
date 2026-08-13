@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the details of the specified active directory configuration
  *
  * @summary get the details of the specified active directory configuration
- * x-ms-original-file: 2026-04-15-preview/ActiveDirectoryConfigs_Get.json
+ * x-ms-original-file: 2026-05-15-preview/ActiveDirectoryConfigs_Get.json
  */
 async function activeDirectoryConfigsGet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the specified NetApp elastic account
  *
  * @summary delete the specified NetApp elastic account
- * x-ms-original-file: 2026-04-15-preview/ElasticAccounts_Delete.json
+ * x-ms-original-file: 2026-05-15-preview/ElasticAccounts_Delete.json
  */
 async function elasticAccountsDelete() {
   const credential = new DefaultAzureCredential();

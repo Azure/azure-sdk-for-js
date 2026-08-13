@@ -60,7 +60,6 @@ export interface ActiveDirectoryConfigsOperations {
     options?: ActiveDirectoryConfigsGetOptionalParams,
   ) => Promise<ActiveDirectoryConfig>;
 }
-
 function _getActiveDirectoryConfigs(context: NetAppManagementContext) {
   return {
     listBySubscription: (options?: ActiveDirectoryConfigsListBySubscriptionOptionalParams) =>
@@ -93,7 +92,6 @@ function _getActiveDirectoryConfigs(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, activeDirectoryConfigName, options),
   };
 }
-
 export function _getActiveDirectoryConfigsOperations(
   context: NetAppManagementContext,
 ): ActiveDirectoryConfigsOperations {

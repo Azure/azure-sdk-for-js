@@ -60,7 +60,6 @@ export interface ElasticAccountsOperations {
     options?: ElasticAccountsGetOptionalParams,
   ) => Promise<ElasticAccount>;
 }
-
 function _getElasticAccounts(context: NetAppManagementContext) {
   return {
     listBySubscription: (options?: ElasticAccountsListBySubscriptionOptionalParams) =>
@@ -93,7 +92,6 @@ function _getElasticAccounts(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, options),
   };
 }
-
 export function _getElasticAccountsOperations(
   context: NetAppManagementContext,
 ): ElasticAccountsOperations {

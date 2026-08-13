@@ -26,8 +26,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric",
   "dependencies": {
-    "@azure/arm-fabric": "next",
+    "@azure/arm-fabric": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

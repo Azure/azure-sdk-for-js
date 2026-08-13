@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a maintenance window.
  *
  * @summary creates or updates a maintenance window.
- * x-ms-original-file: 2026-04-02-preview/MaintenanceWindowsCreateOrUpdate.json
+ * x-ms-original-file: 2026-05-02-preview/MaintenanceWindowsCreateOrUpdate.json
  */
 async function createOrUpdateMaintenanceWindow(): Promise<void> {
   const credential = new DefaultAzureCredential();

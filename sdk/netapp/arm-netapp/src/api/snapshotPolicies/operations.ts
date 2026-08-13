@@ -46,7 +46,7 @@ export function _listVolumesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,7 +73,6 @@ export async function _listVolumesDeserialize(
 
   return snapshotPolicyVolumeListDeserializer(result.body);
 }
-
 /** Get volumes associated with snapshot policy */
 export async function listVolumes(
   context: Client,
@@ -104,7 +103,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _listDeserialize(
 
   return _snapshotPoliciesListDeserializer(result.body);
 }
-
 /** List snapshot policy */
 export function list(
   context: Client,
@@ -147,7 +145,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -166,7 +164,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +186,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete snapshot policy */
 export function $delete(
   context: Client,
@@ -203,7 +200,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, snapshotPolicyName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -222,7 +219,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +246,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return snapshotPolicyDeserializer(result.body);
 }
-
 /** Patch a snapshot policy */
 export function update(
   context: Client,
@@ -265,7 +261,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, snapshotPolicyName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<SnapshotPolicy>, SnapshotPolicy>;
 }
 
@@ -284,7 +280,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +307,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return snapshotPolicyDeserializer(result.body);
 }
-
 /** Create a snapshot policy */
 export async function create(
   context: Client,
@@ -346,7 +341,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       snapshotPolicyName: snapshotPolicyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,7 +366,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
 
   return snapshotPolicyDeserializer(result.body);
 }
-
 /** Get a snapshot Policy */
 export async function get(
   context: Client,

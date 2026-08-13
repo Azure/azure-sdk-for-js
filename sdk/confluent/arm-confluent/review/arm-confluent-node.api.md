@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -132,10 +134,66 @@ export interface AccessOperations {
 }
 
 // @public
+export interface AccessPointProperties {
+    accessPointName: string;
+    dictionary?: KeyValuePair[];
+    egressRoutes?: string[];
+    metadata?: SCMetadataEntity;
+    readonly provisioningState?: ProvisionState;
+    region: string;
+    vnetInjection: VnetInjectionDetails;
+}
+
+// @public
+export interface AccessPointResource extends ProxyResource {
+    properties?: AccessPointProperties;
+}
+
+// @public
+export interface AccessPointResourcesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessPointResourcesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessPointResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessPointResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccessPointResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<AccessPointResource>, AccessPointResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => Promise<AccessPointResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, resource: AccessPointResource, options?: AccessPointResourcesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AccessPointResource>, AccessPointResource>;
+    delete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, accessPointId: string, options?: AccessPointResourcesGetOptionalParams) => Promise<AccessPointResource>;
+    list: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: AccessPointResourcesListOptionalParams) => PagedAsyncIterableIterator<AccessPointResource>;
+}
+
+// @public
 export interface AccessRoleBindingNameListSuccessResponse {
     data?: string[];
     kind?: string;
     metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface ActivateSaaSParameterRequest {
+    publisherId?: string;
+    saasGuid: string;
 }
 
 // @public
@@ -368,10 +426,12 @@ export class ConfluentManagementClient {
     constructor(credential: TokenCredential, options?: ConfluentManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ConfluentManagementClientOptionalParams);
     readonly access: AccessOperations;
+    readonly accessPointResources: AccessPointResourcesOperations;
     readonly cluster: ClusterOperations;
     readonly connector: ConnectorOperations;
     readonly environment: EnvironmentOperations;
     readonly marketplaceAgreements: MarketplaceAgreementsOperations;
+    readonly networkGatewayResources: NetworkGatewayResourcesOperations;
     readonly organization: OrganizationOperations;
     readonly organizationOperations: OrganizationOperationsOperations;
     readonly pipeline: Pipeline;
@@ -551,6 +611,8 @@ export interface InvitationRecord {
     status?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface KafkaAzureBlobStorageSinkConnectorInfo extends PartnerInfoBase {
     apiKey?: string;
@@ -630,6 +692,12 @@ export interface KafkaAzureSynapseAnalyticsSinkConnectorInfo extends PartnerInfo
     timeInterval?: string;
     topics?: string[];
     topicsDir?: string;
+}
+
+// @public
+export interface KeyValuePair {
+    key: string;
+    value: string;
 }
 
 // @public
@@ -732,7 +800,15 @@ export enum KnownSaaSOfferStatus {
 export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20250717Preview = "2025-07-17-preview",
-    V20250818Preview = "2025-08-18-preview"
+    V20250818Preview = "2025-08-18-preview",
+    V20260501Preview = "2026-05-01-preview",
+    V20260602Preview = "2026-06-02-preview"
+}
+
+// @public
+export interface LatestLinkedSaaSResponse {
+    isHiddenSaaS?: boolean;
+    saaSResourceId?: string;
 }
 
 // @public
@@ -775,6 +851,54 @@ export interface MetadataEntity {
 }
 
 // @public
+export interface NetworkGatewayProperties {
+    dictionary?: KeyValuePair[];
+    metadata?: SCMetadataEntity;
+    networkGatewayName: string;
+    readonly provisioningState?: ProvisionState;
+    region: string;
+}
+
+// @public
+export interface NetworkGatewayResource extends ProxyResource {
+    properties?: NetworkGatewayProperties;
+}
+
+// @public
+export interface NetworkGatewayResourcesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkGatewayResourcesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkGatewayResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkGatewayResourcesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NetworkGatewayResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => Promise<SimplePollerLike<OperationState<NetworkGatewayResource>, NetworkGatewayResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrReplaceAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => Promise<NetworkGatewayResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => Promise<void>;
+    createOrReplace: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, resource: NetworkGatewayResource, options?: NetworkGatewayResourcesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NetworkGatewayResource>, NetworkGatewayResource>;
+    delete: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, environmentId: string, networkGatewayId: string, options?: NetworkGatewayResourcesGetOptionalParams) => Promise<NetworkGatewayResource>;
+    list: (resourceGroupName: string, organizationName: string, environmentId: string, options?: NetworkGatewayResourcesListOptionalParams) => PagedAsyncIterableIterator<NetworkGatewayResource>;
+}
+
+// @public
 export interface OfferDetail {
     id: string;
     planId: string;
@@ -800,6 +924,11 @@ export interface OperationResult {
     display?: OperationDisplay;
     isDataAction?: boolean;
     name?: string;
+}
+
+// @public
+export interface OrganizationActivateResourceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -842,6 +971,15 @@ export interface OrganizationGetSchemaRegistryClusterByIdOptionalParams extends 
 }
 
 // @public
+export interface OrganizationLatestLinkedSaaSOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OrganizationLinkSaaSOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface OrganizationListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -873,6 +1011,11 @@ export interface OrganizationListSchemaRegistryClustersOptionalParams extends Op
 
 // @public
 export interface OrganizationOperations {
+    activateResource: (body: ActivateSaaSParameterRequest, options?: OrganizationActivateResourceOptionalParams) => PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
+    // @deprecated (undocumented)
+    beginActivateResource: (body: ActivateSaaSParameterRequest, options?: OrganizationActivateResourceOptionalParams) => Promise<SimplePollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>>;
+    // @deprecated (undocumented)
+    beginActivateResourceAndWait: (body: ActivateSaaSParameterRequest, options?: OrganizationActivateResourceOptionalParams) => Promise<SaaSResourceDetailsResponse>;
     // @deprecated (undocumented)
     beginCreate: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
     // @deprecated (undocumented)
@@ -881,6 +1024,10 @@ export interface OrganizationOperations {
     beginDelete: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginLinkSaaS: (resourceGroupName: string, organizationName: string, body: SaaSData, options?: OrganizationLinkSaaSOptionalParams) => Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
+    // @deprecated (undocumented)
+    beginLinkSaaSAndWait: (resourceGroupName: string, organizationName: string, body: SaaSData, options?: OrganizationLinkSaaSOptionalParams) => Promise<OrganizationResource>;
     create: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
     createAPIKey: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: OrganizationCreateAPIKeyOptionalParams) => Promise<APIKeyRecord>;
     delete: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -890,6 +1037,8 @@ export interface OrganizationOperations {
     getClusterById: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: OrganizationGetClusterByIdOptionalParams) => Promise<SCClusterRecord>;
     getEnvironmentById: (resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationGetEnvironmentByIdOptionalParams) => Promise<SCEnvironmentRecord>;
     getSchemaRegistryClusterById: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: OrganizationGetSchemaRegistryClusterByIdOptionalParams) => Promise<SchemaRegistryClusterRecord>;
+    latestLinkedSaaS: (resourceGroupName: string, organizationName: string, options?: OrganizationLatestLinkedSaaSOptionalParams) => Promise<LatestLinkedSaaSResponse>;
+    linkSaaS: (resourceGroupName: string, organizationName: string, body: SaaSData, options?: OrganizationLinkSaaSOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
     listByResourceGroup: (resourceGroupName: string, options?: OrganizationListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
     listBySubscription: (options?: OrganizationListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
     listClusters: (resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationListClustersOptionalParams) => PagedAsyncIterableIterator<SCClusterRecord>;
@@ -1009,6 +1158,8 @@ export interface ResourceProviderDefaultErrorResponse {
     readonly error?: ErrorResponseBody;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ConfluentManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -1030,7 +1181,17 @@ export interface RoleBindingRecord {
 }
 
 // @public
+export interface SaaSData {
+    saaSResourceId?: string;
+}
+
+// @public
 export type SaaSOfferStatus = string;
+
+// @public
+export interface SaaSResourceDetailsResponse extends Resource {
+    saasId?: string;
+}
 
 // @public
 export interface SCClusterByokEntity {
@@ -1289,6 +1450,12 @@ export interface ValidationsValidateOrganizationOptionalParams extends Operation
 
 // @public
 export interface ValidationsValidateOrganizationV2OptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VnetInjectionDetails {
+    subnetResourceId: string;
+    virtualNetworkResourceId: string;
 }
 
 // (No @packageDocumentation comment for this package)

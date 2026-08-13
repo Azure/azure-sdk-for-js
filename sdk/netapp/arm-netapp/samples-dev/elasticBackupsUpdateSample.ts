@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch an elastic Backup under the Elastic Backup Vault
  *
  * @summary patch an elastic Backup under the Elastic Backup Vault
- * x-ms-original-file: 2026-04-15-preview/ElasticBackups_Update.json
+ * x-ms-original-file: 2026-05-15-preview/ElasticBackups_Update.json
  */
 async function elasticBackupsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
