@@ -57,7 +57,7 @@
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "node ../../../common/tools/dev-tool/launch.ts run build-package && node ../../../common/tools/dev-tool/launch.ts run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
