@@ -62,6 +62,7 @@ export interface FeatureFlagClientOperations {
     options?: FeatureFlagClientGetFeatureFlagsOptionalParams,
   ) => PagedAsyncIterableIterator<FeatureFlag>;
 }
+
 function _getFeatureFlagClient(context: AppConfigurationContext) {
   return {
     checkFeatureFlagRevisions: (
@@ -83,6 +84,7 @@ function _getFeatureFlagClient(context: AppConfigurationContext) {
       getFeatureFlags(context, options),
   };
 }
+
 export function _getFeatureFlagClientOperations(
   context: AppConfigurationContext,
 ): FeatureFlagClientOperations {

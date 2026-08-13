@@ -118,6 +118,7 @@ export async function _checkRevisionsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkRevisions(
   context: Client,
@@ -186,6 +187,7 @@ export async function _getRevisionsDeserialize(
 
   return _keyValueListResultDeserializer(result.body);
 }
+
 /** Gets a list of key-value revisions. */
 export function getRevisions(
   context: Client,
@@ -250,6 +252,7 @@ export async function _deleteLockDeserialize(result: PathUncheckedResponse): Pro
 
   return keyValueDeserializer(result.body);
 }
+
 /** Unlocks a key-value. */
 export async function deleteLock(
   context: Client,
@@ -306,6 +309,7 @@ export async function _putLockDeserialize(result: PathUncheckedResponse): Promis
 
   return keyValueDeserializer(result.body);
 }
+
 /** Locks a key-value. */
 export async function putLock(
   context: Client,
@@ -367,6 +371,7 @@ export async function _checkLabelsDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkLabels(
   context: Client,
@@ -430,6 +435,7 @@ export async function _getLabelsDeserialize(
 
   return _labelListResultDeserializer(result.body);
 }
+
 /** Gets a list of labels. */
 export function getLabels(
   context: Client,
@@ -492,6 +498,7 @@ export async function _checkSnapshotDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkSnapshot(
   context: Client,
@@ -553,6 +560,7 @@ export async function _updateSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
+
 /** Updates the state of a key-value snapshot. */
 export async function updateSnapshot(
   context: Client,
@@ -611,6 +619,7 @@ export async function _createSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
+
 /** Creates a key-value snapshot. */
 export function createSnapshot(
   context: Client,
@@ -672,6 +681,7 @@ export async function _getOperationDetailsDeserialize(
 
   return operationDetailsDeserializer(result.body);
 }
+
 /** Gets the state of a long running operation. */
 export async function getOperationDetails(
   context: Client,
@@ -734,6 +744,7 @@ export async function _getSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
+
 /** Gets a single key-value snapshot. */
 export async function getSnapshot(
   context: Client,
@@ -785,6 +796,7 @@ export async function _checkSnapshotsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkSnapshots(
   context: Client,
@@ -846,6 +858,7 @@ export async function _getSnapshotsDeserialize(
 
   return _snapshotListResultDeserializer(result.body);
 }
+
 /** Gets a list of key-value snapshots. */
 export function getSnapshots(
   context: Client,
@@ -922,6 +935,7 @@ export async function _checkKeyValueDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkKeyValue(
   context: Client,
@@ -983,6 +997,7 @@ export async function _deleteKeyValueDeserialize(
 
   return keyValueDeserializer(result.body);
 }
+
 /** Deletes a key-value. */
 export async function deleteKeyValue(
   context: Client,
@@ -1048,6 +1063,7 @@ export async function _putKeyValueDeserialize(result: PathUncheckedResponse): Pr
 
   return keyValueDeserializer(result.body);
 }
+
 /** Creates a key-value. */
 export async function putKeyValue(
   context: Client,
@@ -1124,6 +1140,7 @@ export async function _getKeyValueDeserialize(result: PathUncheckedResponse): Pr
 
   return keyValueDeserializer(result.body);
 }
+
 /** Gets a single key-value. */
 export async function getKeyValue(
   context: Client,
@@ -1193,6 +1210,7 @@ export async function _checkKeyValuesDeserialize(result: PathUncheckedResponse):
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkKeyValues(
   context: Client,
@@ -1261,6 +1279,7 @@ export async function _getKeyValuesDeserialize(
 
   return _keyValueListResultDeserializer(result.body);
 }
+
 /** Gets a list of key-values. */
 export function getKeyValues(
   context: Client,
@@ -1324,6 +1343,7 @@ export async function _checkKeysDeserialize(result: PathUncheckedResponse): Prom
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkKeys(
   context: Client,
@@ -1376,6 +1396,7 @@ export async function _getKeysDeserialize(result: PathUncheckedResponse): Promis
 
   return _keyListResultDeserializer(result.body);
 }
+
 /** Gets a list of keys. */
 export function getKeys(
   context: Client,

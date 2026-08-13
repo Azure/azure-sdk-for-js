@@ -86,6 +86,7 @@ export async function _checkFeatureFlagRevisionsDeserialize(
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkFeatureFlagRevisions(
   context: Client,
@@ -154,6 +155,7 @@ export async function _getFeatureFlagRevisionsDeserialize(
 
   return _featureFlagListResultDeserializer(result.body);
 }
+
 /** Gets a list of feature flag revisions. */
 export function getFeatureFlagRevisions(
   context: Client,
@@ -224,6 +226,7 @@ export async function _deleteFeatureFlagDeserialize(
 
   return featureFlagDeserializer(result.body);
 }
+
 /** Deletes a feature flag. */
 export async function deleteFeatureFlag(
   context: Client,
@@ -285,6 +288,7 @@ export async function _putFeatureFlagDeserialize(
 
   return featureFlagDeserializer(result.body);
 }
+
 /** Creates a feature flag. */
 export async function putFeatureFlag(
   context: Client,
@@ -353,6 +357,7 @@ export async function _checkFeatureFlagDeserialize(result: PathUncheckedResponse
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkFeatureFlag(
   context: Client,
@@ -425,6 +430,7 @@ export async function _getFeatureFlagDeserialize(
 
   return featureFlagDeserializer(result.body);
 }
+
 /** Gets a single feature flag. */
 export async function getFeatureFlag(
   context: Client,
@@ -493,6 +499,7 @@ export async function _checkFeatureFlagsDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /** Requests the headers and status of the given resource. */
 export async function checkFeatureFlags(
   context: Client,
@@ -561,6 +568,7 @@ export async function _getFeatureFlagsDeserialize(
 
   return _featureFlagListResultDeserializer(result.body);
 }
+
 /** Gets a list of feature flags. */
 export function getFeatureFlags(
   context: Client,

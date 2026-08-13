@@ -495,7 +495,7 @@ export function featureFlagConditionsDeserializer(item: any): FeatureFlagConditi
   };
 }
 
-/** Requirement Type. */
+/** Controls how multiple feature-flag filters are combined. */
 export type RequirementType = "Any" | "All";
 
 export function featureFlagFilterArraySerializer(result: Array<FeatureFlagFilter>): any[] {
@@ -770,6 +770,7 @@ export type KeyValueFields =
   | "description"
   | "locked"
   | "etag";
+
 /** Snapshot fields. */
 export type SnapshotFields =
   | "name"
@@ -784,8 +785,10 @@ export type SnapshotFields =
   | "tags"
   | "description"
   | "etag";
+
 /** Label fields. */
 export type LabelFields = "name";
+
 /** Feature Flag fields. */
 export type FeatureFlagFields =
   | "name"

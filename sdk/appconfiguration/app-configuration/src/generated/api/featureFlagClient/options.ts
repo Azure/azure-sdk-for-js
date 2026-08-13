@@ -28,6 +28,7 @@ export interface FeatureFlagClientCheckFeatureFlagRevisionsOptionalParams extend
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientGetFeatureFlagRevisionsOptionalParams extends OperationOptions {
   /** A filter used to match names. */
@@ -64,6 +65,7 @@ export interface FeatureFlagClientGetFeatureFlagRevisionsOptionalParams extends 
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientDeleteFeatureFlagOptionalParams extends OperationOptions {
   /** The label of the feature flag to delete. */
@@ -78,6 +80,7 @@ export interface FeatureFlagClientDeleteFeatureFlagOptionalParams extends Operat
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientPutFeatureFlagOptionalParams extends OperationOptions {
   /** The label of the feature flag to create. */
@@ -99,6 +102,7 @@ export interface FeatureFlagClientPutFeatureFlagOptionalParams extends Operation
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientCheckFeatureFlagOptionalParams extends OperationOptions {
   /** The label of the feature flag to retrieve. */
@@ -130,6 +134,7 @@ export interface FeatureFlagClientCheckFeatureFlagOptionalParams extends Operati
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientGetFeatureFlagOptionalParams extends OperationOptions {
   /** The label of the feature flag to retrieve. */
@@ -161,6 +166,7 @@ export interface FeatureFlagClientGetFeatureFlagOptionalParams extends Operation
    */
   tags?: string[];
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientCheckFeatureFlagsOptionalParams extends OperationOptions {
   /** A filter used to match feature flag names. */
@@ -202,6 +208,7 @@ export interface FeatureFlagClientCheckFeatureFlagsOptionalParams extends Operat
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface FeatureFlagClientGetFeatureFlagsOptionalParams extends OperationOptions {
   /** A filter used to match feature flag names. */

@@ -22,7 +22,7 @@
       "@azure/app-configuration!FeatureFlagListResult:interface": "AzureAppConfiguration.FeatureFlagListResult",
       "@azure/app-configuration!FeatureFlag:interface": "AzureAppConfiguration.FeatureFlag",
       "@azure/app-configuration!FeatureFlagConditions:interface": "AzureAppConfiguration.FeatureFlagConditions",
-      "@azure/app-configuration!FeatureFilter:interface": "AzureAppConfiguration.FeatureFlagFilter",
+      "@azure/app-configuration!FeatureFlagFilter:interface": "AzureAppConfiguration.FeatureFlagFilter",
       "@azure/app-configuration!FeatureFlagVariantDefinition:interface": "AzureAppConfiguration.FeatureFlagVariantDefinition",
       "@azure/app-configuration!FeatureFlagAllocation:interface": "AzureAppConfiguration.FeatureFlagAllocation",
       "@azure/app-configuration!PercentileAllocation:interface": "AzureAppConfiguration.PercentileAllocation",
