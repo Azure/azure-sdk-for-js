@@ -664,9 +664,7 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     getOpenAIClient(optsWithAzureAgent?: OpenAIClientOptionsWithAzureAgent): OpenAI;
     readonly indexes: IndexesOperations;
-    readonly realtime: VoiceAgentStreamingClient;
-    // @deprecated (undocumented)
-    readonly streaming: VoiceAgentStreamingClient;
+    readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
     readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
@@ -680,7 +678,7 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 
 // @public
 export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
-    realtimeOptions?: VoiceAgentStreamingClientOptions;
+    realtimeOptions?: VoiceAgentRealtimeClientOptions;
 }
 
 // @public
@@ -1682,9 +1680,6 @@ export interface ConnectionsOperations {
 
 // @public
 export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys" | "RemoteTool_Preview";
-
-// @public @deprecated (undocumented)
-export type ConnectVoiceAgentOptions = VoiceAgentStreamingClientConnectOptions;
 
 // @public
 export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
@@ -4954,7 +4949,7 @@ export interface VoiceAgentAnimationConfig {
 export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
 
 // @public
-export class VoiceAgentAuthenticationError extends VoiceAgentStreamingError {
+export class VoiceAgentAuthenticationError extends VoiceAgentRealtimeError {
     constructor(message: string, options?: {
         cause?: unknown;
     });
@@ -5148,8 +5143,8 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEven
 }
 
 // @public
-export class VoiceAgentConnectionError extends VoiceAgentStreamingError {
-    constructor(message: string, code: Extract<VoiceAgentStreamingErrorCode, "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "sendFailed">, options?: {
+export class VoiceAgentConnectionError extends VoiceAgentRealtimeError {
+    constructor(message: string, code: Extract<VoiceAgentRealtimeErrorCode, "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "sendFailed">, options?: {
         cause?: unknown;
         closeCode?: number;
     });
@@ -5263,7 +5258,7 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
 }
 
 // @public
-export class VoiceAgentProtocolError extends VoiceAgentStreamingError {
+export class VoiceAgentProtocolError extends VoiceAgentRealtimeError {
     constructor(message: string, options?: {
         cause?: unknown;
     });
@@ -5978,15 +5973,14 @@ export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterim
 }
 
 // @public
-class VoiceAgentStreamingClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentStreamingClientOptions);
-    connect(agentName: string, options?: VoiceAgentStreamingClientConnectOptions): Promise<VoiceAgentConnection>;
+class VoiceAgentRealtimeClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentRealtimeClientOptions);
+    connect(agentName: string, options?: VoiceAgentRealtimeClientConnectOptions): Promise<VoiceAgentConnection>;
 }
-export { VoiceAgentStreamingClient as VoiceAgentRealtimeClient }
-export { VoiceAgentStreamingClient }
+export { VoiceAgentRealtimeClient }
 
 // @public
-export interface VoiceAgentStreamingClientConnectOptions {
+export interface VoiceAgentRealtimeClientConnectOptions {
     abortSignal?: AbortSignalLike;
     agentSessionId?: string;
     agentVersionOverride?: string;
@@ -5997,7 +5991,7 @@ export interface VoiceAgentStreamingClientConnectOptions {
 }
 
 // @public
-export interface VoiceAgentStreamingClientOptions {
+export interface VoiceAgentRealtimeClientOptions {
     apiVersion?: string;
     connectionTimeoutInMs?: number;
     credentialScopes?: string | string[];
@@ -6009,16 +6003,16 @@ export interface VoiceAgentStreamingClientOptions {
 }
 
 // @public
-export class VoiceAgentStreamingError extends Error {
-    constructor(message: string, code: VoiceAgentStreamingErrorCode, options?: {
+export class VoiceAgentRealtimeError extends Error {
+    constructor(message: string, code: VoiceAgentRealtimeErrorCode, options?: {
         cause?: unknown;
     });
     readonly cause?: unknown;
-    readonly code: VoiceAgentStreamingErrorCode;
+    readonly code: VoiceAgentRealtimeErrorCode;
 }
 
 // @public
-export type VoiceAgentStreamingErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
+export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
 
 // @public
 export interface VoiceAgentTool {

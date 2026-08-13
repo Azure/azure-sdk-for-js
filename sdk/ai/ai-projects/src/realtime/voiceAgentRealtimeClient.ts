@@ -27,7 +27,7 @@ import type {
 const defaultCredentialScope = "https://ai.azure.com/.default";
 const voiceAgentsPreview = "VoiceAgents=V1Preview";
 
-/** Connection states reported by a voice-agent streaming connection. */
+/** Connection states reported by a voice-agent realtime connection. */
 export enum VoiceAgentConnectionState {
   Disconnected = "disconnected",
   Connecting = "connecting",
@@ -41,8 +41,8 @@ export type VoiceAgentConnectionStateChangedHandler = (
   previousState: VoiceAgentConnectionState,
 ) => void;
 
-/** Options for the Voice Agents streaming client. */
-export interface VoiceAgentStreamingClientOptions {
+/** Options for the Voice Agents realtime client. */
+export interface VoiceAgentRealtimeClientOptions {
   /** Microsoft Entra scopes used to acquire a WebSocket access token. */
   credentialScopes?: string | string[];
   /** Default connection timeout in milliseconds. */
@@ -56,7 +56,7 @@ export interface VoiceAgentStreamingClientOptions {
 }
 
 /** Options for connecting the realtime client to a voice agent. */
-export interface VoiceAgentStreamingClientConnectOptions {
+export interface VoiceAgentRealtimeClientConnectOptions {
   /** Identifier used to correlate the voice session. */
   agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
@@ -73,9 +73,6 @@ export interface VoiceAgentStreamingClientConnectOptions {
   onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
 }
 
-/** @deprecated Use VoiceAgentStreamingClientConnectOptions instead. */
-export type ConnectVoiceAgentOptions = VoiceAgentStreamingClientConnectOptions;
-
 /** Result supplied when a voice-agent connection closes. */
 export interface VoiceAgentCloseResult {
   /** WebSocket close code. */
@@ -88,7 +85,7 @@ export interface VoiceAgentCloseResult {
   error?: Error;
 }
 
-/** Options shared by streaming send operations. */
+/** Options shared by realtime send operations. */
 export interface VoiceAgentSendOptions {
   /** Cancels this send operation. */
   abortSignal?: AbortSignalLike;
@@ -134,7 +131,13 @@ export interface VoiceAgentCancelResponseOptions extends VoiceAgentSendOptions {
   responseId?: string;
 }
 
-/** A connected, bidirectional voice-agent stream. */
+/**
+ * A connected, bidirectional voice-agent stream.
+ *
+ * Supports exactly one `for await` iteration over server events; a second attempt throws.
+ * Exiting the loop early (`break`, `return`, or an uncaught error in the loop body) closes
+ * the connection as a side effect.
+ */
 export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEvent> {
   /** Current connection state. */
   readonly state: VoiceAgentConnectionState;
@@ -173,19 +176,19 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEven
   dispose(): Promise<void>;
 }
 
-/** Client for establishing streaming sessions with managed Foundry voice agents. */
-export class VoiceAgentStreamingClient {
+/** Client for establishing realtime sessions with managed Foundry voice agents. */
+export class VoiceAgentRealtimeClient {
   private readonly endpoint: string;
   private readonly credential: TokenCredential;
   private readonly options: Required<
-    Pick<VoiceAgentStreamingClientOptions, "connectionTimeoutInMs" | "apiVersion">
+    Pick<VoiceAgentRealtimeClientOptions, "connectionTimeoutInMs" | "apiVersion">
   > &
-    VoiceAgentStreamingClientOptions;
+    VoiceAgentRealtimeClientOptions;
 
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options: VoiceAgentStreamingClientOptions = {},
+    options: VoiceAgentRealtimeClientOptions = {},
   ) {
     this.endpoint = normalizeEndpoint(endpoint);
     this.credential = credential;
@@ -199,7 +202,7 @@ export class VoiceAgentStreamingClient {
   /** Establishes a WebSocket connection to a managed voice agent. */
   public async connect(
     agentName: string,
-    options: VoiceAgentStreamingClientConnectOptions = {},
+    options: VoiceAgentRealtimeClientConnectOptions = {},
   ): Promise<VoiceAgentConnection> {
     if (!agentName.trim()) {
       throw new TypeError("agentName must not be empty.");
@@ -233,11 +236,11 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     private readonly endpoint: string,
     private readonly agentName: string,
     private readonly credential: TokenCredential,
-    private readonly clientOptions: VoiceAgentStreamingClientOptions & {
+    private readonly clientOptions: VoiceAgentRealtimeClientOptions & {
       connectionTimeoutInMs: number;
       apiVersion: string;
     },
-    private readonly connectOptions: VoiceAgentStreamingClientConnectOptions,
+    private readonly connectOptions: VoiceAgentRealtimeClientConnectOptions,
     factory: VoiceAgentWebSocketFactory,
   ) {
     this.transport = factory.create();
@@ -552,7 +555,7 @@ function buildWebSocketUrl(
   endpoint: string,
   agentName: string,
   apiVersion: string,
-  options: VoiceAgentStreamingClientConnectOptions,
+  options: VoiceAgentRealtimeClientConnectOptions,
 ): string {
   const url = new URL(endpoint);
   url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
@@ -572,8 +575,8 @@ function buildWebSocketUrl(
 
 function buildHeaders(
   token: string,
-  clientOptions: VoiceAgentStreamingClientOptions,
-  connectOptions: VoiceAgentStreamingClientConnectOptions,
+  clientOptions: VoiceAgentRealtimeClientOptions,
+  connectOptions: VoiceAgentRealtimeClientConnectOptions,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {

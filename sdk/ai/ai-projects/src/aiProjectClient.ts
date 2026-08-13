@@ -38,16 +38,16 @@ import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 import {
-  VoiceAgentStreamingClient,
-  type VoiceAgentStreamingClientOptions,
-} from "./realtime/voiceAgentStreamingClient.js";
+  VoiceAgentRealtimeClient,
+  type VoiceAgentRealtimeClientOptions,
+} from "./realtime/voiceAgentRealtimeClient.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
 /** Options for the Foundry project client. */
 export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
   /** Options applied to realtime voice-agent connections. */
-  realtimeOptions?: VoiceAgentStreamingClientOptions;
+  realtimeOptions?: VoiceAgentRealtimeClientOptions;
 }
 
 /**
@@ -122,13 +122,12 @@ export class AIProjectClient {
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
-    this.realtime = new VoiceAgentStreamingClient(clientOptions.endpoint ?? endpoint, credential, {
+    this.realtime = new VoiceAgentRealtimeClient(clientOptions.endpoint ?? endpoint, credential, {
       ...realtimeOptions,
       apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,
       credentialScopes: realtimeOptions?.credentialScopes ?? clientOptions.credentials?.scopes,
       userAgentPrefix: realtimeOptions?.userAgentPrefix ?? prefixFromOptions,
     });
-    this.streaming = this.realtime;
   }
 
   /** The operation groups for toolboxes */
@@ -148,9 +147,7 @@ export class AIProjectClient {
   /** The operation groups for voiceAgentWebSocket */
   public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** Realtime voice-agent connections. */
-  public readonly realtime: VoiceAgentStreamingClient;
-  /** @deprecated Use realtime instead. */
-  public readonly streaming: VoiceAgentStreamingClient;
+  public readonly realtime: VoiceAgentRealtimeClient;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta include beta features:

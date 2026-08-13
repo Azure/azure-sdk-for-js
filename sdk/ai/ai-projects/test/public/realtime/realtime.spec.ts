@@ -195,7 +195,6 @@ describe("AIProjectClient realtime", () => {
       realtimeOptions: { webSocketFactory: factory },
     });
 
-    assert.strictEqual(client.realtime, client.streaming);
     assert.ok(client.agents);
     assert.ok(client.agentEndpointConversations);
     assert.ok(client.voiceAgentWebSocket);

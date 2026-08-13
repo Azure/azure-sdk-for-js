@@ -2,6 +2,12 @@
 
 ## 2.4.1 (Unreleased)
 
+### Features Added
+
+- Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
+- Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
+- Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.

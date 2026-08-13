@@ -10,14 +10,12 @@ export { AIProjectClient } from "./aiProjectClient.js";
 export type { AIProjectClientOptions } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
 export {
-  VoiceAgentStreamingClient,
-  VoiceAgentStreamingClient as VoiceAgentRealtimeClient,
+  VoiceAgentRealtimeClient,
   VoiceAgentConnectionState,
-} from "./realtime/voiceAgentStreamingClient.js";
+} from "./realtime/voiceAgentRealtimeClient.js";
 export type {
-  VoiceAgentStreamingClientOptions,
-  VoiceAgentStreamingClientConnectOptions,
-  ConnectVoiceAgentOptions,
+  VoiceAgentRealtimeClientOptions,
+  VoiceAgentRealtimeClientConnectOptions,
   VoiceAgentConnection,
   VoiceAgentConnectionStateChangedHandler,
   VoiceAgentCloseResult,
@@ -27,14 +25,14 @@ export type {
   VoiceAgentSessionUpdateOptions,
   VoiceAgentResponseOptions,
   VoiceAgentCancelResponseOptions,
-} from "./realtime/voiceAgentStreamingClient.js";
+} from "./realtime/voiceAgentRealtimeClient.js";
 export {
-  VoiceAgentStreamingError,
+  VoiceAgentRealtimeError,
   VoiceAgentAuthenticationError,
   VoiceAgentConnectionError,
   VoiceAgentProtocolError,
 } from "./realtime/errors.js";
-export type { VoiceAgentStreamingErrorCode } from "./realtime/errors.js";
+export type { VoiceAgentRealtimeErrorCode } from "./realtime/errors.js";
 
 // Compatibility exports retained from the 2.4.0 public surface.
 export { KnownApiVersions } from "./models/models.js";
