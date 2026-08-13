@@ -120,7 +120,7 @@ describe("Inline analyze convenience methods", () => {
       await client.analyzeBinaryInline(
         "prebuilt-layout",
         new Uint8Array([1, 2, 3]),
-        "application/pdf",
+        { contentType: "application/pdf" },
       );
     } catch (err) {
       if (err instanceof RestError) {
@@ -158,7 +158,7 @@ describe("Inline analyze convenience methods", () => {
     const result = await client.analyzeBinaryInline(
       "prebuilt-layout",
       new Uint8Array([1, 2, 3]),
-      "application/pdf",
+      { contentType: "application/pdf" },
     );
 
     assert.ok(result);

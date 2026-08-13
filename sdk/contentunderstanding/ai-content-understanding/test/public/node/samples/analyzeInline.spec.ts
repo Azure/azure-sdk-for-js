@@ -61,30 +61,29 @@ forEachServiceVersion("Sample: analyzeInline", previewOnly, ({ apiVersion }) => 
     // Usage metering assertions verify inline analysis bills the inline-specific meter.
     // Inline analysis bills documentPagesStandardInline, not the LRO meter.
     const usage = result.usage;
-    if (usage) {
-      assert.ok(
-        usage.documentPagesStandardInline !== undefined &&
-          usage.documentPagesStandardInline !== null,
-        "prebuilt-layout inline should bill documentPagesStandardInline",
-      );
-      assert.ok(
-        (usage.documentPagesStandardInline ?? 0) > 0,
-        "documentPagesStandardInline meter should be positive",
-      );
-      // LRO meter should not be set for inline results.
-      assert.ok(
-        usage.documentPagesStandard === undefined || usage.documentPagesStandard === null,
-        "LRO documentPagesStandard should not be set for inline analyze",
-      );
-      // prebuilt-layout should not bill the minimal / basic inline meters.
-      assert.ok(
-        usage.documentPagesMinimalInline === undefined || usage.documentPagesMinimalInline === null,
-        "prebuilt-layout should not bill the minimal inline meter",
-      );
-      assert.ok(
-        usage.documentPagesBasicInline === undefined || usage.documentPagesBasicInline === null,
-        "prebuilt-layout should not bill the basic inline meter",
-      );
-    }
+    assert.ok(usage, "Inline analysis should include usage details");
+    assert.ok(
+      usage.documentPagesStandardInline !== undefined &&
+        usage.documentPagesStandardInline !== null,
+      "prebuilt-layout inline should bill documentPagesStandardInline",
+    );
+    assert.ok(
+      (usage.documentPagesStandardInline ?? 0) > 0,
+      "documentPagesStandardInline meter should be positive",
+    );
+    // LRO meter should not be set for inline results.
+    assert.ok(
+      usage.documentPagesStandard === undefined || usage.documentPagesStandard === null,
+      "LRO documentPagesStandard should not be set for inline analyze",
+    );
+    // prebuilt-layout should not bill the minimal / basic inline meters.
+    assert.ok(
+      usage.documentPagesMinimalInline === undefined || usage.documentPagesMinimalInline === null,
+      "prebuilt-layout should not bill the minimal inline meter",
+    );
+    assert.ok(
+      usage.documentPagesBasicInline === undefined || usage.documentPagesBasicInline === null,
+      "prebuilt-layout should not bill the basic inline meter",
+    );
   });
 });

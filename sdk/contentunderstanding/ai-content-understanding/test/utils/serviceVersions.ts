@@ -80,7 +80,9 @@ export const TEST_SERVICE_API_VERSIONS = [
 ] as const;
 
 /**
- * Version whose HTTP interactions are recorded. In playback mode only tests
- * pinned to this version run; other versions are skipped. In live mode all versions run.
+ * The api version used when the tests were recorded. Every test that issues real
+ * HTTP under this version records into the primary (unsuffixed) recording folder;
+ * other configured versions record into `..._apiversioneq<version>` sibling folders.
+ * In playback mode all configured versions replay from their respective folders.
  */
 export const RECORDING_SERVICE_API_VERSION: string = KnownVersions.V20251101;

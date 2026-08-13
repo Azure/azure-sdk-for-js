@@ -66,22 +66,21 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
     // Usage metering assertions verify inline analysis bills the inline-specific meter.
     // Inline analysis bills documentPagesStandardInline, not the LRO meter.
     const usage = result.usage;
-    if (usage) {
-      assert.ok(
-        usage.documentPagesStandardInline !== undefined &&
-          usage.documentPagesStandardInline !== null,
-        "prebuilt-layout inline should bill documentPagesStandardInline",
-      );
-      assert.ok(
-        (usage.documentPagesStandardInline ?? 0) > 0,
-        "documentPagesStandardInline meter should be positive",
-      );
-      // LRO meter should not be set for inline results.
-      assert.ok(
-        usage.documentPagesStandard === undefined || usage.documentPagesStandard === null,
-        "LRO documentPagesStandard should not be set for inline analyze",
-      );
-    }
+    assert.ok(usage, "Inline binary analysis should include usage details");
+    assert.ok(
+      usage.documentPagesStandardInline !== undefined &&
+        usage.documentPagesStandardInline !== null,
+      "prebuilt-layout inline should bill documentPagesStandardInline",
+    );
+    assert.ok(
+      (usage.documentPagesStandardInline ?? 0) > 0,
+      "documentPagesStandardInline meter should be positive",
+    );
+    // LRO meter should not be set for inline results.
+    assert.ok(
+      usage.documentPagesStandard === undefined || usage.documentPagesStandard === null,
+      "LRO documentPagesStandard should not be set for inline analyze",
+    );
   });
 
   // ContentRange in the options bag when the selected content fits within its 5-page limit.
