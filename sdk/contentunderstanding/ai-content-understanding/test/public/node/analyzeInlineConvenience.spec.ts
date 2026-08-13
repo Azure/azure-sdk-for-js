@@ -117,11 +117,9 @@ describe("Inline analyze convenience methods", () => {
 
     let caught: RestError | undefined;
     try {
-      await client.analyzeBinaryInline(
-        "prebuilt-layout",
-        new Uint8Array([1, 2, 3]),
-        { contentType: "application/pdf" },
-      );
+      await client.analyzeBinaryInline("prebuilt-layout", new Uint8Array([1, 2, 3]), {
+        contentType: "application/pdf",
+      });
     } catch (err) {
       if (err instanceof RestError) {
         caught = err;
@@ -155,11 +153,9 @@ describe("Inline analyze convenience methods", () => {
   it("analyzeBinaryInline returns unwrapped AnalysisResult when OperationState is Succeeded", async () => {
     const { client, requests } = createClientWithStub(SUCCEEDED_INLINE_BODY);
 
-    const result = await client.analyzeBinaryInline(
-      "prebuilt-layout",
-      new Uint8Array([1, 2, 3]),
-      { contentType: "application/pdf" },
-    );
+    const result = await client.analyzeBinaryInline("prebuilt-layout", new Uint8Array([1, 2, 3]), {
+      contentType: "application/pdf",
+    });
 
     assert.ok(result);
     assert.equal(result.analyzerId, "prebuilt-layout");

@@ -68,8 +68,7 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
     const usage = result.usage;
     assert.ok(usage, "Inline binary analysis should include usage details");
     assert.ok(
-      usage.documentPagesStandardInline !== undefined &&
-        usage.documentPagesStandardInline !== null,
+      usage.documentPagesStandardInline !== undefined && usage.documentPagesStandardInline !== null,
       "prebuilt-layout inline should bill documentPagesStandardInline",
     );
     assert.ok(
