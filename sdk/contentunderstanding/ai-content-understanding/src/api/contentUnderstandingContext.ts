@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/ai-content-understanding/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
@@ -32,7 +33,7 @@ export function createContentUnderstanding(
 ): ContentUnderstandingContext {
   const endpointUrl = options.endpoint ?? `${endpoint}/contentunderstanding`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-content-understanding/1.2.0-beta.3`;
+  const userAgentInfo = `azsdk-js-ai-content-understanding/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
