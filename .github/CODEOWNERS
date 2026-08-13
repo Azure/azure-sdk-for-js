@@ -76,6 +76,9 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %Azure.Core
 
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @sagar0207 @SwayGom @sjkwak @hmlam
+
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
 
@@ -590,7 +593,7 @@
 # PRLabel: %Mgmt
 /sdk/features/arm-features/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -602,7 +605,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1707,6 +1710,9 @@ sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
