@@ -78,13 +78,11 @@ forEachServiceVersion("Sample: analyzeInline", previewOnly, ({ apiVersion }) => 
       );
       // prebuilt-layout should not bill the minimal / basic inline meters.
       assert.ok(
-        usage.documentPagesMinimalInline === undefined ||
-          usage.documentPagesMinimalInline === null,
+        usage.documentPagesMinimalInline === undefined || usage.documentPagesMinimalInline === null,
         "prebuilt-layout should not bill the minimal inline meter",
       );
       assert.ok(
-        usage.documentPagesBasicInline === undefined ||
-          usage.documentPagesBasicInline === null,
+        usage.documentPagesBasicInline === undefined || usage.documentPagesBasicInline === null,
         "prebuilt-layout should not bill the basic inline meter",
       );
     }

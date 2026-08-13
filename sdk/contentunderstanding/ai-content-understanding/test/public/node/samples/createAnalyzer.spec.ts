@@ -164,21 +164,13 @@ forEachServiceVersion("Sample: createAnalyzer", ({ apiVersion }) => {
     const summary = result.fieldSchema?.fields.document_summary;
     assert.ok(summary, "Should contain document_summary field");
     assert.strictEqual(summary?.type, "string", "document_summary should be string type");
-    assert.strictEqual(
-      summary?.method,
-      "generate",
-      "document_summary should use generate method",
-    );
+    assert.strictEqual(summary?.method, "generate", "document_summary should use generate method");
     assert.ok(summary?.description, "document_summary should have a description");
 
     const docType = result.fieldSchema?.fields.document_type;
     assert.ok(docType, "Should contain document_type field");
     assert.strictEqual(docType?.type, "string", "document_type should be string type");
-    assert.strictEqual(
-      docType?.method,
-      "classify",
-      "document_type should use classify method",
-    );
+    assert.strictEqual(docType?.method, "classify", "document_type should use classify method");
     assert.ok(docType?.description, "document_type should have a description");
     assert.ok(docType?.enum, "document_type should have enum values");
     assert.strictEqual(docType?.enum?.length, 5, "document_type should have 5 enum values");

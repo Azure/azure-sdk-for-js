@@ -78,10 +78,7 @@ export async function createRecorder(context: TestInfo): Promise<Recorder> {
  *   Callers that participate in the multi-version matrix should pass the
  *   `apiVersion` from `forEachServiceVersion`'s context.
  */
-export function createClient(
-  recorder: Recorder,
-  apiVersion?: string,
-): ContentUnderstandingClient {
+export function createClient(recorder: Recorder, apiVersion?: string): ContentUnderstandingClient {
   const endpoint = assertEnvironmentVariable(EnvVarKeys.ENDPOINT);
   const key = process.env[EnvVarKeys.KEY];
   return new ContentUnderstandingClient(

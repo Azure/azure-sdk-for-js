@@ -34,9 +34,7 @@ forEachServiceVersion("Sample: analyzeDiagnostics", previewOnly, ({ apiVersion }
     await recorder.stop();
   });
 
-  it(
-    "should surface AnalysisResult.infos after a prebuilt-invoice analysis",
-    async () => {
+  it("should surface AnalysisResult.infos after a prebuilt-invoice analysis", async () => {
     const poller = client.analyze(
       "prebuilt-invoice",
       [{ url: TEST_INVOICE_URL }],
@@ -45,7 +43,10 @@ forEachServiceVersion("Sample: analyzeDiagnostics", previewOnly, ({ apiVersion }
     const result = await poller.pollUntilDone();
 
     assert.ok(result, "Analysis result should not be null");
-    assert.ok(result.contents && result.contents.length > 0, "Analysis contents should not be empty");
+    assert.ok(
+      result.contents && result.contents.length > 0,
+      "Analysis contents should not be empty",
+    );
 
     // analysis reliably surfaces at least one AnalysisResult.infos entry with code
     // "LLMStats" and a non-empty message; that is the primary contract this sample

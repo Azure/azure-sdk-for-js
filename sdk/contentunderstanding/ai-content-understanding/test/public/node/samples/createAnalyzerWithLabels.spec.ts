@@ -215,10 +215,7 @@ describe("Sample: createAnalyzerWithLabels", () => {
       "object",
       "Items.itemDefinition should be object type",
     );
-    assert.ok(
-      items?.itemDefinition?.properties,
-      "Items.itemDefinition should have properties",
-    );
+    assert.ok(items?.itemDefinition?.properties, "Items.itemDefinition should have properties");
     const itemProps = items?.itemDefinition?.properties ?? {};
     assert.strictEqual(
       Object.keys(itemProps).length,

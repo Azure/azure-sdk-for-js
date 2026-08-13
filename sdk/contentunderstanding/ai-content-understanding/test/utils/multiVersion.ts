@@ -74,10 +74,7 @@ function shouldRunVersion(_apiVersion: string): boolean {
   return true;
 }
 
-function applyVersionFilter(
-  apiVersion: string,
-  opts: ForEachServiceVersionOptions,
-): boolean {
+function applyVersionFilter(apiVersion: string, opts: ForEachServiceVersionOptions): boolean {
   if (opts.previewOnly && apiVersion !== KnownVersions.V20260601Preview) {
     return false;
   }
@@ -146,9 +143,7 @@ export function forEachServiceVersion(
 ): void;
 export function forEachServiceVersion(
   name: string,
-  optionsOrBody:
-    | ForEachServiceVersionOptions
-    | ((ctx: ServiceVersionTestContext) => void),
+  optionsOrBody: ForEachServiceVersionOptions | ((ctx: ServiceVersionTestContext) => void),
   maybeBody?: (ctx: ServiceVersionTestContext) => void,
 ): void {
   const options = typeof optionsOrBody === "function" ? {} : optionsOrBody;
@@ -169,8 +164,7 @@ export function forEachServiceVersion(
     // Primary cell reuses the caller's original suite name so playback keeps
     // finding the same recording file; secondary cells get an
     // `(apiVersion=...)` suffix so live-mode reports stay unambiguous.
-    const suiteName =
-      apiVersion === primaryVersion ? name : `${name} (apiVersion=${apiVersion})`;
+    const suiteName = apiVersion === primaryVersion ? name : `${name} (apiVersion=${apiVersion})`;
 
     if (!passesFilter || !passesRecordingGuard) {
       describe.skip(suiteName, () => {

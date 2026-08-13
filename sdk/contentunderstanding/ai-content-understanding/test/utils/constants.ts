@@ -46,8 +46,7 @@ export const TRAINING_DATA_PREFIX = "sanitized-prefix/";
  * `envSetupForPlayback` entry) to `"gpt-5.2"` in a single commit — no per-test
  * changes required.
  */
-export const TEST_COMPLETION_MODEL =
-  process.env[EnvVarKeys.TEST_COMPLETION_MODEL] ?? "gpt-4.1";
+export const TEST_COMPLETION_MODEL = process.env[EnvVarKeys.TEST_COMPLETION_MODEL] ?? "gpt-4.1";
 
 /**
  * Mini completion model used in analyzer creation tests. See

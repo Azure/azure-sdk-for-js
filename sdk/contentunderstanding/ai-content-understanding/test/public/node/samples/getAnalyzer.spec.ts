@@ -77,20 +77,12 @@ forEachServiceVersion("Sample: getAnalyzer", ({ apiVersion }) => {
       "Prebuilt-invoice fieldSchema should have fields",
     );
     const invoiceFieldCount = Object.keys(invoiceAnalyzer.fieldSchema?.fields ?? {}).length;
-    assert.ok(
-      invoiceFieldCount > 0,
-      "Prebuilt-invoice should have at least one field defined",
-    );
+    assert.ok(invoiceFieldCount > 0, "Prebuilt-invoice should have at least one field defined");
     // Every field in the prebuilt schema should have a description.
     for (const [name, field] of Object.entries(invoiceAnalyzer.fieldSchema?.fields ?? {})) {
-      assert.ok(
-        field?.description,
-        `Prebuilt-invoice field '${name}' should have a description`,
-      );
+      assert.ok(field?.description, `Prebuilt-invoice field '${name}' should have a description`);
     }
-    console.log(
-      `Prebuilt-invoice fieldSchema verified: ${invoiceFieldCount} field(s)`,
-    );
+    console.log(`Prebuilt-invoice fieldSchema verified: ${invoiceFieldCount} field(s)`);
   });
 
   it("should retrieve a custom analyzer after creation", async () => {
@@ -193,9 +185,6 @@ forEachServiceVersion("Sample: getAnalyzer", ({ apiVersion }) => {
 
     // Verify models mapping.
     assert.ok(retrievedAnalyzer.models, "Models should not be null");
-    assert.ok(
-      retrievedAnalyzer.models?.completion,
-      "Should contain 'completion' model mapping",
-    );
+    assert.ok(retrievedAnalyzer.models?.completion, "Should contain 'completion' model mapping");
   });
 });

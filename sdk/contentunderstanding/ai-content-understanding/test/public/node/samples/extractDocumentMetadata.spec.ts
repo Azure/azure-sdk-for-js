@@ -35,9 +35,7 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     await recorder.stop();
   });
 
-  it(
-    "should extract document-level metadata from a PDF via prebuilt-layout",
-    async () => {
+  it("should extract document-level metadata from a PDF via prebuilt-layout", async () => {
     const pdfPath = getSampleFilePath("sample_metadata.pdf");
     if (!fs.existsSync(pdfPath)) {
       console.warn(`Metadata sample PDF not found at ${pdfPath}, skipping test`);
@@ -45,11 +43,7 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     }
 
     const bytes = fs.readFileSync(pdfPath);
-    const poller = client.analyzeBinary(
-      "prebuilt-layout",
-      bytes,
-      testPollingOptions,
-    );
+    const poller = client.analyzeBinary("prebuilt-layout", bytes, testPollingOptions);
     const result = await poller.pollUntilDone();
 
     assert.ok(result, "Analysis result should not be null");
@@ -60,8 +54,16 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     // values (author, contentType, language, pageCount, title) authored by the
     // synthetic "Contoso Metadata Team" fixture.
     const metadata = doc.metadata ?? {};
-    assert.strictEqual(metadata["author"], "Contoso Metadata Team", "author should be 'Contoso Metadata Team'");
-    assert.strictEqual(metadata["contentType"], "application/pdf", "contentType should be 'application/pdf'");
+    assert.strictEqual(
+      metadata["author"],
+      "Contoso Metadata Team",
+      "author should be 'Contoso Metadata Team'",
+    );
+    assert.strictEqual(
+      metadata["contentType"],
+      "application/pdf",
+      "contentType should be 'application/pdf'",
+    );
     assert.strictEqual(metadata["language"], "en-US", "language should be 'en-US'");
     assert.strictEqual(metadata["pageCount"], "1", "pageCount should be '1'");
     assert.strictEqual(
@@ -71,9 +73,7 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     );
   });
 
-  it(
-    "should extract document-level metadata from a DOCX via prebuilt-layout",
-    async () => {
+  it("should extract document-level metadata from a DOCX via prebuilt-layout", async () => {
     const docxPath = getSampleFilePath("sample_metadata.docx");
     if (!fs.existsSync(docxPath)) {
       console.warn(`Metadata sample DOCX not found at ${docxPath}, skipping test`);
@@ -81,11 +81,7 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     }
 
     const bytes = fs.readFileSync(docxPath);
-    const poller = client.analyzeBinary(
-      "prebuilt-layout",
-      bytes,
-      testPollingOptions,
-    );
+    const poller = client.analyzeBinary("prebuilt-layout", bytes, testPollingOptions);
     const result = await poller.pollUntilDone();
 
     assert.ok(result, "Analysis result should not be null");
@@ -98,7 +94,11 @@ forEachServiceVersion("Sample: extractDocumentMetadata", previewOnly, ({ apiVers
     // both are accepted via the fallback below so the recording sanitizer can rewrite
     // the identity without breaking the assertion.
     const metadata = doc.metadata ?? {};
-    assert.strictEqual(metadata["author"], "Contoso Metadata Team", "author should be 'Contoso Metadata Team'");
+    assert.strictEqual(
+      metadata["author"],
+      "Contoso Metadata Team",
+      "author should be 'Contoso Metadata Team'",
+    );
     assert.strictEqual(metadata["characterCount"], "207", "characterCount should be '207'");
     assert.strictEqual(
       metadata["contentType"],

@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import { ErrorModel } from "@azure-rest/core-client";
+import type { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 
 export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {

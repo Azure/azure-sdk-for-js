@@ -27,11 +27,7 @@
 
 import { describe, it, assert } from "vitest";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ContentUnderstandingClient, KnownVersions } from "../../../src/index.js";
 
@@ -41,9 +37,7 @@ const SUCCEEDED_INLINE_BODY = JSON.stringify({
     analyzerId: "prebuilt-layout",
     apiVersion: "2026-06-01-preview",
     createdAt: "2026-07-29T00:00:00Z",
-    contents: [
-      { kind: "document", markdown: "# Test", startPageNumber: 1, endPageNumber: 1 },
-    ],
+    contents: [{ kind: "document", markdown: "# Test", startPageNumber: 1, endPageNumber: 1 }],
   },
 });
 
@@ -96,11 +90,9 @@ describe("Analyze options-bag wire routing", () => {
   describe("analyzeBinaryInline", () => {
     it("omits range / processingLocation / allowInputTruncation when the options bag is empty", async () => {
       const { client, requests } = createRecordingClient("inline");
-      await client.analyzeBinaryInline(
-        "prebuilt-layout",
-        new Uint8Array([1, 2, 3]),
-        { contentType: "application/pdf" },
-      );
+      await client.analyzeBinaryInline("prebuilt-layout", new Uint8Array([1, 2, 3]), {
+        contentType: "application/pdf",
+      });
 
       assert.equal(requests.length, 1);
       const q = query(requests[0]);
@@ -125,16 +117,12 @@ describe("Analyze options-bag wire routing", () => {
 
     it("passes contentRange / processingLocation / allowInputTruncation on the query string", async () => {
       const { client, requests } = createRecordingClient("inline");
-      await client.analyzeBinaryInline(
-        "sync-analyzer",
-        new Uint8Array([1, 2, 3]),
-        {
-          contentType: "application/pdf",
-          contentRange: "2",
-          processingLocation: "geography",
-          allowInputTruncation: true,
-        },
-      );
+      await client.analyzeBinaryInline("sync-analyzer", new Uint8Array([1, 2, 3]), {
+        contentType: "application/pdf",
+        contentRange: "2",
+        processingLocation: "geography",
+        allowInputTruncation: true,
+      });
 
       const q = query(requests[0]);
       assert.include(requests[0].url, "/analyzers/sync-analyzer:analyzeBinaryInline");
@@ -163,9 +151,7 @@ describe("Analyze options-bag wire routing", () => {
   describe("analyzeInline (JSON)", () => {
     it("omits per-request options from the query when the options bag is empty", async () => {
       const { client, requests } = createRecordingClient("inline");
-      await client.analyzeInline("prebuilt-layout", [
-        { url: "https://example.com/a.pdf" },
-      ]);
+      await client.analyzeInline("prebuilt-layout", [{ url: "https://example.com/a.pdf" }]);
 
       const q = query(requests[0]);
       assert.notInclude(q, "processingLocation=");
@@ -175,14 +161,10 @@ describe("Analyze options-bag wire routing", () => {
 
     it("passes processingLocation / allowInputTruncation on the query string", async () => {
       const { client, requests } = createRecordingClient("inline");
-      await client.analyzeInline(
-        "json-analyzer",
-        [{ url: "https://example.com/a.pdf" }],
-        {
-          processingLocation: "geography",
-          allowInputTruncation: false,
-        },
-      );
+      await client.analyzeInline("json-analyzer", [{ url: "https://example.com/a.pdf" }], {
+        processingLocation: "geography",
+        allowInputTruncation: false,
+      });
 
       const q = query(requests[0]);
       assert.include(q, "processingLocation=geography");
@@ -194,11 +176,9 @@ describe("Analyze options-bag wire routing", () => {
   describe("analyzeBinary (LRO)", () => {
     it("omits range from the query when contentRange is not set", async () => {
       const { client, requests } = createRecordingClient("lro");
-      const poller = client.analyzeBinary(
-        "prebuilt-layout",
-        new Uint8Array([1, 2, 3]),
-        { contentType: "application/pdf" },
-      );
+      const poller = client.analyzeBinary("prebuilt-layout", new Uint8Array([1, 2, 3]), {
+        contentType: "application/pdf",
+      });
       // Kick off the initial request without polling to completion.
       await poller.poll();
 
@@ -214,15 +194,11 @@ describe("Analyze options-bag wire routing", () => {
 
     it("passes contentRange / allowInputTruncation on the query string", async () => {
       const { client, requests } = createRecordingClient("lro");
-      const poller = client.analyzeBinary(
-        "options-analyzer",
-        new Uint8Array([1, 2, 3]),
-        {
-          contentType: "application/pdf",
-          contentRange: "2-3",
-          allowInputTruncation: false,
-        },
-      );
+      const poller = client.analyzeBinary("options-analyzer", new Uint8Array([1, 2, 3]), {
+        contentType: "application/pdf",
+        contentRange: "2-3",
+        allowInputTruncation: false,
+      });
       await poller.poll();
 
       const q = query(requests[0]);
@@ -278,12 +254,9 @@ describe("Analyze options-bag wire routing", () => {
 
     it("treats a positional undefined as 'omit contentType' (falls back to default)", async () => {
       const { client, requests } = createRecordingClient("lro");
-      const poller = client.analyzeBinary(
-        "prebuilt-layout",
-        new Uint8Array([1, 2, 3]),
-        undefined,
-        { contentRange: "1-2" },
-      );
+      const poller = client.analyzeBinary("prebuilt-layout", new Uint8Array([1, 2, 3]), undefined, {
+        contentRange: "1-2",
+      });
       await poller.poll();
 
       assert.equal(
@@ -310,12 +283,10 @@ describe("Analyze options-bag wire routing", () => {
       const { client, requests } = createRecordingClient("lro");
       assert.throws(
         () =>
-          client.analyzeBinary(
-            "prebuilt-layout",
-            new Uint8Array([1, 2, 3]),
-            "application/pdf",
-            { contentType: "image/png", contentRange: "1-2" },
-          ),
+          client.analyzeBinary("prebuilt-layout", new Uint8Array([1, 2, 3]), "application/pdf", {
+            contentType: "image/png",
+            contentRange: "1-2",
+          }),
         TypeError,
         /conflicting `contentType` values/,
       );
@@ -326,14 +297,10 @@ describe("Analyze options-bag wire routing", () => {
   describe("analyze (JSON, LRO)", () => {
     it("passes processingLocation / allowInputTruncation on the query string", async () => {
       const { client, requests } = createRecordingClient("lro");
-      const poller = client.analyze(
-        "json-lro-analyzer",
-        [{ url: "https://example.com/a.pdf" }],
-        {
-          processingLocation: "geography",
-          allowInputTruncation: true,
-        },
-      );
+      const poller = client.analyze("json-lro-analyzer", [{ url: "https://example.com/a.pdf" }], {
+        processingLocation: "geography",
+        allowInputTruncation: true,
+      });
       await poller.poll();
 
       const q = query(requests[0]);
@@ -344,17 +311,17 @@ describe("Analyze options-bag wire routing", () => {
 
     it("carries modelDeployments through in the request body (not query string)", async () => {
       const { client, requests } = createRecordingClient("lro");
-      const poller = client.analyze(
-        "json-lro-analyzer",
-        [{ url: "https://example.com/a.pdf" }],
-        {
-          modelDeployments: { completion: "gpt-5.2" },
-        },
-      );
+      const poller = client.analyze("json-lro-analyzer", [{ url: "https://example.com/a.pdf" }], {
+        modelDeployments: { completion: "gpt-5.2" },
+      });
       await poller.poll();
 
       const q = query(requests[0]);
-      assert.notInclude(q, "modelDeployments=", "modelDeployments belongs in the body, not the query");
+      assert.notInclude(
+        q,
+        "modelDeployments=",
+        "modelDeployments belongs in the body, not the query",
+      );
       const body = requests[0].body;
       const bodyText = typeof body === "string" ? body : JSON.stringify(body);
       assert.include(

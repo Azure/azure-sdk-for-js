@@ -62,10 +62,7 @@ describe("Sample: getResultFile", () => {
     // . Live-only (whole test is gated by isLiveMode()).
     assert.ok(operationId, "Should have operation ID");
     assert.ok(operationId!.length > 0, "Operation ID should have length > 0");
-    assert.ok(
-      !operationId!.includes(" "),
-      "Operation ID should not contain spaces",
-    );
+    assert.ok(!operationId!.includes(" "), "Operation ID should not contain spaces");
     assert.ok(result.contents!.length > 0, "Video analysis should have at least one content");
 
     const content = result.contents[0];
@@ -81,10 +78,7 @@ describe("Sample: getResultFile", () => {
       const videoContent = content as AudioVisualContent;
 
       // Video should always have keyframes.
-      assert.ok(
-        videoContent.keyFrameTimesMs,
-        "Video content should have keyFrameTimesMs",
-      );
+      assert.ok(videoContent.keyFrameTimesMs, "Video content should have keyFrameTimesMs");
       assert.ok(
         videoContent.keyFrameTimesMs!.length > 0,
         "Video content should have at least one keyframe",
@@ -92,10 +86,7 @@ describe("Sample: getResultFile", () => {
 
       // Verify every keyframe time is a non-negative number.
       for (const t of videoContent.keyFrameTimesMs!) {
-        assert.ok(
-          t >= 0,
-          `Keyframe timestamp should be >= 0, but was ${t}`,
-        );
+        assert.ok(t >= 0, `Keyframe timestamp should be >= 0, but was ${t}`);
       }
 
       console.log(`Total keyframes: ${videoContent.keyFrameTimesMs!.length}`);

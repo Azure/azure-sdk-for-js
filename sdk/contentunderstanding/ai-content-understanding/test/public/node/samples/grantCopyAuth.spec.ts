@@ -20,9 +20,7 @@ import type {
   ContentFieldSchema,
 } from "../../../../src/index.js";
 
-forEachServiceVersion(
-  "Sample: grantCopyAuth",
-  ({ apiVersion }) => {
+forEachServiceVersion("Sample: grantCopyAuth", ({ apiVersion }) => {
   let recorder: Recorder;
   let sourceClient: ContentUnderstandingClient;
   let targetClient: ContentUnderstandingClient;

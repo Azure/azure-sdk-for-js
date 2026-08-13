@@ -83,9 +83,7 @@ forEachServiceVersion("Sample: listAnalyzers", ({ apiVersion }) => {
 
     // Verify prebuilt IDs follow naming convention: "prebuilt-<camelCase>" (no spaces,
     // no underscores).
-    const prebuiltAnalyzers = analyzers.filter((a) =>
-      a.analyzerId?.startsWith("prebuilt-"),
-    );
+    const prebuiltAnalyzers = analyzers.filter((a) => a.analyzerId?.startsWith("prebuilt-"));
     for (const prebuilt of prebuiltAnalyzers) {
       assert.ok(
         !prebuilt.analyzerId?.includes(" "),

@@ -40,11 +40,9 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
     const pdfBytes = fs.readFileSync(filePath);
     assert.ok(pdfBytes.length > 0, "PDF bytes should not be empty");
 
-    const result = await client.analyzeBinaryInline(
-      "prebuilt-layout",
-      pdfBytes,
-      { contentRange: "1-" },
-    );
+    const result = await client.analyzeBinaryInline("prebuilt-layout", pdfBytes, {
+      contentRange: "1-",
+    });
 
     assert.ok(result, "Analysis result should not be null");
     assert.ok(result.contents, "Result contents should not be null");
@@ -87,9 +85,7 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
   });
 
   // ContentRange in the options bag when the selected content fits within its 5-page limit.
-  it(
-    "should honor contentRange in inline analysis when within the 5-page limit",
-    async () => {
+  it("should honor contentRange in inline analysis when within the 5-page limit", async () => {
     const filePath = getSampleFilePath("sample_invoice.pdf");
     if (!fs.existsSync(filePath)) {
       console.warn(`Sample file not found at ${filePath}, skipping test`);
@@ -97,11 +93,9 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
     }
 
     const pdfBytes = fs.readFileSync(filePath);
-    const result = await client.analyzeBinaryInline(
-      "prebuilt-layout",
-      pdfBytes,
-      { contentRange: "1-5" },
-    );
+    const result = await client.analyzeBinaryInline("prebuilt-layout", pdfBytes, {
+      contentRange: "1-5",
+    });
 
     assert.ok(result, "Inline analysis result should not be null");
     assert.ok(result.contents?.length, "Result should have at least one content");
@@ -109,10 +103,7 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
     if (content.kind === "document") {
       const doc = content as DocumentContent;
       assert.ok(doc.startPageNumber >= 1, "Start page should be >= 1");
-      assert.ok(
-        doc.endPageNumber >= doc.startPageNumber,
-        "End page should be at least start page",
-      );
+      assert.ok(doc.endPageNumber >= doc.startPageNumber, "End page should be at least start page");
     }
   });
 
@@ -128,9 +119,7 @@ forEachServiceVersion("Sample: analyzeBinaryInline", previewOnly, ({ apiVersion 
   // programmatically distinguish `InputPageCountExceeded` from other `InvalidRequest`
   // failures.Message` includes the full
   // serialized body. The assertions below only check what the JS SDK actually surfaces.
-  it(
-    "should reject inline analysis when contentRange exceeds the 5-page limit",
-    async () => {
+  it("should reject inline analysis when contentRange exceeds the 5-page limit", async () => {
     const filePath = getSampleFilePath("mixed_financial_invoices.pdf");
     if (!fs.existsSync(filePath)) {
       console.warn(`Multi-page sample not found at ${filePath}, skipping test`);

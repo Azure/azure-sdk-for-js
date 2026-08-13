@@ -73,10 +73,7 @@ forEachServiceVersion("Sample: deleteAnalyzer", ({ apiVersion }) => {
       "config.returnDetails should be true",
     );
     assert.ok(createdAnalyzer.models, "Models should not be null");
-    assert.ok(
-      createdAnalyzer.models?.completion,
-      "Should contain 'completion' model mapping",
-    );
+    assert.ok(createdAnalyzer.models?.completion, "Should contain 'completion' model mapping");
 
     // Delete the analyzer
     await client.deleteAnalyzer(testAnalyzerId);

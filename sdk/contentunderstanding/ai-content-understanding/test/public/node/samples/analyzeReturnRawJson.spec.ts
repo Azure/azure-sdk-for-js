@@ -87,10 +87,7 @@ forEachServiceVersion("Sample: analyzeReturnRawJson", ({ apiVersion }) => {
     assert.equal(parsedRawJson.status, "Succeeded", "Parsed raw JSON should have correct status");
     assert.ok(parsedRawJson.result, "Should have result in raw JSON");
     assert.ok(parsedRawJson.result.contents, "Should have contents in result");
-    assert.ok(
-      Array.isArray(parsedRawJson.result.contents),
-      "result.contents should be an array",
-    );
+    assert.ok(Array.isArray(parsedRawJson.result.contents), "result.contents should be an array");
     assert.ok(
       parsedRawJson.result.contents.length > 0,
       "result.contents should have at least one element",

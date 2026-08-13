@@ -395,7 +395,10 @@ function renderContentBlock(
   const fm: [string, unknown][] = [];
 
   // 1. mimeType
-  fm.push(["mimeType", content.mimeType && content.mimeType.length > 0 ? content.mimeType : "unknown"]);
+  fm.push([
+    "mimeType",
+    content.mimeType && content.mimeType.length > 0 ? content.mimeType : "unknown",
+  ]);
 
   // 2. caller-supplied customMetadata, nested under a `customMetadata:` YAML block.
   //    Kept separate from service `AnalysisContent.metadata` (rendered under `metadata:` below)

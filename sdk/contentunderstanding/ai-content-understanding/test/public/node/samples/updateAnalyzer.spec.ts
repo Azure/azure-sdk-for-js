@@ -137,11 +137,7 @@ forEachServiceVersion("Sample: updateAnalyzer", ({ apiVersion }) => {
 
     // Verify tags
     assert.ok(updateResult.tags, "Update result should include tags");
-    assert.strictEqual(
-      updateResult.tags?.tag1,
-      "tag1_updated_value",
-      "tag1 should be updated",
-    );
+    assert.strictEqual(updateResult.tags?.tag1, "tag1_updated_value", "tag1 should be updated");
     assert.notStrictEqual(
       updateResult.tags?.tag1,
       "tag1_initial_value",

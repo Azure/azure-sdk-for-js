@@ -72,22 +72,17 @@ forEachServiceVersion(
       await recorder.stop();
     });
 
-    it(
-      "analyzeBinary completes under the 2025-11-01 GA api version",
-      async () => {
-        // The GA surface accepts `prebuilt-documentSearch` (renamed on preview) and
-        // returns HTTP 202 + poller. Just verify the poller reaches Succeeded.
-        const bytes = new Uint8Array(await (await fetch(TEST_INVOICE_URL)).arrayBuffer());
-        const poller = client.analyzeBinary(
-          "prebuilt-documentSearch",
-          bytes,
-          { contentType: "application/pdf" },
-        );
-        const result = await poller.pollUntilDone();
-        assert.ok(result, "analyzeBinary should return a non-null AnalysisResult on GA");
-        assert.ok(result.contents?.length, "Result should have at least one content entry");
-      },
-    );
+    it("analyzeBinary completes under the 2025-11-01 GA api version", async () => {
+      // The GA surface accepts `prebuilt-documentSearch` (renamed on preview) and
+      // returns HTTP 202 + poller. Just verify the poller reaches Succeeded.
+      const bytes = new Uint8Array(await (await fetch(TEST_INVOICE_URL)).arrayBuffer());
+      const poller = client.analyzeBinary("prebuilt-documentSearch", bytes, {
+        contentType: "application/pdf",
+      });
+      const result = await poller.pollUntilDone();
+      assert.ok(result, "analyzeBinary should return a non-null AnalysisResult on GA");
+      assert.ok(result.contents?.length, "Result should have at least one content entry");
+    });
   },
 );
 
@@ -115,15 +110,10 @@ forEachServiceVersion(
       await recorder.stop();
     });
 
-    it(
-      "analyzeInline returns AnalysisResult under 2026-06-01-preview",
-      async () => {
-        const result = await client.analyzeInline("prebuilt-layout", [
-          { url: TEST_INVOICE_URL },
-        ]);
-        assert.ok(result, "analyzeInline should return a non-null AnalysisResult on preview");
-        assert.ok(result.contents?.length, "Result should have at least one content entry");
-      },
-    );
+    it("analyzeInline returns AnalysisResult under 2026-06-01-preview", async () => {
+      const result = await client.analyzeInline("prebuilt-layout", [{ url: TEST_INVOICE_URL }]);
+      assert.ok(result, "analyzeInline should return a non-null AnalysisResult on preview");
+      assert.ok(result.contents?.length, "Result should have at least one content entry");
+    });
   },
 );

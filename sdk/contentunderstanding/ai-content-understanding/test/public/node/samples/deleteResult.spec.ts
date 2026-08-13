@@ -57,10 +57,7 @@ forEachServiceVersion("Sample: deleteResult", ({ apiVersion }) => {
     // . These structural asserts are sample-controlled (we
     // requested prebuilt-invoice on a URL input) so they are portable.
     assert.ok(operationId!.length > 0, "Operation ID should have length > 0");
-    assert.ok(
-      !operationId!.includes(" "),
-      "Operation ID should not contain spaces",
-    );
+    assert.ok(!operationId!.includes(" "), "Operation ID should not contain spaces");
     assert.strictEqual(
       result.analyzerId,
       "prebuilt-invoice",

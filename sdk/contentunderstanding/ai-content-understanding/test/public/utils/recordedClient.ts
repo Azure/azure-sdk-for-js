@@ -39,10 +39,16 @@ export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     CONTENTUNDERSTANDING_ENDPOINT: MOCKS.ENDPOINT,
     ...(key ? { CONTENTUNDERSTANDING_KEY: MOCKS.KEY } : {}),
-    ...(includeSourceResourceId ? { CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID: MOCKS.SOURCE_RESOURCE_ID } : {}),
+    ...(includeSourceResourceId
+      ? { CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID: MOCKS.SOURCE_RESOURCE_ID }
+      : {}),
     ...(includeSourceRegion ? { CONTENTUNDERSTANDING_SOURCE_REGION: MOCKS.SOURCE_REGION } : {}),
-    ...(includeTargetEndpoint ? { CONTENTUNDERSTANDING_TARGET_ENDPOINT: MOCKS.TARGET_ENDPOINT } : {}),
-    ...(includeTargetResourceId ? { CONTENTUNDERSTANDING_TARGET_RESOURCE_ID: MOCKS.TARGET_RESOURCE_ID } : {}),
+    ...(includeTargetEndpoint
+      ? { CONTENTUNDERSTANDING_TARGET_ENDPOINT: MOCKS.TARGET_ENDPOINT }
+      : {}),
+    ...(includeTargetResourceId
+      ? { CONTENTUNDERSTANDING_TARGET_RESOURCE_ID: MOCKS.TARGET_RESOURCE_ID }
+      : {}),
     ...(includeTargetRegion ? { CONTENTUNDERSTANDING_TARGET_REGION: MOCKS.TARGET_REGION } : {}),
     ...(targetKey ? { CONTENTUNDERSTANDING_TARGET_KEY: MOCKS.TARGET_KEY } : {}),
     ...(trainingDataSasUrl

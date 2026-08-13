@@ -35,11 +35,10 @@ forEachServiceVersion("Sample: detectSignatures", previewOnly, ({ apiVersion }) 
     await recorder.stop();
   });
 
-  it(
-    "should extract signatures from an image with prebuilt-layout",
-    async () => {
+  it("should extract signatures from an image with prebuilt-layout", async () => {
     const filePath =
-      process.env["CONTENTUNDERSTANDING_SIGNATURE_FILE"] || getSampleFilePath("sample_signature.png");
+      process.env["CONTENTUNDERSTANDING_SIGNATURE_FILE"] ||
+      getSampleFilePath("sample_signature.png");
     if (!fs.existsSync(filePath)) {
       console.warn(`Signature sample file not found at ${filePath}, skipping test`);
       return;
@@ -47,11 +46,7 @@ forEachServiceVersion("Sample: detectSignatures", previewOnly, ({ apiVersion }) 
 
     const bytes = fs.readFileSync(filePath);
 
-    const poller = client.analyzeBinary(
-      "prebuilt-layout",
-      bytes,
-      testPollingOptions,
-    );
+    const poller = client.analyzeBinary("prebuilt-layout", bytes, testPollingOptions);
     const result = await poller.pollUntilDone();
 
     assert.ok(result, "Analysis result should not be null");

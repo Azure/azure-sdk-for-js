@@ -186,11 +186,10 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
     const pdfContentType = apiVersion === "2025-11-01" ? "application/pdf" : undefined;
 
     // Full analysis for comparison baseline
-    const fullPoller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType },
-    );
+    const fullPoller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+    });
     const fullResult = await fullPoller.pollUntilDone();
     assert.ok(fullResult.contents);
     const fullDoc = fullResult.contents[0] as DocumentContent;
@@ -199,11 +198,11 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
 
     // "2" — single page
     console.log("\nAnalyzing page 2 only with content range '2'...");
-    const page2Poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType, contentRange: "2" },
-    );
+    const page2Poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+      contentRange: "2",
+    });
     const page2Result = await page2Poller.pollUntilDone();
     assert.ok(page2Result.contents);
     const page2Doc = page2Result.contents[0] as DocumentContent;
@@ -216,11 +215,11 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
 
     // "1-3" — page range
     console.log("\nAnalyzing pages 1-3 with content range '1-3'...");
-    const pages13Poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1-3" },
-    );
+    const pages13Poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+      contentRange: "1-3",
+    });
     const pages13Result = await pages13Poller.pollUntilDone();
     assert.ok(pages13Result.contents);
     assert.ok(pages13Result.contents.length > 0);
@@ -239,11 +238,11 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
 
     // "1,3-4" — combined page ranges
     console.log("\nAnalyzing combined pages (1, 3-4) with content range '1,3-4'...");
-    const combine2Poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1,3-4" },
-    );
+    const combine2Poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+      contentRange: "1,3-4",
+    });
     const combine2Result = await combine2Poller.pollUntilDone();
     assert.ok(combine2Result.contents);
     assert.ok(combine2Result.contents.length > 0);
@@ -262,11 +261,11 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
 
     // "3-" — pages 3 onward
     console.log("\nAnalyzing pages 3 onward with content range '3-'...");
-    const range3Poller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType, contentRange: "3-" },
-    );
+    const range3Poller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+      contentRange: "3-",
+    });
     const range3Result = await range3Poller.pollUntilDone();
     assert.ok(range3Result.contents);
     assert.ok(range3Result.contents.length > 0);
@@ -295,11 +294,11 @@ forEachServiceVersion("Sample: analyzeBinary", ({ apiVersion }) => {
 
     // "1-3,5,9-" — combined ranges
     console.log("\nAnalyzing combined pages (1-3, 5, 9-) with content range '1-3,5,9-'...");
-    const combinePoller = client.analyzeBinary(
-      "prebuilt-documentSearch",
-      pdfBytes,
-      { ...testPollingOptions, contentType: pdfContentType, contentRange: "1-3,5,9-" },
-    );
+    const combinePoller = client.analyzeBinary("prebuilt-documentSearch", pdfBytes, {
+      ...testPollingOptions,
+      contentType: pdfContentType,
+      contentRange: "1-3,5,9-",
+    });
     const combineResult = await combinePoller.pollUntilDone();
     assert.ok(combineResult.contents);
     assert.ok(combineResult.contents.length > 0);

@@ -194,7 +194,7 @@ describe("toLlmInput - customMetadata", () => {
     });
     // The JSON-looking string stays a single scalar, not a parsed object.
     assert.include(text, "customMetadata:");
-    assert.include(text, "details: '{\"key\": \"value\"}'");
+    assert.include(text, 'details: \'{"key": "value"}\'');
     assert.notInclude(text, "  key: value");
   });
 

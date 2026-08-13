@@ -101,11 +101,7 @@ forEachServiceVersion("Sample: createClassifier", ({ apiVersion }) => {
     // the create payload above, so they are portable across environments.
 
     // Verify base properties.
-    assert.strictEqual(
-      result.baseAnalyzerId,
-      "prebuilt-document",
-      "Base analyzer ID should match",
-    );
+    assert.strictEqual(result.baseAnalyzerId, "prebuilt-document", "Base analyzer ID should match");
     assert.strictEqual(
       result.description,
       "Custom classifier for financial document categorization",
@@ -118,25 +114,12 @@ forEachServiceVersion("Sample: createClassifier", ({ apiVersion }) => {
     assert.strictEqual(result.config?.enableSegment, true, "config.enableSegment should be true");
 
     // Verify content categories.
-    assert.ok(
-      result.config?.contentCategories,
-      "Config should include contentCategories",
-    );
+    assert.ok(result.config?.contentCategories, "Config should include contentCategories");
     const categories = result.config?.contentCategories ?? {};
-    assert.strictEqual(
-      Object.keys(categories).length,
-      3,
-      "Should have 3 content categories",
-    );
+    assert.strictEqual(Object.keys(categories).length, 3, "Should have 3 content categories");
     for (const name of ["Loan_Application", "Invoice", "Bank_Statement"]) {
-      assert.ok(
-        categories[name],
-        `Should contain '${name}' category`,
-      );
-      assert.ok(
-        categories[name]?.description,
-        `'${name}' category should have a description`,
-      );
+      assert.ok(categories[name], `Should contain '${name}' category`);
+      assert.ok(categories[name]?.description, `'${name}' category should have a description`);
     }
     // The Invoice category was configured with `analyzerId: "prebuilt-invoice"` so
     // matched segments route to prebuilt-invoice for field extraction. This is

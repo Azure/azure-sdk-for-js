@@ -20,11 +20,7 @@
 import { describe, it, assert } from "vitest";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { RestError } from "@azure/core-rest-pipeline";
-import type {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ContentUnderstandingClient, KnownVersions } from "../../../src/index.js";
 
@@ -98,9 +94,7 @@ describe("Inline analyze convenience methods", () => {
 
     let caught: RestError | undefined;
     try {
-      await client.analyzeInline("prebuilt-layout", [
-        { url: "https://example.com/doc.pdf" },
-      ]);
+      await client.analyzeInline("prebuilt-layout", [{ url: "https://example.com/doc.pdf" }]);
     } catch (err) {
       if (err instanceof RestError) {
         caught = err;
@@ -136,10 +130,7 @@ describe("Inline analyze convenience methods", () => {
       }
     }
 
-    assert.ok(
-      caught,
-      "analyzeBinaryInline should throw when OperationState is not Succeeded",
-    );
+    assert.ok(caught, "analyzeBinaryInline should throw when OperationState is not Succeeded");
     assert.equal(caught?.code, "InlineAnalyzeOperationFailed");
     assert.equal(requests.length, 1);
   });

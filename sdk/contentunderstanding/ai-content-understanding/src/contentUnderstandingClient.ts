@@ -389,10 +389,10 @@ export class ContentUnderstandingClient {
     }
 
     // Canonical path: only the preferred options-bag design below.
-    const options: AnalyzeBinaryOptionalParams =
-      (optionsOrContentType as AnalyzeBinaryOptionalParams | undefined) ?? {
-        requestOptions: {},
-      };
+    const options: AnalyzeBinaryOptionalParams = (optionsOrContentType as
+      AnalyzeBinaryOptionalParams | undefined) ?? {
+      requestOptions: {},
+    };
     const contentType = options.contentType ?? "application/octet-stream";
 
     let operationId: string | undefined;

@@ -133,14 +133,30 @@ forEachServiceVersion("Sample: copyAnalyzer", ({ apiVersion }) => {
     const sourceCompanyName = sourceAnalyzerInfo.fieldSchema?.fields.company_name;
     assert.ok(sourceCompanyName, "Source should contain company_name field");
     assert.strictEqual(sourceCompanyName?.type, "string", "company_name should be string type");
-    assert.strictEqual(sourceCompanyName?.method, "extract", "company_name should use extract method");
+    assert.strictEqual(
+      sourceCompanyName?.method,
+      "extract",
+      "company_name should use extract method",
+    );
     const sourceTotalAmount = sourceAnalyzerInfo.fieldSchema?.fields.total_amount;
     assert.ok(sourceTotalAmount, "Source should contain total_amount field");
     assert.strictEqual(sourceTotalAmount?.type, "number", "total_amount should be number type");
-    assert.strictEqual(sourceTotalAmount?.method, "extract", "total_amount should use extract method");
+    assert.strictEqual(
+      sourceTotalAmount?.method,
+      "extract",
+      "total_amount should use extract method",
+    );
     assert.ok(sourceAnalyzerInfo.config, "Source config should be present");
-    assert.strictEqual(sourceAnalyzerInfo.config?.enableFormula, false, "enableFormula should be false");
-    assert.strictEqual(sourceAnalyzerInfo.config?.enableLayout, true, "enableLayout should be true");
+    assert.strictEqual(
+      sourceAnalyzerInfo.config?.enableFormula,
+      false,
+      "enableFormula should be false",
+    );
+    assert.strictEqual(
+      sourceAnalyzerInfo.config?.enableLayout,
+      true,
+      "enableLayout should be true",
+    );
     assert.strictEqual(sourceAnalyzerInfo.config?.enableOcr, true, "enableOcr should be true");
     assert.ok(sourceAnalyzerInfo.models, "Source models should be present");
     assert.ok(

@@ -208,10 +208,7 @@ forEachServiceVersion("Sample: toLlmInput", ({ apiVersion }) => {
 
     const text = toLlmInput(result);
     assert.ok(text.startsWith("---"), "Output should start with YAML front matter");
-    assert.ok(
-      text.includes("mimeType: video/mp4"),
-      "Output should declare mimeType: video/mp4",
-    );
+    assert.ok(text.includes("mimeType: video/mp4"), "Output should declare mimeType: video/mp4");
 
     if (segmentCount > 1) {
       const expectedDividers = segmentCount - 1;
@@ -260,10 +257,7 @@ forEachServiceVersion("Sample: toLlmInput", ({ apiVersion }) => {
       customMetadata: { source: "callCenterRecording.mp3" },
     });
     assert.ok(text.startsWith("---"), "Output should start with YAML front matter");
-    assert.ok(
-      text.includes("mimeType: audio/mpeg"),
-      "Output should declare mimeType: audio/mpeg",
-    );
+    assert.ok(text.includes("mimeType: audio/mpeg"), "Output should declare mimeType: audio/mpeg");
     assert.ok(
       text.includes("customMetadata:"),
       "customMetadata: block should appear in front matter",
@@ -283,54 +277,47 @@ forEachServiceVersion("Sample: toLlmInput", ({ apiVersion }) => {
 
   // IN FRONT MATTER". Requires the preview API (2026-06-01-preview) and a PDF that exposes
   // embedded metadata. Live-only until a preview recording is captured.
-  it(
-    "should include AnalysisContent.metadata as a front-matter block (preview)",
-    async () => {
-      const pdfPath = getSampleFilePath("sample_metadata.pdf");
-      if (!fs.existsSync(pdfPath)) {
-        console.warn(`Metadata sample PDF not found at ${pdfPath}, skipping test`);
-        return;
-      }
+  it("should include AnalysisContent.metadata as a front-matter block (preview)", async () => {
+    const pdfPath = getSampleFilePath("sample_metadata.pdf");
+    if (!fs.existsSync(pdfPath)) {
+      console.warn(`Metadata sample PDF not found at ${pdfPath}, skipping test`);
+      return;
+    }
 
-      const pdfBytes = fs.readFileSync(pdfPath);
-      const poller = client.analyzeBinary(
-        "prebuilt-layout",
-        pdfBytes,
-        testPollingOptions,
+    const pdfBytes = fs.readFileSync(pdfPath);
+    const poller = client.analyzeBinary("prebuilt-layout", pdfBytes, testPollingOptions);
+    const result = await poller.pollUntilDone();
+
+    assert.ok(result?.contents?.length, "Preview metadata analysis should return contents");
+    const text = toLlmInput(result);
+
+    assert.ok(text.startsWith("---"), "Output should start with YAML front matter");
+    assert.ok(
+      text.includes("mimeType: application/pdf"),
+      "Output should declare mimeType: application/pdf",
+    );
+    // When the service returns metadata, toLlmInput renders a "metadata:" block after
+    // mimeType and before pages. When metadata is empty, the block is omitted.
+    // sample_metadata.pdf is a Contoso Metadata Team fixture with rich embedded
+    // metadata (contentType, language, title, etc.) so the block should be present
+    // and the metadata block itself should contain `contentType: application/pdf`.
+    const doc = result.contents[0] as DocumentContent;
+    if (doc.metadata && Object.keys(doc.metadata).length > 0) {
+      assert.ok(text.includes("metadata:"), "Output should include a metadata: front-matter key");
+      assert.isAbove(
+        text.indexOf("metadata:"),
+        text.indexOf("mimeType:"),
+        "metadata: should appear after mimeType:",
       );
-      const result = await poller.pollUntilDone();
-
-      assert.ok(result?.contents?.length, "Preview metadata analysis should return contents");
-      const text = toLlmInput(result);
-
-      assert.ok(text.startsWith("---"), "Output should start with YAML front matter");
       assert.ok(
-        text.includes("mimeType: application/pdf"),
-        "Output should declare mimeType: application/pdf",
+        text.includes("contentType: application/pdf"),
+        "metadata: block should contain the PDF's own contentType",
       );
-      // When the service returns metadata, toLlmInput renders a "metadata:" block after
-      // mimeType and before pages. When metadata is empty, the block is omitted.
-      // sample_metadata.pdf is a Contoso Metadata Team fixture with rich embedded
-      // metadata (contentType, language, title, etc.) so the block should be present
-      // and the metadata block itself should contain `contentType: application/pdf`.
-      const doc = result.contents[0] as DocumentContent;
-      if (doc.metadata && Object.keys(doc.metadata).length > 0) {
-        assert.ok(text.includes("metadata:"), "Output should include a metadata: front-matter key");
-        assert.isAbove(
-          text.indexOf("metadata:"),
-          text.indexOf("mimeType:"),
-          "metadata: should appear after mimeType:",
-        );
-        assert.ok(
-          text.includes("contentType: application/pdf"),
-          "metadata: block should contain the PDF's own contentType",
-        );
-      }
-      console.log(
-        `[PASS] Preview metadata scenario validated (${text.length} chars, ${
-          Object.keys(doc.metadata ?? {}).length
-        } metadata key(s))`,
-      );
-    },
-  );
+    }
+    console.log(
+      `[PASS] Preview metadata scenario validated (${text.length} chars, ${
+        Object.keys(doc.metadata ?? {}).length
+      } metadata key(s))`,
+    );
+  });
 });
