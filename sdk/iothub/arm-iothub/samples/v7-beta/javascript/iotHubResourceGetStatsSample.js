@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the statistics from an IoT hub.
  *
  * @summary get the statistics from an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_stats.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_stats.json
  */
 async function iotHubResourceGetStats() {
   const credential = new DefaultAzureCredential();

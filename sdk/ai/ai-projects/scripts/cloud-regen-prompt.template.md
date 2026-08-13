@@ -9,7 +9,6 @@ the changelog, and open a **draft** pull request.
 Inputs (substituted by `start-cloud-regen.ps1` before dispatch):
 
 - TypeSpec commit SHA: `{{TSP_COMMIT}}`
-- Target branch name: `{{BRANCH_NAME}}`
 - Base branch name: `{{BASE_BRANCH}}`
 
 ## Setup
@@ -109,7 +108,7 @@ Read: `sdk/ai/ai-projects/.github/skills/open-regeneration-pr/SKILL.md`
 Run:
 
 ```powershell
-./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT_PS_LITERAL}} -BranchName {{BRANCH_NAME_PS_LITERAL}} -BaseBranch {{BASE_BRANCH_PS_LITERAL}}
+./.github/skills/open-regeneration-pr/scripts/open-pr.ps1 -TspCommit {{TSP_COMMIT_PS_LITERAL}} -BaseBranch {{BASE_BRANCH_PS_LITERAL}} -ManagedAgentSession
 ```
 
 Append `-SamplesNoOp` only if `author-samples` explicitly completed as a
@@ -122,10 +121,10 @@ commits are omitted when those skills are documented no-ops.
 
 ## Success criteria
 
-- `git log --oneline` on `{{BRANCH_NAME}}` shows three to five non-empty
+- `git log --oneline` on the agent-owned current branch shows three to five non-empty
   `[ai-projects] regen: ...` commits in relative order: emitter output,
   post-emitter edits, samples (when needed), tests (when needed), changelog.
-- The PR is open as a **draft** against `{{BASE_BRANCH}}` with title
+- The agent-owned PR remains a **draft** against `{{BASE_BRANCH}}` with title
   `[ai-projects] Regenerate from azure-rest-api-specs@<short-sha>`.
 - `npx dev-tool run build-package` is green for all four targets on the
   final commit.
