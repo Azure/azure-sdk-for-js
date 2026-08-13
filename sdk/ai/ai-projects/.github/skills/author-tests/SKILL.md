@@ -1,6 +1,6 @@
 ---
 name: author-tests
-description: 'Author skipped Vitest spec files for newly added non-beta ai-projects features under test/. Use when new GA (non-beta) classes, methods, or namespaces appear in review/ai-projects-node.api.md and need test coverage. Generates .skip-ped specs with TODO markers so a human can add recordings, then verifies the file compiles via npm run test:node.'
+description: "Author skipped Vitest spec files for newly added non-beta ai-projects features under test/. Use when new GA (non-beta) classes, methods, or namespaces appear in review/ai-projects-node.api.md and need test coverage. Generates .skip-ped specs with TODO markers so a human can add recordings, then verifies the test sources compile and lint without running live tests."
 ---
 
 # Author tests for new ai-projects GA features
@@ -33,13 +33,16 @@ Conventions taken from `test/snippets.spec.ts`:
 - Endpoint from `process.env["FOUNDRY_PROJECT_ENDPOINT"]`, model from `process.env["FOUNDRY_MODEL_NAME"]`.
 - Prefer `it.skip(...)` with a `TODO(<feature>): unskip after recording added` comment for every new test, so the suite stays green until a human captures recordings.
 
-### Step 3: Verify it compiles
+### Step 3: Verify compilation and linting
 
 ```powershell
-npm run test:node
+npx tsc -p tsconfig.test.node.json --noEmit
+npx eslint test/<new-or-edited-spec>.ts
 ```
 
-`.skip`-ped tests will not run, but the file must compile and lint clean. Fix any TS or ESLint errors.
+Pass every new or edited spec path to the same ESLint invocation. If this skill is a documented no-op and no test files changed, skip ESLint. The TypeScript command must still pass.
+
+Do not use `npm run test:node` as a compilation check. It runs the package's existing live and recorded suites and can stall or fail for service/environment reasons unrelated to the scaffolded tests.
 
 ### Step 4: Hand off
 
@@ -52,5 +55,4 @@ Done. Next: the `update-changelog` skill.
 
 ## Notes
 
-- **Watch for cascade renames from `apply-post-emitter-edits`.** If a method on the public surface was renamed (e.g. `listSessionFiles` → `getSessionFiles`), `npm run test:node` will fail to compile *existing* specs that referenced the old name. Patch those call sites as part of this skill. Cross-reference the rename table in [../apply-post-emitter-edits/references/post-emitter-workarounds.md](../apply-post-emitter-edits/references/post-emitter-workarounds.md).
-- `npm run test:node` will report runtime failures (missing env vars like `FOUNDRY_PROJECT_ENDPOINT`, missing recordings) for the *non-skipped* tests. Those are expected in this skill — only treat TypeScript / ESLint errors as blockers.
+- **Watch for cascade renames from `apply-post-emitter-edits`.** If a method on the public surface was renamed (e.g. `listSessionFiles` → `getSessionFiles`), the TypeScript check can fail on existing specs that referenced the old name. Patch those call sites as part of this skill. Cross-reference the rename table in [../apply-post-emitter-edits/references/post-emitter-workarounds.md](../apply-post-emitter-edits/references/post-emitter-workarounds.md).
