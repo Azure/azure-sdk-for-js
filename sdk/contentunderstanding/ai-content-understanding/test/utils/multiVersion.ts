@@ -114,7 +114,7 @@ function primaryVersionFor(opts: ForEachServiceVersionOptions): string {
  * unambiguous.
  *
  * @example Multi-version sample suite
- * ```ts
+ * ```ts snippet:ignore
  * forEachServiceVersion("Sample: listAnalyzers", ({ apiVersion }) => {
  *   it("lists analyzers", async () => {
  *     const client = createClient(recorder, apiVersion);
@@ -124,7 +124,7 @@ function primaryVersionFor(opts: ForEachServiceVersionOptions): string {
  * ```
  *
  * @example Preview-only marker
- * ```ts
+ * ```ts snippet:ignore
  * forEachServiceVersion(
  *   "Sample: classifyInPageSegments",
  *   { previewOnly: true },
