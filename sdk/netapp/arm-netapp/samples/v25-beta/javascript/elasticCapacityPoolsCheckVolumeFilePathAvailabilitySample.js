@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if an Elastic Volume file path is available within the given Elastic Capacity Pool.
  *
  * @summary check if an Elastic Volume file path is available within the given Elastic Capacity Pool.
- * x-ms-original-file: 2026-05-15-preview/ElasticCapacityPools_CheckVolumeFilePathAvailability.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_CheckVolumeFilePathAvailability.json
  */
 async function elasticCapacityPoolsCheckVolumeFilePathAvailability() {
   const credential = new DefaultAzureCredential();
