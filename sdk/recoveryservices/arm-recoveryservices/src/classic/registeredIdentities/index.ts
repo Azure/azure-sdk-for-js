@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { $delete } from "../../api/registeredIdentities/operations.js";
-import { RegisteredIdentitiesDeleteOptionalParams } from "../../api/registeredIdentities/options.js";
+import type { RegisteredIdentitiesDeleteOptionalParams } from "../../api/registeredIdentities/options.js";
 
 /** Interface representing a RegisteredIdentities operations. */
 export interface RegisteredIdentitiesOperations {
