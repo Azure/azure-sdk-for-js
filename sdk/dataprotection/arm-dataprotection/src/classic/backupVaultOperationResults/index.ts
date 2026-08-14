@@ -14,7 +14,7 @@ export interface BackupVaultOperationResultsOperations {
     vaultName: string,
     operationId: string,
     options?: BackupVaultOperationResultsGetOptionalParams,
-  ) => Promise<BackupVaultResource>;
+  ) => Promise<BackupVaultResource | void>;
 }
 
 function _getBackupVaultOperationResults(context: DataProtectionContext) {

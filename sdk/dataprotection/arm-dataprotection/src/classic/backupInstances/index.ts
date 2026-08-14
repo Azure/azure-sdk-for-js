@@ -154,11 +154,6 @@ export interface BackupInstancesOperations {
     options?: BackupInstancesAdhocBackupOptionalParams,
   ) => PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
   /** Delete a backup instance in a backup vault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
@@ -200,7 +195,7 @@ export interface BackupInstancesOperations {
     backupInstanceName: string,
     operationId: string,
     options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams,
-  ) => Promise<BackupInstanceResource>;
+  ) => Promise<BackupInstanceResource | void>;
 }
 
 function _getBackupInstances(context: DataProtectionContext) {
