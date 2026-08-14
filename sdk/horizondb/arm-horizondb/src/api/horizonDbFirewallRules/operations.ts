@@ -42,7 +42,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       poolName: poolName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -63,12 +65,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Deletes a HorizonDb firewall rule. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
+/** Deletes a HorizonDB firewall rule. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -83,7 +80,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, poolName, firewallRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -104,7 +101,7 @@ export function _createOrUpdateSend(
       clusterName: clusterName,
       poolName: poolName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +121,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +131,7 @@ export async function _createOrUpdateDeserialize(
   return horizonDbFirewallRuleDeserializer(result.body);
 }
 
-/** Creates a new HorizonDb firewall rule or updates an existing rule. */
+/** Creates a new HorizonDB firewall rule or updates an existing rule. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -156,7 +155,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-20-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<HorizonDbFirewallRule>, HorizonDbFirewallRule>;
 }
 
@@ -174,7 +173,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +191,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -200,7 +201,7 @@ export async function _listDeserialize(
   return _horizonDbFirewallRuleListResultDeserializer(result.body);
 }
 
-/** Lists all HorizonDb firewall rules in a pool. */
+/** Lists all HorizonDB firewall rules in a pool. */
 export function list(
   context: Client,
   resourceGroupName: string,
@@ -216,7 +217,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-20-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -237,7 +238,7 @@ export function _getSend(
       clusterName: clusterName,
       poolName: poolName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-20-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +256,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,7 +266,7 @@ export async function _getDeserialize(
   return horizonDbFirewallRuleDeserializer(result.body);
 }
 
-/** Gets information about a HorizonDb firewall rule. */
+/** Gets information about a HorizonDB firewall rule. */
 export async function get(
   context: Client,
   resourceGroupName: string,

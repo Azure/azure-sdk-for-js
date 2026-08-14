@@ -8,9 +8,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-01-20-preview/Operations_List.json
+ * x-ms-original-file: 2026-05-01-preview/Operations_List.json
  */
-async function listOperationsForMicrosoftHorizonDb() {
+async function listOperationsForMicrosoftHorizonDB() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listOperationsForMicrosoftHorizonDb() {
 }
 
 async function main() {
-  await listOperationsForMicrosoftHorizonDb();
+  await listOperationsForMicrosoftHorizonDB();
 }
 
 main().catch(console.error);
