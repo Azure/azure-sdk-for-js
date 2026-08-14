@@ -67,19 +67,90 @@ describe("OneSettings feature evaluation", () => {
   });
 
   describe("evaluateFeature", () => {
+    function parseInteger(value: string): number {
+      const parsed = Number(value);
+      if (!Number.isInteger(parsed)) {
+        throw new TypeError(`Expected an integer, received ${value}`);
+      }
+      return parsed;
+    }
+
     it("returns the default state when there are no overrides", () => {
       assert.strictEqual(evaluateFeature("F", { F: { default: "enabled" } }), true);
       assert.strictEqual(evaluateFeature("F", { F: { default: "disabled" } }), false);
     });
 
-    it("treats a missing or malformed default as disabled", () => {
-      assert.strictEqual(evaluateFeature("F", { F: {} }), false);
-      assert.strictEqual(evaluateFeature("F", { F: { default: true } }), false);
-      assert.strictEqual(evaluateFeature("F", { F: { default: null } }), false);
+    it("returns undefined for a missing or malformed default", () => {
+      assert.strictEqual(evaluateFeature("F", { F: {} }), undefined);
+      assert.strictEqual(evaluateFeature("F", { F: { default: true } }), undefined);
+      assert.strictEqual(evaluateFeature("F", { F: { default: null } }), undefined);
     });
 
     it("is case-insensitive on the default value", () => {
       assert.strictEqual(evaluateFeature("F", { F: { default: "ENABLED" } }), true);
+    });
+
+    it("preserves arbitrary string defaults without a converter", () => {
+      assert.strictEqual(evaluateFeature("INTERVAL", { INTERVAL: { default: "60" } }), "60");
+    });
+
+    it("converts arbitrary defaults to the requested type", () => {
+      assert.strictEqual(
+        evaluateFeature("INTERVAL", { INTERVAL: { default: "60" } }, parseInteger),
+        60,
+      );
+    });
+
+    it("returns an explicit value from a matching override", () => {
+      profile.fill({ rp: "fn", region: "westus" });
+      const settings = {
+        INTERVAL: {
+          default: "60",
+          override: [{ rp: ["aks", "fn"], region: ["eastus", "westus"], value: "300" }],
+        },
+      };
+      assert.strictEqual(evaluateFeature("INTERVAL", settings, parseInteger), 300);
+    });
+
+    it("falls back to the default when an override value cannot be converted", () => {
+      profile.fill({ os: "windows" });
+      const settings = {
+        INTERVAL: {
+          default: "60",
+          override: [{ os: ["windows"], value: "invalid" }],
+        },
+      };
+      assert.strictEqual(evaluateFeature("INTERVAL", settings, parseInteger), 60);
+    });
+
+    it("returns undefined when the default cannot be converted", () => {
+      assert.strictEqual(
+        evaluateFeature("INTERVAL", { INTERVAL: { default: "invalid" } }, parseInteger),
+        undefined,
+      );
+    });
+
+    it("normalizes explicit enabled and disabled override values", () => {
+      profile.fill({ os: "windows" });
+      const settings = {
+        F: { default: "enabled", override: [{ os: ["windows"], value: "disabled" }] },
+      };
+      assert.strictEqual(evaluateFeature("F", settings), false);
+    });
+
+    it("evaluates a JSON-encoded feature configuration", () => {
+      profile.fill({ os: "windows" });
+      const settings = {
+        INTERVAL: JSON.stringify({
+          default: "60",
+          override: [{ os: "windows", value: "300" }],
+        }),
+      };
+      assert.strictEqual(evaluateFeature("INTERVAL", settings, parseInteger), 300);
+    });
+
+    it("returns undefined for malformed JSON feature configuration", () => {
+      assert.strictEqual(evaluateFeature("F", { F: "not-json" }), undefined);
     });
 
     it("flips the default when an override rule matches", () => {
@@ -121,6 +192,11 @@ describe("OneSettings feature evaluation", () => {
       profile.fill({ os: "windows" });
       const settings = { F: { default: "disabled", override: { os: "windows" } } };
       assert.strictEqual(evaluateFeature("F", settings), false);
+    });
+
+    it("ignores an override containing only a value", () => {
+      const settings = { INTERVAL: { default: "60", override: [{ value: "300" }] } };
+      assert.strictEqual(evaluateFeature("INTERVAL", settings, parseInteger), 60);
     });
 
     it.each([
@@ -228,6 +304,12 @@ describe("OneSettings feature evaluation", () => {
 
     it("never matches a null condition value", () => {
       assert.isFalse(conditionMatches({ os: null }));
+    });
+
+    it("matches any candidate in a non-empty condition list", () => {
+      assert.isTrue(conditionMatches({ rp: ["aks", "fn"] }));
+      assert.isFalse(conditionMatches({ region: ["eastus", "centralus"] }));
+      assert.isFalse(conditionMatches({ region: [] }));
     });
   });
 

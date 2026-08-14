@@ -5,7 +5,7 @@
 ### Other Changes
 
 - Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. Requests honor the standard proxy environment variables (`HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY`/`NO_PROXY`). This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)
-- Added internal OneSettings feature evaluation (`evaluateFeature`) and a write-once SDK profile (`ConfigurationProfile`) that resolve a feature's enabled state from its default and override rules. This is groundwork with no user-facing behavior yet. [#39502](https://github.com/Azure/azure-sdk-for-js/pull/39502)
+- Added internal OneSettings feature evaluation (`evaluateFeature`) and a write-once SDK profile (`ConfigurationProfile`) that resolve typed setting values from defaults and override rules, including JSON-encoded configurations and list-valued conditions. This is groundwork with no user-facing behavior yet. [#39502](https://github.com/Azure/azure-sdk-for-js/pull/39502)
 
 ## 1.0.0-beta.44 (2026-07-29)
 

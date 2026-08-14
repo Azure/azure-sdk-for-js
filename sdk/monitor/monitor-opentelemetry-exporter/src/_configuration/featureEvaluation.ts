@@ -1,56 +1,143 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { diag } from "@opentelemetry/api";
 import type { ConfigurationProfileValues } from "./configurationProfile.js";
 import { ConfigurationProfile } from "./configurationProfile.js";
 
+interface OverrideRule {
+  conditions: Record<string, unknown>;
+  value?: string;
+}
+
+interface FeatureConfig {
+  defaultValue: string;
+  overrides: OverrideRule[];
+}
+
+type ValueConverter<T> = (value: string) => T;
+
 /**
- * Determine whether a feature should be enabled from a OneSettings settings payload and the
- * process-wide {@link ConfigurationProfile}.
+ * Evaluate a setting from a OneSettings payload and the process-wide {@link ConfigurationProfile}.
  *
- * Each feature entry has a `default` state (`enabled`/`disabled`) and an optional `override` list.
- * Every override rule is an independent set of conditions; if all conditions of any single rule
- * match the current profile, the feature's state is flipped from its default. If no rule matches,
- * the default is returned.
+ * Each feature entry has a string `default` and an optional `override` list. A matching override
+ * can provide its own string `value`. Legacy `enabled`/`disabled` values are converted to booleans,
+ * while other values are preserved or converted by `valueConverter`.
  *
- * @param featureKey - The feature name to evaluate, e.g. `FEATURE_SDK_STATS`.
+ * @param featureKey - The setting name to evaluate, e.g. `FEATURE_SDK_STATS`.
  * @param settings - The `settings` object from a OneSettings response.
- * @returns `true` or `false` for the resolved state, or `undefined` when the inputs are invalid or
- *   the feature is absent, so callers can distinguish "no opinion" from an explicit disable.
+ * @param valueConverter - Optional converter applied to the default or matching override value.
+ * @returns The evaluated value, or `undefined` when the input or conversion is invalid.
  * @internal
  */
+export function evaluateFeature<T>(
+  featureKey: string,
+  settings: Record<string, unknown>,
+  valueConverter: ValueConverter<T>,
+): T | undefined;
 export function evaluateFeature(
   featureKey: string,
   settings: Record<string, unknown>,
-): boolean | undefined {
+): boolean | string | undefined;
+export function evaluateFeature<T>(
+  featureKey: string,
+  settings: Record<string, unknown>,
+  valueConverter?: ValueConverter<T>,
+): boolean | string | T | undefined {
   if (!featureKey || !isRecord(settings) || !Object.hasOwn(settings, featureKey)) {
     return undefined;
   }
 
-  const featureConfig = settings[featureKey];
-  if (!isRecord(featureConfig)) {
+  const featureConfig = parseFeatureConfig(settings[featureKey]);
+  if (!featureConfig) {
     return undefined;
   }
 
-  // Coerce with String() before comparing: the payload is only JSON-decoded, so a malformed
-  // "default" (e.g. a JSON boolean) would otherwise be compared as a non-string. A well-formed
-  // string is unchanged; anything else safely resolves to the default-disabled state.
-  const defaultState = String(featureConfig["default"] ?? "disabled").toLowerCase() === "enabled";
-
-  const overrideList = featureConfig["override"];
-  if (!Array.isArray(overrideList) || overrideList.length === 0) {
-    return defaultState;
-  }
+  const defaultValue = normalizeSettingValue(featureConfig.defaultValue, valueConverter);
 
   const profile = ConfigurationProfile.getInstance().snapshot();
-  for (const rule of overrideList) {
-    if (isRecord(rule) && matchesOverrideRule(rule, profile)) {
-      // A rule matched: flip the default state.
-      return !defaultState;
+  for (const rule of featureConfig.overrides) {
+    if (matchesOverrideRule(rule.conditions, profile)) {
+      if (rule.value !== undefined) {
+        const overrideValue = normalizeSettingValue(rule.value, valueConverter);
+        return overrideValue === undefined ? defaultValue : overrideValue;
+      }
+      if (typeof defaultValue === "boolean") {
+        return !defaultValue;
+      }
+      break;
     }
   }
 
-  return defaultState;
+  return defaultValue;
+}
+
+function parseFeatureConfig(rawConfig: unknown): FeatureConfig | undefined {
+  let config = rawConfig;
+  if (typeof config === "string") {
+    try {
+      config = JSON.parse(config);
+    } catch (error) {
+      diag.debug("Failed to parse OneSettings feature configuration:", error);
+      return undefined;
+    }
+  }
+
+  if (!isRecord(config) || typeof config["default"] !== "string") {
+    return undefined;
+  }
+
+  const rawOverrides = Array.isArray(config["override"]) ? config["override"] : [];
+  const overrides: OverrideRule[] = [];
+  for (const rawOverride of rawOverrides) {
+    const override = parseOverrideRule(rawOverride);
+    if (override) {
+      overrides.push(override);
+    }
+  }
+  return { defaultValue: config["default"], overrides };
+}
+
+function parseOverrideRule(rawRule: unknown): OverrideRule | undefined {
+  if (!isRecord(rawRule)) {
+    return undefined;
+  }
+
+  const conditions = Object.fromEntries(Object.entries(rawRule).filter(([key]) => key !== "value"));
+  if (Object.keys(conditions).length === 0) {
+    return undefined;
+  }
+
+  if (Object.hasOwn(rawRule, "value")) {
+    const value = rawRule["value"];
+    if (typeof value !== "string") {
+      return undefined;
+    }
+    return { conditions, value };
+  }
+  return { conditions };
+}
+
+function normalizeSettingValue<T>(
+  value: string,
+  valueConverter?: ValueConverter<T>,
+): boolean | string | T | undefined {
+  if (valueConverter) {
+    try {
+      return valueConverter(value);
+    } catch (error) {
+      diag.debug("Failed to convert OneSettings value:", error);
+      return undefined;
+    }
+  }
+
+  if (value.toLowerCase() === "enabled") {
+    return true;
+  }
+  if (value.toLowerCase() === "disabled") {
+    return false;
+  }
+  return value;
 }
 
 /**
@@ -90,6 +177,9 @@ function matchesCondition(
 ): boolean {
   if (!key || value === null || value === undefined) {
     return false;
+  }
+  if (Array.isArray(value)) {
+    return value.length > 0 && value.some((candidate) => matchesCondition(key, candidate, profile));
   }
   const expected = String(value);
   switch (key) {
