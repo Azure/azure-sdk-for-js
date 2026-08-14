@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the non-security related metadata of an IoT hub.
  *
  * @summary get the non-security related metadata of an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_get.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_get.json
  */
 async function iotHubResourceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

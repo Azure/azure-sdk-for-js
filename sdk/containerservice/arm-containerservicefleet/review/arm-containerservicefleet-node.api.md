@@ -131,80 +131,9 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface CiliumProperties {
-    readonly id: number;
-    readonly name: string;
-}
-
-// @public
 export interface ClusterAffinity {
     requiredDuringSchedulingIgnoredDuringExecution?: ClusterSelector;
 }
-
-// @public
-export interface ClusterMeshProfile extends ProxyResource {
-    readonly eTag?: string;
-    memberSelector?: MemberSelector;
-    readonly provisioningState?: ClusterMeshProfileProvisioningState;
-    readonly status?: ClusterMeshProfileStatus;
-}
-
-// @public
-export interface ClusterMeshProfileProperties {
-    memberSelector?: MemberSelector;
-    readonly provisioningState?: ClusterMeshProfileProvisioningState;
-    readonly status?: ClusterMeshProfileStatus;
-}
-
-// @public
-export type ClusterMeshProfileProvisioningState = string;
-
-// @public
-export interface ClusterMeshProfilesApplyOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ClusterMeshProfilesCreateOrUpdateOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ClusterMeshProfilesDeleteOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ClusterMeshProfilesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ClusterMeshProfilesListByFleetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ClusterMeshProfilesOperations {
-    apply: (resourceGroupName: string, fleetName: string, clusterMeshProfileName: string, options?: ClusterMeshProfilesApplyOptionalParams) => PollerLike<OperationState<ClusterMeshProfile>, ClusterMeshProfile>;
-    createOrUpdate: (resourceGroupName: string, fleetName: string, clusterMeshProfileName: string, resource: ClusterMeshProfile, options?: ClusterMeshProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ClusterMeshProfile>, ClusterMeshProfile>;
-    delete: (resourceGroupName: string, fleetName: string, clusterMeshProfileName: string, options?: ClusterMeshProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, fleetName: string, clusterMeshProfileName: string, options?: ClusterMeshProfilesGetOptionalParams) => Promise<ClusterMeshProfile>;
-    listByFleet: (resourceGroupName: string, fleetName: string, options?: ClusterMeshProfilesListByFleetOptionalParams) => PagedAsyncIterableIterator<ClusterMeshProfile>;
-}
-
-// @public
-export interface ClusterMeshProfileStatus {
-    readonly lastAppliedMemberSelector?: MemberSelector;
-    readonly lastOperationError?: ErrorDetail;
-    readonly lastOperationId?: string;
-    readonly state: ClusterMeshState;
-}
-
-// @public
-export type ClusterMeshState = string;
 
 // @public
 export interface ClusterResourcePlacementSpec {
@@ -227,7 +156,6 @@ export class ContainerServiceFleetClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     readonly autoUpgradeProfileOperations: AutoUpgradeProfileOperationsOperations;
     readonly autoUpgradeProfiles: AutoUpgradeProfilesOperations;
-    readonly clusterMeshProfiles: ClusterMeshProfilesOperations;
     readonly fleetManagedNamespaces: FleetManagedNamespacesOperations;
     readonly fleetMembers: FleetMembersOperations;
     readonly fleets: FleetsOperations;
@@ -387,7 +315,6 @@ export interface FleetMemberProperties {
     clusterResourceId: string;
     group?: string;
     labels?: Record<string, string>;
-    readonly meshProperties?: MeshProperties;
     readonly provisioningState?: FleetMemberProvisioningState;
     readonly status?: FleetMemberStatus;
 }
@@ -677,22 +604,6 @@ export enum KnownAutoUpgradeProfileProvisioningState {
 }
 
 // @public
-export enum KnownClusterMeshProfileProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownClusterMeshState {
-    Applying = "Applying",
-    Connected = "Connected",
-    Degraded = "Degraded",
-    Failed = "Failed",
-    NotConnected = "NotConnected"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -783,14 +694,6 @@ export enum KnownManagedServiceIdentityType {
     SystemAndUserAssigned = "SystemAssigned, UserAssigned",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownMeshMemberState {
-    Connected = "Connected",
-    Connecting = "Connecting",
-    Disconnecting = "Disconnecting",
-    Failed = "Failed"
 }
 
 // @public
@@ -889,19 +792,10 @@ export enum KnownUpgradeChannel {
 
 // @public
 export enum KnownVersions {
-    V20220902Preview = "2022-09-02-preview",
-    V20230315Preview = "2023-03-15-preview",
-    V20230615Preview = "2023-06-15-preview",
-    V20230815Preview = "2023-08-15-preview",
     V20231015 = "2023-10-15",
-    V20240202Preview = "2024-02-02-preview",
     V20240401 = "2024-04-01",
-    V20240502Preview = "2024-05-02-preview",
     V20250301 = "2025-03-01",
-    V20250401Preview = "2025-04-01-preview",
-    V20250801Preview = "2025-08-01-preview",
-    V20260201Preview = "2026-02-01-preview",
-    V20260302Preview = "2026-03-02-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -955,35 +849,12 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface MemberSelector {
-    byLabel: string;
-}
-
-// @public
 export interface MemberUpdateStatus {
     readonly clusterResourceId?: string;
     readonly message?: string;
     readonly name?: string;
     readonly operationId?: string;
     readonly status?: UpdateStatus;
-}
-
-// @public
-export type MeshMemberState = string;
-
-// @public
-export interface MeshMemberStatus {
-    readonly error?: ErrorDetail;
-    readonly lastOperationId?: string;
-    readonly lastUpdatedAt?: Date;
-    readonly state: MeshMemberState;
-}
-
-// @public
-export interface MeshProperties {
-    readonly ciliumProperties: CiliumProperties;
-    readonly clusterMeshProfileResourceId: string;
-    readonly status: MeshMemberStatus;
 }
 
 // @public

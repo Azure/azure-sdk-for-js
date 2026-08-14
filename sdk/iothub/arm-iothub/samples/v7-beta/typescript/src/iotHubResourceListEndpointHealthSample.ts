@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the health for routing endpoints.
  *
  * @summary get the health for routing endpoints.
- * x-ms-original-file: 2026-03-01-preview/iothub_routingendpointhealth.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_routingendpointhealth.json
  */
 async function iotHubResourceGetEndpointHealth(): Promise<void> {
   const credential = new DefaultAzureCredential();

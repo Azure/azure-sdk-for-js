@@ -1,59 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { FabricClient } from "./fabricClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
-  type Operation,
-  type OperationDisplay,
-  KnownOrigin,
-  type Origin,
-  KnownActionType,
-  type ActionType,
-  type FabricCapacity,
-  type FabricCapacityProperties,
-  type ProvisioningState,
-  KnownProvisioningState,
-  KnownResourceState,
-  type ResourceState,
-  type CapacityAdministration,
-  type RpSku,
-  KnownRpSkuTier,
-  type RpSkuTier,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
-  KnownCreatedByType,
-  type CreatedByType,
-  type FabricCapacityUpdate,
-  type FabricCapacityUpdateProperties,
-  type CheckNameAvailabilityRequest,
-  type CheckNameAvailabilityResponse,
-  KnownCheckNameAvailabilityReason,
-  type CheckNameAvailabilityReason,
-  type RpSkuDetailsForExistingResource,
-  type RpSkuDetailsForNewResource,
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  FabricCapacity,
+  FabricCapacityProperties,
+  ProvisioningState,
+  ResourceState,
+  CapacityOverageProperties,
+  CapacityOverageState,
+  CapacityAdministration,
+  RpSku,
+  RpSkuTier,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  FabricCapacityUpdate,
+  FabricCapacityUpdateProperties,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse,
+  CheckNameAvailabilityReason,
+  RpSkuDetailsForExistingResource,
+  RpSkuDetailsForNewResource,
+  Quota,
+  QuotaName,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
 } from "./models/index.js";
 export {
-  type FabricClientOptionalParams,
-  type FabricCapacitiesGetOptionalParams,
-  type FabricCapacitiesCreateOrUpdateOptionalParams,
-  type FabricCapacitiesUpdateOptionalParams,
-  type FabricCapacitiesDeleteOptionalParams,
-  type FabricCapacitiesListByResourceGroupOptionalParams,
-  type FabricCapacitiesListBySubscriptionOptionalParams,
-  type FabricCapacitiesResumeOptionalParams,
-  type FabricCapacitiesSuspendOptionalParams,
-  type FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  type FabricCapacitiesListSkusForCapacityOptionalParams,
-  type FabricCapacitiesListSkusOptionalParams,
-  type OperationsListOptionalParams,
-} from "./api/index.js";
-export { type FabricCapacitiesOperations, type OperationsOperations } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+  KnownProvisioningState,
+  KnownResourceState,
+  KnownCapacityOverageState,
+  KnownRpSkuTier,
+  KnownCreatedByType,
+  KnownCheckNameAvailabilityReason,
+  KnownOrigin,
+  KnownActionType,
+  KnownVersions,
+} from "./models/index.js";
+export type { FabricClientOptionalParams } from "./api/index.js";
+export type {
+  FabricCapacitiesListUsagesOptionalParams,
+  FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  FabricCapacitiesSuspendOptionalParams,
+  FabricCapacitiesResumeOptionalParams,
+  FabricCapacitiesListBySubscriptionOptionalParams,
+  FabricCapacitiesListByResourceGroupOptionalParams,
+  FabricCapacitiesDeleteOptionalParams,
+  FabricCapacitiesUpdateOptionalParams,
+  FabricCapacitiesCreateOrUpdateOptionalParams,
+  FabricCapacitiesGetOptionalParams,
+} from "./api/fabricCapacities/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
