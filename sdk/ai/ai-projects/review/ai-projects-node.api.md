@@ -5024,8 +5024,7 @@ export interface VoiceAgentAvatarVideoResolution {
 }
 
 // @public
-export interface VoiceAgentCancelResponseOptions extends VoiceAgentSendOptions {
-    eventId?: string;
+export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions {
     responseId?: string;
 }
 
@@ -5127,15 +5126,15 @@ export interface VoiceAgentCloseResult {
 // @public
 export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEvent> {
     cancelResponse(options?: VoiceAgentCancelResponseOptions): Promise<void>;
-    clearInputAudio(options?: VoiceAgentSendOptions): Promise<void>;
-    clearOutputAudio(options?: VoiceAgentSendOptions): Promise<void>;
+    clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
+    clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
     close(code?: number, reason?: string): Promise<void>;
     readonly closed: Promise<VoiceAgentCloseResult>;
-    commitAudio(options?: VoiceAgentSendOptions): Promise<void>;
+    commitAudio(options?: VoiceAgentEventOptions): Promise<void>;
     configureSession(session: VoiceAgentSessionUpdateConfig, options?: VoiceAgentSessionUpdateOptions): Promise<void>;
     dispose(): Promise<void>;
     requestResponse(options?: VoiceAgentResponseOptions): Promise<void>;
-    sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentSendOptions): Promise<void>;
+    sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
     sendEvent(event: VoiceAgentClientEvent, options?: VoiceAgentSendOptions): Promise<void>;
     sendText(text: string, options?: VoiceAgentSendTextOptions): Promise<void>;
     sendToolOutput(callId: string, output: string, options?: VoiceAgentSendToolOutputOptions): Promise<void>;
@@ -5312,8 +5311,7 @@ export type VoiceAgentResponseItem = VoiceAgentResponseMessageItem | VoiceFuncti
 export type VoiceAgentResponseMessageItem = RealtimeConversationItemMessageSystem | RealtimeConversationItemMessageUser | RealtimeConversationItemMessageAssistant;
 
 // @public
-export interface VoiceAgentResponseOptions extends VoiceAgentSendOptions {
-    eventId?: string;
+export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
     response?: VoiceAgentResponseCreateParams;
 }
 
@@ -5336,16 +5334,22 @@ export interface VoiceAgentSendOptions {
 }
 
 // @public
-export interface VoiceAgentSendTextOptions extends VoiceAgentSendOptions {
-    createResponse?: boolean;
+export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
     eventId?: string;
+}
+
+// @public
+export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
+    createResponse?: boolean;
+}
+
+// @public
+export interface VoiceAgentSendTextOptions extends VoiceAgentSendItemOptions {
     previousItemId?: string;
 }
 
 // @public
-export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendOptions {
-    createResponse?: boolean;
-    eventId?: string;
+export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendItemOptions {
 }
 
 // @public
@@ -5961,8 +5965,7 @@ export interface VoiceAgentSessionUpdateConfig {
 }
 
 // @public
-export interface VoiceAgentSessionUpdateOptions extends VoiceAgentSendOptions {
-    eventId?: string;
+export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {
 }
 
 // @public

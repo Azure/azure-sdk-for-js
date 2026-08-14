@@ -15,6 +15,8 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
+  type VoiceAgentServerVadTurnDetection,
+  type VoiceAudioFormat,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -37,7 +39,7 @@ const trailingSilenceDurationInMs = 1_000;
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { definition, created } = await getOrCreateVoiceAgent(project);
+  const { created } = await getOrCreateVoiceAgent(project);
   const connection = await project.realtime.connect(agentName);
   const audioOutput = createWriteStream(audioOutputPath);
   let textCharacterCount = 0;
@@ -45,23 +47,23 @@ export async function main(): Promise<void> {
   let inputComplete = false;
 
   try {
+    // session.update merges into the existing session config; only the changed field needs to be sent.
+    const pcmFormat: VoiceAudioFormat = { type: "audio/pcm", rate: pcmSampleRate };
+    const turnDetection: VoiceAgentServerVadTurnDetection = {
+      type: "server_vad",
+      create_response: true,
+      interrupt_response: true,
+      silence_duration_ms: 500,
+    };
     await connection.configureSession({
       type: "realtime",
       output_modalities: ["text", "audio"],
       audio: {
         input: {
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-          turn_detection: {
-            type: "server_vad",
-            create_response: true,
-            interrupt_response: true,
-            silence_duration_ms: 500,
-          },
+          format: pcmFormat,
+          turn_detection: turnDetection,
         },
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
+        output: { format: pcmFormat },
       },
     });
 

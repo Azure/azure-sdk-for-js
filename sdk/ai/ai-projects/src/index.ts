@@ -20,6 +20,8 @@ export type {
   VoiceAgentConnectionStateChangedHandler,
   VoiceAgentCloseResult,
   VoiceAgentSendOptions,
+  VoiceAgentEventOptions,
+  VoiceAgentSendItemOptions,
   VoiceAgentSendTextOptions,
   VoiceAgentSendToolOutputOptions,
   VoiceAgentSessionUpdateOptions,

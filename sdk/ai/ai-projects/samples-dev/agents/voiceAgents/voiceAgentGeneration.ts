@@ -9,7 +9,7 @@
  * @azsdk-weight 100
  */
 
-import { AIProjectClient } from "@azure/ai-projects";
+import { AIProjectClient, type AgentsListOptionalParams } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -25,23 +25,26 @@ export async function main(): Promise<void> {
 
     const retrieved = await project.agents.get(generated.name);
     const definition = retrieved.versions.latest.definition;
-    if (definition.kind !== "voice") {
+    if (
+      definition.kind !== "voice" ||
+      !("model_type" in definition) ||
+      !("model" in definition) ||
+      typeof definition.model !== "string"
+    ) {
       throw new Error(`Expected a voice definition, received ${definition.kind}.`);
     }
     console.log(`Retrieved ${retrieved.name}, state ${retrieved.state}`);
 
-    const updated = await project.agents.update(
-      generated.name,
-      {
-        ...definition,
-        instructions: "You are a concise, friendly, and helpful voice assistant.",
-      },
-      { foundryFeatures: preview },
-    );
+    // agents.update replaces the full definition; mutate the retrieved one instead of rebuilding it.
+    definition.instructions = "You are a concise, friendly, and helpful voice assistant.";
+    const updated = await project.agents.update(generated.name, definition, {
+      foundryFeatures: preview,
+    });
     console.log(`Updated ${updated.name}, version ${updated.versions.latest.version}`);
 
     console.log("Voice agents:");
-    for await (const agent of project.agents.list({ kind: "voice", limit: 20 })) {
+    const listOptions: AgentsListOptionalParams = { kind: "voice", limit: 20 };
+    for await (const agent of project.agents.list(listOptions)) {
       console.log(`- ${agent.name} (${agent.state})`);
     }
   } finally {

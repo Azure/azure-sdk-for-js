@@ -91,42 +91,38 @@ export interface VoiceAgentSendOptions {
   abortSignal?: AbortSignalLike;
 }
 
-/** Options for sending text input. */
-export interface VoiceAgentSendTextOptions extends VoiceAgentSendOptions {
+/** Options shared by operations that build a protocol event on the caller's behalf. */
+export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
   /** Client-generated event identifier. */
   eventId?: string;
+}
+
+/** Options shared by operations that add a conversation item and, by default, request a response. */
+export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
+  /** Whether to request a response after adding the item. Defaults to true. */
+  createResponse?: boolean;
+}
+
+/** Options for sending text input. */
+export interface VoiceAgentSendTextOptions extends VoiceAgentSendItemOptions {
   /** Item after which the new text item is inserted. */
   previousItemId?: string;
-  /** Whether to request a response after adding the text. Defaults to true. */
-  createResponse?: boolean;
 }
 
 /** Options for returning a function result. */
-export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendOptions {
-  /** Client-generated event identifier. */
-  eventId?: string;
-  /** Whether to request a response after adding the result. Defaults to true. */
-  createResponse?: boolean;
-}
+export interface VoiceAgentSendToolOutputOptions extends VoiceAgentSendItemOptions {}
 
 /** Options for updating the live session. */
-export interface VoiceAgentSessionUpdateOptions extends VoiceAgentSendOptions {
-  /** Client-generated event identifier. */
-  eventId?: string;
-}
+export interface VoiceAgentSessionUpdateOptions extends VoiceAgentEventOptions {}
 
 /** Options for creating a response. */
-export interface VoiceAgentResponseOptions extends VoiceAgentSendOptions {
-  /** Client-generated event identifier. */
-  eventId?: string;
+export interface VoiceAgentResponseOptions extends VoiceAgentEventOptions {
   /** Response-specific configuration. */
   response?: VoiceAgentResponseCreateParams;
 }
 
 /** Options for cancelling a response. */
-export interface VoiceAgentCancelResponseOptions extends VoiceAgentSendOptions {
-  /** Client-generated event identifier. */
-  eventId?: string;
+export interface VoiceAgentCancelResponseOptions extends VoiceAgentEventOptions {
   /** Specific response to cancel. The active default-conversation response is used when omitted. */
   responseId?: string;
 }
@@ -153,13 +149,13 @@ export interface VoiceAgentConnection extends AsyncIterable<VoiceAgentServerEven
   /** Adds a user text item and, by default, requests a response. */
   sendText(text: string, options?: VoiceAgentSendTextOptions): Promise<void>;
   /** Appends base64-encoded audio bytes to the input buffer. */
-  sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentSendOptions): Promise<void>;
+  sendAudio(audio: Uint8Array | ArrayBuffer, options?: VoiceAgentEventOptions): Promise<void>;
   /** Commits buffered input audio. */
-  commitAudio(options?: VoiceAgentSendOptions): Promise<void>;
+  commitAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Clears buffered input audio. */
-  clearInputAudio(options?: VoiceAgentSendOptions): Promise<void>;
+  clearInputAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Clears pending output audio at the service. */
-  clearOutputAudio(options?: VoiceAgentSendOptions): Promise<void>;
+  clearOutputAudio(options?: VoiceAgentEventOptions): Promise<void>;
   /** Returns a client-executed function result to the agent. */
   sendToolOutput(
     callId: string,
@@ -369,28 +365,35 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
 
   public sendAudio(
     audio: Uint8Array | ArrayBuffer,
-    options: VoiceAgentSendOptions = {},
+    options: VoiceAgentEventOptions = {},
   ): Promise<void> {
     const bytes = audio instanceof Uint8Array ? audio : new Uint8Array(audio);
     return this.sendEvent(
       {
         type: "input_audio_buffer.append",
+        event_id: options.eventId,
         audio: uint8ArrayToString(bytes, "base64"),
       },
       options,
     );
   }
 
-  public commitAudio(options: VoiceAgentSendOptions = {}): Promise<void> {
-    return this.sendEvent({ type: "input_audio_buffer.commit" }, options);
+  public commitAudio(options: VoiceAgentEventOptions = {}): Promise<void> {
+    return this.sendEvent(
+      { type: "input_audio_buffer.commit", event_id: options.eventId },
+      options,
+    );
   }
 
-  public clearInputAudio(options: VoiceAgentSendOptions = {}): Promise<void> {
-    return this.sendEvent({ type: "input_audio_buffer.clear" }, options);
+  public clearInputAudio(options: VoiceAgentEventOptions = {}): Promise<void> {
+    return this.sendEvent({ type: "input_audio_buffer.clear", event_id: options.eventId }, options);
   }
 
-  public clearOutputAudio(options: VoiceAgentSendOptions = {}): Promise<void> {
-    return this.sendEvent({ type: "output_audio_buffer.clear" }, options);
+  public clearOutputAudio(options: VoiceAgentEventOptions = {}): Promise<void> {
+    return this.sendEvent(
+      { type: "output_audio_buffer.clear", event_id: options.eventId },
+      options,
+    );
   }
 
   public async sendToolOutput(

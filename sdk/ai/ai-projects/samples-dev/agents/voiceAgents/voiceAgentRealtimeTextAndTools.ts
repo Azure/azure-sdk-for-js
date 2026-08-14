@@ -15,6 +15,8 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type VoiceAgentDefinition,
+  type VoiceAgentFunctionTool,
+  type VoiceAudioFormat,
 } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import { once } from "node:events";
@@ -32,7 +34,7 @@ const pcmSampleRate = 24_000;
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const { definition, created } = await getOrCreateVoiceAgent(project);
+  const { created } = await getOrCreateVoiceAgent(project);
   const connection = await project.realtime.connect(agentName);
   const audioOutput = createWriteStream(audioOutputPath);
   let pendingToolOutputs = 0;
@@ -41,27 +43,25 @@ export async function main(): Promise<void> {
   let audioByteCount = 0;
 
   try {
+    // session.update merges into the existing session config; only the changed field needs to be sent.
+    const pcmFormat: VoiceAudioFormat = { type: "audio/pcm", rate: pcmSampleRate };
+    const weatherTool: VoiceAgentFunctionTool = {
+      type: "function",
+      name: "get_weather",
+      description: "Get the current weather for a city.",
+      parameters: {
+        type: "object",
+        properties: { city: { type: "string" } },
+        required: ["city"],
+      },
+    };
     await connection.configureSession({
       type: "realtime",
       output_modalities: ["text", "audio"],
       audio: {
-        output: {
-          ...definition.audio?.output,
-          format: { type: "audio/pcm", rate: pcmSampleRate },
-        },
+        output: { format: pcmFormat },
       },
-      tools: [
-        {
-          type: "function",
-          name: "get_weather",
-          description: "Get the current weather for a city.",
-          parameters: {
-            type: "object",
-            properties: { city: { type: "string" } },
-            required: ["city"],
-          },
-        },
-      ],
+      tools: [weatherTool],
     });
 
     await connection.sendText("What is the weather in Seattle? Use the weather tool.");
