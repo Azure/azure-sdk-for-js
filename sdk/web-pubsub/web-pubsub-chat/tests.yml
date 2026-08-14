@@ -4,6 +4,8 @@ extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
   parameters:
     PackageName: "@azure/web-pubsub-chat"
-    ServiceDirectory: web-pubsub/web-pubsub-chat
+    ServiceDirectory: web-pubsub
+    TestResourceDirectories:
+      - web-pubsub/web-pubsub-chat
     MatrixFilters:
       - DependencyVersion=^$

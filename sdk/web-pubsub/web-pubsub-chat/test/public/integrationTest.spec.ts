@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
+import {
+  assertEnvironmentVariable,
+  isPlaybackMode,
+  type Recorder,
+} from "@azure-tools/test-recorder";
 import { ChatPermissions, WebPubSubChatServiceClient } from "../../src/index.js";
 import { createRecorder } from "./utils/recordedClient.js";
 import { createChatMessage } from "./utils/chatClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { getConnectionString, getEndpoint } from "../utils/injectables.js";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("", () => {
@@ -16,7 +19,7 @@ describe("", () => {
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = new WebPubSubChatServiceClient(
-      getEndpoint(),
+      assertEnvironmentVariable("WPS_CHAT_ENDPOINT"),
       createTestCredential(),
       "test_hub",
       recorder.configureClientOptions({}),
@@ -34,7 +37,7 @@ describe("", () => {
 
     it("lists roles using a connection string", async () => {
       const connectionStringClient = new WebPubSubChatServiceClient(
-        getConnectionString(),
+        assertEnvironmentVariable("WPS_CHAT_CONNECTION_STRING"),
         "test_hub",
         recorder.configureClientOptions({}),
       );
