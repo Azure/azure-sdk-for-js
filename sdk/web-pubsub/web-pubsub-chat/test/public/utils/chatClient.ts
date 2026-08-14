@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * Connects a Chat client via WebSocket and sends a text message to a room.
- * The service persists the message, making it available via the REST
- * `listMessages` / `updateMessage` / `deleteMessage` APIs.
+ * Uses the separate `@azure/web-pubsub-chat-client` WebSocket client to seed a
+ * message in the service for the current `@azure/web-pubsub-chat` package to
+ * query, update, and delete through its REST APIs.
  *
- * Uses dynamic import so playback-mode tests never load the WebSocket
- * dependency.
+ * Live and record modes call this helper because they reach the service.
+ * Playback mode replays the recorded HTTP responses and does not need the
+ * WebSocket operation, so the dynamic import avoids loading that dependency.
  */
 export async function createChatMessage(
   clientAccessUrl: string,

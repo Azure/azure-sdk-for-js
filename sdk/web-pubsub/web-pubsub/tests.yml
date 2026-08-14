@@ -4,6 +4,8 @@ extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/web-pubsub"
-      ServiceDirectory: web-pubsub/web-pubsub
+      ServiceDirectory: web-pubsub
+      TestResourceDirectories:
+        - web-pubsub/web-pubsub
       MatrixFilters:
         - DependencyVersion=^$
