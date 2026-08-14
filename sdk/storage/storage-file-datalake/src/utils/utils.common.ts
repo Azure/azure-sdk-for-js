@@ -24,7 +24,6 @@ import type { HttpResponse } from "@azure/storage-blob";
 import type { HttpHeadersLike } from "@azure/core-http-compat";
 import { toCompatResponse } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms.js";
-import { PathHttpHeaders } from "../generated-classic-models.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
@@ -757,7 +756,7 @@ export function ParsePathGetPropertiesExtraHeaderValues(
 
 interface UploadChecksumParametersLike {
   /** Parameter group */
-  pathHttpHeaders?: PathHttpHeaders;
+  transactionalContentHash?: Uint8Array;
   transactionalContentCrc64?: Uint8Array;
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   structuredBodyType?: string;
@@ -797,14 +796,7 @@ export async function setUploadChecksumParameters(
 
   let bodyInfo = undefined;
   if (contentChecksumAlgorithm === "Customized") {
-    if (parameters.pathHttpHeaders === undefined) {
-      parameters.pathHttpHeaders = {
-        contentMD5: uploadOptions.transactionalContentMD5,
-      };
-    } else {
-      parameters.pathHttpHeaders.transactionalContentHash = uploadOptions.transactionalContentMD5;
-      (parameters as any).transactionalContentHash = uploadOptions.transactionalContentMD5;
-    }
+    parameters.transactionalContentHash = uploadOptions.transactionalContentMD5;
     parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
   } else if (contentChecksumAlgorithm === "StorageCrc64") {
     await StorageCRC64Calculator.init();

@@ -1270,6 +1270,9 @@ describe("DataLakePathClient", () => {
 
   it("append with flush should work", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1277,13 +1280,13 @@ describe("DataLakePathClient", () => {
     await tempFileClient.create();
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
       flush: true,
     });
 
@@ -1295,6 +1298,9 @@ describe("DataLakePathClient", () => {
 
   it("append & flush should work", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1302,13 +1308,13 @@ describe("DataLakePathClient", () => {
     await tempFileClient.create();
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
 
     await tempFileClient.flush(body.length * 3);
@@ -1321,6 +1327,9 @@ describe("DataLakePathClient", () => {
 
   it("append & flush should work with all parameters", async () => {
     const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([
+      104, 225, 9, 240, 244, 12, 167, 42, 21, 224, 92, 194, 39, 134, 248, 230,
+    ]);
 
     const tempFileName = recorder.variable("tempfile2", getUniqueName("tempfile2"));
     const tempFileClient = fileSystemClient.getFileClient(tempFileName);
@@ -1364,13 +1373,13 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(acl.permissions, permissions);
 
     await tempFileClient.append(body, 0, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
     await tempFileClient.append(body, body.length * 2, body.length, {
-      transactionalContentMD5: new Uint8Array([]),
+      transactionalContentMD5: bodyMD5,
     });
 
     pathHttpHeaders = {
@@ -1394,6 +1403,31 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.contentDisposition, pathHttpHeaders.contentDisposition);
     assert.deepStrictEqual(properties.contentType, pathHttpHeaders.contentType);
     assert.deepStrictEqual(properties.metadata, metadata);
+
+    await tempFileClient.delete();
+  });
+
+  it("append with incorrect MD5 should fail", async () => {
+    const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const tempFileName = recorder.variable("tempfile3", getUniqueName("tempfile3"));
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+    try {
+      await tempFileClient.append(body, 0, body.length, {
+        transactionalContentMD5: bodyMD5,
+      });
+      assert.fail("Appending with incorrect MD5 should fail.");
+    } catch (error) {
+      assert.include(
+        (error as any).message,
+        "The MD5 value specified in the request did not match with the MD5 value calculated by the server",
+      );
+    }
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, 0);
 
     await tempFileClient.delete();
   });
