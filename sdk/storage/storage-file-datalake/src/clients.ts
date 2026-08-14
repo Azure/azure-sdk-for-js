@@ -356,22 +356,34 @@ export class DataLakePathClient extends StorageClient {
 
       return adjustResponse(
         await this.pathContext.create({
-          ...updatedOptions,
-          ...updatedOptions.pathHttpHeaders,
+          tracingOptions: updatedOptions.tracingOptions,
+          abortSignal: options.abortSignal,
           resource: resourceType,
+          cacheControl: options.pathHttpHeaders?.cacheControl,
+          contentEncoding: options.pathHttpHeaders?.contentEncoding,
+          contentLanguage: options.pathHttpHeaders?.contentLanguage,
+          contentDisposition: options.pathHttpHeaders?.contentDisposition,
+          contentType: options.pathHttpHeaders?.contentType,
           leaseId: options.conditions?.leaseId,
           ifMatch: options.conditions?.ifMatch,
           ifNoneMatch: options.conditions?.ifNoneMatch,
           ifModifiedSince: options.conditions?.ifModifiedSince,
           ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
           properties: toProperties(options.metadata),
+          permissions: options.permissions,
+          umask: options.umask,
+          owner: options.owner,
+          group: options.group,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
           encryptionAlgorithm: options.customerProvidedKey?.encryptionAlgorithm as
             EncryptionAlgorithmType | undefined,
           acl: options.acl ? toAclString(options.acl) : undefined,
+          proposedLeaseId: options.proposedLeaseId,
+          leaseDuration: options.leaseDuration,
           expiryOptions,
           expiresOn,
+          encryptionContext: options.encryptionContext,
         }),
       );
     });
@@ -471,7 +483,7 @@ export class DataLakePathClient extends StorageClient {
       do {
         response = adjustResponse(
           await this.pathContext.deletePath({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
             continuation,
             recursive,
             leaseId: options.conditions?.leaseId,
@@ -545,7 +557,7 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         const response = adjustResponse(
           await this.pathContext.getProperties({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
             action: "getAccessControl",
             upn: options.userPrincipalName,
             leaseId: options.conditions?.leaseId,
@@ -585,13 +597,16 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         return adjustResponse(
           await this.pathContext.setAccessControl({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
+            abortSignal: options.abortSignal,
             acl: toAclString(acl),
             leaseId: options.conditions?.leaseId,
             ifMatch: options.conditions?.ifMatch,
             ifNoneMatch: options.conditions?.ifNoneMatch,
             ifModifiedSince: options.conditions?.ifModifiedSince,
             ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
+            owner: options.owner,
+            group: options.group,
           }),
         );
       },
@@ -680,13 +695,16 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         return adjustResponse(
           await this.pathContext.setAccessControl({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
+            abortSignal: options.abortSignal,
             permissions: toPermissionsString(permissions),
             leaseId: options.conditions?.leaseId,
             ifMatch: options.conditions?.ifMatch,
             ifNoneMatch: options.conditions?.ifNoneMatch,
             ifModifiedSince: options.conditions?.ifModifiedSince,
             ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
+            owner: options.owner,
+            group: options.group,
           }),
         );
       },
@@ -710,10 +728,12 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         const response = adjustResponse(
           await this.pathContext.getProperties({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
             action: "getStatus",
             upn: options.userPrincipalName,
             leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions?.ifMatch,
+            ifNoneMatch: options.conditions?.ifNoneMatch,
             ifModifiedSince: options.conditions?.ifModifiedSince,
             ifUnmodifiedSince: options.conditions?.ifUnmodifiedSince,
             abortSignal: options.abortSignal,
@@ -930,7 +950,7 @@ export class DataLakePathClient extends StorageClient {
       async (updatedOptions) => {
         return adjustResponse(
           await destPathClient.pathContext.create({
-            ...updatedOptions,
+            tracingOptions: updatedOptions.tracingOptions,
             mode: "legacy", // By default
             renameSource,
             sourceLeaseId: pathMoveOptions.conditions?.leaseId,
@@ -1485,7 +1505,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     return tracingClient.withSpan("DataLakeFileClient-append", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       const parameters: PathAppendDataOptionalParams = {
-        ...updatedOptions,
+        tracingOptions: updatedOptions.tracingOptions,
         abortSignal: options.abortSignal,
         position: offset,
         leaseId: options.conditions?.leaseId,
@@ -1536,10 +1556,18 @@ export class DataLakeFileClient extends DataLakePathClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return adjustResponse(
         await this.pathContextInternal.flushData({
-          ...updatedOptions,
-          ...updatedOptions.pathHttpHeaders,
+          tracingOptions: updatedOptions.tracingOptions,
+          abortSignal: options.abortSignal,
           position,
+          retainUncommittedData: options.retainUncommittedData,
+          close: options.close,
           contentLength: 0,
+          contentMD5: options.pathHttpHeaders?.contentMD5,
+          cacheControl: options.pathHttpHeaders?.cacheControl,
+          contentEncoding: options.pathHttpHeaders?.contentEncoding,
+          contentLanguage: options.pathHttpHeaders?.contentLanguage,
+          contentDisposition: options.pathHttpHeaders?.contentDisposition,
+          contentType: options.pathHttpHeaders?.contentType,
           leaseId: options.conditions?.leaseId,
           ifMatch: options.conditions?.ifMatch,
           ifNoneMatch: options.conditions?.ifNoneMatch,
