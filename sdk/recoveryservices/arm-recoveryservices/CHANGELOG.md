@@ -1,6 +1,6 @@
 # Release History
 
-## 7.2.0 (2026-08-13)
+## 7.2.0 (2026-08-14)
 
 ### Features Added
   - Added Interface RegionOfChoiceSettings
