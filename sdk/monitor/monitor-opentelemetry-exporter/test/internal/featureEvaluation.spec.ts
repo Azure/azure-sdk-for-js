@@ -227,7 +227,7 @@ describe("OneSettings feature evaluation", () => {
       assert.isFalse(ruleMatches({ os: "windows", component: "dst" }));
     });
 
-    it("ignores a ver condition that has no accompanying component condition", () => {
+    it("rejects a rule with ver but no accompanying component condition", () => {
       assert.isFalse(ruleMatches({ ver: "1.0.0" }));
       assert.isFalse(ruleMatches({ os: "windows", ver: "1.0.0" }));
     });
