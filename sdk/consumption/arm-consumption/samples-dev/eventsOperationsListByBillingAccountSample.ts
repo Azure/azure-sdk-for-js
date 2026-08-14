@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccount-Contributor.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccount-Contributor.json
  */
 async function eventsGetByBillingAccountContributor(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function eventsGetByBillingAccountContributor(): Promise<void> {
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccount-Primary.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccount-Primary.json
  */
 async function eventsGetByBillingAccountPrimary(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function eventsGetByBillingAccountPrimary(): Promise<void> {
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccount.json
  */
 async function eventsGetByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function eventsGetByBillingAccount(): Promise<void> {
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccountWithFilters-Contributor.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccountWithFilters-Contributor.json
  */
 async function eventsGetByBillingAccountWithFiltersContributorJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function eventsGetByBillingAccountWithFiltersContributorJson(): Promise<vo
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccountWithFilters-Primary.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccountWithFilters-Primary.json
  */
 async function eventsGetByBillingAccountWithFiltersPrimary(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -97,7 +97,7 @@ async function eventsGetByBillingAccountWithFiltersPrimary(): Promise<void> {
  * This sample demonstrates how to lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
- * x-ms-original-file: 2024-08-01/EventsGetByBillingAccountWithFilters.json
+ * x-ms-original-file: 2026-06-01/EventsGetByBillingAccountWithFilters.json
  */
 async function eventsGetByBillingAccountWithFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();

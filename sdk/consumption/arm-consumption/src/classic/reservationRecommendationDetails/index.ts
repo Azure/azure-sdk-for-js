@@ -22,7 +22,7 @@ export interface ReservationRecommendationDetailsOperations {
     lookBackPeriod: LookBackPeriod,
     product: string,
     options?: ReservationRecommendationDetailsGetOptionalParams,
-  ) => Promise<ReservationRecommendationDetailsModel | undefined>;
+  ) => Promise<ReservationRecommendationDetailsModel | void>;
 }
 
 function _getReservationRecommendationDetails(context: ConsumptionManagementContext) {

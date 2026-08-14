@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccount-Contributor.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccount-Contributor.json
  */
 async function lotsListByBillingAccountContributor(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function lotsListByBillingAccountContributor(): Promise<void> {
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccount-Primary.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccount-Primary.json
  */
 async function lotsListByBillingAccountPrimary(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function lotsListByBillingAccountPrimary(): Promise<void> {
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccount.json
  */
 async function lotsListByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function lotsListByBillingAccount(): Promise<void> {
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccountWithFilters-Contributor.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccountWithFilters-Contributor.json
  */
 async function lotsListByBillingAccountWithStatusFilterContributor(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function lotsListByBillingAccountWithStatusFilterContributor(): Promise<vo
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccountWithFilters-Primary.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccountWithFilters-Primary.json
  */
 async function lotsListByBillingAccountWithStatusFilterPrimary(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -97,7 +97,7 @@ async function lotsListByBillingAccountWithStatusFilterPrimary(): Promise<void> 
  * This sample demonstrates how to lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
  *
  * @summary lists all Microsoft Azure consumption commitments for a billing account. The API is only supported for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingAccountWithFilters.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingAccountWithFilters.json
  */
 async function lotsListByBillingAccountWithStatusFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

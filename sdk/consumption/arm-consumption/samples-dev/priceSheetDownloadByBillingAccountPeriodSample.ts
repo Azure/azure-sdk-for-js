@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generates the pricesheet for the provided billing period asynchronously based on the enrollment id
  *
  * @summary generates the pricesheet for the provided billing period asynchronously based on the enrollment id
- * x-ms-original-file: 2024-08-01/EAPriceSheetForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/EAPriceSheetForBillingPeriod.json
  */
 async function eaPriceSheetForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();

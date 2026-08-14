@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2024-08-01/CreateOrUpdateBudget.json
+ * x-ms-original-file: 2026-06-01/CreateOrUpdateBudget.json
  */
 async function createOrUpdateBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();

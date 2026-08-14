@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the budget for the scope by budget name.
  *
  * @summary gets the budget for the scope by budget name.
- * x-ms-original-file: 2024-08-01/Budget.json
+ * x-ms-original-file: 2026-06-01/Budget.json
  */
 async function budget(): Promise<void> {
   const credential = new DefaultAzureCredential();

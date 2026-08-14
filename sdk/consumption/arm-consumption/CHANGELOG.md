@@ -1,5 +1,26 @@
 # Release History
 
+## 11.0.0 (2026-08-14)
+
+### Features Added
+  - Added Interface LegacyManagementGroupScopeReservationRecommendationProperties
+  - Added Interface ModernManagementGroupScopeReservationRecommendationProperties
+  - Added Interface ReservationRecommendationDetailsProjectedUsageProperties
+  - Interface ReservationRecommendationDetailsGetOptionalParams has a new optional parameter managementGroupId
+  - Interface ReservationRecommendationDetailsModel has a new optional parameter managementGroupId
+  - Interface ReservationRecommendationDetailsModel has a new optional parameter projectedUsage
+  - Interface ReservationRecommendationDetailsModel has a new optional parameter tenantId
+  - Interface ReservationRecommendationDetailsProperties has a new optional parameter managementGroupId
+  - Interface ReservationRecommendationDetailsProperties has a new optional parameter projectedUsage
+  - Interface ReservationRecommendationDetailsProperties has a new optional parameter tenantId
+  - Enum KnownScope has a new value ManagementGroup
+  - Enum KnownVersions has a new value V20260601
+
+### Breaking Changes
+  - Operation CreditsOperations.get has a new signature
+  - Operation ReservationRecommendationDetailsOperations.get has a new signature
+  - Operation TagsOperations.get has a new signature
+
 ## 10.0.0 (2026-07-27)
 
 ### Features Added

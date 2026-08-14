@@ -26,7 +26,7 @@ export function _listByCustomerSend(
     {
       billingAccountId: billingAccountId,
       customerId: customerId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -65,7 +65,7 @@ export function listByCustomer(
     () => _listByCustomerSend(context, billingAccountId, customerId, options),
     _listByCustomerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -78,7 +78,7 @@ export function _listByBillingAccountSend(
     "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/lots{?api%2Dversion,%24filter}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -118,7 +118,7 @@ export function listByBillingAccount(
     () => _listByBillingAccountSend(context, billingAccountId, options),
     _listByBillingAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -133,7 +133,7 @@ export function _listByBillingProfileSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,6 +173,6 @@ export function listByBillingProfile(
     () => _listByBillingProfileSend(context, billingAccountId, billingProfileId, options),
     _listByBillingProfileDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

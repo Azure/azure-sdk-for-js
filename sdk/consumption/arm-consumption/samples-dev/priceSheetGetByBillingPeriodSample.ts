@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
  *
  * @summary get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/PriceSheetExpand.json
+ * x-ms-original-file: 2026-06-01/PriceSheetExpand.json
  */
 async function priceSheetExpand(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function priceSheetExpand(): Promise<void> {
  * This sample demonstrates how to get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
  *
  * @summary get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/PriceSheetForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/PriceSheetForBillingPeriod.json
  */
 async function priceSheetForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();

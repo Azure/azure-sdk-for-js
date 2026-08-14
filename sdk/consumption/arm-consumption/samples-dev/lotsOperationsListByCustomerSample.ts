@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements (MPA) billing accounts.
  *
  * @summary lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements (MPA) billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByCustomer.json
+ * x-ms-original-file: 2026-06-01/LotsListByCustomer.json
  */
 async function lotsListByCustomer(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function lotsListByCustomer(): Promise<void> {
  * This sample demonstrates how to lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements (MPA) billing accounts.
  *
  * @summary lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements (MPA) billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByCustomerWithFilters.json
+ * x-ms-original-file: 2026-06-01/LotsListByCustomerWithFilters.json
  */
 async function lotsListByCustomerWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();

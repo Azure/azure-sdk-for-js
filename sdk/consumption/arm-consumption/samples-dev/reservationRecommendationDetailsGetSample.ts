@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
  *
  * @summary details of a reservation recommendation for what-if analysis of reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationDetailsByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsByBillingAccount.json
  */
 async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,31 @@ async function reservationRecommendationsByBillingAccountLegacy(): Promise<void>
  * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
  *
  * @summary details of a reservation recommendation for what-if analysis of reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationDetailsByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsByBillingAccountForManagementGroup.json
+ */
+async function reservationRecommendationDetailsByBillingAccountForManagementGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ConsumptionManagementClient(credential);
+  const result = await client.reservationRecommendationDetails.get(
+    "providers/Microsoft.Billing/billingAccounts/00000000",
+    "ManagementGroup",
+    "westus",
+    "P3Y",
+    "Last30Days",
+    "Standard_DS13_v2",
+    {
+      managementGroupId:
+        "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000",
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
+ *
+ * @summary details of a reservation recommendation for what-if analysis of reserved instances.
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsByBillingProfile.json
  */
 async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +74,7 @@ async function reservationRecommendationsByBillingProfileModern(): Promise<void>
  * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
  *
  * @summary details of a reservation recommendation for what-if analysis of reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationDetailsByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsByResourceGroup.json
  */
 async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +94,7 @@ async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> 
  * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
  *
  * @summary details of a reservation recommendation for what-if analysis of reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationDetailsBySubscription.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsBySubscription.json
  */
 async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,11 +110,33 @@ async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to details of a reservation recommendation for what-if analysis of reserved instances.
+ *
+ * @summary details of a reservation recommendation for what-if analysis of reserved instances.
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationDetailsPrePurchasePlanBySubscription.json
+ */
+async function reservationRecommendationDetailsPrePurchasePlanBySubscription(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ConsumptionManagementClient(credential);
+  const result = await client.reservationRecommendationDetails.get(
+    "subscriptions/00000000-0000-0000-0000-000000000000",
+    "Single",
+    "westus",
+    "P3Y",
+    "Last30Days",
+    "Standard_DS13_v2",
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await reservationRecommendationsByBillingAccountLegacy();
+  await reservationRecommendationDetailsByBillingAccountForManagementGroup();
   await reservationRecommendationsByBillingProfileModern();
   await reservationRecommendationsByResourceGroupLegacy();
   await reservationRecommendationsBySubscriptionLegacy();
+  await reservationRecommendationDetailsPrePurchasePlanBySubscription();
 }
 
 main().catch(console.error);

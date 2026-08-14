@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByBillingAccountList.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByBillingAccountList.json
  */
 async function billingAccountMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function billingAccountMarketplacesList(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByBillingAccountListForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByBillingAccountListForBillingPeriod.json
  */
 async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByDepartmentList.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByDepartmentList.json
  */
 async function departmentMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function departmentMarketplacesList(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByDepartment_ListByBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByDepartment_ListByBillingPeriod.json
  */
 async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -84,7 +84,7 @@ async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByEnrollmentAccountList.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByEnrollmentAccountList.json
  */
 async function enrollmentAccountMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -103,7 +103,7 @@ async function enrollmentAccountMarketplacesList(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByEnrollmentAccounts_ListByBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByEnrollmentAccounts_ListByBillingPeriod.json
  */
 async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByManagementGroupList.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByManagementGroupList.json
  */
 async function managementGroupMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -141,7 +141,7 @@ async function managementGroupMarketplacesList(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesByManagementGroup_ListForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/MarketplacesByManagementGroup_ListForBillingPeriod.json
  */
 async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -160,7 +160,7 @@ async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> 
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesList.json
+ * x-ms-original-file: 2026-06-01/MarketplacesList.json
  */
 async function subscriptionMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -179,7 +179,7 @@ async function subscriptionMarketplacesList(): Promise<void> {
  * This sample demonstrates how to lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  *
  * @summary lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/MarketplacesListForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/MarketplacesListForBillingPeriod.json
  */
 async function subscriptionMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();

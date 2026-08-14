@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
  * @summary lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
- * x-ms-original-file: 2024-08-01/ReservationSummariesDailyWithBillingAccountId.json
+ * x-ms-original-file: 2026-06-01/ReservationSummariesDailyWithBillingAccountId.json
  */
 async function reservationSummariesDailyWithBillingAccountId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function reservationSummariesDailyWithBillingAccountId(): Promise<void> {
  * This sample demonstrates how to lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
  * @summary lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
- * x-ms-original-file: 2024-08-01/ReservationSummariesDailyWithBillingProfileId.json
+ * x-ms-original-file: 2026-06-01/ReservationSummariesDailyWithBillingProfileId.json
  */
 async function reservationSummariesDailyWithBillingProfileId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function reservationSummariesDailyWithBillingProfileId(): Promise<void> {
  * This sample demonstrates how to lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
  * @summary lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
- * x-ms-original-file: 2024-08-01/ReservationSummariesMonthlyWithBillingAccountId.json
+ * x-ms-original-file: 2026-06-01/ReservationSummariesMonthlyWithBillingAccountId.json
  */
 async function reservationSummariesMonthlyWithBillingAccountId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function reservationSummariesMonthlyWithBillingAccountId(): Promise<void> 
  * This sample demonstrates how to lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
  * @summary lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
- * x-ms-original-file: 2024-08-01/ReservationSummariesMonthlyWithBillingProfileId.json
+ * x-ms-original-file: 2026-06-01/ReservationSummariesMonthlyWithBillingProfileId.json
  */
 async function reservationSummariesMonthlyWithBillingProfileId(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function reservationSummariesMonthlyWithBillingProfileId(): Promise<void> 
  * This sample demonstrates how to lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
  * @summary lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
- * x-ms-original-file: 2024-08-01/ReservationSummariesMonthlyWithBillingProfileIdReservationId.json
+ * x-ms-original-file: 2026-06-01/ReservationSummariesMonthlyWithBillingProfileIdReservationId.json
  */
 async function reservationSummariesMonthlyWithBillingProfileIdReservationId(): Promise<void> {
   const credential = new DefaultAzureCredential();
