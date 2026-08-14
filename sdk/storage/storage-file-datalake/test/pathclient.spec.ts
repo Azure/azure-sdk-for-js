@@ -1408,6 +1408,31 @@ describe("DataLakePathClient", () => {
     await tempFileClient.delete();
   });
 
+  it("append with incorrect MD5 should fail", async () => {
+    const body = "HelloWorld";
+    const bodyMD5 = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const tempFileName = recorder.variable("tempfile3", getUniqueName("tempfile3"));
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
+
+    await tempFileClient.create();
+    try {
+      await tempFileClient.append(body, 0, body.length, {
+        transactionalContentMD5: bodyMD5,
+      });
+      assert.fail("Appending with incorrect MD5 should fail.");
+    } catch (error) {
+      assert.include(
+        (error as any).message,
+        "The MD5 value specified in the request did not match with the MD5 value calculated by the server",
+      );
+    }
+
+    const properties = await tempFileClient.getProperties();
+    assert.deepStrictEqual(properties.contentLength, 0);
+
+    await tempFileClient.delete();
+  });
+
   it("exists returns true on an existing file", async () => {
     const result = await fileClient.exists();
     assert.isTrue(result, "exists() should return true for an existing file");
