@@ -29,7 +29,7 @@
     "@azure/ai-projects": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0",
-    "openai": "^6.16.0",
+    "openai": "^7.1.0",
     "@azure/arm-cognitiveservices": "8.1.0",
     "@modelcontextprotocol/sdk": "^1.25.1",
     "@azure/core-rest-pipeline": "^1.5.0",
