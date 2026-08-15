@@ -7,6 +7,7 @@ import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../../generated/index.js";
 import { resourceMetricsToEnvelope } from "../../utils/metricUtils.js";
+import { ConnectionStringParser } from "../../utils/connectionStringParser.js";
 import { AzureMonitorBaseExporter } from "../base.js";
 
 /**
@@ -22,6 +23,7 @@ export class AzureMonitorStatsbeatExporter
   private _isShutdown = false;
   private _sender: any;
   private _senderOptions: any;
+  private _routeLock: Promise<void> = Promise.resolve();
 
   /**
    * Initializes a new instance of the AzureMonitorStatsbeatExporter class.
@@ -48,6 +50,47 @@ export class AzureMonitorStatsbeatExporter
       this._sender = new HttpSender(this._senderOptions);
     }
     return this._sender;
+  }
+
+  private _withRouteLock<T>(operation: () => Promise<T>): Promise<T> {
+    const result = this._routeLock.then(operation);
+    this._routeLock = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
+  }
+
+  /**
+   * Update the internal Statsbeat destination without replacing the metric reader.
+   * @internal
+   */
+  public async updateConnectionString(connectionString: string): Promise<void> {
+    const parsedConnectionString = ConnectionStringParser.parse(connectionString);
+    const instrumentationKey = parsedConnectionString.instrumentationkey;
+    const endpointUrl = parsedConnectionString.ingestionendpoint?.trim();
+    if (!instrumentationKey || !endpointUrl) {
+      throw new Error("Invalid Statsbeat connection string");
+    }
+    await this._withRouteLock(async () => {
+      if (instrumentationKey === this.instrumentationKey && endpointUrl === this.endpointUrl) {
+        return;
+      }
+
+      const previousSender = this._sender;
+      this._sender = undefined;
+      this.instrumentationKey = instrumentationKey;
+      this.endpointUrl = endpointUrl;
+      this._senderOptions = {
+        ...this._senderOptions,
+        endpointUrl,
+        instrumentationKey,
+      };
+
+      if (previousSender) {
+        await previousSender.shutdown();
+      }
+    });
   }
 
   /**
@@ -81,19 +124,21 @@ export class AzureMonitorStatsbeatExporter
       return;
     }
 
-    const envelopes: Envelope[] = resourceMetricsToEnvelope(
-      metrics,
-      this.instrumentationKey,
-      true, // isStatsbeat flag passed to create a Statsbeat envelope.
-    );
+    await this._withRouteLock(async () => {
+      const envelopes: Envelope[] = resourceMetricsToEnvelope(
+        metrics,
+        this.instrumentationKey,
+        true, // isStatsbeat flag passed to create a Statsbeat envelope.
+      );
 
-    // Filter out zero-value metrics before export
-    const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
+      // Filter out zero-value metrics before export
+      const filteredEnvelopes = this.filterZeroValueMetrics(envelopes);
 
-    // Supress tracing until OpenTelemetry Metrics SDK support it
-    await context.with(suppressTracing(context.active()), async () => {
-      const sender = await this._getSender();
-      resultCallback(await sender.exportEnvelopes(filteredEnvelopes));
+      // Supress tracing until OpenTelemetry Metrics SDK support it
+      await context.with(suppressTracing(context.active()), async () => {
+        const sender = await this._getSender();
+        resultCallback(await sender.exportEnvelopes(filteredEnvelopes));
+      });
     });
   }
 
@@ -102,9 +147,11 @@ export class AzureMonitorStatsbeatExporter
    */
   public async shutdown(): Promise<void> {
     this._isShutdown = true;
-    if (this._sender) {
-      return this._sender.shutdown();
-    }
+    await this._withRouteLock(async () => {
+      if (this._sender) {
+        await this._sender.shutdown();
+      }
+    });
   }
 
   /**

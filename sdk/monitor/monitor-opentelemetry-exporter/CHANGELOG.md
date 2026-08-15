@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.45 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed internal Statsbeat routing after ingestion redirects so EU SDK statistics use the EU Statsbeat destination.
+
+### Other Changes
+
 ## 1.0.0-beta.44 (2026-07-29)
 
 ### Bugs Fixed

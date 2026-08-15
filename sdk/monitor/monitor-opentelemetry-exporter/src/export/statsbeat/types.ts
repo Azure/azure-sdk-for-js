@@ -143,6 +143,7 @@ export const EU_ENDPOINTS = [
   "northeurope",
   "francecentral",
   "francesouth",
+  "germanynorth",
   "germanywestcentral",
   "norwayeast",
   "norwaywest",

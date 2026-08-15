@@ -38,6 +38,7 @@ export const mockNetworkStats: {
   countException: Mock<(exceptionType: Error) => void>;
   countReadFailure: Mock<() => void>;
   countWriteFailure: Mock<() => void>;
+  updateEndpoint: Mock<(endpointUrl: string) => Promise<void>>;
   shutdown: Mock<() => Promise<void>>;
 } = {
   countSuccess: vi.fn(),
@@ -47,12 +48,15 @@ export const mockNetworkStats: {
   countException: vi.fn(),
   countReadFailure: vi.fn(),
   countWriteFailure: vi.fn(),
+  updateEndpoint: vi.fn().mockResolvedValue(undefined),
   shutdown: vi.fn(),
 };
 
 export const mockLongIntervalStats: {
+  updateEndpoint: Mock<(endpointUrl: string) => Promise<void>>;
   shutdown: Mock<() => Promise<void>>;
 } = {
+  updateEndpoint: vi.fn().mockResolvedValue(undefined),
   shutdown: vi.fn(),
 };
 
@@ -424,6 +428,12 @@ describe("BaseSender", () => {
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith("https://newlocation.com");
+      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(
+        "https://newlocation.com",
+      );
+      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(
+        "https://newlocation.com",
+      );
       expect(sender.sendMock).toHaveBeenCalledTimes(2);
       expect(result.code).toBe(ExportResultCode.SUCCESS);
     });
@@ -446,6 +456,12 @@ describe("BaseSender", () => {
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
+        "https://permanentlocation.com",
+      );
+      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(
+        "https://permanentlocation.com",
+      );
+      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(
         "https://permanentlocation.com",
       );
       expect(sender.sendMock).toHaveBeenCalledTimes(2);
@@ -498,6 +514,8 @@ describe("BaseSender", () => {
       expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
         "https://attacker.example.invalid",
       );
+      expect(sender.getNetworkStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(sender.getLongIntervalStats().updateEndpoint).not.toHaveBeenCalled();
       // No retry: send is called exactly once and never reaches the redirect target.
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
       expect(result.code).toBe(ExportResultCode.FAILED);

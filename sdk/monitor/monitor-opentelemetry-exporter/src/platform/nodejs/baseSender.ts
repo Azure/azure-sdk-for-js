@@ -268,6 +268,10 @@ export abstract class BaseSender {
             // would attach a freshly-signed AAD token (and the telemetry body) to the foreign host.
             const accepted = this.handlePermanentRedirect(location);
             if (accepted) {
+              await Promise.all([
+                this.networkStatsbeatMetrics?.updateEndpoint(location),
+                this.longIntervalStatsbeatMetrics?.updateEndpoint(location),
+              ]);
               // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
               return this.exportEnvelopes(envelopes);
             }

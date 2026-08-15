@@ -137,6 +137,33 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     return this.networkStatsbeatMeterProvider.shutdown();
   }
 
+  /**
+   * Apply an accepted ingestion redirect to the Statsbeat route and network dimensions.
+   * Existing counters and the periodic metric reader are retained.
+   * @internal
+   */
+  public async updateEndpoint(endpointUrl: string): Promise<void> {
+    const connectionString = super.getConnectionString(endpointUrl);
+    await this.networkAzureExporter.updateConnectionString(connectionString);
+    this.connectionString = connectionString;
+
+    const currentCounter = this.networkStatsbeatCollection.find(
+      (counter) => counter.endpoint === this.endpointUrl && counter.host === this.host,
+    );
+    const host = this.getShortHost(endpointUrl);
+    if (currentCounter) {
+      currentCounter.endpoint = endpointUrl;
+      currentCounter.host = host;
+    }
+
+    this.endpointUrl = endpointUrl;
+    this.host = host;
+    this.networkProperties = {
+      endpoint: endpointUrl,
+      host,
+    };
+  }
+
   private async initialize(): Promise<void> {
     try {
       await super.getResourceProvider();

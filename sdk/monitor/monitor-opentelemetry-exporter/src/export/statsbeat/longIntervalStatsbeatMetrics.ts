@@ -200,6 +200,17 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   public shutdown(): Promise<void> {
     return this.longIntervalStatsbeatMeterProvider.shutdown();
   }
+
+  /**
+   * Apply an accepted ingestion redirect without replacing the periodic metric reader.
+   * @internal
+   */
+  public async updateEndpoint(endpointUrl: string): Promise<void> {
+    const connectionString = super.getConnectionString(endpointUrl);
+    await this.longIntervalAzureExporter.updateConnectionString(connectionString);
+    this.connectionString = connectionString;
+  }
+
   /**
    * Singleton LongIntervalStatsbeatMetrics instance.
    * @internal

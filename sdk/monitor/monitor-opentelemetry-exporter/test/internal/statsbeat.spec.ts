@@ -10,7 +10,12 @@ import {
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
-import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
+import {
+  AZURE_MONITOR_AUTO_ATTACH,
+  EU_CONNECTION_STRING,
+  NON_EU_CONNECTION_STRING,
+  StatsbeatCounter,
+} from "../../src/export/statsbeat/types.js";
 import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
@@ -113,6 +118,85 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(statsbeat["host"], "westeurope");
       });
 
+      it("should route subsequent Statsbeat exports to EU after a global endpoint redirect", async () => {
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance({
+          instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+          endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        });
+        try {
+          statsbeat["networkStatsbeatCollection"] = [];
+          statsbeat.countSuccess(100);
+
+          await statsbeat.updateEndpoint(
+            "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track",
+          );
+
+          assert.strictEqual(statsbeat["connectionString"], EU_CONNECTION_STRING);
+          assert.strictEqual(
+            statsbeat["networkAzureExporter"]["endpointUrl"],
+            "https://westeurope-5.in.applicationinsights.azure.com",
+          );
+          assert.strictEqual(
+            statsbeat["networkAzureExporter"]["instrumentationKey"],
+            "7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f",
+          );
+          assert.strictEqual(statsbeat["networkStatsbeatCollection"][0].totalRequestCount, 1);
+          assert.strictEqual(
+            statsbeat["networkStatsbeatCollection"][0].endpoint,
+            "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track",
+          );
+        } finally {
+          await statsbeat.shutdown();
+          (NetworkStatsbeatMetrics as any).instance = null;
+        }
+      });
+
+      it("should keep the latest non-EU redirect authoritative during concurrent updates", async () => {
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance({
+          instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+          endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        });
+        try {
+          const euUpdate = statsbeat.updateEndpoint(
+            "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track",
+          );
+          const nonEuUpdate = statsbeat.updateEndpoint(
+            "https://westus2-0.in.applicationinsights.azure.com/v2.1/track",
+          );
+          await Promise.all([euUpdate, nonEuUpdate]);
+
+          assert.strictEqual(statsbeat["connectionString"], NON_EU_CONNECTION_STRING);
+          assert.strictEqual(
+            statsbeat["networkAzureExporter"]["endpointUrl"],
+            "https://westus-0.in.applicationinsights.azure.com",
+          );
+          assert.strictEqual(
+            statsbeat["networkAzureExporter"]["instrumentationKey"],
+            "c4a29126-a7cb-47e5-b348-11414998b11e",
+          );
+        } finally {
+          await statsbeat.shutdown();
+          (NetworkStatsbeatMetrics as any).instance = null;
+        }
+      });
+
+      it("should classify Germany North as an EU endpoint", async () => {
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance({
+          instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+          endpointUrl: "https://germanynorth-0.in.applicationinsights.azure.com",
+        });
+
+        try {
+          assert.strictEqual(statsbeat["connectionString"], EU_CONNECTION_STRING);
+        } finally {
+          await statsbeat.shutdown();
+          (NetworkStatsbeatMetrics as any).instance = null;
+        }
+      });
+
       it("getShortHost", () => {
         const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
         assert.strictEqual(
@@ -128,6 +212,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should add correct network properties to the custom metric", () => {
+        (NetworkStatsbeatMetrics as any).instance = null;
         const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
         // Clear any existing state
         statsbeat["networkStatsbeatCollection"] = [];
