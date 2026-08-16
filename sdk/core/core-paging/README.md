@@ -43,12 +43,12 @@ for await (const page of listSecrets().byPage()) {
 
 And using the types:
 
-```
-  for await (let page of client.listSecrets().byPage()) {
-    for (const secret of page) {
-      console.log("secret: ", secret);
-    }
+```typescript snippet:ReadmePagingUsageSample
+for await (const page of client.listSecrets().byPage()) {
+  for (const secret of page) {
+    console.log("secret: ", secret);
   }
+}
 ```
 
 ## Next steps
