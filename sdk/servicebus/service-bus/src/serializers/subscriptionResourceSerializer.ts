@@ -103,10 +103,9 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
 
     status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
 
-    availabilityStatus: getString(
+    availabilityStatus: getStringOrUndefined(
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-      "availabilityStatus",
-    ) as EntityAvailabilityStatus,
+    ) as EntityAvailabilityStatus | undefined,
   };
 }
 
