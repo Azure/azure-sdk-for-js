@@ -205,6 +205,13 @@ export interface SubscribeOptions {
    */
   skipParsingBodyAsJson?: boolean;
   /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate?: boolean;
+  /**
    * The count of events requested eagerly and queued without regard to whether a read was requested.
    */
   prefetchCount?: number;

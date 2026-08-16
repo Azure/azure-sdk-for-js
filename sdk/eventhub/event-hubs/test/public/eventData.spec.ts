@@ -8,6 +8,7 @@ import type {
   EventHubProducerClient,
   EventPosition,
   ReceivedEventData,
+  SubscribeOptions,
   Subscription,
 } from "../../src/index.js";
 import { randomUUID } from "@azure/core-util";
@@ -46,9 +47,12 @@ describe("EventData", () => {
    * Note: Call this after sending a single event to Event Hubs to validate
    * @internal
    */
-  async function receiveEvent(startingPositions: {
-    [partitionId: string]: EventPosition;
-  }): Promise<ReceivedEventData> {
+  async function receiveEvent(
+    startingPositions: {
+      [partitionId: string]: EventPosition;
+    },
+    options: SubscribeOptions = {},
+  ): Promise<ReceivedEventData> {
     return new Promise<ReceivedEventData>((resolve, reject) => {
       const subscription: Subscription = consumerClient.subscribe(
         {
@@ -64,6 +68,7 @@ describe("EventData", () => {
           },
         },
         {
+          ...options,
           startPosition: startingPositions,
         },
       );
@@ -108,6 +113,65 @@ describe("EventData", () => {
 
       const event = await receiveEvent(startingPositions);
       should.equal(event.body, testEvent.body, "Unexpected body on the received event.");
+    });
+  });
+
+  describe("Date properties", () => {
+    function getDateEventData(timestamp: Date): EventData {
+      return {
+        body: "date property test",
+        messageId: randomUUID(),
+        properties: {
+          topLevelDate: timestamp,
+          child: { nestedDate: timestamp },
+        },
+      };
+    }
+
+    it("converts Dates into numbers by default", async () => {
+      const startingPositions = await getStartingPositionsForTests(consumerClient);
+      const timestamp = new Date();
+      await producerClient.sendBatch([getDateEventData(timestamp)]);
+
+      const event = await receiveEvent(startingPositions);
+      should.equal(
+        event.properties!["topLevelDate"],
+        timestamp.getTime(),
+        "Unexpected top level property on the received event.",
+      );
+      should.equal(
+        (event.properties!["child"] as any).nestedDate,
+        timestamp.getTime(),
+        "Unexpected nested property on the received event.",
+      );
+    });
+
+    it("keeps Dates when skipConvertingDate is true", async () => {
+      const startingPositions = await getStartingPositionsForTests(consumerClient);
+      const timestamp = new Date();
+      await producerClient.sendBatch([getDateEventData(timestamp)]);
+
+      const event = await receiveEvent(startingPositions, { skipConvertingDate: true });
+      should.equal(
+        (event.properties!["topLevelDate"] as Date) instanceof Date,
+        true,
+        "The top level property is not a Date.",
+      );
+      should.equal(
+        (event.properties!["topLevelDate"] as Date).getTime(),
+        timestamp.getTime(),
+        "Unexpected top level property on the received event.",
+      );
+      should.equal(
+        (event.properties!["child"] as any).nestedDate instanceof Date,
+        true,
+        "The nested property is not a Date.",
+      );
+      should.equal(
+        ((event.properties!["child"] as any).nestedDate as Date).getTime(),
+        timestamp.getTime(),
+        "Unexpected nested property on the received event.",
+      );
     });
   });
 });
