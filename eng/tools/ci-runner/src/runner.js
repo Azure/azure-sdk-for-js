@@ -142,7 +142,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
 }
 
 /**
- * Helper function to invoke `npm run` in the specified package folders.
+ * Helper function to invoke a package script with pnpm in the specified package folders.
  *
  * @param {string} action - which action to execute
  * @param {string[]} packageDirs - An array of package folder paths
