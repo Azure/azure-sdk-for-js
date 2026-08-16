@@ -517,9 +517,7 @@ export interface RetryConfig<T> {
 
 // @public
 export enum RetryMode {
-    // (undocumented)
     Exponential = 0,
-    // (undocumented)
     Fixed = 1
 }
 
