@@ -5,7 +5,7 @@
  * @summary Demonstrates how to analyze image.
  */
 
-import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
+import { ContentSafetyClient } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 import fs from "node:fs";
 import path from "node:path";
@@ -16,28 +16,16 @@ async function main(): Promise<void> {
   const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
   const credential = new AzureKeyCredential(key);
-  const client = ContentSafetyClient(endpoint, credential);
+  const client = new ContentSafetyClient(endpoint, credential);
 
   const image_path = path.resolve(__dirname, "./example-data/image.png");
 
   const imageBuffer = fs.readFileSync(image_path);
-  const base64Image = imageBuffer.toString("base64");
-  const analyzeImageOption = { image: { content: base64Image } };
-  const analyzeImageParameters = { body: analyzeImageOption };
 
-  const result = await client.path("/image:analyze").post(analyzeImageParameters);
+  const result = await client.analyzeImage({ image: { content: imageBuffer } });
 
-  if (isUnexpected(result)) {
-    throw result;
-  }
-
-  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-    const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(
-      imageCategoriesAnalysisOutput.category,
-      " severity: ",
-      imageCategoriesAnalysisOutput.severity,
-    );
+  for (const categoryAnalysis of result.categoriesAnalysis) {
+    console.log(categoryAnalysis.category, " severity: ", categoryAnalysis.severity);
   }
 }
 
