@@ -4,11 +4,13 @@ import path, { basename } from "node:path";
 import { FunctionDeclaration, SourceFile, SyntaxKind } from "ts-morph";
 import { logger } from "../../utils/logger.js";
 import { glob } from "glob";
-import { exists } from "fs-extra";
+import fsExtra from "fs-extra";
 import { tryGetNpmView } from "../../common/npmUtils.js";
 import { getLatestStableVersion, isBetaVersion } from "../../utils/version.js";
 import fs from "fs";
 import unixify from "unixify";
+
+const { exists } = fsExtra;
 
 function tryFindVersionInFunctionBody(func: FunctionDeclaration): string | undefined {
   const apiVersionStatements = func
