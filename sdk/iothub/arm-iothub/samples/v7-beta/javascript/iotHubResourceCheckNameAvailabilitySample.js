@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to check if an IoT hub name is available.
  *
  * @summary check if an IoT hub name is available.
- * x-ms-original-file: 2026-03-01-preview/checkNameAvailability.json
+ * x-ms-original-file: 2026-05-01-preview/checkNameAvailability.json
  */
 async function iotHubResourceCheckNameAvailability() {
   const credential = new DefaultAzureCredential();

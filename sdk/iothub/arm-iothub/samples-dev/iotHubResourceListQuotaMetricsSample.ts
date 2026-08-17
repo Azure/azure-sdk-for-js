@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the quota metrics for an IoT hub.
  *
  * @summary get the quota metrics for an IoT hub.
- * x-ms-original-file: 2026-03-01-preview/iothub_quotametrics.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_quotametrics.json
  */
 async function iotHubResourceGetQuotaMetrics(): Promise<void> {
   const credential = new DefaultAzureCredential();

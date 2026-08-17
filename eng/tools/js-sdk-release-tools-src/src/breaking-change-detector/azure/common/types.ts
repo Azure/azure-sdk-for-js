@@ -28,7 +28,7 @@ export interface ParseForESLintResult {
 export interface CreateOperationRule {
   (
     baselineParsedResult: ParseForESLintResult | undefined,
-  ): RuleModule<"default", readonly unknown[], RuleListener>;
+  ): RuleModule<"default", readonly unknown[], unknown, RuleListener>;
 }
 
 export interface RuleMessage {

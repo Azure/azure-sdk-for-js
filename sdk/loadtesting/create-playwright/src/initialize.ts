@@ -10,7 +10,7 @@ import type {
   PackageManager,
   PlaywrightServiceInitConfig,
 } from "./types.js";
-import { executeCommand, getFileReferenceForImport } from "./utils.js";
+import { executeCommand, formatCommand, getFileReferenceForImport } from "./utils.js";
 import { getPackageManager } from "./packageManager.js";
 
 const questions: PromptObject[] = [
@@ -66,13 +66,15 @@ export class PlaywrightServiceInitialize {
   };
 
   private displayAdditionalInformation = (): void => {
-    const runCommandParallelWorkers = this._packageManager.runCommand(
-      "playwright",
-      `test -c ${this.createAzurePlaywrightConfigFileName()} --workers=20`,
-    );
+    const runCommandParallelWorkers = this._packageManager.runCommand("playwright", [
+      "test",
+      "-c",
+      this.createAzurePlaywrightConfigFileName(),
+      "--workers=20",
+    ]);
 
     console.log(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
-    console.log(`\t${runCommandParallelWorkers}\n`);
+    console.log(`\t${formatCommand(runCommandParallelWorkers)}\n`);
 
     console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
@@ -82,10 +84,11 @@ export class PlaywrightServiceInitialize {
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand(
-      "@azure/playwright @azure/identity",
-    );
-    console.log(`Installing Service package (${command})`);
+    const command = this._packageManager.installDevDependencyCommand([
+      "@azure/playwright",
+      "@azure/identity",
+    ]);
+    console.log(`Installing Service package (${formatCommand(command)})`);
     await executeCommand(command);
   };
 

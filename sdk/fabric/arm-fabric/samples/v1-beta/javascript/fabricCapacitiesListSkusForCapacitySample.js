@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { FabricClient } = require("@azure/arm-fabric");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -8,14 +8,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list eligible SKUs for a Microsoft Fabric resource
  *
  * @summary list eligible SKUs for a Microsoft Fabric resource
- * x-ms-original-file: 2023-11-01/FabricCapacities_ListSkusForCapacity.json
+ * x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListSkusForCapacity.json
  */
 async function listEligibleSKUsForAnExistingCapacity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fabricCapacities.listSkusForCapacity("TestRG", "azsdktest")) {
+  for await (const item of client.fabricCapacities.listSkusForCapacity("TestRG", "azsdktest")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listEligibleSKUsForAnExistingCapacity() {
 }
 
 async function main() {
-  listEligibleSKUsForAnExistingCapacity();
+  await listEligibleSKUsForAnExistingCapacity();
 }
 
 main().catch(console.error);
