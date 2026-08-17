@@ -161,18 +161,7 @@ export async function _deleteEvaluationRuleDeserialize(
 }
 
 /** Removes the specified evaluation rule from the project. */
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/evaluationRules/operations.ts
 export async function deleteEvaluationRule(
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/evaluationRules/operations.ts
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
-=======
-export async function $delete(
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/evaluationRules/operations.ts
   context: Client,
   id: string,
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },

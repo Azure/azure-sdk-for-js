@@ -24,22 +24,9 @@ import {
   _agentsPagedResultSkillVersionDeserializer,
   deleteSkillVersionResponseDeserializer,
 } from "../../../models/models.js";
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/skills/operations.ts
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/skills/operations.ts
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
-=======
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/skills/operations.ts
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
@@ -54,25 +41,8 @@ import type {
   BetaSkillsListOptionalParams,
   BetaSkillsGetOptionalParams,
 } from "./options.js";
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/skills/operations.ts
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-  getBinaryStreamResponse,
-} from "@azure-rest/core-client";
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/skills/operations.ts
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-=======
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/skills/operations.ts
 
 export function _deleteVersionSend(
   context: Client,

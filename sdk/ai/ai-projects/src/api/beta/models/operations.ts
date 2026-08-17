@@ -293,18 +293,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/models/operations.ts
-/** Removes the specified model version. Returns 200 whether the version existed or not. */
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/models/operations.ts
-/** Removes the specified model version. Returns 200 whether the version existed or not. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-=======
 /** Delete the specific version of the ModelVersion. The service returns 200 OK if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/models/operations.ts
 export async function $delete(
   context: Client,
   name: string,

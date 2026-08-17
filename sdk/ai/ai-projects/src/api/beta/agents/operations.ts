@@ -3,37 +3,17 @@
 
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
-  OptimizationJob,
-  OptimizationJobListItem,
-  OptimizationJobResult,
-  _AgentsPagedResultOptimizationJobListItem,
+  AgentOptimizationJob,
+  AgentOptimizationJobListItem,
+  AgentOptimizationJobResult,
+  _AgentsPagedResultAgentOptimizationJobListItem,
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/agents/operations.ts
-  AgentOptimizationJob,
   agentOptimizationJobSerializer,
   agentOptimizationJobDeserializer,
-  AgentOptimizationJobResult,
   agentOptimizationJobResultDeserializer,
-  _AgentsPagedResultAgentOptimizationJobListItem,
   _agentsPagedResultAgentOptimizationJobListItemDeserializer,
-  AgentOptimizationJobListItem,
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
-  OptimizationJob,
-  optimizationJobSerializer,
-  optimizationJobDeserializer,
-  OptimizationJobResult,
-  optimizationJobResultDeserializer,
-  _AgentsPagedResultOptimizationJobListItem,
-  _agentsPagedResultOptimizationJobListItemDeserializer,
-  OptimizationJobListItem,
-=======
-  optimizationJobSerializer,
-  optimizationJobDeserializer,
-  optimizationJobResultDeserializer,
-  _agentsPagedResultOptimizationJobListItemDeserializer,
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
@@ -277,39 +257,6 @@ export function _createOptimizationJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: agentOptimizationJobSerializer(job),
-    });
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: optimizationJobSerializer(job),
-    });
-=======
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
@@ -319,9 +266,8 @@ export function _createOptimizationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: optimizationJobSerializer(job),
+    body: agentOptimizationJobSerializer(job),
   });
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 }
 
 export async function _createOptimizationJobDeserialize(
@@ -352,31 +298,17 @@ export function createOptimizationJob(
   context: Client,
   job: AgentOptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/agents/operations.ts
-): PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult> {
-  return getLongRunningPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
-): PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult> {
-  return getLongRunningPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
-=======
-): JobPoller<OptimizationJobResult> {
+): JobPoller<AgentOptimizationJobResult> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOptimizationJobSend(context, job, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "v1",
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/agents/operations.ts
-  }) as PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/agents/operations.ts
-  }) as PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
-=======
     pollHeaders: {
       ...options?.requestOptions?.headers,
       "foundry-features": "AgentsOptimization=V2Preview",
     },
   });
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/agents/operations.ts
 }

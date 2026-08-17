@@ -2,10 +2,30 @@
 
 ## 2.4.1 (Unreleased)
 
+### Breaking Changes
+
+- Rename beta agent optimization models from `Optimization*` names to `AgentOptimization*` names, including `OptimizationAgentIdentifier` to `OptimizedAgentIdentifier`.
+- Rename `project.evaluationRules.delete`, `project.beta.evaluationTaxonomies.delete`, and `project.beta.schedules.delete` to `deleteEvaluationRule`, `deleteEvaluationTaxonomy`, and `deleteSchedule`, respectively.
+- Rename `TaskGenerationDataGenerationJobOptions` to `SimulationSeedDataGenerationJobOptions` and replace the `task_generation` discriminator with `simulation_seed`.
+- Update `project.beta.routines` to the `Routines=V2Preview` contract, remove the `before` list option, and type `order` as `PageOrder`.
+- Add the required `cache_write_tokens` property to `ResponseUsageInputTokensDetails`.
+
+### Features Added
+
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools.
+- Add `output_schema` configuration to function tools.
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort.
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration.
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
 - Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+
+### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration.
 
 ## 2.4.0 (2026-08-04)
 

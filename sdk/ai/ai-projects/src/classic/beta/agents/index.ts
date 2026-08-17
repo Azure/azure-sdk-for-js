@@ -16,22 +16,10 @@ import type {
   BetaAgentsGetOptimizationJobOptionalParams,
   BetaAgentsCreateOptimizationJobOptionalParams,
 } from "../../../api/beta/agents/options.js";
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/agents/index.ts
-import {
+import type {
   AgentOptimizationJob,
   AgentOptimizationJobResult,
   AgentOptimizationJobListItem,
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/agents/index.ts
-import {
-  OptimizationJob,
-  OptimizationJobResult,
-  OptimizationJobListItem,
-=======
-import type {
-  OptimizationJob,
-  OptimizationJobResult,
-  OptimizationJobListItem,
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/agents/index.ts
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
@@ -47,51 +35,21 @@ export interface BetaAgentsOperations {
   cancelOptimizationJob: (
     jobId: string,
     options?: BetaAgentsCancelOptimizationJobOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/agents/index.ts
   ) => Promise<AgentOptimizationJob>;
-  /** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/agents/index.ts
-  ) => Promise<OptimizationJob>;
-  /** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
-=======
-  ) => Promise<OptimizationJob>;
   /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/agents/index.ts
   listOptimizationJobs: (
     options?: BetaAgentsListOptimizationJobsOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/agents/index.ts
   ) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
-  /** Retrieves an optimization job by its identifier. */
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/agents/index.ts
-  ) => PagedAsyncIterableIterator<OptimizationJobListItem>;
-  /** Retrieves an optimization job by its identifier. */
-=======
-  ) => PagedAsyncIterableIterator<OptimizationJobListItem>;
   /** Get an optimization job by id. */
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/agents/index.ts
   getOptimizationJob: (
     jobId: string,
     options?: BetaAgentsGetOptimizationJobOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/agents/index.ts
   ) => Promise<AgentOptimizationJob>;
-  /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/agents/index.ts
-  ) => Promise<OptimizationJob>;
-  /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
-=======
-  ) => Promise<OptimizationJob>;
   /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/agents/index.ts
   createOptimizationJob: (
     job: AgentOptimizationJob,
     options?: BetaAgentsCreateOptimizationJobOptionalParams,
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/agents/index.ts
-  ) => PollerLike<OperationState<AgentOptimizationJobResult>, AgentOptimizationJobResult>;
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/agents/index.ts
-  ) => PollerLike<OperationState<OptimizationJobResult>, OptimizationJobResult>;
-=======
-  ) => JobPoller<OptimizationJobResult>;
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/agents/index.ts
+  ) => JobPoller<AgentOptimizationJobResult>;
 }
 
 function _getBetaAgents(context: AIProjectContext) {

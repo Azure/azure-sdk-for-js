@@ -160,32 +160,13 @@ export async function _deleteEvaluationTaxonomyDeserialize(
 }
 
 /** Removes the specified evaluation taxonomy from the project. */
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/evaluationTaxonomies/operations.ts
 export async function deleteEvaluationTaxonomy(
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/evaluationTaxonomies/operations.ts
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
-=======
-export async function $delete(
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/evaluationTaxonomies/operations.ts
   context: Client,
   name: string,
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/evaluationTaxonomies/operations.ts
-  const result = await _deleteEvaluationTaxonomySend(context, name, foundryFeatures, options);
+  const result = await _deleteEvaluationTaxonomySend(context, name, options);
   return _deleteEvaluationTaxonomyDeserialize(result);
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/evaluationTaxonomies/operations.ts
-  const result = await _$deleteSend(context, name, foundryFeatures, options);
-  return _$deleteDeserialize(result);
-=======
-  const result = await _$deleteSend(context, name, options);
-  return _$deleteDeserialize(result);
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/evaluationTaxonomies/operations.ts
 }
 
 export function _listSend(

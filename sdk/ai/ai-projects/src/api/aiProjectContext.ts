@@ -2,23 +2,12 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/aiProjectContext.ts
-import pkgJson from "@azure/ai-projects/package.json" with { type: "json" };
-import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/aiProjectContext.ts
-import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
-=======
 import { KnownApiVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "../constants.js";
 import type { GenAITracingOptions } from "../tracing/configuration.js";
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/aiProjectContext.ts
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -48,16 +37,10 @@ export function createAIProject(
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/aiProjectContext.ts
-  const userAgentInfo = `azsdk-js-ai-projects/${pkgJson.version}`;
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/aiProjectContext.ts
-  const userAgentInfo = `azsdk-js-ai-projects/1.0.0-beta.1`;
-=======
   const userAgentInfo = `azsdk-js-ai-projects/${SDK_VERSION}`;
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/aiProjectContext.ts
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} ${userAgentInfo}`
-    : `${userAgentInfo}`;
+    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+    : `azsdk-js-api ${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

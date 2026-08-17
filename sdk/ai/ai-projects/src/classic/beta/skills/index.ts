@@ -76,43 +76,10 @@ export interface BetaSkillsOperations {
     options?: CreateFromFilesOptionalParams,
   ) => Promise<SkillVersion>;
   /** Creates a new version of a skill. If the skill does not exist, it will be created. */
-<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/skills/index.ts
-  create: (
-    name: string,
-    foundryFeatures: "Skills=V1Preview",
-    options?: BetaSkillsCreateOptionalParams,
-  ) => Promise<SkillVersion>;
-  /** Removes the specified skill and its associated versions. */
-  delete: (
-    name: string,
-    foundryFeatures: "Skills=V1Preview",
-    options?: BetaSkillsDeleteOptionalParams,
-  ) => Promise<DeleteSkillResponse>;
-  /** Modifies the specified skill's configuration. */
-||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/skills/index.ts
-  create: (
-    name: string,
-    foundryFeatures: "Skills=V1Preview",
-    options?: BetaSkillsCreateOptionalParams,
-  ) => Promise<SkillVersion>;
-  /** Removes the specified skill and its associated versions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
-    name: string,
-    foundryFeatures: "Skills=V1Preview",
-    options?: BetaSkillsDeleteOptionalParams,
-  ) => Promise<DeleteSkillResponse>;
-  /** Modifies the specified skill's configuration. */
-=======
   create: (name: string, options?: BetaSkillsCreateOptionalParams) => Promise<SkillVersion>;
   /** Deletes a skill. */
   delete: (name: string, options?: BetaSkillsDeleteOptionalParams) => Promise<DeleteSkillResponse>;
   /** Update a skill. */
->>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/skills/index.ts
   update: (
     name: string,
     defaultVersion: string,
