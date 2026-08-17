@@ -42,6 +42,8 @@ The package skills are intentionally nested and are not automatically loaded by 
 
 Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
 
+Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must restore protected files, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run.
+
 Samples and GA tests are conditional. A step may be a documented no-op when the API diff contains no qualifying surface; state that explicitly in the pull request rather than creating placeholder files.
 
 For the sixth skill, the issue assignment already owns the working branch and draft pull request. Prepare the logical commits without creating another branch, pushing manually, or opening another pull request:
@@ -62,3 +64,5 @@ The result may contain three to five non-empty regeneration commits, always in t
 Keep the pull request in draft and use the title `[ai-projects] Regenerate from azure-rest-api-specs@<7-character-commit>`. Its description must link the full upstream commit, summarize public API changes, explain any sample/test no-ops, and report each validation command honestly.
 
 Apply every STOP condition from the six skills. On failure, preserve the working tree for diagnosis, do not publish partial manual branches or pull requests, and report the failing command and its output.
+
+Before finishing a managed session, verify that no conflict markers remain under `src/`, `src/restorePollerHelpers.ts` and `metadata.json` do not exist, and the changelog group is non-empty. Never report progress or commit emitter output as the completed regeneration while any required downstream skill is pending or failed.
