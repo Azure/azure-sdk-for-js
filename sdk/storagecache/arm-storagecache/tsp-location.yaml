@@ -1,4 +1,4 @@
 directory: specification/storagecache/resource-manager/Microsoft.StorageCache/StorageCache
-commit: d5ee6b87272dea7413a15e1403db07fe0450316a
+commit: 97e60f488f937ddc4c96189327f2500c8b484e7c
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
