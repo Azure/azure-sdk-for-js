@@ -7,5 +7,6 @@
       "@azure/app-configuration/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["src", "test", "package.json"]
 }
