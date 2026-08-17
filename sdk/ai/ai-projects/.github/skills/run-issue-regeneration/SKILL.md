@@ -14,7 +14,7 @@ Before installing dependencies or editing files:
 1. Read exactly one unambiguous value labeled `TypeSpec commit` and exactly one unambiguous value labeled `Base branch` from the issue description. If either value is missing, duplicated, or ambiguous, stop without making changes and report the required labels.
 2. Require the TypeSpec commit to match `^[0-9a-f]{40}$` exactly.
 3. Require the entire base branch to case-sensitively match the conservative ASCII pattern `^[A-Za-z0-9][A-Za-z0-9._/-]*\z` and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
-4. Require a named working branch other than the base branch. Fetch `origin/<base-branch>`, then require the fetched branch tip to equal `HEAD` exactly. If the assignment started from the wrong branch, stop without making changes and report both commit IDs.
+4. Require a named working branch other than the base branch. Do not require `HEAD` to match the base branch tip; issue-assigned sessions run on a separate working branch that may already contain commits.
 
 Do not derive either input from the issue title. Do not infer, shorten, or silently correct either input.
 
