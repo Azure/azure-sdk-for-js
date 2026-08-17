@@ -1178,12 +1178,12 @@ export interface BEKDetails {
 }
 
 // @public
-export interface BMSPrepareDataMoveOperationResultGetOptionalParams extends OperationOptions {
+export interface bMSPrepareDataMoveOperationResultGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BMSPrepareDataMoveOperationResultOperations {
-    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: BMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion | void>;
+export interface bMSPrepareDataMoveOperationResultOperations {
+    get: (vaultName: string, resourceGroupName: string, operationId: string, options?: bMSPrepareDataMoveOperationResultGetOptionalParams) => Promise<VaultStorageConfigOperationResultResponseUnion | void>;
 }
 
 // @public
@@ -2832,31 +2832,31 @@ export interface PrivateEndpointConnection {
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionGetOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionOperations {
+export interface PrivateEndpointConnectionOperationsOperations {
     // @deprecated (undocumented)
-    beginDelete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<void>;
+    beginDeleteAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginPut: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
+    beginPut: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionOperationsPutOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
     // @deprecated (undocumented)
-    beginPutAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-    delete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-    put: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
+    beginPutAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionOperationsPutOptionalParams) => Promise<PrivateEndpointConnectionResource>;
+    delete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionOperationsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
+    put: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionOperationsPutOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
 }
 
 // @public
-export interface PrivateEndpointConnectionPutOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionOperationsPutOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2872,12 +2872,12 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 export type PrivateEndpointConnectionStatus = string;
 
 // @public
-export interface PrivateEndpointGetOperationStatusOptionalParams extends OperationOptions {
+export interface PrivateEndpointOperationsGetOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointOperations {
-    getOperationStatus: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: PrivateEndpointGetOperationStatusOptionalParams) => Promise<OperationStatus>;
+export interface PrivateEndpointOperationsOperations {
+    getOperationStatus: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: PrivateEndpointOperationsGetOperationStatusOptionalParams) => Promise<OperationStatus>;
 }
 
 // @public
@@ -3101,26 +3101,30 @@ export interface ProtectionIntent {
 }
 
 // @public
-export interface ProtectionIntentCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ProtectionIntentDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ProtectionIntentGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export type ProtectionIntentItemType = string;
 
 // @public
-export interface ProtectionIntentOperations {
-    createOrUpdate: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: ProtectionIntentResource, options?: ProtectionIntentCreateOrUpdateOptionalParams) => Promise<ProtectionIntentResource>;
-    delete: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: ProtectionIntentDeleteOptionalParams) => Promise<void>;
-    get: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: ProtectionIntentGetOptionalParams) => Promise<ProtectionIntentResource>;
-    validate: (azureRegion: string, parameters: PreValidateEnableBackupRequest, options?: ProtectionIntentValidateOptionalParams) => Promise<PreValidateEnableBackupResponse>;
+export interface ProtectionIntentOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProtectionIntentOperationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProtectionIntentOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProtectionIntentOperationsOperations {
+    createOrUpdate: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: ProtectionIntentResource, options?: ProtectionIntentOperationsCreateOrUpdateOptionalParams) => Promise<ProtectionIntentResource>;
+    delete: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: ProtectionIntentOperationsDeleteOptionalParams) => Promise<void>;
+    get: (vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: ProtectionIntentOperationsGetOptionalParams) => Promise<ProtectionIntentResource>;
+    validate: (azureRegion: string, parameters: PreValidateEnableBackupRequest, options?: ProtectionIntentOperationsValidateOptionalParams) => Promise<PreValidateEnableBackupResponse>;
+}
+
+// @public
+export interface ProtectionIntentOperationsValidateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3133,10 +3137,6 @@ export interface ProtectionIntentResource extends ProxyResource {
 
 // @public
 export type ProtectionIntentUnion = AzureRecoveryServiceVaultProtectionIntentUnion | AzureResourceProtectionIntent | AzureWorkloadContainerAutoProtectionIntent | ProtectionIntent;
-
-// @public
-export interface ProtectionIntentValidateOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface ProtectionPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -3347,7 +3347,7 @@ export class RecoveryServicesBackupClient {
     // @deprecated (undocumented)
     beginMoveRecoveryPointAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<void>;
     bmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
-    readonly bmsPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResultOperations;
+    readonly bMSPrepareDataMoveOperationResult: bMSPrepareDataMoveOperationResultOperations;
     bmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<void>, void>;
     readonly configureSourceScan: ConfigureSourceScanOperations;
     readonly deletedProtectionContainers: DeletedProtectionContainersOperations;
@@ -3365,8 +3365,8 @@ export class RecoveryServicesBackupClient {
     readonly operation: OperationOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
-    readonly privateEndpoint: PrivateEndpointOperations;
-    readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
+    readonly privateEndpointConnectionOperations: PrivateEndpointConnectionOperationsOperations;
+    readonly privateEndpointOperations: PrivateEndpointOperationsOperations;
     readonly protectableContainers: ProtectableContainersOperations;
     readonly protectedItemOperationResults: ProtectedItemOperationResultsOperations;
     readonly protectedItemOperationStatuses: ProtectedItemOperationStatusesOperations;
@@ -3374,7 +3374,7 @@ export class RecoveryServicesBackupClient {
     readonly protectionContainerOperationResults: ProtectionContainerOperationResultsOperations;
     readonly protectionContainerRefreshOperationResults: ProtectionContainerRefreshOperationResultsOperations;
     readonly protectionContainers: ProtectionContainersOperations;
-    readonly protectionIntent: ProtectionIntentOperations;
+    readonly protectionIntentOperations: ProtectionIntentOperationsOperations;
     readonly protectionPolicies: ProtectionPoliciesOperations;
     readonly protectionPolicyOperationResults: ProtectionPolicyOperationResultsOperations;
     readonly protectionPolicyOperationStatuses: ProtectionPolicyOperationStatusesOperations;

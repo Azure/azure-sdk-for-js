@@ -50,9 +50,6 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
-  VaultStorageConfigOperationResultResponse,
-  VaultStorageConfigOperationResultResponseUnion,
-  PrepareDataMoveResponse,
   BackupResourceVaultConfigResource,
   BackupResourceVaultConfig,
   EnhancedSecurityState,
@@ -418,6 +415,9 @@ export type {
   TieringCostInfoUnion,
   TieringCostRehydrationInfo,
   TieringCostSavingInfo,
+  VaultStorageConfigOperationResultResponse,
+  VaultStorageConfigOperationResultResponseUnion,
+  PrepareDataMoveResponse,
   PreValidateEnableBackupRequest,
   PreValidateEnableBackupResponse,
   ValidationStatus,
@@ -532,7 +532,7 @@ export type { BackupsTriggerOptionalParams } from "./api/backups/index.js";
 export type { BackupStatusGetOptionalParams } from "./api/backupStatus/index.js";
 export type { BackupUsageSummariesListOptionalParams } from "./api/backupUsageSummaries/index.js";
 export type { BackupWorkloadItemsListOptionalParams } from "./api/backupWorkloadItems/index.js";
-export type { BMSPrepareDataMoveOperationResultGetOptionalParams } from "./api/bmsPrepareDataMoveOperationResult/index.js";
+export type { bMSPrepareDataMoveOperationResultGetOptionalParams } from "./api/bMSPrepareDataMoveOperationResult/index.js";
 export type { ConfigureSourceScanExecuteOptionalParams } from "./api/configureSourceScan/index.js";
 export type { DeletedProtectionContainersListOptionalParams } from "./api/deletedProtectionContainers/index.js";
 export type { ExportJobsOperationResultsGetOptionalParams } from "./api/exportJobsOperationResults/index.js";
@@ -549,12 +549,12 @@ export type { JobOperationResultsGetOptionalParams } from "./api/jobOperationRes
 export type { JobsExportOptionalParams } from "./api/jobs/index.js";
 export type { OperationValidateOptionalParams } from "./api/operation/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
-export type { PrivateEndpointGetOperationStatusOptionalParams } from "./api/privateEndpoint/index.js";
 export type {
-  PrivateEndpointConnectionDeleteOptionalParams,
-  PrivateEndpointConnectionPutOptionalParams,
-  PrivateEndpointConnectionGetOptionalParams,
-} from "./api/privateEndpointConnection/index.js";
+  PrivateEndpointConnectionOperationsDeleteOptionalParams,
+  PrivateEndpointConnectionOperationsPutOptionalParams,
+  PrivateEndpointConnectionOperationsGetOptionalParams,
+} from "./api/privateEndpointConnectionOperations/index.js";
+export type { PrivateEndpointOperationsGetOperationStatusOptionalParams } from "./api/privateEndpointOperations/index.js";
 export type { ProtectableContainersListOptionalParams } from "./api/protectableContainers/index.js";
 export type { ProtectedItemOperationResultsGetOptionalParams } from "./api/protectedItemOperationResults/index.js";
 export type { ProtectedItemOperationStatusesGetOptionalParams } from "./api/protectedItemOperationStatuses/index.js";
@@ -573,11 +573,11 @@ export type {
   ProtectionContainersGetOptionalParams,
 } from "./api/protectionContainers/index.js";
 export type {
-  ProtectionIntentValidateOptionalParams,
-  ProtectionIntentDeleteOptionalParams,
-  ProtectionIntentCreateOrUpdateOptionalParams,
-  ProtectionIntentGetOptionalParams,
-} from "./api/protectionIntent/index.js";
+  ProtectionIntentOperationsValidateOptionalParams,
+  ProtectionIntentOperationsDeleteOptionalParams,
+  ProtectionIntentOperationsCreateOrUpdateOptionalParams,
+  ProtectionIntentOperationsGetOptionalParams,
+} from "./api/protectionIntentOperations/index.js";
 export type {
   ProtectionPoliciesDeleteOptionalParams,
   ProtectionPoliciesCreateOrUpdateOptionalParams,
@@ -620,7 +620,7 @@ export type {
   BackupStatusOperations,
   BackupUsageSummariesOperations,
   BackupWorkloadItemsOperations,
-  BMSPrepareDataMoveOperationResultOperations,
+  bMSPrepareDataMoveOperationResultOperations,
   ConfigureSourceScanOperations,
   DeletedProtectionContainersOperations,
   ExportJobsOperationResultsOperations,
@@ -634,8 +634,8 @@ export type {
   JobsOperations,
   OperationOperations,
   OperationsOperations,
-  PrivateEndpointOperations,
-  PrivateEndpointConnectionOperations,
+  PrivateEndpointConnectionOperationsOperations,
+  PrivateEndpointOperationsOperations,
   ProtectableContainersOperations,
   ProtectedItemOperationResultsOperations,
   ProtectedItemOperationStatusesOperations,
@@ -643,7 +643,7 @@ export type {
   ProtectionContainerOperationResultsOperations,
   ProtectionContainerRefreshOperationResultsOperations,
   ProtectionContainersOperations,
-  ProtectionIntentOperations,
+  ProtectionIntentOperationsOperations,
   ProtectionPoliciesOperations,
   ProtectionPolicyOperationResultsOperations,
   ProtectionPolicyOperationStatusesOperations,

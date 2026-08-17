@@ -1,12 +1,13 @@
 # Release History
 
-## 14.0.0 (2026-08-13)
+## 14.0.0 (2026-08-17)
 
 ### Features Added
+  - Added operation group bMSPrepareDataMoveOperationResultOperations
   - Added operation group ConfigureSourceScanOperations
   - Added operation FetchTieringCostOperations.post
-  - Added operation PrivateEndpointConnectionOperations.delete
-  - Added operation PrivateEndpointConnectionOperations.put
+  - Added operation PrivateEndpointConnectionOperationsOperations.delete
+  - Added operation PrivateEndpointConnectionOperationsOperations.put
   - Added operation ProtectedItemsOperations.beginCreateOrUpdate
   - Added operation ProtectedItemsOperations.beginCreateOrUpdateAndWait
   - Added operation ProtectionContainersOperations.register
@@ -22,6 +23,7 @@
   - Added operation RecoveryServicesBackupClient.moveRecoveryPoint
   - Class RecoveryServicesBackupClient has a new constructor "constructor(credential: TokenCredential, options?: RecoveryServicesBackupClientOptionalParams);"
   - Added Interface ArmErrorDetail
+  - Added Interface bMSPrepareDataMoveOperationResultGetOptionalParams
   - Added Interface ConfigureSourceScanExecuteOptionalParams
   - Added Interface DataDiskDetails
   - Added Interface DataDiskEncryptionSettings
@@ -30,7 +32,15 @@
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface PerDiskEncryptionSetId
+  - Added Interface PrivateEndpointConnectionOperationsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionOperationsPutOptionalParams
+  - Added Interface PrivateEndpointOperationsGetOperationStatusOptionalParams
   - Added Interface ProtectedItemConfigureSourceScanRequest
+  - Added Interface ProtectionIntentOperationsCreateOrUpdateOptionalParams
+  - Added Interface ProtectionIntentOperationsDeleteOptionalParams
+  - Added Interface ProtectionIntentOperationsGetOptionalParams
+  - Added Interface ProtectionIntentOperationsValidateOptionalParams
   - Added Interface ProxyResource
   - Added Interface RecoveryPointImmutabilityProperties
   - Added Interface ResourceGuardProxiesListOptionalParams
@@ -156,7 +166,6 @@
   - Operation BackupEngines.get has a new signature
   - Operation BackupOperationStatuses.get has a new signature
   - Operation Backups.trigger has a new signature
-  - Operation BMSPrepareDataMoveOperationResult.get has a new signature
   - Operation ExportJobsOperationResults.get has a new signature
   - Operation FeatureSupport.validate has a new signature
   - Operation FetchTieringCost.beginPost has a new signature
@@ -165,7 +174,7 @@
   - Operation ItemLevelRecoveryConnections.provision has a new signature
   - Operation JobDetails.get has a new signature
   - Operation Operation.validate has a new signature
-  - Operation PrivateEndpoint.getOperationStatus has a new signature
+  - Operation PrivateEndpointOperations.getOperationStatus has a new signature
   - Operation ProtectedItemOperationResults.get has a new signature
   - Operation ProtectedItemOperationStatuses.get has a new signature
   - Operation ProtectedItems.createOrUpdate has a new signature
@@ -174,8 +183,8 @@
   - Operation ProtectionContainers.beginRegister has a new signature
   - Operation ProtectionContainers.beginRegisterAndWait has a new signature
   - Operation ProtectionContainers.get has a new signature
-  - Operation ProtectionIntent.createOrUpdate has a new signature
-  - Operation ProtectionIntent.get has a new signature
+  - Operation ProtectionIntentOperations.createOrUpdate has a new signature
+  - Operation ProtectionIntentOperations.get has a new signature
   - Operation ProtectionPolicies.createOrUpdate has a new signature
   - Operation ProtectionPolicies.get has a new signature
   - Operation ProtectionPolicyOperationResults.get has a new signature
@@ -188,10 +197,6 @@
   - Operation ValidateOperation.beginTriggerAndWait has a new signature
   - Operation ValidateOperationResults.get has a new signature
   - Operation ValidateOperationStatuses.get has a new signature
-  - Class RecoveryServicesBackupClient no longer has parameter bMSPrepareDataMoveOperationResult
-  - Class RecoveryServicesBackupClient no longer has parameter privateEndpointConnectionOperations
-  - Class RecoveryServicesBackupClient no longer has parameter privateEndpointOperations
-  - Class RecoveryServicesBackupClient no longer has parameter protectionIntentOperations
   - Removed Interface BackupEngineBaseResourceList
   - Removed Interface BackupManagementUsageList
   - Removed Interface BMSBackupEngineQueryObject
@@ -200,6 +205,7 @@
   - Removed Interface BMSContainerQueryObject
   - Removed Interface BMSContainersInquiryQueryObject
   - Removed Interface BmspoQueryObject
+  - Removed Interface BMSPrepareDataMoveOperationResultGetOptionalParams
   - Removed Interface BMSRefreshContainersQueryObject
   - Removed Interface BmsrpQueryObject
   - Removed Interface BMSWorkloadItemQueryObject
@@ -211,12 +217,20 @@
   - Removed Interface JobResourceList
   - Removed Interface NewErrorResponse
   - Removed Interface NewErrorResponseError
+  - Removed Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Removed Interface PrivateEndpointConnectionGetOptionalParams
+  - Removed Interface PrivateEndpointConnectionPutOptionalParams
+  - Removed Interface PrivateEndpointGetOperationStatusOptionalParams
   - Removed Interface ProtectableContainerResourceList
   - Removed Interface ProtectedItemQueryObject
   - Removed Interface ProtectedItemResourceList
   - Removed Interface ProtectionContainerResourceList
+  - Removed Interface ProtectionIntentCreateOrUpdateOptionalParams
+  - Removed Interface ProtectionIntentDeleteOptionalParams
+  - Removed Interface ProtectionIntentGetOptionalParams
   - Removed Interface ProtectionIntentQueryObject
   - Removed Interface ProtectionIntentResourceList
+  - Removed Interface ProtectionIntentValidateOptionalParams
   - Removed Interface ProtectionPolicyQueryObject
   - Removed Interface ProtectionPolicyResourceList
   - Removed Interface RecoveryPointResourceList

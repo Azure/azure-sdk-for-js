@@ -10,7 +10,7 @@ import {
 import {
   _$deleteDeserialize,
   _putDeserialize,
-} from "./api/privateEndpointConnection/operations.js";
+} from "./api/privateEndpointConnectionOperations/operations.js";
 import { _postDeserialize } from "./api/fetchTieringCost/operations.js";
 import { _triggerDeserialize } from "./api/validateOperation/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeProtectionPolicies } from "./api/protectionPolicies/operations.js";

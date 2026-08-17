@@ -880,59 +880,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Operation result response for Vault Storage Config */
-export interface VaultStorageConfigOperationResultResponse {
-  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  /** The discriminator possible values: PrepareDataMoveResponse */
-  objectType: string;
-}
-
-export function vaultStorageConfigOperationResultResponseDeserializer(
-  item: any,
-): VaultStorageConfigOperationResultResponse {
-  return {
-    objectType: item["objectType"],
-  };
-}
-
-/** Alias for VaultStorageConfigOperationResultResponseUnion */
-export type VaultStorageConfigOperationResultResponseUnion =
-  PrepareDataMoveResponse | VaultStorageConfigOperationResultResponse;
-
-export function vaultStorageConfigOperationResultResponseUnionDeserializer(
-  item: any,
-): VaultStorageConfigOperationResultResponseUnion {
-  switch (item["objectType"]) {
-    case "PrepareDataMoveResponse":
-      return prepareDataMoveResponseDeserializer(item as PrepareDataMoveResponse);
-
-    default:
-      return vaultStorageConfigOperationResultResponseDeserializer(item);
-  }
-}
-
-/** Prepare DataMove Response */
-export interface PrepareDataMoveResponse extends VaultStorageConfigOperationResultResponse {
-  /** Co-relationId for move operation */
-  correlationId?: string;
-  /** Source Vault Properties */
-  sourceVaultProperties?: Record<string, string>;
-  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
-  objectType: "PrepareDataMoveResponse";
-}
-
-export function prepareDataMoveResponseDeserializer(item: any): PrepareDataMoveResponse {
-  return {
-    objectType: item["objectType"],
-    correlationId: item["correlationId"],
-    sourceVaultProperties: !item["sourceVaultProperties"]
-      ? item["sourceVaultProperties"]
-      : Object.fromEntries(
-          Object.entries(item["sourceVaultProperties"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-  };
-}
-
 /** Backup resource vault config details. */
 export interface BackupResourceVaultConfigResource extends ProxyResource {
   /** BackupResourceVaultConfigResource properties */
@@ -14073,6 +14020,59 @@ export function tieringCostSavingInfoDeserializer(item: any): TieringCostSavingI
     targetTierSizeIncreaseInBytes: item["targetTierSizeIncreaseInBytes"],
     retailSourceTierCostPerGBPerMonth: item["retailSourceTierCostPerGBPerMonth"],
     retailTargetTierCostPerGBPerMonth: item["retailTargetTierCostPerGBPerMonth"],
+  };
+}
+
+/** Operation result response for Vault Storage Config */
+export interface VaultStorageConfigOperationResultResponse {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  /** The discriminator possible values: PrepareDataMoveResponse */
+  objectType: string;
+}
+
+export function vaultStorageConfigOperationResultResponseDeserializer(
+  item: any,
+): VaultStorageConfigOperationResultResponse {
+  return {
+    objectType: item["objectType"],
+  };
+}
+
+/** Alias for VaultStorageConfigOperationResultResponseUnion */
+export type VaultStorageConfigOperationResultResponseUnion =
+  PrepareDataMoveResponse | VaultStorageConfigOperationResultResponse;
+
+export function vaultStorageConfigOperationResultResponseUnionDeserializer(
+  item: any,
+): VaultStorageConfigOperationResultResponseUnion {
+  switch (item["objectType"]) {
+    case "PrepareDataMoveResponse":
+      return prepareDataMoveResponseDeserializer(item as PrepareDataMoveResponse);
+
+    default:
+      return vaultStorageConfigOperationResultResponseDeserializer(item);
+  }
+}
+
+/** Prepare DataMove Response */
+export interface PrepareDataMoveResponse extends VaultStorageConfigOperationResultResponse {
+  /** Co-relationId for move operation */
+  correlationId?: string;
+  /** Source Vault Properties */
+  sourceVaultProperties?: Record<string, string>;
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  objectType: "PrepareDataMoveResponse";
+}
+
+export function prepareDataMoveResponseDeserializer(item: any): PrepareDataMoveResponse {
+  return {
+    objectType: item["objectType"],
+    correlationId: item["correlationId"],
+    sourceVaultProperties: !item["sourceVaultProperties"]
+      ? item["sourceVaultProperties"]
+      : Object.fromEntries(
+          Object.entries(item["sourceVaultProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
