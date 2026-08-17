@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-08-14)
+## 11.0.0 (2026-08-17)
 
 ### Features Added
   - Added Interface LegacyManagementGroupScopeReservationRecommendationProperties
