@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-08-17)
+## 10.1.0 (2026-08-17)
 
 ### Features Added
   - Added Interface LegacyManagementGroupScopeReservationRecommendationProperties
@@ -15,8 +15,6 @@
   - Interface ReservationRecommendationDetailsProperties has a new optional parameter tenantId
   - Enum KnownScope has a new value ManagementGroup
   - Enum KnownVersions has a new value V20260601
-
-### Breaking Changes
   - Operation CreditsOperations.get has a new signature
   - Operation ReservationRecommendationDetailsOperations.get has a new signature
   - Operation TagsOperations.get has a new signature
