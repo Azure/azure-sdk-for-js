@@ -323,9 +323,27 @@ export interface AdditionalPolicyConfig {
 }
 
 /**
+ * The common set of options that high-level clients are expected to expose.
+ */
+export interface CommonClientOptions extends PipelineOptions {
+  /**
+   * Specify a custom HttpClient when making requests.
+   */
+  httpClient?: HttpClient;
+  /**
+   * Option to allow calling HTTP (insecure) endpoints.
+   */
+  allowInsecureConnection?: boolean;
+  /**
+   * Additional policies to include in the HTTP pipeline.
+   */
+  additionalPolicies?: AdditionalPolicyConfig[];
+}
+
+/**
  * General options that a Rest Level Client can take
  */
-export type ClientOptions = PipelineOptions & {
+export type ClientOptions = CommonClientOptions & {
   /**
    * Credentials information
    */
@@ -352,18 +370,6 @@ export type ClientOptions = PipelineOptions & {
    * Options for setting a custom apiVersion.
    */
   apiVersion?: string;
-  /**
-   * Option to allow calling http (insecure) endpoints
-   */
-  allowInsecureConnection?: boolean;
-  /**
-   * Additional policies to include in the HTTP pipeline.
-   */
-  additionalPolicies?: AdditionalPolicyConfig[];
-  /**
-   * Specify a custom HttpClient when making requests.
-   */
-  httpClient?: HttpClient;
   /**
    * Options to configure request/response logging.
    */

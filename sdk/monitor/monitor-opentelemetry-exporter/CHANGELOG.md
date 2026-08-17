@@ -4,6 +4,7 @@
 
 ### Other Changes
 
+- Migrated client option compatibility from `@azure/core-client` to `@azure-rest/core-client`. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
 - Centralized native process execution and hardened Windows system executable
   resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 - Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. Requests honor the standard proxy environment variables (`HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY`/`NO_PROXY`). This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)

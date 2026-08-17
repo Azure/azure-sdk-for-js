@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, vi, expect } from "vitest";
+import { describe, it, assert, vi, expect, type Mock } from "vitest";
 import { getClient } from "../../src/getClient.js";
 import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
@@ -18,6 +18,7 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "../../src/common.js";
 
 describe("getClient", () => {
   const httpClient: HttpClient = {
@@ -208,6 +209,62 @@ describe("getClient", () => {
 
     await client.pathUnchecked("/foo").get({
       allowInsecureConnection: false,
+    });
+  });
+
+  describe("#credentialScopes", () => {
+    function createMockCredential(): {
+      credential: TokenCredential;
+      getToken: Mock<TokenCredential["getToken"]>;
+    } {
+      const getToken = vi.fn<TokenCredential["getToken"]>(async () => ({
+        token: "mock-token",
+        expiresOnTimestamp: Date.now() + 3600000,
+      }));
+      const credential: TokenCredential = { getToken };
+      return { credential, getToken };
+    }
+
+    it("normalizes a legacy string scope", async () => {
+      const { credential, getToken } = createMockCredential();
+      const options: ClientOptions & { credentialScopes: string | string[] } = {
+        credentialScopes: "https://legacy.scope/.default",
+        httpClient,
+      };
+      const client = getClient("https://example.org", credential, options);
+
+      await client.pathUnchecked("/foo").get();
+
+      assert.deepEqual(getToken.mock.calls[0][0], ["https://legacy.scope/.default"]);
+    });
+
+    it("preserves legacy array scopes", async () => {
+      const { credential, getToken } = createMockCredential();
+      const scopes = ["https://legacy.scope/.default", "https://legacy.scope/secondary"];
+      const options: ClientOptions & { credentialScopes: string | string[] } = {
+        credentialScopes: scopes,
+        httpClient,
+      };
+      const client = getClient("https://example.org", credential, options);
+
+      await client.pathUnchecked("/foo").get();
+
+      assert.deepEqual(getToken.mock.calls[0][0], scopes);
+    });
+
+    it("prefers canonical scopes over legacy scopes", async () => {
+      const { credential, getToken } = createMockCredential();
+      const canonicalScopes = ["https://canonical.scope/.default"];
+      const options: ClientOptions & { credentialScopes: string | string[] } = {
+        credentialScopes: "https://legacy.scope/.default",
+        credentials: { scopes: canonicalScopes },
+        httpClient,
+      };
+      const client = getClient("https://example.org", credential, options);
+
+      await client.pathUnchecked("/foo").get();
+
+      assert.deepEqual(getToken.mock.calls[0][0], canonicalScopes);
     });
   });
 

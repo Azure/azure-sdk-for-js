@@ -11,7 +11,7 @@ import type {
   UpdateTableEntityOptions,
 } from "./models.js";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "./operationOptions.js";
 import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
 import type {
   HttpClient,
@@ -35,6 +35,7 @@ import type { TableClientLike, TableServiceErrorOdataError } from "./utils/inter
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 import { tracingClient } from "./utils/tracing.js";
 
 /**
@@ -293,12 +294,16 @@ export class InternalTableTransaction {
       "TableTransaction.submitTransaction",
       options,
       async (updatedOptions) => {
+        const requestHeaders = toRestOperationOptions(updatedOptions).requestOptions?.headers;
         const request = createPipelineRequest({
           ...updatedOptions,
           url: this.url,
           method: "POST",
           body,
-          headers: createHttpHeaders(headers),
+          headers: createHttpHeaders({
+            ...headers,
+            ...requestHeaders,
+          }),
           allowInsecureConnection: this.allowInsecureConnection,
         });
 

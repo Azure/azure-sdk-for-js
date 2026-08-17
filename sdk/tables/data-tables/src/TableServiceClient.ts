@@ -8,7 +8,7 @@ import type {
   SetPropertiesOptions,
   SetPropertiesResponse,
 } from "./generatedModels.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "./operationOptions.js";
 import type {
   ListTableItemsOptions,
   TableItem,

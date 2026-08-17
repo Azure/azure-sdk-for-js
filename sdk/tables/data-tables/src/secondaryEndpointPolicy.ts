@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { getSecondaryUrlFromPrimary } from "#platform/getSecondaryUrlFromPrimary";
+import type { OperationOptions } from "./operationOptions.js";
 import type { OperationOptions as RestOperationOptions } from "@azure-rest/core-client";
 import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 

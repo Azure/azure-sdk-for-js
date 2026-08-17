@@ -1,6 +1,6 @@
 # Release History
 
-## 13.3.3 (Unreleased)
+## 13.4.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Migrated public operation option types to `@azure-rest/core-client` while retaining support for deprecated `customHeaders`. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
 
 ## 13.3.2 (2025-11-14)
 

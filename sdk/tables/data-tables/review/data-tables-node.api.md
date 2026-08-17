@@ -6,12 +6,14 @@
 
 import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
-import type { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { NamedKeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure/core-client';
+import type { OperationOptions as OperationOptions_2 } from '@azure-rest/core-client';
+import type { OperationRequestOptions as OperationRequestOptions_2 } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { SASCredential } from '@azure/core-auth';
 import type { TokenCredential } from '@azure/core-auth';
@@ -90,6 +92,12 @@ export interface Edm<T extends EdmTypes> {
 export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 // @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: any;
+    parsedHeaders?: Record<string, unknown>;
+}
+
+// @public
 export function generateAccountSas(credential: NamedKeyCredential, options?: AccountSasOptions): string;
 
 // @public
@@ -164,6 +172,25 @@ export { NamedKeyCredential }
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
+// @public
+export interface OperationOptions extends Omit<OperationOptions_2, "onResponse" | "requestOptions"> {
+    onResponse?: RawResponseCallback;
+    requestOptions?: OperationRequestOptions;
+    // @deprecated
+    serializerOptions?: SerializerOptions;
+}
+
+// @public
+export interface OperationRequestOptions extends OperationRequestOptions_2 {
+    // @deprecated
+    customHeaders?: Record<string, string>;
+    // @deprecated
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+}
+
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
+
 export { RestError }
 
 // @public
@@ -180,6 +207,12 @@ export interface SasIPRange {
 
 // @public
 export type SasProtocol = "https" | "https,http";
+
+// @public
+export interface SerializerOptions {
+    ignoreUnknownProperties?: boolean;
+    xml: XmlOptions;
+}
 
 // @public
 export interface ServiceGetPropertiesHeaders {
@@ -462,6 +495,13 @@ export type UpdateTableEntityOptions = OperationOptions & {
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders;
+
+// @public
+export interface XmlOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

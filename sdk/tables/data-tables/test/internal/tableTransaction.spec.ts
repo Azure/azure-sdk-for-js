@@ -48,9 +48,15 @@ describe("TableTransaction", () => {
 
     it("should honor the custom httpClient passed to the TableClient", async () => {
       let isProxy = false;
+      let legacyHeader: string | undefined;
+      let canonicalHeader: string | undefined;
+      let sharedHeader: string | undefined;
       const proxyHttpClient: HttpClient = {
         sendRequest: async (request) => {
           isProxy = true;
+          legacyHeader = request.headers.get("x-legacy");
+          canonicalHeader = request.headers.get("x-current");
+          sharedHeader = request.headers.get("x-shared");
           return { status: 200, headers: createHttpHeaders(), request };
         },
       };
@@ -61,8 +67,22 @@ describe("TableTransaction", () => {
       transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
       transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
 
-      await client.submitTransaction(transaction.actions);
+      await client.submitTransaction(transaction.actions, {
+        requestOptions: {
+          customHeaders: {
+            "x-legacy": "legacy",
+            "x-shared": "legacy",
+          },
+          headers: {
+            "x-current": "current",
+            "x-shared": "current",
+          },
+        },
+      });
       assert.isTrue(isProxy);
+      assert.equal(legacyHeader, "legacy");
+      assert.equal(canonicalHeader, "current");
+      assert.equal(sharedHeader, "current");
     });
   });
 

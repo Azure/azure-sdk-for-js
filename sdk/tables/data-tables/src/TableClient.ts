@@ -25,7 +25,7 @@ import type {
   UpdateEntityResponse,
   UpsertEntityResponse,
 } from "./generatedModels.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "./operationOptions.js";
 import type { TablesContext } from "./generated/api/tablesContext.js";
 import type { TableOperations } from "./generated/classic/table/index.js";
 import { _getTableOperations } from "./generated/classic/table/index.js";

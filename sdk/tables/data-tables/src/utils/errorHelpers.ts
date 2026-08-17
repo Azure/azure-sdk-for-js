@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, OperationRequest } from "@azure/core-client";
-import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import type { OperationOptions } from "../operationOptions.js";
+import type { PipelineRequest, PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import type { AzureLogger } from "@azure/logger";
 import type { TableServiceErrorOdataError } from "./internalModels.js";
 
@@ -21,7 +21,7 @@ export type TableServiceErrorResponse = PipelineResponse & {
   /**
    * The request that generated the response.
    */
-  request: OperationRequest;
+  request: PipelineRequest;
 };
 
 export function handleTableAlreadyExists(
@@ -40,7 +40,8 @@ export function handleTableAlreadyExists(
       if (options.onResponse) {
         const response = responseError ?? (error.response as TableServiceErrorResponse);
         if (response) {
-          options.onResponse(response, {});
+          const rawResponse: PipelineResponse = response;
+          options.onResponse(rawResponse, {});
         }
       }
       return;

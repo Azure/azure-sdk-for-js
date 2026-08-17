@@ -47,7 +47,7 @@ export interface Client {
 }
 
 // @public
-export type ClientOptions = PipelineOptions & {
+export type ClientOptions = CommonClientOptions & {
     credentials?: {
         scopes?: string[];
         apiKeyHeaderName?: string;
@@ -55,13 +55,17 @@ export type ClientOptions = PipelineOptions & {
     baseUrl?: string;
     endpoint?: string;
     apiVersion?: string;
-    allowInsecureConnection?: boolean;
-    additionalPolicies?: AdditionalPolicyConfig[];
-    httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
     pipeline?: Pipeline;
     internal?: InternalClientOptions;
 };
+
+// @public
+export interface CommonClientOptions extends PipelineOptions {
+    additionalPolicies?: AdditionalPolicyConfig[];
+    allowInsecureConnection?: boolean;
+    httpClient?: HttpClient;
+}
 
 // @public
 export function createRestError(response: PathUncheckedResponse): RestError;

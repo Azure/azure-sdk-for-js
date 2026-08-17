@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -128,11 +128,9 @@
+@@ -132,11 +132,9 @@
  
  export { InternalClientOptions }
  

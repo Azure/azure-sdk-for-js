@@ -33,6 +33,16 @@ export class HttpSender extends BaseSender {
     aadAudience?: string;
     isStatsbeatSender?: boolean;
   }) {
+    if (options.exporterOptions.baseUri !== undefined) {
+      throw new Error(
+        "baseUri is not supported by the TypeSpec-generated Azure Monitor exporter client. Use endpoint instead.",
+      );
+    }
+    if (options.exporterOptions.requestContentType !== undefined) {
+      throw new Error(
+        "requestContentType is not supported by the TypeSpec-generated Azure Monitor exporter client.",
+      );
+    }
     super(options);
     // Build endpoint using provided configuration or default values
     this.appInsightsClientOptions = {
@@ -45,10 +55,9 @@ export class HttpSender extends BaseSender {
       this.appInsightsClientOptions.credentials = { scopes };
     } else if (
       !this.appInsightsClientOptions.credentials?.scopes &&
-      (this.appInsightsClientOptions as any).credentialScopes
+      this.appInsightsClientOptions.credentialScopes
     ) {
-      // Backward compat: map ServiceClientOptions.credentialScopes to ClientOptions.credentials.scopes
-      const legacy = (this.appInsightsClientOptions as any).credentialScopes;
+      const legacy = this.appInsightsClientOptions.credentialScopes;
       this.appInsightsClientOptions.credentials = {
         scopes: Array.isArray(legacy) ? legacy : [legacy],
       };
@@ -63,10 +72,7 @@ export class HttpSender extends BaseSender {
   private createClient(
     clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
   ): ApplicationInsightsClient {
-    // Extract pipeline from options — ServiceClientOptions allowed passing a pre-built pipeline,
-    // but the TypeSpec-generated REST client always creates its own. If a user passed one,
-    // we adopt its policies onto the generated client's pipeline for backward compatibility.
-    const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
+    const userPipeline: Pipeline | undefined = clientOptions.pipeline;
 
     const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
 

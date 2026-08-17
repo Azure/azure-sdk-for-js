@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.3.3",
+  "version": "13.4.0",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -50,7 +50,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.9.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
@@ -97,10 +97,6 @@
   },
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageDetails"
-      },
       {
         "path": "src/utils/tracing.ts",
         "prefix": "packageVersion"

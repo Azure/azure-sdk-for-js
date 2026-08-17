@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, RequestParameters } from "./common.js";
+import type { OperationOptions, OperationRequestOptions, RequestParameters } from "./common.js";
 
 import {
   operationOptionsToRequestParameters as tspOperationOptionsToRequestParameters,
@@ -14,11 +14,20 @@ import {
  * @returns the result of the conversion in RequestParameters of RLC layer
  */
 export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
+  const compatibilityOptions = options as OperationOptions & {
+    requestOptions?: OperationRequestOptions & {
+      customHeaders?: Record<string, string>;
+    };
+  };
   const tspRequestParameters = tspOperationOptionsToRequestParameters(
     options as TspOperationOptions,
   ) as RequestParameters;
   return {
     ...tspRequestParameters,
+    headers: {
+      ...compatibilityOptions.requestOptions?.customHeaders,
+      ...tspRequestParameters.headers,
+    },
     tracingOptions: options.tracingOptions,
   };
 }

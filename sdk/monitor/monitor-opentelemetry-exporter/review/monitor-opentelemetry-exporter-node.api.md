@@ -18,7 +18,6 @@ import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import type { Sampler } from '@opentelemetry/sdk-trace-base';
 import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
-import type { ServiceClientOptions } from '@azure/core-client';
 import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
@@ -27,9 +26,15 @@ import type { TokenCredential } from '@azure/core-auth';
 export const AI_OPERATION_NAME = "ai.operation.name";
 
 // @public
-export interface ApplicationInsightsClientOptionalParams extends ServiceClientOptions, ClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
+    // @deprecated
+    baseUri?: string;
+    // @deprecated
+    credentialScopes?: string | string[];
     endpoint?: string;
     host?: string;
+    // @deprecated
+    requestContentType?: string;
 }
 
 // @public

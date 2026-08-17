@@ -1,6 +1,6 @@
 # Release History
 
-## 1.12.2 (Unreleased)
+## 1.13.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
+- Restored support for `requestOptions.customHeaders` after the TypeSpec migration. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
 
 ### Other Changes
 
@@ -61,7 +62,7 @@
 
 ### Other Changes
 
-- Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
+- Update README with a link to [_`@azure/app-configuration-provider`_](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
 
 ## 1.9.0-beta.1 (2025-03-11)
 

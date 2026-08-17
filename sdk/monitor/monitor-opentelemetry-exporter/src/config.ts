@@ -1,16 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { TokenCredential } from "@azure/core-auth";
-import type { ServiceClientOptions } from "@azure/core-client";
 import type { ServiceApiVersion } from "./Declarations/Constants.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Optional parameters for the Application Insights client.
- * Extends both ServiceClientOptions (for backward compatibility) and ClientOptions (REST client).
  */
-export interface ApplicationInsightsClientOptionalParams
-  extends ServiceClientOptions, ClientOptions {
+export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
+  /**
+   * Legacy base URI override.
+   *
+   * @deprecated Use `endpoint` instead. This option is not supported by the TypeSpec-generated client.
+   */
+  baseUri?: string;
+  /**
+   * Authentication scopes for Microsoft Entra ID.
+   *
+   * @deprecated Use `credentials.scopes` instead.
+   */
+  credentialScopes?: string | string[];
+  /**
+   * Legacy default request content type.
+   *
+   * @deprecated This option is not supported by the TypeSpec-generated client.
+   */
+  requestContentType?: string;
   /** Breeze endpoint: https://dc.services.visualstudio.com */
   host?: string;
   /** Overrides client endpoint. */

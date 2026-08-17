@@ -15,7 +15,7 @@ import nock from "nock";
 import type { HttpClient, PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, RestError } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
-import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, assert, afterAll, beforeEach, afterEach, expect, vi } from "vitest";
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
@@ -754,7 +754,28 @@ describe("HttpSender", () => {
     });
   });
 
-  describe("#backward compatibility with ServiceClientOptions", () => {
+  describe("#client option compatibility", () => {
+    it("rejects unsupported legacy client options", () => {
+      expect(
+        () =>
+          new HttpSender({
+            endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+            instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+            trackStatsbeat: false,
+            exporterOptions: { baseUri: "https://legacy.example" },
+          }),
+      ).toThrow("baseUri is not supported");
+      expect(
+        () =>
+          new HttpSender({
+            endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+            instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+            trackStatsbeat: false,
+            exporterOptions: { requestContentType: "application/json" },
+          }),
+      ).toThrow("requestContentType is not supported");
+    });
+
     it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
@@ -762,7 +783,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           credentialScopes: ["https://custom.scope/.default"],
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://custom.scope/.default"],
@@ -776,7 +797,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           credentialScopes: "https://custom.scope/.default",
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://custom.scope/.default"],
@@ -791,7 +812,7 @@ describe("HttpSender", () => {
         exporterOptions: {
           credentials: { scopes: ["https://new.scope/.default"] },
           credentialScopes: ["https://old.scope/.default"],
-        } as any,
+        },
       });
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://new.scope/.default"],
@@ -812,7 +833,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           pipeline: customPipeline,
-        } as any,
+        },
       });
 
       const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
@@ -837,7 +858,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           pipeline: customPipeline,
-        } as any,
+        },
       });
 
       const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
