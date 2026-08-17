@@ -32,6 +32,8 @@ export interface EvaluationRulesOperations {
     id: string,
     options?: EvaluationRulesDeleteOptionalParams,
   ) => Promise<void>;
+  /** @deprecated Use `deleteEvaluationRule` instead. */
+  delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
   /** Get an evaluation rule. */
   get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
 }
@@ -45,6 +47,8 @@ function _getEvaluationRules(context: AIProjectContext) {
       options?: EvaluationRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, id, evaluationRule, options),
     deleteEvaluationRule: (id: string, options?: EvaluationRulesDeleteOptionalParams) =>
+      deleteEvaluationRule(context, id, options),
+    delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) =>
       deleteEvaluationRule(context, id, options),
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => get(context, id, options),
   };

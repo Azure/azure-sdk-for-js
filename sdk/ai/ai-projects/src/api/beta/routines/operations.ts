@@ -151,6 +151,7 @@ export function listRuns(
     ["200"],
     {
       itemName: "data",
+      nextLinkName: "next_link",
       apiVersion: context.apiVersion,
       nextPageRequestOptions: {
         headers: {
@@ -249,13 +250,7 @@ export async function _listDeserialize(
     throw error;
   }
 
-  const body = result.body;
-  return {
-    data: (body["value"] ?? body["data"] ?? []).map((item: any) => routineDeserializer(item)),
-    first_id: body["first_id"],
-    last_id: body["last_id"],
-    has_more: body["has_more"] ?? false,
-  };
+  return _pagedResultWithNextLinkRoutineDeserializer(result.body);
 }
 
 /** Returns the routines available in the current project. */
@@ -270,7 +265,7 @@ export function list(
     ["200"],
     {
       itemName: "data",
-      nextLinkName: "nextLink",
+      nextLinkName: "next_link",
       apiVersion: context.apiVersion,
     },
   );

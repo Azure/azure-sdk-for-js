@@ -38,6 +38,8 @@ export interface BetaEvaluationTaxonomiesOperations {
     name: string,
     options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
   ) => Promise<void>;
+  /** @deprecated Use `deleteEvaluationTaxonomy` instead. */
+  delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
   /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
   list: (
     options?: BetaEvaluationTaxonomiesListOptionalParams,
@@ -65,6 +67,8 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
       name: string,
       options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
     ) => deleteEvaluationTaxonomy(context, name, options),
+    delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) =>
+      deleteEvaluationTaxonomy(context, name, options),
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => list(context, options),
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) =>
       get(context, name, options),

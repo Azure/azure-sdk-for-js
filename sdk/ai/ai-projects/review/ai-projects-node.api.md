@@ -748,11 +748,11 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsOperations {
-    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
-    createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
+    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
 }
 
 // @public
@@ -818,6 +818,8 @@ export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOpt
 // @public
 export interface BetaEvaluationTaxonomiesOperations {
     create: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
+    // @deprecated (undocumented)
+    delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
     deleteEvaluationTaxonomy: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
@@ -1132,51 +1134,53 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
     action?: RoutineActionUnion;
     description?: string;
     enabled?: boolean;
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     payload?: RoutineDispatchPayloadUnion;
 }
 
 // @public
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
     after?: string;
-    foundryFeatures?: "Routines=V2Preview";
+    before?: string;
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
 export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     after?: string;
+    before?: string;
     filter?: string;
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
@@ -1222,6 +1226,8 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
 // @public
 export interface BetaSchedulesOperations {
     createOrUpdate: (scheduleId: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
+    // @deprecated (undocumented)
+    delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
     deleteSchedule: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
     get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
     getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
@@ -1749,7 +1755,7 @@ export interface DataGenerationJobOptions {
 }
 
 // @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | TaskGenerationDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -1792,7 +1798,7 @@ export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "file"
 export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
 
 // @public
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
 
 // @public
 export interface DataGenerationModelOptions {
@@ -2146,6 +2152,8 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
 // @public
 export interface EvaluationRulesOperations {
     createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
+    // @deprecated (undocumented)
+    delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     deleteEvaluationRule: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
     list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
@@ -3195,6 +3203,54 @@ export interface OpenApiToolboxTool extends ToolboxTool {
 // @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
+// @public @deprecated (undocumented)
+export type OptimizationAgentIdentifier = OptimizedAgentIdentifier;
+
+// @public @deprecated (undocumented)
+export type OptimizationCandidate = AgentOptimizationCandidate;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetCriterion = AgentOptimizationDatasetCriterion;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInput = AgentOptimizationDatasetInput;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInputType = AgentOptimizationDatasetInputType;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInputUnion = AgentOptimizationDatasetInputUnion;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetItem = AgentOptimizationDatasetItem;
+
+// @public @deprecated (undocumented)
+export type OptimizationEvaluatorRef = AgentOptimizationEvaluatorRef;
+
+// @public @deprecated (undocumented)
+export type OptimizationInlineDatasetInput = AgentOptimizationInlineDatasetInput;
+
+// @public @deprecated (undocumented)
+export type OptimizationJob = AgentOptimizationJob;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobInputs = AgentOptimizationJobInputs;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobListItem = AgentOptimizationJobListItem;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobProgress = AgentOptimizationJobProgress;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobResult = AgentOptimizationJobResult;
+
+// @public @deprecated (undocumented)
+export type OptimizationOptions = AgentOptimizationOptions;
+
+// @public @deprecated (undocumented)
+export type OptimizationReferenceDatasetInput = AgentOptimizationReferenceDatasetInput;
+
 // @public
 export interface OptimizedAgentIdentifier {
     agent_name: string;
@@ -3398,7 +3454,7 @@ export interface ResponsesProtocolConfiguration {
 
 // @public
 export interface ResponseUsageInputTokensDetails {
-    cache_write_tokens: number;
+    cache_write_tokens?: number;
     cached_tokens: number;
 }
 
@@ -3709,6 +3765,11 @@ export interface StructuredOutputDefinition {
     name: string;
     schema: Record<string, unknown>;
     strict?: boolean;
+}
+
+// @public @deprecated (undocumented)
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "task_generation";
 }
 
 // @public

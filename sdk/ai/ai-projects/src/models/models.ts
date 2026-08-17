@@ -10411,7 +10411,7 @@ export interface ResponseUsageInputTokensDetails {
   /** The number of cached input tokens used. */
   cached_tokens: number;
   /** The number of cache-write input tokens used. */
-  cache_write_tokens: number;
+  cache_write_tokens?: number;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -11397,12 +11397,8 @@ export function routineDeserializer(item: any): Routine {
 export interface _PagedResultWithNextLinkRoutine {
   /** The requested list of items. */
   data: Routine[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
 export function _pagedResultWithNextLinkRoutineDeserializer(
@@ -11410,9 +11406,7 @@ export function _pagedResultWithNextLinkRoutineDeserializer(
 ): _PagedResultWithNextLinkRoutine {
   return {
     data: routineArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -11426,12 +11420,8 @@ export function routineArrayDeserializer(result: Array<Routine>): any[] {
 export interface _PagedResultWithNextLinkRoutineRun {
   /** The requested list of items. */
   data: RoutineRun[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
 export function _pagedResultWithNextLinkRoutineRunDeserializer(
@@ -11439,9 +11429,7 @@ export function _pagedResultWithNextLinkRoutineRunDeserializer(
 ): _PagedResultWithNextLinkRoutineRun {
   return {
     data: routineRunArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -12685,6 +12673,7 @@ export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJ
 export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
+  | TaskGenerationDataGenerationJobOptions
   | SimulationSeedDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
   | DataGenerationJobOptions;
@@ -12700,6 +12689,11 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
     case "simulation_seed":
       return simulationSeedDataGenerationJobOptionsSerializer(
         item as SimulationSeedDataGenerationJobOptions,
+      );
+
+    case "task_generation":
+      return taskGenerationDataGenerationJobOptionsSerializer(
+        item as TaskGenerationDataGenerationJobOptions,
       );
 
     case "tool_use":
@@ -12729,6 +12723,11 @@ export function dataGenerationJobOptionsUnionDeserializer(
         item as SimulationSeedDataGenerationJobOptions,
       );
 
+    case "task_generation":
+      return taskGenerationDataGenerationJobOptionsDeserializer(
+        item as TaskGenerationDataGenerationJobOptions,
+      );
+
     case "tool_use":
       return toolUseFineTuningDataGenerationJobOptionsDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
@@ -12740,7 +12739,8 @@ export function dataGenerationJobOptionsUnionDeserializer(
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
+export type DataGenerationJobType =
+  "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -12863,6 +12863,38 @@ export function simulationSeedDataGenerationJobOptionsSerializer(
 export function simulationSeedDataGenerationJobOptionsDeserializer(
   item: any,
 ): SimulationSeedDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** @deprecated Use `SimulationSeedDataGenerationJobOptions` instead. */
+export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type. */
+  type: "task_generation";
+}
+
+export function taskGenerationDataGenerationJobOptionsSerializer(
+  item: TaskGenerationDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function taskGenerationDataGenerationJobOptionsDeserializer(
+  item: any,
+): TaskGenerationDataGenerationJobOptions {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -13645,6 +13677,39 @@ export interface AgentOptimizationJobListItem {
   /** The agent targeted by this optimization job. */
   readonly agent?: OptimizedAgentIdentifier;
 }
+
+/** @deprecated Use `AgentOptimizationJob` instead. */
+export type OptimizationJob = AgentOptimizationJob;
+/** @deprecated Use `AgentOptimizationJobInputs` instead. */
+export type OptimizationJobInputs = AgentOptimizationJobInputs;
+/** @deprecated Use `OptimizedAgentIdentifier` instead. */
+export type OptimizationAgentIdentifier = OptimizedAgentIdentifier;
+/** @deprecated Use `AgentOptimizationDatasetInput` instead. */
+export type OptimizationDatasetInput = AgentOptimizationDatasetInput;
+/** @deprecated Use `AgentOptimizationDatasetInputUnion` instead. */
+export type OptimizationDatasetInputUnion = AgentOptimizationDatasetInputUnion;
+/** @deprecated Use `AgentOptimizationDatasetInputType` instead. */
+export type OptimizationDatasetInputType = AgentOptimizationDatasetInputType;
+/** @deprecated Use `AgentOptimizationInlineDatasetInput` instead. */
+export type OptimizationInlineDatasetInput = AgentOptimizationInlineDatasetInput;
+/** @deprecated Use `AgentOptimizationDatasetItem` instead. */
+export type OptimizationDatasetItem = AgentOptimizationDatasetItem;
+/** @deprecated Use `AgentOptimizationDatasetCriterion` instead. */
+export type OptimizationDatasetCriterion = AgentOptimizationDatasetCriterion;
+/** @deprecated Use `AgentOptimizationReferenceDatasetInput` instead. */
+export type OptimizationReferenceDatasetInput = AgentOptimizationReferenceDatasetInput;
+/** @deprecated Use `AgentOptimizationEvaluatorRef` instead. */
+export type OptimizationEvaluatorRef = AgentOptimizationEvaluatorRef;
+/** @deprecated Use `AgentOptimizationOptions` instead. */
+export type OptimizationOptions = AgentOptimizationOptions;
+/** @deprecated Use `AgentOptimizationJobResult` instead. */
+export type OptimizationJobResult = AgentOptimizationJobResult;
+/** @deprecated Use `AgentOptimizationCandidate` instead. */
+export type OptimizationCandidate = AgentOptimizationCandidate;
+/** @deprecated Use `AgentOptimizationJobProgress` instead. */
+export type OptimizationJobProgress = AgentOptimizationJobProgress;
+/** @deprecated Use `AgentOptimizationJobListItem` instead. */
+export type OptimizationJobListItem = AgentOptimizationJobListItem;
 
 export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
   return {

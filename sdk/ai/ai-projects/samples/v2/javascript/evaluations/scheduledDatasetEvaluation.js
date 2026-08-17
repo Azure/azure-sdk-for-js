@@ -164,7 +164,7 @@ async function main() {
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.beta.schedules.delete(schedule.schedule_id ?? "");
+    await project.beta.schedules.deleteSchedule(schedule.schedule_id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");

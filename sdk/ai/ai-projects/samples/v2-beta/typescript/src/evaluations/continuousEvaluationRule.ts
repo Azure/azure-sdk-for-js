@@ -79,7 +79,7 @@ export async function main(): Promise<void> {
   // Clean up
   console.log("\nCleaning up resources...");
 
-  await project.evaluationRules.delete(continuousEvalRule.id);
+  await project.evaluationRules.deleteEvaluationRule(continuousEvalRule.id);
   console.log("Continuous Evaluation Rule deleted");
 
   await openAIClient.evals.delete(evalObject.id);

@@ -49,6 +49,8 @@ export interface BetaSchedulesOperations {
     scheduleId: string,
     options?: BetaSchedulesDeleteOptionalParams,
   ) => Promise<void>;
+  /** @deprecated Use `deleteSchedule` instead. */
+  delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
 }
 
 function _getBetaSchedules(context: AIProjectContext) {
@@ -66,6 +68,8 @@ function _getBetaSchedules(context: AIProjectContext) {
     get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) =>
       get(context, scheduleId, options),
     deleteSchedule: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) =>
+      deleteSchedule(context, scheduleId, options),
+    delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) =>
       deleteSchedule(context, scheduleId, options),
   };
 }
