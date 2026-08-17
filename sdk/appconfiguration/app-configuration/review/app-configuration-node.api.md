@@ -9,11 +9,9 @@ import type { CancelOnProgress } from '@azure/core-lro';
 import type { CommonClientOptions } from '@azure-rest/core-client';
 import type { CompatResponse } from '@azure/core-http-compat';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions as OperationOptions_2 } from '@azure-rest/core-client';
-import type { OperationRequestOptions as OperationRequestOptions_2 } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -163,12 +161,6 @@ export interface FeatureFlagValue {
 }
 
 // @public
-export interface FullOperationResponse extends PipelineResponse {
-    parsedBody?: any;
-    parsedHeaders?: Record<string, unknown>;
-}
-
-// @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
@@ -309,22 +301,6 @@ export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
 }
 
 // @public
-export interface OperationOptions extends Omit<OperationOptions_2, "onResponse" | "requestOptions"> {
-    onResponse?: RawResponseCallback;
-    requestOptions?: OperationRequestOptions;
-    // @deprecated
-    serializerOptions?: SerializerOptions;
-}
-
-// @public
-export interface OperationRequestOptions extends OperationRequestOptions_2 {
-    // @deprecated
-    customHeaders?: Record<string, string>;
-    // @deprecated
-    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-}
-
-// @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
 }
@@ -353,9 +329,6 @@ export function parseSecretReference(setting: ConfigurationSetting): Configurati
 // @public
 export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
 
-// @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
-
 export { RestError }
 
 // @public
@@ -370,12 +343,6 @@ export const secretReferenceContentType = "application/vnd.microsoft.appconfig.k
 // @public
 export interface SecretReferenceValue {
     secretId: string;
-}
-
-// @public
-export interface SerializerOptions {
-    ignoreUnknownProperties?: boolean;
-    xml: XmlOptions;
 }
 
 // @public
@@ -458,13 +425,6 @@ export interface UpdateSnapshotOptions extends OperationOptions {
 
 // @public
 export interface UpdateSnapshotResponse extends SnapshotResponse {
-}
-
-// @public
-export interface XmlOptions {
-    includeRoot?: boolean;
-    rootName?: string;
-    xmlCharKey?: string;
 }
 
 // (No @packageDocumentation comment for this package)

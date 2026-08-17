@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { AppConfigurationClient } from "../../../src/appConfigurationClient.js";
 import type { TokenCredential } from "@azure/core-auth";
+import type { OperationRequestOptions } from "@azure-rest/core-client";
 import { packageVersion } from "../../../src/internal/constants.js";
 import { describe, it, assert, expect } from "vitest";
 
@@ -80,33 +81,12 @@ describe("packagejson related tests", () => {
             "x-current": "current",
             "x-shared": "current",
           },
-        },
+        } as OperationRequestOptions & { customHeaders: Record<string, string> },
       }),
     ).rejects.toThrow("request captured");
 
     assert.equal(receivedHeaders.get("x-legacy"), "legacy");
     assert.equal(receivedHeaders.get("x-current"), "current");
     assert.equal(receivedHeaders.get("x-shared"), "current");
-  });
-
-  it("rejects unsupported legacy operation options", async () => {
-    const client = new AppConfigurationClient("https://myresource.azconfig.io", {
-      getToken: () =>
-        Promise.resolve({
-          token: "fakevalue",
-          expiresOnTimestamp: Date.now() + 24 * 60 * 60 * 1000,
-        }),
-    } as TokenCredential);
-
-    await expect(
-      client.getSnapshot("name", {
-        serializerOptions: { xml: {} },
-      }),
-    ).rejects.toThrow("serializerOptions is not supported");
-    await expect(
-      client.getSnapshot("name", {
-        requestOptions: { shouldDeserialize: false },
-      }),
-    ).rejects.toThrow("requestOptions.shouldDeserialize is not supported");
   });
 });

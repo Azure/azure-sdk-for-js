@@ -3,7 +3,6 @@
 
 export { AppConfigurationClient } from "./appConfigurationClient.js";
 export type { SimplePollerLike } from "./internal/lroShim.js";
-export type * from "./operationOptions.js";
 export {
   featureFlagContentType,
   featureFlagPrefix,

@@ -6,9 +6,9 @@ import {
   type TracingSpan,
   type TracingSpanOptions,
 } from "@azure/core-tracing";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { packageVersion } from "./constants.js";
-import type { OperationOptions } from "../operationOptions.js";
-import { type RestCompatibleOperationOptions, toRestOperationOptions } from "./operationOptions.js";
+import { normalizeOperationOptions } from "./operationOptions.js";
 
 const coreTracingClient = createTracingClient({
   namespace: "Microsoft.AppConfiguration",
@@ -19,16 +19,13 @@ const coreTracingClient = createTracingClient({
 async function withSpan<Options extends OperationOptions, Result>(
   name: string,
   operationOptions: Options,
-  callback: (
-    updatedOptions: RestCompatibleOperationOptions<Options>,
-    span: Omit<TracingSpan, "end">,
-  ) => Result,
+  callback: (updatedOptions: Options, span: Omit<TracingSpan, "end">) => Result,
   spanOptions?: TracingSpanOptions,
 ): Promise<Awaited<Result>> {
   return coreTracingClient.withSpan(
     name,
     operationOptions,
-    (updatedOptions, span) => callback(toRestOperationOptions(updatedOptions), span),
+    (updatedOptions, span) => callback(normalizeOperationOptions(updatedOptions), span),
     spanOptions,
   );
 }

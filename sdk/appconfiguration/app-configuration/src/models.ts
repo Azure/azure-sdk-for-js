@@ -3,8 +3,7 @@
 
 import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
-import type { CommonClientOptions } from "@azure-rest/core-client";
-import type { OperationOptions } from "./operationOptions.js";
+import type { CommonClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 
