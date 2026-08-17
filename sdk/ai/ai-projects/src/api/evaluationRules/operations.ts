@@ -126,7 +126,7 @@ export async function createOrUpdate(
   return _createOrUpdateDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteEvaluationRuleSend(
   context: Client,
   id: string,
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },
@@ -149,7 +149,9 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteEvaluationRuleDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -159,13 +161,24 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Removes the specified evaluation rule from the project. */
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/evaluationRules/operations.ts
+export async function deleteEvaluationRule(
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/evaluationRules/operations.ts
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
+=======
+export async function $delete(
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/evaluationRules/operations.ts
   context: Client,
   id: string,
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, id, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteEvaluationRuleSend(context, id, options);
+  return _deleteEvaluationRuleDeserialize(result);
 }
 
 export function _getSend(

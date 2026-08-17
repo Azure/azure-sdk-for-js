@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/static-helpers/multipartHelpers.ts
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/static-helpers/multipartHelpers.ts
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+=======
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/static-helpers/multipartHelpers.ts
 
 /**
  * Valid values for the contents of a binary file.

@@ -298,7 +298,7 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteScheduleSend(
   context: Client,
   scheduleId: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
@@ -323,7 +323,7 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteScheduleDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -333,11 +333,30 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified schedule resource. */
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/schedules/operations.ts
+export async function deleteSchedule(
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
 export async function $delete(
+=======
+export async function $delete(
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
   context: Client,
   scheduleId: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/api/beta/schedules/operations.ts
+  const result = await _deleteScheduleSend(context, scheduleId, foundryFeatures, options);
+  return _deleteScheduleDeserialize(result);
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/api/beta/schedules/operations.ts
+  const result = await _$deleteSend(context, scheduleId, foundryFeatures, options);
+  return _$deleteDeserialize(result);
+=======
   const result = await _$deleteSend(context, scheduleId, options);
   return _$deleteDeserialize(result);
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/api/beta/schedules/operations.ts
 }

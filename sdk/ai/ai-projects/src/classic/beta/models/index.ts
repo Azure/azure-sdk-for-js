@@ -64,7 +64,18 @@ export interface BetaModelsOperations {
     version: string,
     options?: BetaModelsUpdateOptionalParams,
   ) => Promise<ModelVersion>;
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/classic/beta/models/index.ts
+  /** Removes the specified model version. Returns 200 whether the version existed or not. */
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/classic/beta/models/index.ts
+  /** Removes the specified model version. Returns 200 whether the version existed or not. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+=======
   /** Delete the specific version of the ModelVersion. The service returns 200 OK if the ModelVersion was deleted successfully or if the ModelVersion does not exist. */
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/classic/beta/models/index.ts
   delete: (
     name: string,
     version: string,

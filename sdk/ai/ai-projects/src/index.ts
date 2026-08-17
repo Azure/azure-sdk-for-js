@@ -1,10 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/index.ts
+import { FileContents } from "./static-helpers/multipartHelpers.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
+
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/index.ts
+import { FileContents } from "./static-helpers/multipartHelpers.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+import { NodeReadableStream } from "./static-helpers/platform-types.js";
+
+=======
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { ContinuablePage } from "./static-helpers/pagingHelpers.js";
 export { RestError } from "@azure/core-rest-pipeline";
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/index.ts
 export { AIProjectClient } from "./aiProjectClient.js";
 export type { GenAITracingOptions } from "./tracing/configuration.js";
 export type {
@@ -17,6 +37,49 @@ export type {
   AgentKind,
   RaiConfig,
   HostedAgentDefinition,
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/index.ts
+  ContainerConfiguration,
+  ProtocolVersionRecord,
+  AgentEndpointProtocol,
+  CodeConfiguration,
+  CodeDependencyResolution,
+  TelemetryConfig,
+  TelemetryEndpoint,
+  TelemetryEndpointUnion,
+  TelemetryEndpointKind,
+  TelemetryDataKind,
+  TelemetryEndpointAuth,
+  TelemetryEndpointAuthUnion,
+  TelemetryEndpointAuthType,
+  HeaderTelemetryEndpointAuth,
+  OtlpTelemetryEndpoint,
+  TelemetryTransportProtocol,
+  PromptAgentDefinition,
+  Reasoning,
+  ReasoningModeEnum,
+  ReasoningEffort,
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/index.ts
+  ContainerConfiguration,
+  ProtocolVersionRecord,
+  AgentEndpointProtocol,
+  CodeConfiguration,
+  CodeDependencyResolution,
+  TelemetryConfig,
+  TelemetryEndpoint,
+  TelemetryEndpointUnion,
+  TelemetryEndpointKind,
+  TelemetryDataKind,
+  TelemetryEndpointAuth,
+  TelemetryEndpointAuthUnion,
+  TelemetryEndpointAuthType,
+  HeaderTelemetryEndpointAuth,
+  OtlpTelemetryEndpoint,
+  TelemetryTransportProtocol,
+  PromptAgentDefinition,
+  Reasoning,
+  ReasoningEffort,
+=======
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/index.ts
   Tool,
   ToolUnion,
   ToolType,
@@ -63,6 +126,7 @@ export type {
   MemorySearchPreviewTool,
   MemorySearchOptions,
   CodeInterpreterTool,
+  CallableToolAllowedCaller,
   AutoCodeInterpreterToolParam,
   ContainerMemoryLimit,
   ContainerNetworkPolicyParam,
@@ -87,6 +151,17 @@ export type {
   WebSearchApproximateLocation,
   WebSearchConfiguration,
   MCPTool,
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/index.ts
+  FunctionTool,
+  ComputerUsePreviewTool,
+  ComputerEnvironment,
+  ProgrammaticToolCallingParam,
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/index.ts
+  FunctionTool,
+  ComputerUsePreviewTool,
+  ComputerEnvironment,
+=======
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/index.ts
   ImageGenTool,
   InputFidelity,
   ImageGenToolInputImageMask,
@@ -150,6 +225,7 @@ export type {
   ToolChoiceFunction,
   ToolChoiceMCP,
   ToolChoiceCustom,
+  SpecificProgrammaticToolCallingParam,
   SpecificApplyPatchParam,
   SpecificFunctionShellParam,
   ToolChoiceFileSearch,
@@ -488,7 +564,7 @@ export type {
   SimpleQnADataGenerationJobOptions,
   SimpleQnAFineTuningQuestionType,
   TracesDataGenerationJobOptions,
-  TaskGenerationDataGenerationJobOptions,
+  SimulationSeedDataGenerationJobOptions,
   ToolUseFineTuningDataGenerationJobOptions,
   DataGenerationJobScenario,
   DataGenerationJobOutputOptions,
@@ -499,6 +575,44 @@ export type {
   FileDataGenerationJobOutput,
   DatasetDataGenerationJobOutput,
   DataGenerationTokenUsage,
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/index.ts
+  AgentOptimizationJob,
+  AgentOptimizationJobInputs,
+  OptimizedAgentIdentifier,
+  AgentOptimizationDatasetInput,
+  AgentOptimizationDatasetInputUnion,
+  AgentOptimizationDatasetInputType,
+  AgentOptimizationInlineDatasetInput,
+  AgentOptimizationDatasetItem,
+  AgentOptimizationDatasetCriterion,
+  AgentOptimizationReferenceDatasetInput,
+  AgentOptimizationEvaluatorRef,
+  AgentOptimizationOptions,
+  AgentOptimizationJobResult,
+  AgentOptimizationCandidate,
+  PromotionInfo,
+  AgentOptimizationJobProgress,
+  AgentOptimizationJobListItem,
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/index.ts
+  OptimizationJob,
+  OptimizationJobInputs,
+  OptimizationAgentIdentifier,
+  OptimizationDatasetInput,
+  OptimizationDatasetInputUnion,
+  OptimizationDatasetInputType,
+  OptimizationInlineDatasetInput,
+  OptimizationDatasetItem,
+  OptimizationDatasetCriterion,
+  OptimizationReferenceDatasetInput,
+  OptimizationEvaluatorRef,
+  OptimizationOptions,
+  OptimizationJobResult,
+  OptimizationCandidate,
+  PromotionInfo,
+  OptimizationJobProgress,
+  OptimizationJobListItem,
+=======
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/index.ts
   UpdateToolboxRequest,
   AgentType,
   AgentDefinitionOptInKeys,

@@ -1,19 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/*
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "../static-helpers/platform-types.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
+/**
+=======
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { FileContents } from "../static-helpers/multipartHelpers.js";
 import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
+
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+=======
 /* eslint-disable tsdoc/syntax */
 
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
@@ -47,8 +65,15 @@ export function agentDeserializer(item: any): Agent {
     id: item["id"],
     name: item["name"],
     state: item["state"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    state_source: item["state_source"],
+    versions: _agentObjectVersionsDeserializer(item["versions"]),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    versions: _agentObjectVersionsDeserializer(item["versions"]),
+=======
     state_source: item["state_source"],
     versions: _agentVersionsDeserializer(item["versions"]),
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
     agent_endpoint: !item["agent_endpoint"]
       ? item["agent_endpoint"]
       : agentEndpointConfigDeserializer(item["agent_endpoint"]),
@@ -72,10 +97,21 @@ export type AgentState = "enabled" | "disabled";
 /** Indicates the source of an agent's operational state. Empty when the state is not derived from a specific source. */
 export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Indicates the source of an agent's operational state. Empty when the state is not derived from a specific source. */
+export type AgentStateSource = "agent_instance_identity" | "agent_blueprint";
+
+/** model interface _AgentObjectVersions */
+export interface _AgentObjectVersions {
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** model interface _AgentObjectVersions */
+export interface _AgentObjectVersions {
+=======
 /**
  * Helper interface for agent version references.
  */
 export interface _AgentVersions {
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   latest: AgentVersion;
 }
 
@@ -315,7 +351,54 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Container-based deployment configuration for a hosted agent. */
+export interface ContainerConfiguration {
+  /** The container image for the hosted agent. */
+  image: string;
+  /**
+   * The id (or name) of the Foundry project connection that provides the credentials used to
+   * authenticate to the private container registry hosting `image`. The connection abstracts the
+   * auth mechanism — for example a managed-identity-federated token exchange, or a username/token
+   * secret — so registry credentials are never part of the agent definition. Omit for public images
+   * or registries already reachable by the platform's default identity (for example, Azure Container Registry).
+   */
+  registry_connection_id?: string;
+}
+
+export function containerConfigurationSerializer(item: ContainerConfiguration): any {
+  return { image: item["image"], registry_connection_id: item["registry_connection_id"] };
+}
+
+export function containerConfigurationDeserializer(item: any): ContainerConfiguration {
+  return {
+    image: item["image"],
+    registry_connection_id: item["registry_connection_id"],
+  };
+}
+
+export function protocolVersionRecordArraySerializer(result: Array<ProtocolVersionRecord>): any[] {
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Container-based deployment configuration for a hosted agent. */
+export interface ContainerConfiguration {
+  /** The container image for the hosted agent. */
+  image: string;
+}
+
+export function containerConfigurationSerializer(item: ContainerConfiguration): any {
+  return { image: item["image"] };
+}
+
+export function containerConfigurationDeserializer(item: any): ContainerConfiguration {
+  return {
+    image: item["image"],
+  };
+}
+
+export function protocolVersionRecordArraySerializer(result: Array<ProtocolVersionRecord>): any[] {
+=======
 export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   return result.map((item) => {
     return toolUnionSerializer(item);
   });
@@ -425,14 +508,743 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "web_search":
       return webSearchToolSerializer(item as WebSearchTool);
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** The kind of telemetry export endpoint. */
+export type TelemetryEndpointKind = "OTLP";
+
+/** The type of telemetry data to export. */
+export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** The kind of telemetry export endpoint. */
+export type TelemetryEndpointKind = "OTLP";
+/** The type of telemetry data to export. */
+export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+=======
+    case "mcp":
+      return mcpToolSerializer(item as MCPTool);
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
+
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Authentication configuration for a telemetry endpoint. */
+export interface TelemetryEndpointAuth {
+  /** The authentication type. */
+  /** The discriminator possible values: header */
+  type: TelemetryEndpointAuthType;
+}
+
+export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
+  return { type: item["type"] };
+}
+
+export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TelemetryEndpointAuthUnion */
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+export function telemetryEndpointAuthUnionSerializer(item: TelemetryEndpointAuthUnion): any {
+  switch (item.type) {
+    case "header":
+      return headerTelemetryEndpointAuthSerializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthSerializer(item);
+  }
+}
+
+export function telemetryEndpointAuthUnionDeserializer(item: any): TelemetryEndpointAuthUnion {
+  switch (item["type"]) {
+    case "header":
+      return headerTelemetryEndpointAuthDeserializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthDeserializer(item);
+  }
+}
+
+/** The type of authentication for a telemetry endpoint. */
+export type TelemetryEndpointAuthType = "header";
+
+/** Header-based secret authentication for a telemetry endpoint. The resolved secret value is injected as an HTTP header. */
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+  /** The authentication type, always 'header' for header-based secret authentication. */
+  type: "header";
+  /** The name of the HTTP header to inject the secret value into. */
+  header_name: string;
+  /** The identifier of the secret store or connection. */
+  secret_id: string;
+  /** The key within the secret to retrieve the authentication value. */
+  secret_key: string;
+}
+
+export function headerTelemetryEndpointAuthSerializer(item: HeaderTelemetryEndpointAuth): any {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTelemetryEndpointAuth {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+/** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+  /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
+  kind: "OTLP";
+  /** The OTLP collector endpoint URL. */
+  endpoint: string;
+  /** The transport protocol for the OTLP endpoint. */
+  protocol: TelemetryTransportProtocol;
+}
+
+export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+/** The transport protocol for telemetry export. */
+export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+/** The prompt agent definition */
+export interface PromptAgentDefinition extends AgentDefinition {
+  kind: "prompt";
+  /** The model deployment to use for this agent. */
+  model: string;
+  /** A system (or developer) message inserted into the model's context. */
+  instructions?: string;
+  /**
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature, called nucleus sampling,
+   * where the model considers the results of the tokens with top_p probability
+   * mass. So 0.1 means only the tokens comprising the top 10% probability mass
+   * are considered. We generally recommend altering this or `temperature` but not both.
+   * Defaults to `1`.
+   */
+  top_p?: number;
+  reasoning?: Reasoning;
+  /**
+   * An array of tools the model may call while generating a response. You
+   * can specify which tool to use by setting the `tool_choice` parameter.
+   */
+  tools?: ToolUnion[];
+  /**
+   * How the model should select which tool (or tools) to use when generating a response.
+   * See the `tools` parameter to see how to specify which tools the model can call.
+   */
+  tool_choice?: string | ToolChoiceParamUnion;
+  /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+  text?: PromptAgentDefinitionTextOptions;
+  /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+}
+
+export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceSerializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsSerializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+  };
+}
+
+export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceDeserializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsDeserializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+  };
+}
+
+/**
+ * **gpt-5 and o-series models only**
+ * Configuration options for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ */
+export interface Reasoning {
+  /**
+   * Controls the reasoning execution mode for the request.
+   *   When returned on a response, this is the effective execution mode.
+   */
+  mode?: ReasoningModeEnum;
+  effort?: ReasoningEffort;
+  summary?: "auto" | "concise" | "detailed";
+  context?: "auto" | "current_turn" | "all_turns";
+  generate_summary?: "auto" | "concise" | "detailed";
+}
+
+export function reasoningSerializer(item: Reasoning): any {
+  return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumSerializer(item["mode"]),
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+export function reasoningDeserializer(item: any): Reasoning {
+  return {
+    mode: !item["mode"] ? item["mode"] : reasoningModeEnumDeserializer(item["mode"]),
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+/** Alias for ReasoningModeEnum */
+export type ReasoningModeEnum = string | "standard" | "pro";
+
+export function reasoningModeEnumSerializer(item: ReasoningModeEnum): any {
+  return item;
+}
+
+export function reasoningModeEnumDeserializer(item: any): ReasoningModeEnum {
+  return item;
+}
+
+/**
+ * Constrains effort on reasoning for reasoning models. Currently supported
+ * values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
+ * Reducing reasoning effort can result in faster responses and fewer tokens
+ * used on reasoning in a response. Not all reasoning models support every
+ * value. See the
+ * [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+ * for model-specific support.
+ */
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
+
+export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionSerializer(item);
+  });
+}
+
+export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionDeserializer(item);
+  });
+}
+
+/** A tool that can be used to generate a response. */
+export interface Tool {
+  type: ToolType;
+}
+
+export function toolSerializer(item: Tool): any {
+  return { type: item["type"] };
+}
+
+export function toolDeserializer(item: any): Tool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolUnion */
+export type ToolUnion =
+  | BingGroundingTool
+  | MicrosoftFabricPreviewTool
+  | SharepointPreviewTool
+  | AzureAISearchTool
+  | OpenApiTool
+  | BingCustomSearchPreviewTool
+  | BrowserAutomationPreviewTool
+  | AzureFunctionTool
+  | CaptureStructuredOutputsTool
+  | A2APreviewTool
+  | WorkIQPreviewTool
+  | FabricIQPreviewTool
+  | MemorySearchPreviewTool
+  | CodeInterpreterTool
+  | FileSearchTool
+  | WebSearchTool
+  | MCPTool
+  | FunctionTool
+  | ComputerUsePreviewTool
+  | ProgrammaticToolCallingParam
+  | ImageGenTool
+  | LocalShellToolParam
+  | FunctionShellToolParam
+  | CustomToolParam
+  | WebSearchPreviewTool
+  | ApplyPatchToolParam
+  | ComputerTool
+  | NamespaceToolParam
+  | ToolSearchToolParam
+  | Tool;
+
+export function toolUnionSerializer(item: ToolUnion): any {
+  switch (item.type) {
+    case "bing_grounding":
+      return bingGroundingToolSerializer(item as BingGroundingTool);
+
+    case "fabric_dataagent_preview":
+      return microsoftFabricPreviewToolSerializer(item as MicrosoftFabricPreviewTool);
+
+    case "sharepoint_grounding_preview":
+      return sharepointPreviewToolSerializer(item as SharepointPreviewTool);
+
+    case "azure_ai_search":
+      return azureAISearchToolSerializer(item as AzureAISearchTool);
+
+    case "openapi":
+      return openApiToolSerializer(item as OpenApiTool);
+
+    case "bing_custom_search_preview":
+      return bingCustomSearchPreviewToolSerializer(item as BingCustomSearchPreviewTool);
+
+    case "browser_automation_preview":
+      return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "azure_function":
+      return azureFunctionToolSerializer(item as AzureFunctionTool);
+
+    case "capture_structured_outputs":
+      return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
+
+    case "a2a_preview":
+      return a2APreviewToolSerializer(item as A2APreviewTool);
+
+    case "work_iq_preview":
+      return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
+
+    case "memory_search_preview":
+      return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "code_interpreter":
+      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
+
+    case "file_search":
+      return fileSearchToolSerializer(item as FileSearchTool);
+
+    case "web_search":
+      return webSearchToolSerializer(item as WebSearchTool);
+
     case "mcp":
       return mcpToolSerializer(item as MCPTool);
 
     case "function":
       return functionToolSerializer(item as FunctionTool);
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Authentication configuration for a telemetry endpoint. */
+export interface TelemetryEndpointAuth {
+  /** The authentication type. */
+  /** The discriminator possible values: header */
+  type: TelemetryEndpointAuthType;
+}
+
+export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
+  return { type: item["type"] };
+}
+
+export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for TelemetryEndpointAuthUnion */
+export type TelemetryEndpointAuthUnion = HeaderTelemetryEndpointAuth | TelemetryEndpointAuth;
+
+export function telemetryEndpointAuthUnionSerializer(item: TelemetryEndpointAuthUnion): any {
+  switch (item.type) {
+    case "header":
+      return headerTelemetryEndpointAuthSerializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthSerializer(item);
+  }
+}
+
+export function telemetryEndpointAuthUnionDeserializer(item: any): TelemetryEndpointAuthUnion {
+  switch (item["type"]) {
+    case "header":
+      return headerTelemetryEndpointAuthDeserializer(item as HeaderTelemetryEndpointAuth);
+
+    default:
+      return telemetryEndpointAuthDeserializer(item);
+  }
+}
+
+/** The type of authentication for a telemetry endpoint. */
+export type TelemetryEndpointAuthType = "header";
+
+/** Header-based secret authentication for a telemetry endpoint. The resolved secret value is injected as an HTTP header. */
+export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
+  /** The authentication type, always 'header' for header-based secret authentication. */
+  type: "header";
+  /** The name of the HTTP header to inject the secret value into. */
+  header_name: string;
+  /** The identifier of the secret store or connection. */
+  secret_id: string;
+  /** The key within the secret to retrieve the authentication value. */
+  secret_key: string;
+}
+
+export function headerTelemetryEndpointAuthSerializer(item: HeaderTelemetryEndpointAuth): any {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTelemetryEndpointAuth {
+  return {
+    type: item["type"],
+    header_name: item["header_name"],
+    secret_id: item["secret_id"],
+    secret_key: item["secret_key"],
+  };
+}
+
+/** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
+export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
+  /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
+  kind: "OTLP";
+  /** The OTLP collector endpoint URL. */
+  endpoint: string;
+  /** The transport protocol for the OTLP endpoint. */
+  protocol: TelemetryTransportProtocol;
+}
+
+export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
+  return {
+    kind: item["kind"],
+    data: item["data"].map((p: any) => {
+      return p;
+    }),
+    auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
+    endpoint: item["endpoint"],
+    protocol: item["protocol"],
+  };
+}
+
+/** The transport protocol for telemetry export. */
+export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+/** The prompt agent definition */
+export interface PromptAgentDefinition extends AgentDefinition {
+  kind: "prompt";
+  /** The model deployment to use for this agent. */
+  model: string;
+  /** A system (or developer) message inserted into the model's context. */
+  instructions?: string;
+  /**
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * We generally recommend altering this or `top_p` but not both. Defaults to `1`.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature, called nucleus sampling,
+   * where the model considers the results of the tokens with top_p probability
+   * mass. So 0.1 means only the tokens comprising the top 10% probability mass
+   * are considered. We generally recommend altering this or `temperature` but not both.
+   * Defaults to `1`.
+   */
+  top_p?: number;
+  reasoning?: Reasoning;
+  /**
+   * An array of tools the model may call while generating a response. You
+   * can specify which tool to use by setting the `tool_choice` parameter.
+   */
+  tools?: ToolUnion[];
+  /**
+   * How the model should select which tool (or tools) to use when generating a response.
+   * See the `tools` parameter to see how to specify which tools the model can call.
+   */
+  tool_choice?: string | ToolChoiceParamUnion;
+  /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
+  text?: PromptAgentDefinitionTextOptions;
+  /** Set of structured inputs that can participate in prompt template substitution or tool argument bindings. */
+  structured_inputs?: Record<string, StructuredInputDefinition>;
+}
+
+export function promptAgentDefinitionSerializer(item: PromptAgentDefinition): any {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningSerializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceSerializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsSerializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordSerializer(item["structured_inputs"]),
+  };
+}
+
+export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinition {
+  return {
+    kind: item["kind"],
+    rai_config: !item["rai_config"]
+      ? item["rai_config"]
+      : raiConfigDeserializer(item["rai_config"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    top_p: item["top_p"],
+    reasoning: !item["reasoning"] ? item["reasoning"] : reasoningDeserializer(item["reasoning"]),
+    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : _promptAgentDefinitionToolChoiceDeserializer(item["tool_choice"]),
+    text: !item["text"] ? item["text"] : promptAgentDefinitionTextOptionsDeserializer(item["text"]),
+    structured_inputs: !item["structured_inputs"]
+      ? item["structured_inputs"]
+      : structuredInputDefinitionRecordDeserializer(item["structured_inputs"]),
+  };
+}
+
+/**
+ * **gpt-5 and o-series models only**
+ * Configuration options for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ */
+export interface Reasoning {
+  effort?: ReasoningEffort;
+  summary?: "auto" | "concise" | "detailed";
+  context?: "auto" | "current_turn" | "all_turns";
+  generate_summary?: "auto" | "concise" | "detailed";
+}
+
+export function reasoningSerializer(item: Reasoning): any {
+  return {
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+export function reasoningDeserializer(item: any): Reasoning {
+  return {
+    effort: item["effort"],
+    summary: item["summary"],
+    context: item["context"],
+    generate_summary: item["generate_summary"],
+  };
+}
+
+/**
+ * Constrains effort on reasoning for
+ * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+ * Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing
+ * reasoning effort can result in faster responses and fewer tokens used
+ * on reasoning in a response.
+ * - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
+ * - All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
+ * - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+ * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+ */
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | null;
+
+export function toolUnionArraySerializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionSerializer(item);
+  });
+}
+
+export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
+  return result.map((item) => {
+    return toolUnionDeserializer(item);
+  });
+}
+
+/** A tool that can be used to generate a response. */
+export interface Tool {
+  type: ToolType;
+}
+
+export function toolSerializer(item: Tool): any {
+  return { type: item["type"] };
+}
+
+export function toolDeserializer(item: any): Tool {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolUnion */
+export type ToolUnion =
+  | BingGroundingTool
+  | MicrosoftFabricPreviewTool
+  | SharepointPreviewTool
+  | AzureAISearchTool
+  | OpenApiTool
+  | BingCustomSearchPreviewTool
+  | BrowserAutomationPreviewTool
+  | AzureFunctionTool
+  | CaptureStructuredOutputsTool
+  | A2APreviewTool
+  | WorkIQPreviewTool
+  | FabricIQPreviewTool
+  | MemorySearchPreviewTool
+  | CodeInterpreterTool
+  | FileSearchTool
+  | WebSearchTool
+  | MCPTool
+  | FunctionTool
+  | ComputerUsePreviewTool
+  | ImageGenTool
+  | LocalShellToolParam
+  | FunctionShellToolParam
+  | CustomToolParam
+  | WebSearchPreviewTool
+  | ApplyPatchToolParam
+  | ComputerTool
+  | NamespaceToolParam
+  | ToolSearchToolParam
+  | Tool;
+
+export function toolUnionSerializer(item: ToolUnion): any {
+  switch (item.type) {
+    case "bing_grounding":
+      return bingGroundingToolSerializer(item as BingGroundingTool);
+
+    case "fabric_dataagent_preview":
+      return microsoftFabricPreviewToolSerializer(item as MicrosoftFabricPreviewTool);
+
+    case "sharepoint_grounding_preview":
+      return sharepointPreviewToolSerializer(item as SharepointPreviewTool);
+
+    case "azure_ai_search":
+      return azureAISearchToolSerializer(item as AzureAISearchTool);
+
+    case "openapi":
+      return openApiToolSerializer(item as OpenApiTool);
+
+    case "bing_custom_search_preview":
+      return bingCustomSearchPreviewToolSerializer(item as BingCustomSearchPreviewTool);
+
+    case "browser_automation_preview":
+      return browserAutomationPreviewToolSerializer(item as BrowserAutomationPreviewTool);
+
+    case "azure_function":
+      return azureFunctionToolSerializer(item as AzureFunctionTool);
+
+    case "capture_structured_outputs":
+      return captureStructuredOutputsToolSerializer(item as CaptureStructuredOutputsTool);
+
+    case "a2a_preview":
+      return a2APreviewToolSerializer(item as A2APreviewTool);
+
+    case "work_iq_preview":
+      return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
+
+    case "fabric_iq_preview":
+      return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
+
+    case "memory_search_preview":
+      return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
+
+    case "code_interpreter":
+      return codeInterpreterToolSerializer(item as CodeInterpreterTool);
+
+    case "file_search":
+      return fileSearchToolSerializer(item as FileSearchTool);
+
+    case "web_search":
+      return webSearchToolSerializer(item as WebSearchTool);
+
+    case "mcp":
+      return mcpToolSerializer(item as MCPTool);
+
+    case "function":
+      return functionToolSerializer(item as FunctionTool);
+=======
+    case "function":
+      return functionToolSerializer(item as FunctionTool);
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 
     case "computer_use_preview":
       return computerUsePreviewToolSerializer(item as ComputerUsePreviewTool);
+
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamSerializer(item as ProgrammaticToolCallingParam);
 
     case "image_generation":
       return imageGenToolSerializer(item as ImageGenTool);
@@ -525,6 +1337,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "computer_use_preview":
       return computerUsePreviewToolDeserializer(item as ComputerUsePreviewTool);
 
+    case "programmatic_tool_calling":
+      return programmaticToolCallingParamDeserializer(item as ProgrammaticToolCallingParam);
+
     case "image_generation":
       return imageGenToolDeserializer(item as ImageGenTool);
 
@@ -566,6 +1381,7 @@ export type ToolType =
   | "web_search"
   | "mcp"
   | "code_interpreter"
+  | "programmatic_tool_calling"
   | "image_generation"
   | "local_shell"
   | "shell"
@@ -1884,6 +2700,7 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1902,6 +2719,11 @@ export interface CodeInterpreterTool extends Tool {
 export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1916,6 +2738,11 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
 export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1926,6 +2753,9 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
       : _codeInterpreterToolContainerDeserializer(item["container"]),
   };
 }
+
+/** Type of CallableToolAllowedCaller */
+export type CallableToolAllowedCaller = "direct" | "programmatic";
 
 /** Alias for _CodeInterpreterToolContainer */
 export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
@@ -2882,6 +3712,124 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ */
+export interface MCPTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/**
+ * Give the model access to additional tools via remote Model Context Protocol
+ * (MCP) servers. [Learn more about MCP](/docs/guides/tools-remote-mcp).
+ */
+export interface MCPTool extends Tool {
+  /** The type of the MCP tool. Always `mcp`. */
+  type: "mcp";
+  /** A label for this MCP server, used to identify it in tool calls. */
+  server_label: string;
+  /**
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
+   */
+  server_url?: string;
+  /**
+   * Identifier for service connectors, like those available in ChatGPT. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   Currently supported `connector_id` values are:
+   *   - Dropbox: `connector_dropbox`
+   *   - Gmail: `connector_gmail`
+   *   - Google Calendar: `connector_googlecalendar`
+   *   - Google Drive: `connector_googledrive`
+   *   - Microsoft Teams: `connector_microsoftteams`
+   *   - Outlook Calendar: `connector_outlookcalendar`
+   *   - Outlook Email: `connector_outlookemail`
+   *   - SharePoint: `connector_sharepoint`
+   */
+  connector_id?:
+    | "connector_dropbox"
+    | "connector_gmail"
+    | "connector_googlecalendar"
+    | "connector_googledrive"
+    | "connector_microsoftteams"
+    | "connector_outlookcalendar"
+    | "connector_outlookemail"
+    | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
+   * An OAuth access token that can be used with a remote MCP server, either
+   *   with a custom MCP server URL or a service connector. Your application
+   *   must handle the OAuth authorization flow and provide the token here.
+   */
+  authorization?: string;
+  /** Optional description of the MCP server, used to provide more context. */
+  server_description?: string;
+  headers?: Record<string, string>;
+  allowed_tools?: string[] | MCPToolFilter;
+  require_approval?: MCPToolRequireApproval | "always" | "never";
+  /** Whether this MCP tool is deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
+  project_connection_id?: string;
+=======
 /** A tool that allows the model to execute shell commands. */
 export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
@@ -2892,6 +3840,7 @@ export interface FunctionShellToolParam extends Tool {
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   description?: string;
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   tool_configs?: Record<string, ToolConfig>;
 }
@@ -2899,11 +3848,50 @@ export interface FunctionShellToolParam extends Tool {
 export function functionShellToolParamSerializer(item: FunctionShellToolParam): any {
   return {
     type: item["type"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: item["headers"],
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalSerializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+=======
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
@@ -2913,11 +3901,58 @@ export function functionShellToolParamSerializer(item: FunctionShellToolParam): 
 export function functionShellToolParamDeserializer(item: any): FunctionShellToolParam {
   return {
     type: item["type"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    server_label: item["server_label"],
+    server_url: item["server_url"],
+    connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
+    authorization: item["authorization"],
+    server_description: item["server_description"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : Object.fromEntries(
+          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    allowed_tools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
+    defer_loading: item["defer_loading"],
+    project_connection_id: item["project_connection_id"],
+=======
     environment: !item["environment"]
       ? item["environment"]
       : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
     name: item["name"],
     description: item["description"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
@@ -2995,6 +4030,33 @@ export function functionShellToolParamEnvironmentUnionDeserializer(
   }
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+export interface FunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  description?: string;
+  parameters: Record<string, any> | null;
+  output_schema?: Record<string, any>;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling). */
+export interface FunctionTool extends Tool {
+  /** The type of the function tool. Always `function`. */
+  type: "function";
+  /** The name of the function to call. */
+  name: string;
+  description?: string;
+  parameters: Record<string, any> | null;
+  strict: boolean | null;
+  /** Whether this function is deferred and loaded via tool search. */
+  defer_loading?: boolean;
+=======
 /** Type of FunctionShellToolParamEnvironmentType */
 export type FunctionShellToolParamEnvironmentType =
   "container_auto" | "local" | "container_reference";
@@ -3045,6 +4107,7 @@ export interface LocalSkillParam {
   description: string;
   /** The path to the directory containing the skill. */
   path: string;
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function localSkillParamSerializer(item: LocalSkillParam): any {
@@ -3055,7 +4118,23 @@ export function localSkillParamDeserializer(item: any): LocalSkillParam {
   return {
     name: item["name"],
     description: item["description"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    parameters: item["parameters"],
+    output_schema: item["output_schema"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    parameters: item["parameters"],
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+=======
     path: item["path"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3078,7 +4157,39 @@ export function functionShellToolParamEnvironmentContainerReferenceParamDeserial
 ): FunctionShellToolParamEnvironmentContainerReferenceParam {
   return {
     type: item["type"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    strict: item["strict"],
+    defer_loading: item["defer_loading"],
+=======
     container_id: item["container_id"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3126,10 +4237,114 @@ export function containerSkillUnionArraySerializer(result: Array<ContainerSkillU
   });
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** model interface ProgrammaticToolCallingParam */
+export interface ProgrammaticToolCallingParam extends Tool {
+  /** The type of the tool. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function programmaticToolCallingParamSerializer(item: ProgrammaticToolCallingParam): any {
+  return { type: item["type"] };
+}
+
+export function programmaticToolCallingParamDeserializer(item: any): ProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
+  };
+}
+
+/** A tool that generates images using the GPT image models. */
+export interface ImageGenTool extends Tool {
+  /** The type of the image generation tool. Always `image_generation`. */
+  type: "image_generation";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+  /**
+   * The quality of the generated image. One of `low`, `medium`, `high`,
+   *   or `auto`. Default: `auto`.
+   */
+  quality?: "low" | "medium" | "high" | "auto";
+  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+  /**
+   * The output format of the generated image. One of `png`, `webp`, or
+   *   `jpeg`. Default: `png`.
+   */
+  output_format?: "png" | "webp" | "jpeg";
+  /** Compression level for the output image. Default: 100. */
+  output_compression?: number;
+  /** Moderation level for the generated image. Default: `auto`. */
+  moderation?: "auto" | "low";
+  /**
+   * Background type for the generated image. One of `transparent`,
+   *   `opaque`, or `auto`. Default: `auto`.
+   */
+  background?: "transparent" | "opaque" | "auto";
+  input_fidelity?: InputFidelity;
+  /**
+   * Optional mask for inpainting. Contains `image_url`
+   *   (string, optional) and `file_id` (string, optional).
+   */
+  input_image_mask?: ImageGenToolInputImageMask;
+  /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
+  partial_images?: number;
+  /** Whether to generate a new image or edit an existing image. Default: `auto`. */
+  action?: ImageGenAction;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A tool that generates images using the GPT image models. */
+export interface ImageGenTool extends Tool {
+  /** The type of the image generation tool. Always `image_generation`. */
+  type: "image_generation";
+  model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
+  /**
+   * The quality of the generated image. One of `low`, `medium`, `high`,
+   *   or `auto`. Default: `auto`.
+   */
+  quality?: "low" | "medium" | "high" | "auto";
+  /** The size of the generated images. For `gpt-image-2` and `gpt-image-2-2026-04-21`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
+  size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+  /**
+   * The output format of the generated image. One of `png`, `webp`, or
+   *   `jpeg`. Default: `png`.
+   */
+  output_format?: "png" | "webp" | "jpeg";
+  /** Compression level for the output image. Default: 100. */
+  output_compression?: number;
+  /** Moderation level for the generated image. Default: `auto`. */
+  moderation?: "auto" | "low";
+  /**
+   * Background type for the generated image. One of `transparent`,
+   *   `opaque`, or `auto`. Default: `auto`.
+   */
+  background?: "transparent" | "opaque" | "auto";
+  input_fidelity?: InputFidelity;
+  /**
+   * Optional mask for inpainting. Contains `image_url`
+   *   (string, optional) and `file_id` (string, optional).
+   */
+  input_image_mask?: ImageGenToolInputImageMask;
+  /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
+  partial_images?: number;
+  /** Whether to generate a new image or edit an existing image. Default: `auto`. */
+  action?: ImageGenAction;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  description?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  tool_configs?: Record<string, ToolConfig>;
+=======
 export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkillUnion>): any[] {
   return result.map((item) => {
     return containerSkillUnionDeserializer(item);
   });
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 /** model interface ContainerSkill */
@@ -3232,6 +4447,26 @@ export function inlineSkillParamDeserializer(item: any): InlineSkillParam {
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** A tool that allows the model to execute shell commands. */
+export interface FunctionShellToolParam extends Tool {
+  /** The type of the shell tool. Always `shell`. */
+  type: "shell";
+  environment?: FunctionShellToolParamEnvironmentUnion;
+  allowed_callers?: CallableToolAllowedCaller[];
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** A tool that allows the model to execute shell commands. */
+export interface FunctionShellToolParam extends Tool {
+  /** The type of the shell tool. Always `shell`. */
+  type: "shell";
+  environment?: FunctionShellToolParamEnvironmentUnion;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+  name?: string;
+  /** Deprecated. This property is deprecated and will be removed in a future version. */
+=======
 /** Inline skill payload */
 export interface InlineSkillSourceParam {
   /** The type of the inline skill source. Must be `base64`. */
@@ -3261,6 +4496,7 @@ export interface CustomToolParam extends Tool {
   /** The name of the custom tool, used to identify it in tool calls. */
   name: string;
   /** Optional description of the custom tool, used to provide more context. */
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   description?: string;
   /** The input format for the custom tool. Default is unconstrained text. */
   format?: CustomToolParamFormatUnion;
@@ -3271,6 +4507,21 @@ export interface CustomToolParam extends Tool {
 export function customToolParamSerializer(item: CustomToolParam): any {
   return {
     type: item["type"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionSerializer(item["environment"]),
+=======
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
     name: item["name"],
     description: item["description"],
     format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
@@ -3281,6 +4532,21 @@ export function customToolParamSerializer(item: CustomToolParam): any {
 export function customToolParamDeserializer(item: any): CustomToolParam {
   return {
     type: item["type"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    environment: !item["environment"]
+      ? item["environment"]
+      : functionShellToolParamEnvironmentUnionDeserializer(item["environment"]),
+=======
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
     name: item["name"],
     description: item["description"],
     format: !item["format"]
@@ -3558,6 +4824,7 @@ export interface FunctionToolParam {
   type: "function";
   /** Whether this function should be deferred and discovered via tool search. */
   defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
 }
 
 export function functionToolParamSerializer(item: FunctionToolParam): any {
@@ -3612,9 +4879,22 @@ export function toolSearchToolParamSerializer(item: ToolSearchToolParam): any {
     type: item["type"],
     execution: item["execution"],
     description: item["description"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    format: !item["format"] ? item["format"] : customToolParamFormatUnionSerializer(item["format"]),
+    defer_loading: item["defer_loading"],
+=======
     parameters: !item["parameters"]
       ? item["parameters"]
       : emptyModelParamSerializer(item["parameters"]),
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3623,9 +4903,26 @@ export function toolSearchToolParamDeserializer(item: any): ToolSearchToolParam 
     type: item["type"],
     execution: item["execution"],
     description: item["description"],
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    format: !item["format"]
+      ? item["format"]
+      : customToolParamFormatUnionDeserializer(item["format"]),
+    defer_loading: item["defer_loading"],
+=======
     parameters: !item["parameters"]
       ? item["parameters"]
       : emptyModelParamDeserializer(item["parameters"]),
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -3812,25 +5109,71 @@ export function telemetryEndpointUnionDeserializer(item: any): TelemetryEndpoint
   }
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Type of SearchContextSize */
+export type SearchContextSize = "low" | "medium" | "high";
+
+/** Type of SearchContentType */
+export type SearchContentType = "text" | "image";
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Type of SearchContextSize */
+export type SearchContextSize = "low" | "medium" | "high";
+/** Type of SearchContentType */
+export type SearchContentType = "text" | "image";
+=======
 /** The kind of telemetry export endpoint. */
 export type TelemetryEndpointKind = "OTLP";
 /** The type of telemetry data to export. */
 export type TelemetryDataKind = "ContainerStdoutStderr" | "ContainerOtel" | "Metrics";
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Allows the assistant to create, delete, or update files using unified diffs. */
+export interface ApplyPatchToolParam extends Tool {
+  /** The type of the tool. Always `apply_patch`. */
+  type: "apply_patch";
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Allows the assistant to create, delete, or update files using unified diffs. */
+export interface ApplyPatchToolParam extends Tool {
+  /** The type of the tool. Always `apply_patch`. */
+  type: "apply_patch";
+=======
 /** Authentication configuration for a telemetry endpoint. */
 export interface TelemetryEndpointAuth {
   /** The authentication type. */
   /** The discriminator possible values: header */
   type: TelemetryEndpointAuthType;
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+  return {
+    type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+  };
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+export function applyPatchToolParamSerializer(item: ApplyPatchToolParam): any {
+  return { type: item["type"] };
+=======
 export function telemetryEndpointAuthSerializer(item: TelemetryEndpointAuth): any {
   return { type: item["type"] };
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function telemetryEndpointAuthDeserializer(item: any): TelemetryEndpointAuth {
   return {
     type: item["type"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
   };
 }
 
@@ -3890,6 +5233,83 @@ export function headerTelemetryEndpointAuthDeserializer(item: any): HeaderTeleme
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+export function _namespaceToolParamToolArraySerializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolSerializer(item);
+  });
+}
+
+export function _namespaceToolParamToolArrayDeserializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _NamespaceToolParamTool */
+export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
+
+export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
+  return item;
+}
+
+export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
+  return item;
+}
+
+/** model interface FunctionToolParam */
+export interface FunctionToolParam {
+  name: string;
+  description?: string;
+  parameters?: EmptyModelParam;
+  strict?: boolean;
+  type: "function";
+  output_schema?: Record<string, any>;
+  /** Whether this function should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+  allowed_callers?: CallableToolAllowedCaller[];
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+export function _namespaceToolParamToolArraySerializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolSerializer(item);
+  });
+}
+
+export function _namespaceToolParamToolArrayDeserializer(
+  result: Array<_NamespaceToolParamTool>,
+): any[] {
+  return result.map((item) => {
+    return _namespaceToolParamToolDeserializer(item);
+  });
+}
+
+/** Alias for _NamespaceToolParamTool */
+export type _NamespaceToolParamTool = FunctionToolParam | CustomToolParam;
+
+export function _namespaceToolParamToolSerializer(item: _NamespaceToolParamTool): any {
+  return item;
+}
+
+export function _namespaceToolParamToolDeserializer(item: any): _NamespaceToolParamTool {
+  return item;
+}
+
+/** model interface FunctionToolParam */
+export interface FunctionToolParam {
+  name: string;
+  description?: string;
+  parameters?: EmptyModelParam;
+  strict?: boolean;
+  type: "function";
+  /** Whether this function should be deferred and discovered via tool search. */
+  defer_loading?: boolean;
+=======
 /** An OTLP (OpenTelemetry Protocol) telemetry export endpoint. */
 export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   /** The endpoint kind, always 'OTLP' for OpenTelemetry Protocol endpoints. */
@@ -3898,10 +5318,36 @@ export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
   endpoint: string;
   /** The transport protocol for the OTLP endpoint. */
   protocol: TelemetryTransportProtocol;
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 }
 
 export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): any {
   return {
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    output_schema: item["output_schema"],
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamSerializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -3909,11 +5355,41 @@ export function otlpTelemetryEndpointSerializer(item: OtlpTelemetryEndpoint): an
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionSerializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
 export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpoint {
   return {
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    output_schema: !item["output_schema"]
+      ? item["output_schema"]
+      : Object.fromEntries(
+          Object.entries(item["output_schema"]).map(([k1, p1]: [string, any]) => [k1, p1]),
+        ),
+    defer_loading: item["defer_loading"],
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+    name: item["name"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emptyModelParamDeserializer(item["parameters"]),
+    strict: item["strict"],
+    type: item["type"],
+    defer_loading: item["defer_loading"],
+=======
     kind: item["kind"],
     data: item["data"].map((p: any) => {
       return p;
@@ -3921,6 +5397,7 @@ export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpo
     auth: !item["auth"] ? item["auth"] : telemetryEndpointAuthUnionDeserializer(item["auth"]),
     endpoint: item["endpoint"],
     protocol: item["protocol"],
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   };
 }
 
@@ -4036,6 +5513,14 @@ export function reasoningDeserializer(item: any): Reasoning {
   };
 }
 
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+/** Type of ToolSearchExecutionType */
+export type ToolSearchExecutionType = "server" | "client";
+
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Type of ToolSearchExecutionType */
+export type ToolSearchExecutionType = "server" | "client";
+=======
 /**
  * Constrains effort on reasoning for
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
@@ -4048,6 +5533,7 @@ export function reasoningDeserializer(item: any): Reasoning {
  * - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
  */
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
 /** Alias for _PromptAgentDefinitionToolChoice */
 export type _PromptAgentDefinitionToolChoice = string | ToolChoiceParamUnion;
 
@@ -4088,6 +5574,7 @@ export type ToolChoiceParamUnion =
   | ToolChoiceFunction
   | ToolChoiceMCP
   | ToolChoiceCustom
+  | SpecificProgrammaticToolCallingParam
   | SpecificApplyPatchParam
   | SpecificFunctionShellParam
   | ToolChoiceFileSearch
@@ -4113,6 +5600,11 @@ export function toolChoiceParamUnionSerializer(item: ToolChoiceParamUnion): any 
 
     case "custom":
       return toolChoiceCustomSerializer(item as ToolChoiceCustom);
+
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamSerializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
 
     case "apply_patch":
       return specificApplyPatchParamSerializer(item as SpecificApplyPatchParam);
@@ -4165,6 +5657,11 @@ export function toolChoiceParamUnionDeserializer(item: any): ToolChoiceParamUnio
     case "custom":
       return toolChoiceCustomDeserializer(item as ToolChoiceCustom);
 
+    case "programmatic_tool_calling":
+      return specificProgrammaticToolCallingParamDeserializer(
+        item as SpecificProgrammaticToolCallingParam,
+      );
+
     case "apply_patch":
       return specificApplyPatchParamDeserializer(item as SpecificApplyPatchParam);
 
@@ -4208,6 +5705,7 @@ export type ToolChoiceParamType =
   | "function"
   | "mcp"
   | "custom"
+  | "programmatic_tool_calling"
   | "apply_patch"
   | "shell"
   | "file_search"
@@ -4318,6 +5816,26 @@ export function toolChoiceCustomDeserializer(item: any): ToolChoiceCustom {
   return {
     type: item["type"],
     name: item["name"],
+  };
+}
+
+/** model interface SpecificProgrammaticToolCallingParam */
+export interface SpecificProgrammaticToolCallingParam extends ToolChoiceParam {
+  /** The tool to call. Always `programmatic_tool_calling`. */
+  type: "programmatic_tool_calling";
+}
+
+export function specificProgrammaticToolCallingParamSerializer(
+  item: SpecificProgrammaticToolCallingParam,
+): any {
+  return { type: item["type"] };
+}
+
+export function specificProgrammaticToolCallingParamDeserializer(
+  item: any,
+): SpecificProgrammaticToolCallingParam {
+  return {
+    type: item["type"],
   };
 }
 
@@ -4717,7 +6235,11 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
   };
 }
 
-/** The workflow agent definition. */
+/**
+ * The workflow agent definition. Microsoft Foundry is retiring workflows on December 1, 2026.
+ * If you're looking to build new workflows, use Microsoft Agent Framework. To migrate existing workflows,
+ * see the [Migration guide](https://learn.microsoft.com/azure/foundry/agents/concepts/workflow#migration-guide).
+ */
 export interface WorkflowAgentDefinition extends AgentDefinition {
   kind: "workflow";
   /** The CSDL YAML definition of the workflow. */
@@ -7058,6 +8580,7 @@ export type ToolboxToolType =
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
   type: "code_interpreter";
+  allowed_callers?: CallableToolAllowedCaller[];
   /**
    * The code interpreter container. Can be a container ID or an object that
    * specifies uploaded file IDs to make available to your code, along with an
@@ -7075,6 +8598,11 @@ export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolbo
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerSerializer(item["container"]),
@@ -7089,6 +8617,11 @@ export function codeInterpreterToolboxToolDeserializer(item: any): CodeInterpret
     tool_configs: !item["tool_configs"]
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     container: !item["container"]
       ? item["container"]
       : _codeInterpreterToolContainerDeserializer(item["container"]),
@@ -7249,6 +8782,7 @@ export interface MCPToolboxTool extends ToolboxTool {
   server_description?: string;
   headers?: Record<string, string>;
   allowed_tools?: string[] | MCPToolFilter;
+  allowed_callers?: CallableToolAllowedCaller[];
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
@@ -7274,6 +8808,11 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsSerializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalSerializer(item["require_approval"]),
@@ -7304,6 +8843,11 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpToolRequireApprovalDeserializer(item["require_approval"]),
@@ -8382,8 +9926,10 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
 
 /** The type of the evaluator */
 export type EvaluatorType = "builtin" | "custom";
+
 /** The category of the evaluator */
 export type EvaluatorCategory = "quality" | "safety" | "agents";
+
 /** The level at which evaluation is performed. */
 export type EvaluationLevel = "turn" | "conversation";
 
@@ -8530,6 +10076,7 @@ export function evaluatorMetricDeserializer(item: any): EvaluatorMetric {
 
 /** The type of the evaluator */
 export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
+
 /** The direction of the metric indicating whether a higher value is better, a lower value is better, or neutral */
 export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
@@ -9166,8 +10713,10 @@ export type RubricGenerationInputQualityWarningCode =
   | "short_dataset_content"
   | "low_trace_count"
   | "insufficient_total_input";
+
 /** Advisory severity for a rubric-generation input-quality warning. Initial value set: `warning`. */
 export type RubricGenerationInputQualityWarningSeverity = "warning";
+
 /** Warning source attribution for a rubric-generation input-quality warning. Per-source values (`prompt`, `agent`, `dataset`) match the source category visible to the generation runtime. `aggregate` is a synthetic value used only for warnings computed across successfully resolved sources. `traces` is not exposed because trace sources resolve into dataset content upstream. */
 export type RubricGenerationInputQualityWarningSource =
   "prompt" | "agent" | "dataset" | "aggregate";
@@ -10248,6 +11797,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 export interface ResponseUsageInputTokensDetails {
   /** The number of cached input tokens used. */
   cached_tokens: number;
+  cache_write_tokens: number;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -10255,6 +11805,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 ): ResponseUsageInputTokensDetails {
   return {
     cached_tokens: item["cached_tokens"],
+    cache_write_tokens: item["cache_write_tokens"],
   };
 }
 
@@ -10584,6 +12135,7 @@ export function artifactProfileDeserializer(item: any): ArtifactProfile {
 
 /** The artifact profile category. */
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
+
 /** Signals detected in the model artifact. */
 export type FoundryModelArtifactProfileSignal =
   "PickleDeserialization" | "CustomPythonCode" | "DynamicOps" | "NativeBinary" | "UnknownFormat";
@@ -11227,24 +12779,20 @@ export function routineDeserializer(item: any): Routine {
   };
 }
 
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultRoutine {
+/** A page of items with a URL cursor to the next page. */
+export interface _PagedResultWithNextLinkRoutine {
   /** The requested list of items. */
   data: Routine[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
-export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedResultRoutine {
+export function _pagedResultWithNextLinkRoutineDeserializer(
+  item: any,
+): _PagedResultWithNextLinkRoutine {
   return {
     data: routineArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -11254,24 +12802,20 @@ export function routineArrayDeserializer(result: Array<Routine>): any[] {
   });
 }
 
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultRoutineRun {
+/** A page of items with a URL cursor to the next page. */
+export interface _PagedResultWithNextLinkRoutineRun {
   /** The requested list of items. */
   data: RoutineRun[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
-export function _agentsPagedResultRoutineRunDeserializer(item: any): _AgentsPagedResultRoutineRun {
+export function _pagedResultWithNextLinkRoutineRunDeserializer(
+  item: any,
+): _PagedResultWithNextLinkRoutineRun {
   return {
     data: routineRunArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -11376,6 +12920,7 @@ export function routineRunStatusDeserializer(item: any): RoutineRunStatus {
 
 /** Known lifecycle phases recorded for a routine run. */
 export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
+
 /** Known source paths that can produce a routine run. */
 export type RoutineAttemptSource =
   "event_fire" | "manual_dispatch" | "queued_dispatch" | "schedule_delivery" | "timer_delivery";
@@ -12478,7 +14023,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, task_generation, tool_use */
+  /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
   type: DataGenerationJobType;
   /** Maximum number of samples to generate. */
   max_samples: number;
@@ -12514,7 +14059,7 @@ export function dataGenerationJobOptionsDeserializer(item: any): DataGenerationJ
 export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
-  | TaskGenerationDataGenerationJobOptions
+  | SimulationSeedDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
   | DataGenerationJobOptions;
 
@@ -12526,9 +14071,9 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
     case "traces":
       return tracesDataGenerationJobOptionsSerializer(item as TracesDataGenerationJobOptions);
 
-    case "task_generation":
-      return taskGenerationDataGenerationJobOptionsSerializer(
-        item as TaskGenerationDataGenerationJobOptions,
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsSerializer(
+        item as SimulationSeedDataGenerationJobOptions,
       );
 
     case "tool_use":
@@ -12553,9 +14098,9 @@ export function dataGenerationJobOptionsUnionDeserializer(
     case "traces":
       return tracesDataGenerationJobOptionsDeserializer(item as TracesDataGenerationJobOptions);
 
-    case "task_generation":
-      return taskGenerationDataGenerationJobOptionsDeserializer(
-        item as TaskGenerationDataGenerationJobOptions,
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsDeserializer(
+        item as SimulationSeedDataGenerationJobOptions,
       );
 
     case "tool_use":
@@ -12569,7 +14114,7 @@ export function dataGenerationJobOptionsUnionDeserializer(
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "simulation_seed";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -12638,6 +14183,8 @@ export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
 export interface TracesDataGenerationJobOptions extends DataGenerationJobOptions {
   /** The data generation job type, which is Traces for this model. */
   type: "traces";
+  /** Whether to redact private content from traces. When omitted or set to true, private content is redacted. Set to false to opt out of redaction. */
+  redact_private_content?: boolean;
 }
 
 export function tracesDataGenerationJobOptionsSerializer(
@@ -12650,6 +14197,7 @@ export function tracesDataGenerationJobOptionsSerializer(
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsSerializer(item["model_options"]),
+    redact_private_content: item["redact_private_content"],
   };
 }
 
@@ -12663,17 +14211,18 @@ export function tracesDataGenerationJobOptionsDeserializer(
     model_options: !item["model_options"]
       ? item["model_options"]
       : dataGenerationModelOptionsDeserializer(item["model_options"]),
+    redact_private_content: item["redact_private_content"],
   };
 }
 
-/** The options for a task generation data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
-export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
-  /** The data generation job type, which is TaskGeneration for this model. */
-  type: "task_generation";
+/** The options for a simulation seed data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
+export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is SimulationSeed for this model. */
+  type: "simulation_seed";
 }
 
-export function taskGenerationDataGenerationJobOptionsSerializer(
-  item: TaskGenerationDataGenerationJobOptions,
+export function simulationSeedDataGenerationJobOptionsSerializer(
+  item: SimulationSeedDataGenerationJobOptions,
 ): any {
   return {
     type: item["type"],
@@ -12685,9 +14234,9 @@ export function taskGenerationDataGenerationJobOptionsSerializer(
   };
 }
 
-export function taskGenerationDataGenerationJobOptionsDeserializer(
+export function simulationSeedDataGenerationJobOptionsDeserializer(
   item: any,
-): TaskGenerationDataGenerationJobOptions {
+): SimulationSeedDataGenerationJobOptions {
   return {
     type: item["type"],
     max_samples: item["max_samples"],
@@ -12924,13 +14473,13 @@ export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJ
 }
 
 /** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface OptimizationJob {
+export interface AgentOptimizationJob {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Caller-supplied inputs. */
-  inputs?: OptimizationJobInputs;
+  inputs?: AgentOptimizationJobInputs;
   /** Result produced on success. */
-  readonly result?: OptimizationJobResult;
+  readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
@@ -12940,29 +14489,33 @@ export interface OptimizationJob {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** Non-fatal warnings emitted at any point during optimization. */
   readonly warnings?: string[];
 }
 
-export function optimizationJobSerializer(item: OptimizationJob): any {
+export function agentOptimizationJobSerializer(item: AgentOptimizationJob): any {
   return {
-    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsSerializer(item["inputs"]),
+    inputs: !item["inputs"] ? item["inputs"] : agentOptimizationJobInputsSerializer(item["inputs"]),
   };
 }
 
-export function optimizationJobDeserializer(item: any): OptimizationJob {
+export function agentOptimizationJobDeserializer(item: any): AgentOptimizationJob {
   return {
     id: item["id"],
-    inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
-    result: !item["result"] ? item["result"] : optimizationJobResultDeserializer(item["result"]),
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : agentOptimizationJobInputsDeserializer(item["inputs"]),
+    result: !item["result"]
+      ? item["result"]
+      : agentOptimizationJobResultDeserializer(item["result"]),
     status: item["status"],
     error: !item["error"] ? item["error"] : apiErrorDeserializer(item["error"]),
     created_at: new Date(item["created_at"] * 1000),
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
       ? item["progress"]
-      : optimizationJobProgressDeserializer(item["progress"]),
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
     warnings: !item["warnings"]
       ? item["warnings"]
       : item["warnings"].map((p: any) => {
@@ -12972,56 +14525,60 @@ export function optimizationJobDeserializer(item: any): OptimizationJob {
 }
 
 /** Caller-supplied inputs for an optimization job. */
-export interface OptimizationJobInputs {
+export interface AgentOptimizationJobInputs {
   /** The agent (and pinned version) being optimized. */
-  agent: OptimizationAgentIdentifier;
+  agent: OptimizedAgentIdentifier;
   /** Training dataset — either inline items or a reference to a registered dataset. Required. */
-  train_dataset: OptimizationDatasetInputUnion;
+  train_dataset: AgentOptimizationDatasetInputUnion;
   /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset?: OptimizationDatasetInputUnion;
+  validation_dataset?: AgentOptimizationDatasetInputUnion;
   /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
-  evaluators: OptimizationEvaluatorRef[];
+  evaluators: AgentOptimizationEvaluatorRef[];
   /** Tuning knobs and run-mode. */
-  options?: OptimizationOptions;
+  options?: AgentOptimizationOptions;
 }
 
-export function optimizationJobInputsSerializer(item: OptimizationJobInputs): any {
+export function agentOptimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
   return {
-    agent: optimizationAgentIdentifierSerializer(item["agent"]),
-    train_dataset: optimizationDatasetInputUnionSerializer(item["train_dataset"]),
+    agent: optimizedAgentIdentifierSerializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionSerializer(item["train_dataset"]),
     validation_dataset: !item["validation_dataset"]
       ? item["validation_dataset"]
-      : optimizationDatasetInputUnionSerializer(item["validation_dataset"]),
-    evaluators: optimizationEvaluatorRefArraySerializer(item["evaluators"]),
-    options: !item["options"] ? item["options"] : optimizationOptionsSerializer(item["options"]),
+      : agentOptimizationDatasetInputUnionSerializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArraySerializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsSerializer(item["options"]),
   };
 }
 
-export function optimizationJobInputsDeserializer(item: any): OptimizationJobInputs {
+export function agentOptimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
   return {
-    agent: optimizationAgentIdentifierDeserializer(item["agent"]),
-    train_dataset: optimizationDatasetInputUnionDeserializer(item["train_dataset"]),
+    agent: optimizedAgentIdentifierDeserializer(item["agent"]),
+    train_dataset: agentOptimizationDatasetInputUnionDeserializer(item["train_dataset"]),
     validation_dataset: !item["validation_dataset"]
       ? item["validation_dataset"]
-      : optimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
-    evaluators: optimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
-    options: !item["options"] ? item["options"] : optimizationOptionsDeserializer(item["options"]),
+      : agentOptimizationDatasetInputUnionDeserializer(item["validation_dataset"]),
+    evaluators: agentOptimizationEvaluatorRefArrayDeserializer(item["evaluators"]),
+    options: !item["options"]
+      ? item["options"]
+      : agentOptimizationOptionsDeserializer(item["options"]),
   };
 }
 
 /** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface OptimizationAgentIdentifier {
+export interface OptimizedAgentIdentifier {
   /** Registered Foundry agent name (required). */
   agent_name: string;
   /** Pinned agent version. Defaults to latest if omitted. */
   agent_version?: string;
 }
 
-export function optimizationAgentIdentifierSerializer(item: OptimizationAgentIdentifier): any {
+export function optimizedAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
   return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
 }
 
-export function optimizationAgentIdentifierDeserializer(item: any): OptimizationAgentIdentifier {
+export function optimizedAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
   return {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
@@ -13029,100 +14586,112 @@ export function optimizationAgentIdentifierDeserializer(item: any): Optimization
 }
 
 /** Base discriminated model for dataset input. Either inline items or a registered reference. */
-export interface OptimizationDatasetInput {
+export interface AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   /** The discriminator possible values: inline, reference */
-  type: OptimizationDatasetInputType;
+  type: AgentOptimizationDatasetInputType;
 }
 
-export function optimizationDatasetInputSerializer(item: OptimizationDatasetInput): any {
+export function agentOptimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
   return { type: item["type"] };
 }
 
-export function optimizationDatasetInputDeserializer(item: any): OptimizationDatasetInput {
+export function agentOptimizationDatasetInputDeserializer(
+  item: any,
+): AgentOptimizationDatasetInput {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for OptimizationDatasetInputUnion */
-export type OptimizationDatasetInputUnion =
-  OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
+/** Alias for AgentOptimizationDatasetInputUnion */
+export type AgentOptimizationDatasetInputUnion =
+  | AgentOptimizationInlineDatasetInput
+  | AgentOptimizationReferenceDatasetInput
+  | AgentOptimizationDatasetInput;
 
-export function optimizationDatasetInputUnionSerializer(item: OptimizationDatasetInputUnion): any {
+export function agentOptimizationDatasetInputUnionSerializer(
+  item: AgentOptimizationDatasetInputUnion,
+): any {
   switch (item.type) {
     case "inline":
-      return optimizationInlineDatasetInputSerializer(item as OptimizationInlineDatasetInput);
+      return agentOptimizationInlineDatasetInputSerializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
 
     case "reference":
-      return optimizationReferenceDatasetInputSerializer(item as OptimizationReferenceDatasetInput);
-
-    default:
-      return optimizationDatasetInputSerializer(item);
-  }
-}
-
-export function optimizationDatasetInputUnionDeserializer(
-  item: any,
-): OptimizationDatasetInputUnion {
-  switch (item["type"]) {
-    case "inline":
-      return optimizationInlineDatasetInputDeserializer(item as OptimizationInlineDatasetInput);
-
-    case "reference":
-      return optimizationReferenceDatasetInputDeserializer(
-        item as OptimizationReferenceDatasetInput,
+      return agentOptimizationReferenceDatasetInputSerializer(
+        item as AgentOptimizationReferenceDatasetInput,
       );
 
     default:
-      return optimizationDatasetInputDeserializer(item);
+      return agentOptimizationDatasetInputSerializer(item);
+  }
+}
+
+export function agentOptimizationDatasetInputUnionDeserializer(
+  item: any,
+): AgentOptimizationDatasetInputUnion {
+  switch (item["type"]) {
+    case "inline":
+      return agentOptimizationInlineDatasetInputDeserializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
+
+    case "reference":
+      return agentOptimizationReferenceDatasetInputDeserializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
+
+    default:
+      return agentOptimizationDatasetInputDeserializer(item);
   }
 }
 
 /** Discriminator values for the dataset input union. */
-export type OptimizationDatasetInputType = "inline" | "reference";
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
 
 /** Inline dataset — items supplied directly in the request body. */
-export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "inline";
   /** Dataset items. */
-  items: OptimizationDatasetItem[];
+  items: AgentOptimizationDatasetItem[];
 }
 
-export function optimizationInlineDatasetInputSerializer(
-  item: OptimizationInlineDatasetInput,
+export function agentOptimizationInlineDatasetInputSerializer(
+  item: AgentOptimizationInlineDatasetInput,
 ): any {
-  return { type: item["type"], items: optimizationDatasetItemArraySerializer(item["items"]) };
+  return { type: item["type"], items: agentOptimizationDatasetItemArraySerializer(item["items"]) };
 }
 
-export function optimizationInlineDatasetInputDeserializer(
+export function agentOptimizationInlineDatasetInputDeserializer(
   item: any,
-): OptimizationInlineDatasetInput {
+): AgentOptimizationInlineDatasetInput {
   return {
     type: item["type"],
-    items: optimizationDatasetItemArrayDeserializer(item["items"]),
+    items: agentOptimizationDatasetItemArrayDeserializer(item["items"]),
   };
 }
 
-export function optimizationDatasetItemArraySerializer(
-  result: Array<OptimizationDatasetItem>,
+export function agentOptimizationDatasetItemArraySerializer(
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetItemSerializer(item);
+    return agentOptimizationDatasetItemSerializer(item);
   });
 }
 
-export function optimizationDatasetItemArrayDeserializer(
-  result: Array<OptimizationDatasetItem>,
+export function agentOptimizationDatasetItemArrayDeserializer(
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetItemDeserializer(item);
+    return agentOptimizationDatasetItemDeserializer(item);
   });
 }
 
 /** A single item in an inline dataset. */
-export interface OptimizationDatasetItem {
+export interface AgentOptimizationDatasetItem {
   /** The user query / prompt. */
   query?: string;
   /** Expected ground truth answer. */
@@ -13130,60 +14699,64 @@ export interface OptimizationDatasetItem {
   /** Desired number of conversation turns for simulation mode (1-20). */
   desired_num_turns?: number;
   /** Per-item evaluation criteria. */
-  criteria?: OptimizationDatasetCriterion[];
+  criteria?: AgentOptimizationDatasetCriterion[];
 }
 
-export function optimizationDatasetItemSerializer(item: OptimizationDatasetItem): any {
+export function agentOptimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
     desired_num_turns: item["desired_num_turns"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : optimizationDatasetCriterionArraySerializer(item["criteria"]),
+      : agentOptimizationDatasetCriterionArraySerializer(item["criteria"]),
   };
 }
 
-export function optimizationDatasetItemDeserializer(item: any): OptimizationDatasetItem {
+export function agentOptimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
     desired_num_turns: item["desired_num_turns"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : optimizationDatasetCriterionArrayDeserializer(item["criteria"]),
+      : agentOptimizationDatasetCriterionArrayDeserializer(item["criteria"]),
   };
 }
 
-export function optimizationDatasetCriterionArraySerializer(
-  result: Array<OptimizationDatasetCriterion>,
+export function agentOptimizationDatasetCriterionArraySerializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetCriterionSerializer(item);
+    return agentOptimizationDatasetCriterionSerializer(item);
   });
 }
 
-export function optimizationDatasetCriterionArrayDeserializer(
-  result: Array<OptimizationDatasetCriterion>,
+export function agentOptimizationDatasetCriterionArrayDeserializer(
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
-    return optimizationDatasetCriterionDeserializer(item);
+    return agentOptimizationDatasetCriterionDeserializer(item);
   });
 }
 
 /** Evaluation criterion: a name + instruction pair used for per-item scoring. */
-export interface OptimizationDatasetCriterion {
+export interface AgentOptimizationDatasetCriterion {
   /** Criterion name. */
   name: string;
   /** Criterion instruction / description. */
   instruction: string;
 }
 
-export function optimizationDatasetCriterionSerializer(item: OptimizationDatasetCriterion): any {
+export function agentOptimizationDatasetCriterionSerializer(
+  item: AgentOptimizationDatasetCriterion,
+): any {
   return { name: item["name"], instruction: item["instruction"] };
 }
 
-export function optimizationDatasetCriterionDeserializer(item: any): OptimizationDatasetCriterion {
+export function agentOptimizationDatasetCriterionDeserializer(
+  item: any,
+): AgentOptimizationDatasetCriterion {
   return {
     name: item["name"],
     instruction: item["instruction"],
@@ -13191,7 +14764,7 @@ export function optimizationDatasetCriterionDeserializer(item: any): Optimizatio
 }
 
 /** Reference to a registered Foundry dataset. */
-export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "reference";
   /** Registered dataset name. */
@@ -13200,15 +14773,15 @@ export interface OptimizationReferenceDatasetInput extends OptimizationDatasetIn
   version?: string;
 }
 
-export function optimizationReferenceDatasetInputSerializer(
-  item: OptimizationReferenceDatasetInput,
+export function agentOptimizationReferenceDatasetInputSerializer(
+  item: AgentOptimizationReferenceDatasetInput,
 ): any {
   return { type: item["type"], name: item["name"], version: item["version"] };
 }
 
-export function optimizationReferenceDatasetInputDeserializer(
+export function agentOptimizationReferenceDatasetInputDeserializer(
   item: any,
-): OptimizationReferenceDatasetInput {
+): AgentOptimizationReferenceDatasetInput {
   return {
     type: item["type"],
     name: item["name"],
@@ -13216,35 +14789,37 @@ export function optimizationReferenceDatasetInputDeserializer(
   };
 }
 
-export function optimizationEvaluatorRefArraySerializer(
-  result: Array<OptimizationEvaluatorRef>,
+export function agentOptimizationEvaluatorRefArraySerializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
-    return optimizationEvaluatorRefSerializer(item);
+    return agentOptimizationEvaluatorRefSerializer(item);
   });
 }
 
-export function optimizationEvaluatorRefArrayDeserializer(
-  result: Array<OptimizationEvaluatorRef>,
+export function agentOptimizationEvaluatorRefArrayDeserializer(
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
-    return optimizationEvaluatorRefDeserializer(item);
+    return agentOptimizationEvaluatorRefDeserializer(item);
   });
 }
 
 /** Reference to a named evaluator, optionally pinned to a version. */
-export interface OptimizationEvaluatorRef {
+export interface AgentOptimizationEvaluatorRef {
   /** Evaluator name. */
   name: string;
   /** Evaluator version. If not specified, the latest version is used. */
   version?: string;
 }
 
-export function optimizationEvaluatorRefSerializer(item: OptimizationEvaluatorRef): any {
+export function agentOptimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
   return { name: item["name"], version: item["version"] };
 }
 
-export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEvaluatorRef {
+export function agentOptimizationEvaluatorRefDeserializer(
+  item: any,
+): AgentOptimizationEvaluatorRef {
   return {
     name: item["name"],
     version: item["version"],
@@ -13252,7 +14827,7 @@ export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEva
 }
 
 /** Tuning knobs and run-mode for an optimization job. */
-export interface OptimizationOptions {
+export interface AgentOptimizationOptions {
   /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
   max_candidates?: number;
   /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
@@ -13267,7 +14842,7 @@ export interface OptimizationOptions {
   max_stalls?: number;
 }
 
-export function optimizationOptionsSerializer(item: OptimizationOptions): any {
+export function agentOptimizationOptionsSerializer(item: AgentOptimizationOptions): any {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: item["optimization_config"],
@@ -13278,7 +14853,7 @@ export function optimizationOptionsSerializer(item: OptimizationOptions): any {
   };
 }
 
-export function optimizationOptionsDeserializer(item: any): OptimizationOptions {
+export function agentOptimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: !item["optimization_config"]
@@ -13294,35 +14869,35 @@ export function optimizationOptionsDeserializer(item: any): OptimizationOptions 
 }
 
 /** Terminal-state result body. Populated when status is succeeded or failed. */
-export interface OptimizationJobResult {
+export interface AgentOptimizationJobResult {
   /** Candidate ID of the original (un-optimized) baseline evaluation. */
   baseline?: string;
   /** Candidate ID of the highest-scoring candidate found during optimization. */
   best?: string;
   /** All evaluated candidates including baseline. */
-  candidates?: OptimizationCandidate[];
+  candidates?: AgentOptimizationCandidate[];
 }
 
-export function optimizationJobResultDeserializer(item: any): OptimizationJobResult {
+export function agentOptimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
   return {
     baseline: item["baseline"],
     best: item["best"],
     candidates: !item["candidates"]
       ? item["candidates"]
-      : optimizationCandidateArrayDeserializer(item["candidates"]),
+      : agentOptimizationCandidateArrayDeserializer(item["candidates"]),
   };
 }
 
-export function optimizationCandidateArrayDeserializer(
-  result: Array<OptimizationCandidate>,
+export function agentOptimizationCandidateArrayDeserializer(
+  result: Array<AgentOptimizationCandidate>,
 ): any[] {
   return result.map((item) => {
-    return optimizationCandidateDeserializer(item);
+    return agentOptimizationCandidateDeserializer(item);
   });
 }
 
 /** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
-export interface OptimizationCandidate {
+export interface AgentOptimizationCandidate {
   /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
   candidate_id?: string;
   /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
@@ -13341,7 +14916,7 @@ export interface OptimizationCandidate {
   promotion?: PromotionInfo;
 }
 
-export function optimizationCandidateDeserializer(item: any): OptimizationCandidate {
+export function agentOptimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
   return {
     candidate_id: item["candidate_id"],
     name: item["name"],
@@ -13379,7 +14954,7 @@ export function promotionInfoDeserializer(item: any): PromotionInfo {
 }
 
 /** In-flight progress; only populated while status is queued or in_progress. */
-export interface OptimizationJobProgress {
+export interface AgentOptimizationJobProgress {
   /** Number of candidates whose evaluation has completed so far. */
   candidates_completed: number;
   /** Best score observed so far across all candidates. */
@@ -13388,7 +14963,7 @@ export interface OptimizationJobProgress {
   elapsed_seconds: number;
 }
 
-export function optimizationJobProgressDeserializer(item: any): OptimizationJobProgress {
+export function agentOptimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
   return {
     candidates_completed: item["candidates_completed"],
     best_score: item["best_score"],
@@ -13397,9 +14972,9 @@ export function optimizationJobProgressDeserializer(item: any): OptimizationJobP
 }
 
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultOptimizationJobListItem {
+export interface _AgentsPagedResultAgentOptimizationJobListItem {
   /** The requested list of items. */
-  data: OptimizationJobListItem[];
+  data: AgentOptimizationJobListItem[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -13408,27 +14983,27 @@ export interface _AgentsPagedResultOptimizationJobListItem {
   has_more: boolean;
 }
 
-export function _agentsPagedResultOptimizationJobListItemDeserializer(
+export function _agentsPagedResultAgentOptimizationJobListItemDeserializer(
   item: any,
-): _AgentsPagedResultOptimizationJobListItem {
+): _AgentsPagedResultAgentOptimizationJobListItem {
   return {
-    data: optimizationJobListItemArrayDeserializer(item["data"]),
+    data: agentOptimizationJobListItemArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function optimizationJobListItemArrayDeserializer(
-  result: Array<OptimizationJobListItem>,
+export function agentOptimizationJobListItemArrayDeserializer(
+  result: Array<AgentOptimizationJobListItem>,
 ): any[] {
   return result.map((item) => {
-    return optimizationJobListItemDeserializer(item);
+    return agentOptimizationJobListItemDeserializer(item);
   });
 }
 
 /** Slim job representation returned by the LIST endpoint. */
-export interface OptimizationJobListItem {
+export interface AgentOptimizationJobListItem {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Current lifecycle status. */
@@ -13440,12 +15015,12 @@ export interface OptimizationJobListItem {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** The agent targeted by this optimization job. */
-  readonly agent?: OptimizationAgentIdentifier;
+  readonly agent?: OptimizedAgentIdentifier;
 }
 
-export function optimizationJobListItemDeserializer(item: any): OptimizationJobListItem {
+export function agentOptimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
   return {
     id: item["id"],
     status: item["status"],
@@ -13454,8 +15029,8 @@ export function optimizationJobListItemDeserializer(item: any): OptimizationJobL
     updated_at: new Date(item["updated_at"] * 1000),
     progress: !item["progress"]
       ? item["progress"]
-      : optimizationJobProgressDeserializer(item["progress"]),
-    agent: !item["agent"] ? item["agent"] : optimizationAgentIdentifierDeserializer(item["agent"]),
+      : agentOptimizationJobProgressDeserializer(item["progress"]),
+    agent: !item["agent"] ? item["agent"] : optimizedAgentIdentifierDeserializer(item["agent"]),
   };
 }
 
@@ -13481,11 +15056,17 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 /** Type of AgentType */
 export type AgentType =
   "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
+
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
-  "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
+  | "WorkflowAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
+  | "DraftAgents=V1Preview"
+  | "VoiceAgents=V1Preview";
+
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
+
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
   | "Evaluations=V1Preview"
@@ -13493,15 +15074,25 @@ export type FoundryFeaturesOptInKeys =
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview"
-  | "Routines=V1Preview"
+  | "Routines=V2Preview"
   | "Skills=V1Preview"
   | "DataGenerationJobs=V1Preview"
   | "Models=V1Preview"
   | "AgentsOptimization=V2Preview";
+
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
+<<<<<<< /tmp/azsdk-dev-toolnFGKkd/result/src/models/models.ts
+
+/** Type of MemoryStoreObjectType */
+export type MemoryStoreObjectType =
+||||||| /tmp/azsdk-dev-toolnFGKkd/base/sdk/ai/ai-projects/generated/models/models.ts
+/** Type of MemoryStoreObjectType */
+export type MemoryStoreObjectType =
+=======
 /** Type of MemoryStoreType */
 export type MemoryStoreType =
+>>>>>>> /tmp/azsdk-dev-toolnFGKkd/custom/sdk/ai/ai-projects/src/models/models.ts
   | "memory_store"
   | "memory_store.deleted"
   | "memory_store.scope.deleted"
