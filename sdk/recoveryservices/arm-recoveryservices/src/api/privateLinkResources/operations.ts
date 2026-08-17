@@ -2,31 +2,21 @@
 // Licensed under the MIT License.
 
 import type { RecoveryServicesContext as Client } from "../index.js";
-import type {
-  PrivateLinkResource,
-  _PrivateLinkResources} from "../../models/models.js";
+import type { PrivateLinkResource, _PrivateLinkResources } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   privateLinkResourceDeserializer,
   _privateLinkResourcesDeserializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

@@ -6,7 +6,8 @@ import type {
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
   ResourceCapabilities,
-  CapabilitiesResponse} from "../../models/models.js";
+  CapabilitiesResponse,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   checkNameAvailabilityParametersSerializer,
@@ -19,13 +20,8 @@ import type {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _capabilitiesSend(
   context: Client,

@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecoveryServicesContext as Client } from "../index.js";
-import type {
-  Vault,
-  PatchVault,
-  _VaultList} from "../../models/models.js";
+import type { Vault, PatchVault, _VaultList } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   vaultSerializer,
@@ -14,11 +11,8 @@ import {
   errorResponseDeserializer,
   _vaultListDeserializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -29,13 +23,8 @@ import type {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByResourceGroupSend(

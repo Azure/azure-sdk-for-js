@@ -14,9 +14,13 @@ import type {
   DeletedVaultsGetOptionalParams,
   DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "../../api/deletedVaults/options.js";
-import type { OperationResource, DeletedVault, DeletedVaultUndeleteInput } from "../../models/models.js";
+import type {
+  OperationResource,
+  DeletedVault,
+  DeletedVaultUndeleteInput,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 

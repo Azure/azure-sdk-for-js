@@ -1,57 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  RecoveryServicesContext,
-  RecoveryServicesClientOptionalParams} from "./api/index.js";
-import {
-  createRecoveryServices,
-} from "./api/index.js";
+import type { RecoveryServicesContext, RecoveryServicesClientOptionalParams } from "./api/index.js";
+import { createRecoveryServices } from "./api/index.js";
 import { getOperationResult, getOperationStatus } from "./api/operations.js";
 import type {
   GetOperationResultOptionalParams,
   GetOperationStatusOptionalParams,
 } from "./api/options.js";
-import type {
-  DeletedVaultsOperations} from "./classic/deletedVaults/index.js";
-import {
-  _getDeletedVaultsOperations,
-} from "./classic/deletedVaults/index.js";
-import type { OperationsOperations} from "./classic/operations/index.js";
+import type { DeletedVaultsOperations } from "./classic/deletedVaults/index.js";
+import { _getDeletedVaultsOperations } from "./classic/deletedVaults/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type {
-  PrivateLinkResourcesOperations} from "./classic/privateLinkResources/index.js";
-import {
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import type {
-  RecoveryServicesOperations} from "./classic/recoveryServices/index.js";
-import {
-  _getRecoveryServicesOperations,
-} from "./classic/recoveryServices/index.js";
-import type {
-  RegisteredIdentitiesOperations} from "./classic/registeredIdentities/index.js";
-import {
-  _getRegisteredIdentitiesOperations,
-} from "./classic/registeredIdentities/index.js";
-import type {
-  ReplicationUsagesOperations} from "./classic/replicationUsages/index.js";
-import {
-  _getReplicationUsagesOperations,
-} from "./classic/replicationUsages/index.js";
-import type { UsagesOperations} from "./classic/usages/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { RecoveryServicesOperations } from "./classic/recoveryServices/index.js";
+import { _getRecoveryServicesOperations } from "./classic/recoveryServices/index.js";
+import type { RegisteredIdentitiesOperations } from "./classic/registeredIdentities/index.js";
+import { _getRegisteredIdentitiesOperations } from "./classic/registeredIdentities/index.js";
+import type { ReplicationUsagesOperations } from "./classic/replicationUsages/index.js";
+import { _getReplicationUsagesOperations } from "./classic/replicationUsages/index.js";
+import type { UsagesOperations } from "./classic/usages/index.js";
 import { _getUsagesOperations } from "./classic/usages/index.js";
-import type {
-  VaultCertificatesOperations} from "./classic/vaultCertificates/index.js";
-import {
-  _getVaultCertificatesOperations,
-} from "./classic/vaultCertificates/index.js";
-import type {
-  VaultExtendedInfoOperations} from "./classic/vaultExtendedInfo/index.js";
-import {
-  _getVaultExtendedInfoOperations,
-} from "./classic/vaultExtendedInfo/index.js";
-import type { VaultsOperations} from "./classic/vaults/index.js";
+import type { VaultCertificatesOperations } from "./classic/vaultCertificates/index.js";
+import { _getVaultCertificatesOperations } from "./classic/vaultCertificates/index.js";
+import type { VaultExtendedInfoOperations } from "./classic/vaultExtendedInfo/index.js";
+import { _getVaultExtendedInfoOperations } from "./classic/vaultExtendedInfo/index.js";
+import type { VaultsOperations } from "./classic/vaults/index.js";
 import { _getVaultsOperations } from "./classic/vaults/index.js";
 import type { OperationResource, Vault } from "./models/models.js";
 import type { TokenCredential } from "@azure/core-auth";

@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecoveryServicesContext as Client } from "../index.js";
-import type {
-  VaultExtendedInfoResource} from "../../models/models.js";
+import type { VaultExtendedInfoResource } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   vaultExtendedInfoResourceSerializer,
@@ -15,13 +14,8 @@ import type {
   VaultExtendedInfoCreateOrUpdateOptionalParams,
   VaultExtendedInfoGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _updateSend(
   context: Client,

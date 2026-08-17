@@ -4,9 +4,9 @@
 import { logger } from "../logger.js";
 import pkgJson from "@azure/arm-recoveryservices/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
-import type { AzureSupportedClouds} from "../static-helpers/cloudSettingHelpers.js";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
 import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import type { Client, ClientOptions} from "@azure-rest/core-client";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
