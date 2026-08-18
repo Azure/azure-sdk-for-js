@@ -21,10 +21,12 @@ import {
 } from "../../common/utils.js";
 import { getNpmPackageInfo } from "../../common/npmUtils.js";
 import { logger } from "../../utils/logger.js";
-import { exists } from "fs-extra";
+import fsExtra from "fs-extra";
 import unixify from "unixify";
 import { codeOwnersAndIgnoreLinkGenerator } from "../../common/codeOwnersAndIgnoreLink/codeOwnersAndIgnoreLinkGenerator.js";
 import { changeReadmeMd } from "../../hlc/utils/changeReadmeMd.js";
+
+const { exists } = fsExtra;
 
 // !!!IMPORTANT:
 // this function should be used ONLY in

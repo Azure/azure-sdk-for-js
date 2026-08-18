@@ -3,6 +3,12 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  connectionAnalyzersQuery,
+  connectionAnalyzersList,
+  connectionAnalyzersUpdateTags,
+  connectionAnalyzersDelete,
+  connectionAnalyzersGet,
+  connectionAnalyzersCreate,
   getNetworkConfigurationDiagnostic,
   listAvailableProviders,
   getAzureReachabilityReport,
@@ -23,6 +29,12 @@ import {
   get,
 } from "../../api/networkWatchers/operations.js";
 import type {
+  NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  NetworkWatchersConnectionAnalyzersListOptionalParams,
+  NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams,
+  NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  NetworkWatchersConnectionAnalyzersGetOptionalParams,
+  NetworkWatchersConnectionAnalyzersCreateOptionalParams,
   NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
   NetworkWatchersListAvailableProvidersOptionalParams,
   NetworkWatchersGetAzureReachabilityReportOptionalParams,
@@ -66,6 +78,8 @@ import type {
   AvailableProvidersList,
   NetworkConfigurationDiagnosticParameters,
   NetworkConfigurationDiagnosticResponse,
+  ConnectionAnalyzer,
+  ConnectionAnalyzerQueryStatusResult,
 } from "../../models/microsoft/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -74,6 +88,101 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkWatchers operations. */
 export interface NetworkWatchersOperations {
+  /** Queries the specified connection analyzer for diagnostic results. */
+  connectionAnalyzersQuery: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  ) => PollerLike<
+    OperationState<ConnectionAnalyzerQueryStatusResult>,
+    ConnectionAnalyzerQueryStatusResult
+  >;
+  /** @deprecated use connectionAnalyzersQuery instead */
+  beginConnectionAnalyzersQuery: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<ConnectionAnalyzerQueryStatusResult>,
+      ConnectionAnalyzerQueryStatusResult
+    >
+  >;
+  /** @deprecated use connectionAnalyzersQuery instead */
+  beginConnectionAnalyzersQueryAndWait: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  ) => Promise<ConnectionAnalyzerQueryStatusResult>;
+  /** Lists all connection analyzers in the specified network watcher. */
+  connectionAnalyzersList: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options?: NetworkWatchersConnectionAnalyzersListOptionalParams,
+  ) => PagedAsyncIterableIterator<ConnectionAnalyzer>;
+  /** Updates the tags of the specified connection analyzer. */
+  connectionAnalyzersUpdateTags: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    body: TagsObject,
+    options?: NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams,
+  ) => Promise<ConnectionAnalyzer>;
+  /** Deletes the specified connection analyzer. */
+  connectionAnalyzersDelete: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use connectionAnalyzersDelete instead */
+  beginConnectionAnalyzersDelete: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use connectionAnalyzersDelete instead */
+  beginConnectionAnalyzersDeleteAndWait: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  ) => Promise<void>;
+  /** Gets the specified connection analyzer by name. */
+  connectionAnalyzersGet: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    options?: NetworkWatchersConnectionAnalyzersGetOptionalParams,
+  ) => Promise<ConnectionAnalyzer>;
+  /** Creates or updates a connection analyzer in the specified network watcher. */
+  connectionAnalyzersCreate: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    body: ConnectionAnalyzer,
+    options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+  ) => PollerLike<OperationState<ConnectionAnalyzer>, ConnectionAnalyzer>;
+  /** @deprecated use connectionAnalyzersCreate instead */
+  beginConnectionAnalyzersCreate: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    body: ConnectionAnalyzer,
+    options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ConnectionAnalyzer>, ConnectionAnalyzer>>;
+  /** @deprecated use connectionAnalyzersCreate instead */
+  beginConnectionAnalyzersCreateAndWait: (
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionAnalyzerName: string,
+    body: ConnectionAnalyzer,
+    options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+  ) => Promise<ConnectionAnalyzer>;
   /** Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results. */
   getNetworkConfigurationDiagnostic: (
     resourceGroupName: string,
@@ -373,6 +482,174 @@ export interface NetworkWatchersOperations {
 
 function _getNetworkWatchers(context: NetworkManagementContext) {
   return {
+    connectionAnalyzersQuery: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+    ) =>
+      connectionAnalyzersQuery(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      ),
+    beginConnectionAnalyzersQuery: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+    ) => {
+      const poller = connectionAnalyzersQuery(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginConnectionAnalyzersQueryAndWait: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+    ) => {
+      return await connectionAnalyzersQuery(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      );
+    },
+    connectionAnalyzersList: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      options?: NetworkWatchersConnectionAnalyzersListOptionalParams,
+    ) => connectionAnalyzersList(context, resourceGroupName, networkWatcherName, options),
+    connectionAnalyzersUpdateTags: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      body: TagsObject,
+      options?: NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams,
+    ) =>
+      connectionAnalyzersUpdateTags(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        body,
+        options,
+      ),
+    connectionAnalyzersDelete: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+    ) =>
+      connectionAnalyzersDelete(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      ),
+    beginConnectionAnalyzersDelete: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+    ) => {
+      const poller = connectionAnalyzersDelete(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginConnectionAnalyzersDeleteAndWait: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+    ) => {
+      return await connectionAnalyzersDelete(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      );
+    },
+    connectionAnalyzersGet: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      options?: NetworkWatchersConnectionAnalyzersGetOptionalParams,
+    ) =>
+      connectionAnalyzersGet(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        options,
+      ),
+    connectionAnalyzersCreate: (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      body: ConnectionAnalyzer,
+      options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+    ) =>
+      connectionAnalyzersCreate(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        body,
+        options,
+      ),
+    beginConnectionAnalyzersCreate: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      body: ConnectionAnalyzer,
+      options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+    ) => {
+      const poller = connectionAnalyzersCreate(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginConnectionAnalyzersCreateAndWait: async (
+      resourceGroupName: string,
+      networkWatcherName: string,
+      connectionAnalyzerName: string,
+      body: ConnectionAnalyzer,
+      options?: NetworkWatchersConnectionAnalyzersCreateOptionalParams,
+    ) => {
+      return await connectionAnalyzersCreate(
+        context,
+        resourceGroupName,
+        networkWatcherName,
+        connectionAnalyzerName,
+        body,
+        options,
+      );
+    },
     getNetworkConfigurationDiagnostic: (
       resourceGroupName: string,
       networkWatcherName: string,

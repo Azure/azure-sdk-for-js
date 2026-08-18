@@ -2,7 +2,9 @@ import path from "path";
 import { SDKType, RunMode, ModularSDKType } from "../common/types.js";
 import { loadTspConfig } from "../common/utils.js";
 import { RunningEnvironment } from "./runningEnvironment.js";
-import { exists } from "fs-extra";
+import fsExtra from "fs-extra";
+
+const { exists } = fsExtra;
 
 async function isModularClient(
   specFolder: string,
