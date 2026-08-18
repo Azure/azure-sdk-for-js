@@ -1,5 +1,17 @@
 # Release History
 
+## 1.20.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, semantic conventions to `^1.43.0`, and bundled contrib instrumentations, resource detector, and Winston transport to their latest compatible versions.
+
 ## 1.19.0 (2026-07-29)
 
 ### Features Added

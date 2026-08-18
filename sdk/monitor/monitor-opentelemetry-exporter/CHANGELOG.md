@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.45 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`.
+
 ## 1.0.0-beta.44 (2026-07-29)
 
 ### Bugs Fixed
