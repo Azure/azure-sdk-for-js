@@ -207,8 +207,9 @@ export class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
    */
   public async updateEndpoint(endpointUrl: string): Promise<void> {
     const connectionString = super.getConnectionString(endpointUrl);
-    await this.longIntervalAzureExporter.updateConnectionString(connectionString);
-    this.connectionString = connectionString;
+    await this.longIntervalAzureExporter.updateConnectionString(connectionString, () => {
+      this.connectionString = connectionString;
+    });
   }
 
   /**

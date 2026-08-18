@@ -91,6 +91,7 @@ export class CustomerSDKStats {
 export const CustomerStatsbeat = CustomerSDKStats;
 
 export const STATSBEAT_LANGUAGE = "node";
+export const NETWORK_STATSBEAT_ENDPOINT = "breeze";
 
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 

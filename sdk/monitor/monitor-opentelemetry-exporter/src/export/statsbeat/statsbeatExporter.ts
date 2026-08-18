@@ -65,7 +65,10 @@ export class AzureMonitorStatsbeatExporter
    * Update the internal Statsbeat destination without replacing the metric reader.
    * @internal
    */
-  public async updateConnectionString(connectionString: string): Promise<void> {
+  public async updateConnectionString(
+    connectionString: string,
+    applyRouteState?: () => void,
+  ): Promise<void> {
     const parsedConnectionString = ConnectionStringParser.parse(connectionString);
     const instrumentationKey = parsedConnectionString.instrumentationkey;
     const endpointUrl = parsedConnectionString.ingestionendpoint?.trim();
@@ -74,11 +77,15 @@ export class AzureMonitorStatsbeatExporter
     }
     await this._withRouteLock(async () => {
       if (instrumentationKey === this.instrumentationKey && endpointUrl === this.endpointUrl) {
+        applyRouteState?.();
         return;
       }
 
       const previousSender = this._sender;
-      this._sender = undefined;
+      if (previousSender) {
+        await previousSender.shutdown();
+      }
+
       this.instrumentationKey = instrumentationKey;
       this.endpointUrl = endpointUrl;
       this._senderOptions = {
@@ -86,10 +93,8 @@ export class AzureMonitorStatsbeatExporter
         endpointUrl,
         instrumentationKey,
       };
-
-      if (previousSender) {
-        await previousSender.shutdown();
-      }
+      this._sender = undefined;
+      applyRouteState?.();
     });
   }
 

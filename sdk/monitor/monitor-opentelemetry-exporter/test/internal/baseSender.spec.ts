@@ -523,6 +523,69 @@ describe("BaseSender", () => {
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
     });
 
+    it("should not update Statsbeat routing for a redirect without a location", async () => {
+      const redirectError: any = new Error("Invalid redirect");
+      redirectError.statusCode = 307;
+      redirectError.response = {
+        headers: {
+          get: () => undefined,
+        },
+      };
+      sender.sendMock.mockRejectedValue(redirectError);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(sender.handlePermanentRedirectMock).not.toHaveBeenCalled();
+      expect(sender.getNetworkStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(sender.getLongIntervalStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(result.code).toBe(ExportResultCode.FAILED);
+    });
+
+    it("should apply concurrent accepted redirects to Statsbeat in acceptance order", async () => {
+      const firstLocation = "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track";
+      const secondLocation = "https://westus2-0.in.applicationinsights.azure.com/v2.1/track";
+      const createRedirectError = (location: string): any => {
+        const error: any = new Error("Redirect");
+        error.statusCode = 307;
+        error.response = {
+          headers: {
+            get: (name: string) => (name === "location" ? location : undefined),
+          },
+        };
+        return error;
+      };
+      let completeFirstUpdate: (() => void) | undefined;
+      sender.getNetworkStats().updateEndpoint.mockImplementation((endpointUrl: string) =>
+        endpointUrl === firstLocation
+          ? new Promise<void>((resolve) => {
+              completeFirstUpdate = resolve;
+            })
+          : Promise.resolve(),
+      );
+      sender.getLongIntervalStats().updateEndpoint.mockResolvedValue(undefined);
+      sender.sendMock
+        .mockRejectedValueOnce(createRedirectError(firstLocation))
+        .mockRejectedValueOnce(createRedirectError(secondLocation))
+        .mockResolvedValue({ result: "success", statusCode: 200 });
+
+      const firstExport = sender.exportEnvelopes([{ name: "first", time: new Date() }]);
+      const secondExport = sender.exportEnvelopes([{ name: "second", time: new Date() }]);
+
+      await vi.waitFor(() => expect(sender.handlePermanentRedirectMock).toHaveBeenCalledTimes(2));
+      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledTimes(1);
+      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledTimes(1);
+
+      completeFirstUpdate!();
+      await Promise.all([firstExport, secondExport]);
+
+      expect(
+        sender.getNetworkStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
+      expect(
+        sender.getLongIntervalStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
+    });
+
     it("should handle invalid instrumentation key error", async () => {
       const invalidKeyError: any = new Error("Invalid instrumentation key");
       invalidKeyError.statusCode = 400;

@@ -52,6 +52,7 @@ const MAX_STARTUP_REPLAY_BATCHES = 10;
  * @internal
  */
 export abstract class BaseSender {
+  private static statsbeatRouteUpdate: Promise<void> = Promise.resolve();
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
@@ -268,10 +269,7 @@ export abstract class BaseSender {
             // would attach a freshly-signed AAD token (and the telemetry body) to the foreign host.
             const accepted = this.handlePermanentRedirect(location);
             if (accepted) {
-              await Promise.all([
-                this.networkStatsbeatMetrics?.updateEndpoint(location),
-                this.longIntervalStatsbeatMetrics?.updateEndpoint(location),
-              ]);
+              await this.updateStatsbeatRoute(location);
               // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
               return this.exportEnvelopes(envelopes);
             }
@@ -576,6 +574,21 @@ export abstract class BaseSender {
   // Normalize location extraction for redirects; mirrors core HttpHeaders behavior
   private getLocationFromHeaders(headers?: HttpHeaders): string | undefined {
     return headers?.get("location") ?? headers?.toJSON?.().location;
+  }
+
+  private updateStatsbeatRoute(endpointUrl: string): Promise<void> {
+    const update = BaseSender.statsbeatRouteUpdate.then(async () => {
+      await Promise.all([
+        this.networkStatsbeatMetrics?.updateEndpoint(endpointUrl),
+        this.longIntervalStatsbeatMetrics?.updateEndpoint(endpointUrl),
+      ]);
+      return undefined;
+    });
+    BaseSender.statsbeatRouteUpdate = update.then(
+      () => undefined,
+      () => undefined,
+    );
+    return update;
   }
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled

@@ -18,7 +18,12 @@ import type {
   NetworkStatsbeatProperties,
   StatsbeatOptions,
 } from "./types.js";
-import { StatsbeatCounter, STATSBEAT_LANGUAGE, NetworkStatsbeat } from "./types.js";
+import {
+  StatsbeatCounter,
+  STATSBEAT_LANGUAGE,
+  NetworkStatsbeat,
+  NETWORK_STATSBEAT_ENDPOINT,
+} from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 import { getAttachType } from "../../utils/metricUtils.js";
@@ -128,7 +133,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     };
 
     this.networkProperties = {
-      endpoint: this.endpointUrl,
+      endpoint: NETWORK_STATSBEAT_ENDPOINT,
       host: this.host,
     };
   }
@@ -143,25 +148,29 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
    * @internal
    */
   public async updateEndpoint(endpointUrl: string): Promise<void> {
-    const connectionString = super.getConnectionString(endpointUrl);
-    await this.networkAzureExporter.updateConnectionString(connectionString);
-    this.connectionString = connectionString;
-
-    const currentCounter = this.networkStatsbeatCollection.find(
-      (counter) => counter.endpoint === this.endpointUrl && counter.host === this.host,
-    );
-    const host = this.getShortHost(endpointUrl);
-    if (currentCounter) {
-      currentCounter.endpoint = endpointUrl;
-      currentCounter.host = host;
+    if (endpointUrl === this.endpointUrl) {
+      return;
     }
 
-    this.endpointUrl = endpointUrl;
-    this.host = host;
-    this.networkProperties = {
-      endpoint: endpointUrl,
-      host,
-    };
+    const connectionString = super.getConnectionString(endpointUrl);
+    const host = this.getShortHost(endpointUrl);
+    await this.networkAzureExporter.updateConnectionString(connectionString, () => {
+      const currentCounter = this.networkStatsbeatCollection.find(
+        (counter) =>
+          counter.endpoint === this.networkProperties.endpoint && counter.host === this.host,
+      );
+      if (currentCounter) {
+        currentCounter.host = host;
+      }
+
+      this.connectionString = connectionString;
+      this.endpointUrl = endpointUrl;
+      this.host = host;
+      this.networkProperties = {
+        endpoint: this.networkProperties.endpoint,
+        host,
+      };
+    });
   }
 
   private async initialize(): Promise<void> {
@@ -194,7 +203,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
 
   // Observable gauge callbacks
   private successCallback(observableResult: ObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     // Only send metrics if count is greater than zero
     if (counter.totalSuccessfulRequestCount > 0) {
       const attributes = { ...this.commonProperties, ...this.networkProperties };
@@ -204,7 +213,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private failureCallback(observableResult: BatchObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     /*
       Takes the failureCountGauge, value (of the counter), and attributes
       create a unqiue counter based on statusCode as well
@@ -226,7 +235,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private retryCallback(observableResult: BatchObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const attributes = { ...this.networkProperties, ...this.commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.retryCount.length; i++) {
@@ -242,7 +251,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private throttleCallback(observableResult: BatchObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const attributes = { ...this.networkProperties, ...this.commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
@@ -258,7 +267,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private exceptionCallback(observableResult: BatchObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const attributes = { ...this.networkProperties, ...this.commonProperties, exceptionType: "" };
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
@@ -274,7 +283,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private durationCallback(observableResult: ObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const attributes = { ...this.networkProperties, ...this.commonProperties };
     for (let i = 0; i < this.networkStatsbeatCollection.length; i++) {
       const currentCounter = this.networkStatsbeatCollection[i];
@@ -305,7 +314,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private readFailureCallback(observableResult: ObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     // Only send metrics if count is greater than zero
     if (counter.totalReadFailureCount > 0) {
       const attributes = { ...this.commonProperties, ...this.networkProperties };
@@ -315,7 +324,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private writeFailureCallback(observableResult: ObservableResult): void {
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     // Only send metrics if count is greater than zero
     if (counter.totalWriteFailureCount > 0) {
       const attributes = { ...this.commonProperties, ...this.networkProperties };
@@ -329,7 +338,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     counter.totalRequestCount++;
     counter.totalSuccessfulRequestCount++;
     counter.intervalRequestExecutionTime += duration;
@@ -339,7 +348,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const currentStatusCounter = counter.totalFailedRequestCount.find(
       (statusCounter) => statusCode === statusCounter.statusCode,
     );
@@ -358,7 +367,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const currentStatusCounter = counter.retryCount.find(
       (statusCounter) => statusCode === statusCounter.statusCode,
     );
@@ -374,7 +383,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const currentStatusCounter = counter.throttleCount.find(
       (statusCounter) => statusCode === statusCounter.statusCode,
     );
@@ -390,7 +399,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     counter.totalReadFailureCount++;
   }
 
@@ -398,7 +407,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     counter.totalWriteFailureCount++;
   }
 
@@ -406,7 +415,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     if (!this.isInitialized) {
       return;
     }
-    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const counter = this.getActiveNetworkStatsbeatCounter();
     const currentErrorCounter = counter.exceptionCount.find(
       (exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType,
     );
@@ -415,6 +424,10 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     } else {
       counter.exceptionCount.push({ exceptionType: exceptionType.name, count: 1 });
     }
+  }
+
+  private getActiveNetworkStatsbeatCounter(): NetworkStatsbeat {
+    return this.getNetworkStatsbeatCounter(this.networkProperties.endpoint, this.host);
   }
 
   // Gets a networkStatsbeat counter if one exists for the given endpoint

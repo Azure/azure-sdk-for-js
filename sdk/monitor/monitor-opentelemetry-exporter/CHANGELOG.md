@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed internal Statsbeat routing after ingestion redirects so EU SDK statistics use the EU Statsbeat destination.
+- Fixed internal Statsbeat routing after ingestion redirects so EU SDK statistics use the EU Statsbeat destination. [#39622](https://github.com/Azure/azure-sdk-for-js/pull/39622)
 
 ### Other Changes
 
