@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create vault extended info.
  *
  * @summary create vault extended info.
- * x-ms-original-file: 2026-05-01/UpdateVaultExtendedInfo_Put.json
+ * x-ms-original-file: 2026-07-01/UpdateVaultExtendedInfo_Put.json
  */
 async function putExtendedInfoOfResource() {
   const credential = new DefaultAzureCredential();

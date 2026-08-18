@@ -42,7 +42,7 @@ export function _getSend(
       skus: skus,
       version: version,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +109,7 @@ export function _listSend(
       publisherName: publisherName,
       offer: offer,
       skus: skus,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
       "%24top": options?.top,
       "%24orderby": options?.orderby,
@@ -169,7 +169,7 @@ export function _listSkusSend(
       edgeZone: edgeZone,
       publisherName: publisherName,
       offer: offer,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +223,7 @@ export function _listOffersSend(
       location: location,
       edgeZone: edgeZone,
       publisherName: publisherName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,7 +274,7 @@ export function _listPublishersSend(
       subscriptionId: context.subscriptionId,
       location: location,
       edgeZone: edgeZone,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

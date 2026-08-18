@@ -107,7 +107,6 @@ export interface MachineExtensionsOperations {
     options?: MachineExtensionsGetOptionalParams,
   ) => Promise<MachineExtension>;
 }
-
 function _getMachineExtensions(context: HybridComputeManagementContext) {
   return {
     list: (
@@ -238,7 +237,6 @@ function _getMachineExtensions(context: HybridComputeManagementContext) {
     ) => get(context, resourceGroupName, machineName, extensionName, options),
   };
 }
-
 export function _getMachineExtensionsOperations(
   context: HybridComputeManagementContext,
 ): MachineExtensionsOperations {

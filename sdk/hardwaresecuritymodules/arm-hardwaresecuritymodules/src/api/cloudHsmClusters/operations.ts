@@ -1,25 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type {
   CloudHsmCluster,
-  cloudHsmClusterSerializer,
-  cloudHsmClusterDeserializer,
   CloudHsmClusterPatchParameters,
-  cloudHsmClusterPatchParametersSerializer,
   _CloudHsmClusterListResult,
-  _cloudHsmClusterListResultDeserializer,
-  backupRequestPropertiesSerializer,
   BackupResult,
-  backupResultDeserializer,
   RestoreRequestProperties,
-  restoreRequestPropertiesSerializer,
   RestoreResult,
-  restoreResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  cloudHsmClusterSerializer,
+  cloudHsmClusterDeserializer,
+  cloudHsmClusterPatchParametersSerializer,
+  _cloudHsmClusterListResultDeserializer,
+  backupRequestPropertiesSerializer,
+  backupResultDeserializer,
+  restoreRequestPropertiesSerializer,
+  restoreResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   CloudHsmClustersRestoreOptionalParams,
   CloudHsmClustersValidateRestorePropertiesOptionalParams,
   CloudHsmClustersBackupOptionalParams,
@@ -31,19 +37,9 @@ import {
   CloudHsmClustersCreateOrUpdateOptionalParams,
   CloudHsmClustersGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _restoreSend(
   context: Client,
@@ -58,7 +54,7 @@ export function _restoreSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,25 +63,24 @@ export function _restoreSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: restoreRequestPropertiesSerializer(restoreRequestProperties),
   });
 }
 
 export async function _restoreDeserialize(result: PathUncheckedResponse): Promise<RestoreResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return restoreResultDeserializer(result.body);
 }
-
 /** Restores all key materials of a specified Cloud HSM Cluster */
 export function restore(
   context: Client,
@@ -94,7 +89,7 @@ export function restore(
   restoreRequestProperties: RestoreRequestProperties,
   options: CloudHsmClustersRestoreOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RestoreResult>, RestoreResult> {
-  return getLongRunningPoller(context, _restoreDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _restoreDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -106,6 +101,7 @@ export function restore(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<RestoreResult>, RestoreResult>;
 }
 
@@ -113,9 +109,7 @@ export function _validateRestorePropertiesSend(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: CloudHsmClustersValidateRestorePropertiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersValidateRestorePropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/validateRestoreProperties{?api%2Dversion}",
@@ -123,7 +117,7 @@ export function _validateRestorePropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,45 +126,48 @@ export function _validateRestorePropertiesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["restoreRequestProperties"]
-      ? options["restoreRequestProperties"]
-      : restoreRequestPropertiesSerializer(options["restoreRequestProperties"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.restoreRequestProperties
+      ? options?.restoreRequestProperties
+      : restoreRequestPropertiesSerializer(options?.restoreRequestProperties),
   });
 }
 
 export async function _validateRestorePropertiesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RestoreResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return restoreResultDeserializer(result.body);
 }
-
 /** Queued validating pre restore operation */
 export function validateRestoreProperties(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: CloudHsmClustersValidateRestorePropertiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersValidateRestorePropertiesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RestoreResult>, RestoreResult> {
-  return getLongRunningPoller(context, _validateRestorePropertiesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _validateRestorePropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<RestoreResult>, RestoreResult>;
+  return getLongRunningPoller(
+    context,
+    _validateRestorePropertiesDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _validateRestorePropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
+  ) as PollerLike<OperationState<RestoreResult>, RestoreResult>;
 }
 
 export function _backupSend(
@@ -185,7 +182,7 @@ export function _backupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,27 +191,26 @@ export function _backupSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["backupRequestProperties"]
-      ? options["backupRequestProperties"]
-      : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.backupRequestProperties
+      ? options?.backupRequestProperties
+      : backupRequestPropertiesSerializer(options?.backupRequestProperties),
   });
 }
 
 export async function _backupDeserialize(result: PathUncheckedResponse): Promise<BackupResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return backupResultDeserializer(result.body);
 }
-
 /** Create a backup of the Cloud HSM Cluster in the specified subscription */
 export function backup(
   context: Client,
@@ -222,11 +218,12 @@ export function backup(
   cloudHsmClusterName: string,
   options: CloudHsmClustersBackupOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BackupResult>, BackupResult> {
-  return getLongRunningPoller(context, _backupDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _backupDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _backupSend(context, resourceGroupName, cloudHsmClusterName, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<BackupResult>, BackupResult>;
 }
 
@@ -234,9 +231,7 @@ export function _validateBackupPropertiesSend(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: CloudHsmClustersValidateBackupPropertiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersValidateBackupPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/validateBackupProperties{?api%2Dversion}",
@@ -244,7 +239,7 @@ export function _validateBackupPropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -253,58 +248,59 @@ export function _validateBackupPropertiesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["backupRequestProperties"]
-      ? options["backupRequestProperties"]
-      : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.backupRequestProperties
+      ? options?.backupRequestProperties
+      : backupRequestPropertiesSerializer(options?.backupRequestProperties),
   });
 }
 
 export async function _validateBackupPropertiesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return backupResultDeserializer(result.body);
 }
-
 /** Pre Backup operation to validate whether the customer can perform a backup on the Cloud HSM Cluster resource in the specified subscription. */
 export function validateBackupProperties(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
-  options: CloudHsmClustersValidateBackupPropertiesOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersValidateBackupPropertiesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BackupResult>, BackupResult> {
-  return getLongRunningPoller(context, _validateBackupPropertiesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _validateBackupPropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BackupResult>, BackupResult>;
+  return getLongRunningPoller(
+    context,
+    _validateBackupPropertiesDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _validateBackupPropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
+  ) as PollerLike<OperationState<BackupResult>, BackupResult>;
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: CloudHsmClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters{?api%2Dversion,%24skiptoken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
       "%24skiptoken": options?.skiptoken,
     },
     {
@@ -313,10 +309,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -326,42 +319,44 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _cloudHsmClusterListResultDeserializer(result.body);
 }
-
 /** The List operation gets information about the Cloud HSM Clusters associated with the subscription. */
 export function listBySubscription(
   context: Client,
-  options: CloudHsmClustersListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudHsmCluster> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: CloudHsmClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters{?api%2Dversion,%24skiptoken}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
       "%24skiptoken": options?.skiptoken,
     },
     {
@@ -370,10 +365,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -383,27 +375,31 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _cloudHsmClusterListResultDeserializer(result.body);
 }
-
 /** The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: CloudHsmClustersListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudHsmCluster> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
   );
 }
 
@@ -419,38 +415,29 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return;
 }
-
 /** Deletes the specified Cloud HSM Cluster */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -463,6 +450,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudHsmClusterName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -479,7 +467,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,25 +476,24 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cloudHsmClusterPatchParametersSerializer(body),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CloudHsmCluster> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return cloudHsmClusterDeserializer(result.body);
 }
-
 /** Update a Cloud HSM Cluster in the specified subscription. */
 export function update(
   context: Client,
@@ -515,12 +502,13 @@ export function update(
   body: CloudHsmClusterPatchParameters,
   options: CloudHsmClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, cloudHsmClusterName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster>;
 }
 
@@ -529,9 +517,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   cloudHsmClusterName: string,
   body: CloudHsmCluster,
-  options: CloudHsmClustersCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}{?api%2Dversion}",
@@ -539,7 +525,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -548,10 +534,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: cloudHsmClusterSerializer(body),
   });
 }
@@ -559,32 +542,33 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudHsmCluster> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return cloudHsmClusterDeserializer(result.body);
 }
-
 /** Create or Update a Cloud HSM Cluster in the specified subscription. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
   body: CloudHsmCluster,
-  options: CloudHsmClustersCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudHsmClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, cloudHsmClusterName, body, options),
     resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster>;
 }
 
@@ -600,7 +584,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudHsmClusterName: cloudHsmClusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -608,10 +592,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -619,13 +600,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return cloudHsmClusterDeserializer(result.body);
 }
-
 /** Gets the specified Cloud HSM Cluster */
 export async function get(
   context: Client,

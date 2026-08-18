@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.5",
+  "version": "2.1.0",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -96,7 +96,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservicefleet"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -238,20 +238,6 @@
       "require": {
         "types": "./dist/commonjs/api/fleets/index.d.ts",
         "default": "./dist/commonjs/api/fleets/index.js"
-      }
-    },
-    "./api/clusterMeshProfiles": {
-      "browser": {
-        "types": "./dist/browser/api/clusterMeshProfiles/index.d.ts",
-        "default": "./dist/browser/api/clusterMeshProfiles/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/clusterMeshProfiles/index.d.ts",
-        "default": "./dist/esm/api/clusterMeshProfiles/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/clusterMeshProfiles/index.d.ts",
-        "default": "./dist/commonjs/api/clusterMeshProfiles/index.js"
       }
     },
     "./api/operations": {

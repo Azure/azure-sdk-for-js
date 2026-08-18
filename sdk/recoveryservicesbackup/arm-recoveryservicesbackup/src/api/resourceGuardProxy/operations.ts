@@ -39,7 +39,7 @@ export function _unlockDeleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +59,9 @@ export async function _unlockDeleteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -101,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +116,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -155,7 +159,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +179,9 @@ export async function _putDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       resourceGuardProxyName: resourceGuardProxyName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +244,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

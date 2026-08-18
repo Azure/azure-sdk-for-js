@@ -16,9 +16,8 @@ export interface DocumentTranslationContext extends Client {
 
 /** Optional parameters for the client. */
 export interface DocumentTranslationClientOptionalParams extends ClientOptions {
-  /** The API version to use for this operation. */
-  /** Known values of {@link KnownVersions} that the service accepts. */
-  apiVersion?: string;
+  /** The service API version to use for this operation. */
+  serviceVersion?: `${KnownVersions}`;
 }
 
 /** Client for the Azure AI Document Translation service, used to translate batches of documents stored in Azure Blob Storage. */
@@ -33,7 +32,7 @@ export function createDocumentTranslation(
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
-  const { apiVersion: _, ...updatedOptions } = {
+  const { serviceVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
@@ -43,6 +42,6 @@ export function createDocumentTranslation(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  const apiVersion = options.apiVersion;
+  const apiVersion = options.serviceVersion;
   return { ...clientContext, apiVersion } as DocumentTranslationContext;
 }
