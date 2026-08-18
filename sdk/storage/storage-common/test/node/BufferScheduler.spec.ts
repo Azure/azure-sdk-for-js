@@ -148,4 +148,42 @@ describe("BufferScheduler", () => {
       (Buffer as any).allocUnsafe = originalAllocUnsafe;
     }
   });
+
+  it("rejects instead of throwing uncaught when allocation fails while reusing a buffer", async () => {
+    const stream = new PassThrough();
+    const originalAllocUnsafe = Buffer.allocUnsafe;
+
+    try {
+      const scheduler = new BufferScheduler(
+        stream,
+        4,
+        1,
+        async () => {
+          // Yield so the "data" listener is done; the pool then grows from reuseBuffer().
+          await Promise.resolve();
+          (scheduler as any).maxBuffers = 2;
+          (Buffer as any).allocUnsafe = () => {
+            throw new RangeError("Failed to allocate memory");
+          };
+        },
+        1,
+      );
+      const schedulerPromise = scheduler.do();
+
+      // Exceeds maxBuffers * bufferSize, so data is still unresolved when the handler settles.
+      stream.write(Buffer.from("123456789012"));
+      stream.end();
+
+      let error: unknown;
+      try {
+        await schedulerPromise;
+      } catch (e) {
+        error = e;
+      }
+
+      assert.instanceOf(error, RangeError, "do() should reject with the allocation error");
+    } finally {
+      (Buffer as any).allocUnsafe = originalAllocUnsafe;
+    }
+  });
 });
