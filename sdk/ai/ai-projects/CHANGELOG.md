@@ -2,6 +2,10 @@
 
 ## 2.4.1 (Unreleased)
 
+### Breaking Changes
+
+- Renamed beta agent optimization model types to use the `AgentOptimization*` prefix, including `OptimizationJob` to `AgentOptimizationJob`, and renamed `OptimizationAgentIdentifier` to `OptimizedAgentIdentifier`.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.

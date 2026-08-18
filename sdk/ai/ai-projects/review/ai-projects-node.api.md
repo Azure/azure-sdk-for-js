@@ -172,6 +172,119 @@ export type AgentIdentityStatus = "active" | "disabled";
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 // @public
+export interface AgentOptimizationCandidate {
+    avg_score: number;
+    avg_tokens: number;
+    candidate_id?: string;
+    eval_id?: string;
+    eval_run_id?: string;
+    mutations?: Record<string, any>;
+    name: string;
+    promotion?: PromotionInfo;
+}
+
+// @public
+export interface AgentOptimizationDatasetCriterion {
+    instruction: string;
+    name: string;
+}
+
+// @public
+export interface AgentOptimizationDatasetInput {
+    type: AgentOptimizationDatasetInputType;
+}
+
+// @public
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
+
+// @public
+export type AgentOptimizationDatasetInputUnion = AgentOptimizationInlineDatasetInput | AgentOptimizationReferenceDatasetInput | AgentOptimizationDatasetInput;
+
+// @public
+export interface AgentOptimizationDatasetItem {
+    criteria?: AgentOptimizationDatasetCriterion[];
+    desired_num_turns?: number;
+    ground_truth?: string;
+    query?: string;
+}
+
+// @public
+export interface AgentOptimizationEvaluatorRef {
+    name: string;
+    version?: string;
+}
+
+// @public
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
+    items: AgentOptimizationDatasetItem[];
+    type: "inline";
+}
+
+// @public
+export interface AgentOptimizationJob {
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    inputs?: AgentOptimizationJobInputs;
+    readonly progress?: AgentOptimizationJobProgress;
+    readonly result?: AgentOptimizationJobResult;
+    readonly status: JobStatus;
+    readonly updated_at: Date;
+    readonly warnings?: string[];
+}
+
+// @public
+export interface AgentOptimizationJobInputs {
+    agent: OptimizedAgentIdentifier;
+    evaluators: AgentOptimizationEvaluatorRef[];
+    options?: AgentOptimizationOptions;
+    train_dataset: AgentOptimizationDatasetInputUnion;
+    validation_dataset?: AgentOptimizationDatasetInputUnion;
+}
+
+// @public
+export interface AgentOptimizationJobListItem {
+    readonly agent?: OptimizedAgentIdentifier;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    readonly progress?: AgentOptimizationJobProgress;
+    readonly status: JobStatus;
+    readonly updated_at: Date;
+}
+
+// @public
+export interface AgentOptimizationJobProgress {
+    best_score: number;
+    candidates_completed: number;
+    elapsed_seconds: number;
+}
+
+// @public
+export interface AgentOptimizationJobResult {
+    baseline?: string;
+    best?: string;
+    candidates?: AgentOptimizationCandidate[];
+}
+
+// @public
+export interface AgentOptimizationOptions {
+    eval_model?: string;
+    evaluation_level?: EvaluationLevel;
+    max_candidates?: number;
+    max_stalls?: number;
+    optimization_config?: Record<string, any>;
+    optimization_model?: string;
+}
+
+// @public
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
+    name: string;
+    type: "reference";
+    version?: string;
+}
+
+// @public
 export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 // @public
@@ -633,11 +746,11 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsOperations {
-    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
+    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
 }
 
 // @public
@@ -3063,122 +3176,9 @@ export interface OpenApiToolboxTool extends ToolboxTool {
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
-export interface OptimizationAgentIdentifier {
+export interface OptimizedAgentIdentifier {
     agent_name: string;
     agent_version?: string;
-}
-
-// @public
-export interface OptimizationCandidate {
-    avg_score: number;
-    avg_tokens: number;
-    candidate_id?: string;
-    eval_id?: string;
-    eval_run_id?: string;
-    mutations?: Record<string, any>;
-    name: string;
-    promotion?: PromotionInfo;
-}
-
-// @public
-export interface OptimizationDatasetCriterion {
-    instruction: string;
-    name: string;
-}
-
-// @public
-export interface OptimizationDatasetInput {
-    type: OptimizationDatasetInputType;
-}
-
-// @public
-export type OptimizationDatasetInputType = "inline" | "reference";
-
-// @public
-export type OptimizationDatasetInputUnion = OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
-
-// @public
-export interface OptimizationDatasetItem {
-    criteria?: OptimizationDatasetCriterion[];
-    desired_num_turns?: number;
-    ground_truth?: string;
-    query?: string;
-}
-
-// @public
-export interface OptimizationEvaluatorRef {
-    name: string;
-    version?: string;
-}
-
-// @public
-export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
-    items: OptimizationDatasetItem[];
-    type: "inline";
-}
-
-// @public
-export interface OptimizationJob {
-    readonly created_at: Date;
-    readonly error?: ErrorModel;
-    readonly id: string;
-    inputs?: OptimizationJobInputs;
-    readonly progress?: OptimizationJobProgress;
-    readonly result?: OptimizationJobResult;
-    readonly status: JobStatus;
-    readonly updated_at: Date;
-    readonly warnings?: string[];
-}
-
-// @public
-export interface OptimizationJobInputs {
-    agent: OptimizationAgentIdentifier;
-    evaluators: OptimizationEvaluatorRef[];
-    options?: OptimizationOptions;
-    train_dataset: OptimizationDatasetInputUnion;
-    validation_dataset?: OptimizationDatasetInputUnion;
-}
-
-// @public
-export interface OptimizationJobListItem {
-    readonly agent?: OptimizationAgentIdentifier;
-    readonly created_at: Date;
-    readonly error?: ErrorModel;
-    readonly id: string;
-    readonly progress?: OptimizationJobProgress;
-    readonly status: JobStatus;
-    readonly updated_at: Date;
-}
-
-// @public
-export interface OptimizationJobProgress {
-    best_score: number;
-    candidates_completed: number;
-    elapsed_seconds: number;
-}
-
-// @public
-export interface OptimizationJobResult {
-    baseline?: string;
-    best?: string;
-    candidates?: OptimizationCandidate[];
-}
-
-// @public
-export interface OptimizationOptions {
-    eval_model?: string;
-    evaluation_level?: EvaluationLevel;
-    max_candidates?: number;
-    max_stalls?: number;
-    optimization_config?: Record<string, any>;
-    optimization_model?: string;
-}
-
-// @public
-export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
-    name: string;
-    type: "reference";
-    version?: string;
 }
 
 // @public

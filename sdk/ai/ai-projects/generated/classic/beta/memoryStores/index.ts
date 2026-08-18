@@ -159,7 +159,6 @@ export interface BetaMemoryStoresOperations {
     options?: BetaMemoryStoresCreateOptionalParams,
   ) => Promise<MemoryStore>;
 }
-
 function _getBetaMemoryStores(context: AIProjectContext) {
   return {
     deleteMemory: (
@@ -246,7 +245,6 @@ function _getBetaMemoryStores(context: AIProjectContext) {
     ) => create(context, foundryFeatures, name, definition, options),
   };
 }
-
 export function _getBetaMemoryStoresOperations(
   context: AIProjectContext,
 ): BetaMemoryStoresOperations {

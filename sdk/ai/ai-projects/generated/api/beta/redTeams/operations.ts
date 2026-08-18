@@ -69,7 +69,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return redTeamDeserializer(result.body);
 }
-
 /** Submits a new redteam run for execution with the provided configuration. */
 export async function create(
   context: Client,
@@ -115,7 +114,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedRedTeamDeserializer(result.body);
 }
-
 /** Returns the redteams available in the current project. */
 export function list(
   context: Client,
@@ -167,7 +165,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return redTeamDeserializer(result.body);
 }
-
 /** Retrieves the specified redteam and its configuration. */
 export async function get(
   context: Client,

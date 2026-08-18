@@ -3,9 +3,9 @@
 
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
-  OptimizationJob,
-  OptimizationJobListItem,
-  OptimizationJobResult,
+  AgentOptimizationJob,
+  AgentOptimizationJobListItem,
+  AgentOptimizationJobResult,
   _AgentsPagedResultOptimizationJobListItem,
 } from "../../../models/models.js";
 import {
@@ -108,7 +108,7 @@ export function _cancelOptimizationJobSend(
 
 export async function _cancelOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -127,7 +127,7 @@ export async function cancelOptimizationJob(
   context: Client,
   jobId: string,
   options: BetaAgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const result = await _cancelOptimizationJobSend(context, jobId, options);
   return _cancelOptimizationJobDeserialize(result);
 }
@@ -181,7 +181,7 @@ export async function _listOptimizationJobsDeserialize(
 export function listOptimizationJobs(
   context: Client,
   options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<OptimizationJobListItem> {
+): PagedAsyncIterableIterator<AgentOptimizationJobListItem> {
   return buildPagedAsyncIterator(
     context,
     () => _listOptimizationJobsSend(context, options),
@@ -218,7 +218,7 @@ export function _getOptimizationJobSend(
 
 export async function _getOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -237,14 +237,14 @@ export async function getOptimizationJob(
   context: Client,
   jobId: string,
   options: BetaAgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const result = await _getOptimizationJobSend(context, jobId, options);
   return _getOptimizationJobDeserialize(result);
 }
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: OptimizationJob,
+  job: AgentOptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "AgentsOptimization=V2Preview";
@@ -272,7 +272,7 @@ export function _createOptimizationJobSend(
 
 export async function _createOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJobResult> {
+): Promise<AgentOptimizationJobResult> {
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -296,9 +296,9 @@ export async function _createOptimizationJobDeserialize(
 /** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
 export function createOptimizationJob(
   context: Client,
-  job: OptimizationJob,
+  job: AgentOptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
-): JobPoller<OptimizationJobResult> {
+): JobPoller<AgentOptimizationJobResult> {
   // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
   return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,

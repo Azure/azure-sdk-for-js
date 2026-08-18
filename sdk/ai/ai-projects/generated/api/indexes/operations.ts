@@ -66,7 +66,6 @@ export async function _createOrUpdateDeserialize(
 
   return indexUnionDeserializer(result.body);
 }
-
 /** Create a new or update an existing Index with the given version id */
 export async function createOrUpdate(
   context: Client,
@@ -107,7 +106,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -157,7 +155,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
 
   return indexUnionDeserializer(result.body);
 }
-
 /** Get the specific version of the Index. The service returns 404 Not Found error if the Index does not exist. */
 export async function get(
   context: Client,
@@ -198,7 +195,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedIndexDeserializer(result.body);
 }
-
 /** List the latest version of each Index */
 export function list(
   context: Client,
@@ -246,7 +242,6 @@ export async function _listVersionsDeserialize(
 
   return _pagedIndexDeserializer(result.body);
 }
-
 /** List all versions of the given Index */
 export function listVersions(
   context: Client,

@@ -72,7 +72,6 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Removes the specified version of a toolbox. */
 export async function deleteVersion(
   context: Client,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Removes the specified toolbox along with all of its versions. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -170,7 +168,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return toolboxObjectDeserializer(result.body);
 }
-
 /** Updates the toolbox's default version pointer to the specified version. */
 export async function update(
   context: Client,
@@ -222,7 +219,6 @@ export async function _getVersionDeserialize(
 
   return toolboxVersionObjectDeserializer(result.body);
 }
-
 /** Retrieves the specified version of a toolbox by name and version identifier. */
 export async function getVersion(
   context: Client,
@@ -276,7 +272,6 @@ export async function _listVersionsDeserialize(
 
   return _agentsPagedResultToolboxVersionObjectDeserializer(result.body);
 }
-
 /** Returns the available versions for the specified toolbox. */
 export function listVersions(
   context: Client,
@@ -332,7 +327,6 @@ export async function _listDeserialize(
 
   return _agentsPagedResultToolboxObjectDeserializer(result.body);
 }
-
 /** Returns the toolboxes available in the current project. */
 export function list(
   context: Client,
@@ -383,7 +377,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
 
   return toolboxObjectDeserializer(result.body);
 }
-
 /** Retrieves the specified toolbox and its current configuration. */
 export async function get(
   context: Client,
@@ -445,7 +438,6 @@ export async function _createVersionDeserialize(
 
   return toolboxVersionObjectDeserializer(result.body);
 }
-
 /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
 export async function createVersion(
   context: Client,

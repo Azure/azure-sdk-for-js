@@ -59,7 +59,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedDeploymentDeserializer(result.body);
 }
-
 /** Returns the deployed models available in the current project, optionally filtered by publisher, model name, or deployment type. */
 export function list(
   context: Client,
@@ -111,7 +110,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return deploymentUnionDeserializer(result.body);
 }
-
 /** Retrieves a deployed model. */
 export async function get(
   context: Client,

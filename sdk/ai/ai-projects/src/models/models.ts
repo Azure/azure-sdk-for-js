@@ -12924,13 +12924,13 @@ export function dataGenerationJobArrayDeserializer(result: Array<DataGenerationJ
 }
 
 /** Agent optimization job resource — a long-running job that optimizes an agent's configuration (instructions, model, skills, tools) to maximize evaluation scores. On success, the result contains scored candidates. */
-export interface OptimizationJob {
+export interface AgentOptimizationJob {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Caller-supplied inputs. */
-  inputs?: OptimizationJobInputs;
+  inputs?: AgentOptimizationJobInputs;
   /** Result produced on success. */
-  readonly result?: OptimizationJobResult;
+  readonly result?: AgentOptimizationJobResult;
   /** Current lifecycle status. */
   readonly status: JobStatus;
   /** Error details — populated only on failure. */
@@ -12940,18 +12940,18 @@ export interface OptimizationJob {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** Non-fatal warnings emitted at any point during optimization. */
   readonly warnings?: string[];
 }
 
-export function optimizationJobSerializer(item: OptimizationJob): any {
+export function optimizationJobSerializer(item: AgentOptimizationJob): any {
   return {
     inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsSerializer(item["inputs"]),
   };
 }
 
-export function optimizationJobDeserializer(item: any): OptimizationJob {
+export function optimizationJobDeserializer(item: any): AgentOptimizationJob {
   return {
     id: item["id"],
     inputs: !item["inputs"] ? item["inputs"] : optimizationJobInputsDeserializer(item["inputs"]),
@@ -12972,20 +12972,20 @@ export function optimizationJobDeserializer(item: any): OptimizationJob {
 }
 
 /** Caller-supplied inputs for an optimization job. */
-export interface OptimizationJobInputs {
+export interface AgentOptimizationJobInputs {
   /** The agent (and pinned version) being optimized. */
-  agent: OptimizationAgentIdentifier;
+  agent: OptimizedAgentIdentifier;
   /** Training dataset — either inline items or a reference to a registered dataset. Required. */
-  train_dataset: OptimizationDatasetInputUnion;
+  train_dataset: AgentOptimizationDatasetInputUnion;
   /** Optional held-out validation dataset for measuring generalization of the final candidate. */
-  validation_dataset?: OptimizationDatasetInputUnion;
+  validation_dataset?: AgentOptimizationDatasetInputUnion;
   /** Job-level evaluators referenced by name and optional version. Required; at least one must be provided. */
-  evaluators: OptimizationEvaluatorRef[];
+  evaluators: AgentOptimizationEvaluatorRef[];
   /** Tuning knobs and run-mode. */
-  options?: OptimizationOptions;
+  options?: AgentOptimizationOptions;
 }
 
-export function optimizationJobInputsSerializer(item: OptimizationJobInputs): any {
+export function optimizationJobInputsSerializer(item: AgentOptimizationJobInputs): any {
   return {
     agent: optimizationAgentIdentifierSerializer(item["agent"]),
     train_dataset: optimizationDatasetInputUnionSerializer(item["train_dataset"]),
@@ -12997,7 +12997,7 @@ export function optimizationJobInputsSerializer(item: OptimizationJobInputs): an
   };
 }
 
-export function optimizationJobInputsDeserializer(item: any): OptimizationJobInputs {
+export function optimizationJobInputsDeserializer(item: any): AgentOptimizationJobInputs {
   return {
     agent: optimizationAgentIdentifierDeserializer(item["agent"]),
     train_dataset: optimizationDatasetInputUnionDeserializer(item["train_dataset"]),
@@ -13010,18 +13010,18 @@ export function optimizationJobInputsDeserializer(item: any): OptimizationJobInp
 }
 
 /** Identifies the registered Foundry agent to optimize (request-only). Skills, tools, and system_prompt are specified in options.optimization_config. */
-export interface OptimizationAgentIdentifier {
+export interface OptimizedAgentIdentifier {
   /** Registered Foundry agent name (required). */
   agent_name: string;
   /** Pinned agent version. Defaults to latest if omitted. */
   agent_version?: string;
 }
 
-export function optimizationAgentIdentifierSerializer(item: OptimizationAgentIdentifier): any {
+export function optimizationAgentIdentifierSerializer(item: OptimizedAgentIdentifier): any {
   return { agent_name: item["agent_name"], agent_version: item["agent_version"] };
 }
 
-export function optimizationAgentIdentifierDeserializer(item: any): OptimizationAgentIdentifier {
+export function optimizationAgentIdentifierDeserializer(item: any): OptimizedAgentIdentifier {
   return {
     agent_name: item["agent_name"],
     agent_version: item["agent_version"],
@@ -13029,33 +13029,39 @@ export function optimizationAgentIdentifierDeserializer(item: any): Optimization
 }
 
 /** Base discriminated model for dataset input. Either inline items or a registered reference. */
-export interface OptimizationDatasetInput {
+export interface AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   /** The discriminator possible values: inline, reference */
-  type: OptimizationDatasetInputType;
+  type: AgentOptimizationDatasetInputType;
 }
 
-export function optimizationDatasetInputSerializer(item: OptimizationDatasetInput): any {
+export function optimizationDatasetInputSerializer(item: AgentOptimizationDatasetInput): any {
   return { type: item["type"] };
 }
 
-export function optimizationDatasetInputDeserializer(item: any): OptimizationDatasetInput {
+export function optimizationDatasetInputDeserializer(item: any): AgentOptimizationDatasetInput {
   return {
     type: item["type"],
   };
 }
 
-/** Alias for OptimizationDatasetInputUnion */
-export type OptimizationDatasetInputUnion =
-  OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
+/** Alias for AgentOptimizationDatasetInputUnion */
+export type AgentOptimizationDatasetInputUnion =
+  | AgentOptimizationInlineDatasetInput
+  | AgentOptimizationReferenceDatasetInput
+  | AgentOptimizationDatasetInput;
 
-export function optimizationDatasetInputUnionSerializer(item: OptimizationDatasetInputUnion): any {
+export function optimizationDatasetInputUnionSerializer(
+  item: AgentOptimizationDatasetInputUnion,
+): any {
   switch (item.type) {
     case "inline":
-      return optimizationInlineDatasetInputSerializer(item as OptimizationInlineDatasetInput);
+      return optimizationInlineDatasetInputSerializer(item as AgentOptimizationInlineDatasetInput);
 
     case "reference":
-      return optimizationReferenceDatasetInputSerializer(item as OptimizationReferenceDatasetInput);
+      return optimizationReferenceDatasetInputSerializer(
+        item as AgentOptimizationReferenceDatasetInput,
+      );
 
     default:
       return optimizationDatasetInputSerializer(item);
@@ -13064,14 +13070,16 @@ export function optimizationDatasetInputUnionSerializer(item: OptimizationDatase
 
 export function optimizationDatasetInputUnionDeserializer(
   item: any,
-): OptimizationDatasetInputUnion {
+): AgentOptimizationDatasetInputUnion {
   switch (item["type"]) {
     case "inline":
-      return optimizationInlineDatasetInputDeserializer(item as OptimizationInlineDatasetInput);
+      return optimizationInlineDatasetInputDeserializer(
+        item as AgentOptimizationInlineDatasetInput,
+      );
 
     case "reference":
       return optimizationReferenceDatasetInputDeserializer(
-        item as OptimizationReferenceDatasetInput,
+        item as AgentOptimizationReferenceDatasetInput,
       );
 
     default:
@@ -13080,25 +13088,25 @@ export function optimizationDatasetInputUnionDeserializer(
 }
 
 /** Discriminator values for the dataset input union. */
-export type OptimizationDatasetInputType = "inline" | "reference";
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
 
 /** Inline dataset — items supplied directly in the request body. */
-export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "inline";
   /** Dataset items. */
-  items: OptimizationDatasetItem[];
+  items: AgentOptimizationDatasetItem[];
 }
 
 export function optimizationInlineDatasetInputSerializer(
-  item: OptimizationInlineDatasetInput,
+  item: AgentOptimizationInlineDatasetInput,
 ): any {
   return { type: item["type"], items: optimizationDatasetItemArraySerializer(item["items"]) };
 }
 
 export function optimizationInlineDatasetInputDeserializer(
   item: any,
-): OptimizationInlineDatasetInput {
+): AgentOptimizationInlineDatasetInput {
   return {
     type: item["type"],
     items: optimizationDatasetItemArrayDeserializer(item["items"]),
@@ -13106,7 +13114,7 @@ export function optimizationInlineDatasetInputDeserializer(
 }
 
 export function optimizationDatasetItemArraySerializer(
-  result: Array<OptimizationDatasetItem>,
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
     return optimizationDatasetItemSerializer(item);
@@ -13114,7 +13122,7 @@ export function optimizationDatasetItemArraySerializer(
 }
 
 export function optimizationDatasetItemArrayDeserializer(
-  result: Array<OptimizationDatasetItem>,
+  result: Array<AgentOptimizationDatasetItem>,
 ): any[] {
   return result.map((item) => {
     return optimizationDatasetItemDeserializer(item);
@@ -13122,7 +13130,7 @@ export function optimizationDatasetItemArrayDeserializer(
 }
 
 /** A single item in an inline dataset. */
-export interface OptimizationDatasetItem {
+export interface AgentOptimizationDatasetItem {
   /** The user query / prompt. */
   query?: string;
   /** Expected ground truth answer. */
@@ -13130,10 +13138,10 @@ export interface OptimizationDatasetItem {
   /** Desired number of conversation turns for simulation mode (1-20). */
   desired_num_turns?: number;
   /** Per-item evaluation criteria. */
-  criteria?: OptimizationDatasetCriterion[];
+  criteria?: AgentOptimizationDatasetCriterion[];
 }
 
-export function optimizationDatasetItemSerializer(item: OptimizationDatasetItem): any {
+export function optimizationDatasetItemSerializer(item: AgentOptimizationDatasetItem): any {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
@@ -13144,7 +13152,7 @@ export function optimizationDatasetItemSerializer(item: OptimizationDatasetItem)
   };
 }
 
-export function optimizationDatasetItemDeserializer(item: any): OptimizationDatasetItem {
+export function optimizationDatasetItemDeserializer(item: any): AgentOptimizationDatasetItem {
   return {
     query: item["query"],
     ground_truth: item["ground_truth"],
@@ -13156,7 +13164,7 @@ export function optimizationDatasetItemDeserializer(item: any): OptimizationData
 }
 
 export function optimizationDatasetCriterionArraySerializer(
-  result: Array<OptimizationDatasetCriterion>,
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
     return optimizationDatasetCriterionSerializer(item);
@@ -13164,7 +13172,7 @@ export function optimizationDatasetCriterionArraySerializer(
 }
 
 export function optimizationDatasetCriterionArrayDeserializer(
-  result: Array<OptimizationDatasetCriterion>,
+  result: Array<AgentOptimizationDatasetCriterion>,
 ): any[] {
   return result.map((item) => {
     return optimizationDatasetCriterionDeserializer(item);
@@ -13172,18 +13180,22 @@ export function optimizationDatasetCriterionArrayDeserializer(
 }
 
 /** Evaluation criterion: a name + instruction pair used for per-item scoring. */
-export interface OptimizationDatasetCriterion {
+export interface AgentOptimizationDatasetCriterion {
   /** Criterion name. */
   name: string;
   /** Criterion instruction / description. */
   instruction: string;
 }
 
-export function optimizationDatasetCriterionSerializer(item: OptimizationDatasetCriterion): any {
+export function optimizationDatasetCriterionSerializer(
+  item: AgentOptimizationDatasetCriterion,
+): any {
   return { name: item["name"], instruction: item["instruction"] };
 }
 
-export function optimizationDatasetCriterionDeserializer(item: any): OptimizationDatasetCriterion {
+export function optimizationDatasetCriterionDeserializer(
+  item: any,
+): AgentOptimizationDatasetCriterion {
   return {
     name: item["name"],
     instruction: item["instruction"],
@@ -13191,7 +13203,7 @@ export function optimizationDatasetCriterionDeserializer(item: any): Optimizatio
 }
 
 /** Reference to a registered Foundry dataset. */
-export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
   /** Dataset input type discriminator. */
   type: "reference";
   /** Registered dataset name. */
@@ -13201,14 +13213,14 @@ export interface OptimizationReferenceDatasetInput extends OptimizationDatasetIn
 }
 
 export function optimizationReferenceDatasetInputSerializer(
-  item: OptimizationReferenceDatasetInput,
+  item: AgentOptimizationReferenceDatasetInput,
 ): any {
   return { type: item["type"], name: item["name"], version: item["version"] };
 }
 
 export function optimizationReferenceDatasetInputDeserializer(
   item: any,
-): OptimizationReferenceDatasetInput {
+): AgentOptimizationReferenceDatasetInput {
   return {
     type: item["type"],
     name: item["name"],
@@ -13217,7 +13229,7 @@ export function optimizationReferenceDatasetInputDeserializer(
 }
 
 export function optimizationEvaluatorRefArraySerializer(
-  result: Array<OptimizationEvaluatorRef>,
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
     return optimizationEvaluatorRefSerializer(item);
@@ -13225,7 +13237,7 @@ export function optimizationEvaluatorRefArraySerializer(
 }
 
 export function optimizationEvaluatorRefArrayDeserializer(
-  result: Array<OptimizationEvaluatorRef>,
+  result: Array<AgentOptimizationEvaluatorRef>,
 ): any[] {
   return result.map((item) => {
     return optimizationEvaluatorRefDeserializer(item);
@@ -13233,18 +13245,18 @@ export function optimizationEvaluatorRefArrayDeserializer(
 }
 
 /** Reference to a named evaluator, optionally pinned to a version. */
-export interface OptimizationEvaluatorRef {
+export interface AgentOptimizationEvaluatorRef {
   /** Evaluator name. */
   name: string;
   /** Evaluator version. If not specified, the latest version is used. */
   version?: string;
 }
 
-export function optimizationEvaluatorRefSerializer(item: OptimizationEvaluatorRef): any {
+export function optimizationEvaluatorRefSerializer(item: AgentOptimizationEvaluatorRef): any {
   return { name: item["name"], version: item["version"] };
 }
 
-export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEvaluatorRef {
+export function optimizationEvaluatorRefDeserializer(item: any): AgentOptimizationEvaluatorRef {
   return {
     name: item["name"],
     version: item["version"],
@@ -13252,7 +13264,7 @@ export function optimizationEvaluatorRefDeserializer(item: any): OptimizationEva
 }
 
 /** Tuning knobs and run-mode for an optimization job. */
-export interface OptimizationOptions {
+export interface AgentOptimizationOptions {
   /** Maximum number of optimization candidates to generate. Must be >= 1. Default: 5. */
   max_candidates?: number;
   /** Per-target-attribute configuration overrides. Contains skills, tools, system_prompt for the agent, plus model space for model optimization. */
@@ -13267,7 +13279,7 @@ export interface OptimizationOptions {
   max_stalls?: number;
 }
 
-export function optimizationOptionsSerializer(item: OptimizationOptions): any {
+export function optimizationOptionsSerializer(item: AgentOptimizationOptions): any {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: item["optimization_config"],
@@ -13278,7 +13290,7 @@ export function optimizationOptionsSerializer(item: OptimizationOptions): any {
   };
 }
 
-export function optimizationOptionsDeserializer(item: any): OptimizationOptions {
+export function optimizationOptionsDeserializer(item: any): AgentOptimizationOptions {
   return {
     max_candidates: item["max_candidates"],
     optimization_config: !item["optimization_config"]
@@ -13294,16 +13306,16 @@ export function optimizationOptionsDeserializer(item: any): OptimizationOptions 
 }
 
 /** Terminal-state result body. Populated when status is succeeded or failed. */
-export interface OptimizationJobResult {
+export interface AgentOptimizationJobResult {
   /** Candidate ID of the original (un-optimized) baseline evaluation. */
   baseline?: string;
   /** Candidate ID of the highest-scoring candidate found during optimization. */
   best?: string;
   /** All evaluated candidates including baseline. */
-  candidates?: OptimizationCandidate[];
+  candidates?: AgentOptimizationCandidate[];
 }
 
-export function optimizationJobResultDeserializer(item: any): OptimizationJobResult {
+export function optimizationJobResultDeserializer(item: any): AgentOptimizationJobResult {
   return {
     baseline: item["baseline"],
     best: item["best"],
@@ -13314,7 +13326,7 @@ export function optimizationJobResultDeserializer(item: any): OptimizationJobRes
 }
 
 export function optimizationCandidateArrayDeserializer(
-  result: Array<OptimizationCandidate>,
+  result: Array<AgentOptimizationCandidate>,
 ): any[] {
   return result.map((item) => {
     return optimizationCandidateDeserializer(item);
@@ -13322,7 +13334,7 @@ export function optimizationCandidateArrayDeserializer(
 }
 
 /** Aggregated evaluation result for a single candidate agent configuration across all tasks. */
-export interface OptimizationCandidate {
+export interface AgentOptimizationCandidate {
   /** Server-assigned candidate identifier. Use with GET /candidates/{id} sub-endpoints. */
   candidate_id?: string;
   /** Display name of the candidate (e.g., 'baseline', 'instruction-v2'). */
@@ -13341,7 +13353,7 @@ export interface OptimizationCandidate {
   promotion?: PromotionInfo;
 }
 
-export function optimizationCandidateDeserializer(item: any): OptimizationCandidate {
+export function optimizationCandidateDeserializer(item: any): AgentOptimizationCandidate {
   return {
     candidate_id: item["candidate_id"],
     name: item["name"],
@@ -13379,7 +13391,7 @@ export function promotionInfoDeserializer(item: any): PromotionInfo {
 }
 
 /** In-flight progress; only populated while status is queued or in_progress. */
-export interface OptimizationJobProgress {
+export interface AgentOptimizationJobProgress {
   /** Number of candidates whose evaluation has completed so far. */
   candidates_completed: number;
   /** Best score observed so far across all candidates. */
@@ -13388,7 +13400,7 @@ export interface OptimizationJobProgress {
   elapsed_seconds: number;
 }
 
-export function optimizationJobProgressDeserializer(item: any): OptimizationJobProgress {
+export function optimizationJobProgressDeserializer(item: any): AgentOptimizationJobProgress {
   return {
     candidates_completed: item["candidates_completed"],
     best_score: item["best_score"],
@@ -13399,7 +13411,7 @@ export function optimizationJobProgressDeserializer(item: any): OptimizationJobP
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultOptimizationJobListItem {
   /** The requested list of items. */
-  data: OptimizationJobListItem[];
+  data: AgentOptimizationJobListItem[];
   /** The first ID represented in this list. */
   first_id?: string;
   /** The last ID represented in this list. */
@@ -13420,7 +13432,7 @@ export function _agentsPagedResultOptimizationJobListItemDeserializer(
 }
 
 export function optimizationJobListItemArrayDeserializer(
-  result: Array<OptimizationJobListItem>,
+  result: Array<AgentOptimizationJobListItem>,
 ): any[] {
   return result.map((item) => {
     return optimizationJobListItemDeserializer(item);
@@ -13428,7 +13440,7 @@ export function optimizationJobListItemArrayDeserializer(
 }
 
 /** Slim job representation returned by the LIST endpoint. */
-export interface OptimizationJobListItem {
+export interface AgentOptimizationJobListItem {
   /** Server-assigned unique identifier. */
   readonly id: string;
   /** Current lifecycle status. */
@@ -13440,12 +13452,12 @@ export interface OptimizationJobListItem {
   /** The timestamp when the job was last updated, represented in Unix time. */
   readonly updated_at: Date;
   /** Progress snapshot. May be present in terminal states reflecting last-known progress. */
-  readonly progress?: OptimizationJobProgress;
+  readonly progress?: AgentOptimizationJobProgress;
   /** The agent targeted by this optimization job. */
-  readonly agent?: OptimizationAgentIdentifier;
+  readonly agent?: OptimizedAgentIdentifier;
 }
 
-export function optimizationJobListItemDeserializer(item: any): OptimizationJobListItem {
+export function optimizationJobListItemDeserializer(item: any): AgentOptimizationJobListItem {
   return {
     id: item["id"],
     status: item["status"],
