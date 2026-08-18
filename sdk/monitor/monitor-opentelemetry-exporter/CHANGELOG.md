@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`.
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
 
 ## 1.0.0-beta.44 (2026-07-29)
 
