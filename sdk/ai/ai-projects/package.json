@@ -96,7 +96,7 @@
     "extract-api": "rimraf review && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate": "rimraf ./src/generated && mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && rimraf ./src/generated/test && rimraf ./src/generated/tsp-location.yaml",
-    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply",
+    "generate:client": "cross-env npm_config_registry=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/ tsp-client update -d && npm run format && dev-tool customization apply && npm run post-emitter && npm run format",
     "generate-samples": "dev-tool samples publish -f",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
@@ -104,8 +104,9 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "post-emitter": "node scripts/post-emitter.mjs",
-    "tsp:update": "tsp-client update -o ./src/generated",
+    "post-emitter": "pwsh -NonInteractive -NoProfile -File ./PostEmitter.ps1",
+    "test:post-emitter": "pwsh -NonInteractive -NoProfile -File ./scripts/test-post-emitter.ps1",
+    "tsp:update": "cross-env npm_config_registry=https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/ tsp-client update -o ./src/generated",
     "update-snippets": "dev-tool run update-snippets"
   },
   "exports": {

@@ -1,20 +1,37 @@
-Merge guidelines for newly emitted code from the .\incoming directory:
+`npm run generate:client` writes to `src/` and `generated/`, applies JavaScript customization, and then runs `PostEmitter.ps1`. The hook automates only deterministic, bounded repairs and fails closed on unknown variants. This document remains the behavioral contract for the hook and the semantic review that follows it.
+
+Automated by `PostEmitter.ps1`:
+
+- known diff3 conflicts resolve to the customized side
+- protected paths restore from the configured Git baseline
+- unambiguous generated model/binding and `delete<Model>` operation renames propagate through modular and classic source
+- `api%2Dversion` becomes `api-version` under `src/` only
+- positional `foundryFeatures`, beta evaluator list naming, and configured body-parameter renames are repaired
+- browser-sensitive Node imports and the three job-aware pollers are restored
+- known duplicate declarations/properties and scratch artifacts are removed
+
+`src/restorePollerHelpers.ts` is removed before rename processing; `generated/restorePollerHelpers.ts` is the only valid generated helper.
+
+The hook does not classify public API changes, propagate arbitrary additions, approve non-additive model changes, or reconcile API reports. Those remain in the `apply-post-emitter-edits` skill.
+
+Merge guidelines for newly emitted code:
+
 - The following files should not be deleted or changed:
-    src\aiProjectClient.ts
-    src\constants.ts
-    src\getCustomFetch-browser.mts
-    src\getCustomFetch.ts
-    src\overwriteOpenAIClient.ts
-    src\util.ts
-    src\api\aiProjectContext.ts
-    src\api\telemetry\index.ts
-    src\api\telemetry\operations.ts
-    src\api\datasets\operations.ts
-    src\classic\telemetry\index.ts
-    src\classic\datasets\index.ts
-    src\classic\index.ts
-    src\static-helpers\**
-- IMPORTANT: If any change or deletion has occurred in the files listed above, the merge has failed, and all operations should be aborted.
+  src\aiProjectClient.ts
+  src\constants.ts
+  src\getCustomFetch-browser.mts
+  src\getCustomFetch.ts
+  src\overwriteOpenAIClient.ts
+  src\util.ts
+  src\api\aiProjectContext.ts
+  src\api\telemetry\index.ts
+  src\api\telemetry\operations.ts
+  src\api\datasets\operations.ts
+  src\classic\telemetry\index.ts
+  src\classic\datasets\index.ts
+  src\classic\index.ts
+  src\static-helpers\**
+- `PostEmitter.ps1` restores these paths from its base ref and verifies they match. If any remains changed afterward, stop the workflow.
 - In src\models\models.ts, please only accept added models. Unless otherwise instructed in the prompt, do not change or delete existing models in this file. NOTE: `dev-tool customization apply` does NOT automatically copy newly emitted models from `generated/models/models.ts` into `src/models/models.ts` — you must propagate any new model interfaces, unions, serializers, and deserializers manually.
 - In src\models\index.ts, please only accept added models. Unless otherwise instructed in the prompt, do not change or delete existing models in this file. Same manual-propagation note as above applies.
 - foundryFeatures must not be a positional parameter for any method, internal or external facing. Instead, instantiate it locally to a default value before sending it over the wire. foundryFeatures IS allowed as a property on `*Options` / `*OptionalParams` interfaces (the options bag); only positional parameters are forbidden. Any changes making foundryFeatures a method parameter should be reverted to the local-const pattern.

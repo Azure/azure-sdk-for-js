@@ -4,7 +4,13 @@
 > source is [`scripts/post-emitter-workarounds.md`](../../../../scripts/post-emitter-workarounds.md);
 > prefer it if it has been updated.
 
-Merge guidelines for newly emitted code from the `./incoming` directory:
+`npm run generate:client` runs the package-local `PostEmitter.ps1` after JavaScript customization. The hook owns bounded deterministic repairs; this reference and the canonical document define the postconditions that the skill audits.
+
+The hook resolves known diff3 conflicts, restores protected paths, propagates unambiguous generated model/binding and `delete<Model>` operation renames, repairs `api-version`, removes positional `foundryFeatures`, preserves beta evaluator list naming, applies configured body-parameter renames, converts browser-sensitive Node imports, restores the three job-aware pollers, and removes known duplicates and scratch artifacts. It removes `src/restorePollerHelpers.ts` before rename processing while preserving `generated/restorePollerHelpers.ts`.
+
+The hook does not classify public API changes, propagate arbitrary additions, approve non-additive model changes, or reconcile API reports.
+
+Merge guidelines for newly emitted code:
 
 - The following files **must not be deleted or changed** by the emitter merge:
 
@@ -25,7 +31,7 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
   src/static-helpers/**
   ```
 
-- **IMPORTANT**: If any change or deletion has occurred in the files listed above, the merge has failed and **all operations should be aborted**.
+- `PostEmitter.ps1` restores these paths from its base ref and verifies they match. If any remains changed afterward, stop the workflow.
 
 - In `src/models/models.ts`, only accept **added** models. Unless otherwise instructed, do not change or delete existing models in this file. **NOTE**: `dev-tool customization apply` does NOT automatically copy newly emitted models from `generated/models/models.ts` into `src/models/models.ts` — you must propagate any new model interfaces, unions, serializers, and deserializers manually.
 
@@ -37,16 +43,16 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
 
 - **Known customization-layer renames** (custom name on the right; if the spec-side name appears in `src/` after a regen, it's a propagation false positive — add a private alias instead of copying):
 
-  | Spec name | Custom name |
-  | --- | --- |
-  | `_FileSearchToolFiltersValue` | `_ComparisonFilterValue` |
-  | `_FileSearchToolFiltersFilter` | `_CompoundFilterFilter` |
-  | `_updateAgentSend` / `_createAgentSend` | `_updateSend` / `_createSend` |
+  | Spec name                                                             | Custom name                                                 |
+  | --------------------------------------------------------------------- | ----------------------------------------------------------- |
+  | `_FileSearchToolFiltersValue`                                         | `_ComparisonFilterValue`                                    |
+  | `_FileSearchToolFiltersFilter`                                        | `_CompoundFilterFilter`                                     |
+  | `_updateAgentSend` / `_createAgentSend`                               | `_updateSend` / `_createSend`                               |
   | `AgentsUpdateAgentOptionalParams` / `AgentsCreateAgentOptionalParams` | `AgentsUpdateOptionalParams` / `AgentsCreateOptionalParams` |
-  | `DeleteVersionOptionalParams` (et al. on toolboxes) | `BetaToolboxesDeleteVersionOptionalParams` (et al.) |
-  | `agentSessionId` (positional param on beta agents session ops) | `sessionId` |
-  | `name` (positional param on beta toolbox ops) | `toolboxName` |
-  | `listSessionFiles` (on `project.beta.agents`) | `getSessionFiles` |
+  | `DeleteVersionOptionalParams` (et al. on toolboxes)                   | `BetaToolboxesDeleteVersionOptionalParams` (et al.)         |
+  | `agentSessionId` (positional param on beta agents session ops)        | `sessionId`                                                 |
+  | `name` (positional param on beta toolbox ops)                         | `toolboxName`                                               |
+  | `listSessionFiles` (on `project.beta.agents`)                         | `getSessionFiles`                                           |
 
 - **Known duplicate-export hot spots** in `src/models/models.ts` after a regen — always sweep these and keep only the earlier definition:
 

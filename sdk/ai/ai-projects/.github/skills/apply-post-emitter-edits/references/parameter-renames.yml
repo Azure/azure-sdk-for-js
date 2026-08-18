@@ -1,13 +1,12 @@
 # Known positional-parameter rename pairs that the customization layer applies
 # to operation signatures but does NOT propagate into function bodies or helper
-# invocations. Step 5b of SKILL.md walks this list: for each entry, fix the
-# body of the named file so it uses `new` wherever the regenerated signature
-# was rewritten from `old`.
+# invocations. PostEmitter.ps1 reads this table and updates code tokens in a
+# function body only after confirming that its signature already uses `new`.
 #
-# Add a new entry whenever a regen surfaces a TS2304 `Cannot find name '<old>'`
-# error in one of the files below (or in a new file). Use word-boundary regex
-# replacements only — see the "never use a global string-replace" gotcha in
-# SKILL.md Step 5b.
+# Add a new entry whenever a regen surfaces a deterministic TS2304 `Cannot find
+# name '<old>'` mismatch in one of the files below (or in a new file), and add a
+# fixture to scripts/test-post-emitter.ps1. Unknown or ambiguous shapes must
+# continue to fail closed.
 #
 # Schema:
 #   - file: workspace-relative path under sdk/ai/ai-projects/
