@@ -198,6 +198,12 @@ export class BufferScheduler {
       });
 
       this.emitter.on("checkEnd", () => {
+        // Handlers still in flight when the error was raised keep emitting "checkEnd";
+        // without this the queued buffers would be uploaded after do() already rejected.
+        if (this.isError) {
+          return;
+        }
+
         if (this.outgoing.length > 0) {
           this.triggerOutgoingHandlers();
           return;
