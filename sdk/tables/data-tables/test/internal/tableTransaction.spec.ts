@@ -3,6 +3,7 @@
 
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { OperationRequestOptions } from "@azure/core-client";
 import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction.js";
 import { TableClient } from "../../src/TableClient.js";
 import { describe, it, assert } from "vitest";
@@ -77,7 +78,7 @@ describe("TableTransaction", () => {
             "x-current": "current",
             "x-shared": "current",
           },
-        },
+        } as OperationRequestOptions & { headers: Record<string, string> },
       });
       assert.isTrue(isProxy);
       assert.equal(legacyHeader, "legacy");

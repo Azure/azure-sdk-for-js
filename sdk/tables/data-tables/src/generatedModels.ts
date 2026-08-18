@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "./operationOptions.js";
+import type { OperationOptions } from "@azure/core-client";
 
 // Re-export types that exist in the new generated code
 export type { CorsRule, Logging, Metrics, RetentionPolicy } from "./generated/models/index.js";

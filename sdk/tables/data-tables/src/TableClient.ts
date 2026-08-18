@@ -25,7 +25,7 @@ import type {
   UpdateEntityResponse,
   UpsertEntityResponse,
 } from "./generatedModels.js";
-import type { OperationOptions } from "./operationOptions.js";
+import type { OperationOptions } from "@azure/core-client";
 import type { TablesContext } from "./generated/api/tablesContext.js";
 import type { TableOperations } from "./generated/classic/table/index.js";
 import { _getTableOperations } from "./generated/classic/table/index.js";
@@ -37,7 +37,7 @@ import {
   _insertEntityDeserialize,
   _createSend,
   _createDeserialize,
-  _$deleteSend,
+  _deleteTableSend,
   _mergeEntitySend,
   _mergeEntityDeserialize,
   _updateEntitySend,
@@ -299,7 +299,7 @@ export class TableClient {
    */
   public deleteTable(options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan("TableClient.deleteTable", options, async (updatedOptions) => {
-      const result = await _$deleteSend(
+      const result = await _deleteTableSend(
         this.context,
         this.tableName,
         toRestOperationOptions(updatedOptions),

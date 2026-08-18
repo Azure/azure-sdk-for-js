@@ -3,8 +3,10 @@
   "compilerOptions": {
     "paths": {
       "@azure/app-configuration": ["./dist/browser/index.d.ts"],
+      "@azure/app-configuration/package.json": ["./package.json"],
       "@azure/app-configuration/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "files": ["./package.json"]
 }

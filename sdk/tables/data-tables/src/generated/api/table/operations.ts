@@ -59,10 +59,11 @@ export function _setAccessPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -70,7 +71,7 @@ export function _setAccessPolicySend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/xml",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: signedIdentifiersXmlSerializer(tableAcl),
     });
@@ -156,17 +157,18 @@ export function _getAccessPolicySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/xml",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -262,10 +264,11 @@ export function _insertEntitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .post({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/json",
       headers: {
         dataserviceversion: "3.0",
@@ -275,7 +278,7 @@ export function _insertEntitySend(
           : {}),
         ...(options?.prefer !== undefined ? { prefer: options?.prefer } : {}),
         accept: "application/json;odata=minimalmetadata",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: !options?.tableEntityProperties
         ? options?.tableEntityProperties
@@ -285,7 +288,7 @@ export function _insertEntitySend(
 
 export async function _insertEntityDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any> | undefined> {
+): Promise<Record<string, any> | void> {
   const expectedStatuses = ["201", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -351,7 +354,7 @@ export async function insertEntity(
   context: Client,
   table: string,
   options: TableInsertEntityOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any> | undefined> {
+): Promise<Record<string, any> | void> {
   const result = await _insertEntitySend(context, table, options);
   const headers = _insertEntityDeserializeHeaders(result);
   const payload = await _insertEntityDeserialize(result);
@@ -378,10 +381,11 @@ export function _deleteEntitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .delete({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         dataserviceversion: "3.0",
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -390,7 +394,7 @@ export function _deleteEntitySend(
           : {}),
         "if-match": ifMatch,
         accept: "application/json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -480,10 +484,11 @@ export function _mergeEntitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .patch({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/json",
       headers: {
         dataserviceversion: "3.0",
@@ -493,7 +498,7 @@ export function _mergeEntitySend(
           : {}),
         accept: "application/json",
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: !options?.tableEntityProperties
         ? options?.tableEntityProperties
@@ -593,10 +598,11 @@ export function _updateEntitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/json",
       headers: {
         dataserviceversion: "3.0",
@@ -606,7 +612,7 @@ export function _updateEntitySend(
           : {}),
         accept: "application/json",
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: !options?.tableEntityProperties
         ? options?.tableEntityProperties
@@ -709,10 +715,11 @@ export function _queryEntityWithPartitionAndRowKeySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         dataserviceversion: "3.0",
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -720,7 +727,7 @@ export function _queryEntityWithPartitionAndRowKeySend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/json;odata=minimalmetadata",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -836,10 +843,11 @@ export function _queryEntitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         dataserviceversion: "3.0",
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -847,7 +855,7 @@ export function _queryEntitiesSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/json;odata=minimalmetadata",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -941,7 +949,7 @@ export async function queryEntities(
   return { ...payload, ...headers };
 }
 
-export function _$deleteSend(
+export function _deleteTableSend(
   context: Client,
   table: string,
   options: TableDeleteOptionalParams = { requestOptions: {} },
@@ -955,36 +963,40 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .delete({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteTableDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
       error.details = tablesErrorDeserializer(result.body);
     }
-    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._deleteTableDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
 }
 
-export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+export function _deleteTableDeserializeHeaders(result: PathUncheckedResponse): {
   apiVersion: string;
   requestId?: string;
   clientRequestId?: string;
@@ -1005,7 +1017,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _deleteTableDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
   contentType: "application/json";
 } {
@@ -1019,19 +1031,14 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
 }
 
 /** Deletes an existing table. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteTable(
   context: Client,
   table: string,
   options: TableDeleteOptionalParams = { requestOptions: {} },
 ): Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }> {
-  const result = await _$deleteSend(context, table, options);
-  const headers = _$deleteDeserializeHeaders(result);
-  await _$deleteDeserialize(result);
+  const result = await _deleteTableSend(context, table, options);
+  const headers = _deleteTableDeserializeHeaders(result);
+  await _deleteTableDeserialize(result);
   return { ...headers };
 }
 
@@ -1049,10 +1056,11 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .post({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/json",
       headers: {
         dataserviceversion: "3.0",
@@ -1062,7 +1070,7 @@ export function _createSend(
           : {}),
         ...(options?.prefer !== undefined ? { prefer: options?.prefer } : {}),
         accept: "application/json;odata=minimalmetadata",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: tablePropertiesSerializer(tableProperties),
     });
@@ -1070,7 +1078,7 @@ export function _createSend(
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<TableResponse | undefined> {
+): Promise<TableResponse | void> {
   const expectedStatuses = ["201", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1081,7 +1089,11 @@ export async function _createDeserialize(
     throw error;
   }
 
-  return result.body ? tableResponseDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return tableResponseDeserializer(result.body);
 }
 
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
@@ -1131,22 +1143,19 @@ export async function create(
   context: Client,
   tableProperties: TableProperties,
   options: TableCreateOptionalParams = { requestOptions: {} },
-): Promise<
-  | {
-      tableName?: string;
-      odataType?: string;
-      odataId?: string;
-      odataEditLink?: string;
-      odataMetadata?: string;
-      preferenceApplied?: string;
-      apiVersion: string;
-      requestId?: string;
-      clientRequestId?: string;
-      date: Date;
-      contentType: "application/json;odata=minimalmetadata";
-    }
-  | undefined
-> {
+): Promise<{
+  tableName?: string;
+  odataType?: string;
+  odataId?: string;
+  odataEditLink?: string;
+  odataMetadata?: string;
+  preferenceApplied?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+} | void> {
   const result = await _createSend(context, tableProperties, options);
   const headers = _createDeserializeHeaders(result);
   const payload = await _createDeserialize(result);
@@ -1170,10 +1179,11 @@ export function _querySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         dataserviceversion: "3.0",
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -1181,7 +1191,7 @@ export function _querySend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/json;odata=minimalmetadata",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }

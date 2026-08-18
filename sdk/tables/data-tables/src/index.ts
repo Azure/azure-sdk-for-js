@@ -3,7 +3,6 @@
 
 export * from "./generatedModels.js";
 export type * from "./models.js";
-export type * from "./operationOptions.js";
 export * from "./sas/index.js";
 
 export { TableServiceClient } from "./TableServiceClient.js";

@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   TelemetryItem,
   MonitorBase,
   MonitorDomain,
   MonitorDomainUnion,
-  KnownMonitorDomainKind,
   MonitorDomainKind,
   AvailabilityData,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
   StackFrame,
-  KnownSeverityLevel,
   SeverityLevel,
   MessageData,
   MetricsData,
   MetricDataPoint,
-  KnownDataPointType,
   DataPointType,
   PageViewData,
   PageViewPerfData,
@@ -27,6 +24,11 @@ export {
   TrackResponse,
   TelemetryErrorDetails,
   Versions,
-  KnownContextTagKeys,
   ContextTagKeys,
+} from "./models.js";
+export {
+  KnownMonitorDomainKind,
+  KnownSeverityLevel,
+  KnownDataPointType,
+  KnownContextTagKeys,
 } from "./models.js";

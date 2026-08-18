@@ -3,8 +3,10 @@
   "compilerOptions": {
     "paths": {
       "@azure/data-tables": ["../src/index.ts"],
+      "@azure/data-tables/package.json": ["../package.json"],
       "@azure/data-tables/*": ["../src/*"],
       "$internal/*": ["../src/*"]
     }
-  }
+  },
+  "files": ["../package.json"]
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 13.4.0 (Unreleased)
+## 13.3.3 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,9 @@
 
 ### Bugs Fixed
 
-### Other Changes
+- Restored support for `requestOptions.customHeaders` in TypeSpec-generated operations. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
 
-- Migrated public operation option types to `@azure-rest/core-client` while retaining support for deprecated `customHeaders`. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
+### Other Changes
 
 ## 13.3.2 (2025-11-14)
 

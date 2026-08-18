@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createApplicationInsights,
   ApplicationInsightsContext,
   ApplicationInsightsClientOptionalParams,
+  createApplicationInsights,
 } from "./api/index.js";
 import { track } from "./api/operations.js";
 import { TrackOptionalParams } from "./api/options.js";
@@ -12,7 +12,7 @@ import { TelemetryItem, TrackResponse } from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ApplicationInsightsClientOptionalParams } from "./api/applicationInsightsContext.js";
+export type { ApplicationInsightsClientOptionalParams } from "./api/applicationInsightsContext.js";
 
 export class ApplicationInsightsClient {
   private _client: ApplicationInsightsContext;
@@ -24,14 +24,7 @@ export class ApplicationInsightsClient {
     credential: any | TokenCredential,
     options: ApplicationInsightsClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createApplicationInsights(credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createApplicationInsights(credential, options);
     this.pipeline = this._client.pipeline;
   }
 

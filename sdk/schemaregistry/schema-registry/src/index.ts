@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export { SchemaRegistryClient } from "./schemaRegistryClient.js";
-export type * from "./operationOptions.js";
 export {
   type GetSchemaOptions,
   type GetSchemaPropertiesOptions,

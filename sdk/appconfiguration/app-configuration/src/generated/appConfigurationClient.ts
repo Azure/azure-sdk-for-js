@@ -78,14 +78,7 @@ export class AppConfigurationClient {
     credential: KeyCredential | TokenCredential,
     options: AppConfigurationClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAppConfiguration(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAppConfiguration(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
   }
 
@@ -194,7 +187,7 @@ export class AppConfigurationClient {
   deleteKeyValue(
     key: string,
     options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-  ): Promise<KeyValue | undefined> {
+  ): Promise<KeyValue | void> {
     return deleteKeyValue(this._client, key, options);
   }
 

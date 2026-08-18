@@ -342,7 +342,10 @@ export class AppConfigurationClient {
           },
         });
 
-        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        const response = transformKeyValueResponseWithStatusCode(
+          originalResponse ?? undefined,
+          status,
+        );
         assertResponse(response);
         return response;
       },

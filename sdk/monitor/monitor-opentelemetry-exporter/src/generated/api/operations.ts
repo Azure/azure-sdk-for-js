@@ -21,12 +21,13 @@ export function _trackSend(
   body: TelemetryItem[],
   options: TrackOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path("/track")
     .post({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      headers: { accept: "application/json", ...requestParameters.headers },
       body: telemetryItemArraySerializer(body),
     });
 }
@@ -37,15 +38,25 @@ export async function _trackDeserialize(result: PathUncheckedResponse): Promise<
     const error = createRestError(result);
     const statusCode = Number.parseInt(result.status);
     if (statusCode === 400) {
-      error.details = trackResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = trackResponseDeserializer(result.body);
+      }
     } else if (statusCode === 402) {
-      error.details = trackResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = trackResponseDeserializer(result.body);
+      }
     } else if (statusCode === 429) {
-      error.details = trackResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = trackResponseDeserializer(result.body);
+      }
     } else if (statusCode === 500) {
-      error.details = trackResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = trackResponseDeserializer(result.body);
+      }
     } else if (statusCode === 503) {
-      error.details = trackResponseDeserializer(result.body);
+      if (result.body) {
+        error.details = trackResponseDeserializer(result.body);
+      }
     }
     throw error;
   }

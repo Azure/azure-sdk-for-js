@@ -19,14 +19,7 @@ export class TablesClient {
     credential: TokenCredential,
     options: TablesClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createTables(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createTables(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.service = _getServiceOperations(this._client);
     this.table = _getTableOperations(this._client);

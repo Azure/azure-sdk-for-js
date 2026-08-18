@@ -4,7 +4,7 @@
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
 import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
-import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
@@ -33,16 +33,6 @@ export class HttpSender extends BaseSender {
     aadAudience?: string;
     isStatsbeatSender?: boolean;
   }) {
-    if (options.exporterOptions.baseUri !== undefined) {
-      throw new Error(
-        "baseUri is not supported by the TypeSpec-generated Azure Monitor exporter client. Use endpoint instead.",
-      );
-    }
-    if (options.exporterOptions.requestContentType !== undefined) {
-      throw new Error(
-        "requestContentType is not supported by the TypeSpec-generated Azure Monitor exporter client.",
-      );
-    }
     super(options);
     // Build endpoint using provided configuration or default values
     this.appInsightsClientOptions = {
@@ -53,14 +43,6 @@ export class HttpSender extends BaseSender {
     if (this.appInsightsClientOptions.credential) {
       const scopes = options.aadAudience ? [options.aadAudience] : [applicationInsightsResource];
       this.appInsightsClientOptions.credentials = { scopes };
-    } else if (
-      !this.appInsightsClientOptions.credentials?.scopes &&
-      this.appInsightsClientOptions.credentialScopes
-    ) {
-      const legacy = this.appInsightsClientOptions.credentialScopes;
-      this.appInsightsClientOptions.credentials = {
-        scopes: Array.isArray(legacy) ? legacy : [legacy],
-      };
     }
 
     const { credential, ...clientOptions } = this.appInsightsClientOptions;
@@ -72,21 +54,10 @@ export class HttpSender extends BaseSender {
   private createClient(
     clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
   ): ApplicationInsightsClient {
-    const userPipeline: Pipeline | undefined = clientOptions.pipeline;
-
     const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
 
     // Expose host for tests and redirect handling
     (client as any).host = clientOptions.host;
-
-    // If user provided a pre-built pipeline, copy its policies onto the generated client's pipeline
-    if (userPipeline) {
-      for (const policy of userPipeline.getOrderedPolicies()) {
-        if (!client.pipeline.getOrderedPolicies().some((p) => p.name === policy.name)) {
-          client.pipeline.addPolicy(policy);
-        }
-      }
-    }
 
     // Handle redirects in HTTP Sender
     if (!this.appInsightsClientOptions.credential) {

@@ -27,7 +27,7 @@ describe("operationOptionsToRequestParameters", () => {
     assert.deepEqual(result.headers, { "x-custom": "value" });
   });
 
-  it("maps customHeaders to headers and prefers canonical headers", () => {
+  it("maps package-local customHeaders to headers and prefers canonical headers", () => {
     const options: Omit<OperationOptions, "requestOptions"> & {
       requestOptions: OperationRequestOptions & {
         customHeaders: Record<string, string>;
@@ -36,14 +36,15 @@ describe("operationOptionsToRequestParameters", () => {
       requestOptions: {
         customHeaders: {
           "x-legacy": "legacy",
-          "x-shared": "legacy",
+          "X-Shared": "legacy",
         },
         headers: {
-          "x-current": "current",
+          "X-Current": "current",
           "x-shared": "current",
         },
       },
     };
+
     const result = operationOptionsToRequestParameters(options);
 
     assert.deepEqual(result.headers, {

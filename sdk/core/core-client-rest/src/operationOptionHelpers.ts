@@ -24,10 +24,22 @@ export function operationOptionsToRequestParameters(options: OperationOptions): 
   ) as RequestParameters;
   return {
     ...tspRequestParameters,
-    headers: {
-      ...compatibilityOptions.requestOptions?.customHeaders,
-      ...tspRequestParameters.headers,
-    },
+    headers: mergeHeaders(
+      compatibilityOptions.requestOptions?.customHeaders,
+      tspRequestParameters.headers,
+    ),
     tracingOptions: options.tracingOptions,
   };
+}
+
+function mergeHeaders(
+  ...headerSets: Array<RequestParameters["headers"]>
+): NonNullable<RequestParameters["headers"]> {
+  const headers = new Map<string, string | number | boolean>();
+  for (const headerSet of headerSets) {
+    for (const [name, value] of Object.entries(headerSet ?? {})) {
+      headers.set(name.toLowerCase(), value);
+    }
+  }
+  return Object.fromEntries(headers);
 }

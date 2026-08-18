@@ -1,0 +1,24 @@
+{
+  "apiVersions": {
+    "SchemaRegistry": "2023-07-01"
+  },
+  "emitterVersion": "0.56.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "SchemaRegistry",
+    "CrossLanguageDefinitionId": {
+      "@azure/schema-registry!SchemaGroups:interface": "SchemaRegistry.SchemaGroups",
+      "@azure/schema-registry!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/schema-registry!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/schema-registry!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/schema-registry!SchemaVersions:interface": "SchemaRegistry.SchemaVersions",
+      "@azure/schema-registry!KnownSchemaContentTypeValues:enum": "SchemaRegistry.SchemaContentTypeValues",
+      "@azure/schema-registry!KnownServiceVersion:enum": "SchemaRegistry.ServiceVersion",
+      "@azure/schema-registry!SchemaRegistryClient#registerSchema:member(1)": "SchemaRegistry.registerSchema",
+      "@azure/schema-registry!SchemaRegistryClient#getSchemaPropertiesByContent:member(1)": "SchemaRegistry.getSchemaPropertiesByContent",
+      "@azure/schema-registry!SchemaRegistryClient#getSchemaByVersion:member(1)": "SchemaRegistry.getSchemaByVersion",
+      "@azure/schema-registry!SchemaRegistryClient#getSchemaById:member(1)": "SchemaRegistry.getSchemaById",
+      "@azure/schema-registry!SchemaRegistryClient#listSchemaVersions:member(1)": "SchemaRegistry.listSchemaVersions",
+      "@azure/schema-registry!SchemaRegistryClient#listSchemaGroups:member(1)": "SchemaRegistry.listSchemaGroups"
+    }
+  }
+}

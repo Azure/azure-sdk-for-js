@@ -11,8 +11,9 @@ import type {
   UpdateTableEntityOptions,
 } from "./models.js";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import type { OperationOptions } from "./operationOptions.js";
+import type { OperationOptions } from "@azure/core-client";
 import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
+import { operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type {
   HttpClient,
   Pipeline,
@@ -35,8 +36,8 @@ import type { TableClientLike, TableServiceErrorOdataError } from "./utils/inter
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
-import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 import { tracingClient } from "./utils/tracing.js";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 
 /**
  * Helper to build a list of transaction actions
@@ -294,17 +295,20 @@ export class InternalTableTransaction {
       "TableTransaction.submitTransaction",
       options,
       async (updatedOptions) => {
-        const requestHeaders = toRestOperationOptions(updatedOptions).requestOptions?.headers;
+        const requestParameters = operationOptionsToRequestParameters(
+          toRestOperationOptions(updatedOptions),
+        );
         const request = createPipelineRequest({
-          ...updatedOptions,
+          ...requestParameters,
           url: this.url,
           method: "POST",
           body,
           headers: createHttpHeaders({
             ...headers,
-            ...requestHeaders,
+            ...requestParameters.headers,
           }),
-          allowInsecureConnection: this.allowInsecureConnection,
+          allowInsecureConnection:
+            requestParameters.allowInsecureConnection ?? this.allowInsecureConnection,
         });
 
         const rawTransactionResponse = await this.client.sendRequest(request);

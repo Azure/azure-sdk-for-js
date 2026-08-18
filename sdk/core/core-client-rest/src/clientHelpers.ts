@@ -41,15 +41,9 @@ export function addCredentialPipelinePolicy(
   }
 
   if (isTokenCredential(credential)) {
-    const compatibilityOptions = clientOptions as
-      (ClientOptions & { credentialScopes?: string | string[] }) | undefined;
-    const credentialScopes =
-      clientOptions?.credentials?.scopes ??
-      normalizeCredentialScopes(compatibilityOptions?.credentialScopes) ??
-      `${endpoint}/.default`;
     const tokenPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: credentialScopes,
+      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
     });
     pipeline.addPolicy(tokenPolicy);
   } else if (isKeyCredential(credential)) {
@@ -78,10 +72,6 @@ export function createDefaultPipeline(
 
   addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
   return pipeline;
-}
-
-function normalizeCredentialScopes(scopes?: string | string[]): string[] | undefined {
-  return typeof scopes === "string" ? [scopes] : scopes;
 }
 
 function isKeyCredential(credential: unknown): credential is KeyCredential {

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Data.Tables": "2019-02-02"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Data.Tables",
     "CrossLanguageDefinitionId": {

@@ -88,10 +88,11 @@ export function _checkRevisionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -100,7 +101,7 @@ export function _checkRevisionsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -154,10 +155,11 @@ export function _getRevisionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -167,7 +169,7 @@ export function _getRevisionsSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -222,10 +224,11 @@ export function _deleteLockSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .delete({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
@@ -234,7 +237,7 @@ export function _deleteLockSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -279,10 +282,11 @@ export function _putLockSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
@@ -291,7 +295,7 @@ export function _putLockSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -340,10 +344,11 @@ export function _checkLabelsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -352,7 +357,7 @@ export function _checkLabelsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -400,10 +405,11 @@ export function _getLabelsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -413,7 +419,7 @@ export function _getLabelsSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.labelset+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -467,10 +473,11 @@ export function _checkSnapshotSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
@@ -478,7 +485,7 @@ export function _checkSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -524,10 +531,11 @@ export function _updateSnapshotSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .patch({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: contentType,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
@@ -537,7 +545,7 @@ export function _updateSnapshotSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: snapshotUpdateParametersSerializer(entity),
     });
@@ -588,15 +596,16 @@ export function _createSnapshotSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: contentType,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: configurationSnapshotSerializer(entity),
     });
@@ -650,16 +659,17 @@ export function _getOperationDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -710,10 +720,11 @@ export function _getSnapshotSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
@@ -722,7 +733,7 @@ export function _getSnapshotSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -767,16 +778,17 @@ export function _checkSnapshotsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -829,14 +841,15 @@ export function _getSnapshotsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         accept: "application/vnd.microsoft.appconfig.snapshotset+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -901,10 +914,11 @@ export function _checkKeyValueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -915,7 +929,7 @@ export function _checkKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -960,10 +974,11 @@ export function _deleteKeyValueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .delete({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
@@ -971,14 +986,14 @@ export function _deleteKeyValueSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
 
 export async function _deleteKeyValueDeserialize(
   result: PathUncheckedResponse,
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -989,7 +1004,11 @@ export async function _deleteKeyValueDeserialize(
     throw error;
   }
 
-  return result.body ? keyValueDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return keyValueDeserializer(result.body);
 }
 
 /** Deletes a key-value. */
@@ -997,7 +1016,7 @@ export async function deleteKeyValue(
   context: Client,
   key: string,
   options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const result = await _deleteKeyValueSend(context, key, options);
   return _deleteKeyValueDeserialize(result);
 }
@@ -1025,10 +1044,11 @@ export function _putKeyValueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: contentType,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
@@ -1038,7 +1058,7 @@ export function _putKeyValueSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: !options?.entity ? options?.entity : keyValueSerializer(options?.entity),
     });
@@ -1101,10 +1121,11 @@ export function _getKeyValueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -1116,7 +1137,7 @@ export function _getKeyValueSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -1172,10 +1193,11 @@ export function _checkKeyValuesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -1186,7 +1208,7 @@ export function _checkKeyValuesSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -1241,10 +1263,11 @@ export function _getKeyValuesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -1253,7 +1276,7 @@ export function _getKeyValuesSend(
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
         accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -1307,10 +1330,11 @@ export function _checkKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .head({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
@@ -1319,7 +1343,7 @@ export function _checkKeysSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -1362,17 +1386,18 @@ export function _getKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
         ...(options?.acceptDatetime !== undefined
           ? { "accept-datetime": options?.acceptDatetime }
           : {}),
         accept: "application/vnd.microsoft.appconfig.keyset+json, application/problem+json",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }

@@ -27,14 +27,10 @@ export const AI_OPERATION_NAME = "ai.operation.name";
 
 // @public
 export interface ApplicationInsightsClientOptionalParams extends ClientOptions {
-    // @deprecated
-    baseUri?: string;
-    // @deprecated
+    // @deprecated (undocumented)
     credentialScopes?: string | string[];
     endpoint?: string;
     host?: string;
-    // @deprecated
-    requestContentType?: string;
 }
 
 // @public

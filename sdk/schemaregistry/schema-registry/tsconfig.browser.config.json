@@ -3,8 +3,10 @@
   "compilerOptions": {
     "paths": {
       "@azure/schema-registry": ["./dist/browser/index.d.ts"],
+      "@azure/schema-registry/package.json": ["./package.json"],
       "@azure/schema-registry/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "files": ["./package.json"]
 }

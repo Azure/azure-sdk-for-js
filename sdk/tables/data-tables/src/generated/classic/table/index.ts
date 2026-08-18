@@ -11,7 +11,7 @@ import {
   updateEntity,
   queryEntityWithPartitionAndRowKey,
   queryEntities,
-  $delete,
+  deleteTable,
   create,
   query,
 } from "../../api/table/operations.js";
@@ -61,7 +61,7 @@ export interface TableOperations {
   insertEntity: (
     table: string,
     options?: TableInsertEntityOptionalParams,
-  ) => Promise<Record<string, any> | undefined>;
+  ) => Promise<Record<string, any> | void>;
   /** Deletes the specified entity in a table. */
   deleteEntity: (
     table: string,
@@ -119,12 +119,7 @@ export interface TableOperations {
     contentType: "application/json;odata=minimalmetadata";
   }>;
   /** Deletes an existing table. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteTable: (
     table: string,
     options?: TableDeleteOptionalParams,
   ) => Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }>;
@@ -132,22 +127,19 @@ export interface TableOperations {
   create: (
     tableProperties: TableProperties,
     options?: TableCreateOptionalParams,
-  ) => Promise<
-    | {
-        tableName?: string;
-        odataType?: string;
-        odataId?: string;
-        odataEditLink?: string;
-        odataMetadata?: string;
-        preferenceApplied?: string;
-        apiVersion: string;
-        requestId?: string;
-        clientRequestId?: string;
-        date: Date;
-        contentType: "application/json;odata=minimalmetadata";
-      }
-    | undefined
-  >;
+  ) => Promise<{
+    tableName?: string;
+    odataType?: string;
+    odataId?: string;
+    odataEditLink?: string;
+    odataMetadata?: string;
+    preferenceApplied?: string;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/json;odata=minimalmetadata";
+  } | void>;
   /** Queries tables under the given account. */
   query: (options?: TableQueryOptionalParams) => PagedAsyncIterableIterator<TableProperties>;
 }
@@ -190,8 +182,8 @@ function _getTable(context: TablesContext) {
     ) => queryEntityWithPartitionAndRowKey(context, table, partitionKey, rowKey, options),
     queryEntities: (table: string, options?: TableQueryEntitiesOptionalParams) =>
       queryEntities(context, table, options),
-    delete: (table: string, options?: TableDeleteOptionalParams) =>
-      $delete(context, table, options),
+    deleteTable: (table: string, options?: TableDeleteOptionalParams) =>
+      deleteTable(context, table, options),
     create: (tableProperties: TableProperties, options?: TableCreateOptionalParams) =>
       create(context, tableProperties, options),
     query: (options?: TableQueryOptionalParams) => query(context, options),

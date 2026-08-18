@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/app-configuration/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -18,6 +19,8 @@ export interface AppConfigurationClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
+  /** @deprecated Use `credentials.scopes` instead. */
+  credentialScopes?: string | string[];
 }
 
 /** Azure App Configuration REST API */
@@ -28,16 +31,22 @@ export function createAppConfiguration(
 ): AppConfigurationContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-app-configuration/1.12.2`;
+  const userAgentInfo = `azsdk-js-app-configuration/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://azconfig.io/.default"],
+      scopes: options.credentials?.scopes ??
+        (typeof options.credentialScopes === "string"
+          ? [options.credentialScopes]
+          : options.credentialScopes) ?? ["https://azconfig.io/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Connection String",
     },
   };

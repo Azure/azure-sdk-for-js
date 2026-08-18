@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.4.0",
+  "version": "13.3.3",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -97,6 +97,10 @@
   },
   "//metadata": {
     "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
       {
         "path": "src/utils/tracing.ts",
         "prefix": "packageVersion"

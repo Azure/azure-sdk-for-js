@@ -4,10 +4,9 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure-rest/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions as OperationOptions_2 } from '@azure-rest/core-client';
-import type { OperationRequestOptions as OperationRequestOptions_2 } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure/core-client';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -26,17 +25,6 @@ export enum KnownSchemaFormats {
     Avro = "Avro",
     Custom = "Custom",
     Json = "Json"
-}
-
-// @public
-export interface OperationOptions extends Omit<OperationOptions_2, "requestOptions"> {
-    requestOptions?: OperationRequestOptions;
-}
-
-// @public
-export interface OperationRequestOptions extends OperationRequestOptions_2 {
-    // @deprecated
-    customHeaders?: Record<string, string>;
 }
 
 // @public

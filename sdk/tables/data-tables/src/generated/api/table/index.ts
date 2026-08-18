@@ -10,7 +10,7 @@ export {
   updateEntity,
   queryEntityWithPartitionAndRowKey,
   queryEntities,
-  $delete,
+  deleteTable,
   create,
   query,
 } from "./operations.js";

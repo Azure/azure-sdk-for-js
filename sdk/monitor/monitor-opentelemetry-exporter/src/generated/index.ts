@@ -2,24 +2,21 @@
 // Licensed under the MIT License.
 
 export { ApplicationInsightsClient } from "./applicationInsightsClient.js";
-export {
+export type {
   TelemetryItem,
   MonitorBase,
   MonitorDomain,
   MonitorDomainUnion,
-  KnownMonitorDomainKind,
   MonitorDomainKind,
   AvailabilityData,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
   StackFrame,
-  KnownSeverityLevel,
   SeverityLevel,
   MessageData,
   MetricsData,
   MetricDataPoint,
-  KnownDataPointType,
   DataPointType,
   PageViewData,
   PageViewPerfData,
@@ -28,7 +25,13 @@ export {
   TrackResponse,
   TelemetryErrorDetails,
   Versions,
-  KnownContextTagKeys,
   ContextTagKeys,
 } from "./models/index.js";
-export { ApplicationInsightsClientOptionalParams, TrackOptionalParams } from "./api/index.js";
+export {
+  KnownMonitorDomainKind,
+  KnownSeverityLevel,
+  KnownDataPointType,
+  KnownContextTagKeys,
+} from "./models/index.js";
+export type { ApplicationInsightsClientOptionalParams, TrackOptionalParams } from "./api/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

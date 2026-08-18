@@ -1,15 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import SchemaRegistryClient from "./schemaRegistryClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./schemaRegistryClient.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export * from "./models.js";
-export * from "./outputModels.js";
-export * from "./paginateHelper.js";
-
-export default SchemaRegistryClient;
+export { SchemaRegistryClient } from "./schemaRegistryClient.js";
+export type {
+  SchemaContentTypeValues,
+  GetSchemaByVersionResponse,
+  GetSchemaByIdResponse,
+} from "./models/index.js";
+export { KnownServiceVersion } from "./models/index.js";
+export type {
+  RegisterSchemaOptionalParams,
+  GetSchemaPropertiesByContentOptionalParams,
+  GetSchemaByVersionOptionalParams,
+  GetSchemaByIdOptionalParams,
+  ListSchemaVersionsOptionalParams,
+  ListSchemaGroupsOptionalParams,
+  SchemaRegistryClientOptionalParams,
+} from "./api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

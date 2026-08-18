@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Restored support for nested operation request options, including deprecated `customHeaders`, after the TypeSpec migration. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
+- Restored support for nested request options, including `customHeaders`, in the handwritten REST operation layer. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
 
 ### Other Changes
 

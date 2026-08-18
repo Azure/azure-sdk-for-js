@@ -8,7 +8,7 @@ import type {
   SetPropertiesOptions,
   SetPropertiesResponse,
 } from "./generatedModels.js";
-import type { OperationOptions } from "./operationOptions.js";
+import type { OperationOptions } from "@azure/core-client";
 import type {
   ListTableItemsOptions,
   TableItem,
@@ -25,7 +25,7 @@ import {
   _querySend,
   _queryDeserialize,
   _createSend,
-  _$deleteSend,
+  _deleteTableSend,
 } from "./generated/api/table/operations.js";
 import { getClient, createRestError } from "@azure-rest/core-client";
 import {
@@ -300,7 +300,7 @@ export class TableServiceClient {
       "TableServiceClient.deleteTable",
       options,
       async (updatedOptions) => {
-        const result = await _$deleteSend(
+        const result = await _deleteTableSend(
           this.context,
           name,
           toRestOperationOptions(updatedOptions),

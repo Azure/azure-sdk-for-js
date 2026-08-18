@@ -40,17 +40,18 @@ export function _getStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/xml",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -143,17 +144,18 @@ export function _getPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .get({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/xml",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
     });
 }
@@ -246,10 +248,11 @@ export function _setPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
+  const requestParameters = operationOptionsToRequestParameters(options);
   return context
     .path(path)
     .put({
-      ...operationOptionsToRequestParameters(options),
+      ...requestParameters,
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.apiVersion ?? "2019-02-02",
@@ -257,7 +260,7 @@ export function _setPropertiesSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         accept: "application/xml",
-        ...options.requestOptions?.headers,
+        ...requestParameters.headers,
       },
       body: tableServicePropertiesXmlSerializer(tableServiceProperties),
     });

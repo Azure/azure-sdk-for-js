@@ -23,7 +23,7 @@ import type {
 } from "../index.js";
 import type { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { NamedKeyCredential } from "@azure/core-auth";
-import type { OperationOptions } from "../operationOptions.js";
+import type { OperationOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**

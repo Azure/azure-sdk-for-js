@@ -15,7 +15,7 @@ import nock from "nock";
 import type { HttpClient, PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, RestError } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
-import { describe, it, assert, afterAll, beforeEach, afterEach, expect, vi } from "vitest";
+import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
@@ -754,29 +754,8 @@ describe("HttpSender", () => {
     });
   });
 
-  describe("#client option compatibility", () => {
-    it("rejects unsupported legacy client options", () => {
-      expect(
-        () =>
-          new HttpSender({
-            endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-            instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-            trackStatsbeat: false,
-            exporterOptions: { baseUri: "https://legacy.example" },
-          }),
-      ).toThrow("baseUri is not supported");
-      expect(
-        () =>
-          new HttpSender({
-            endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-            instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
-            trackStatsbeat: false,
-            exporterOptions: { requestContentType: "application/json" },
-          }),
-      ).toThrow("requestContentType is not supported");
-    });
-
-    it("should map legacy credentialScopes (string[]) to credentials.scopes", () => {
+  describe("#generated client option compatibility", () => {
+    it("should pass legacy credentialScopes (string[]) to the generated client", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
         instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -785,12 +764,12 @@ describe("HttpSender", () => {
           credentialScopes: ["https://custom.scope/.default"],
         },
       });
-      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
-        scopes: ["https://custom.scope/.default"],
-      });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentialScopes, [
+        "https://custom.scope/.default",
+      ]);
     });
 
-    it("should map legacy credentialScopes (string) to credentials.scopes", () => {
+    it("should pass legacy credentialScopes (string) to the generated client", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
         instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -799,12 +778,13 @@ describe("HttpSender", () => {
           credentialScopes: "https://custom.scope/.default",
         },
       });
-      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
-        scopes: ["https://custom.scope/.default"],
-      });
+      assert.strictEqual(
+        sender["appInsightsClientOptions"].credentialScopes,
+        "https://custom.scope/.default",
+      );
     });
 
-    it("should prefer credentials.scopes over legacy credentialScopes", () => {
+    it("should pass canonical and legacy scopes to the generated client for precedence handling", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
         instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -817,6 +797,9 @@ describe("HttpSender", () => {
       assert.deepStrictEqual(sender["appInsightsClientOptions"].credentials, {
         scopes: ["https://new.scope/.default"],
       });
+      assert.deepStrictEqual(sender["appInsightsClientOptions"].credentialScopes, [
+        "https://old.scope/.default",
+      ]);
     });
 
     it("should adopt policies from a user-provided pipeline", () => {
@@ -836,6 +819,7 @@ describe("HttpSender", () => {
         },
       });
 
+      assert.strictEqual(sender["appInsightsClient"].pipeline, customPipeline);
       const clientPolicies = sender["appInsightsClient"].pipeline.getOrderedPolicies();
       assert.isDefined(
         clientPolicies.find((p: PipelinePolicy) => p.name === "myCustomPolicy"),
