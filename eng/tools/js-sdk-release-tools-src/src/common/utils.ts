@@ -13,6 +13,7 @@ import { dump, load as yamlLoad } from "js-yaml";
 import { NpmViewParameters, tryCreateLastestStableNpmViewFromGithub } from "./npmUtils.js";
 import { exists } from "fs-extra";
 import { getModularSDKType } from "../utils/generateInputUtils.js";
+import { POST_EMITTER_SCRIPT_NAME } from "./postEmitter.js";
 
 // ./eng/common/scripts/TypeSpec-Project-Process.ps1 script forces to use emitter '@azure-tools/typespec-ts',
 // so do NOT change the emitter
@@ -498,6 +499,17 @@ export async function cleanUpDirectory(
   }
 }
 
+export function hasPostEmitter(packageDirectory: string): boolean {
+  return fs.existsSync(path.join(packageDirectory, POST_EMITTER_SCRIPT_NAME));
+}
+
+export function hasCustomizationLayout(packageDirectory: string): boolean {
+  return (
+    fs.existsSync(path.join(packageDirectory, "generated")) &&
+    fs.existsSync(path.join(packageDirectory, "src"))
+  );
+}
+
 /**
  * Cleans up a package directory based on the run mode
  * @param packageDirectory - Package directory to clean up
@@ -517,6 +529,18 @@ export async function cleanUpPackageDirectory(
   const modularSDKType = getModularSDKType(packageDirectory);
   const sdkType = getSDKType(packageDirectory);
   const pipelineRunMode = runMode !== RunMode.SpecPullRequest && runMode !== RunMode.Batch;
+  const entriesToPreserve = hasPostEmitter(packageDirectory) ? [POST_EMITTER_SCRIPT_NAME] : [];
+
+  if (
+    !pipelineRunMode &&
+    hasPostEmitter(packageDirectory) &&
+    hasCustomizationLayout(packageDirectory)
+  ) {
+    logger.info(
+      `Skipping destructive cleanup for customized package in ${runMode} mode: ${packageDirectory}`,
+    );
+    return;
+  }
 
   if (sdkType === SDKType.RestLevelClient || modularSDKType === ModularSDKType.DataPlane) {
     // For RestLevelClient or Data Plane packages
@@ -532,7 +556,7 @@ export async function cleanUpPackageDirectory(
       logger.info(
         `[${packageType}] Performing full cleanup in ${runMode} mode for: ${packageDirectory}`,
       );
-      await cleanUpDirectory(packageDirectory, []);
+      await cleanUpDirectory(packageDirectory, entriesToPreserve);
     }
   } else {
     // For management plane packages
@@ -552,14 +576,14 @@ export async function cleanUpPackageDirectory(
         logger.info(
           `[HighLevelClient] Cleaning up in ${runMode} mode, preserving test and assets.json for: ${packageDirectory}`,
         );
-        await cleanUpDirectory(packageDirectory, ["test", "assets.json"]);
+        await cleanUpDirectory(packageDirectory, ["test", "assets.json", ...entriesToPreserve]);
         return;
       } else {
         // In SpecPullRequest/Batch modes, clean up everything
         logger.info(
           `[HighLevelClient] Performing full cleanup in ${runMode} mode for: ${packageDirectory}`,
         );
-        await cleanUpDirectory(packageDirectory, []);
+        await cleanUpDirectory(packageDirectory, entriesToPreserve);
         return;
       }
     }

@@ -28,6 +28,7 @@ import { formatSdk, updateSnippets, lintFix, customizeCodes } from "../../common
 import { ensurePnpmInstalled } from "../../common/rushUtils.js";
 import { RunMode } from "../../common/types.js";
 import { exists } from "fs-extra";
+import { preparePackageForBuild } from "../../common/postEmitter.js";
 
 export async function generateRLCInPipeline(options: {
   sdkRepo: string;
@@ -293,7 +294,13 @@ export async function generateRLCInPipeline(options: {
     logger.info(`Start to update.`);
     execSync("pnpm install", { stdio: "inherit" });
 
-    await customizeCodes(packagePath);
+    if (!options.skipGeneration) {
+      await preparePackageForBuild(packagePath, options.sdkRepo, options.runMode, () =>
+        customizeCodes(packagePath),
+      );
+    } else {
+      await customizeCodes(packagePath);
+    }
 
     if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
       await lintFix(packagePath);

@@ -23,6 +23,7 @@ import { lintFix, updateSnippets } from "../common/devToolUtils.js";
 import { ensurePnpmInstalled } from "../common/rushUtils.js";
 import { ChangelogResult } from "../changelog/v2/ChangelogGenerator.js";
 import { RunMode } from "../common/types.js";
+import { preparePackageForBuild } from "../common/postEmitter.js";
 
 export async function generateMgmt(options: {
   sdkRepo: string;
@@ -145,6 +146,13 @@ export async function generateMgmt(options: {
       await ensurePnpmInstalled();
       logger.info(`Start to run command: 'pnpm install'.`);
       execSync("pnpm install", { stdio: "inherit" });
+      if (!options.skipGeneration) {
+        await preparePackageForBuild(
+          packagePath,
+          options.sdkRepo,
+          options.runMode ?? "unspecified",
+        );
+      }
 
       if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
         await lintFix(packagePath);
