@@ -144,3 +144,5 @@ https://www.npmjs.com/package/@azure/arm-compute-bulkactions
 https://learn.microsoft.com/javascript/api/@azure/arm-containerserviceaimanager?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-containerserviceaimanager
 https://aka.ms/aks/concurrent-node-operations
+https://learn.microsoft.com/javascript/api/@azure/iot-device-registry-software-update?view=azure-node-preview
+https://www.npmjs.com/package/@azure/iot-device-registry-software-update
