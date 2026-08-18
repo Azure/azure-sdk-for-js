@@ -37,7 +37,6 @@ export class BatchManagementClient {
     subscriptionId: string,
     options?: BatchManagementClientOptionalParams,
   );
-  /** The Batch Management Client. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | BatchManagementClientOptionalParams,
@@ -52,14 +51,7 @@ export class BatchManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createBatchManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createBatchManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.location = _getLocationOperations(this._client);
     this.networkSecurityPerimeter = _getNetworkSecurityPerimeterOperations(this._client);

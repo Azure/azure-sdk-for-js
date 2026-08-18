@@ -1,14 +1,8 @@
 # Release History
 
-## 11.0.1 (Unreleased)
+## 11.0.1 (2026-08-18)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 11.0.0 (2026-03-20)
 

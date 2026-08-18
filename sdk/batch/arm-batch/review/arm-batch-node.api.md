@@ -7,17 +7,18 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -27,7 +28,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -721,6 +721,8 @@ export interface IPTag {
     tag?: string;
 }
 
+export { isRestError }
+
 // @public
 export type IssueType = string;
 
@@ -929,14 +931,10 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -1276,7 +1274,6 @@ export type PrivateLinkServiceConnectionStatus = "Approved" | "Pending" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -1341,7 +1338,6 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
@@ -1365,6 +1361,8 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 // @public
 export type ResourceType = "Microsoft.Batch/batchAccounts";
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BatchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
