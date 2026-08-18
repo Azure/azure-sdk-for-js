@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDelete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDelete_MaximumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeleteExample() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function virtualMachineBulkOperationsBulkDeleteExample() {
  * This sample demonstrates how to bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary bulkDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2026-07-06-preview/VirtualMachineBulkOperations_BulkDelete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/VirtualMachineBulkOperations_BulkDelete_MinimumSet_Gen.json
  */
 async function virtualMachineBulkOperationsBulkDeleteGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

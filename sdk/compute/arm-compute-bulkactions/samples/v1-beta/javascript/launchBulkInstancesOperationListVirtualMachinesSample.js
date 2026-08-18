@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list VirtualMachine resources of a LaunchBulkInstancesOperation.
  *
  * @summary list VirtualMachine resources of a LaunchBulkInstancesOperation.
- * x-ms-original-file: 2026-07-06-preview/LaunchBulkInstancesOperation_ListVirtualMachines_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/LaunchBulkInstancesOperation_ListVirtualMachines_MaximumSet_Gen.json
  */
 async function launchBulkInstancesOperationListVirtualMachinesExample() {
   const credential = new DefaultAzureCredential();

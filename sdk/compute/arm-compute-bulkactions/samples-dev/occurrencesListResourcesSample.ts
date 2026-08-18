@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list resources attached to Scheduled Actions for the given occurrence
  *
  * @summary list resources attached to Scheduled Actions for the given occurrence
- * x-ms-original-file: 2026-07-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/Occurrences_ListResources_MaximumSet_Gen.json
  */
 async function occurrencesListResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-07-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-06-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,6 +51,7 @@ export async function _getDeserialize(
 
   return operationStatusResultDeserializer(result.body);
 }
+
 /** Get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint. */
 export async function get(
   context: Client,

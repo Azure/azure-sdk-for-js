@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to detach resources from the scheduled action so they are excluded from future occurrences.
  *
  * @summary detach resources from the scheduled action so they are excluded from future occurrences.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_DetachResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_DetachResources_MaximumSet_Gen.json
  */
 async function scheduledActionsDetachResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

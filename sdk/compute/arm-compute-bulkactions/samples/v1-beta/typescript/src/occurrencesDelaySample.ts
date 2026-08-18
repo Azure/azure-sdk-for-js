@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delay the occurrence to a later time.
  *
  * @summary delay the occurrence to a later time.
- * x-ms-original-file: 2026-07-06-preview/Occurrences_Delay_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/Occurrences_Delay_MaximumSet_Gen.json
  */
 async function occurrencesDelayMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
