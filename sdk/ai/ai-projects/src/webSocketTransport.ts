@@ -32,7 +32,9 @@ export class NodeWebSocketTransport implements VoiceAgentWebSocketTransport {
         headers: options.headers,
         perMessageDeflate: true,
       };
-      const proxySettings = getDefaultProxySettings();
+      const proxySettings = shouldBypassProxy(new URL(options.url).hostname)
+        ? undefined
+        : getDefaultProxySettings();
       if (proxySettings) {
         const proxyUrl = new URL(
           proxySettings.host.includes("://") ? proxySettings.host : `http://${proxySettings.host}`,
@@ -176,6 +178,26 @@ class NodeWebSocketFactory implements VoiceAgentWebSocketFactory {
   public create(): VoiceAgentWebSocketTransport {
     return new NodeWebSocketTransport();
   }
+}
+
+/**
+ * Reports whether `hostname` should bypass the `HTTPS_PROXY`/`HTTP_PROXY` proxy per the standard
+ * `NO_PROXY`/`no_proxy` environment variable (comma-separated hostnames/domains; `*` bypasses all).
+ */
+function shouldBypassProxy(hostname: string): boolean {
+  const noProxy = process.env.NO_PROXY ?? process.env.no_proxy;
+  if (!noProxy || !noProxy.trim()) {
+    return false;
+  }
+  if (noProxy.trim() === "*") {
+    return true;
+  }
+  const host = hostname.toLowerCase();
+  return noProxy
+    .split(",")
+    .map((entry) => entry.trim().toLowerCase())
+    .filter((entry) => entry.length > 0)
+    .some((entry) => host === entry || host.endsWith(entry.startsWith(".") ? entry : `.${entry}`));
 }
 
 /** @internal */

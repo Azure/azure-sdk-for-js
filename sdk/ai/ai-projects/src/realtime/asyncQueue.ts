@@ -13,6 +13,13 @@ export class AsyncQueue<T> implements AsyncIterator<T> {
   private terminalError?: Error;
   private isClosed = false;
 
+  /**
+   * @param capacity - Maximum number of buffered values before the queue fails with an overflow
+   * error. Realtime sessions can produce events faster than the consumer iterates (or the caller
+   * may never start iterating), so an unbounded buffer would otherwise grow without limit.
+   */
+  public constructor(private readonly capacity = 10_000) {}
+
   public enqueue(value: T): void {
     if (this.isClosed) {
       return;
@@ -21,9 +28,17 @@ export class AsyncQueue<T> implements AsyncIterator<T> {
     const pendingRead = this.pendingReads.shift();
     if (pendingRead) {
       pendingRead.resolve({ done: false, value });
-    } else {
-      this.values.push(value);
+      return;
     }
+    if (this.values.length >= this.capacity) {
+      this.fail(
+        new Error(
+          `The voice-agent event queue exceeded its capacity of ${this.capacity} buffered event(s); the consumer is not iterating events fast enough.`,
+        ),
+      );
+      return;
+    }
+    this.values.push(value);
   }
 
   public close(): void {

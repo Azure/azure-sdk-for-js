@@ -51,7 +51,12 @@ export interface VoiceAgentRealtimeClientOptions {
   apiVersion?: string;
   /** Prefix added to the SDK user-agent value in Node.js. */
   userAgentPrefix?: string;
-  /** @internal */
+  /**
+   * Overrides the transport used to establish the realtime WebSocket connection. Defaults to the
+   * platform transport (`ws` in Node.js, the browser's native `WebSocket` in browsers/React Native).
+   * Provide a custom factory to route the connection through an authenticated relay, such as the
+   * local development bridge demonstrated in the `samples/v2-beta/browser` sample.
+   */
   webSocketFactory?: VoiceAgentWebSocketFactory;
 }
 
@@ -530,6 +535,11 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     this.setState(VoiceAgentConnectionState.Disconnected);
     this.resolveClose({ code, reason, wasClean, error });
     logger.info("Voice-agent connection closed", { code, reason, wasClean });
+    // Guarantee the underlying socket never outlives the connection, even when finish() is
+    // reached from a path that never itself closed the transport (e.g. a transport error).
+    this.transport.close(code, reason).catch((closeError: unknown) => {
+      logger.warning("Failed to close the voice-agent transport", { error: closeError });
+    });
   }
 
   private setState(state: VoiceAgentConnectionState): void {
@@ -538,7 +548,12 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     }
     const previousState = this.currentState;
     this.currentState = state;
-    this.connectOptions.onConnectionStateChange?.(state, previousState);
+    try {
+      this.connectOptions.onConnectionStateChange?.(state, previousState);
+    } catch (error) {
+      // A throwing caller callback must never interrupt connection lifecycle/cleanup.
+      logger.warning("onConnectionStateChange callback threw an error", { error });
+    }
   }
 }
 
@@ -548,8 +563,10 @@ function normalizeEndpoint(endpoint: string): string {
     throw new TypeError("endpoint must not be empty.");
   }
   const url = new URL(normalized.includes("://") ? normalized : `https://${normalized}`);
-  if (url.protocol !== "https:" && url.protocol !== "http:") {
-    throw new TypeError("endpoint must use http or https.");
+  if (url.protocol !== "https:") {
+    throw new TypeError(
+      "endpoint must use https; a plaintext endpoint would send the bearer token over an unencrypted connection.",
+    );
   }
   return url.toString().replace(/\/$/, "");
 }
@@ -561,7 +578,7 @@ function buildWebSocketUrl(
   options: VoiceAgentRealtimeClientConnectOptions,
 ): string {
   const url = new URL(endpoint);
-  url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+  url.protocol = "wss:";
   url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
   url.searchParams.set("api-version", apiVersion);
   if (options.agentSessionId) {

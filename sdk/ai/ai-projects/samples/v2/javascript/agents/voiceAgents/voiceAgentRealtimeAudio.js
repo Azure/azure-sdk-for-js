@@ -35,6 +35,7 @@ async function main() {
   let textCharacterCount = 0;
   let audioByteCount = 0;
   let inputComplete = false;
+  let responseComplete = false;
 
   try {
     await connection.configureSession({
@@ -72,6 +73,9 @@ async function main() {
           case "error":
             throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
           case "response.done":
+            // The response can finish before all input has been sent; remember it happened so the
+            // pending completion isn't dropped once inputComplete flips below.
+            responseComplete = true;
             if (inputComplete) {
               await connection.close();
             }
@@ -94,6 +98,9 @@ async function main() {
       await delay(inputChunkDurationInMs);
     }
     inputComplete = true;
+    if (responseComplete) {
+      await connection.close();
+    }
     await consumeEvents;
     console.log(
       `\nCompleted with ${textCharacterCount} text character(s) and ${audioByteCount} audio byte(s).`,

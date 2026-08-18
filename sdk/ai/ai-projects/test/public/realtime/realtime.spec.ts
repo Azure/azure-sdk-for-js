@@ -197,7 +197,6 @@ describe("AIProjectClient realtime", () => {
 
     assert.ok(client.agents);
     assert.ok(client.agentEndpointConversations);
-    assert.ok(client.voiceAgentWebSocket);
 
     const connection = await client.realtime.connect("support-agent");
     const connectOptions = factory.transport.connectOptions;

@@ -45,6 +45,7 @@ export async function main(): Promise<void> {
   let textCharacterCount = 0;
   let audioByteCount = 0;
   let inputComplete = false;
+  let responseComplete = false;
 
   try {
     // session.update merges into the existing session config; only the changed field needs to be sent.
@@ -82,6 +83,9 @@ export async function main(): Promise<void> {
           case "error":
             throw new Error(`${event.error.code ?? "voice_agent_error"}: ${event.error.message}`);
           case "response.done":
+            // The response can finish before all input has been sent; remember it happened so the
+            // pending completion isn't dropped once inputComplete flips below.
+            responseComplete = true;
             if (inputComplete) {
               await connection.close();
             }
@@ -104,6 +108,9 @@ export async function main(): Promise<void> {
       await delay(inputChunkDurationInMs);
     }
     inputComplete = true;
+    if (responseComplete) {
+      await connection.close();
+    }
     await consumeEvents;
     console.log(
       `\nCompleted with ${textCharacterCount} text character(s) and ${audioByteCount} audio byte(s).`,

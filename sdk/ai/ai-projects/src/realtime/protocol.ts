@@ -145,6 +145,7 @@ export function deserializeVoiceAgentServerEvent(
     throw new VoiceAgentProtocolError(`Unsupported server event type: ${eventType}`);
   }
   const event = deserializer(parsed);
+  validateRequiredServerEventFields(eventType, event);
   if (event.type === "response.output_audio.delta") {
     return { ...event, delta: new Uint8Array(event.delta) };
   }
@@ -152,6 +153,43 @@ export function deserializeVoiceAgentServerEvent(
     normalizeSessionResponseUnions(event.session);
   }
   return event;
+}
+
+/**
+ * Per-type-required fields for the events the SDK and its samples actually dereference (deltas,
+ * ids, error details). Not an exhaustive schema for every event type — that belongs in the
+ * generator — but combined with the universal `event_id` check below it catches the reported class
+ * of bug: a minimal payload like `{"type":"response.output_text.delta"}` deserializing "successfully"
+ * with every other required property left `undefined`.
+ */
+const requiredServerEventFields: Record<string, string[]> = {
+  "response.output_text.delta": ["delta", "item_id", "response_id"],
+  "response.output_audio.delta": ["delta", "item_id", "response_id"],
+  "response.output_audio_transcript.delta": ["delta", "item_id", "response_id"],
+  "response.function_call_arguments.delta": ["delta", "call_id"],
+  "response.function_call_arguments.done": ["arguments", "call_id"],
+  "response.created": ["response"],
+  "response.done": ["response"],
+  error: ["error"],
+  "session.created": ["session"],
+  "session.updated": ["session"],
+};
+
+function validateRequiredServerEventFields(eventType: string, event: unknown): void {
+  const record = event as Record<string, unknown>;
+  const eventId = record["event_id"];
+  if (typeof eventId !== "string" || eventId.length === 0) {
+    throw new VoiceAgentProtocolError(
+      `The service returned a "${eventType}" event without a required "event_id" field.`,
+    );
+  }
+  for (const field of requiredServerEventFields[eventType] ?? []) {
+    if (record[field] === undefined) {
+      throw new VoiceAgentProtocolError(
+        `The service returned a "${eventType}" event without the required "${field}" field.`,
+      );
+    }
+  }
 }
 
 function normalizeSessionUnions(

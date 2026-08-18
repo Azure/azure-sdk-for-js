@@ -28,6 +28,12 @@ export type {
   VoiceAgentResponseOptions,
   VoiceAgentCancelResponseOptions,
 } from "./realtime/voiceAgentRealtimeClient.js";
+export type {
+  VoiceAgentWebSocketFactory,
+  VoiceAgentWebSocketTransport,
+  VoiceAgentWebSocketHandlers,
+  VoiceAgentWebSocketConnectOptions,
+} from "./realtime/webSocketTransportLike.js";
 export {
   VoiceAgentRealtimeError,
   VoiceAgentAuthenticationError,
@@ -921,7 +927,6 @@ export type {
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "./api/toolboxes/index.js";
-export type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./api/voiceAgentWebSocket/index.js";
 export type {
   BetaAgentsDeleteOptimizationJobOptionalParams,
   BetaAgentsCancelOptimizationJobOptionalParams,
@@ -1035,7 +1040,6 @@ export type {
   EvaluationRulesOperations,
   IndexesOperations,
   ToolboxesOperations,
-  VoiceAgentWebSocketOperations,
   BetaAgentsOperations,
   BetaDatasetsOperations,
   BetaEvaluationTaxonomiesOperations,

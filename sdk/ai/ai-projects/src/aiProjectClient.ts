@@ -26,8 +26,6 @@ import type { IndexesOperations } from "./classic/indexes/index.js";
 import { _getIndexesOperations } from "./classic/indexes/index.js";
 import type { TelemetryOperations } from "./classic/telemetry/index.js";
 import { _getTelemetryOperations } from "./classic/telemetry/index.js";
-import type { VoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
-import { _getVoiceAgentWebSocketOperations } from "./classic/voiceAgentWebSocket/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "#platform/getCustomFetch";
@@ -118,7 +116,6 @@ export class AIProjectClient {
     this.agentEndpointConversations = _getAgentEndpointConversationsOperations(
       this._cognitiveScopeClient,
     );
-    this.voiceAgentWebSocket = _getVoiceAgentWebSocketOperations(this._cognitiveScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
@@ -144,8 +141,6 @@ export class AIProjectClient {
   public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agentEndpointConversations */
   public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
-  /** The operation groups for voiceAgentWebSocket */
-  public readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
   /** Realtime voice-agent connections. */
   public readonly realtime: VoiceAgentRealtimeClient;
   /** The operation groups for agents */

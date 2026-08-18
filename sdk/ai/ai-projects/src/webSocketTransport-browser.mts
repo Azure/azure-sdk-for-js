@@ -8,11 +8,25 @@ import type {
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
 } from "./realtime/webSocketTransportLike.js";
+import { logger } from "./logger.js";
 
+/**
+ * Default browser transport for the Voice Agents realtime client.
+ *
+ * Browsers cannot set an `Authorization` header on a WebSocket upgrade request, so this transport
+ * falls back to placing the bearer token (and other custom headers) in the connection URL's query
+ * string. Query strings are routinely captured by proxies, server access logs, and browser history,
+ * so this leaks the credential to anything that can observe the URL. Prefer routing browser
+ * connections through an authenticated relay that adds the header server-side instead of using this
+ * transport directly against the service endpoint — see the `webSocketFactory` option on
+ * `VoiceAgentRealtimeClientOptions` and the `samples/v2-beta/browser` sample's local relay for an
+ * example of that pattern.
+ */
 export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
   private handlers?: VoiceAgentWebSocketHandlers;
   private readonly closeTimeoutInMs: number;
+  private messageChain: Promise<void> = Promise.resolve();
 
   public constructor(closeTimeoutInMs = 5_000) {
     this.closeTimeoutInMs = closeTimeoutInMs;
@@ -25,6 +39,9 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   public async connect(options: VoiceAgentWebSocketConnectOptions): Promise<void> {
     await new Promise<void>((resolve, reject) => {
       let settled = false;
+      logger.warning(
+        "BrowserWebSocketTransport places the bearer token in the WebSocket URL because browsers cannot set custom upgrade headers. Use an authenticated relay for production browser connections.",
+      );
       const url = addHeadersToUrl(options.url, options.headers);
       this.webSocket = new WebSocket(url, options.protocols);
       this.webSocket.binaryType = "arraybuffer";
@@ -61,16 +78,9 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
         }
       });
       this.webSocket.addEventListener("message", (event: MessageEvent) => {
-        if (typeof event.data === "string" || event.data instanceof ArrayBuffer) {
-          this.handlers?.onMessage(event.data);
-        } else if (event.data instanceof Blob) {
-          event.data
-            .arrayBuffer()
-            .then((data) => this.handlers?.onMessage(data))
-            .catch((error: unknown) =>
-              this.handlers?.onError(error instanceof Error ? error : new Error(String(error))),
-            );
-        }
+        // Chain handling so an async Blob conversion can never let a later message be
+        // delivered to the protocol parser out of arrival order.
+        this.messageChain = this.messageChain.then(() => this.handleIncomingMessage(event.data));
       });
       this.webSocket.addEventListener("close", (event) => {
         const closeEvent = event as unknown as {
@@ -103,6 +113,20 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
       throw new Error("WebSocket send was cancelled.");
     }
     this.webSocket.send(data);
+  }
+
+  private async handleIncomingMessage(data: string | ArrayBuffer | Blob): Promise<void> {
+    if (typeof data === "string" || data instanceof ArrayBuffer) {
+      this.handlers?.onMessage(data);
+      return;
+    }
+    if (data instanceof Blob) {
+      try {
+        this.handlers?.onMessage(await data.arrayBuffer());
+      } catch (error) {
+        this.handlers?.onError(error instanceof Error ? error : new Error(String(error)));
+      }
+    }
   }
 
   public async close(code: number, reason: string): Promise<void> {
