@@ -123,7 +123,7 @@ export async function create(
   return _createDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteEvaluationTaxonomySend(
   context: Client,
   name: string,
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
@@ -148,7 +148,9 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteEvaluationTaxonomyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -158,13 +160,13 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Removes the specified evaluation taxonomy from the project. */
-export async function $delete(
+export async function deleteEvaluationTaxonomy(
   context: Client,
   name: string,
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, name, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteEvaluationTaxonomySend(context, name, options);
+  return _deleteEvaluationTaxonomyDeserialize(result);
 }
 
 export function _listSend(

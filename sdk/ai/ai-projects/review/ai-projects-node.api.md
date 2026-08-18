@@ -172,49 +172,117 @@ export type AgentIdentityStatus = "active" | "disabled";
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 // @public
-export type AgentOptimizationCandidate = OptimizationCandidate;
+export interface AgentOptimizationCandidate {
+    avg_score: number;
+    avg_tokens: number;
+    candidate_id?: string;
+    eval_id?: string;
+    eval_run_id?: string;
+    mutations?: Record<string, any>;
+    name: string;
+    promotion?: PromotionInfo;
+}
 
 // @public
-export type AgentOptimizationDatasetCriterion = OptimizationDatasetCriterion;
+export interface AgentOptimizationDatasetCriterion {
+    instruction: string;
+    name: string;
+}
 
 // @public
-export type AgentOptimizationDatasetInput = OptimizationDatasetInput;
+export interface AgentOptimizationDatasetInput {
+    type: AgentOptimizationDatasetInputType;
+}
 
 // @public
-export type AgentOptimizationDatasetInputType = OptimizationDatasetInputType;
+export type AgentOptimizationDatasetInputType = "inline" | "reference";
 
 // @public
-export type AgentOptimizationDatasetInputUnion = OptimizationDatasetInputUnion;
+export type AgentOptimizationDatasetInputUnion = AgentOptimizationInlineDatasetInput | AgentOptimizationReferenceDatasetInput | AgentOptimizationDatasetInput;
 
 // @public
-export type AgentOptimizationDatasetItem = OptimizationDatasetItem;
+export interface AgentOptimizationDatasetItem {
+    criteria?: AgentOptimizationDatasetCriterion[];
+    desired_num_turns?: number;
+    ground_truth?: string;
+    query?: string;
+}
 
 // @public
-export type AgentOptimizationEvaluatorRef = OptimizationEvaluatorRef;
+export interface AgentOptimizationEvaluatorRef {
+    name: string;
+    version?: string;
+}
 
 // @public
-export type AgentOptimizationInlineDatasetInput = OptimizationInlineDatasetInput;
+export interface AgentOptimizationInlineDatasetInput extends AgentOptimizationDatasetInput {
+    items: AgentOptimizationDatasetItem[];
+    type: "inline";
+}
 
 // @public
-export type AgentOptimizationJob = OptimizationJob;
+export interface AgentOptimizationJob {
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    inputs?: AgentOptimizationJobInputs;
+    readonly progress?: AgentOptimizationJobProgress;
+    readonly result?: AgentOptimizationJobResult;
+    readonly status: JobStatus;
+    readonly updated_at: Date;
+    readonly warnings?: string[];
+}
 
 // @public
-export type AgentOptimizationJobInputs = OptimizationJobInputs;
+export interface AgentOptimizationJobInputs {
+    agent: OptimizedAgentIdentifier;
+    evaluators: AgentOptimizationEvaluatorRef[];
+    options?: AgentOptimizationOptions;
+    train_dataset: AgentOptimizationDatasetInputUnion;
+    validation_dataset?: AgentOptimizationDatasetInputUnion;
+}
 
 // @public
-export type AgentOptimizationJobListItem = OptimizationJobListItem;
+export interface AgentOptimizationJobListItem {
+    readonly agent?: OptimizedAgentIdentifier;
+    readonly created_at: Date;
+    readonly error?: ErrorModel;
+    readonly id: string;
+    readonly progress?: AgentOptimizationJobProgress;
+    readonly status: JobStatus;
+    readonly updated_at: Date;
+}
 
 // @public
-export type AgentOptimizationJobProgress = OptimizationJobProgress;
+export interface AgentOptimizationJobProgress {
+    best_score: number;
+    candidates_completed: number;
+    elapsed_seconds: number;
+}
 
 // @public
-export type AgentOptimizationJobResult = OptimizationJobResult;
+export interface AgentOptimizationJobResult {
+    baseline?: string;
+    best?: string;
+    candidates?: AgentOptimizationCandidate[];
+}
 
 // @public
-export type AgentOptimizationOptions = OptimizationOptions;
+export interface AgentOptimizationOptions {
+    eval_model?: string;
+    evaluation_level?: EvaluationLevel;
+    max_candidates?: number;
+    max_stalls?: number;
+    optimization_config?: Record<string, any>;
+    optimization_model?: string;
+}
 
 // @public
-export type AgentOptimizationReferenceDatasetInput = OptimizationReferenceDatasetInput;
+export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizationDatasetInput {
+    name: string;
+    type: "reference";
+    version?: string;
+}
 
 // @public
 export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
@@ -680,11 +748,11 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsOperations {
-    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
-    createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
+    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
 }
 
 // @public
@@ -750,7 +818,9 @@ export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOpt
 // @public
 export interface BetaEvaluationTaxonomiesOperations {
     create: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
+    // @deprecated (undocumented)
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
+    deleteEvaluationTaxonomy: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
     update: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
@@ -1064,51 +1134,53 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
     action?: RoutineActionUnion;
     description?: string;
     enabled?: boolean;
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     payload?: RoutineDispatchPayloadUnion;
 }
 
 // @public
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
     after?: string;
-    foundryFeatures?: "Routines=V2Preview";
+    before?: string;
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
 export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     after?: string;
+    before?: string;
     filter?: string;
-    foundryFeatures?: "Routines=V2Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
-    order?: PageOrder;
+    order?: string;
 }
 
 // @public
@@ -1154,7 +1226,9 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
 // @public
 export interface BetaSchedulesOperations {
     createOrUpdate: (scheduleId: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
+    // @deprecated (undocumented)
     delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
+    deleteSchedule: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
     get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
     getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
@@ -2078,7 +2152,9 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
 // @public
 export interface EvaluationRulesOperations {
     createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
+    // @deprecated (undocumented)
     delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
+    deleteEvaluationRule: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
     list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
 }
@@ -2369,7 +2445,6 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
-    // (undocumented)
     allowed_callers?: CallableToolAllowedCaller[];
     description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
@@ -2403,7 +2478,6 @@ export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvir
 
 // @public
 export interface FunctionTool extends Tool {
-    // (undocumented)
     allowed_callers?: CallableToolAllowedCaller[];
     defer_loading?: boolean;
     description?: string;
@@ -2424,7 +2498,7 @@ export interface FunctionToolParam {
     // (undocumented)
     name: string;
     // (undocumented)
-    output_schema?: Record<string, unknown>;
+    output_schema?: Record<string, any>;
     // (undocumented)
     parameters?: EmptyModelParam;
     // (undocumented)
@@ -2769,7 +2843,6 @@ export interface McpProtocolConfiguration {
 
 // @public
 export interface MCPTool extends Tool {
-    // (undocumented)
     allowed_callers?: CallableToolAllowedCaller[];
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
@@ -3130,127 +3203,59 @@ export interface OpenApiToolboxTool extends ToolboxTool {
 // @public
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
+// @public @deprecated (undocumented)
+export type OptimizationAgentIdentifier = OptimizedAgentIdentifier;
+
+// @public @deprecated (undocumented)
+export type OptimizationCandidate = AgentOptimizationCandidate;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetCriterion = AgentOptimizationDatasetCriterion;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInput = AgentOptimizationDatasetInput;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInputType = AgentOptimizationDatasetInputType;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetInputUnion = AgentOptimizationDatasetInputUnion;
+
+// @public @deprecated (undocumented)
+export type OptimizationDatasetItem = AgentOptimizationDatasetItem;
+
+// @public @deprecated (undocumented)
+export type OptimizationEvaluatorRef = AgentOptimizationEvaluatorRef;
+
+// @public @deprecated (undocumented)
+export type OptimizationInlineDatasetInput = AgentOptimizationInlineDatasetInput;
+
+// @public @deprecated (undocumented)
+export type OptimizationJob = AgentOptimizationJob;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobInputs = AgentOptimizationJobInputs;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobListItem = AgentOptimizationJobListItem;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobProgress = AgentOptimizationJobProgress;
+
+// @public @deprecated (undocumented)
+export type OptimizationJobResult = AgentOptimizationJobResult;
+
+// @public @deprecated (undocumented)
+export type OptimizationOptions = AgentOptimizationOptions;
+
+// @public @deprecated (undocumented)
+export type OptimizationReferenceDatasetInput = AgentOptimizationReferenceDatasetInput;
+
 // @public
-export interface OptimizationAgentIdentifier {
+export interface OptimizedAgentIdentifier {
     agent_name: string;
     agent_version?: string;
 }
-
-// @public
-export interface OptimizationCandidate {
-    avg_score: number;
-    avg_tokens: number;
-    candidate_id?: string;
-    eval_id?: string;
-    eval_run_id?: string;
-    mutations?: Record<string, any>;
-    name: string;
-    promotion?: PromotionInfo;
-}
-
-// @public
-export interface OptimizationDatasetCriterion {
-    instruction: string;
-    name: string;
-}
-
-// @public
-export interface OptimizationDatasetInput {
-    type: OptimizationDatasetInputType;
-}
-
-// @public
-export type OptimizationDatasetInputType = "inline" | "reference";
-
-// @public
-export type OptimizationDatasetInputUnion = OptimizationInlineDatasetInput | OptimizationReferenceDatasetInput | OptimizationDatasetInput;
-
-// @public
-export interface OptimizationDatasetItem {
-    criteria?: OptimizationDatasetCriterion[];
-    desired_num_turns?: number;
-    ground_truth?: string;
-    query?: string;
-}
-
-// @public
-export interface OptimizationEvaluatorRef {
-    name: string;
-    version?: string;
-}
-
-// @public
-export interface OptimizationInlineDatasetInput extends OptimizationDatasetInput {
-    items: OptimizationDatasetItem[];
-    type: "inline";
-}
-
-// @public
-export interface OptimizationJob {
-    readonly created_at: Date;
-    readonly error?: ErrorModel;
-    readonly id: string;
-    inputs?: OptimizationJobInputs;
-    readonly progress?: OptimizationJobProgress;
-    readonly result?: OptimizationJobResult;
-    readonly status: JobStatus;
-    readonly updated_at: Date;
-    readonly warnings?: string[];
-}
-
-// @public
-export interface OptimizationJobInputs {
-    agent: OptimizationAgentIdentifier;
-    evaluators: OptimizationEvaluatorRef[];
-    options?: OptimizationOptions;
-    train_dataset: OptimizationDatasetInputUnion;
-    validation_dataset?: OptimizationDatasetInputUnion;
-}
-
-// @public
-export interface OptimizationJobListItem {
-    readonly agent?: OptimizationAgentIdentifier;
-    readonly created_at: Date;
-    readonly error?: ErrorModel;
-    readonly id: string;
-    readonly progress?: OptimizationJobProgress;
-    readonly status: JobStatus;
-    readonly updated_at: Date;
-}
-
-// @public
-export interface OptimizationJobProgress {
-    best_score: number;
-    candidates_completed: number;
-    elapsed_seconds: number;
-}
-
-// @public
-export interface OptimizationJobResult {
-    baseline?: string;
-    best?: string;
-    candidates?: OptimizationCandidate[];
-}
-
-// @public
-export interface OptimizationOptions {
-    eval_model?: string;
-    evaluation_level?: EvaluationLevel;
-    max_candidates?: number;
-    max_stalls?: number;
-    optimization_config?: Record<string, any>;
-    optimization_model?: string;
-}
-
-// @public
-export interface OptimizationReferenceDatasetInput extends OptimizationDatasetInput {
-    name: string;
-    type: "reference";
-    version?: string;
-}
-
-// @public
-export type OptimizedAgentIdentifier = OptimizationAgentIdentifier;
 
 // @public
 export interface OtlpTelemetryEndpoint extends TelemetryEndpoint {
@@ -3449,8 +3454,7 @@ export interface ResponsesProtocolConfiguration {
 
 // @public
 export interface ResponseUsageInputTokensDetails {
-    // (undocumented)
-    cache_write_tokens: number;
+    cache_write_tokens?: number;
     cached_tokens: number;
 }
 
@@ -3763,7 +3767,7 @@ export interface StructuredOutputDefinition {
     strict?: boolean;
 }
 
-// @public
+// @public @deprecated (undocumented)
 export interface TaskGenerationDataGenerationJobOptions extends DataGenerationJobOptions {
     type: "task_generation";
 }

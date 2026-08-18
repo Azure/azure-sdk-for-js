@@ -8,7 +8,7 @@ import {
   createOrUpdate,
   list,
   get,
-  $delete,
+  deleteSchedule,
 } from "../../../api/beta/schedules/operations.js";
 import type {
   BetaSchedulesListRunsOptionalParams,
@@ -45,6 +45,11 @@ export interface BetaSchedulesOperations {
   /** Get a schedule by id. */
   get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
   /** Delete a schedule. */
+  deleteSchedule: (
+    scheduleId: string,
+    options?: BetaSchedulesDeleteOptionalParams,
+  ) => Promise<void>;
+  /** @deprecated Use `deleteSchedule` instead. */
   delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
 }
 
@@ -62,8 +67,10 @@ function _getBetaSchedules(context: AIProjectContext) {
     list: (options?: BetaSchedulesListOptionalParams) => list(context, options),
     get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) =>
       get(context, scheduleId, options),
+    deleteSchedule: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) =>
+      deleteSchedule(context, scheduleId, options),
     delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) =>
-      $delete(context, scheduleId, options),
+      deleteSchedule(context, scheduleId, options),
   };
 }
 
