@@ -29,7 +29,7 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
   /** Unsupported. Reserved for backward compatibility. */
   before?: string;
   /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc`
    * for descending order.
    */
   order?: string;
@@ -52,7 +52,7 @@ export interface BetaRoutinesListOptionalParams extends OperationOptions {
   /** Unsupported. Reserved for backward compatibility. */
   before?: string;
   /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
+   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc`
    * for descending order.
    */
   order?: string;
