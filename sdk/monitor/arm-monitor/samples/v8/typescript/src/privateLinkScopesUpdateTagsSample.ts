@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { MonitorClient } = require("@azure/arm-monitor");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
@@ -10,9 +10,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: 2023-06-01-preview/PrivateLinkScopesUpdateTagsOnly.json
  */
-async function privateLinkScopeUpdateTagsOnly() {
+async function privateLinkScopeUpdateTagsOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "subid";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.updateTags(
     "my-resource-group",
@@ -22,7 +22,7 @@ async function privateLinkScopeUpdateTagsOnly() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await privateLinkScopeUpdateTagsOnly();
 }
 
