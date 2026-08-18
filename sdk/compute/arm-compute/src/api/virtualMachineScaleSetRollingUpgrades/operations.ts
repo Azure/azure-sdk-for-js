@@ -29,7 +29,7 @@ export function _getLatestSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function _cancelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +113,7 @@ export function cancel(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _cancelSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -131,7 +131,7 @@ export function _startOSUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +168,7 @@ export function startOSUpgrade(
     getInitialResponse: () =>
       _startOSUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -186,7 +186,7 @@ export function _startExtensionUpgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,6 +225,6 @@ export function startExtensionUpgrade(
     getInitialResponse: () =>
       _startExtensionUpgradeSend(context, resourceGroupName, vmScaleSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }

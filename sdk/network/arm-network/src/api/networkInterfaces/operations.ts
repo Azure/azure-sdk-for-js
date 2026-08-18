@@ -136,7 +136,7 @@ export function _listCloudServiceNetworkInterfacesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudServiceName: cloudServiceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +179,7 @@ export function listCloudServiceNetworkInterfaces(
       _listCloudServiceNetworkInterfacesSend(context, resourceGroupName, cloudServiceName, options),
     _listCloudServiceNetworkInterfacesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -345,7 +345,7 @@ export function _listEffectiveNetworkSecurityGroupsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -400,7 +400,7 @@ export function listEffectiveNetworkSecurityGroups(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<EffectiveNetworkSecurityGroupListResult>,
@@ -420,7 +420,7 @@ export function _getEffectiveRouteTableSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -461,7 +461,7 @@ export function getEffectiveRouteTable(
     getInitialResponse: () =>
       _getEffectiveRouteTableSend(context, resourceGroupName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<EffectiveRouteListResult>, EffectiveRouteListResult>;
 }
 
@@ -473,7 +473,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,7 +511,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -525,7 +525,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -564,7 +564,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -580,7 +580,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -616,7 +616,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkInterfaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -633,7 +633,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -694,7 +694,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +738,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, networkInterfaceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 }
 
@@ -754,7 +754,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -947,7 +947,7 @@ export function _listCloudServiceRoleInstanceNetworkInterfacesSend(
       resourceGroupName: resourceGroupName,
       cloudServiceName: cloudServiceName,
       roleInstanceName: roleInstanceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -997,7 +997,7 @@ export function listCloudServiceRoleInstanceNetworkInterfaces(
       ),
     _listCloudServiceRoleInstanceNetworkInterfacesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -1017,7 +1017,7 @@ export function _getCloudServiceNetworkInterfaceSend(
       cloudServiceName: cloudServiceName,
       roleInstanceName: roleInstanceName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {

@@ -87,7 +87,6 @@ export default (plugin: FlatConfig.Plugin) => ({
         "@typescript-eslint/no-unused-vars": "off",
         "preserve-caught-error": "warn",
         "no-useless-assignment": "warn",
-        "no-unassigned-vars": "warn",
         "@azure/azure-sdk/github-source-headers": "warn",
         "@azure/azure-sdk/ts-apisurface-standardized-verbs": "off",
         "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
