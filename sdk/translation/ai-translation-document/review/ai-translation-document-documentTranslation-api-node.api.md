@@ -24,27 +24,12 @@ export function createDocumentTranslation(endpointParam: string, credential: Key
 
 // @public
 export interface DocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public
 export interface DocumentTranslationContext extends Client {
     apiVersion?: string;
-}
-
-// @public
-export function getDocumentsStatus(context: DocumentTranslationContext, translationId: string, options?: GetDocumentsStatusOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
-
-// @public
-export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdAfter?: Date;
-    createdBefore?: Date;
-    documentIds?: string[];
-    maxPageSize?: number;
-    orderBy?: string[];
-    skip?: number;
-    statuses?: string[];
-    top?: number;
 }
 
 // @public
@@ -62,10 +47,32 @@ export interface GetSupportedFormatsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getTranslationsStatus(context: DocumentTranslationContext, options?: GetTranslationsStatusOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
+export function getTranslationStatus(context: DocumentTranslationContext, translationId: string, options?: GetTranslationStatusOptionalParams): Promise<TranslationStatus>;
 
 // @public
-export interface GetTranslationsStatusOptionalParams extends OperationOptions {
+export interface GetTranslationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export function listDocumentStatuses(context: DocumentTranslationContext, translationId: string, options?: ListDocumentStatusesOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
+
+// @public
+export interface ListDocumentStatusesOptionalParams extends OperationOptions {
+    createdAfter?: Date;
+    createdBefore?: Date;
+    documentIds?: string[];
+    maxPageSize?: number;
+    orderBy?: string[];
+    skip?: number;
+    statuses?: string[];
+    top?: number;
+}
+
+// @public
+export function listTranslationStatuses(context: DocumentTranslationContext, options?: ListTranslationStatusesOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
+
+// @public
+export interface ListTranslationStatusesOptionalParams extends OperationOptions {
     createdAfter?: Date;
     createdBefore?: Date;
     maxPageSize?: number;
@@ -74,13 +81,6 @@ export interface GetTranslationsStatusOptionalParams extends OperationOptions {
     statuses?: string[];
     top?: number;
     translationIds?: string[];
-}
-
-// @public
-export function getTranslationStatus(context: DocumentTranslationContext, translationId: string, options?: GetTranslationStatusOptionalParams): Promise<TranslationStatus>;
-
-// @public
-export interface GetTranslationStatusOptionalParams extends OperationOptions {
 }
 
 // @public

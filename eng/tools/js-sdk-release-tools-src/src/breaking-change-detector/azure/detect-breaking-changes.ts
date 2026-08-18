@@ -11,13 +11,15 @@ import {
 import { Renderer, marked } from "marked";
 import { basename, join, posix, relative } from "node:path";
 import { devConsolelog, toPosixPath } from "../utils/common-utils.js";
-import { exists, outputFile, readFile, remove } from "fs-extra";
+import fsExtra from "fs-extra";
 
 import { TSESLint } from "@typescript-eslint/utils";
 import ignoreInlineDeclarationsInOperationGroup from "./common/rules/ignore-inline-declarations-in-operation-group.js";
 import { glob } from "glob";
 import { logger } from "../logging/logger.js";
 import { Project, ScriptTarget, SourceFile, Node, SyntaxKind } from "ts-morph";
+
+const { exists, outputFile, readFile, remove } = fsExtra;
 
 export interface ApiViewOptions {
   apiView?: string;
@@ -115,36 +117,43 @@ async function detectBreakingChangesCore(
   try {
     const breakingChangeResults: RuleMessage[] = [];
     const baselineParsed = await parseBaselinePackage(projectContext);
-    const linter = new TSESLint.Linter({ cwd: projectContext.root });
-    // linter.defineRule(ruleIds.ignoreOperationGroupNameChanges, ignoreOperationGroupNameChangesRule(baselineParsed));
-    linter.defineRule(
-      ruleIds.ignoreInlineDeclarationsInOperationGroup,
-      ignoreInlineDeclarationsInOperationGroup(baselineParsed),
-    );
-    linter.defineParser("@typescript-eslint/parser", parser);
+    const linter = new TSESLint.Linter({ cwd: projectContext.root, configType: "flat" });
+    const localPluginName = "breaking-change-detector";
     linter.verify(
       projectContext.current.code,
-      {
-        rules: {
-          // [ruleIds.ignoreOperationGroupNameChanges]: [2],
-          [ruleIds.ignoreInlineDeclarationsInOperationGroup]: [2],
-        },
-        parser: "@typescript-eslint/parser",
-        parserOptions: {
-          filePath: projectContext.current.relativeFilePath,
-          comment: true,
-          tokens: true,
-          range: true,
-          loc: true,
-          project: "./tsconfig.json",
-          tsconfigRootDir: projectContext.root,
-        },
-        settings: (<LinterSettings>{
-          reportInlineDeclarationNameSetMessage: (message: InlineDeclarationNameSetMessage) => {
-            breakingChangeResults.push(message);
+      [
+        {
+          files: ["**/*.ts"],
+          languageOptions: {
+            parser: parser as any,
+            parserOptions: {
+              filePath: projectContext.current.relativeFilePath,
+              comment: true,
+              tokens: true,
+              range: true,
+              loc: true,
+              project: "./tsconfig.json",
+              tsconfigRootDir: projectContext.root,
+            },
           },
-        }) as any,
-      },
+          plugins: {
+            [localPluginName]: {
+              rules: {
+                [ruleIds.ignoreInlineDeclarationsInOperationGroup]:
+                  ignoreInlineDeclarationsInOperationGroup(baselineParsed),
+              },
+            },
+          },
+          rules: {
+            [`${localPluginName}/${ruleIds.ignoreInlineDeclarationsInOperationGroup}`]: "error",
+          },
+          settings: <LinterSettings>{
+            reportInlineDeclarationNameSetMessage: (message: InlineDeclarationNameSetMessage) => {
+              breakingChangeResults.push(message);
+            },
+          },
+        } as any,
+      ],
       projectContext.current.relativeFilePath,
     );
     return breakingChangeResults;

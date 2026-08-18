@@ -80,18 +80,18 @@ export interface DocumentTranslateContent {
 export class DocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: DocumentTranslationClientOptionalParams);
     cancelTranslation(translationId: string, options?: CancelTranslationOptionalParams): Promise<TranslationStatus>;
-    getDocumentsStatus(translationId: string, options?: GetDocumentsStatusOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
     getDocumentStatus(translationId: string, documentId: string, options?: GetDocumentStatusOptionalParams): Promise<DocumentStatus>;
     getSupportedFormats(typeParam: FileFormatType, options?: GetSupportedFormatsOptionalParams): Promise<SupportedFileFormats>;
-    getTranslationsStatus(options?: GetTranslationsStatusOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
     getTranslationStatus(translationId: string, options?: GetTranslationStatusOptionalParams): Promise<TranslationStatus>;
+    listDocumentStatuses(translationId: string, options?: ListDocumentStatusesOptionalParams): PagedAsyncIterableIterator<DocumentStatus>;
+    listTranslationStatuses(options?: ListTranslationStatusesOptionalParams): PagedAsyncIterableIterator<TranslationStatus>;
     readonly pipeline: Pipeline;
     startTranslation(body: StartTranslationDetails, options?: StartTranslationOptionalParams): PollerLike<OperationState<TranslationStatus>, TranslationStatus>;
 }
 
 // @public
 export interface DocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public
@@ -111,35 +111,11 @@ export interface FileFormat {
 export type FileFormatType = "Document" | "Glossary";
 
 // @public
-export interface GetDocumentsStatusOptionalParams extends OperationOptions {
-    createdAfter?: Date;
-    createdBefore?: Date;
-    documentIds?: string[];
-    maxPageSize?: number;
-    orderBy?: string[];
-    skip?: number;
-    statuses?: string[];
-    top?: number;
-}
-
-// @public
 export interface GetDocumentStatusOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface GetSupportedFormatsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetTranslationsStatusOptionalParams extends OperationOptions {
-    createdAfter?: Date;
-    createdBefore?: Date;
-    maxPageSize?: number;
-    orderBy?: string[];
-    skip?: number;
-    statuses?: string[];
-    top?: number;
-    translationIds?: string[];
 }
 
 // @public
@@ -168,6 +144,30 @@ export { isRestError }
 export enum KnownVersions {
     V20240501 = "2024-05-01",
     V20260301 = "2026-03-01"
+}
+
+// @public
+export interface ListDocumentStatusesOptionalParams extends OperationOptions {
+    createdAfter?: Date;
+    createdBefore?: Date;
+    documentIds?: string[];
+    maxPageSize?: number;
+    orderBy?: string[];
+    skip?: number;
+    statuses?: string[];
+    top?: number;
+}
+
+// @public
+export interface ListTranslationStatusesOptionalParams extends OperationOptions {
+    createdAfter?: Date;
+    createdBefore?: Date;
+    maxPageSize?: number;
+    orderBy?: string[];
+    skip?: number;
+    statuses?: string[];
+    top?: number;
+    translationIds?: string[];
 }
 
 // @public
@@ -206,7 +206,7 @@ export class SingleDocumentTranslationClient {
 
 // @public
 export interface SingleDocumentTranslationClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    serviceVersion?: `${KnownVersions}`;
 }
 
 // @public
@@ -281,9 +281,9 @@ export interface TranslationStatus {
     createdAt: Date;
     error?: TranslationError;
     id: string;
-    lastActionAt: Date;
     status: Status;
     summary: TranslationStatusSummary;
+    updatedAt: Date;
 }
 
 // @public

@@ -30,7 +30,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -70,7 +70,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -84,7 +84,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +130,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +188,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       networkManagerConnectionName: networkManagerConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

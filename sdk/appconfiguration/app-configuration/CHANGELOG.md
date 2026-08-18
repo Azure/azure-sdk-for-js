@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
+
 ### Other Changes
 
 ## 1.12.1 (2026-06-22)

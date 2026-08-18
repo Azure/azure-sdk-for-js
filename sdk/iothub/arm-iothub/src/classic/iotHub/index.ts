@@ -33,7 +33,6 @@ export interface IotHubOperations {
     options?: IotHubManualFailoverOptionalParams,
   ) => Promise<void>;
 }
-
 function _getIotHub(context: IotHubContext) {
   return {
     manualFailover: (
@@ -62,7 +61,6 @@ function _getIotHub(context: IotHubContext) {
     },
   };
 }
-
 export function _getIotHubOperations(context: IotHubContext): IotHubOperations {
   return {
     ..._getIotHub(context),

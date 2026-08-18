@@ -6,7 +6,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters. */
 export interface GetSupportedFormatsOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface GetDocumentsStatusOptionalParams extends OperationOptions {
+export interface ListDocumentStatusesOptionalParams extends OperationOptions {
   /**
    * top indicates the total number of records the user wants to be returned across
    * all pages.
@@ -67,7 +67,7 @@ export interface GetTranslationStatusOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface GetDocumentStatusOptionalParams extends OperationOptions {}
 /** Optional parameters. */
-export interface GetTranslationsStatusOptionalParams extends OperationOptions {
+export interface ListTranslationStatusesOptionalParams extends OperationOptions {
   /**
    * top indicates the total number of records the user wants to be returned across
    * all pages.

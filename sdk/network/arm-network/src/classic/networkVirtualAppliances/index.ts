@@ -3,6 +3,10 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  abortMigration,
+  commitMigration,
+  executeMigration,
+  prepareMigration,
   getBootDiagnosticLogs,
   reimage,
   restart,
@@ -14,6 +18,10 @@ import {
   get,
 } from "../../api/networkVirtualAppliances/operations.js";
 import type {
+  NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  NetworkVirtualAppliancesPrepareMigrationOptionalParams,
   NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
   NetworkVirtualAppliancesReimageOptionalParams,
   NetworkVirtualAppliancesRestartOptionalParams,
@@ -30,6 +38,9 @@ import type {
   NetworkVirtualApplianceInstanceIds,
   NetworkVirtualApplianceBootDiagnosticParameters,
   NetworkVirtualApplianceInstanceId,
+  NetworkVirtualAppliancePrepareMigrationRequest,
+  NetworkVirtualApplianceExecuteMigrationRequest,
+  NetworkVirtualApplianceCommitMigrationRequest,
 } from "../../models/microsoft/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -38,6 +49,87 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkVirtualAppliances operations. */
 export interface NetworkVirtualAppliancesOperations {
+  /** Aborts an in-progress migration of the specified Network Virtual Appliance and rolls back to the previous state. */
+  abortMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use abortMigration instead */
+  beginAbortMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use abortMigration instead */
+  beginAbortMigrationAndWait: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  ) => Promise<void>;
+  /** Commits the migration of the specified Network Virtual Appliance. This finalizes a previously executed migration workflow. */
+  commitMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceCommitMigrationRequest,
+    options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use commitMigration instead */
+  beginCommitMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceCommitMigrationRequest,
+    options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use commitMigration instead */
+  beginCommitMigrationAndWait: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceCommitMigrationRequest,
+    options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  ) => Promise<void>;
+  /** Executes the migration of the specified Network Virtual Appliance. This step performs the migration workflow that was previously prepared. */
+  executeMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceExecuteMigrationRequest,
+    options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use executeMigration instead */
+  beginExecuteMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceExecuteMigrationRequest,
+    options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use executeMigration instead */
+  beginExecuteMigrationAndWait: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualApplianceExecuteMigrationRequest,
+    options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  ) => Promise<void>;
+  /** Prepares the migration of the specified Network Virtual Appliance. This is the first step of a migration workflow, such as migrating to a new OS version or to the new internal load balancer architecture. */
+  prepareMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualAppliancePrepareMigrationRequest,
+    options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use prepareMigration instead */
+  beginPrepareMigration: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualAppliancePrepareMigrationRequest,
+    options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use prepareMigration instead */
+  beginPrepareMigrationAndWait: (
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    body: NetworkVirtualAppliancePrepareMigrationRequest,
+    options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+  ) => Promise<void>;
   /** Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual Appliance. */
   getBootDiagnosticLogs: (
     resourceGroupName: string,
@@ -184,6 +276,140 @@ export interface NetworkVirtualAppliancesOperations {
 
 function _getNetworkVirtualAppliances(context: NetworkManagementContext) {
   return {
+    abortMigration: (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+    ) => abortMigration(context, resourceGroupName, networkVirtualApplianceName, options),
+    beginAbortMigration: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+    ) => {
+      const poller = abortMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginAbortMigrationAndWait: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      options?: NetworkVirtualAppliancesAbortMigrationOptionalParams,
+    ) => {
+      return await abortMigration(context, resourceGroupName, networkVirtualApplianceName, options);
+    },
+    commitMigration: (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceCommitMigrationRequest,
+      options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+    ) => commitMigration(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    beginCommitMigration: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceCommitMigrationRequest,
+      options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+    ) => {
+      const poller = commitMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCommitMigrationAndWait: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceCommitMigrationRequest,
+      options?: NetworkVirtualAppliancesCommitMigrationOptionalParams,
+    ) => {
+      return await commitMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+    },
+    executeMigration: (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceExecuteMigrationRequest,
+      options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+    ) => executeMigration(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    beginExecuteMigration: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceExecuteMigrationRequest,
+      options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+    ) => {
+      const poller = executeMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginExecuteMigrationAndWait: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualApplianceExecuteMigrationRequest,
+      options?: NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+    ) => {
+      return await executeMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+    },
+    prepareMigration: (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualAppliancePrepareMigrationRequest,
+      options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+    ) => prepareMigration(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    beginPrepareMigration: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualAppliancePrepareMigrationRequest,
+      options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+    ) => {
+      const poller = prepareMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPrepareMigrationAndWait: async (
+      resourceGroupName: string,
+      networkVirtualApplianceName: string,
+      body: NetworkVirtualAppliancePrepareMigrationRequest,
+      options?: NetworkVirtualAppliancesPrepareMigrationOptionalParams,
+    ) => {
+      return await prepareMigration(
+        context,
+        resourceGroupName,
+        networkVirtualApplianceName,
+        body,
+        options,
+      );
+    },
     getBootDiagnosticLogs: (
       resourceGroupName: string,
       networkVirtualApplianceName: string,
