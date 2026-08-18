@@ -1,17 +1,7 @@
 # Release History
     
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (2026-08-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.1 (2026-04-01)
-
-### Features Added
-
-Initial release of the @azure/arm-servicegroups package
+This is the first stable release of the @azure/arm-servicegroups package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.
