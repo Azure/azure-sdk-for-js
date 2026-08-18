@@ -54,12 +54,22 @@ describe("MLC PostEmitter integration", () => {
 
     await buildPackage(
       "/repo/sdk/test/package",
-      { sdkRepoRoot: "/repo", runMode: RunMode.Batch } as never,
+      { sdkRepoRoot: "/repo", runMode: RunMode.Batch, skip: false } as never,
       {} as never,
     );
 
-    expect(mocks.calls.filter((call) => call === "post-emitter")).toHaveLength(1);
-    expect(mocks.calls.indexOf("customize")).toBeLessThan(mocks.calls.indexOf("post-emitter"));
-    expect(mocks.calls.indexOf("post-emitter")).toBeLessThan(mocks.calls.indexOf("build"));
+    expect(mocks.calls).toEqual(["install", "customize", "post-emitter", "build", "test"]);
+  });
+
+  test("skips PostEmitter but retains customization when generation is skipped", async () => {
+    const { buildPackage } = await import("../../common/rushUtils.js");
+
+    await buildPackage(
+      "/repo/sdk/test/package",
+      { sdkRepoRoot: "/repo", runMode: RunMode.Batch, skip: true } as never,
+      {} as never,
+    );
+
+    expect(mocks.calls).toEqual(["install", "customize", "build", "test"]);
   });
 });

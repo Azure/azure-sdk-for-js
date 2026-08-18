@@ -104,6 +104,26 @@ async function runTaskkill(pid: number): Promise<void> {
   });
 }
 
+function isProcessGroupRunning(pid: number): boolean {
+  try {
+    process.kill(-pid, 0);
+    return true;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ESRCH") return false;
+    throw error;
+  }
+}
+
+async function waitForProcessGroupExit(pid: number, timeoutMs: number): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  while (isProcessGroupRunning(pid)) {
+    const remaining = deadline - Date.now();
+    if (remaining <= 0) return false;
+    await new Promise((resolve) => setTimeout(resolve, Math.min(50, remaining)));
+  }
+  return true;
+}
+
 export async function terminateProcessTree(
   child: ChildProcess,
   platform: NodeJS.Platform = process.platform,
@@ -133,14 +153,15 @@ export async function terminateProcessTree(
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
   }
-  if (await waitForChildClose(child, PROCESS_TERMINATION_GRACE_MS)) return;
+  await waitForChildClose(child, PROCESS_TERMINATION_GRACE_MS);
+  if (!isProcessGroupRunning(child.pid)) return;
 
   try {
     process.kill(-child.pid, "SIGKILL");
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
   }
-  if (!(await waitForChildClose(child, PROCESS_TERMINATION_GRACE_MS))) {
+  if (!(await waitForProcessGroupExit(child.pid, PROCESS_TERMINATION_GRACE_MS))) {
     throw new Error("Failed to confirm post-emitter process-tree termination.");
   }
 }

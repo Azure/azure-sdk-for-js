@@ -112,9 +112,6 @@ describe("RLC PostEmitter integration", () => {
       runMode: RunMode.Batch,
     });
 
-    expect(mocks.calls.filter((call) => call === "post-emitter")).toHaveLength(1);
-    expect(mocks.calls.indexOf("emit")).toBeLessThan(mocks.calls.indexOf("customize"));
-    expect(mocks.calls.indexOf("customize")).toBeLessThan(mocks.calls.indexOf("post-emitter"));
-    expect(mocks.calls.indexOf("post-emitter")).toBeLessThan(mocks.calls.indexOf("build"));
+    expect(mocks.calls).toEqual(["emit", "install", "customize", "post-emitter", "build", "pack"]);
   });
 });

@@ -11,6 +11,7 @@ import {
   preparePackageForBuild,
   runPostEmitter,
   runProcess,
+  terminateProcessTree,
 } from "../../common/postEmitter.js";
 import { RunMode } from "../../common/types.js";
 
@@ -335,5 +336,31 @@ describe("runProcess", () => {
     await expect(result).rejects.toThrow("was cancelled");
     expect(terminate).toHaveBeenCalledWith(child);
     expect(() => child.emit("error", new Error("late spawn error"))).not.toThrow();
+  });
+});
+
+describe.runIf(process.platform !== "win32")("terminateProcessTree", () => {
+  test("escalates when the parent closes but its process group remains", async () => {
+    const child = {
+      pid: 123,
+      exitCode: 0,
+      signalCode: null,
+      kill: vi.fn(),
+    } as never;
+    const kill = vi.spyOn(process, "kill").mockImplementation((_pid, signal) => {
+      if (signal === 0 && kill.mock.calls.length === 4) {
+        throw Object.assign(new Error("process group not found"), { code: "ESRCH" });
+      }
+      return true;
+    });
+
+    await terminateProcessTree(child, process.platform);
+
+    expect(kill.mock.calls).toEqual([
+      [-123, "SIGTERM"],
+      [-123, 0],
+      [-123, "SIGKILL"],
+      [-123, 0],
+    ]);
   });
 });

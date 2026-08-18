@@ -117,14 +117,20 @@ export async function buildPackage(
   if (modularSDKType === ModularSDKType.DataPlane) {
     errorAsWarning = true;
   }
-  await preparePackageForBuild(
-    packageDirectory,
-    options.sdkRepoRoot,
-    options.runMode,
+  const applyCustomizations =
     modularSDKType === ModularSDKType.DataPlane
       ? () => customizeCodes(packageDirectory)
-      : undefined,
-  );
+      : undefined;
+  if (options.skip) {
+    await applyCustomizations?.();
+  } else {
+    await preparePackageForBuild(
+      packageDirectory,
+      options.sdkRepoRoot,
+      options.runMode,
+      applyCustomizations,
+    );
+  }
   try {
     await runCommand(
       "pnpm",

@@ -89,9 +89,7 @@ describe("HLC PostEmitter integration", () => {
       runMode: RunMode.Batch,
     });
 
-    expect(mocks.calls.filter((call) => call === "post-emitter")).toHaveLength(1);
-    expect(mocks.calls.indexOf("emit")).toBeLessThan(mocks.calls.indexOf("post-emitter"));
-    expect(mocks.calls.indexOf("post-emitter")).toBeLessThan(mocks.calls.indexOf("build"));
+    expect(mocks.calls).toEqual(["emit", "install", "post-emitter", "build", "pack"]);
   });
 
   test("uses an explicit unspecified run mode when the local HLC caller omits it", async () => {
