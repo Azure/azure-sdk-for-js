@@ -164,7 +164,7 @@ export async function main(): Promise<void> {
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.beta.schedules.delete(schedule.id ?? "");
+    await project.beta.schedules.deleteSchedule(schedule.id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");
