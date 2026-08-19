@@ -88,6 +88,8 @@ export class ConfigurationManager {
   public registerCallback(callback: ConfigurationChangeCallback): void {
     this.callbacks.push(callback);
     if (Object.keys(this.state.settings).length > 0) {
+      // A callback may register after the last configuration change, so replay the cache now rather
+      // than leaving the consumer stale until another change occurs (which may never happen).
       this.invokeCallback(callback, this.state.settings);
     }
   }
