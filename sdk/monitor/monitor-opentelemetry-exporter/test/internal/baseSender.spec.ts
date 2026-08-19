@@ -169,7 +169,6 @@ import { isRetriable } from "../../src/utils/breezeUtils.js";
 // Test implementation of BaseSender
 class TestBaseSender extends BaseSender {
   public sendMock = vi.fn();
-  public shutdownMock = vi.fn();
   // Default to accepting the redirect so legacy tests that exercise the success path keep working;
   // tests that want to assert the cross-origin refusal path override this with mockReturnValue(false).
   public handlePermanentRedirectMock = vi.fn().mockReturnValue(true);
@@ -243,10 +242,6 @@ class TestBaseSender extends BaseSender {
 
   async send(payload: unknown[]): Promise<SenderResult> {
     return this.sendMock(payload);
-  }
-
-  async shutdown(): Promise<void> {
-    return this.shutdownMock();
   }
 
   handlePermanentRedirect(location: string | undefined): boolean {
@@ -1274,14 +1269,9 @@ describe("BaseSender", () => {
       // to test that it remains undefined when disabled
       class TestSenderWithoutMockStats extends BaseSender {
         sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
-        shutdownMock = vi.fn<() => Promise<void>>();
 
         async send(payload: unknown[]): Promise<SenderResult> {
           return this.sendMock(payload);
-        }
-
-        async shutdown(): Promise<void> {
-          return this.shutdownMock();
         }
 
         handlePermanentRedirect(_location: string | undefined): boolean {
@@ -1544,6 +1534,72 @@ describe("BaseSender", () => {
       expect(mockPersist.cleanExpiredFiles).toHaveBeenCalledTimes(1);
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
       expect(sender.sendMock).toHaveBeenCalledWith(file1);
+    });
+  });
+
+  describe("shutdown", () => {
+    it("cancels pending retry and startup replay without shutting shared metrics", async () => {
+      vi.useFakeTimers();
+      vi.spyOn(TestBaseSender.prototype as any, "getStartupReplayDelayMs").mockReturnValue(1000);
+      const retiringSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+      });
+      (retiringSender as any).scheduleRetryTimer(1000);
+
+      await retiringSender.shutdown();
+      await retiringSender.shutdown();
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect((retiringSender as any).retryTimer).toBeNull();
+      expect((retiringSender as any).startupReplayTimer).toBeNull();
+      expect(retiringSender.sendMock).not.toHaveBeenCalled();
+      expect(mockPersist.shift).not.toHaveBeenCalled();
+      expect(mockNetworkStats.shutdown).not.toHaveBeenCalled();
+      expect(mockLongIntervalStats.shutdown).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.shutdown).not.toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
+    it("stops an in-flight startup replay before it shifts or sends data", async () => {
+      let finishCleanup: (() => void) | undefined;
+      mockPersist.cleanExpiredFiles.mockImplementation(
+        () =>
+          new Promise<void>((resolve) => {
+            finishCleanup = resolve;
+          }),
+      );
+
+      const replay = sender.callSendAllPersistedFiles();
+      await vi.waitFor(() => expect(mockPersist.cleanExpiredFiles).toHaveBeenCalledOnce());
+      await sender.shutdown();
+      finishCleanup!();
+      await replay;
+
+      expect(mockPersist.shift).not.toHaveBeenCalled();
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("does not reschedule work when an in-flight send completes after shutdown", async () => {
+      let finishSend: ((result: SenderResult) => void) | undefined;
+      sender.sendMock.mockImplementation(
+        () =>
+          new Promise<SenderResult>((resolve) => {
+            finishSend = resolve;
+          }),
+      );
+
+      const exporting = sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledOnce());
+      await sender.shutdown();
+      finishSend!({ result: "", statusCode: 200 });
+      const result = await exporting;
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect((sender as any).retryTimer).toBeNull();
+      expect(mockNetworkStats.countSuccess).not.toHaveBeenCalled();
     });
   });
 

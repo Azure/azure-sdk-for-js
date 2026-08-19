@@ -58,6 +58,7 @@ export abstract class BaseSender {
   private retryTimer: NodeJS.Timeout | null;
   private retryTimerDeadlineMs: number = 0;
   private startupReplayTimer: NodeJS.Timeout | null = null;
+  private isShutdown: boolean = false;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -138,13 +139,31 @@ export abstract class BaseSender {
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
-  abstract shutdown(): Promise<void>;
   abstract handlePermanentRedirect(location: string | undefined): boolean;
+
+  public async shutdown(): Promise<void> {
+    if (this.isShutdown) {
+      return;
+    }
+    this.isShutdown = true;
+    if (this.retryTimer) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
+    this.retryTimerDeadlineMs = 0;
+    if (this.startupReplayTimer) {
+      clearTimeout(this.startupReplayTimer);
+      this.startupReplayTimer = null;
+    }
+  }
 
   /**
    * Export envelopes
    */
   public async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
+    if (this.isShutdown) {
+      return this.buildExportResult({ code: ExportResultCode.FAILED });
+    }
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
     if (envelopes.length < 1) {
@@ -154,6 +173,9 @@ export abstract class BaseSender {
     try {
       const startTime = new Date().getTime();
       const { result, statusCode, retryAfterMs } = await this.send(envelopes);
+      if (this.isShutdown) {
+        return this.buildExportResult({ code: ExportResultCode.FAILED });
+      }
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
@@ -251,6 +273,9 @@ export abstract class BaseSender {
         });
       }
     } catch (error: any) {
+      if (this.isShutdown) {
+        return this.buildExportResult({ code: ExportResultCode.FAILED });
+      }
       const restError = error as RestError;
       if (
         restError.statusCode &&
@@ -431,9 +456,12 @@ export abstract class BaseSender {
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
+    if (this.isShutdown) {
+      return;
+    }
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      if (envelopes) {
+      if (envelopes && !this.isShutdown) {
         await this.exportEnvelopes(envelopes);
       }
     } catch (err: any) {
@@ -445,20 +473,29 @@ export abstract class BaseSender {
   }
 
   private async sendAllPersistedFiles(): Promise<void> {
+    if (this.isShutdown) {
+      return;
+    }
     try {
       // Clean outdated telemetry from disk before attempting to send
       await this.persister.cleanExpiredFiles();
+      if (this.isShutdown) {
+        return;
+      }
 
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
       let isFirstBatch = true;
       let replayedBatchCount = 0;
-      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
+      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES && !this.isShutdown) {
         // Space out batches (with jitter) so a single process doesn't fire its whole
         // backlog at Breeze back-to-back. No delay before the first batch.
         if (!isFirstBatch) {
           const batchDelay = this.getReplayBatchDelayMs();
           if (batchDelay > 0) {
             await new Promise((resolve) => setTimeout(resolve, batchDelay));
+            if (this.isShutdown) {
+              return;
+            }
           }
         }
         isFirstBatch = false;
@@ -486,10 +523,15 @@ export abstract class BaseSender {
    * their backlog at the same instant after a shared outage or coordinated restart.
    */
   private scheduleStartupReplay(): void {
+    if (this.isShutdown) {
+      return;
+    }
     const delay = this.getStartupReplayDelayMs();
     this.startupReplayTimer = setTimeout(() => {
       this.startupReplayTimer = null;
-      this.sendAllPersistedFiles();
+      if (!this.isShutdown) {
+        void this.sendAllPersistedFiles();
+      }
     }, delay);
     // Don't keep the event loop alive solely for startup replay
     this.startupReplayTimer.unref();
@@ -528,6 +570,9 @@ export abstract class BaseSender {
   }
 
   private scheduleRetryTimer(retryAfterMs?: number): void {
+    if (this.isShutdown) {
+      return;
+    }
     const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
     const newDeadline = Date.now() + delay;
     // Reschedule if a new Retry-After results in a later absolute deadline
@@ -540,7 +585,9 @@ export abstract class BaseSender {
       this.retryTimerDeadlineMs = newDeadline;
       this.retryTimer = setTimeout(() => {
         this.retryTimer = null;
-        this.sendFirstPersistedFile();
+        if (!this.isShutdown) {
+          void this.sendFirstPersistedFile();
+        }
       }, adjustedDelay);
       this.retryTimer.unref();
     }

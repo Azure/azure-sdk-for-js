@@ -119,6 +119,7 @@ export class HttpSender extends BaseSender {
    */
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
+    await super.shutdown();
   }
 
   /**

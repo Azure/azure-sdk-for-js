@@ -5,6 +5,8 @@ import type { ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, expect, it, vi } from "vitest";
 import { AzureMonitorStatsbeatExporter } from "../../src/export/statsbeat/statsbeatExporter.js";
+import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
+import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
 import {
   EU_CONNECTION_STRING,
   NON_EU_CONNECTION_STRING,
@@ -111,5 +113,63 @@ describe("AzureMonitorStatsbeatExporter", () => {
       endpointUrl: "https://westus-0.in.applicationinsights.azure.com",
       instrumentationKey: "c4a29126-a7cb-47e5-b348-11414998b11e",
     });
+  });
+
+  it("disposes every replaced sender and leaves the current route usable", async () => {
+    const exporter = new AzureMonitorStatsbeatExporter({
+      connectionString: NON_EU_CONNECTION_STRING,
+    });
+    const rowSender = { shutdown: vi.fn().mockResolvedValue(undefined) };
+    exporter["_sender"] = rowSender;
+
+    await exporter.updateConnectionString(EU_CONNECTION_STRING);
+    expect(rowSender.shutdown).toHaveBeenCalledOnce();
+    expect(exporter["_sender"]).toBeUndefined();
+
+    const euSender = { shutdown: vi.fn().mockResolvedValue(undefined) };
+    exporter["_sender"] = euSender;
+    await exporter.updateConnectionString(NON_EU_CONNECTION_STRING);
+    expect(euSender.shutdown).toHaveBeenCalledOnce();
+    expect(exporter["_sender"]).toBeUndefined();
+
+    const currentSender = {
+      exportEnvelopes: vi.fn().mockResolvedValue({ code: ExportResultCode.SUCCESS }),
+      shutdown: vi.fn().mockResolvedValue(undefined),
+    };
+    exporter["_sender"] = currentSender;
+    await exporter.export({} as ResourceMetrics, vi.fn());
+    expect(currentSender.exportEnvelopes).toHaveBeenCalledWith([
+      expect.objectContaining({
+        instrumentationKey: "c4a29126-a7cb-47e5-b348-11414998b11e",
+      }),
+    ]);
+  });
+
+  it("cancels pending work on the sender it replaces", async () => {
+    vi.useFakeTimers();
+    vi.spyOn(BaseSender.prototype as any, "getStartupReplayDelayMs").mockReturnValue(1000);
+    const oldSender = new HttpSender({
+      endpointUrl: "https://westus-0.in.applicationinsights.azure.com",
+      instrumentationKey: "c4a29126-a7cb-47e5-b348-11414998b11e",
+      trackStatsbeat: false,
+      exporterOptions: {},
+      isStatsbeatSender: true,
+    });
+    const startupReplay = vi.spyOn(oldSender as any, "sendAllPersistedFiles");
+    const retryReplay = vi.spyOn(oldSender as any, "sendFirstPersistedFile");
+    (oldSender as any).scheduleRetryTimer(1000);
+
+    const exporter = new AzureMonitorStatsbeatExporter({
+      connectionString: NON_EU_CONNECTION_STRING,
+    });
+    exporter["_sender"] = oldSender;
+    await exporter.updateConnectionString(EU_CONNECTION_STRING);
+    await vi.advanceTimersByTimeAsync(1000);
+
+    expect(startupReplay).not.toHaveBeenCalled();
+    expect(retryReplay).not.toHaveBeenCalled();
+    expect((oldSender as any).startupReplayTimer).toBeNull();
+    expect((oldSender as any).retryTimer).toBeNull();
+    vi.useRealTimers();
   });
 });
