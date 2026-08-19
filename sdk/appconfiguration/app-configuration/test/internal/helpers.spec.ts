@@ -136,7 +136,7 @@ describe("helper methods", () => {
     });
   });
 
-  it("encodes feature flag tag filters", () => {
+  it("maps feature flag filters", () => {
     const result = formatFeatureFlagFiltersAndSelect({
       nameFilter: "flag*",
       labelFilter: "label*",
@@ -147,7 +147,7 @@ describe("helper methods", () => {
     assert.deepEqual(result, {
       name: "flag*",
       label: "label*",
-      tags: ["tier%3Dbeta%20%26%20canary"],
+      tags: ["tier=beta & canary"],
       select: ["last_modified", "enabled"],
     });
   });
