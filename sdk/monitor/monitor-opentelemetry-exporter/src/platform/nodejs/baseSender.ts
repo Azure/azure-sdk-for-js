@@ -46,19 +46,21 @@ const REPLAY_BATCH_BASE_DELAY_MS = 200;
 const REPLAY_BATCH_JITTER_MS = 200;
 // Prevent re-persisted files from creating an unbounded startup replay loop.
 const MAX_STARTUP_REPLAY_BATCHES = 10;
+const SENDER_SHUTDOWN_ERROR = new Error("Sender is shut down");
 
 /**
  * Base sender class
  * @internal
  */
 export abstract class BaseSender {
-  private static statsbeatRouteUpdate: Promise<void> = Promise.resolve();
+  private static redirectRouteUpdate: Promise<void> = Promise.resolve();
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private retryTimerDeadlineMs: number = 0;
   private startupReplayTimer: NodeJS.Timeout | null = null;
   private isShutdown: boolean = false;
+  private readonly replayOperations = new Set<Promise<void>>();
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -155,14 +157,18 @@ export abstract class BaseSender {
       clearTimeout(this.startupReplayTimer);
       this.startupReplayTimer = null;
     }
+    await Promise.allSettled([...this.replayOperations]);
   }
 
   /**
    * Export envelopes
    */
-  public async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
+  public async exportEnvelopes(
+    envelopes: Envelope[],
+    redirectIsSerialized: boolean = false,
+  ): Promise<ExportResult> {
     if (this.isShutdown) {
-      return this.buildExportResult({ code: ExportResultCode.FAILED });
+      return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
     }
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
@@ -173,9 +179,6 @@ export abstract class BaseSender {
     try {
       const startTime = new Date().getTime();
       const { result, statusCode, retryAfterMs } = await this.send(envelopes);
-      if (this.isShutdown) {
-        return this.buildExportResult({ code: ExportResultCode.FAILED });
-      }
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
@@ -273,10 +276,13 @@ export abstract class BaseSender {
         });
       }
     } catch (error: any) {
-      if (this.isShutdown) {
-        return this.buildExportResult({ code: ExportResultCode.FAILED });
-      }
       const restError = error as RestError;
+      if (
+        this.isShutdown &&
+        (!restError.statusCode || restError.statusCode === 307 || restError.statusCode === 308)
+      ) {
+        return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
+      }
       if (
         restError.statusCode &&
         (restError.statusCode === 307 || // Temporary redirect
@@ -292,26 +298,7 @@ export abstract class BaseSender {
             // is outside the configured ingestion host's trust boundary (e.g., attacker-controlled
             // Location header). In that case we MUST NOT retry, otherwise the bearer auth policy
             // would attach a freshly-signed AAD token (and the telemetry body) to the foreign host.
-            const accepted = this.handlePermanentRedirect(location);
-            if (accepted) {
-              await this.updateStatsbeatRoute(location);
-              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
-            }
-            const refusalError = new Error("Refused cross-origin redirect");
-            if (!this.isStatsbeatSender) {
-              this.networkStatsbeatMetrics?.countException(refusalError);
-              this.customerSDKStatsMetrics?.countDroppedItems(
-                envelopes,
-                DropCode.CLIENT_EXCEPTION,
-                refusalError.message,
-                ExceptionType.CLIENT_EXCEPTION,
-              );
-            }
-            return this.buildExportResult({
-              code: ExportResultCode.FAILED,
-              error: refusalError,
-            });
+            return this.applyRedirectAndRetry(location, envelopes, redirectIsSerialized);
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -455,16 +442,31 @@ export abstract class BaseSender {
     this.statsbeatFailureCount = 0;
   }
 
-  private async sendFirstPersistedFile(): Promise<void> {
+  private sendFirstPersistedFile(): Promise<void> {
+    return this.trackReplay(() => this.sendFirstPersistedFileCore());
+  }
+
+  private async sendFirstPersistedFileCore(): Promise<void> {
     if (this.isShutdown) {
       return;
     }
     const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      if (envelopes && !this.isShutdown) {
-        await this.exportEnvelopes(envelopes);
+      if (!envelopes) {
+        return;
+      }
+      if (this.isShutdown) {
+        await this.restoreShiftedEnvelopes(envelopes);
+        return;
+      }
+      const result = await this.exportEnvelopes(envelopes);
+      if (result.error === SENDER_SHUTDOWN_ERROR) {
+        await this.restoreShiftedEnvelopes(envelopes);
       }
     } catch (err: any) {
+      if (envelopes && this.isShutdown) {
+        await this.restoreShiftedEnvelopes(envelopes);
+      }
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
@@ -472,7 +474,11 @@ export abstract class BaseSender {
     }
   }
 
-  private async sendAllPersistedFiles(): Promise<void> {
+  private sendAllPersistedFiles(): Promise<void> {
+    return this.trackReplay(() => this.sendAllPersistedFilesCore());
+  }
+
+  private async sendAllPersistedFilesCore(): Promise<void> {
     if (this.isShutdown) {
       return;
     }
@@ -486,7 +492,11 @@ export abstract class BaseSender {
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
       let isFirstBatch = true;
       let replayedBatchCount = 0;
-      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES && !this.isShutdown) {
+      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
+        if (this.isShutdown) {
+          await this.restoreShiftedEnvelopes(envelopes);
+          return;
+        }
         // Space out batches (with jitter) so a single process doesn't fire its whole
         // backlog at Breeze back-to-back. No delay before the first batch.
         if (!isFirstBatch) {
@@ -494,6 +504,7 @@ export abstract class BaseSender {
           if (batchDelay > 0) {
             await new Promise((resolve) => setTimeout(resolve, batchDelay));
             if (this.isShutdown) {
+              await this.restoreShiftedEnvelopes(envelopes);
               return;
             }
           }
@@ -502,11 +513,19 @@ export abstract class BaseSender {
         replayedBatchCount++;
 
         const result = await this.exportEnvelopes(envelopes);
+        if (result.error === SENDER_SHUTDOWN_ERROR) {
+          await this.restoreShiftedEnvelopes(envelopes);
+          return;
+        }
+        if (this.isShutdown) {
+          return;
+        }
         if (result.code === ExportResultCode.FAILED) {
           // Stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`);
           break;
         }
+
         if (replayedBatchCount >= MAX_STARTUP_REPLAY_BATCHES) {
           break;
         }
@@ -514,6 +533,28 @@ export abstract class BaseSender {
       }
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
+    }
+  }
+
+  private trackReplay(operation: () => Promise<void>): Promise<void> {
+    const replay = operation();
+    this.replayOperations.add(replay);
+    void replay.then(
+      () => {
+        this.replayOperations.delete(replay);
+        return;
+      },
+      () => {
+        this.replayOperations.delete(replay);
+        return;
+      },
+    );
+    return replay;
+  }
+
+  private async restoreShiftedEnvelopes(envelopes: Envelope[]): Promise<void> {
+    if (!(await this.persister.push(envelopes))) {
+      diag.warn("Failed to restore persisted telemetry during sender shutdown");
     }
   }
 
@@ -623,15 +664,40 @@ export abstract class BaseSender {
     return headers?.get("location") ?? headers?.toJSON?.().location;
   }
 
-  private updateStatsbeatRoute(endpointUrl: string): Promise<void> {
-    const update = BaseSender.statsbeatRouteUpdate.then(async () => {
+  private applyRedirectAndRetry(
+    location: string,
+    envelopes: Envelope[],
+    redirectIsSerialized: boolean,
+  ): Promise<ExportResult> {
+    const operation = async (): Promise<ExportResult> => {
+      if (this.isShutdown) {
+        return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
+      }
+      if (!this.handlePermanentRedirect(location)) {
+        const refusalError = new Error("Refused cross-origin redirect");
+        if (!this.isStatsbeatSender) {
+          this.networkStatsbeatMetrics?.countException(refusalError);
+          this.customerSDKStatsMetrics?.countDroppedItems(
+            envelopes,
+            DropCode.CLIENT_EXCEPTION,
+            refusalError.message,
+            ExceptionType.CLIENT_EXCEPTION,
+          );
+        }
+        return this.buildExportResult({ code: ExportResultCode.FAILED, error: refusalError });
+      }
       await Promise.all([
-        this.networkStatsbeatMetrics?.updateEndpoint(endpointUrl),
-        this.longIntervalStatsbeatMetrics?.updateEndpoint(endpointUrl),
+        this.networkStatsbeatMetrics?.updateEndpoint(location),
+        this.longIntervalStatsbeatMetrics?.updateEndpoint(location),
       ]);
-      return undefined;
-    });
-    BaseSender.statsbeatRouteUpdate = update.then(
+      return this.exportEnvelopes(envelopes, true);
+    };
+
+    if (redirectIsSerialized || this.isStatsbeatSender) {
+      return operation();
+    }
+    const update = BaseSender.redirectRouteUpdate.then(operation);
+    BaseSender.redirectRouteUpdate = update.then(
       () => undefined,
       () => undefined,
     );

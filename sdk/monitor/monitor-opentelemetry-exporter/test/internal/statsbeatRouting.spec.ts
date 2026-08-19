@@ -44,7 +44,7 @@ describe("Statsbeat redirect routing", () => {
     await Promise.allSettled([network?.shutdown(), longInterval?.shutdown()]);
     (NetworkStatsbeatMetrics as any).instance = null;
     (LongIntervalStatsbeatMetrics as any).instance = null;
-    (BaseSender as any).statsbeatRouteUpdate = Promise.resolve();
+    (BaseSender as any).redirectRouteUpdate = Promise.resolve();
     vi.restoreAllMocks();
     nock.cleanAll();
     nock.enableNetConnect();
