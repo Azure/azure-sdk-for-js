@@ -55,9 +55,6 @@ export const ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS: readonly (readonly string[])
   [".monitor.azure.cn", ".applicationinsights.azure.cn"],
 ];
 
-export const ALLOWED_REDIRECT_DOMAIN_SUFFIXES: readonly string[] =
-  ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS.flat();
-
 /**
  * Connection string environment variable name.
  * @internal

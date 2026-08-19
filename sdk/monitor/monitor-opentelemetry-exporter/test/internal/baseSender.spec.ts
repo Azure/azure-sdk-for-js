@@ -267,6 +267,13 @@ class TestBaseSender extends BaseSender {
   }
 }
 
+function createRedirectError(statusCode: 307 | 308, location?: string): Error {
+  return Object.assign(new Error("Redirect"), {
+    statusCode,
+    response: { headers: createHttpHeaders(location ? { location } : {}) },
+  });
+}
+
 describe("BaseSender", () => {
   let sender: TestBaseSender;
 
@@ -410,78 +417,33 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.SUCCESS);
     });
 
-    it("should handle temporary redirect (307)", async () => {
-      // First call throws a redirect error, second call succeeds
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://newlocation.com" : null),
-        },
-      };
+    it.each([307, 308] as const)(
+      "should apply an accepted %s redirect to both Statsbeat routes",
+      async (code) => {
+        const location = "https://newlocation.com";
+        sender.sendMock
+          .mockRejectedValueOnce(createRedirectError(code, location))
+          .mockResolvedValueOnce({
+            result: "success",
+            statusCode: 200,
+          });
 
-      sender.sendMock.mockRejectedValueOnce(redirectError).mockResolvedValueOnce({
-        result: "success",
-        statusCode: 200,
-      });
+        const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith("https://newlocation.com");
-      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(
-        "https://newlocation.com",
-      );
-      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(
-        "https://newlocation.com",
-      );
-      expect(sender.sendMock).toHaveBeenCalledTimes(2);
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-    });
-
-    it("should handle permanent redirect (308)", async () => {
-      // First call throws a redirect error, second call succeeds
-      const redirectError: any = new Error("Permanent redirect");
-      redirectError.statusCode = 308;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://permanentlocation.com" : null),
-        },
-      };
-
-      sender.sendMock.mockRejectedValueOnce(redirectError).mockResolvedValueOnce({
-        result: "success",
-        statusCode: 200,
-      });
-
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
-        "https://permanentlocation.com",
-      );
-      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(
-        "https://permanentlocation.com",
-      );
-      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(
-        "https://permanentlocation.com",
-      );
-      expect(sender.sendMock).toHaveBeenCalledTimes(2);
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-    });
+        expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(location);
+        expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(location);
+        expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(location);
+        expect(sender.sendMock).toHaveBeenCalledTimes(2);
+        expect(result.code).toBe(ExportResultCode.SUCCESS);
+      },
+    );
 
     it("should handle circular redirects", async () => {
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://newlocation.com" : null),
-        },
-      };
-
       // Set the redirect counter to 9 (one before the limit)
       sender.setNumConsecutiveRedirects(9);
 
       // Next redirect should trigger circular redirect error
-      sender.sendMock.mockRejectedValue(redirectError);
+      sender.sendMock.mockRejectedValue(createRedirectError(307, "https://newlocation.com"));
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
@@ -492,20 +454,9 @@ describe("BaseSender", () => {
     });
 
     it("should refuse cross-origin redirects without retrying", async () => {
-      // A 307 to a cross-origin target whose host is outside the configured ingestion host
-      // and outside the trusted Azure Monitor ingestion suffix list. handlePermanentRedirect
-      // (mocked here) reports false so baseSender must NOT recurse into another `send` call --
-      // otherwise the auth policy would attach a freshly-signed AAD token (and the telemetry
-      // body) to the attacker host on the retry.
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://attacker.example.invalid" : null),
-        },
-      };
-
-      sender.sendMock.mockRejectedValue(redirectError);
+      sender.sendMock.mockRejectedValue(
+        createRedirectError(307, "https://attacker.example.invalid"),
+      );
       sender.handlePermanentRedirectMock.mockReturnValue(false);
 
       const envelopes = [{ name: "test", time: new Date() }];
@@ -516,7 +467,6 @@ describe("BaseSender", () => {
       );
       expect(sender.getNetworkStats().updateEndpoint).not.toHaveBeenCalled();
       expect(sender.getLongIntervalStats().updateEndpoint).not.toHaveBeenCalled();
-      // No retry: send is called exactly once and never reaches the redirect target.
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
       expect(result.code).toBe(ExportResultCode.FAILED);
       expect(result.error?.message).toContain("Refused cross-origin redirect");
@@ -524,14 +474,7 @@ describe("BaseSender", () => {
     });
 
     it("should not update Statsbeat routing for a redirect without a location", async () => {
-      const redirectError: any = new Error("Invalid redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: () => undefined,
-        },
-      };
-      sender.sendMock.mockRejectedValue(redirectError);
+      sender.sendMock.mockRejectedValue(createRedirectError(307));
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
@@ -544,16 +487,6 @@ describe("BaseSender", () => {
     it("should apply concurrent accepted redirects to Statsbeat in acceptance order", async () => {
       const firstLocation = "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track";
       const secondLocation = "https://westus2-0.in.applicationinsights.azure.com/v2.1/track";
-      const createRedirectError = (location: string): any => {
-        const error: any = new Error("Redirect");
-        error.statusCode = 307;
-        error.response = {
-          headers: {
-            get: (name: string) => (name === "location" ? location : undefined),
-          },
-        };
-        return error;
-      };
       let completeFirstUpdate: (() => void) | undefined;
       sender.getNetworkStats().updateEndpoint.mockImplementation((endpointUrl: string) =>
         endpointUrl === firstLocation
@@ -564,8 +497,8 @@ describe("BaseSender", () => {
       );
       sender.getLongIntervalStats().updateEndpoint.mockResolvedValue(undefined);
       sender.sendMock
-        .mockRejectedValueOnce(createRedirectError(firstLocation))
-        .mockRejectedValueOnce(createRedirectError(secondLocation))
+        .mockRejectedValueOnce(createRedirectError(307, firstLocation))
+        .mockRejectedValueOnce(createRedirectError(307, secondLocation))
         .mockResolvedValue({ result: "success", statusCode: 200 });
 
       const firstExport = sender.exportEnvelopes([{ name: "first", time: new Date() }]);

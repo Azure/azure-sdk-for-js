@@ -83,7 +83,7 @@ describe("AzureMonitorStatsbeatExporter", () => {
       connectionString: NON_EU_CONNECTION_STRING,
     });
     let completeShutdown: (() => void) | undefined;
-    const sender = {
+    exporter["_sender"] = {
       shutdown: vi.fn(
         () =>
           new Promise<void>((resolve) => {
@@ -91,13 +91,12 @@ describe("AzureMonitorStatsbeatExporter", () => {
           }),
       ),
     };
-    exporter["_sender"] = sender;
     const appliedRoutes: string[] = [];
 
     const euUpdate = exporter.updateConnectionString(EU_CONNECTION_STRING, () => {
       appliedRoutes.push("eu");
     });
-    await vi.waitFor(() => expect(sender.shutdown).toHaveBeenCalledOnce());
+    await vi.waitFor(() => expect(exporter["_sender"].shutdown).toHaveBeenCalledOnce());
 
     const nonEuUpdate = exporter.updateConnectionString(NON_EU_CONNECTION_STRING, () => {
       appliedRoutes.push("non-eu");

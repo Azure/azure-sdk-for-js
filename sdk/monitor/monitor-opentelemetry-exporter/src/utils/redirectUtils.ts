@@ -12,36 +12,15 @@ interface NormalizedNetloc {
  * Normalize a netloc-like value (`user@host:port`) to a lowercase host and effective HTTPS port.
  */
 function normalizeNetloc(netloc: string): NormalizedNetloc | undefined {
-  const afterUserInfo = netloc.split("@").pop() ?? "";
-  let host = afterUserInfo;
-  let port = 443;
-  if (host.startsWith("[")) {
-    const end = host.indexOf("]");
-    if (end < 0) {
-      return undefined;
-    }
-    const portText = host.slice(end + 1);
-    host = host.slice(0, end + 1);
-    if (portText) {
-      if (!portText.startsWith(":")) {
-        return undefined;
-      }
-      port = Number(portText.slice(1));
-    }
-  } else {
-    const colon = host.lastIndexOf(":");
-    if (colon >= 0) {
-      port = Number(host.slice(colon + 1));
-      host = host.slice(0, colon);
-    }
-  }
-  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+  try {
+    const url = new URL(`https://${netloc}`);
+    return {
+      host: url.hostname.toLowerCase().replace(/\.+$/, ""),
+      port: url.port ? Number(url.port) : 443,
+    };
+  } catch {
     return undefined;
   }
-  return {
-    host: host.toLowerCase().replace(/\.+$/, ""),
-    port,
-  };
 }
 
 /**
