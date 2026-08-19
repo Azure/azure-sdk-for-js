@@ -298,7 +298,7 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _deleteScheduleSend(
+export function _$deleteSend(
   context: Client,
   scheduleId: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
@@ -323,7 +323,7 @@ export function _deleteScheduleSend(
   });
 }
 
-export async function _deleteScheduleDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -333,11 +333,11 @@ export async function _deleteScheduleDeserialize(result: PathUncheckedResponse):
 }
 
 /** Deletes the specified schedule resource. */
-export async function deleteSchedule(
+export async function $delete(
   context: Client,
   scheduleId: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteScheduleSend(context, scheduleId, options);
-  return _deleteScheduleDeserialize(result);
+  const result = await _$deleteSend(context, scheduleId, options);
+  return _$deleteDeserialize(result);
 }

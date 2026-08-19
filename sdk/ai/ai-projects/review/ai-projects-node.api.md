@@ -818,9 +818,7 @@ export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOpt
 // @public
 export interface BetaEvaluationTaxonomiesOperations {
     create: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
-    // @deprecated (undocumented)
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
-    deleteEvaluationTaxonomy: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
     update: (name: string, taxonomy: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
@@ -1226,9 +1224,7 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
 // @public
 export interface BetaSchedulesOperations {
     createOrUpdate: (scheduleId: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
-    // @deprecated (undocumented)
     delete: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
-    deleteSchedule: (scheduleId: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
     get: (scheduleId: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
     getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
@@ -2152,9 +2148,7 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
 // @public
 export interface EvaluationRulesOperations {
     createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
-    // @deprecated (undocumented)
     delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
-    deleteEvaluationRule: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
     list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
 }

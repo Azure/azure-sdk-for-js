@@ -5,7 +5,6 @@
 ### Features Added
 
 - Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
-- Add `deleteEvaluationRule`, `deleteEvaluationTaxonomy`, and `deleteSchedule`, while retaining the previous `delete` methods as deprecated aliases. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
