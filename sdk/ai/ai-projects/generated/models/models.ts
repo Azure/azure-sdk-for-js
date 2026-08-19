@@ -20732,6 +20732,8 @@ export interface VoiceAgentServerEventSessionCreated {
   event_id: string;
   /** The event type, must be `session.created`. */
   type: "session.created";
+  /** The id of the persisted conversation. Only present when conversation persistence is enabled for the session. */
+  conversation_id?: string;
   /** The initial effective voice-agent session configuration. */
   session: VoiceAgentSessionResponseConfig;
 }
@@ -20742,6 +20744,7 @@ export function voiceAgentServerEventSessionCreatedSerializer(
   return {
     event_id: item["event_id"],
     type: item["type"],
+    conversation_id: item["conversation_id"],
     session: voiceAgentSessionResponseConfigSerializer(item["session"]),
   };
 }
@@ -20752,6 +20755,7 @@ export function voiceAgentServerEventSessionCreatedDeserializer(
   return {
     event_id: item["event_id"],
     type: item["type"],
+    conversation_id: item["conversation_id"],
     session: voiceAgentSessionResponseConfigDeserializer(item["session"]),
   };
 }

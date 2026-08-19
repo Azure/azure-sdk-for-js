@@ -5856,6 +5856,7 @@ export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking {
 
 // @public
 export interface VoiceAgentServerEventSessionCreated {
+    conversation_id?: string;
     event_id: string;
     session: VoiceAgentSessionResponseConfig;
     type: "session.created";
@@ -5995,6 +5996,7 @@ export interface VoiceAgentRealtimeClientConnectOptions {
 
 // @public
 export interface VoiceAgentRealtimeClientOptions {
+    allowCredentialsInUrl?: boolean;
     apiVersion?: string;
     connectionTimeoutInMs?: number;
     credentialScopes?: string | string[];
