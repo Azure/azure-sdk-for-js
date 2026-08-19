@@ -1,4 +1,4 @@
-﻿lockfileVersion: '9.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
@@ -41856,18 +41856,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.21.3:
-    resolution: {integrity: sha1-ZgtPrdtqPldchuB4EmkZlh9N5Pw=}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   wsl-utils@0.1.0:
     resolution: {integrity: sha1-h4PU32cdTVA2W+LuTHGRegVXuqs=}
     engines: {node: '>=18'}
@@ -47690,16 +47678,6 @@ snapshots:
       ws: 8.21.1
       zod: 4.4.3
 
-  openai@6.49.0(ws@8.21.3)(zod@3.25.76):
-    optionalDependencies:
-      ws: 8.21.3
-      zod: 3.25.76
-
-  openai@6.49.0(ws@8.21.3)(zod@4.4.3):
-    optionalDependencies:
-      ws: 8.21.3
-      zod: 4.4.3
-
   optionator@0.8.3:
     dependencies:
       deep-is: 0.1.4
@@ -49111,8 +49089,6 @@ snapshots:
   ws@7.5.13: {}
 
   ws@8.21.1: {}
-
-  ws@8.21.3: {}
 
   wsl-utils@0.1.0:
     dependencies:
