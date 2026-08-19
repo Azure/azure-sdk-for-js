@@ -401,6 +401,33 @@ describe("cleanUpPackageDirectory", () => {
     },
   );
 
+  test("preserves the src/generated customization layout in SpecPullRequest and Batch mode", async () => {
+    const runModes = [RunMode.SpecPullRequest, RunMode.Batch];
+
+    for (const runMode of runModes) {
+      const tempPackageDir = await createTestDirectoryStructure(__dirname, "dataplane");
+      try {
+        await ensureDir(path.join(tempPackageDir, "src", "generated"));
+        await writeFile(path.join(tempPackageDir, "src", "generated", "client.ts"), "// generated");
+        await writeFile(
+          path.join(tempPackageDir, POST_EMITTER_SCRIPT_NAME),
+          "Write-Output 'post-emitter'",
+        );
+
+        await cleanUpPackageDirectory(tempPackageDir, runMode);
+
+        expect(await pathExists(path.join(tempPackageDir, "src", "index.ts"))).toBe(true);
+        expect(await pathExists(path.join(tempPackageDir, "src", "generated", "client.ts"))).toBe(
+          true,
+        );
+        expect(await pathExists(path.join(tempPackageDir, "package.json"))).toBe(true);
+        expect(await pathExists(path.join(tempPackageDir, POST_EMITTER_SCRIPT_NAME))).toBe(true);
+      } finally {
+        await remove(tempPackageDir);
+      }
+    }
+  });
+
   test("preserves only PostEmitter.ps1 during full cleanup of a non-customized package", async () => {
     const tempPackageDir = await createTestDirectoryStructure(__dirname, "dataplane");
     try {

@@ -507,8 +507,9 @@ export function hasPostEmitter(packageDirectory: string): boolean {
 
 export function hasCustomizationLayout(packageDirectory: string): boolean {
   return (
-    fs.existsSync(path.join(packageDirectory, "generated")) &&
-    fs.existsSync(path.join(packageDirectory, "src"))
+    fs.existsSync(path.join(packageDirectory, "src", "generated")) ||
+    (fs.existsSync(path.join(packageDirectory, "generated")) &&
+      fs.existsSync(path.join(packageDirectory, "src")))
   );
 }
 
