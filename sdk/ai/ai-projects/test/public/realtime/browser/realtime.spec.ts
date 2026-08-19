@@ -109,9 +109,13 @@ describe("AIProjectClient browser realtime", () => {
       new BrowserTestCredential(),
     );
 
-    await expect(client.realtime.connect("browser-agent")).rejects.toThrow(
-      /allowCredentialsInUrl/,
-    );
+    // The transport's specific error is wrapped in a generic VoiceAgentConnectionError; the
+    // original message survives as its `cause`.
+    const error = await client.realtime.connect("browser-agent").catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(Error);
+    expect((error as { cause?: unknown }).cause).toMatchObject({
+      message: expect.stringMatching(/allowCredentialsInUrl/),
+    });
     expect(MockBrowserWebSocket.instances).toHaveLength(0);
   });
 
