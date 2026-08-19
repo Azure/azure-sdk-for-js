@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a ExternalAuth
  *
  * @summary get a ExternalAuth
- * x-ms-original-file: 2026-06-30-preview/ExternalAuths_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/ExternalAuths_Get_MaximumSet_Gen.json
  */
 async function externalAuthsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

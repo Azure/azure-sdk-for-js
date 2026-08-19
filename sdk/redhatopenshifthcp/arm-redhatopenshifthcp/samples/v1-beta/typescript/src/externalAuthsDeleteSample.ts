@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ExternalAuth
  *
  * @summary delete a ExternalAuth
- * x-ms-original-file: 2026-06-30-preview/ExternalAuths_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/ExternalAuths_Delete_MaximumSet_Gen.json
  */
 async function externalAuthsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

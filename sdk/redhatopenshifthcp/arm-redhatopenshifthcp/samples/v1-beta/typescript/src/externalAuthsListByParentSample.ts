@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ExternalAuth resources by HcpOpenShiftCluster
  *
  * @summary list ExternalAuth resources by HcpOpenShiftCluster
- * x-ms-original-file: 2026-06-30-preview/ExternalAuths_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/ExternalAuths_ListByParent_MaximumSet_Gen.json
  */
 async function externalAuthsListByParentMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

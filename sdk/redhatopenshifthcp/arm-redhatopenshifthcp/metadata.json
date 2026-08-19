@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.RedHatOpenShift": "2026-06-30-preview"
+    "Microsoft.RedHatOpenShift": "2026-09-01-preview"
   },
   "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
@@ -45,6 +45,7 @@
       "@azure/arm-redhatopenshifthcp!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-redhatopenshifthcp!HcpOpenShiftClusterUpdate:interface": "HcpOpenShiftClusterUpdate",
       "@azure/arm-redhatopenshifthcp!HcpOpenShiftClusterListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-redhatopenshifthcp!HcpOpenShiftClusterAdminCredentialRequest:interface": "Microsoft.RedHatOpenShift.HcpOpenShiftClusterAdminCredentialRequest",
       "@azure/arm-redhatopenshifthcp!HcpOpenShiftClusterAdminCredential:interface": "Microsoft.RedHatOpenShift.HcpOpenShiftClusterAdminCredential",
       "@azure/arm-redhatopenshifthcp!NodePool:interface": "Microsoft.RedHatOpenShift.NodePool",
       "@azure/arm-redhatopenshifthcp!NodePoolProperties:interface": "Microsoft.RedHatOpenShift.NodePoolProperties",

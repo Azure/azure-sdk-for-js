@@ -1510,6 +1510,18 @@ export function hcpOpenShiftClusterArrayDeserializer(result: Array<HcpOpenShiftC
   });
 }
 
+/** HCP cluster admin credential request body */
+export interface HcpOpenShiftClusterAdminCredentialRequest {
+  /** PEM encoded certificate request */
+  certificateSigningRequest?: string;
+}
+
+export function hcpOpenShiftClusterAdminCredentialRequestSerializer(
+  item: HcpOpenShiftClusterAdminCredentialRequest,
+): any {
+  return { certificateSigningRequest: item["certificateSigningRequest"] };
+}
+
 /** HCP cluster admin credential */
 export interface HcpOpenShiftClusterAdminCredential {
   /** Admin kubeconfig with a temporary client certificate */
@@ -2810,4 +2822,6 @@ export enum KnownVersions {
   V20251223Preview = "2025-12-23-preview",
   /** 2026-06-30-preview version */
   V20260630Preview = "2026-06-30-preview",
+  /** 2026-09-01-preview version */
+  V20260901Preview = "2026-09-01-preview",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list HcpOperatorIdentityRoleSet resources by SubscriptionLocationResource
  *
  * @summary list HcpOperatorIdentityRoleSet resources by SubscriptionLocationResource
- * x-ms-original-file: 2026-06-30-preview/HcpOperatorIdentityRoleSets_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOperatorIdentityRoleSets_List_MaximumSet_Gen.json
  */
 async function hcpOperatorIdentityRoleSetsListMaximumSet() {
   const credential = new DefaultAzureCredential();

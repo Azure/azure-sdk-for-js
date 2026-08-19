@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list HcpOpenShiftVersion resources by SubscriptionLocationResource
  *
  * @summary list HcpOpenShiftVersion resources by SubscriptionLocationResource
- * x-ms-original-file: 2026-06-30-preview/HcpOpenShiftVersions_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOpenShiftVersions_List_MaximumSet_Gen.json
  */
 async function hcpOpenShiftVersionsListMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

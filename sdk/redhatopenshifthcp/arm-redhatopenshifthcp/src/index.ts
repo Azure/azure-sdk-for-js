@@ -65,6 +65,7 @@ export type {
   ApiProfileCreate,
   PlatformProfileCreate,
   HcpOpenShiftClusterUpdate,
+  HcpOpenShiftClusterAdminCredentialRequest,
   HcpOpenShiftClusterAdminCredential,
   NodePool,
   NodePoolProperties,

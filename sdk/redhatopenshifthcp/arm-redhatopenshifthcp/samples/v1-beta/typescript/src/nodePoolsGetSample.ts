@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a NodePool
  *
  * @summary get a NodePool
- * x-ms-original-file: 2026-06-30-preview/NodePools_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/NodePools_Get_MaximumSet_Gen.json
  */
 async function nodePoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

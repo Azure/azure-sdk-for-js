@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a NodePool
  *
  * @summary delete a NodePool
- * x-ms-original-file: 2026-06-30-preview/NodePools_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/NodePools_Delete_MaximumSet_Gen.json
  */
 async function nodePoolsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

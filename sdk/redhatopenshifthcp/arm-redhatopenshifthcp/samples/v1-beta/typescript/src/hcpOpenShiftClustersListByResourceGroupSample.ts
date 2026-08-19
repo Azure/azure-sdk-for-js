@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list HcpOpenShiftCluster resources by resource group
  *
  * @summary list HcpOpenShiftCluster resources by resource group
- * x-ms-original-file: 2026-06-30-preview/HcpOpenShiftClusters_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOpenShiftClusters_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function hcpOpenShiftClustersListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

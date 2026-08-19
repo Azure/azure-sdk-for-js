@@ -231,6 +231,11 @@ export interface HcpOpenShiftClusterAdminCredential {
 }
 
 // @public
+export interface HcpOpenShiftClusterAdminCredentialRequest {
+    certificateSigningRequest?: string;
+}
+
+// @public
 export interface HcpOpenShiftClusterProperties {
     api?: ApiProfile;
     autoscaling?: ClusterAutoscalingProfile;
@@ -300,7 +305,7 @@ export interface HcpOpenShiftClustersOperations {
     get: (resourceGroupName: string, hcpOpenShiftClusterName: string, options?: HcpOpenShiftClustersGetOptionalParams) => Promise<HcpOpenShiftCluster>;
     listByResourceGroup: (resourceGroupName: string, options?: HcpOpenShiftClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<HcpOpenShiftCluster>;
     listBySubscription: (options?: HcpOpenShiftClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<HcpOpenShiftCluster>;
-    requestAdminCredential: (resourceGroupName: string, hcpOpenShiftClusterName: string, options?: HcpOpenShiftClustersRequestAdminCredentialOptionalParams) => PollerLike<OperationState<HcpOpenShiftClusterAdminCredential>, HcpOpenShiftClusterAdminCredential>;
+    requestAdminCredential: (resourceGroupName: string, hcpOpenShiftClusterName: string, body: HcpOpenShiftClusterAdminCredentialRequest, options?: HcpOpenShiftClustersRequestAdminCredentialOptionalParams) => PollerLike<OperationState<HcpOpenShiftClusterAdminCredential>, HcpOpenShiftClusterAdminCredential>;
     revokeCredentials: (resourceGroupName: string, hcpOpenShiftClusterName: string, options?: HcpOpenShiftClustersRevokeCredentialsOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, hcpOpenShiftClusterName: string, properties: HcpOpenShiftClusterUpdate, options?: HcpOpenShiftClustersUpdateOptionalParams) => PollerLike<OperationState<HcpOpenShiftCluster>, HcpOpenShiftCluster>;
 }
@@ -569,7 +574,8 @@ export enum KnownUsernameClaimPrefixPolicy {
 export enum KnownVersions {
     V20240610Preview = "2024-06-10-preview",
     V20251223Preview = "2025-12-23-preview",
-    V20260630Preview = "2026-06-30-preview"
+    V20260630Preview = "2026-06-30-preview",
+    V20260901Preview = "2026-09-01-preview"
 }
 
 // @public

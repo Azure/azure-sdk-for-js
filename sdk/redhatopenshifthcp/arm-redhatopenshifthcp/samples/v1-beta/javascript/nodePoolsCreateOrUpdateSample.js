@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a NodePool
  *
  * @summary create a NodePool
- * x-ms-original-file: 2026-06-30-preview/NodePools_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/NodePools_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function nodePoolsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

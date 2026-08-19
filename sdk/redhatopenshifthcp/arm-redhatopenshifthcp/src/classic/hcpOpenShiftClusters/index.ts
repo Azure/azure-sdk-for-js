@@ -26,6 +26,7 @@ import type {
   HcpOpenShiftCluster,
   HcpOpenShiftClusterResourceCreate,
   HcpOpenShiftClusterUpdate,
+  HcpOpenShiftClusterAdminCredentialRequest,
   HcpOpenShiftClusterAdminCredential,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -43,6 +44,7 @@ export interface HcpOpenShiftClustersOperations {
   requestAdminCredential: (
     resourceGroupName: string,
     hcpOpenShiftClusterName: string,
+    body: HcpOpenShiftClusterAdminCredentialRequest,
     options?: HcpOpenShiftClustersRequestAdminCredentialOptionalParams,
   ) => PollerLike<
     OperationState<HcpOpenShiftClusterAdminCredential>,
@@ -95,8 +97,9 @@ function _getHcpOpenShiftClusters(context: RedHatOpenShiftContext) {
     requestAdminCredential: (
       resourceGroupName: string,
       hcpOpenShiftClusterName: string,
+      body: HcpOpenShiftClusterAdminCredentialRequest,
       options?: HcpOpenShiftClustersRequestAdminCredentialOptionalParams,
-    ) => requestAdminCredential(context, resourceGroupName, hcpOpenShiftClusterName, options),
+    ) => requestAdminCredential(context, resourceGroupName, hcpOpenShiftClusterName, body, options),
     listBySubscription: (options?: HcpOpenShiftClustersListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

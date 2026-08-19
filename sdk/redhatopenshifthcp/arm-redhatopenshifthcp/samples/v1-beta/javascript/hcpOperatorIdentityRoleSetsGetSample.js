@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a HcpOperatorIdentityRoleSet
  *
  * @summary get a HcpOperatorIdentityRoleSet
- * x-ms-original-file: 2026-06-30-preview/HcpOperatorIdentityRoleSets_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOperatorIdentityRoleSets_Get_MaximumSet_Gen.json
  */
 async function hcpOperatorIdentityRoleSetsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

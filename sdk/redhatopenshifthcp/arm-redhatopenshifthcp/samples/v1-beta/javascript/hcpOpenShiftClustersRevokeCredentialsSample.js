@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to revoke all credentials issued by requestAdminCredential
  *
  * @summary revoke all credentials issued by requestAdminCredential
- * x-ms-original-file: 2026-06-30-preview/HcpOpenShiftClusters_RevokeCredentials_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOpenShiftClusters_RevokeCredentials_MaximumSet_Gen.json
  */
 async function hcpOpenShiftClustersRevokeCredentialsMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -41,7 +41,7 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function listByParent(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-30-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -103,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +140,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hcpOpenShiftClusterName, nodePoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -159,7 +159,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +209,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<NodePool>, NodePool>;
 }
 
@@ -228,7 +228,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -278,7 +278,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<NodePool>, NodePool>;
 }
 
@@ -296,7 +296,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
       nodePoolName: nodePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a HcpOpenShiftCluster
  *
  * @summary create a HcpOpenShiftCluster
- * x-ms-original-file: 2026-06-30-preview/HcpOpenShiftClusters_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01-preview/HcpOpenShiftClusters_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function hcpOpenShiftClustersCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

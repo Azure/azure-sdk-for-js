@@ -7,6 +7,7 @@ import type {
   HcpOpenShiftClusterResourceCreate,
   HcpOpenShiftClusterUpdate,
   _HcpOpenShiftClusterListResult,
+  HcpOpenShiftClusterAdminCredentialRequest,
   HcpOpenShiftClusterAdminCredential,
 } from "../../models/models.js";
 import {
@@ -15,6 +16,7 @@ import {
   hcpOpenShiftClusterResourceCreateSerializer,
   hcpOpenShiftClusterUpdateSerializer,
   _hcpOpenShiftClusterListResultDeserializer,
+  hcpOpenShiftClusterAdminCredentialRequestSerializer,
   hcpOpenShiftClusterAdminCredentialDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -47,7 +49,7 @@ export function _revokeCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +85,7 @@ export function revokeCredentials(
     getInitialResponse: () =>
       _revokeCredentialsSend(context, resourceGroupName, hcpOpenShiftClusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -91,6 +93,7 @@ export function _requestAdminCredentialSend(
   context: Client,
   resourceGroupName: string,
   hcpOpenShiftClusterName: string,
+  body: HcpOpenShiftClusterAdminCredentialRequest,
   options: HcpOpenShiftClustersRequestAdminCredentialOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -99,7 +102,7 @@ export function _requestAdminCredentialSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +110,9 @@ export function _requestAdminCredentialSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: hcpOpenShiftClusterAdminCredentialRequestSerializer(body),
   });
 }
 
@@ -132,6 +137,7 @@ export function requestAdminCredential(
   context: Client,
   resourceGroupName: string,
   hcpOpenShiftClusterName: string,
+  body: HcpOpenShiftClusterAdminCredentialRequest,
   options: HcpOpenShiftClustersRequestAdminCredentialOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<HcpOpenShiftClusterAdminCredential>,
@@ -141,9 +147,15 @@ export function requestAdminCredential(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _requestAdminCredentialSend(context, resourceGroupName, hcpOpenShiftClusterName, options),
+      _requestAdminCredentialSend(
+        context,
+        resourceGroupName,
+        hcpOpenShiftClusterName,
+        body,
+        options,
+      ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<
     OperationState<HcpOpenShiftClusterAdminCredential>,
     HcpOpenShiftClusterAdminCredential
@@ -158,7 +170,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -199,7 +211,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-30-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -214,7 +226,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +268,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-30-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -273,7 +285,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,7 +321,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, hcpOpenShiftClusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -326,7 +338,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -370,7 +382,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, hcpOpenShiftClusterName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<HcpOpenShiftCluster>, HcpOpenShiftCluster>;
 }
 
@@ -387,7 +399,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -431,7 +443,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, hcpOpenShiftClusterName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-30-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<HcpOpenShiftCluster>, HcpOpenShiftCluster>;
 }
 
@@ -447,7 +459,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       hcpOpenShiftClusterName: hcpOpenShiftClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-30-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
