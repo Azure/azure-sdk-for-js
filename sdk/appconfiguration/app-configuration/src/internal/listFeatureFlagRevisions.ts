@@ -41,7 +41,6 @@ export function listFeatureFlagRevisions(
           requestOptions: {
             ...sendParams.requestOptions,
             ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
             headers: {
               ...sendParams.requestOptions?.headers,
               ...updatedOptions.requestOptions?.headers,

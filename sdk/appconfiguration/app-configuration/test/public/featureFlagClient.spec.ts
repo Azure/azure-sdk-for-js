@@ -18,7 +18,7 @@ describe("FeatureFlagClient", () => {
           headers: createHttpHeaders(),
           bodyAsText:
             requests.length === 1
-              ? JSON.stringify({ name: "identity-flag", enabled: true, label: "test-label" })
+              ? JSON.stringify({ name: "identity-flag?suffix", enabled: true, label: "test-label" })
               : undefined,
         };
       },
@@ -30,15 +30,15 @@ describe("FeatureFlagClient", () => {
       },
       { httpClient: mockHttpClient },
     );
-    const id = { name: "identity-flag", label: "test-label", etag: '"identity-etag"' };
+    const id = { name: "identity-flag?suffix", label: "test-label", etag: '"identity-etag"' };
 
     await client.getFeatureFlag(id, { onlyIfChanged: true });
     await client.deleteFeatureFlag(id, { onlyIfUnchanged: true });
 
-    assert.include(requests[0].url, "/ff/identity-flag");
+    assert.include(requests[0].url, "/ff/identity-flag%3Fsuffix");
     assert.include(requests[0].url, "label=test-label");
     assert.equal(requests[0].headers.get("if-none-match"), '"identity-etag"');
-    assert.include(requests[1].url, "/ff/identity-flag");
+    assert.include(requests[1].url, "/ff/identity-flag%3Fsuffix");
     assert.include(requests[1].url, "label=test-label");
     assert.equal(requests[1].headers.get("if-match"), '"identity-etag"');
   });
@@ -54,7 +54,7 @@ describe("FeatureFlagClient", () => {
           status: 200,
           headers: createHttpHeaders(),
           bodyAsText: JSON.stringify({
-            name: isAdd ? "primitive-add" : "primitive-set",
+            name: isAdd ? "primitive-add?suffix" : "primitive-set?suffix",
             enabled: isAdd,
             label: "test-label",
           }),
@@ -70,24 +70,24 @@ describe("FeatureFlagClient", () => {
     );
 
     const added = await client.addFeatureFlag({
-      name: "primitive-add",
+      name: "primitive-add?suffix",
       enabled: true,
       label: "test-label",
     });
     const set = await client.setFeatureFlag({
-      name: "primitive-set",
+      name: "primitive-set?suffix",
       enabled: false,
       label: "test-label",
     });
 
-    assert.equal(added.name, "primitive-add");
+    assert.equal(added.name, "primitive-add?suffix");
     assert.equal(added.enabled, true);
-    assert.equal(set.name, "primitive-set");
+    assert.equal(set.name, "primitive-set?suffix");
     assert.equal(set.enabled, false);
-    assert.include(requests[0].url, "/ff/primitive-add");
+    assert.include(requests[0].url, "/ff/primitive-add%3Fsuffix");
     assert.include(requests[0].url, "label=test-label");
     assert.equal(requests[0].headers.get("if-none-match"), "*");
-    assert.include(requests[1].url, "/ff/primitive-set");
+    assert.include(requests[1].url, "/ff/primitive-set%3Fsuffix");
     assert.include(requests[1].url, "label=test-label");
   });
 
@@ -134,7 +134,7 @@ describe("FeatureFlagClient", () => {
     }
   });
 
-  it("URL-encodes tag filters for feature flag lists and revisions", async () => {
+  it("URL-encodes feature flag list filters", async () => {
     const requests: PipelineRequest[] = [];
     const mockHttpClient: HttpClient = {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
@@ -155,17 +155,25 @@ describe("FeatureFlagClient", () => {
       { httpClient: mockHttpClient },
     );
     const tagsFilter = ["tier=beta & canary"];
+    const nameFilter = "flag?name";
+    const labelFilter = "label&value";
 
-    for await (const _page of client.listFeatureFlags({ tagsFilter }).byPage()) {
+    for await (const _page of client
+      .listFeatureFlags({ tagsFilter, nameFilter, labelFilter })
+      .byPage()) {
       // Iterate to send the request.
     }
-    for await (const _page of client.listFeatureFlagRevisions({ tagsFilter }).byPage()) {
+    for await (const _page of client
+      .listFeatureFlagRevisions({ tagsFilter, nameFilter, labelFilter })
+      .byPage()) {
       // Iterate to send the request.
     }
 
     assert.lengthOf(requests, 2);
     for (const request of requests) {
       assert.include(request.url, "tags=tier%3Dbeta%20%26%20canary");
+      assert.include(request.url, "name=flag%3Fname");
+      assert.include(request.url, "label=label%26value");
     }
   });
 });

@@ -161,7 +161,7 @@ export function formatFeatureFlagFiltersAndSelect(
   return {
     name: options.nameFilter,
     label: options.labelFilter,
-    tags: options.tagsFilter?.map((tag) => encodeURIComponent(tag)),
+    tags: options.tagsFilter,
     select: formatFeatureFlagFieldsForSelect(options.fields),
   };
 }

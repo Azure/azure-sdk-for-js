@@ -61,7 +61,6 @@ import {
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   snapshotInfoToGenerated,
-  toFeatureFlagCompatResponse,
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
@@ -568,7 +567,7 @@ export class AppConfigurationClient {
           },
         });
         const parsed = await _getKeyValuesDeserialize(rawResponse);
-        return Object.assign(parsed, { _response: toFeatureFlagCompatResponse(rawResponse) });
+        return Object.assign(parsed, { _response: rawResponse });
       },
     );
   }

@@ -154,10 +154,6 @@ export class FeatureFlagClient {
           entity: toGeneratedFeatureFlag(featureFlag),
           label: featureFlag.label,
           ifMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         const response = await _putFeatureFlagDeserialize(rawResponse);
         return attachRawResponse(response, rawResponse) as SetFeatureFlagResponse;
@@ -201,10 +197,6 @@ export class FeatureFlagClient {
             entity: toGeneratedFeatureFlag(featureFlag),
             label: featureFlag.label,
             ifNoneMatch: "*",
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           });
           const response = await _putFeatureFlagDeserialize(rawResponse);
           return attachRawResponse(response, rawResponse) as AddFeatureFlagResponse;
@@ -257,10 +249,6 @@ export class FeatureFlagClient {
             acceptDatetime: acceptDateTime?.toISOString(),
             ifMatch,
             ifNoneMatch,
-            requestOptions: {
-              ...restOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           });
           const featureFlag = await _getFeatureFlagDeserialize(rawResponse);
           return attachRawResponse(
@@ -315,10 +303,6 @@ export class FeatureFlagClient {
           ...restOptions,
           label: id.label,
           ifMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         await _deleteFeatureFlagDeserialize(rawResponse);
         return attachRawResponse(

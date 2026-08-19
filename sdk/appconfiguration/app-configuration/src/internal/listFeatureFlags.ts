@@ -55,7 +55,6 @@ export function listFeatureFlags(
             requestOptions: {
               ...sendParams.requestOptions,
               ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
             },
           });
           const parsed = await _getFeatureFlagsDeserialize(rawResponse);
