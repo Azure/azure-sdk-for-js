@@ -267,6 +267,11 @@ export function list(
       itemName: "data",
       nextLinkName: "next_link",
       apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Routines=V2Preview",
+        },
+      },
     },
   );
 }
