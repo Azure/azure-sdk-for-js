@@ -6336,9 +6336,9 @@ export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctio
 export interface RealtimeFunctionToolParameters {}
 
 export function realtimeFunctionToolParametersSerializer(
-  _item: RealtimeFunctionToolParameters,
+  item: RealtimeFunctionToolParameters,
 ): any {
-  return {};
+  return item;
 }
 
 export function realtimeFunctionToolParametersDeserializer(

@@ -7,6 +7,8 @@
  * Corrections applied:
  * 1. Replaces all occurrences of "api%2Dversion" with "api-version"
  * 2. Removes "azsdk-js-client" and "azsdk-js-api" additions to userAgentPrefix
+ * 3. Makes the RealtimeFunctionToolParameters serializer pass through its input
+ *    instead of discarding it (see fixRealtimeFunctionToolParametersSerializer)
  *
  * Usage: node scripts/post-emitter.mjs
  */
@@ -87,6 +89,23 @@ function fixUserAgentPrefix(content) {
 }
 
 /**
+ * Fix 3: Make the RealtimeFunctionToolParameters serializer pass through its input.
+ *
+ * RealtimeFunctionToolParameters is an intentionally-open, empty-bodied model (the
+ * function tool's JSON Schema, whose shape isn't known ahead of time), but the emitter
+ * generates a serializer that unconditionally returns `{}` instead of the object being
+ * serialized, silently dropping every function tool's `parameters` (used by both
+ * VoiceAgentFunctionTool and RealtimeFunctionTool) before it reaches the service. The
+ * matching deserializer already does the correct passthrough (`return item;`).
+ */
+function fixRealtimeFunctionToolParametersSerializer(content) {
+  return content.replace(
+    'export function realtimeFunctionToolParametersSerializer(\n  _item: RealtimeFunctionToolParameters,\n): any {\n  return {};\n}',
+    'export function realtimeFunctionToolParametersSerializer(\n  item: RealtimeFunctionToolParameters,\n): any {\n  return item;\n}',
+  );
+}
+
+/**
  * Process a single file, applying all fixes. Returns true if the file was modified.
  */
 function processFile(filePath) {
@@ -95,6 +114,7 @@ function processFile(filePath) {
 
   modified = fixApiVersionEncoding(modified);
   modified = fixUserAgentPrefix(modified);
+  modified = fixRealtimeFunctionToolParametersSerializer(modified);
 
   if (modified !== original) {
     writeFileSync(filePath, modified, "utf-8");
