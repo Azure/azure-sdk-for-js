@@ -239,7 +239,7 @@ Voice Agents use the unified `project.agents` management surface and a bidirecti
 session exposed by `project.realtime`. The example below generates a Voice Agent, sends text, and
 streams its response:
 
-```typescript
+```ts snippet:voiceAgent
 const voiceAgent = await project.agents.generateAgent("voice");
 const connection = await project.realtime.connect(voiceAgent.name);
 
