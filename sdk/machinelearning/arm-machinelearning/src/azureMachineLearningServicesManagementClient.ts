@@ -22,30 +22,12 @@ import type { ComponentVersionsOperations } from "./classic/componentVersions/in
 import { _getComponentVersionsOperations } from "./classic/componentVersions/index.js";
 import type { ComputeOperationsOperations } from "./classic/computeOperations/index.js";
 import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
-import type { ConnectionOperations } from "./classic/connection/index.js";
-import { _getConnectionOperations } from "./classic/connection/index.js";
-import type { ConnectionRaiBlocklistOperations } from "./classic/connectionRaiBlocklist/index.js";
-import { _getConnectionRaiBlocklistOperations } from "./classic/connectionRaiBlocklist/index.js";
-import type { ConnectionRaiBlocklistItemOperations } from "./classic/connectionRaiBlocklistItem/index.js";
-import { _getConnectionRaiBlocklistItemOperations } from "./classic/connectionRaiBlocklistItem/index.js";
-import type { ConnectionRaiBlocklistItemsOperations } from "./classic/connectionRaiBlocklistItems/index.js";
-import { _getConnectionRaiBlocklistItemsOperations } from "./classic/connectionRaiBlocklistItems/index.js";
-import type { ConnectionRaiBlocklistsOperations } from "./classic/connectionRaiBlocklists/index.js";
-import { _getConnectionRaiBlocklistsOperations } from "./classic/connectionRaiBlocklists/index.js";
-import type { ConnectionRaiPoliciesOperations } from "./classic/connectionRaiPolicies/index.js";
-import { _getConnectionRaiPoliciesOperations } from "./classic/connectionRaiPolicies/index.js";
-import type { ConnectionRaiPolicyOperations } from "./classic/connectionRaiPolicy/index.js";
-import { _getConnectionRaiPolicyOperations } from "./classic/connectionRaiPolicy/index.js";
 import type { DataContainersOperations } from "./classic/dataContainers/index.js";
 import { _getDataContainersOperations } from "./classic/dataContainers/index.js";
 import type { DataVersionsOperations } from "./classic/dataVersions/index.js";
 import { _getDataVersionsOperations } from "./classic/dataVersions/index.js";
 import type { DatastoresOperations } from "./classic/datastores/index.js";
 import { _getDatastoresOperations } from "./classic/datastores/index.js";
-import type { EndpointOperations } from "./classic/endpoint/index.js";
-import { _getEndpointOperations } from "./classic/endpoint/index.js";
-import type { EndpointDeploymentOperations } from "./classic/endpointDeployment/index.js";
-import { _getEndpointDeploymentOperations } from "./classic/endpointDeployment/index.js";
 import type { EnvironmentContainersOperations } from "./classic/environmentContainers/index.js";
 import { _getEnvironmentContainersOperations } from "./classic/environmentContainers/index.js";
 import type { EnvironmentVersionsOperations } from "./classic/environmentVersions/index.js";
@@ -60,18 +42,10 @@ import type { FeaturestoreEntityContainersOperations } from "./classic/featurest
 import { _getFeaturestoreEntityContainersOperations } from "./classic/featurestoreEntityContainers/index.js";
 import type { FeaturestoreEntityVersionsOperations } from "./classic/featurestoreEntityVersions/index.js";
 import { _getFeaturestoreEntityVersionsOperations } from "./classic/featurestoreEntityVersions/index.js";
-import type { InferenceEndpointsOperations } from "./classic/inferenceEndpoints/index.js";
-import { _getInferenceEndpointsOperations } from "./classic/inferenceEndpoints/index.js";
-import type { InferenceGroupsOperations } from "./classic/inferenceGroups/index.js";
-import { _getInferenceGroupsOperations } from "./classic/inferenceGroups/index.js";
-import type { InferencePoolsOperations } from "./classic/inferencePools/index.js";
-import { _getInferencePoolsOperations } from "./classic/inferencePools/index.js";
 import type { JobsOperations } from "./classic/jobs/index.js";
 import { _getJobsOperations } from "./classic/jobs/index.js";
 import type { ManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
 import { _getManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
-import type { ManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
-import { _getManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
 import type { ManagedNetworkSettingsRuleOperations } from "./classic/managedNetworkSettingsRule/index.js";
 import { _getManagedNetworkSettingsRuleOperations } from "./classic/managedNetworkSettingsRule/index.js";
 import type { MarketplaceSubscriptionsOperations } from "./classic/marketplaceSubscriptions/index.js";
@@ -86,22 +60,12 @@ import type { OnlineEndpointsOperations } from "./classic/onlineEndpoints/index.
 import { _getOnlineEndpointsOperations } from "./classic/onlineEndpoints/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OutboundRuleOperations } from "./classic/outboundRule/index.js";
-import { _getOutboundRuleOperations } from "./classic/outboundRule/index.js";
-import type { OutboundRulesOperations } from "./classic/outboundRules/index.js";
-import { _getOutboundRulesOperations } from "./classic/outboundRules/index.js";
 import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
 import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
 import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
 import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { PTUQuotaOperations } from "./classic/ptuQuota/index.js";
-import { _getPTUQuotaOperations } from "./classic/ptuQuota/index.js";
 import type { QuotasOperations } from "./classic/quotas/index.js";
 import { _getQuotasOperations } from "./classic/quotas/index.js";
-import type { RaiPoliciesOperations } from "./classic/raiPolicies/index.js";
-import { _getRaiPoliciesOperations } from "./classic/raiPolicies/index.js";
-import type { RaiPolicyOperations } from "./classic/raiPolicy/index.js";
-import { _getRaiPolicyOperations } from "./classic/raiPolicy/index.js";
 import type { RegistriesOperations } from "./classic/registries/index.js";
 import { _getRegistriesOperations } from "./classic/registries/index.js";
 import type { RegistryCodeContainersOperations } from "./classic/registryCodeContainers/index.js";
@@ -156,31 +120,16 @@ export class AzureMachineLearningServicesManagementClient {
     subscriptionId: string,
     options: AzureMachineLearningServicesManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureMachineLearningServicesManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureMachineLearningServicesManagement(
+      credential,
+      subscriptionId,
+      options,
+    );
     this.pipeline = this._client.pipeline;
-    this.ptuQuota = _getPTUQuotaOperations(this._client);
     this.quotas = _getQuotasOperations(this._client);
     this.virtualMachineSizes = _getVirtualMachineSizesOperations(this._client);
     this.usages = _getUsagesOperations(this._client);
-    this.outboundRules = _getOutboundRulesOperations(this._client);
-    this.managedNetworkSettings = _getManagedNetworkSettingsOperations(this._client);
-    this.outboundRule = _getOutboundRuleOperations(this._client);
     this.managedNetworkSettingsRule = _getManagedNetworkSettingsRuleOperations(this._client);
-    this.endpoint = _getEndpointOperations(this._client);
-    this.raiPolicies = _getRaiPoliciesOperations(this._client);
-    this.connectionRaiPolicies = _getConnectionRaiPoliciesOperations(this._client);
-    this.connectionRaiPolicy = _getConnectionRaiPolicyOperations(this._client);
-    this.connectionRaiBlocklistItems = _getConnectionRaiBlocklistItemsOperations(this._client);
-    this.connectionRaiBlocklistItem = _getConnectionRaiBlocklistItemOperations(this._client);
-    this.connectionRaiBlocklists = _getConnectionRaiBlocklistsOperations(this._client);
-    this.connectionRaiBlocklist = _getConnectionRaiBlocklistOperations(this._client);
     this.workspaceConnections = _getWorkspaceConnectionsOperations(this._client);
     this.jobs = _getJobsOperations(this._client);
     this.registryModelVersions = _getRegistryModelVersionsOperations(this._client);
@@ -196,19 +145,14 @@ export class AzureMachineLearningServicesManagementClient {
     this.registryCodeContainers = _getRegistryCodeContainersOperations(this._client);
     this.managedNetworkProvisions = _getManagedNetworkProvisionsOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
-    this.connection = _getConnectionOperations(this._client);
     this.workspaceFeatures = _getWorkspaceFeaturesOperations(this._client);
     this.computeOperations = _getComputeOperationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
-    this.raiPolicy = _getRaiPolicyOperations(this._client);
     this.serverlessEndpoints = _getServerlessEndpointsOperations(this._client);
     this.schedules = _getSchedulesOperations(this._client);
     this.onlineDeployments = _getOnlineDeploymentsOperations(this._client);
     this.onlineEndpoints = _getOnlineEndpointsOperations(this._client);
     this.marketplaceSubscriptions = _getMarketplaceSubscriptionsOperations(this._client);
-    this.inferenceGroups = _getInferenceGroupsOperations(this._client);
-    this.inferenceEndpoints = _getInferenceEndpointsOperations(this._client);
-    this.inferencePools = _getInferencePoolsOperations(this._client);
     this.featurestoreEntityVersions = _getFeaturestoreEntityVersionsOperations(this._client);
     this.featurestoreEntityContainers = _getFeaturestoreEntityContainersOperations(this._client);
     this.featuresetVersions = _getFeaturesetVersionsOperations(this._client);
@@ -230,42 +174,17 @@ export class AzureMachineLearningServicesManagementClient {
     this.registries = _getRegistriesOperations(this._client);
     this.codeContainers = _getCodeContainersOperations(this._client);
     this.workspaces = _getWorkspacesOperations(this._client);
-    this.endpointDeployment = _getEndpointDeploymentOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for ptuQuota */
-  public readonly ptuQuota: PTUQuotaOperations;
   /** The operation groups for quotas */
   public readonly quotas: QuotasOperations;
   /** The operation groups for virtualMachineSizes */
   public readonly virtualMachineSizes: VirtualMachineSizesOperations;
   /** The operation groups for usages */
   public readonly usages: UsagesOperations;
-  /** The operation groups for outboundRules */
-  public readonly outboundRules: OutboundRulesOperations;
-  /** The operation groups for managedNetworkSettings */
-  public readonly managedNetworkSettings: ManagedNetworkSettingsOperations;
-  /** The operation groups for outboundRule */
-  public readonly outboundRule: OutboundRuleOperations;
   /** The operation groups for managedNetworkSettingsRule */
   public readonly managedNetworkSettingsRule: ManagedNetworkSettingsRuleOperations;
-  /** The operation groups for endpoint */
-  public readonly endpoint: EndpointOperations;
-  /** The operation groups for raiPolicies */
-  public readonly raiPolicies: RaiPoliciesOperations;
-  /** The operation groups for connectionRaiPolicies */
-  public readonly connectionRaiPolicies: ConnectionRaiPoliciesOperations;
-  /** The operation groups for connectionRaiPolicy */
-  public readonly connectionRaiPolicy: ConnectionRaiPolicyOperations;
-  /** The operation groups for connectionRaiBlocklistItems */
-  public readonly connectionRaiBlocklistItems: ConnectionRaiBlocklistItemsOperations;
-  /** The operation groups for connectionRaiBlocklistItem */
-  public readonly connectionRaiBlocklistItem: ConnectionRaiBlocklistItemOperations;
-  /** The operation groups for connectionRaiBlocklists */
-  public readonly connectionRaiBlocklists: ConnectionRaiBlocklistsOperations;
-  /** The operation groups for connectionRaiBlocklist */
-  public readonly connectionRaiBlocklist: ConnectionRaiBlocklistOperations;
   /** The operation groups for workspaceConnections */
   public readonly workspaceConnections: WorkspaceConnectionsOperations;
   /** The operation groups for jobs */
@@ -296,16 +215,12 @@ export class AzureMachineLearningServicesManagementClient {
   public readonly managedNetworkProvisions: ManagedNetworkProvisionsOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
-  /** The operation groups for connection */
-  public readonly connection: ConnectionOperations;
   /** The operation groups for workspaceFeatures */
   public readonly workspaceFeatures: WorkspaceFeaturesOperations;
   /** The operation groups for computeOperations */
   public readonly computeOperations: ComputeOperationsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-  /** The operation groups for raiPolicy */
-  public readonly raiPolicy: RaiPolicyOperations;
   /** The operation groups for serverlessEndpoints */
   public readonly serverlessEndpoints: ServerlessEndpointsOperations;
   /** The operation groups for schedules */
@@ -316,12 +231,6 @@ export class AzureMachineLearningServicesManagementClient {
   public readonly onlineEndpoints: OnlineEndpointsOperations;
   /** The operation groups for marketplaceSubscriptions */
   public readonly marketplaceSubscriptions: MarketplaceSubscriptionsOperations;
-  /** The operation groups for inferenceGroups */
-  public readonly inferenceGroups: InferenceGroupsOperations;
-  /** The operation groups for inferenceEndpoints */
-  public readonly inferenceEndpoints: InferenceEndpointsOperations;
-  /** The operation groups for inferencePools */
-  public readonly inferencePools: InferencePoolsOperations;
   /** The operation groups for featurestoreEntityVersions */
   public readonly featurestoreEntityVersions: FeaturestoreEntityVersionsOperations;
   /** The operation groups for featurestoreEntityContainers */
@@ -364,8 +273,6 @@ export class AzureMachineLearningServicesManagementClient {
   public readonly codeContainers: CodeContainersOperations;
   /** The operation groups for workspaces */
   public readonly workspaces: WorkspacesOperations;
-  /** The operation groups for endpointDeployment */
-  public readonly endpointDeployment: EndpointDeploymentOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }
