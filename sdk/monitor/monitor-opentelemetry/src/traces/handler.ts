@@ -70,6 +70,7 @@ export class TraceHandler {
       scheduledDelayMillis: 5000,
       exportTimeoutMillis: 30000,
       maxQueueSize: 2048,
+      ...this._config.batchSpanProcessorOptions,
     };
     this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);

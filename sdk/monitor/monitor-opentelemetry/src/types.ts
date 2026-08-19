@@ -6,7 +6,7 @@ import type { SeverityNumber } from "@opentelemetry/api-logs";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
-import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { BufferConfig, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor OpenTelemetry Options
@@ -40,6 +40,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   metricReaders?: MetricReader[];
   /** An array of metric views to register to the meter provider.*/
   views?: ViewOptions[];
+  /** OpenTelemetry BatchSpanProcessor buffer configuration options */
+  batchSpanProcessorOptions?: BufferConfig;
 }
 
 /**
