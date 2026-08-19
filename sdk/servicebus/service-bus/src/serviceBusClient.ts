@@ -39,9 +39,9 @@ import { ensureValidIdentifier } from "./util/utils.js";
  * (10000-01-01T00:00:00Z) due to double-to-long rounding in TotalMilliseconds,
  * and its decoder clamps values beyond DateTime.MaxValue.Ticks back to
  * DateTime.MaxValue. The service checks `lastUpdatedTime != DateTime.MaxValue`
- * (exact equality) to switch into default listing mode, which returns sessions
- * with active messages or stored session state. This value matches Track 1
- * Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
+ * to switch into updated-since mode; exact equality selects default listing,
+ * which returns sessions with active messages or stored session state. This
+ * value matches Track 1 Java's SessionBrowser.MAXDATE = new Date(253402300800000L).
  *
  * @internal
  */
