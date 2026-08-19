@@ -667,7 +667,6 @@ export class AIProjectClient {
     readonly realtime: VoiceAgentRealtimeClient;
     readonly telemetry: TelemetryOperations;
     readonly toolboxes: ToolboxesOperations;
-    readonly voiceAgentWebSocket: VoiceAgentWebSocketOperations;
 }
 
 // @public
@@ -5199,6 +5198,11 @@ export interface VoiceAgentEchoCancellation {
 export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
 
 // @public
+export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
+    eventId?: string;
+}
+
+// @public
 export interface VoiceAgentFunctionTool extends VoiceAgentTool {
     description?: string;
     name: string;
@@ -5262,6 +5266,45 @@ export class VoiceAgentProtocolError extends VoiceAgentRealtimeError {
         cause?: unknown;
     });
 }
+
+// @public
+export class VoiceAgentRealtimeClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentRealtimeClientOptions);
+    connect(agentName: string, options?: VoiceAgentRealtimeClientConnectOptions): Promise<VoiceAgentConnection>;
+}
+
+// @public
+export interface VoiceAgentRealtimeClientConnectOptions {
+    abortSignal?: AbortSignalLike;
+    agentSessionId?: string;
+    agentVersionOverride?: string;
+    connectionTimeoutInMs?: number;
+    onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
+    store?: boolean;
+    structuredInputs?: Record<string, unknown>;
+}
+
+// @public
+export interface VoiceAgentRealtimeClientOptions {
+    allowCredentialsInUrl?: boolean;
+    apiVersion?: string;
+    connectionTimeoutInMs?: number;
+    credentialScopes?: string | string[];
+    userAgentPrefix?: string;
+    webSocketFactory?: VoiceAgentWebSocketFactory;
+}
+
+// @public
+export class VoiceAgentRealtimeError extends Error {
+    constructor(message: string, code: VoiceAgentRealtimeErrorCode, options?: {
+        cause?: unknown;
+    });
+    readonly cause?: unknown;
+    readonly code: VoiceAgentRealtimeErrorCode;
+}
+
+// @public
+export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
 
 // @public
 export interface VoiceAgentRealtimeResponse extends OmitPropertiesRealtimeResponse1 {
@@ -5329,18 +5372,13 @@ export interface VoiceAgentSemanticVadTurnDetection {
 }
 
 // @public
-export interface VoiceAgentSendOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export interface VoiceAgentEventOptions extends VoiceAgentSendOptions {
-    eventId?: string;
-}
-
-// @public
 export interface VoiceAgentSendItemOptions extends VoiceAgentEventOptions {
     createResponse?: boolean;
+}
+
+// @public
+export interface VoiceAgentSendOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -5977,49 +6015,6 @@ export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterim
 }
 
 // @public
-class VoiceAgentRealtimeClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: VoiceAgentRealtimeClientOptions);
-    connect(agentName: string, options?: VoiceAgentRealtimeClientConnectOptions): Promise<VoiceAgentConnection>;
-}
-export { VoiceAgentRealtimeClient }
-
-// @public
-export interface VoiceAgentRealtimeClientConnectOptions {
-    abortSignal?: AbortSignalLike;
-    agentSessionId?: string;
-    agentVersionOverride?: string;
-    connectionTimeoutInMs?: number;
-    onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
-    store?: boolean;
-    structuredInputs?: Record<string, unknown>;
-}
-
-// @public
-export interface VoiceAgentRealtimeClientOptions {
-    allowCredentialsInUrl?: boolean;
-    apiVersion?: string;
-    connectionTimeoutInMs?: number;
-    credentialScopes?: string | string[];
-    userAgentPrefix?: string;
-    // Warning: (ae-forgotten-export) The symbol "VoiceAgentWebSocketFactory" needs to be exported by the entry point index.d.ts
-    //
-    // @internal (undocumented)
-    webSocketFactory?: VoiceAgentWebSocketFactory;
-}
-
-// @public
-export class VoiceAgentRealtimeError extends Error {
-    constructor(message: string, code: VoiceAgentRealtimeErrorCode, options?: {
-        cause?: unknown;
-    });
-    readonly cause?: unknown;
-    readonly code: VoiceAgentRealtimeErrorCode;
-}
-
-// @public
-export type VoiceAgentRealtimeErrorCode = "authenticationFailed" | "connectionFailed" | "connectionClosed" | "invalidState" | "operationCancelled" | "protocolError" | "sendFailed";
-
-// @public
 export interface VoiceAgentTool {
     response_scheduling?: VoiceAgentToolResponseScheduling;
     type: string;
@@ -6055,24 +6050,39 @@ export interface VoiceAgentTranscriptionWord {
 export type VoiceAgentTurnDetection = VoiceAgentServerVadTurnDetection | VoiceAgentSemanticVadTurnDetection | VoiceAzureSemanticVadTurnDetection | VoiceAzureSemanticVadEnTurnDetection | VoiceAzureSemanticVadMultilingualTurnDetection;
 
 // @public
-export interface VoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
-    agentSessionId?: string;
-    agentVersionOverride?: string;
-    store?: boolean;
-    structuredInputs?: string;
-    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
+export interface VoiceAgentWebSocketConnectOptions {
+    abortSignal?: AbortSignalLike;
+    connectionTimeoutInMs: number;
+    headers: Record<string, string>;
+    protocols: string[];
+    url: string;
+}
+
+// @public
+export interface VoiceAgentWebSocketFactory {
+    create(): VoiceAgentWebSocketTransport;
+}
+
+// @public
+export interface VoiceAgentWebSocketHandlers {
+    onClose: (code: number, reason: string, wasClean: boolean) => void;
+    onError: (error: Error) => void;
+    onMessage: (data: string | ArrayBuffer) => void;
 }
 
 // @public
 export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
 
 // @public
-export interface VoiceAgentWebSocketOperations {
-    connectVoiceAgent: (agentName: string, options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
-}
+export type VoiceAgentWebSocketSubprotocol = "realtime";
 
 // @public
-export type VoiceAgentWebSocketSubprotocol = "realtime";
+export interface VoiceAgentWebSocketTransport {
+    close(code: number, reason: string): Promise<void>;
+    connect(options: VoiceAgentWebSocketConnectOptions): Promise<void>;
+    send(data: string, abortSignal?: AbortSignalLike): Promise<void>;
+    setHandlers(handlers: VoiceAgentWebSocketHandlers): void;
+}
 
 // @public
 export interface VoiceAssistantMessageItem extends VoiceMessageItem {
