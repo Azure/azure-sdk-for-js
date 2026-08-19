@@ -138,6 +138,8 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           const collection = statsbeat["networkStatsbeatCollection"];
           const counter = collection[0];
           const provider = statsbeat["networkStatsbeatMeterProvider"];
+          const reader = (provider as any)["_sharedState"].metricCollectors[0]["_metricReader"];
+          const timer = reader["_interval"];
           const meter = statsbeat["networkStatsbeatMeter"];
           const exporter = statsbeat["networkAzureExporter"];
           const interval = statsbeat["statsCollectionShortInterval"];
@@ -159,6 +161,13 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.strictEqual(statsbeat["networkStatsbeatCollection"], collection);
           assert.strictEqual(statsbeat["networkStatsbeatCollection"][0], counter);
           assert.strictEqual(statsbeat["networkStatsbeatMeterProvider"], provider);
+          assert.strictEqual(
+            (statsbeat["networkStatsbeatMeterProvider"] as any)["_sharedState"].metricCollectors[0][
+              "_metricReader"
+            ],
+            reader,
+          );
+          assert.strictEqual(reader["_interval"], timer);
           assert.strictEqual(statsbeat["networkStatsbeatMeter"], meter);
           assert.strictEqual(statsbeat["networkAzureExporter"], exporter);
           assert.strictEqual(statsbeat["statsCollectionShortInterval"], interval);
@@ -243,6 +252,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
         const provider = statsbeat["longIntervalStatsbeatMeterProvider"];
         const reader = statsbeat["longIntervalMetricReader"];
+        const timer = (reader as any)["_interval"];
         const meter = statsbeat["longIntervalStatsbeatMeter"];
         const exporter = statsbeat["longIntervalAzureExporter"];
         const featureGauge = statsbeat["featureStatsbeatGauge"];
@@ -256,6 +266,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.strictEqual(statsbeat["connectionString"], EU_CONNECTION_STRING);
           assert.strictEqual(statsbeat["longIntervalStatsbeatMeterProvider"], provider);
           assert.strictEqual(statsbeat["longIntervalMetricReader"], reader);
+          assert.strictEqual((statsbeat["longIntervalMetricReader"] as any)["_interval"], timer);
           assert.strictEqual(statsbeat["longIntervalStatsbeatMeter"], meter);
           assert.strictEqual(statsbeat["longIntervalAzureExporter"], exporter);
           assert.strictEqual(statsbeat["featureStatsbeatGauge"], featureGauge);
