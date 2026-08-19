@@ -5,16 +5,18 @@
  * @summary Copy an analyzer from source to target within the same resource.
  *
  * This sample demonstrates how to copy an analyzer from source to target within the same
- * resource using the copyAnalyzer API. This is useful for creating copies of analyzers
+ * resource using the `copyAnalyzer` API. This is useful for creating copies of analyzers
  * for testing, staging, or production deployment.
  *
- * The copyAnalyzer API allows you to copy an analyzer within the same Azure resource:
- * - Same-resource copy: Copies an analyzer from one ID to another within the same resource
- * - Exact copy: The target analyzer is an exact copy of the source analyzer
- * - Use cases: Testing, staging, production deployment, versioning
+ * ## About copying analyzers
  *
- * Note: For cross-resource copying (copying between different Azure resources or subscriptions),
- * use the grantCopyAuth sample instead.
+ * The `copyAnalyzer` API allows you to copy an analyzer within the same Azure resource:
+ *
+ * - **Same-resource copy**: Copies an analyzer from one ID to another within the same resource
+ * - **Exact copy**: The target analyzer is an exact copy of the source analyzer
+ *
+ * **Note**: For cross-resource copying (copying between different Azure resources or subscriptions),
+ * use the [grantCopyAuth](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/src/grantCopyAuth.ts) sample instead.
  */
 
 require("dotenv/config");
@@ -76,7 +78,7 @@ async function main() {
     description: "Source analyzer for copying",
     config,
     fieldSchema,
-    models: { completion: "gpt-4.1" },
+    models: { completion: "gpt-5.2" },
     tags: { modelType: "in_development" },
   };
 

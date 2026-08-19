@@ -14,7 +14,7 @@ Before installing dependencies or editing files:
 1. Read exactly one unambiguous value labeled `TypeSpec commit` and exactly one unambiguous value labeled `Base branch` from the issue description. If either value is missing, duplicated, or ambiguous, stop without making changes and report the required labels.
 2. Require the TypeSpec commit to match `^[0-9a-f]{40}$` exactly.
 3. Require the entire base branch to case-sensitively match the conservative ASCII pattern `^[A-Za-z0-9][A-Za-z0-9._/-]*\z` and pass `git check-ref-format --branch`. Treat it only as a quoted command argument.
-4. Require a named working branch other than the base branch. Fetch `origin/<base-branch>`, then require the fetched branch tip to equal `HEAD` exactly. If the assignment started from the wrong branch, stop without making changes and report both commit IDs.
+4. Require a named working branch other than the base branch. Fetch `origin/<base-branch>` successfully before proceeding. Do not require `HEAD` to match the base branch tip; issue-assigned sessions run on a separate working branch that may already contain commits. Instead, require the working branch to be either (a) ahead of `origin/<base-branch>` or (b) able to merge or rebase cleanly onto `origin/<base-branch>`. If neither condition holds, stop without making changes and report the divergence details, including the merge base and ahead/behind state relative to `origin/<base-branch>`.
 
 Do not derive either input from the issue title. Do not infer, shorten, or silently correct either input.
 
@@ -42,6 +42,8 @@ The package skills are intentionally nested and are not automatically loaded by 
 
 Pass the validated 40-character commit explicitly to `regenerate-from-typespec`. Always restore `tsp-location.saved.yaml` in a `finally` path if generation fails. Do not proceed to the next skill until the current skill's success criteria pass.
 
+Protected-file drift and diff3 conflict markers produced by customization are inputs to `apply-post-emitter-edits`, not reasons to publish partial emitter output. That skill must restore protected files, resolve all markers, and remove its listed stray files before the samples, tests, and changelog skills run.
+
 Samples and GA tests are conditional. A step may be a documented no-op when the API diff contains no qualifying surface; state that explicitly in the pull request rather than creating placeholder files.
 
 For the sixth skill, the issue assignment already owns the working branch and draft pull request. Prepare the logical commits without creating another branch, pushing manually, or opening another pull request:
@@ -62,3 +64,5 @@ The result may contain three to five non-empty regeneration commits, always in t
 Keep the pull request in draft and use the title `[ai-projects] Regenerate from azure-rest-api-specs@<7-character-commit>`. Its description must link the full upstream commit, summarize public API changes, explain any sample/test no-ops, and report each validation command honestly.
 
 Apply every STOP condition from the six skills. On failure, preserve the working tree for diagnosis, do not publish partial manual branches or pull requests, and report the failing command and its output.
+
+Before finishing a managed session, verify that no conflict markers remain under `src/`, `src/restorePollerHelpers.ts` and `metadata.json` do not exist, and the changelog group is non-empty. Never report progress or commit emitter output as the completed regeneration while any required downstream skill is pending or failed.

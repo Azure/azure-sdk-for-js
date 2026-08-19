@@ -39,7 +39,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vmName: vmName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -92,7 +92,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmName, vmExtensionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +147,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,7 +198,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
 }
 
@@ -217,7 +217,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +268,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: "2026-04-01",
   }) as PollerLike<OperationState<VirtualMachineExtension>, VirtualMachineExtension>;
 }
 
@@ -286,7 +286,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmName: vmName,
       vmExtensionName: vmExtensionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-04-01",
       "%24expand": options?.expand,
     },
     {

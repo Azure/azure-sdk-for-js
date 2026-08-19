@@ -28,6 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 tools:
+  bash: false
   web-fetch:
   github:
     toolsets: [issues, repos]
@@ -79,7 +80,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9
+          uses: actions/github-script@v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:

@@ -50,7 +50,7 @@ export function _getIkeSasSend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,7 @@ export function getIkeSas(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VpnLinkConnectionsGetIkeSasResponse>,
     VpnLinkConnectionsGetIkeSasResponse
@@ -126,7 +126,7 @@ export function _resetConnectionSend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -171,7 +171,7 @@ export function resetConnection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -189,7 +189,7 @@ export function _listByVpnConnectionSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +231,7 @@ export function listByVpnConnection(
       _listByVpnConnectionSend(context, resourceGroupName, gatewayName, connectionName, options),
     _listByVpnConnectionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -251,7 +251,7 @@ export function _listDefaultSharedKeySend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -315,7 +315,7 @@ export function _listAllSharedKeysSend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -365,7 +365,7 @@ export function listAllSharedKeys(
       ),
     _listAllSharedKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -386,7 +386,7 @@ export function _setOrInitDefaultSharedKeySend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -444,7 +444,7 @@ export function setOrInitDefaultSharedKey(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<ConnectionSharedKeyResult>, ConnectionSharedKeyResult>;
 }
@@ -465,7 +465,7 @@ export function _getDefaultSharedKeySend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

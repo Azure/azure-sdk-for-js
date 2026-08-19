@@ -11,9 +11,11 @@ import { SpawnOptions, spawn } from "child_process";
 import * as compiler from "@typespec/compiler";
 import { dump, load as yamlLoad } from "js-yaml";
 import { NpmViewParameters, tryCreateLastestStableNpmViewFromGithub } from "./npmUtils.js";
-import { exists } from "fs-extra";
+import fsExtra from "fs-extra";
 import { getModularSDKType } from "../utils/generateInputUtils.js";
 import { POST_EMITTER_SCRIPT_NAME } from "./postEmitter.js";
+
+const { exists } = fsExtra;
 
 // ./eng/common/scripts/TypeSpec-Project-Process.ps1 script forces to use emitter '@azure-tools/typespec-ts',
 // so do NOT change the emitter
