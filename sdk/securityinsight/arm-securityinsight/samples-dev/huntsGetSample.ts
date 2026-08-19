@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a hunt, without relations and comments.
  *
  * @summary gets a hunt, without relations and comments.
- * x-ms-original-file: 2025-07-01-preview/hunts/GetHuntById.json
+ * x-ms-original-file: 2025-10-01-preview/hunts/GetHuntById.json
  */
 async function getAHunt(): Promise<void> {
   const credential = new DefaultAzureCredential();

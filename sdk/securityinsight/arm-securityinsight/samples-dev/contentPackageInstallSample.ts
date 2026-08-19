@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to install a package to the workspace.
  *
  * @summary install a package to the workspace.
- * x-ms-original-file: 2025-07-01-preview/contentPackages/InstallPackage.json
+ * x-ms-original-file: 2025-10-01-preview/contentPackages/InstallPackage.json
  */
 async function installAPackageToTheWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

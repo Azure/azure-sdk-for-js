@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all data connectors.
  *
  * @summary gets all data connectors.
- * x-ms-original-file: 2025-07-01-preview/dataConnectors/GetDataConnectors.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectors/GetDataConnectors.json
  */
 async function getAllDataConnectors(): Promise<void> {
   const credential = new DefaultAzureCredential();

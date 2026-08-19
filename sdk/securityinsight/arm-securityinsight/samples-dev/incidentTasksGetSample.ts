@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an incident task.
  *
  * @summary gets an incident task.
- * x-ms-original-file: 2025-07-01-preview/incidents/IncidentTasks/IncidentTasks_Get.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/IncidentTasks/IncidentTasks_Get.json
  */
 async function incidentTasksGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

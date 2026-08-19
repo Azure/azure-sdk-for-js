@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a billing statistic
  *
  * @summary gets a billing statistic
- * x-ms-original-file: 2025-07-01-preview/billingStatistics/GetBillingStatistic.json
+ * x-ms-original-file: 2025-10-01-preview/billingStatistics/GetBillingStatistic.json
  */
 async function getABillingStatistic() {
   const credential = new DefaultAzureCredential();

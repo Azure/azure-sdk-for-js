@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all workspace manager members that exist for the given Sentinel workspace manager
  *
  * @summary gets all workspace manager members that exist for the given Sentinel workspace manager
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerMembers/GetAllWorkspaceManagerMembers.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerMembers/GetAllWorkspaceManagerMembers.json
  */
 async function getAllWorkspaceManagerMembers() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of all recommendations.
  *
  * @summary gets a list of all recommendations.
- * x-ms-original-file: 2025-07-01-preview/recommendations/GetRecommendations.json
+ * x-ms-original-file: 2025-10-01-preview/recommendations/GetRecommendations.json
  */
 async function getRecommendationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

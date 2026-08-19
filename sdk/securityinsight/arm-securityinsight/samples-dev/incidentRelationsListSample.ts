@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all relations for a given incident.
  *
  * @summary gets all relations for a given incident.
- * x-ms-original-file: 2025-07-01-preview/incidents/relations/GetAllIncidentRelations.json
+ * x-ms-original-file: 2025-10-01-preview/incidents/relations/GetAllIncidentRelations.json
  */
 async function getAllIncidentRelations(): Promise<void> {
   const credential = new DefaultAzureCredential();

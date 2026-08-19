@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the office365 consent.
  *
  * @summary delete the office365 consent.
- * x-ms-original-file: 2025-07-01-preview/officeConsents/DeleteOfficeConsents.json
+ * x-ms-original-file: 2025-10-01-preview/officeConsents/DeleteOfficeConsents.json
  */
 async function deleteAnOfficeConsent(): Promise<void> {
   const credential = new DefaultAzureCredential();

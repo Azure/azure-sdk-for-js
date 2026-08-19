@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all jobs for the specified workspace manager assignment
  *
  * @summary get all jobs for the specified workspace manager assignment
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/GetAllJobs.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/GetAllJobs.json
  */
 async function getAllJobsForTheSpecifiedSentinelWorkspaceManagerAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();
