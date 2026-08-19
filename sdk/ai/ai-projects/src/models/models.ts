@@ -12637,7 +12637,7 @@ export function fileDataGenerationJobSourceDeserializer(item: any): FileDataGene
 /** Options for managing data generation jobs. */
 export interface DataGenerationJobOptions {
   /** The data generation job type. */
-  /** The discriminator possible values: simple_qna, traces, simulation_seed, tool_use */
+  /** The discriminator possible values: simple_qna, traces, task_generation, simulation_seed, tool_use */
   type: DataGenerationJobType;
   /** Maximum number of samples to generate. */
   max_samples: number;
