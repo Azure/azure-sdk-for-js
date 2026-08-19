@@ -43,7 +43,7 @@ describe("FeatureFlagClient", () => {
     assert.equal(requests[1].headers.get("if-match"), '"identity-etag"');
   });
 
-  it("supports primitive add and set overloads", async () => {
+  it("supports object add and set parameters", async () => {
     const requests: PipelineRequest[] = [];
     const mockHttpClient: HttpClient = {
       sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
@@ -69,8 +69,16 @@ describe("FeatureFlagClient", () => {
       { httpClient: mockHttpClient },
     );
 
-    const added = await client.addFeatureFlag("primitive-add", true, "test-label");
-    const set = await client.setFeatureFlag("primitive-set", false, "test-label");
+    const added = await client.addFeatureFlag({
+      name: "primitive-add",
+      enabled: true,
+      label: "test-label",
+    });
+    const set = await client.setFeatureFlag({
+      name: "primitive-set",
+      enabled: false,
+      label: "test-label",
+    });
 
     assert.equal(added.name, "primitive-add");
     assert.equal(added.enabled, true);

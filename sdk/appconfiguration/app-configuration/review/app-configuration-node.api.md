@@ -186,14 +186,12 @@ export class FeatureFlagClient {
     constructor(connectionString: string, options?: FeatureFlagClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: FeatureFlagClientOptions);
     addFeatureFlag(featureFlag: AddFeatureFlagParam, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
-    addFeatureFlag(name: string, enabled: boolean, label?: string, options?: AddFeatureFlagOptions): Promise<AddFeatureFlagResponse>;
     deleteFeatureFlag(id: FeatureFlagId, options?: DeleteFeatureFlagOptions): Promise<DeleteFeatureFlagResponse>;
     getFeatureFlag(id: FeatureFlagId, options?: GetFeatureFlagOptions): Promise<GetFeatureFlagResponse>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagRevisionsPage, PageSettings>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     setFeatureFlag(featureFlag: SetFeatureFlagParam, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
-    setFeatureFlag(name: string, enabled: boolean, label?: string, options?: SetFeatureFlagOptions): Promise<SetFeatureFlagResponse>;
 }
 
 // @public

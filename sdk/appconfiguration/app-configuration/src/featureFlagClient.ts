@@ -132,36 +132,11 @@ export class FeatureFlagClient {
    */
   setFeatureFlag(
     featureFlag: SetFeatureFlagParam,
-    options?: SetFeatureFlagOptions,
-  ): Promise<SetFeatureFlagResponse>;
-  /**
-   * Adds or updates a feature flag using its required primitive fields.
-   * @param name - The name of the feature flag.
-   * @param enabled - Whether the feature flag is enabled.
-   * @param label - The label that identifies the feature flag.
-   * @param options - Optional parameters for the request.
-   */
-  setFeatureFlag(
-    name: string,
-    enabled: boolean,
-    label?: string,
-    options?: SetFeatureFlagOptions,
-  ): Promise<SetFeatureFlagResponse>;
-  setFeatureFlag(
-    featureFlagOrName: SetFeatureFlagParam | string,
-    enabledOrOptions: boolean | SetFeatureFlagOptions = {},
-    label?: string,
     options: SetFeatureFlagOptions = {},
   ): Promise<SetFeatureFlagResponse> {
-    const featureFlag: SetFeatureFlagParam =
-      typeof featureFlagOrName === "string"
-        ? { name: featureFlagOrName, enabled: enabledOrOptions as boolean, label }
-        : featureFlagOrName;
-    const operationOptions =
-      typeof featureFlagOrName === "string" ? options : (enabledOrOptions as SetFeatureFlagOptions);
     return tracingClient.withSpan(
       "FeatureFlagClient.setFeatureFlag",
-      operationOptions,
+      options,
       async (updatedOptions) => {
         const { onlyIfUnchanged, ...restOptions } = updatedOptions;
         const { ifMatch } = checkAndFormatIfAndIfNoneMatch(
@@ -208,36 +183,11 @@ export class FeatureFlagClient {
    */
   addFeatureFlag(
     featureFlag: AddFeatureFlagParam,
-    options?: AddFeatureFlagOptions,
-  ): Promise<AddFeatureFlagResponse>;
-  /**
-   * Adds a feature flag using its required primitive fields.
-   * @param name - The name of the feature flag.
-   * @param enabled - Whether the feature flag is enabled.
-   * @param label - The label that identifies the feature flag.
-   * @param options - Optional parameters for the request.
-   */
-  addFeatureFlag(
-    name: string,
-    enabled: boolean,
-    label?: string,
-    options?: AddFeatureFlagOptions,
-  ): Promise<AddFeatureFlagResponse>;
-  addFeatureFlag(
-    featureFlagOrName: AddFeatureFlagParam | string,
-    enabledOrOptions: boolean | AddFeatureFlagOptions = {},
-    label?: string,
     options: AddFeatureFlagOptions = {},
   ): Promise<AddFeatureFlagResponse> {
-    const featureFlag: AddFeatureFlagParam =
-      typeof featureFlagOrName === "string"
-        ? { name: featureFlagOrName, enabled: enabledOrOptions as boolean, label }
-        : featureFlagOrName;
-    const operationOptions =
-      typeof featureFlagOrName === "string" ? options : (enabledOrOptions as AddFeatureFlagOptions);
     return tracingClient.withSpan(
       "FeatureFlagClient.addFeatureFlag",
-      operationOptions,
+      options,
       async (updatedOptions) => {
         try {
           const rawResponse = await _putFeatureFlagSend(this._context, featureFlag.name, {
