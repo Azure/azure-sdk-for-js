@@ -67,7 +67,13 @@ function attachRawResponse<T extends object>(value: T, rawResponse: unknown): T 
 }
 
 function toGeneratedFeatureFlag(featureFlag: FeatureFlagParam): GeneratedFeatureFlag {
-  return featureFlag as unknown as GeneratedFeatureFlag;
+  // Public models widen service enums (RequirementType, StatusOverride) to `string`
+  // per the extensible-enum guideline; only those two branches need a cast.
+  return {
+    ...featureFlag,
+    conditions: featureFlag.conditions as GeneratedFeatureFlag["conditions"],
+    variants: featureFlag.variants as GeneratedFeatureFlag["variants"],
+  };
 }
 
 /**
