@@ -451,7 +451,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private getShortHost(originalHost: string): string {
     let shortHost = originalHost;
     try {
-      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^/.-]+)/);
+      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^/.]+)/);
       const res = hostRegex.exec(originalHost);
       if (res !== null && res.length > 1) {
         shortHost = res[1];

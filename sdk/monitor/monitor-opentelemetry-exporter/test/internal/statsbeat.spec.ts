@@ -103,10 +103,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it.each([
-        ["westus", "https://westus-0.in.applicationinsights.azure.com", NON_EU_CONNECTION_STRING],
-        ["westeurope", options.endpointUrl, EU_CONNECTION_STRING],
+        ["westus-0", "https://westus-0.in.applicationinsights.azure.com", NON_EU_CONNECTION_STRING],
+        ["westeurope-5", options.endpointUrl, EU_CONNECTION_STRING],
         [
-          "GermanyNorth",
+          "GermanyNorth-42",
           "https://GermanyNorth-42.in.applicationinsights.azure.com",
           EU_CONNECTION_STRING,
         ],
@@ -175,7 +175,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.strictEqual(statsbeat["networkAzureExporter"], exporter);
           assert.strictEqual(statsbeat["statsCollectionShortInterval"], interval);
           assert.strictEqual(counter.endpoint, NETWORK_STATSBEAT_ENDPOINT);
-          assert.strictEqual(counter.host, "northeurope");
+          assert.strictEqual(counter.host, "northeurope-0");
           assert.strictEqual(counter.totalRequestCount, 2);
           assert.strictEqual(counter.totalSuccessfulRequestCount, 1);
           assert.deepEqual(counter.totalFailedRequestCount, [{ statusCode: 500, count: 1 }]);
@@ -186,7 +186,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           assert.strictEqual(counter.lastTime, lastTime);
           assert.deepEqual(statsbeat["networkProperties"], {
             endpoint: NETWORK_STATSBEAT_ENDPOINT,
-            host: "northeurope",
+            host: "northeurope-0",
           });
 
           statsbeat.countSuccess(30);
@@ -237,11 +237,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
-          "westus02",
+          "westus02-1",
         );
         assert.strictEqual(
           statsbeat["getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
-          "westus02",
+          "westus02-1",
         );
         assert.strictEqual(statsbeat["getShortHost"]("https://dc.services.visualstudio.com"), "dc");
         assert.strictEqual(statsbeat["getShortHost"]("https://www.test.com"), "test");

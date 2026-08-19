@@ -106,7 +106,7 @@ describe("Statsbeat redirect routing", () => {
         (item) =>
           item.cikey === CUSTOMER_IKEY &&
           item.endpoint === NETWORK_STATSBEAT_ENDPOINT &&
-          item.host === "westeurope",
+          item.host === "westeurope-1",
       ),
     );
     const metricNames = euEnvelopes.flatMap((envelope) =>
