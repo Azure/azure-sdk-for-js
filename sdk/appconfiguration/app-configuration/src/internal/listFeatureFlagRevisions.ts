@@ -12,7 +12,7 @@ import {
   _getFeatureFlagRevisionsDeserialize,
   _getFeatureFlagRevisionsSend,
 } from "../generated/api/featureFlagClient/operations.js";
-import { extractAfterTokenFromNextLink, toFeatureFlagCompatResponse } from "./helpers.js";
+import { extractAfterTokenFromNextLink, toAppConfigurationCompatResponse } from "./helpers.js";
 import { tracingClient } from "./tracing.js";
 
 /**
@@ -57,7 +57,7 @@ export function listFeatureFlagRevisions(
         continuationToken: response.nextLink
           ? extractAfterTokenFromNextLink(response.nextLink)
           : undefined,
-        _response: toFeatureFlagCompatResponse(response._response),
+        _response: toAppConfigurationCompatResponse(response._response),
       };
       return {
         page: currentResponse,

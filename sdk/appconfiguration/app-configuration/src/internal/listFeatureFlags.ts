@@ -17,7 +17,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
-  toFeatureFlagCompatResponse,
+  toAppConfigurationCompatResponse,
 } from "./helpers.js";
 import { logger } from "../logger.js";
 import { tracingClient } from "./tracing.js";
@@ -66,7 +66,7 @@ export function listFeatureFlags(
           continuationToken: response.nextLink
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
-          _response: toFeatureFlagCompatResponse(response._response),
+          _response: toAppConfigurationCompatResponse(response._response),
         };
         return {
           page: currentResponse,
@@ -88,7 +88,7 @@ export function listFeatureFlags(
               items: [],
               etag,
               continuationToken,
-              _response: toFeatureFlagCompatResponse(err.response),
+              _response: toAppConfigurationCompatResponse(err.response),
             } as unknown as ListFeatureFlagPage,
             nextPageLink: continuationToken,
           };

@@ -27,7 +27,7 @@ import {
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-  toFeatureFlagCompatResponse,
+  toAppConfigurationCompatResponse,
   getScope,
 } from "../../src/internal/helpers.js";
 import type { FeatureFlagValue } from "../../src/featureFlag.js";
@@ -361,8 +361,8 @@ describe("helper methods", () => {
     assert.isUndefined(formatFeatureFlagFieldsForSelect(undefined));
   });
 
-  it("converts feature flag responses to compatibility responses", () => {
-    const response = toFeatureFlagCompatResponse({
+  it("converts generated responses to App Configuration compatibility responses", () => {
+    const response = toAppConfigurationCompatResponse({
       request: createPipelineRequest({ url: "https://example.azconfig.io/ff/test" }),
       status: "200",
       headers: { "sync-token": "sync-token-value" },

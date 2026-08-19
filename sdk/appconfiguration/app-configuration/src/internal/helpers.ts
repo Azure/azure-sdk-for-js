@@ -516,7 +516,7 @@ export function formatFeatureFlagFieldsForSelect(
  * Converts a modular generated response to the compatibility response exposed by this package.
  * @internal
  */
-export function toFeatureFlagCompatResponse(
+export function toAppConfigurationCompatResponse(
   response: unknown,
 ): CompatResponse & { parsedHeaders: SyncTokenHeaderField; bodyAsText: string } {
   const rawResponse = response as FullOperationResponse & {

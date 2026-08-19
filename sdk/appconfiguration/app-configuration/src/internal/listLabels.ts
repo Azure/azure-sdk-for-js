@@ -11,6 +11,7 @@ import {
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
   formatLabelsFiltersAndSelect,
+  toAppConfigurationCompatResponse,
 } from "./helpers.js";
 import { tracingClient } from "./tracing.js";
 
@@ -54,7 +55,7 @@ export function listLabels(
         continuationToken: response.nextLink
           ? extractAfterTokenFromNextLink(response.nextLink)
           : undefined,
-        _response: response._response,
+        _response: toAppConfigurationCompatResponse(response._response),
       };
       return {
         page: currentResponse,

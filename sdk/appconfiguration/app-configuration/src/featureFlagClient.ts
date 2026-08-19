@@ -35,7 +35,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   formatFeatureFlagFiltersAndSelect,
   formatFeatureFlagFieldsForSelect,
-  toFeatureFlagCompatResponse,
+  toAppConfigurationCompatResponse,
 } from "./internal/helpers.js";
 import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
@@ -55,7 +55,7 @@ import {
 } from "./generated/api/featureFlagClient/operations.js";
 
 function attachRawResponse<T extends object>(value: T, rawResponse: unknown): T {
-  const compatResponse = toFeatureFlagCompatResponse(rawResponse);
+  const compatResponse = toAppConfigurationCompatResponse(rawResponse);
   const response = Object.assign(value, {
     syncToken: compatResponse.parsedHeaders.syncToken,
   });
