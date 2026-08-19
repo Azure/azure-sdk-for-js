@@ -113,6 +113,13 @@ import { appConfigurationApiVersion, packageVersion } from "./internal/constants
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 
+function encodePathParameter(value: string): string {
+  return encodeURIComponent(value).replace(
+    /[!'()*]/g,
+    (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
+}
+
 /**
  * Provides internal configuration options for AppConfigurationClient.
  * @internal
@@ -270,7 +277,7 @@ export class AppConfigurationClient {
         try {
           const originalResponse = await this.client.putKeyValue(
             "application/json",
-            configurationSetting.key,
+            encodePathParameter(configurationSetting.key),
             {
               ifNoneMatch: "*",
               label: configurationSetting.label,
@@ -329,7 +336,7 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
-        const originalResponse = await this.client.deleteKeyValue(id.key, {
+        const originalResponse = await this.client.deleteKeyValue(encodePathParameter(id.key), {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
@@ -379,7 +386,7 @@ export class AppConfigurationClient {
         let rawResponse: any;
         logger.info("[getConfigurationSetting] Getting key value pair");
         try {
-          const originalResponse = await this.client.getKeyValue(id.key, {
+          const originalResponse = await this.client.getKeyValue(encodePathParameter(id.key), {
             ...updatedOptions,
             label: id.label,
             select: formatFieldsForSelect(options.fields),
@@ -845,17 +852,21 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue("application/json", configurationSetting.key, {
-            ...updatedOptions,
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+          await this.client.putKeyValue(
+            "application/json",
+            encodePathParameter(configurationSetting.key),
+            {
+              ...updatedOptions,
+              label: configurationSetting.label,
+              entity: keyValue,
+              ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
 
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
             },
-          }),
+          ),
         );
         assertResponse(response);
         return response;
@@ -879,7 +890,7 @@ export class AppConfigurationClient {
         let response;
         if (readOnly) {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
-          response = await this.client.putLock(id.key, {
+          response = await this.client.putLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
@@ -891,7 +902,7 @@ export class AppConfigurationClient {
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
-          response = await this.client.deleteLock(id.key, {
+          response = await this.client.deleteLock(encodePathParameter(id.key), {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
