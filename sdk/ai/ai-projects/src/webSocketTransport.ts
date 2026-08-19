@@ -201,5 +201,9 @@ function shouldBypassProxy(hostname: string): boolean {
 }
 
 /** @internal */
-export const defaultVoiceAgentWebSocketFactory: VoiceAgentWebSocketFactory =
-  new NodeWebSocketFactory();
+export function createDefaultVoiceAgentWebSocketFactory(
+  // Node sends the Authorization header natively; there is no URL-credential fallback to opt into.
+  _allowCredentialsInUrl = false,
+): VoiceAgentWebSocketFactory {
+  return new NodeWebSocketFactory();
+}

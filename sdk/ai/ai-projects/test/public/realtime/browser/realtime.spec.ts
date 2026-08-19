@@ -103,6 +103,18 @@ describe("AIProjectClient browser realtime", () => {
     await connection.close();
   });
 
+  it("refuses to connect with credentials in the URL unless explicitly allowed", async () => {
+    const client = new AIProjectClient(
+      "https://example.services.ai.azure.com/api/projects/browser-project",
+      new BrowserTestCredential(),
+    );
+
+    await expect(client.realtime.connect("browser-agent")).rejects.toThrow(
+      /allowCredentialsInUrl/,
+    );
+    expect(MockBrowserWebSocket.instances).toHaveLength(0);
+  });
+
   it("sends client events and deserializes Blob server events", async () => {
     const connection = await createClient().realtime.connect("browser-agent");
     const socket = getSocket();
@@ -165,6 +177,7 @@ function createClient(): AIProjectClient {
   return new AIProjectClient(
     "https://example.services.ai.azure.com/api/projects/browser-project",
     new BrowserTestCredential(),
+    { realtimeOptions: { allowCredentialsInUrl: true } },
   );
 }
 

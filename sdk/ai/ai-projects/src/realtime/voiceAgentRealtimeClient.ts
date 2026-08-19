@@ -58,6 +58,16 @@ export interface VoiceAgentRealtimeClientOptions {
    * local development bridge demonstrated in the `samples/v2-beta/browser` sample.
    */
   webSocketFactory?: VoiceAgentWebSocketFactory;
+  /**
+   * Browsers and React Native cannot set an `Authorization` header on a WebSocket upgrade request,
+   * so the default browser/React Native transport refuses to connect rather than silently placing
+   * the bearer token in the connection URL's query string (query strings are routinely captured by
+   * proxies, server access logs, and browser history). Prefer a `webSocketFactory` that routes
+   * through an authenticated relay instead. Set this to `true` only if your deployment's threat
+   * model accepts URL-based credentials. Has no effect in Node.js, where headers work natively, or
+   * when `webSocketFactory` is provided.
+   */
+  allowCredentialsInUrl?: boolean;
 }
 
 /** Options for connecting the realtime client to a voice agent. */
@@ -210,7 +220,9 @@ export class VoiceAgentRealtimeClient {
     }
     const factory =
       this.options.webSocketFactory ??
-      (await import("#platform/webSocketTransport")).defaultVoiceAgentWebSocketFactory;
+      (await import("#platform/webSocketTransport")).createDefaultVoiceAgentWebSocketFactory(
+        this.options.allowCredentialsInUrl,
+      );
     const connection = new VoiceAgentConnectionImpl(
       this.endpoint,
       agentName,
