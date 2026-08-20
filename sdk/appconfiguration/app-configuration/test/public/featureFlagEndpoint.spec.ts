@@ -3,6 +3,7 @@
 
 import type { FeatureFlag, FeatureFlagClient, FeatureFlagParam } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { createFeatureFlagClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -134,6 +135,45 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
       }
     }
     assert.equal(found, true, "Expected to find the feature flag in the list");
+  });
+
+  // This creates hundreds of feature flags and can hit service throttling, so it is skipped in live mode.
+  it("can list feature flags with multiple pages", { skip: isLiveMode() }, async () => {
+    const expectedNumberOfLabels = 200;
+    let setFeatureFlagPromises = [];
+
+    for (let i = 0; i < expectedNumberOfLabels; i++) {
+      setFeatureFlagPromises.push(
+        client.setFeatureFlag({
+          name: featureFlagName,
+          label: i.toString(),
+          enabled: true,
+        }),
+      );
+
+      if (i !== 0 && i % 2 === 0) {
+        await Promise.all(setFeatureFlagPromises);
+        setFeatureFlagPromises = [];
+      }
+    }
+
+    await Promise.all(setFeatureFlagPromises);
+
+    const featureFlags: FeatureFlag[] = [];
+    for await (const featureFlag of client.listFeatureFlags({ nameFilter: featureFlagName })) {
+      featureFlags.push(featureFlag);
+    }
+
+    assert.equal(featureFlags.length, expectedNumberOfLabels);
+    const uniqueLabels = new Set(featureFlags.map((featureFlag) => featureFlag.label));
+    assert.equal(uniqueLabels.size, expectedNumberOfLabels);
+    for (let i = 0; i < expectedNumberOfLabels; i++) {
+      assert.ok(uniqueLabels.has(i.toString()));
+    }
+
+    for (let i = 0; i < expectedNumberOfLabels; i++) {
+      await client.deleteFeatureFlag({ name: featureFlagName, label: i.toString() });
+    }
   });
 
   it("can list feature flag revisions", async () => {
