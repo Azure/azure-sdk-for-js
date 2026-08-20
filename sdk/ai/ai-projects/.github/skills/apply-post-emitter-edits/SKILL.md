@@ -314,8 +314,6 @@ If `dev-tool` or one of its workspace dependencies is missing because a prior in
 pnpm install --filter @azure/ai-projects...
 ```
 
-If the repository's configured Azure Artifacts feed cannot access npm, do not change or print credentials. Retry the same filtered install through the Microsoft npm feed proxy with `--registry=https://packagefeedproxy.microsoft.io/npm/`. Avoid an unfiltered `pnpm install` during post-emitter work: it can remove existing module directories before a feed failure and leave `dev-tool` only partially installed.
-
 Then regenerate the API report and confirm the new public surface is present in it:
 
 ```powershell
