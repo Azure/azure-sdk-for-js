@@ -149,7 +149,6 @@ const client = new WebPubSubChatServiceClient(
   "<hubName>",
 );
 const accessToken = await client.getClientAccessToken({ userId: "alice" });
-console.log(accessToken.url);
 ```
 
 ## Troubleshooting
