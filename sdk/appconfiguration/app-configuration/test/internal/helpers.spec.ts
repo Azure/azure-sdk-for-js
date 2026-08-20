@@ -119,8 +119,20 @@ describe("helper methods", () => {
         labelFilter: "label1,label2",
       });
 
-      assert.equal(result.key, "key1,key2");
-      assert.equal(result.label, "label1,label2");
+      assert.equal(result.key, "key1%2Ckey2");
+      assert.equal(result.label, "label1%2Clabel2");
+    });
+
+    it("URL-encodes filter values", () => {
+      const result = formatFiltersAndSelect({
+        keyFilter: "key?part#fragment&name=value*",
+        labelFilter: "label?part#fragment&name=value",
+        tagsFilter: ["tag=value & more#1"],
+      });
+
+      assert.equal(result.key, "key%3Fpart%23fragment%26name%3Dvalue*");
+      assert.equal(result.label, "label%3Fpart%23fragment%26name%3Dvalue");
+      assert.deepEqual(result.tags, ["tag%3Dvalue%20%26%20more%231"]);
     });
 
     it("fields map properly", () => {

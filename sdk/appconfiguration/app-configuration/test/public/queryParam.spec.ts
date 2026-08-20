@@ -90,6 +90,85 @@ describe("request url query parameters", () => {
       await client.deleteConfigurationSetting({ key, label: "dev" });
     });
 
+    it("round-trips reserved URL characters in keys and query values", async () => {
+      const suffix = Math.floor(Math.random() * 1_000_000);
+      const key = recorder.variable("urlEncodingKey", `js-url?key#frag/seg&x=y+z-${suffix}`);
+      const label = recorder.variable("urlEncodingLabel", `js-label?part#frag&x=y+z-${suffix}`);
+      const tagValue = "beta & canary#1+2";
+      const tagFilter = `url-tag=${tagValue}`;
+      const { getCapturedUrl, client } = createClientWithUrlCapturePolicy();
+      let isReadOnly = false;
+
+      try {
+        await client.addConfigurationSetting({
+          key,
+          label,
+          value: "initial value",
+          tags: { "url-tag": tagValue },
+        });
+
+        let capturedUrl = getCapturedUrl();
+        assert.isDefined(capturedUrl);
+        assert.equal(new URL(capturedUrl!).pathname, `/kv/${encodeURIComponent(key)}`);
+        assert.include(capturedUrl!, `label=${encodeURIComponent(label)}`);
+
+        const setting = await client.getConfigurationSetting({ key, label });
+        assert.equal(setting.key, key);
+        assert.equal(setting.label, label);
+        assert.equal(setting.value, "initial value");
+
+        let foundSetting = false;
+        for await (const listedSetting of client.listConfigurationSettings({
+          keyFilter: key,
+          labelFilter: label,
+          tagsFilter: [tagFilter],
+        })) {
+          if (listedSetting.key === key && listedSetting.label === label) {
+            foundSetting = true;
+          }
+        }
+
+        assert.isTrue(foundSetting, "expected the encoded setting filters to match");
+        capturedUrl = getCapturedUrl();
+        assert.isDefined(capturedUrl);
+        const listUrl = new URL(capturedUrl!);
+        assert.equal(listUrl.searchParams.get("key"), key);
+        assert.equal(listUrl.searchParams.get("label"), label);
+        assert.deepEqual(listUrl.searchParams.getAll("tags"), [tagFilter]);
+        assert.notInclude(capturedUrl!, "tags=url-tag%253D");
+
+        let foundLabel = false;
+        for await (const listedLabel of client.listLabels({ nameFilter: label })) {
+          if (listedLabel.name === label) {
+            foundLabel = true;
+          }
+        }
+        assert.isTrue(foundLabel, "expected the encoded label filter to match");
+
+        await client.setReadOnly({ key, label }, true);
+        isReadOnly = true;
+        await client.setReadOnly({ key, label }, false);
+        isReadOnly = false;
+        await client.setConfigurationSetting({ key, label, value: "updated value" });
+
+        let revisionCount = 0;
+        for await (const revision of client.listRevisions({
+          keyFilter: key,
+          labelFilter: label,
+        })) {
+          if (revision.key === key && revision.label === label) {
+            revisionCount++;
+          }
+        }
+        assert.isAtLeast(revisionCount, 2);
+      } finally {
+        if (isReadOnly) {
+          await client.setReadOnly({ key, label }, false);
+        }
+        await client.deleteConfigurationSetting({ key, label });
+      }
+    });
+
     // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
     // To avoid hitting the service with too many requests, skipping the test in live.
     // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743

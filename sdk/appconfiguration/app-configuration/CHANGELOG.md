@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fixed URL encoding for configuration setting keys, labels, filters, tags, continuation tokens, and snapshot names containing reserved characters.
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes.
 
 ### Other Changes

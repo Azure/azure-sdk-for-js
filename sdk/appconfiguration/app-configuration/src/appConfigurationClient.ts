@@ -58,6 +58,7 @@ import type {
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  encodeURIComponentIfDefined,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -270,10 +271,10 @@ export class AppConfigurationClient {
         try {
           const originalResponse = await this.client.putKeyValue(
             "application/json",
-            configurationSetting.key,
+            encodeURIComponent(configurationSetting.key),
             {
               ifNoneMatch: "*",
-              label: configurationSetting.label,
+              label: encodeURIComponentIfDefined(configurationSetting.label),
               entity: keyValue,
               ...updatedOptions,
               requestOptions: {
@@ -329,8 +330,8 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
-        const originalResponse = await this.client.deleteKeyValue(id.key, {
-          label: id.label,
+        const originalResponse = await this.client.deleteKeyValue(encodeURIComponent(id.key), {
+          label: encodeURIComponentIfDefined(id.label),
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
           onResponse: (response) => {
@@ -379,9 +380,9 @@ export class AppConfigurationClient {
         let rawResponse: any;
         logger.info("[getConfigurationSetting] Getting key value pair");
         try {
-          const originalResponse = await this.client.getKeyValue(id.key, {
+          const originalResponse = await this.client.getKeyValue(encodeURIComponent(id.key), {
             ...updatedOptions,
-            label: id.label,
+            label: encodeURIComponentIfDefined(id.label),
             select: formatFieldsForSelect(options.fields),
             ...formatAcceptDateTime(options),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
@@ -677,7 +678,7 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatLabelsFiltersAndSelect(options),
-          after: pageLink,
+          after: encodeURIComponentIfDefined(pageLink),
           requestOptions: {
             ...updatedOptions.requestOptions,
             skipUrlEncoding: true,
@@ -702,7 +703,7 @@ export class AppConfigurationClient {
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
-          after: pageLink,
+          after: encodeURIComponentIfDefined(pageLink),
           requestOptions: {
             ...updatedOptions.requestOptions,
             skipUrlEncoding: true,
@@ -727,7 +728,7 @@ export class AppConfigurationClient {
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
-          after: pageLink,
+          after: encodeURIComponentIfDefined(pageLink),
           requestOptions: {
             ...updatedOptions.requestOptions,
             skipUrlEncoding: true,
@@ -799,7 +800,7 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
-          after: pageLink,
+          after: encodeURIComponentIfDefined(pageLink),
           requestOptions: {
             ...updatedOptions.requestOptions,
             skipUrlEncoding: true,
@@ -845,17 +846,20 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue("application/json", configurationSetting.key, {
-            ...updatedOptions,
-            label: configurationSetting.label,
-            entity: keyValue,
-            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
+          await this.client.putKeyValue(
+            "application/json",
+            encodeURIComponent(configurationSetting.key),
+            {
+              ...updatedOptions,
+              label: encodeURIComponentIfDefined(configurationSetting.label),
+              entity: keyValue,
+              ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+              requestOptions: {
+                ...updatedOptions.requestOptions,
+                skipUrlEncoding: true,
+              },
             },
-          }),
+          ),
         );
         assertResponse(response);
         return response;
@@ -879,11 +883,10 @@ export class AppConfigurationClient {
         let response;
         if (readOnly) {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
-          response = await this.client.putLock(id.key, {
+          response = await this.client.putLock(encodeURIComponent(id.key), {
             ...newOptions,
-            label: id.label,
+            label: encodeURIComponentIfDefined(id.label),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-
             requestOptions: {
               ...newOptions.requestOptions,
               skipUrlEncoding: true,
@@ -891,11 +894,10 @@ export class AppConfigurationClient {
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
-          response = await this.client.deleteLock(id.key, {
+          response = await this.client.deleteLock(encodeURIComponent(id.key), {
             ...newOptions,
-            label: id.label,
+            label: encodeURIComponentIfDefined(id.label),
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-
             requestOptions: {
               ...newOptions.requestOptions,
               skipUrlEncoding: true,
@@ -946,7 +948,7 @@ export class AppConfigurationClient {
               _createSnapshotSend(
                 this._context,
                 "application/vnd.microsoft.appconfig.snapshot+json",
-                snapshot.name,
+                encodeURIComponent(snapshot.name),
                 generatedSnapshot,
                 {
                   ...updatedOptions,
@@ -992,7 +994,7 @@ export class AppConfigurationClient {
               _createSnapshotSend(
                 this._context,
                 "application/vnd.microsoft.appconfig.snapshot+json",
-                snapshot.name,
+                encodeURIComponent(snapshot.name),
                 generatedSnapshot,
                 {
                   ...updatedOptions,
@@ -1035,7 +1037,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[getSnapshot] Get a snapshot");
-        const originalResponse = await this.client.getSnapshot(name, {
+        const originalResponse = await this.client.getSnapshot(encodeURIComponent(name), {
           ...updatedOptions,
           requestOptions: {
             ...updatedOptions.requestOptions,
@@ -1079,7 +1081,7 @@ export class AppConfigurationClient {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
           "application/merge-patch+json",
-          name,
+          encodeURIComponent(name),
           { status: "ready" },
           {
             ...updatedOptions,
@@ -1129,7 +1131,7 @@ export class AppConfigurationClient {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
           "application/merge-patch+json",
-          name,
+          encodeURIComponent(name),
           { status: "archived" },
           {
             ...updatedOptions,
@@ -1207,7 +1209,7 @@ export class AppConfigurationClient {
         const rawResponse = await _getSnapshotsSend(this._context, {
           ...updatedOptions,
           ...formatSnapshotFiltersAndSelect(options),
-          after: pageLink,
+          after: encodeURIComponentIfDefined(pageLink),
           requestOptions: {
             ...updatedOptions.requestOptions,
             skipUrlEncoding: true,

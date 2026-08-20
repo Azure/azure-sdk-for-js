@@ -136,10 +136,9 @@ export function formatFiltersAndSelect(
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
   return {
-    key: listConfigOptions.keyFilter,
-    label: listConfigOptions.labelFilter,
-    // Ensure the tags are URL-encoded when encoding
-    tags: listConfigOptions.tagsFilter?.map((t) => encodeURIComponent(t)),
+    key: encodeURIComponentIfDefined(listConfigOptions.keyFilter),
+    label: encodeURIComponentIfDefined(listConfigOptions.labelFilter),
+    tags: listConfigOptions.tagsFilter?.map((tag) => encodeURIComponent(tag)),
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -163,7 +162,7 @@ export function formatConfigurationSettingsFiltersAndSelect(
   const { snapshotName: snapshot, ...options } = listConfigOptions;
   return {
     ...formatFiltersAndSelect(options),
-    snapshot,
+    snapshot: encodeURIComponentIfDefined(snapshot),
   };
 }
 /**
@@ -178,7 +177,7 @@ export function formatSnapshotFiltersAndSelect(
   listSnapshotOptions: ListSnapshotsOptions,
 ): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
   return {
-    name: listSnapshotOptions.nameFilter,
+    name: encodeURIComponentIfDefined(listSnapshotOptions.nameFilter),
     status: listSnapshotOptions.statusFilter as SnapshotStatus[] | undefined,
     select: listSnapshotOptions.fields as SnapshotFields[] | undefined,
   };
@@ -196,10 +195,19 @@ export function formatLabelsFiltersAndSelect(
   listLabelsOptions: ListLabelsOptions,
 ): Pick<GetLabelsOptionalParams, "name" | "select"> {
   return {
-    name: listLabelsOptions.nameFilter,
+    name: encodeURIComponentIfDefined(listLabelsOptions.nameFilter),
     select: listLabelsOptions.fields,
   };
 }
+
+/**
+ * Encodes a URL component when it is defined.
+ * @internal
+ */
+export function encodeURIComponentIfDefined(value: string | undefined): string | undefined {
+  return value === undefined ? undefined : encodeURIComponent(value);
+}
+
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
