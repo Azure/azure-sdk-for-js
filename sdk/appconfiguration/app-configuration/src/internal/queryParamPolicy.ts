@@ -43,7 +43,8 @@ export function queryParamPolicy(): PipelinePolicy {
         const equalIndex = entry.indexOf("=");
         const name = equalIndex === -1 ? entry : entry.substring(0, equalIndex);
         const value = equalIndex === -1 ? "" : entry.substring(equalIndex + 1);
-        params.push({ lowercaseName: name.toLowerCase(), value });
+        const normalizedName = name.replace(/%25(?=[0-9a-f]{2})/gi, "%");
+        params.push({ lowercaseName: normalizedName.toLowerCase(), value });
       }
 
       // Modern JavaScript Array.prototype.sort is stable

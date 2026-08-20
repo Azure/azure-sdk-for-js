@@ -41,6 +41,16 @@ describe("urlQueryParamsNormalizationPolicy", () => {
     expect(finalUrl.endsWith("?key=%25%20%2B&label=%00")).toBe(true);
   });
 
+  it("removes double encoding from parameter names", async () => {
+    const policy = queryParamPolicy();
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/labels?%2524Select=name&api-version=2026-05-01-preview",
+    });
+    const response = await policy.sendRequest(request, mockNext());
+    const finalUrl = response.headers.get("url-lookup")!;
+    expect(finalUrl.endsWith("?%24select=name&api-version=2026-05-01-preview")).toBe(true);
+  });
+
   it("keeps original order of query parameters", async () => {
     const policy = queryParamPolicy();
     const request = createPipelineRequest({
