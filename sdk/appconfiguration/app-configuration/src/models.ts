@@ -98,7 +98,7 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
   apiVersion?: string;
 
   /**
-   * The Audience to use for authentication with Azure Active Directory (AAD).
+   * The audience to use for authentication with Microsoft Entra ID.
    * {@link KnownAppConfigAudience} can be used interchangeably with audience.
    * If not specified, the default audience will be set to Azure Public Cloud.
    */
@@ -108,7 +108,21 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 /**
  * Provides configuration options for FeatureFlagClient.
  */
-export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {}
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {
+  /**
+   * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
+   * {@link KnownFeatureFlagApiVersion} can be used interchangeably with apiVersion.
+   * Note that overriding this default value may result in unsupported behavior.
+   */
+  apiVersion?: string;
+
+  /**
+   * The audience to use for authentication with Microsoft Entra ID.
+   * {@link KnownAppConfigAudience} can be used interchangeably with audience.
+   * If not specified, the default audience will be set to Azure Public Cloud.
+   */
+  audience?: string;
+}
 
 /** The conditions that must be met for the feature flag to be enabled. */
 export interface FeatureFlagConditions {
@@ -277,6 +291,14 @@ export enum KnownAppConfigurationApiVersion {
   V20240901 = "2024-09-01",
   /** The 2026-04-01 API version */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
+}
+
+/**
+ * Known service API versions supported by FeatureFlagClient.
+ */
+export enum KnownFeatureFlagApiVersion {
   /** The 2026-05-01-preview API version */
   V20260501Preview = "2026-05-01-preview",
 }

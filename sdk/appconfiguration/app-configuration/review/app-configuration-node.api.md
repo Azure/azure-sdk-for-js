@@ -196,6 +196,8 @@ export class FeatureFlagClient {
 
 // @public
 export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {
+    apiVersion?: string;
+    audience?: string;
 }
 
 // @public
@@ -359,6 +361,11 @@ export enum KnownConfigurationSnapshotStatus {
     Failed = "failed",
     Provisioning = "provisioning",
     Ready = "ready"
+}
+
+// @public
+export enum KnownFeatureFlagApiVersion {
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
