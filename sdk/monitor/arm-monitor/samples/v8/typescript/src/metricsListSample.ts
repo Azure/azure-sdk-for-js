@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { MonitorClient } = require("@azure/arm-monitor");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  *
- * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  * x-ms-original-file: 2024-02-01/GetMetric.json
  */
-async function getMetricForData() {
+async function getMetricForData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const result = await client.metrics.list(
@@ -32,12 +32,12 @@ async function getMetricForData() {
 }
 
 /**
- * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  *
- * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  * x-ms-original-file: 2024-02-01/GetMetricError.json
  */
-async function getMetricWithError() {
+async function getMetricWithError(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const result = await client.metrics.list(
@@ -56,12 +56,12 @@ async function getMetricWithError() {
 }
 
 /**
- * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * This sample demonstrates how to **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  *
- * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/azure/azure-resource-manager/management/request-limits-and-throttling).
+ * @summary **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling).
  * x-ms-original-file: 2024-02-01/GetMetricMetadata.json
  */
-async function getMetricForMetadata() {
+async function getMetricForMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const result = await client.metrics.list(
@@ -75,7 +75,7 @@ async function getMetricForMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getMetricForData();
   await getMetricWithError();
   await getMetricForMetadata();
