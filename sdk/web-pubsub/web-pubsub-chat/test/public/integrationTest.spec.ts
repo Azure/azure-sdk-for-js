@@ -15,6 +15,7 @@ import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 describe("", () => {
   let client: WebPubSubChatServiceClient;
   let recorder: Recorder;
+  const isLocalAuthEnabled = process.env.WPS_CHAT_LOCAL_AUTH_ENABLED === "true";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -35,18 +36,21 @@ describe("", () => {
   describe("roles", () => {
     const roleName = "user.test_role";
 
-    it("lists roles using a connection string", async () => {
-      const connectionStringClient = new WebPubSubChatServiceClient(
-        assertEnvironmentVariable("WPS_CHAT_CONNECTION_STRING"),
-        "test_hub",
-        recorder.configureClientOptions({}),
-      );
-      const roles: string[] = [];
-      for await (const role of connectionStringClient.listRoles()) {
-        roles.push(role.name!);
-      }
-      assert.isArray(roles);
-    });
+    it.runIf(isPlaybackMode() || isLocalAuthEnabled)(
+      "lists roles using a connection string",
+      async () => {
+        const connectionStringClient = new WebPubSubChatServiceClient(
+          assertEnvironmentVariable("WPS_CHAT_CONNECTION_STRING"),
+          "test_hub",
+          recorder.configureClientOptions({}),
+        );
+        const roles: string[] = [];
+        for await (const role of connectionStringClient.listRoles()) {
+          roles.push(role.name!);
+        }
+        assert.isArray(roles);
+      },
+    );
 
     it("creates, gets, and deletes a role", async () => {
       // Create
