@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list } from "../../api/groupQuotaLimits/operations.js";
-import type { GroupQuotaLimitsListOptionalParams } from "../../api/groupQuotaLimits/options.js";
-import type { GroupQuotaLimitList } from "../../models/models.js";
+import { GroupQuotaLimitsListOptionalParams } from "../../api/groupQuotaLimits/options.js";
+import { GroupQuotaLimitList } from "../../models/models.js";
 
 /** Interface representing a GroupQuotaLimits operations. */
 export interface GroupQuotaLimitsOperations {

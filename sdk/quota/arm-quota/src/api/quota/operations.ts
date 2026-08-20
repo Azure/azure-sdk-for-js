@@ -1,27 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type { CurrentQuotaLimitBase, _QuotaLimits } from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   exceptionResponseDeserializer,
+  CurrentQuotaLimitBase,
   currentQuotaLimitBaseSerializer,
   currentQuotaLimitBaseDeserializer,
+  _QuotaLimits,
   _quotaLimitsDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   QuotaListOptionalParams,
   QuotaUpdateOptionalParams,
   QuotaCreateOrUpdateOptionalParams,
   QuotaGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -32,7 +39,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Quota/quotas{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,10 +47,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -51,7 +55,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -69,14 +76,18 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
 export function _updateSend(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -85,7 +96,7 @@ export function _updateSend(
     {
       scope: scope,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,10 +105,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: currentQuotaLimitBaseSerializer(createQuotaRequest),
   });
 }
@@ -105,10 +113,13 @@ export function _updateSend(
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CurrentQuotaLimitBase> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -122,24 +133,25 @@ export async function _updateDeserialize(
  */
 export function update(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceName, scope, createQuotaRequest, options),
+      _updateSend(context, scope, resourceName, createQuotaRequest, options),
     resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 export function _createOrUpdateSend(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -148,7 +160,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,10 +169,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: currentQuotaLimitBaseSerializer(createQuotaRequest),
   });
 }
@@ -168,10 +177,13 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CurrentQuotaLimitBase> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -185,24 +197,25 @@ export async function _createOrUpdateDeserialize(
  */
 export function createOrUpdate(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   createQuotaRequest: CurrentQuotaLimitBase,
   options: QuotaCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceName, scope, createQuotaRequest, options),
+      _createOrUpdateSend(context, scope, resourceName, createQuotaRequest, options),
     resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
 }
 
 export function _getSend(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   options: QuotaGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -210,7 +223,7 @@ export function _getSend(
     {
       scope: scope,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,10 +231,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -231,7 +241,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -241,10 +254,10 @@ export async function _getDeserialize(
 /** Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request. */
 export async function get(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   options: QuotaGetOptionalParams = { requestOptions: {} },
 ): Promise<CurrentQuotaLimitBase> {
-  const result = await _getSend(context, resourceName, scope, options);
+  const result = await _getSend(context, scope, resourceName, options);
   return _getDeserialize(result);
 }

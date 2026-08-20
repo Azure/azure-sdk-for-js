@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list } from "../../api/groupQuotaSubscriptionAllocation/operations.js";
-import type { GroupQuotaSubscriptionAllocationListOptionalParams } from "../../api/groupQuotaSubscriptionAllocation/options.js";
-import type { SubscriptionQuotaAllocationsList } from "../../models/models.js";
+import { GroupQuotaSubscriptionAllocationListOptionalParams } from "../../api/groupQuotaSubscriptionAllocation/options.js";
+import { SubscriptionQuotaAllocationsList } from "../../models/models.js";
 
 /** Interface representing a GroupQuotaSubscriptionAllocation operations. */
 export interface GroupQuotaSubscriptionAllocationOperations {

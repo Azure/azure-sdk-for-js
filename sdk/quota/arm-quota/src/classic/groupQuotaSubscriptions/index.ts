@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import {
   list,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/groupQuotaSubscriptions/operations.js";
-import type {
+import {
   GroupQuotaSubscriptionsListOptionalParams,
   GroupQuotaSubscriptionsDeleteOptionalParams,
   GroupQuotaSubscriptionsUpdateOptionalParams,
   GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
   GroupQuotaSubscriptionsGetOptionalParams,
 } from "../../api/groupQuotaSubscriptions/options.js";
-import type { GroupQuotaSubscriptionId } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GroupQuotaSubscriptionId } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotaSubscriptions operations. */
 export interface GroupQuotaSubscriptionsOperations {
@@ -29,11 +29,6 @@ export interface GroupQuotaSubscriptionsOperations {
     options?: GroupQuotaSubscriptionsListOptionalParams,
   ) => PagedAsyncIterableIterator<GroupQuotaSubscriptionId>;
   /** Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managementGroupId: string,
     groupQuotaName: string,

@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type {
-  GroupQuotaSubscriptionId,
-  _GroupQuotaSubscriptionIdList,
-} from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  GroupQuotaSubscriptionId,
   groupQuotaSubscriptionIdDeserializer,
+  _GroupQuotaSubscriptionIdList,
   _groupQuotaSubscriptionIdListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GroupQuotaSubscriptionsListOptionalParams,
   GroupQuotaSubscriptionsDeleteOptionalParams,
   GroupQuotaSubscriptionsUpdateOptionalParams,
   GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
   GroupQuotaSubscriptionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,
@@ -37,7 +41,7 @@ export function _listSend(
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,10 +49,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -58,7 +59,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -77,7 +81,11 @@ export function list(
     () => _listSend(context, managementGroupId, groupQuotaName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -93,7 +101,7 @@ export function _$deleteSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +114,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -114,11 +125,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   managementGroupId: string,
@@ -130,6 +136,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -145,7 +152,7 @@ export function _updateSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,20 +160,20 @@ export function _updateSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GroupQuotaSubscriptionId> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -180,11 +187,12 @@ export function update(
   groupQuotaName: string,
   options: GroupQuotaSubscriptionsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotaSubscriptionId>, GroupQuotaSubscriptionId> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<GroupQuotaSubscriptionId>, GroupQuotaSubscriptionId>;
 }
 
@@ -192,9 +200,7 @@ export function _createOrUpdateSend(
   context: Client,
   managementGroupId: string,
   groupQuotaName: string,
-  options: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptions/{subscriptionId}{?api%2Dversion}",
@@ -202,7 +208,7 @@ export function _createOrUpdateSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,10 +216,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -223,7 +226,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -235,9 +241,7 @@ export function createOrUpdate(
   context: Client,
   managementGroupId: string,
   groupQuotaName: string,
-  options: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotaSubscriptionId>, GroupQuotaSubscriptionId> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -245,6 +249,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<GroupQuotaSubscriptionId>, GroupQuotaSubscriptionId>;
 }
 
@@ -260,7 +265,7 @@ export function _getSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,10 +273,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -281,7 +283,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

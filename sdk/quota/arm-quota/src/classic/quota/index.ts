@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, update, createOrUpdate, get } from "../../api/quota/operations.js";
-import type {
+import {
   QuotaListOptionalParams,
   QuotaUpdateOptionalParams,
   QuotaCreateOrUpdateOptionalParams,
   QuotaGetOptionalParams,
 } from "../../api/quota/options.js";
-import type { CurrentQuotaLimitBase } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CurrentQuotaLimitBase } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Quota operations. */
 export interface QuotaOperations {
@@ -26,8 +26,8 @@ export interface QuotaOperations {
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
    */
   update: (
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams,
   ) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
@@ -37,15 +37,15 @@ export interface QuotaOperations {
    * 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
    */
   createOrUpdate: (
-    resourceName: string,
     scope: string,
+    resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CurrentQuotaLimitBase>, CurrentQuotaLimitBase>;
   /** Get the quota limit of a resource. The response can be used to determine the remaining quota to calculate a new quota limit that can be submitted with a PUT request. */
   get: (
-    resourceName: string,
     scope: string,
+    resourceName: string,
     options?: QuotaGetOptionalParams,
   ) => Promise<CurrentQuotaLimitBase>;
 }
@@ -54,19 +54,19 @@ function _getQuota(context: AzureQuotaExtensionAPIContext) {
   return {
     list: (scope: string, options?: QuotaListOptionalParams) => list(context, scope, options),
     update: (
-      resourceName: string,
       scope: string,
+      resourceName: string,
       createQuotaRequest: CurrentQuotaLimitBase,
       options?: QuotaUpdateOptionalParams,
-    ) => update(context, resourceName, scope, createQuotaRequest, options),
+    ) => update(context, scope, resourceName, createQuotaRequest, options),
     createOrUpdate: (
-      resourceName: string,
       scope: string,
+      resourceName: string,
       createQuotaRequest: CurrentQuotaLimitBase,
       options?: QuotaCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceName, scope, createQuotaRequest, options),
-    get: (resourceName: string, scope: string, options?: QuotaGetOptionalParams) =>
-      get(context, resourceName, scope, options),
+    ) => createOrUpdate(context, scope, resourceName, createQuotaRequest, options),
+    get: (scope: string, resourceName: string, options?: QuotaGetOptionalParams) =>
+      get(context, scope, resourceName, options),
   };
 }
 

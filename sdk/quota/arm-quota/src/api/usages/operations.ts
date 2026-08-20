@@ -1,19 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
-import type { CurrentUsagesBase, _UsagesLimits } from "../../models/models.js";
+import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import {
   exceptionResponseDeserializer,
+  CurrentUsagesBase,
   currentUsagesBaseDeserializer,
+  _UsagesLimits,
   _usagesLimitsDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { UsagesListOptionalParams, UsagesGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { UsagesListOptionalParams, UsagesGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -24,7 +31,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Quota/usages{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -32,10 +39,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -43,7 +47,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -61,14 +68,18 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
 export function _getSend(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   options: UsagesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -76,7 +87,7 @@ export function _getSend(
     {
       scope: scope,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,10 +95,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -95,7 +103,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = exceptionResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = exceptionResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -105,10 +116,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cu
 /** Get the current usage of a resource. */
 export async function get(
   context: Client,
-  resourceName: string,
   scope: string,
+  resourceName: string,
   options: UsagesGetOptionalParams = { requestOptions: {} },
 ): Promise<CurrentUsagesBase> {
-  const result = await _getSend(context, resourceName, scope, options);
+  const result = await _getSend(context, scope, resourceName, options);
   return _getDeserialize(result);
 }
