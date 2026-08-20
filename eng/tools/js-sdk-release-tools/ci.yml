@@ -7,7 +7,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - eng/tools/js-sdk-release-tools-src/
+      - eng/tools/js-sdk-release-tools/
 
 pr:
   branches:
@@ -18,7 +18,7 @@ pr:
       - hotfix/*
   paths:
     include:
-      - eng/tools/js-sdk-release-tools-src/
+      - eng/tools/js-sdk-release-tools/
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -49,19 +49,19 @@ extends:
               - script: |
                   npm ci
                 displayName: "npm ci"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools
 
               - script: |
                   npm run format:check
                 displayName: "Prettier format check"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools
 
               - script: |
                   npm run build
                 displayName: "npm run build"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools
 
               - script: |
                   npm run test
                 displayName: "npm run test"
-                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools

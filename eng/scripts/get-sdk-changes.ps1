@@ -3,8 +3,8 @@
 .SYNOPSIS
     Generates the SDK changes report (JSON) for a specific Azure SDK package.
 .DESCRIPTION
-    This script generates the SDK changes report by invoking the changelog-tool
-    command from the internal local source tool under eng/tools/js-sdk-release-tools-src.
+  This script generates the SDK changes report by invoking the changelog-tool
+  command from the internal local source tool under eng/tools/js-sdk-release-tools.
 
     The tool compares the current package against the latest published (GA) release
     on npm and writes the SDK changes report to the specified JSON file. The report
@@ -28,7 +28,7 @@
 
     Generates the SDK changes report for the arm-storage package.
 .NOTES
-    - Uses the internal source tool in eng/tools/js-sdk-release-tools-src.
+  - Uses the internal source tool in eng/tools/js-sdk-release-tools.
     - The tool compares the package against the latest GA release to detect SDK changes.
 #>
 [CmdletBinding()]
@@ -64,16 +64,16 @@ try {
   Push-Location $SdkRepoPath
 
   # Use the local internal source tree instead of a published package.
-  $releaseToolsPath = "eng\tools\js-sdk-release-tools-src"
+  $releaseToolsPath = "eng\tools\js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
 
-  Write-Host "Installing local js-sdk-release-tools-src dependencies..." -ForegroundColor Cyan
+  Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
   Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
   Write-Host ""
 
-  Write-Host "Building local js-sdk-release-tools-src..." -ForegroundColor Cyan
+  Write-Host "Building local js-sdk-release-tools..." -ForegroundColor Cyan
   Invoke-LoggedCommand "npm --prefix $releaseToolsPath run build"
   Write-Host ""
 
