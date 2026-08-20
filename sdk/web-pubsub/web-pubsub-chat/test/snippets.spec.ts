@@ -73,8 +73,6 @@ describe("snippets", () => {
       "<hubName>",
     );
     const accessToken = await client.getClientAccessToken({ userId: "alice" });
-
-    console.log(accessToken.url);
   });
 
   it("SetLogLevel", async () => {
