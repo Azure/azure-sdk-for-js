@@ -232,19 +232,19 @@ export enum KnownVersions {
 export interface ListMessagesOptionalParams extends OperationOptions {
     earliestMessageId?: string;
     latestMessageId?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListRolesOptionalParams extends OperationOptions {
     continuationToken?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
 export interface ListRoomMembersOptionalParams extends OperationOptions {
     continuationToken?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public

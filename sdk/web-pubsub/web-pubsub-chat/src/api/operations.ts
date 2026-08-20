@@ -315,7 +315,7 @@ export function _listRoomMembersSend(
       hub: context.hub,
       roomId: roomId,
       "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       continuationToken: options?.continuationToken,
     },
     {
@@ -643,7 +643,7 @@ export function _listRolesSend(
     {
       hub: context.hub,
       "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
       continuationToken: options?.continuationToken,
     },
     {
@@ -801,7 +801,7 @@ export function _listMessagesSend(
       "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
       latestMessageId: options?.latestMessageId,
       earliestMessageId: options?.earliestMessageId,
-      maxpagesize: options?.maxpagesize,
+      maxpagesize: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
