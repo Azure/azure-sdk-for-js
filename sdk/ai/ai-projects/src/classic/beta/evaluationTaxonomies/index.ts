@@ -5,7 +5,7 @@ import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   update,
   create,
-  $delete,
+  deleteEvaluationTaxonomy,
   list,
   get,
 } from "../../../api/beta/evaluationTaxonomies/operations.js";
@@ -34,6 +34,11 @@ export interface BetaEvaluationTaxonomiesOperations {
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Removes the specified evaluation taxonomy from the project. */
+  deleteEvaluationTaxonomy: (
+    name: string,
+    options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
+  ) => Promise<void>;
+  /** @deprecated Use `deleteEvaluationTaxonomy` instead. */
   delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
   /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
   list: (
@@ -58,8 +63,12 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
       taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
     ) => create(context, name, taxonomy, options),
+    deleteEvaluationTaxonomy: (
+      name: string,
+      options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
+    ) => deleteEvaluationTaxonomy(context, name, options),
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) =>
-      $delete(context, name, options),
+      deleteEvaluationTaxonomy(context, name, options),
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => list(context, options),
     get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) =>
       get(context, name, options),

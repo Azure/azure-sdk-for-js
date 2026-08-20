@@ -2,10 +2,27 @@
 
 ## 2.4.1 (Unreleased)
 
+### Features Added
+
+- Add beta agent optimization models with `AgentOptimization*` names and `OptimizedAgentIdentifier`, while retaining the previous names as deprecated aliases. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add `deleteEvaluationRule`, `deleteEvaluationTaxonomy`, and `deleteSchedule`, while retaining the previous `delete` methods as deprecated aliases. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add `SimulationSeedDataGenerationJobOptions` with the `simulation_seed` discriminator, while retaining `TaskGenerationDataGenerationJobOptions` compatibility. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Update `project.beta.routines` to the `Routines=V2Preview` contract while retaining the previous list options for compatibility. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add the optional `cache_write_tokens` property to `ResponseUsageInputTokensDetails`. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add programmatic tool calling with `ProgrammaticToolCallingParam`, `SpecificProgrammaticToolCallingParam`, and `allowed_callers` configuration on callable tools. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add `output_schema` configuration to function tools. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add `Reasoning.mode`, the `ReasoningModeEnum` type, and the `max` reasoning effort. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+
 ### Bugs Fixed
 
-- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.
-- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails.
+- Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+- Tracing: Agent creation spans now set `error.type` attribute and `ERROR` status when the operation fails. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
+
+### Other Changes
+
+- Add the `agents/agentProgrammaticToolCalling.ts` sample demonstrating programmatic tool calling configuration. [#39631](https://github.com/Azure/azure-sdk-for-js/issues/39631)
 
 ## 2.4.0 (2026-08-04)
 
