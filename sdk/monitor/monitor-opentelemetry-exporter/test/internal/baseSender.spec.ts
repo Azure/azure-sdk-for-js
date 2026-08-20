@@ -248,11 +248,6 @@ class TestBaseSender extends BaseSender {
     return this.handlePermanentRedirectMock(location);
   }
 
-  // For testing access to private methods
-  public setNumConsecutiveRedirects(value: number): void {
-    (this as any).numConsecutiveRedirects = value;
-  }
-
   public setStatsbeatFailureCount(value: number): void {
     (this as any).statsbeatFailureCount = value;
   }
@@ -435,18 +430,84 @@ describe("BaseSender", () => {
     );
 
     it("should handle circular redirects", async () => {
-      // Set the redirect counter to 9 (one before the limit)
-      sender.setNumConsecutiveRedirects(9);
-
-      // Next redirect should trigger circular redirect error
       sender.sendMock.mockRejectedValue(createRedirectError(307, "https://newlocation.com"));
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(sender.sendMock).toHaveBeenCalledTimes(10);
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain("Circular redirect");
+    });
+
+    it("tracks redirect depth independently for concurrent exports", async () => {
+      let releaseFirstUpdate: (() => void) | undefined;
+      sender.getNetworkStats().updateEndpoint.mockImplementationOnce(
+        () =>
+          new Promise<void>((resolve) => {
+            releaseFirstUpdate = resolve;
+          }),
+      );
+      const attempts = new Map<string, number>();
+      sender.sendMock.mockImplementation(async (envelopes: Array<{ name: string }>) => {
+        const item = envelopes[0].name;
+        const attempt = (attempts.get(item) ?? 0) + 1;
+        attempts.set(item, attempt);
+        if (attempt === 1) {
+          throw createRedirectError(307, `https://${item}.example.com`);
+        }
+        return { result: "success", statusCode: 200 };
+      });
+
+      const exports = Array.from({ length: 10 }, (_, index) =>
+        sender.exportEnvelopes([{ name: `export-${index}`, time: new Date() }]),
+      );
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledTimes(10));
+      await vi.waitFor(() =>
+        expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledOnce(),
+      );
+      releaseFirstUpdate!();
+
+      const results = await Promise.all(exports);
+
+      expect(results.every((result) => result.code === ExportResultCode.SUCCESS)).toBe(true);
+      expect([...attempts.values()]).toEqual(Array(10).fill(2));
+    });
+
+    it("does not let an unrelated success reset a looping export's redirect depth", async () => {
+      let loopAttempts = 0;
+      let releaseFifthRedirect: (() => void) | undefined;
+      let signalFifthAttempt: (() => void) | undefined;
+      const fifthAttemptStarted = new Promise<void>((resolve) => {
+        signalFifthAttempt = resolve;
+      });
+      sender.sendMock.mockImplementation(async (envelopes: Array<{ name: string }>) => {
+        if (envelopes[0].name === "success") {
+          return { result: "success", statusCode: 200 };
+        }
+        loopAttempts++;
+        if (loopAttempts === 5) {
+          signalFifthAttempt!();
+          await new Promise<void>((resolve) => {
+            releaseFifthRedirect = resolve;
+          });
+        }
+        throw createRedirectError(307, "https://loop.example.com");
+      });
+
+      const loopingExport = sender.exportEnvelopes([{ name: "loop", time: new Date() }]);
+      await fifthAttemptStarted;
+      const successfulExport = await sender.exportEnvelopes([
+        { name: "success", time: new Date() },
+      ]);
+      releaseFifthRedirect!();
+      const loopingResult = await loopingExport;
+
+      expect(successfulExport.code).toBe(ExportResultCode.SUCCESS);
+      expect(loopingResult.code).toBe(ExportResultCode.FAILED);
+      expect(loopingResult.error?.message).toBe("Circular redirect");
+      expect(loopAttempts).toBe(10);
     });
 
     it("should refuse cross-origin redirects without retrying", async () => {
@@ -1100,9 +1161,6 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
-      // Set up a scenario that triggers circular redirect
-      (testSender as any).redirectCount = 10; // Force circular redirect
-
       const restError = new Error("Permanent redirect") as any;
       restError.statusCode = 308;
       restError.response = {

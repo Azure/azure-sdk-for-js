@@ -55,7 +55,6 @@ const SENDER_SHUTDOWN_ERROR = new Error("Sender is shut down");
 export abstract class BaseSender {
   private static redirectRouteUpdate: Promise<void> = Promise.resolve();
   private readonly persister: PersistentStorage;
-  private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private retryTimerDeadlineMs: number = 0;
   private startupReplayTimer: NodeJS.Timeout | null = null;
@@ -77,7 +76,6 @@ export abstract class BaseSender {
     aadAudience?: string;
     isStatsbeatSender?: boolean;
   }) {
-    this.numConsecutiveRedirects = 0;
     this.disableOfflineStorage = options.exporterOptions.disableOfflineStorage || false;
     if (options.trackStatsbeat) {
       this.networkStatsbeatMetrics = NetworkStatsbeatMetrics.getInstance({
@@ -166,6 +164,7 @@ export abstract class BaseSender {
   public async exportEnvelopes(
     envelopes: Envelope[],
     redirectIsSerialized: boolean = false,
+    redirectCount: number = 0,
   ): Promise<ExportResult> {
     if (this.isShutdown) {
       return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
@@ -181,8 +180,6 @@ export abstract class BaseSender {
       const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
-      this.numConsecutiveRedirects = 0;
-
       if (statusCode === 200) {
         // Success -- start retry timer to send persisted files
         this.scheduleRetryTimer(retryAfterMs);
@@ -289,16 +286,21 @@ export abstract class BaseSender {
           restError.statusCode === 308)
       ) {
         // Permanent redirect
-        this.numConsecutiveRedirects++;
+        const nextRedirectCount = redirectCount + 1;
         // To prevent circular redirects
-        if (this.numConsecutiveRedirects < 10) {
+        if (nextRedirectCount < 10) {
           const location = this.getLocationFromHeaders(restError.response?.headers);
           if (location) {
             // Update sender URL. handlePermanentRedirect returns false when the redirect target
             // is outside the configured ingestion host's trust boundary (e.g., attacker-controlled
             // Location header). In that case we MUST NOT retry, otherwise the bearer auth policy
             // would attach a freshly-signed AAD token (and the telemetry body) to the foreign host.
-            return this.applyRedirectAndRetry(location, envelopes, redirectIsSerialized);
+            return this.applyRedirectAndRetry(
+              location,
+              envelopes,
+              redirectIsSerialized,
+              nextRedirectCount,
+            );
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -668,6 +670,7 @@ export abstract class BaseSender {
     location: string,
     envelopes: Envelope[],
     redirectIsSerialized: boolean,
+    redirectCount: number,
   ): Promise<ExportResult> {
     const operation = async (): Promise<ExportResult> => {
       if (this.isShutdown) {
@@ -690,7 +693,7 @@ export abstract class BaseSender {
         this.networkStatsbeatMetrics?.updateEndpoint(location),
         this.longIntervalStatsbeatMetrics?.updateEndpoint(location),
       ]);
-      return this.exportEnvelopes(envelopes, true);
+      return this.exportEnvelopes(envelopes, true, redirectCount);
     };
 
     if (redirectIsSerialized || this.isStatsbeatSender) {
