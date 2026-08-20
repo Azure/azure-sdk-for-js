@@ -21,6 +21,7 @@
   "files": [
     "dist",
     "README.md",
+    "VOICE_AGENTS_PRIVATE_PREVIEW_SETUP.md",
     "LICENSE"
   ],
   "sdk-type": "client",
