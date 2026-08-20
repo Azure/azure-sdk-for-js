@@ -8,8 +8,9 @@ This document describes how the JS SDK release automation pipeline works, coveri
 2. [Overall Flow & Utilities](#2-overall-flow--utilities)
 3. [SDK Generation Steps](#3-sdk-generation-steps)
    - [3.1 HighLevelClient (HLC)](#31-highlevelclient-hlc--management-plane-sdk)
-   - [3.2 RestLevelClient (RLC)](#32-restlevelclient-rlc--rest-level-client)
-   - [3.3 ModularClient (MLC)](#33-modularclient-mlc--modular-client)
+
+- [3.2 ModularClient (MLC)](#32-modularclient-mlc--modular-client)
+
 4. [Folder Cleanup Logic](#4-folder-cleanup-logic)
 5. [Changelog & Version Bump (Common)](#5-changelog--version-bump-common)
 6. [Output JSON Structure](#6-output-json-structure)
@@ -24,10 +25,10 @@ The package exposes the following CLI commands (defined in `package.json` `bin`)
 
 #### AutoPR / Release Pipeline
 
-| Command                     | Parameters                                                                                            | Description                                                                                                  |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `code-gen-pipeline`         | `--inputJsonPath`, `--outputJsonPath`, `--use`, `--typespecEmitter`, `--sdkGenerationType`, `--local` | Main automation entry point; used by the AutoPR release pipeline to generate and package SDK code end-to-end |
-| `hlc-code-gen-for-pipeline` | _(same as above)_                                                                                     | Alias for `code-gen-pipeline` (legacy HLC-specific name)                                                     |
+| Command                     | Parameters                                                | Description                                                                                                  |
+| --------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `code-gen-pipeline`         | `--inputJsonPath`, `--outputJsonPath`, `--use`, `--local` | Main automation entry point; used by the AutoPR release pipeline to generate and package SDK code end-to-end |
+| `hlc-code-gen-for-pipeline` | _(same as above)_                                         | Alias for `code-gen-pipeline` (legacy HLC-specific name)                                                     |
 
 #### Dev Loop Experience
 
@@ -42,7 +43,6 @@ The package exposes the following CLI commands (defined in `package.json` `bin`)
 | Command          | Parameters                                                                                                                             | Description                                                          |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `hlc-code-gen`   | see [hlc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/hlc.md)                       | Local HLC (management-plane) code generation from swagger/README     |
-| `rlc-code-gen`   | see [llc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/llc.md)                       | Local RLC (data-plane) code generation                               |
 | `changelog-tool` | see [changelog-tool.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/changelog-tool.md) | Generate changelog by comparing api.md against published npm package |
 
 ### SDK Type Enum (`SDKType`)
@@ -50,7 +50,7 @@ The package exposes the following CLI commands (defined in `package.json` `bin`)
 | Type              | Value               | Description                                                                |
 | ----------------- | ------------------- | -------------------------------------------------------------------------- |
 | `HighLevelClient` | `'HighLevelClient'` | HLC — Management plane SDK (autorest-based, corresponds to `@azure/arm-*`) |
-| `RestLevelClient` | `'RestLevelClient'` | RLC — REST level client (autorest or TypeSpec based)                       |
+| `RestLevelClient` | `'RestLevelClient'` | Legacy RLC package; generation is no longer supported                      |
 | `ModularClient`   | `'ModularClient'`   | MLC — Modular client (TypeSpec-based, typically management plane)          |
 
 ### Run Mode (`RunMode`)
@@ -84,14 +84,7 @@ CLI Entry (autoGenerateInPipeline.ts)
   │   │   ├── pnpm install → pnpm build → changelog → pnpm pack
   │   │   └── Update snippets / README
   │   │
-  │   ├── RestLevelClient ──→ generateRLCInPipeline()
-  │   │   ├── TypeSpec → tsp-client init or tsp compile
-  │   │   │   OR
-  │   │   ├── Swagger → autorest code generation
-  │   │   ├── Update ci.yml
-  │   │   ├── install → customize → lint → build → pack
-  │   │   ├── format → snippets → changelog
-  │   │   └── Output artifacts & apiView
+  │   ├── RestLevelClient ──→ fail with TypeSpec migration guidance
   │   │
   │   └── ModularClient ──→ generateAzureSDKPackage()
   │       ├── CODEOWNERS & ignore-links
@@ -147,45 +140,9 @@ HLC packages correspond to `@azure/arm-*` and are generated by the `generateMgmt
 | `Release` / `Local`         | **No explicit cleanup** | Autorest overwrites generated files in-place. No directory-level cleanup is performed by the tool. |
 | `SpecPullRequest` / `Batch` | **No explicit cleanup** | Same — autorest generation overwrites files.                                                       |
 
-> **Note**: The HLC generation path does not perform any directory-level cleanup. The partial cleanup behavior that preserves `test/` and `assets.json` applies only when an MLC or RLC generation detects that the target package was previously generated as HLC (i.e., converting from HLC to MLC).
+> **Note**: The HLC generation path does not perform any directory-level cleanup. The partial cleanup behavior that preserves `test/` and `assets.json` applies only when an MLC generation detects that the target package was previously generated as HLC (i.e., converting from HLC to MLC).
 
-### 4.2 RestLevelClient (RLC) — Data Plane REST Client
-
-RLC packages are identified as `"sdk-type": "client"` without modular markers.
-
-| Run Mode                    | Cleanup Behavior              | Details                                                                                                                            |
-| --------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory. Before writing new files, the emitter automatically empties the sources directory. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory and recreates it empty.                                                                       |
-
-> **Note on generation path**: The emitter behavior described below applies **only to the TypeSpec path** (Path A in §3.2). When RLC packages are generated from Swagger via autorest (Path B), the TypeSpec emitter is not involved — autorest directly overwrites files under `--output-folder` without the priority-based source directory selection described below.
-
-#### What the emitter clears before writing (TypeSpec path only)
-
-The emitter selects the sources directory using this priority order:
-
-1. `src/generated/` — if it exists (customization pattern: hand-authored code in `src/`, generated code in `src/generated/`)
-2. `generated/` — if it exists (alternative customization pattern)
-3. `src/` — otherwise
-
-The selected folder is **fully emptied** before new source files are written.
-
-**Files and folders preserved across emitter runs:**
-
-| File / Folder                | Behavior                                                                                                                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `test/`                      | Preserved — if a test folder already exists, the emitter skips test file generation                                                                                 |
-| `package.json`               | Updated in-place (dependencies, exports, and version fields are merged)                                                                                             |
-| `README.md`                  | Updated in-place; fully regenerated only if the client name changed                                                                                                 |
-| `CHANGELOG.md`               | Not touched (managed by js-sdk-release-tools)                                                                                                                       |
-| `assets.json`                | Not touched                                                                                                                                                         |
-| `swagger/`                   | Not touched                                                                                                                                                         |
-| `src/` (hand-authored files) | Preserved **only when** the customization pattern is active (`src/generated/` exists) — the emitter clears only `src/generated/`, leaving the rest of `src/` intact |
-| `samples-dev/`               | Cleared only when sample generation is enabled in `tspconfig.yaml`                                                                                                  |
-
-> **Note on `clearOutputFolder`**: If `tspconfig.yaml` sets `clearOutputFolder: true`, the emitter wipes the entire package directory (preserving only `TempTypeSpecFiles/`) before emptying the sources directory. This overrides the skip-cleanup behavior above.
-
-### 4.3 ModularClient (MLC) — Modular Client
+### 4.2 ModularClient (MLC) — Modular Client
 
 MLC packages are identified by `is-modular-library: true` in `tspconfig.yaml`.
 
@@ -204,26 +161,25 @@ When a management plane package previously generated via autorest (HLC) is being
 
 When generating a brand-new package (no directory yet), or regenerating a package that is already a `ModularClient` in its `package.json`:
 
-| Run Mode                    | Cleanup Behavior              | Details                                                                                                                                    |
-| --------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory. The emitter empties the sources directory before writing new files (see §4.2 for details). |
-| `SpecPullRequest` / `Batch` | **Skip cleanup**              | Same — no directory-level cleanup by the tool; emitter handles source regeneration.                                                        |
+| Run Mode                    | Cleanup Behavior              | Details                                                                                  |
+| --------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory. The emitter handles source regeneration. |
+| `SpecPullRequest` / `Batch` | **Skip cleanup**              | Same — no directory-level cleanup by the tool; emitter handles source regeneration.      |
 
 > **Note**: If the package directory does not exist yet, no cleanup action is taken.
 
 #### Data Plane MLC
 
-| Run Mode                    | Cleanup Behavior              | Details                                                                                                                                             |
-| --------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Release` / `Local`         | **Skip cleanup (tool-level)** | Same as RLC: the tool does not delete the package directory; the emitter empties the sources directory. See §4.2 for the full file-level breakdown. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory.                                                                                                               |
+| Run Mode                    | Cleanup Behavior              | Details                                                                                  |
+| --------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory; the emitter handles source regeneration. |
+| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory.                                                    |
 
-### 4.4 Summary Table
+### 4.3 Summary Table
 
 | SDK Type          | Plane      | Source State        | `Release` / `Local`                             | `SpecPullRequest` / `Batch`                     |
 | ----------------- | ---------- | ------------------- | ----------------------------------------------- | ----------------------------------------------- |
 | `HighLevelClient` | Management | N/A                 | No cleanup (autorest overwrites files in-place) | No cleanup (autorest overwrites files in-place) |
-| `RestLevelClient` | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
 | `ModularClient`   | Management | Converting from HLC | Partial: keep `test/`, `assets.json`            | Full cleanup                                    |
 | `ModularClient`   | Management | New or already MLC  | Skip (emitter handles)                          | Skip (emitter handles)                          |
 | `ModularClient`   | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
@@ -255,48 +211,7 @@ When generating a brand-new package (no directory yet), or regenerating a packag
 
 ---
 
-### 3.2 RestLevelClient (RLC) — REST Level Client
-
-There are two generation paths based on the source: **TypeSpec project** or **Swagger/README project**.
-
-#### Path A: TypeSpec Project (`options.typespecProject` exists)
-
-| Step                            | Required                                       | Operation                        | Command / Details                                                                                                                                                                        | Code Link                      |
-| ------------------------------- | ---------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| **1. Get Target Package Dir**   | ✅ Required                                    | `getGeneratedPackageDirectory()` | Parse `emitter-output-dir` / `service-dir` + `package-dir` from `tspconfig.yaml`                                                                                                         | [generateRLCInPipeline.ts#L46] |
-| **2. Clean Up Package Dir**     | ✅ Required                                    | `cleanUpPackageDirectory()`      | Cleanup strategy based on `runMode` and SDK type (see [Section 4](#4-folder-cleanup-logic))                                                                                              | [generateRLCInPipeline.ts#L48] |
-| **3a. Code Gen (command mode)** | ✅ Conditional (`sdkGenerationType = command`) | TypeSpec direct compile          | ① Copy `emitter-package.json` → ② `npm install` → ③ Update `tspconfig.yaml` → ④ `npx tsp compile {source} --emit @azure-tools/typespec-ts --arg "js-sdk-folder={sdkRepo}"`               | [generateRLCInPipeline.ts#L68] |
-| **3b. Code Gen (script mode)**  | ✅ Conditional (`sdkGenerationType = script`)  | tsp-client generation            | `npm --prefix eng/common/tsp-client exec -- tsp-client init --update-if-exists --debug --tsp-config {tspconfig.yaml} --local-spec-repo {tspDefDir} --repo {repoUrl} --commit {commitId}` | [generateRLCInPipeline.ts#L82] |
-
-> Note: Steps **3a** and **3b** are mutually exclusive alternatives. The pipeline executes only one of them per run, based on `sdkGenerationType`.
-
-#### Path B: Swagger Project (no `typespecProject`)
-
-| Step                        | Required    | Operation                                    | Command / Details                                                                                                                                                                                                                                                                               | Code Link                       |
-| --------------------------- | ----------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **1. Find Autorest Config** | ✅ Required | Search SDK repo for existing autorest config | Scans `sdk/{RP}/{package}-rest/swagger/README.md` files looking for a matching `require` URL or `input-file` path that references the incoming spec. The PR-comment-based config generation path was removed as a security fix ([#14743](https://github.com/Azure/azure-sdk-tools/pull/14743)). | [generateRLCInPipeline.ts#L93]  |
-| **2. Code Generation**      | ✅ Required | Run autorest                                 | `autorest --version=3.9.7 {README.md} --output-folder={packagePath}` + optional `--use` `--multi-client=true` `--tag=package-{apiVersion}`                                                                                                                                                      | [generateRLCInPipeline.ts#L149] |
-
-#### Common Post-generation Steps (both paths)
-
-| Step                                      | Required    | Operation                                   | Command / Details                                                                                                      | Code Link                       |
-| ----------------------------------------- | ----------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **4. Generate/Modify CI YAML**            | ✅ Required | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
-| **5. Modify Test/Sample Config**          | ✅ Required | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
-| **6. Install Dependencies**               | ✅ Required | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
-| **7. Apply Custom Code**                  | ⚠️ Optional | `customizeCodes()` — pnpm repo only         | `dev-tool customization apply-v2 -s ./generated -c ./src`                                                              | [generateRLCInPipeline.ts#L215] |
-| **8. Lint Fix**                           | ⚠️ Optional | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
-| **9. Build**                              | ✅ Required | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
-| **10. Pack**                              | ✅ Required | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
-| **11. Format Code**                       | ✅ Required | `formatSdk()`                               | `npm run format`                                                                                                       | [generateRLCInPipeline.ts#L239] |
-| **12. Update Snippets**                   | ✅ Required | `updateSnippets()`                          | `dev-tool run update-snippets`                                                                                         | [generateRLCInPipeline.ts#L240] |
-| **13. Generate Changelog & Bump Version** | ✅ Required | `generateChangelogAndBumpVersion()`         | Same as HLC                                                                                                            | [generateRLCInPipeline.ts#L249] |
-| **14. Add ApiView Info**                  | ✅ Required | `addApiViewInfo()`                          | Find `*.api.json` files                                                                                                | [generateRLCInPipeline.ts#L260] |
-| **15. Restore Config**                    | ✅ Required | `changeConfigOfTestAndSample(Revert)`       | Restore original `tsconfig.json`                                                                                       | [generateRLCInPipeline.ts#L279] |
-
----
-
-### 3.3 ModularClient (MLC) — Modular Client
+### 3.2 ModularClient (MLC) — Modular Client
 
 #### Processing Steps
 
