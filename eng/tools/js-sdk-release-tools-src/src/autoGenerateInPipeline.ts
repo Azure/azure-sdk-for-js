@@ -4,7 +4,6 @@ import * as path from "path";
 import { generateMgmt } from "./hlc/generateMgmt.js";
 import { backupNodeModules, restoreNodeModules } from "./utils/backupNodeModules.js";
 import { logger } from "./utils/logger.js";
-import { generateRLCInPipeline } from "./llc/generateRLCInPipeline/generateRLCInPipeline.js";
 import { ModularClientPackageOptions, SDKType, RunMode } from "./common/types.js";
 import { generateAzureSDKPackage } from "./mlc/clientGenerator/modularClientPackageGenerator.js";
 import { parseInputJson } from "./utils/generateInputUtils.js";
@@ -15,8 +14,6 @@ async function automationGenerateInPipeline(
   inputJsonPath: string,
   outputJsonPath: string,
   use: string | undefined,
-  typespecEmitter: string | undefined,
-  sdkGenerationType: string | undefined,
   localOverride?: boolean,
 ) {
   const inputJson = JSON.parse(fs.readFileSync(inputJsonPath, { encoding: "utf-8" }));
@@ -60,27 +57,12 @@ async function automationGenerateInPipeline(
         });
         break;
       case SDKType.RestLevelClient:
-        // RLC + swagger is not supported.
-        await generateRLCInPipeline({
-          sdkRepo: String(shell.pwd()),
-          swaggerRepo: path.isAbsolute(specFolder)
-            ? specFolder
-            : path.join(String(shell.pwd()), specFolder),
-          readmeMd: readmeMd,
-          typespecProject: typespecProject,
-          use: use,
-          typespecEmitter: !!typespecEmitter ? typespecEmitter : `@azure-tools/typespec-ts`,
-          outputJson: outputJson,
-          skipGeneration: skipGeneration,
-          sdkGenerationType: sdkGenerationType === "command" ? "command" : "script",
-          runningEnvironment: runningEnvironment,
-          swaggerRepoUrl: repoHttpsUrl,
-          gitCommitId: gitCommitId,
-          apiVersion: apiVersion,
-          sdkReleaseType: sdkReleaseType,
-          runMode: runMode as RunMode,
-        });
-        break;
+        throw new Error(
+          `Rest Level Client (RLC) generation is no longer supported in the SDK automation pipeline. ` +
+            `If you are using a TypeSpec project, ensure 'is-modular-library' is not set to false in tspconfig.yaml (or remove the option entirely to use the default modular client). ` +
+            `If you are using a Swagger-based (non-management) configuration, please migrate the service to TypeSpec. ` +
+            `For guidance, see https://aka.ms/azsdk/typespec-migration.`,
+        );
 
       case SDKType.ModularClient: {
         const typeSpecDirectory = path.posix.join(specFolder, typespecProject!);
@@ -128,8 +110,6 @@ async function automationGenerateInPipeline(
 
 const optionDefinitions = [
   { name: "use", type: String },
-  { name: "typespecEmitter", type: String },
-  { name: "sdkGenerationType", type: String },
   { name: "inputJsonPath", type: String },
   { name: "outputJsonPath", type: String },
   // this option should be only used in local run, it will skip backup node modules, etc.
@@ -142,8 +122,6 @@ automationGenerateInPipeline(
   options.inputJsonPath,
   options.outputJsonPath,
   options.use,
-  options.typespecEmitter,
-  options.sdkGenerationType,
   options.local,
 ).catch((e) => {
   logger.error(e.message);
