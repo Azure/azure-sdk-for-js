@@ -15,6 +15,9 @@ describe("FeatureFlagClient - FeatureFlag endpoint", () => {
 
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["sync-token"],
+    });
     client = createFeatureFlagClientForTests(recorder.configureClientOptions({}));
     featureFlagName = recorder.variable("ff-name", `ff-name-${Math.floor(Math.random() * 1000)}`);
   });
