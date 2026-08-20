@@ -38,4 +38,16 @@ describe("doubleEncodedQueryParamNamePolicy", () => {
       "https://example.azconfig.io/kv?key=%2524value",
     );
   });
+
+  it("does not change unknown double-encoded query parameter names", async () => {
+    const request = createPipelineRequest({
+      url: "https://example.azconfig.io/kv?%2524Unknown=value",
+    });
+
+    const response = await doubleEncodedQueryParamNamePolicy().sendRequest(request, mockNext);
+
+    expect(response.headers.get("url-lookup")).toBe(
+      "https://example.azconfig.io/kv?%2524Unknown=value",
+    );
+  });
 });

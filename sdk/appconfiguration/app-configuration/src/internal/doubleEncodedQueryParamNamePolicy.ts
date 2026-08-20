@@ -8,6 +8,11 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 
+const queryParameterNameReplacements = new Map([
+  // The emitter re-encodes the already encoded $Select name when its value is an array.
+  ["%2524select", "%24Select"],
+]);
+
 /**
  * Corrects query parameter names that the TypeScript emitter double-encodes
  * when expanding array-valued RFC 6570 template variables.
@@ -30,7 +35,8 @@ export function doubleEncodedQueryParamNamePolicy(): PipelinePolicy {
           const equalIndex = entry.indexOf("=");
           const name = equalIndex === -1 ? entry : entry.substring(0, equalIndex);
           const value = equalIndex === -1 ? "" : entry.substring(equalIndex);
-          return `${name.replace(/%25(?=[0-9a-f]{2})/gi, "%")}${value}`;
+          const normalizedName = queryParameterNameReplacements.get(name.toLowerCase()) ?? name;
+          return `${normalizedName}${value}`;
         })
         .join("&");
 
