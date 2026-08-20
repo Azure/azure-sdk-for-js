@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 export {
+  abortMigration,
+  commitMigration,
+  executeMigration,
+  prepareMigration,
   getBootDiagnosticLogs,
   reimage,
   restart,
@@ -13,6 +17,10 @@ export {
   get,
 } from "./operations.js";
 export type {
+  NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  NetworkVirtualAppliancesPrepareMigrationOptionalParams,
   NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
   NetworkVirtualAppliancesReimageOptionalParams,
   NetworkVirtualAppliancesRestartOptionalParams,

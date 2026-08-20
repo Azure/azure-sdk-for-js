@@ -49,7 +49,7 @@ export function _unprepareNetworkPoliciesSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,7 +104,7 @@ export function unprepareNetworkPolicies(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -124,7 +124,7 @@ export function _prepareNetworkPoliciesSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -175,7 +175,7 @@ export function prepareNetworkPolicies(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -191,7 +191,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +229,7 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualNetworkName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -247,7 +247,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +284,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualNetworkName, subnetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -303,7 +303,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -353,7 +353,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<Subnet>, Subnet>;
 }
 
@@ -371,7 +371,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {

@@ -5,7 +5,7 @@
 # Orphaned paths
 ################
 
-/** @xirzec @jeremymeng @Azure/azure-sdk-eng
+/** @Azure/azure-sdk-for-js-core @Azure/azure-sdk-eng
 
 ################
 # Misc.
@@ -75,6 +75,9 @@
 
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 # ServiceLabel: %Azure.Core
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/    @Azure/azure-sdk-for-js-core @j7nw4r @sagar0207 @SwayGom @sjkwak @hmlam
 
 # PRLabel: %Azure.Identity
 /sdk/identity/    @Azure/azure-sdk-write-identity @KarishmaGhiya @maorleger @minhanh-phan
@@ -590,7 +593,7 @@
 # PRLabel: %Mgmt
 /sdk/features/arm-features/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

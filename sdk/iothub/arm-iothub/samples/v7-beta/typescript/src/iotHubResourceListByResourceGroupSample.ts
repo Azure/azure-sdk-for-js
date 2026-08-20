@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the IoT hubs in a resource group.
  *
  * @summary get all the IoT hubs in a resource group.
- * x-ms-original-file: 2026-03-01-preview/iothub_listbyrg.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_listbyrg.json
  */
 async function iotHubResourceListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

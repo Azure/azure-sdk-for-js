@@ -31,7 +31,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       peeringName: peeringName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,7 @@ export function list(
     () => _listSend(context, resourceGroupName, circuitName, peeringName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -92,7 +92,7 @@ export function _getSend(
       circuitName: circuitName,
       peeringName: peeringName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

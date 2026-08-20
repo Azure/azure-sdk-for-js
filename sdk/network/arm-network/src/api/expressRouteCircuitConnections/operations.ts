@@ -38,7 +38,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       peeringName: peeringName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, circuitName, peeringName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -99,7 +99,7 @@ export function _$deleteSend(
       circuitName: circuitName,
       peeringName: peeringName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, circuitName, peeringName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -158,7 +158,7 @@ export function _createOrUpdateSend(
       circuitName: circuitName,
       peeringName: peeringName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +212,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ExpressRouteCircuitConnection>, ExpressRouteCircuitConnection>;
 }
 
@@ -232,7 +232,7 @@ export function _getSend(
       circuitName: circuitName,
       peeringName: peeringName,
       connectionName: connectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
