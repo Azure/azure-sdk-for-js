@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint.
  *
  * @summary get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActionOperationStatus_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActionOperationStatus_Get_MaximumSet_Gen.json
  */
 async function scheduledActionOperationStatusGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

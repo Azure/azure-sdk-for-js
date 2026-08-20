@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ScheduledAction
  *
  * @summary get a ScheduledAction
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_Get_MaximumSet_Gen.json
  */
 async function scheduledActionsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
