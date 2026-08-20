@@ -14,6 +14,7 @@ import { appConfigKeyCredentialPolicy } from "../appConfigCredential.js";
 import { audienceErrorHandlingPolicy } from "./audienceErrorHandlingPolicy.js";
 import { SyncTokens, syncTokenPolicy } from "./syncTokenPolicy.js";
 import { queryParamPolicy } from "./queryParamPolicy.js";
+import { doubleEncodedQueryParamNamePolicy } from "./doubleEncodedQueryParamNamePolicy.js";
 import { emptyBodyPolicy } from "./emptyBodyPolicy.js";
 import { getScope } from "./helpers.js";
 import { logger } from "../logger.js";
@@ -119,6 +120,7 @@ export function createConfiguredGeneratedClient(
     client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
   }
 
+  client.pipeline.addPolicy(doubleEncodedQueryParamNamePolicy());
   client.pipeline.addPolicy(queryParamPolicy());
   client.pipeline.addPolicy(emptyBodyPolicy());
   client.pipeline.addPolicy(syncTokenPolicy(syncTokens), { afterPhase: "Retry" });
