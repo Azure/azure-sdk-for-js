@@ -170,7 +170,6 @@ steps:
     parameters:
       ArtifactPath: "$(Build.ArtifactStagingDirectory)"
       ArtifactName: "packages"
-      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
