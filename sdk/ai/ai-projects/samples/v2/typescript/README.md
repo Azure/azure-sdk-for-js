@@ -194,9 +194,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentbasicwithdefaultproject]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentBasicWithDefaultProject.ts
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentCodeInterpreter.ts
 [agents_agentretrievebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/agentRetrieveBasic.ts
-[agents_voiceagents_voiceagentgeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentGeneration.ts
-[agents_voiceagents_voiceagentrealtimeaudio]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeAudio.ts
-[agents_voiceagents_voiceagentrealtimetextandtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeTextAndTools.ts
+[agents_voiceagents_voiceagentgeneration]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentGeneration.ts
+[agents_voiceagents_voiceagentrealtimeaudio]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeAudio.ts
+[agents_voiceagents_voiceagentrealtimetextandtools]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeTextAndTools.ts
 [agents_openaiwithagentendpointbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/openaiWithAgentEndpointBasic.ts
 [agents_tools_agentagenttoagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/tools/agentAgentToAgent.ts
 [agents_tools_agentaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/typescript/src/agents/tools/agentAiSearch.ts

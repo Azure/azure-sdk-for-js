@@ -10,17 +10,27 @@ before following the installation steps.
 > successful SDK installation does not enable the service feature. The selected Foundry project must
 > have Voice Agents enabled and the signed-in identity must have project data-plane access.
 
+Use these focused Voice Agent sample locations instead of browsing the full samples tree:
+
+- [Browser Voice Agent sample](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2-beta/browser)
+- [JavaScript Voice Agent samples](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents)
+- [TypeScript Voice Agent samples](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents)
+
+Repository maintainers can find the authoring sources under
+[`samples-dev/agents/voiceAgents`](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples-dev/agents/voiceAgents),
+but private-preview users should run the published JavaScript/TypeScript samples above.
+
 ## Scenarios in this preview
 
-| Scenario                                                                | Runtime                       | Sample                                                                           |
-| ----------------------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------- |
-| Generate and manage a voice agent over REST                             | Node.js                       | `samples/v2/typescript/src/agents/voiceAgents/voiceAgentGeneration.ts`           |
-| Stream a PCM16 file and save audio/text output                          | Node.js                       | `samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeAudio.ts`        |
-| Stream text, audio, and a local function tool                           | Node.js                       | `samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeTextAndTools.ts` |
-| Manage agents, run Realtime sessions, and retrieve persisted text/audio | Browser + local Node.js relay | `samples/v2-beta/browser`                                                        |
+| Scenario                                                                | Runtime                       | Sample                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Generate and manage a voice agent over REST                             | Node.js                       | [voiceAgentGeneration.ts](https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentGeneration.ts)                     |
+| Stream a PCM16 file and save audio/text output                          | Node.js                       | [voiceAgentRealtimeAudio.ts](https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeAudio.ts)               |
+| Stream text, audio, and a local function tool                           | Node.js                       | [voiceAgentRealtimeTextAndTools.ts](https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/typescript/src/agents/voiceAgents/voiceAgentRealtimeTextAndTools.ts) |
+| Manage agents, run Realtime sessions, and retrieve persisted text/audio | Browser + local Node.js relay | [browser sample](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2-beta/browser)                                                                           |
 
 Equivalent ready-to-run JavaScript files are under
-`samples/v2/javascript/agents/voiceAgents/`.
+[JavaScript Voice Agent samples](https://github.com/Azure/azure-sdk-for-js/tree/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents).
 
 ## Prerequisites
 
@@ -181,8 +191,15 @@ values are embedded in the browser bundle and therefore must never contain secre
 
 ## Run the samples
 
-The commands below assume a clone of this repository. For a standalone sample bundle supplied by
-the preview program, run the same commands from the corresponding sample directory.
+Clone the dedicated private-preview branch:
+
+```bash
+git clone --branch xitzhang/voice-agents-private-preview --single-branch https://github.com/Azure/azure-sdk-for-js.git
+cd azure-sdk-for-js/sdk/ai/ai-projects
+```
+
+The commands below assume that checkout. For a standalone sample bundle supplied by the preview
+program, run the same commands from the corresponding sample directory.
 
 Private-feed users must configure feed access before the first `npm install`. Tarball users should
 replace the manifest's SDK dependency from the sample directory before installing the remaining

@@ -182,9 +182,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentbasicwithdefaultproject]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/agentBasicWithDefaultProject.js
 [agents_agentcodeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/agentCodeInterpreter.js
 [agents_agentretrievebasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/agentRetrieveBasic.js
-[agents_voiceagents_voiceagentgeneration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentGeneration.js
-[agents_voiceagents_voiceagentrealtimeaudio]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentRealtimeAudio.js
-[agents_voiceagents_voiceagentrealtimetextandtools]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentRealtimeTextAndTools.js
+[agents_voiceagents_voiceagentgeneration]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentGeneration.js
+[agents_voiceagents_voiceagentrealtimeaudio]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentRealtimeAudio.js
+[agents_voiceagents_voiceagentrealtimetextandtools]: https://github.com/Azure/azure-sdk-for-js/blob/xitzhang/voice-agents-private-preview/sdk/ai/ai-projects/samples/v2/javascript/agents/voiceAgents/voiceAgentRealtimeTextAndTools.js
 [agents_openaiwithagentendpointbasic]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/openaiWithAgentEndpointBasic.js
 [agents_tools_agentagenttoagent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/tools/agentAgentToAgent.js
 [agents_tools_agentaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v2/javascript/agents/tools/agentAiSearch.js
