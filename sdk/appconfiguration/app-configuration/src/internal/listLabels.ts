@@ -42,7 +42,6 @@ export function listLabels(
             after: pageLink,
             requestOptions: {
               ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
             },
           });
           const parsed = await _getLabelsDeserialize(rawResponse);
