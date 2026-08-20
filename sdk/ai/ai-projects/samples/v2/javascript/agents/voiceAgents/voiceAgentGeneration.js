@@ -16,7 +16,8 @@ const preview = "VoiceAgents=V1Preview";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const generated = await project.agents.generateAgent("voice");
+  const agentName = process.env["FOUNDRY_VOICE_AGENT_NAME"]?.trim() || `voice-gen-${Date.now()}`;
+  const generated = await project.agents.generateAgent({ kind: "voice", name: agentName });
 
   try {
     console.log(`Generated ${generated.name}, version ${generated.versions.latest.version}`);

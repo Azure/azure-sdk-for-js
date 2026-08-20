@@ -61,6 +61,7 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /**
  * Connects to a voice agent over WebSocket. The client must send an HTTP GET with `Upgrade: websocket`
  * headers. The optional `realtime` subprotocol is the only accepted subprotocol value.

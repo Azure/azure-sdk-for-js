@@ -70,11 +70,6 @@ export interface BetaModelsOperations {
     options?: BetaModelsUpdateOptionalParams,
   ) => Promise<ModelVersion>;
   /** Removes the specified model version. Returns 200 whether the version existed or not. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     name: string,
     foundryFeatures: "Models=V1Preview",
@@ -100,6 +95,7 @@ export interface BetaModelsOperations {
     options?: BetaModelsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<ModelVersion>;
 }
+
 function _getBetaModels(context: AIProjectContext) {
   return {
     getCredentials: (
@@ -151,6 +147,7 @@ function _getBetaModels(context: AIProjectContext) {
     ) => listVersions(context, name, foundryFeatures, options),
   };
 }
+
 export function _getBetaModelsOperations(context: AIProjectContext): BetaModelsOperations {
   return {
     ..._getBetaModels(context),

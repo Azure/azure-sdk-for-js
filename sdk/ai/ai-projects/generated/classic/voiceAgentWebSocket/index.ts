@@ -21,6 +21,7 @@ export interface VoiceAgentWebSocketOperations {
     options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams,
   ) => Promise<void>;
 }
+
 function _getVoiceAgentWebSocket(context: AIProjectContext) {
   return {
     connectVoiceAgent: (
@@ -30,6 +31,7 @@ function _getVoiceAgentWebSocket(context: AIProjectContext) {
     ) => connectVoiceAgent(context, foundryFeatures, agentName, options),
   };
 }
+
 export function _getVoiceAgentWebSocketOperations(
   context: AIProjectContext,
 ): VoiceAgentWebSocketOperations {

@@ -6,6 +6,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BetaMemoryStoresDeleteMemoryOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresListMemoriesOptionalParams extends OperationOptions {
   /** The kind of the memory item. */
@@ -33,16 +34,22 @@ export interface BetaMemoryStoresListMemoriesOptionalParams extends OperationOpt
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface BetaMemoryStoresGetMemoryOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresUpdateMemoryOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresCreateMemoryOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresGetUpdateResultOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -59,6 +66,7 @@ export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationO
    */
   updateDelay?: number;
 }
+
 /** Optional parameters. */
 export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
   /** A list of messages used to extract relevant memories, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Example of an item: {"role": "user", "type": "message", "content": "my user message"}. Only messages with `type` equals `message` are currently processed. Others are ignored. */
@@ -68,8 +76,10 @@ export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationO
   /** Memory search options. */
   options?: MemorySearchOptions;
 }
+
 /** Optional parameters. */
 export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
   /**
@@ -95,8 +105,10 @@ export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
   /** A human-readable description of the memory store. */
@@ -104,6 +116,7 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
   /** Arbitrary key-value metadata to associate with the memory store. */
   metadata?: Record<string, string>;
 }
+
 /** Optional parameters. */
 export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
   /** A human-readable description of the memory store. */

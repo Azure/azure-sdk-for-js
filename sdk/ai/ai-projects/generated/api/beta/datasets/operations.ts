@@ -76,6 +76,7 @@ export async function _deleteGenerationJobDeserialize(
 
   return;
 }
+
 /** Removes the specified data generation job and its associated output. */
 export async function deleteGenerationJob(
   context: Client,
@@ -130,6 +131,7 @@ export async function _cancelGenerationJobDeserialize(
 
   return dataGenerationJobDeserializer(result.body);
 }
+
 /** Cancels the specified data generation job if it is still in progress. */
 export async function cancelGenerationJob(
   context: Client,
@@ -193,6 +195,7 @@ export async function _createGenerationJobDeserialize(
 
   return dataGenerationJobResultDeserializer(result.body.result);
 }
+
 /** Submits a new data generation job for asynchronous execution. */
 export function createGenerationJob(
   context: Client,
@@ -254,6 +257,7 @@ export async function _listGenerationJobsDeserialize(
 
   return _agentsPagedResultDataGenerationJobDeserializer(result.body);
 }
+
 /** Returns a list of data generation jobs. */
 export function listGenerationJobs(
   context: Client,
@@ -312,6 +316,7 @@ export async function _getGenerationJobDeserialize(
 
   return dataGenerationJobDeserializer(result.body);
 }
+
 /** Retrieves the specified data generation job and its current status. */
 export async function getGenerationJob(
   context: Client,

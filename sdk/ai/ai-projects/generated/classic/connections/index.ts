@@ -23,6 +23,7 @@ export interface ConnectionsOperations {
   /** Retrieves the specified connection and its configuration details without including credential values. */
   get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
 }
+
 function _getConnections(context: AIProjectContext) {
   return {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
@@ -31,6 +32,7 @@ function _getConnections(context: AIProjectContext) {
     get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
   };
 }
+
 export function _getConnectionsOperations(context: AIProjectContext): ConnectionsOperations {
   return {
     ..._getConnections(context),

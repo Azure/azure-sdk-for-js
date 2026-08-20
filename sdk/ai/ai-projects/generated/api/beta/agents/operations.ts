@@ -77,6 +77,7 @@ export async function _deleteOptimizationJobDeserialize(
 
   return;
 }
+
 /** Deletes the job and its candidate artifacts, canceling the job first if it is non-terminal. */
 export async function deleteOptimizationJob(
   context: Client,
@@ -131,6 +132,7 @@ export async function _cancelOptimizationJobDeserialize(
 
   return agentOptimizationJobDeserializer(result.body);
 }
+
 /** Requests cancellation of a running or queued job and returns an error if the job is already in a terminal state. */
 export async function cancelOptimizationJob(
   context: Client,
@@ -189,6 +191,7 @@ export async function _listOptimizationJobsDeserialize(
 
   return _agentsPagedResultAgentOptimizationJobListItemDeserializer(result.body);
 }
+
 /** Lists optimization jobs with cursor pagination and optional status or agent name filters. */
 export function listOptimizationJobs(
   context: Client,
@@ -247,6 +250,7 @@ export async function _getOptimizationJobDeserialize(
 
   return agentOptimizationJobDeserializer(result.body);
 }
+
 /** Retrieves an optimization job by its identifier. */
 export async function getOptimizationJob(
   context: Client,
@@ -310,6 +314,7 @@ export async function _createOptimizationJobDeserialize(
 
   return agentOptimizationJobResultDeserializer(result.body.result);
 }
+
 /** Creates an optimization job and returns the queued job. Honors `Operation-Id` for idempotent retry. */
 export function createOptimizationJob(
   context: Client,

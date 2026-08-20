@@ -7,7 +7,6 @@ import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
-  AgentKind,
   DeleteAgentResponse,
   _AgentsPagedResultAgentObject,
   DeleteAgentVersionResponse,
@@ -21,6 +20,7 @@ import type {
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
+  GenerateAgentRequest,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -40,6 +40,7 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   _sessionDirectoryListResponseDeserializer,
+  generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -1573,7 +1574,7 @@ export async function update(
 
 export function _generateAgentSend(
   context: Client,
-  kind: AgentKind,
+  body: GenerateAgentRequest,
   options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "VoiceAgents=V1Preview";
@@ -1594,7 +1595,7 @@ export function _generateAgentSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: { kind: kind },
+    body: generateAgentRequestSerializer(body),
   });
 }
 
@@ -1617,10 +1618,10 @@ export async function _generateAgentDeserialize(result: PathUncheckedResponse): 
  */
 export async function generateAgent(
   context: Client,
-  kind: AgentKind,
+  body: GenerateAgentRequest,
   options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _generateAgentSend(context, kind, options);
+  const result = await _generateAgentSend(context, body, options);
   return _generateAgentDeserialize(result);
 }
 

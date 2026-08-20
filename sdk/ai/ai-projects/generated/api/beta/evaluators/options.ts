@@ -9,11 +9,13 @@ export interface BetaEvaluatorsDeleteGenerationJobOptionalParams extends Operati
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsCancelGenerationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsListGenerationJobsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -41,11 +43,13 @@ export interface BetaEvaluatorsListGenerationJobsOptionalParams extends Operatio
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsGetGenerationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -55,24 +59,31 @@ export interface BetaEvaluatorsCreateGenerationJobOptionalParams extends Operati
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsGetCredentialsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsPendingUploadOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
   /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */
@@ -80,6 +91,7 @@ export interface BetaEvaluatorsListOptionalParams extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
 }
+
 /** Optional parameters. */
 export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
   /** Filter evaluators by type. Possible values: 'all', 'custom', 'builtin'. */

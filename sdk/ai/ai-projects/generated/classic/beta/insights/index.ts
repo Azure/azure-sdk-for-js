@@ -20,6 +20,7 @@ export interface BetaInsightsOperations {
   /** Generates an insights report from the provided evaluation configuration. */
   generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
 }
+
 function _getBetaInsights(context: AIProjectContext) {
   return {
     list: (options?: BetaInsightsListOptionalParams) => list(context, options),
@@ -29,6 +30,7 @@ function _getBetaInsights(context: AIProjectContext) {
       generate(context, insight, options),
   };
 }
+
 export function _getBetaInsightsOperations(context: AIProjectContext): BetaInsightsOperations {
   return {
     ..._getBetaInsights(context),

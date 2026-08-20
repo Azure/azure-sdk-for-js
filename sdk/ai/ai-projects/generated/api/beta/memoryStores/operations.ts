@@ -104,6 +104,7 @@ export async function _deleteMemoryDeserialize(
 
   return deleteMemoryResponseDeserializer(result.body);
 }
+
 /** Deletes the specified memory item from the memory store. */
 export async function deleteMemory(
   context: Client,
@@ -167,6 +168,7 @@ export async function _listMemoriesDeserialize(
 
   return _agentsPagedResultMemoryItemDeserializer(result.body);
 }
+
 /** Returns memory items from the specified memory store. */
 export function listMemories(
   context: Client,
@@ -229,6 +231,7 @@ export async function _getMemoryDeserialize(
 
   return memoryItemUnionDeserializer(result.body);
 }
+
 /** Retrieves the specified memory item from the memory store. */
 export async function getMemory(
   context: Client,
@@ -289,6 +292,7 @@ export async function _updateMemoryDeserialize(
 
   return memoryItemUnionDeserializer(result.body);
 }
+
 /** Updates the specified memory item in the memory store. */
 export async function updateMemory(
   context: Client,
@@ -357,6 +361,7 @@ export async function _createMemoryDeserialize(
 
   return memoryItemUnionDeserializer(result.body);
 }
+
 /** Creates a memory item in the specified memory store. */
 export async function createMemory(
   context: Client,
@@ -425,6 +430,7 @@ export async function _deleteScopeDeserialize(
 
   return memoryStoreDeleteScopeResponseDeserializer(result.body);
 }
+
 /** Deletes all memories in the specified memory store that are associated with the provided scope. */
 export async function deleteScope(
   context: Client,
@@ -482,6 +488,7 @@ export async function _getUpdateResultDeserialize(
 
   return memoryStoreUpdateResponseDeserializer(result.body);
 }
+
 /** Retrieves the status and result of a memory store update operation. */
 export async function getUpdateResult(
   context: Client,
@@ -554,6 +561,7 @@ export async function _updateMemoriesDeserialize(
 
   return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
+
 /**
  * Starts an update that writes conversation memories into the specified memory store.
  * The operation returns a long-running status location for polling the update result.
@@ -632,6 +640,7 @@ export async function _searchMemoriesDeserialize(
 
   return memoryStoreSearchResponseDeserializer(result.body);
 }
+
 /** Searches the specified memory store for memories relevant to the provided conversation context. */
 export async function searchMemories(
   context: Client,
@@ -687,12 +696,8 @@ export async function _$deleteDeserialize(
 
   return deleteMemoryStoreResponseDeserializer(result.body);
 }
+
 /** Deletes the specified memory store. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   foundryFeatures: "MemoryStores=V1Preview",
@@ -748,6 +753,7 @@ export async function _listDeserialize(
 
   return _agentsPagedResultMemoryStoreObjectDeserializer(result.body);
 }
+
 /** Returns the memory stores available to the caller. */
 export function list(
   context: Client,
@@ -804,6 +810,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Me
 
   return memoryStoreDeserializer(result.body);
 }
+
 /** Retrieves the specified memory store and its current configuration. */
 export async function get(
   context: Client,
@@ -858,6 +865,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return memoryStoreDeserializer(result.body);
 }
+
 /** Updates the specified memory store with the supplied configuration changes. */
 export async function update(
   context: Client,
@@ -917,6 +925,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return memoryStoreDeserializer(result.body);
 }
+
 /** Creates a memory store resource with the provided configuration. */
 export async function create(
   context: Client,

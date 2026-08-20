@@ -69,7 +69,7 @@ import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
-  AgentKind,
+  GenerateAgentRequest,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   CreateAgentVersionFromCodeContent,
@@ -307,7 +307,10 @@ export interface AgentsOperations {
    * Generates and creates an agent from kind-specific high-level inputs.
    * The generated definition remains fully editable through the standard agent versioning operations.
    */
-  generateAgent: (kind: AgentKind, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
+  generateAgent: (
+    body: GenerateAgentRequest,
+    options?: AgentsGenerateAgentOptionalParams,
+  ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   create(
     name: string,
@@ -482,8 +485,8 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
         tracingConfig,
       );
     },
-    generateAgent: (kind: AgentKind, options?: AgentsGenerateAgentOptionalParams) =>
-      generateAgent(context, kind, options),
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) =>
+      generateAgent(context, body, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }

@@ -122,7 +122,7 @@ button:disabled {
   min-width: 0;
   min-height: 0;
   display: grid;
-  grid-template-rows: auto minmax(220px, 1fr) auto;
+  grid-template-rows: auto auto minmax(220px, 1fr) auto;
   background: #ffffff;
   animation: enter 360ms 50ms ease-out both;
 }
@@ -255,6 +255,12 @@ button:disabled {
 }
 
 .agent-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.conversation-picker {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
@@ -710,6 +716,90 @@ button:disabled {
   border-bottom: 1px solid #d8ded8;
 }
 
+.conversation-title {
+  min-width: 0;
+}
+
+.conversation-id-readout {
+  margin: 8px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #68766d;
+  font-size: 11px;
+}
+
+.conversation-id-readout span {
+  flex: 0 0 auto;
+}
+
+.conversation-id-readout code {
+  min-width: 0;
+  color: #26342b;
+  font-family: "IBM Plex Mono", monospace;
+  overflow-wrap: anywhere;
+}
+
+.conversation-audio {
+  padding: 14px clamp(20px, 4vw, 46px);
+  display: grid;
+  gap: 10px;
+  background: #f7f8f5;
+  border-bottom: 1px solid #d8ded8;
+}
+
+.conversation-audio[hidden],
+.conversation-audio audio[hidden],
+.conversation-audio [hidden] {
+  display: none;
+}
+
+.conversation-audio-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.conversation-audio h3,
+.conversation-audio p {
+  margin: 0;
+}
+
+.conversation-audio h3 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#conversationAudioDetails,
+.conversation-audio-status {
+  margin-top: 3px;
+  color: #68766d;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.conversation-audio audio {
+  width: 100%;
+  height: 40px;
+}
+
+.conversation-audio a.secondary-action {
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  border: 1px solid #aeb9b0;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.conversation-audio a.secondary-action[hidden] {
+  display: none;
+}
+
 .section-kicker {
   color: #68766d;
 }
@@ -719,6 +809,19 @@ button:disabled {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 7px;
+}
+
+.conversation-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.conversation-header-actions .secondary-action {
+  min-height: 32px;
+  padding: 0 12px;
 }
 
 .state-chip {
@@ -1014,15 +1117,26 @@ button:disabled {
   }
 
   .global-status,
-  .session-states {
+  .session-states,
+  .conversation-header-actions {
     justify-content: flex-start;
+  }
+
+  .conversation-audio-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .conversation-audio a.secondary-action {
+    justify-content: center;
   }
 
   .connection-actions {
     grid-template-columns: 1fr;
   }
 
-  .agent-picker {
+  .agent-picker,
+  .conversation-picker {
     grid-template-columns: 1fr;
   }
 

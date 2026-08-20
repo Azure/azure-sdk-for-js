@@ -6,14 +6,19 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
   /**
@@ -39,6 +44,7 @@ export interface AgentEndpointConversationsListAgentConversationItemsOptionalPar
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
   /**
@@ -64,8 +70,10 @@ export interface AgentEndpointConversationsListAgentConversationResponseItemsOpt
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
   /**
@@ -91,10 +99,13 @@ export interface AgentEndpointConversationsListAgentConversationResponsesOptiona
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface AgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
   /**

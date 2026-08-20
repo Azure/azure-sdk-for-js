@@ -26,7 +26,6 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
   DeleteVersionOptionalParams,
@@ -46,6 +45,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 
 export function _deleteVersionSend(
@@ -93,6 +93,7 @@ export async function _deleteVersionDeserialize(
 
   return deleteSkillVersionResponseDeserializer(result.body);
 }
+
 /** Removes the specified version of a skill. */
 export async function deleteVersion(
   context: Client,
@@ -150,6 +151,7 @@ export async function _downloadVersionDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
+
 /** Downloads the zip content for a specific version of a skill. */
 export async function downloadVersion(
   context: Client,
@@ -206,6 +208,7 @@ export async function _downloadDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
+
 /** Downloads the zip content for the default version of a skill. */
 export async function download(
   context: Client,
@@ -261,6 +264,7 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
 
   return skillVersionDeserializer(result.body);
 }
+
 /** Retrieves the specified version of a skill by name and version identifier. */
 export async function getVersion(
   context: Client,
@@ -320,6 +324,7 @@ export async function _listVersionsDeserialize(
 
   return _agentsPagedResultSkillVersionDeserializer(result.body);
 }
+
 /** Returns the available versions for the specified skill. */
 export function listVersions(
   context: Client,
@@ -382,6 +387,7 @@ export async function _createFromFilesDeserialize(
 
   return skillVersionDeserializer(result.body);
 }
+
 /** Creates a new version of a skill from uploaded files via multipart form data. */
 export async function createFromFiles(
   context: Client,
@@ -442,6 +448,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return skillVersionDeserializer(result.body);
 }
+
 /** Creates a new version of a skill. If the skill does not exist, it will be created. */
 export async function create(
   context: Client,
@@ -496,12 +503,8 @@ export async function _$deleteDeserialize(
 
   return deleteSkillResponseDeserializer(result.body);
 }
+
 /** Removes the specified skill and its associated versions. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   name: string,
@@ -556,6 +559,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return skillDeserializer(result.body);
 }
+
 /** Modifies the specified skill's configuration. */
 export async function update(
   context: Client,
@@ -613,6 +617,7 @@ export async function _listDeserialize(
 
   return _agentsPagedResultSkillDeserializer(result.body);
 }
+
 /** Returns the skills available in the current project. */
 export function list(
   context: Client,
@@ -669,6 +674,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sk
 
   return skillDeserializer(result.body);
 }
+
 /** Retrieves the specified skill and its current configuration. */
 export async function get(
   context: Client,

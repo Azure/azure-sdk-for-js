@@ -15,6 +15,7 @@ export interface DeploymentsListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface DeploymentsGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

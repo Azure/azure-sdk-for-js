@@ -38,11 +38,6 @@ export interface BetaRoutinesOperations {
     options?: BetaRoutinesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<RoutineRun>;
   /** Deletes the specified routine. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) => Promise<void>;
   /** Returns the routines available in the current project. */
   list: (options?: BetaRoutinesListOptionalParams) => PagedAsyncIterableIterator<Routine>;
@@ -58,6 +53,7 @@ export interface BetaRoutinesOperations {
     options?: BetaRoutinesCreateOrUpdateOptionalParams,
   ) => Promise<Routine>;
 }
+
 function _getBetaRoutines(context: AIProjectContext) {
   return {
     dispatch: (routineName: string, options?: BetaRoutinesDispatchOptionalParams) =>
@@ -77,6 +73,7 @@ function _getBetaRoutines(context: AIProjectContext) {
       createOrUpdate(context, routineName, options),
   };
 }
+
 export function _getBetaRoutinesOperations(context: AIProjectContext): BetaRoutinesOperations {
   return {
     ..._getBetaRoutines(context),

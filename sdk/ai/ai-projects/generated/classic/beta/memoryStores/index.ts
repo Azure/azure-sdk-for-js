@@ -124,11 +124,6 @@ export interface BetaMemoryStoresOperations {
     options?: BetaMemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Deletes the specified memory store. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     foundryFeatures: "MemoryStores=V1Preview",
     name: string,
@@ -159,6 +154,7 @@ export interface BetaMemoryStoresOperations {
     options?: BetaMemoryStoresCreateOptionalParams,
   ) => Promise<MemoryStore>;
 }
+
 function _getBetaMemoryStores(context: AIProjectContext) {
   return {
     deleteMemory: (
@@ -245,6 +241,7 @@ function _getBetaMemoryStores(context: AIProjectContext) {
     ) => create(context, foundryFeatures, name, definition, options),
   };
 }
+
 export function _getBetaMemoryStoresOperations(
   context: AIProjectContext,
 ): BetaMemoryStoresOperations {

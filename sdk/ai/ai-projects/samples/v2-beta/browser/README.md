@@ -61,24 +61,44 @@ audio pattern: request a 24 kHz capture context, convert microphone samples to m
 response chunks sequentially, and clear queued output when a response is replaced or interrupted.
 The conversation follows new streamed phrases while the reader remains near the bottom; scrolling
 up pauses that behavior until the reader returns to the latest messages.
+**Clear chat** removes only the messages rendered in the browser and resets the transcript viewport;
+it does not delete persisted data, disconnect the live session, clear the conversation ID, or remove
+the fetched recording.
+
+Realtime connections set `store: true` so the service persists the sample conversation. The sample
+reads the persisted resource ID from the `session.created` event and displays it in both the
+**Conversation ID** field and the conversation header. It intentionally does not use the shorter
+default-conversation ID carried by response events. A new `session.created` event replaces the ID
+from the previous session. After disconnecting, **Fetch conversation** calls
+`agentEndpointConversations.getAgentConversation` and
+`agentEndpointConversations.listAgentConversationItems` for the selected agent, then replaces the
+transcript with the persisted user and assistant messages. A conversation ID from another session
+can also be pasted into the field, provided the agent that owns it is selected.
+
+The same fetch also calls `agentEndpointConversations.getAgentConversationAudio` for whole-call
+recording metadata. For Foundry-managed storage, it retrieves the WAV with
+`getAgentConversationAudioContent` and exposes playback and download controls above the transcript.
+Audio is optional and finalized after the session ends, so an unavailable or not-yet-ready recording
+does not prevent text from loading. BYOS metadata is shown, but its bytes must be downloaded from the
+customer storage account with customer credentials because the Foundry route does not proxy them.
 
 ## Management APIs
 
 The **Management** tab calls the generated management methods independently and displays each JSON
 response. **Get agent** and **Get version** load the returned definition into the JSON editor for
 subsequent update or version operations. A shared agent target sits above the **Agents** and
-**Versions** resource views. **Generate agent** is the primary creation command and opens
-**Generate from goal** by default. **Create from definition** remains a secondary creation path;
-the creation editor can switch between both modes. **Edit definition** and **Create version** open
-the definition editor in their respective contexts. Optional write settings stay collapsed until
-needed.
+**Versions** resource views. **Generate agent** is the primary generation command and opens the
+editor in **Generate** mode. **Create from definition** is a separate creation command that opens
+the editor in **From definition** mode. The in-editor mode toggle can switch between both methods.
+**Edit definition** and **Create version** open the definition editor in their respective contexts;
+optional write settings stay collapsed until needed.
 
 | UI action      | SDK method             | Required inputs                          |
 | -------------- | ---------------------- | ---------------------------------------- |
 | List agents    | `agents.list`          | Project endpoint                         |
 | Get agent      | `agents.get`           | Project endpoint, agent name             |
 | Create agent   | `agents.create`        | Project endpoint, agent name, definition |
-| Generate agent | `agents.generateAgent` | Project endpoint                         |
+| Generate agent | `agents.generateAgent` | Project endpoint, agent name             |
 | Update agent   | `agents.update`        | Project endpoint, agent name, definition |
 | Enable agent   | `agents.enable`        | Project endpoint, agent name             |
 | Disable agent  | `agents.disable`       | Project endpoint, agent name             |

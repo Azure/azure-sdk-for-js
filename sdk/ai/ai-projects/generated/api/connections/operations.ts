@@ -62,6 +62,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedConnectionDeserializer(result.body);
 }
+
 /** Returns the connections available in the current project, optionally filtered by type or default status. */
 export function list(
   context: Client,
@@ -115,6 +116,7 @@ export async function _getWithCredentialsDeserialize(
 
   return connectionDeserializer(result.body);
 }
+
 /** Retrieves the specified connection together with its credential values. */
 export async function getWithCredentials(
   context: Client,
@@ -162,6 +164,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return connectionDeserializer(result.body);
 }
+
 /** Retrieves the specified connection and its configuration details without including credential values. */
 export async function get(
   context: Client,

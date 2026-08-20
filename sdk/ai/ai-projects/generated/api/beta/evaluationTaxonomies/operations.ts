@@ -69,6 +69,7 @@ export async function _updateDeserialize(
 
   return evaluationTaxonomyDeserializer(result.body);
 }
+
 /** Modifies the specified evaluation taxonomy with the provided changes. */
 export async function update(
   context: Client,
@@ -122,6 +123,7 @@ export async function _createDeserialize(
 
   return evaluationTaxonomyDeserializer(result.body);
 }
+
 /** Creates or replaces the specified evaluation taxonomy with the provided definition. */
 export async function create(
   context: Client,
@@ -134,7 +136,7 @@ export async function create(
   return _createDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteEvaluationTaxonomySend(
   context: Client,
   name: string,
   foundryFeatures: "Evaluations=V1Preview",
@@ -158,7 +160,9 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteEvaluationTaxonomyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -166,20 +170,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Removes the specified evaluation taxonomy from the project. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteEvaluationTaxonomy(
   context: Client,
   name: string,
   foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, name, foundryFeatures, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteEvaluationTaxonomySend(context, name, foundryFeatures, options);
+  return _deleteEvaluationTaxonomyDeserialize(result);
 }
 
 export function _listSend(
@@ -220,6 +220,7 @@ export async function _listDeserialize(
 
   return _pagedEvaluationTaxonomyDeserializer(result.body);
 }
+
 /** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
 export function list(
   context: Client,
@@ -271,6 +272,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
 
   return evaluationTaxonomyDeserializer(result.body);
 }
+
 /** Retrieves the specified evaluation taxonomy. */
 export async function get(
   context: Client,

@@ -6,12 +6,16 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DeleteVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface DownloadVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaSkillsDownloadOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface GetVersionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface ListVersionsOptionalParams extends OperationOptions {
   /**
@@ -37,8 +41,10 @@ export interface ListVersionsOptionalParams extends OperationOptions {
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface CreateFromFilesOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaSkillsCreateOptionalParams extends OperationOptions {
   /** Inline skill content for simple skills without file uploads. Foundry-specific extension. */
@@ -46,10 +52,13 @@ export interface BetaSkillsCreateOptionalParams extends OperationOptions {
   /** Whether to set this version as the default. */
   defaultParam?: boolean;
 }
+
 /** Optional parameters. */
 export interface BetaSkillsDeleteOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaSkillsUpdateOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface BetaSkillsListOptionalParams extends OperationOptions {
   /**
@@ -75,5 +84,6 @@ export interface BetaSkillsListOptionalParams extends OperationOptions {
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface BetaSkillsGetOptionalParams extends OperationOptions {}

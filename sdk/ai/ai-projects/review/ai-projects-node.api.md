@@ -562,7 +562,7 @@ export interface AgentsOperations {
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
-    generateAgent: (kind: AgentKind, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
@@ -2694,6 +2694,22 @@ export interface GenAITracingOptions {
     contentRecording?: boolean;
     experimental?: boolean;
     traceContextPropagation?: boolean;
+}
+
+// @public
+export type GenerateAgentRequest = GenerateVoiceAgentRequest;
+
+// @public
+export interface GenerateVoiceAgentRequest {
+    description?: string;
+    draft?: boolean;
+    goal?: string;
+    kind: "voice";
+    model?: string;
+    model_type?: VoiceModelType;
+    name: string;
+    tools?: VoiceAgentToolUnion[];
+    use_case?: string;
 }
 
 // @public
@@ -5252,6 +5268,7 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
     project_connection_id?: string;
     // (undocumented)
     require_approval?: MCPToolRequireApproval | "always" | "never";
+    response_scheduling?: VoiceAgentToolResponseScheduling;
     server_description?: string;
     server_label: string;
     server_url?: string;
@@ -6016,7 +6033,6 @@ export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterim
 
 // @public
 export interface VoiceAgentTool {
-    response_scheduling?: VoiceAgentToolResponseScheduling;
     type: string;
 }
 
@@ -6220,6 +6236,7 @@ export interface VoiceConversation {
     completed_at?: Date;
     created_at: Date;
     id: string;
+    last_error?: ApiError;
     metadata?: Record<string, string>;
     object: "voice.conversation";
     status: VoiceConversationStatus;
@@ -6240,7 +6257,7 @@ export type VoiceConversationItemType = "message" | "function_call" | "function_
 export type VoiceConversationItemUnion = VoiceMessageItemUnion | VoiceFunctionCallItem | VoiceFunctionCallOutputItem | VoiceMcpListToolsItem | VoiceMcpCallItem | VoiceMcpApprovalRequestItem | VoiceMcpApprovalResponseItem | VoiceConversationItem;
 
 // @public
-export type VoiceConversationStatus = "in_progress" | "completed";
+export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
 
 // @public
 export interface VoiceEndOfUtteranceDetection {
@@ -6448,6 +6465,7 @@ export type VoiceSystemToolName = "end_conversation";
 
 // @public
 export interface VoiceToolboxTool extends VoiceAgentTool {
+    response_scheduling?: VoiceAgentToolResponseScheduling;
     toolbox_name: string;
     toolbox_version: string;
     type: "toolbox";

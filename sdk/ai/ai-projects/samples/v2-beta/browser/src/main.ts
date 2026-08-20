@@ -7,6 +7,8 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type AgentVersion,
+  type VoiceConversationItemUnion,
+  type VoiceRecordingResponse,
   type VoiceAgentDefinition,
   type VoiceAgentConnection,
   type VoiceAgentServerEvent,
@@ -27,6 +29,8 @@ class VoiceAgentConsole {
   private connection?: VoiceAgentConnection;
   private eventTask?: Promise<void>;
   private loadedEndpoint?: string;
+  private conversationAudioUrl?: string;
+  private conversationFetching = false;
   private managementBusy = false;
   private managementEditorAction?: ManagementEditorAction;
   private pendingManagementAction?: () => Promise<void>;
@@ -46,8 +50,19 @@ class VoiceAgentConsole {
   private readonly endpointInput = element<HTMLInputElement>("endpoint");
   private readonly agentSelect = element<HTMLSelectElement>("agentName");
   private readonly loadAgentsButton = element<HTMLButtonElement>("loadAgentsButton");
+  private readonly conversationIdInput = element<HTMLInputElement>("conversationId");
+  private readonly conversationIdDisplay = element<HTMLElement>("conversationIdDisplay");
+  private readonly fetchConversationButton = element<HTMLButtonElement>("fetchConversationButton");
+  private readonly conversationAudioPanel = element<HTMLElement>("conversationAudioPanel");
+  private readonly conversationAudio = element<HTMLAudioElement>("conversationAudio");
+  private readonly conversationAudioDetails = element<HTMLElement>("conversationAudioDetails");
+  private readonly conversationAudioStatus = element<HTMLElement>("conversationAudioStatus");
+  private readonly downloadConversationAudio = element<HTMLAnchorElement>(
+    "downloadConversationAudio",
+  );
   private readonly messageInput = element<HTMLTextAreaElement>("messageInput");
   private readonly sendButton = element<HTMLButtonElement>("sendButton");
+  private readonly clearTranscriptButton = element<HTMLButtonElement>("clearTranscriptButton");
   private readonly microphoneButton = element<HTMLButtonElement>("microphoneButton");
   private readonly microphoneLevel = element<HTMLElement>("microphoneLevel");
   private readonly transcript = element<HTMLElement>("transcript");
@@ -104,6 +119,10 @@ class VoiceAgentConsole {
     this.agentSelect.addEventListener("change", () => this.setConnecting(false));
     this.loadAgentsButton.addEventListener("click", () => {
       void this.loadAgents().catch((error: unknown) => this.showError(error));
+    });
+    this.conversationIdInput.addEventListener("input", () => this.setConnecting(false));
+    this.fetchConversationButton.addEventListener("click", () => {
+      void this.fetchConversation().catch((error: unknown) => this.showError(error));
     });
     this.conversationTab.addEventListener("click", () => this.showView("conversation"));
     this.managementTab.addEventListener("click", () => this.showView("management"));
@@ -163,6 +182,7 @@ class VoiceAgentConsole {
       }
     });
     this.disconnectButton.addEventListener("click", () => void this.disconnect());
+    this.clearTranscriptButton.addEventListener("click", () => this.clearTranscript());
     this.sendButton.addEventListener("click", () => void this.sendText());
     this.messageInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter" && !event.shiftKey) {
@@ -181,6 +201,7 @@ class VoiceAgentConsole {
       element<HTMLElement>("errorToast").hidden = true;
     });
     window.addEventListener("beforeunload", () => {
+      this.clearConversationAudio();
       void this.connection?.dispose();
       void this.microphone.stop();
       void this.player.dispose();
@@ -316,6 +337,56 @@ class VoiceAgentConsole {
     }
   }
 
+  private async fetchConversation(): Promise<void> {
+    const endpoint = this.endpointInput.value.trim();
+    const agentName = this.agentSelect.value;
+    const conversationId = this.conversationIdInput.value.trim();
+    if (!endpoint) {
+      throw new Error("Enter the Foundry project endpoint.");
+    }
+    if (!agentName) {
+      throw new Error("Load and select the voice agent that owns the conversation.");
+    }
+    if (!conversationId) {
+      throw new Error("Enter a conversation ID.");
+    }
+    if (this.connection) {
+      throw new Error("Disconnect the active conversation before fetching persisted history.");
+    }
+
+    this.clearConversationAudio();
+    this.setConversationFetching(true);
+    this.setRestState("checking");
+    try {
+      const client = this.getClient(endpoint);
+      const conversation = await client.agentEndpointConversations.getAgentConversation(
+        agentName,
+        conversationId,
+      );
+      const items: VoiceConversationItemUnion[] = [];
+      for await (const item of client.agentEndpointConversations.listAgentConversationItems(
+        agentName,
+        conversationId,
+        { limit: 100, order: "asc" },
+      )) {
+        items.push(item);
+      }
+
+      this.setConversationId(conversation.id);
+      const messageCount = this.renderFetchedConversation(items);
+      const audioState = await this.fetchConversationAudio(client, agentName, conversation.id);
+      this.setRestState("ready");
+      this.recordEvent(
+        `Fetched ${conversation.id} (${conversation.status}, ${messageCount} message(s), ${audioState})`,
+      );
+    } catch (error) {
+      this.setRestState("error");
+      throw error;
+    } finally {
+      this.setConversationFetching(false);
+    }
+  }
+
   private addManagementHandler(id: string, operation: () => Promise<void>): void {
     element<HTMLButtonElement>(id).addEventListener("click", () => {
       void operation().catch((error: unknown) => this.showError(error));
@@ -336,12 +407,19 @@ class VoiceAgentConsole {
         }),
       );
       return agents.map((agent) => {
-        const definition = getVoiceDefinition(agent);
+        // Some projects contain agents whose model_type predates this contract; don't let one
+        // unrecognized agent abort the whole list.
+        let model: string;
+        try {
+          model = getVoiceDefinition(agent).model;
+        } catch (error) {
+          model = `(${getErrorMessage(error)})`;
+        }
         return {
           name: agent.name,
           state: agent.state,
           latestVersion: agent.versions.latest.version,
-          model: definition.model,
+          model,
         };
       });
     });
@@ -373,8 +451,9 @@ class VoiceAgentConsole {
   }
 
   private async generateManagementAgent(): Promise<void> {
+    const name = this.getManagementAgentName();
     await this.runManagementOperation("agents.generateAgent", async (client) => {
-      const agent = await client.agents.generateAgent("voice");
+      const agent = await client.agents.generateAgent({ kind: "voice", name });
       this.applyManagementAgent(agent);
       return agent;
     });
@@ -653,7 +732,10 @@ class VoiceAgentConsole {
       );
       this.setRestState("ready");
 
+      this.clearConversationAudio();
+      this.setConversationId(undefined, "Waiting for session...");
       this.connection = await this.client.realtime.connect(agentName, {
+        store: true,
         onConnectionStateChange: (state) => this.setSocketState(state),
       });
       this.eventTask = this.consumeEvents(this.connection);
@@ -687,6 +769,9 @@ class VoiceAgentConsole {
     } catch (error) {
       this.showError(error);
       await this.disconnect();
+      if (!this.conversationIdInput.value) {
+        this.setConversationId(undefined);
+      }
     } finally {
       this.setConnecting(false);
     }
@@ -790,6 +875,9 @@ class VoiceAgentConsole {
     connection: VoiceAgentConnection,
   ): Promise<void> {
     switch (event.type) {
+      case "session.created":
+        this.setConversationId(event.conversation_id, "Not persisted");
+        break;
       case "response.created":
         this.player.stop();
         this.assistantText = "";
@@ -848,6 +936,7 @@ class VoiceAgentConsole {
           if (this.assistantMessage && !this.assistantText) {
             this.assistantMessage.remove();
             this.assistantMessage = undefined;
+            this.updateClearTranscriptButton();
           }
           await connection.requestResponse();
         } else if (this.assistantMessage) {
@@ -889,6 +978,7 @@ class VoiceAgentConsole {
     }
     message.append(label, content);
     this.transcript.append(message);
+    this.updateClearTranscriptButton();
     this.followTranscript(shouldFollow, streaming ? "auto" : "smooth");
     return message;
   }
@@ -902,6 +992,128 @@ class VoiceAgentConsole {
     content.textContent = text;
     content.classList.toggle("streaming", streaming);
     this.followTranscript(shouldFollow);
+  }
+
+  private setConversationId(conversationId?: string, emptyLabel = "Not available"): void {
+    const previousConversationId = this.conversationIdInput.value;
+    this.conversationIdInput.value = conversationId ?? "";
+    this.conversationIdDisplay.textContent = conversationId ?? emptyLabel;
+    this.conversationIdDisplay.title = conversationId ?? "";
+    if (conversationId && conversationId !== previousConversationId) {
+      this.recordEvent(`Persisted conversation ID: ${conversationId}`);
+    }
+  }
+
+  private renderFetchedConversation(items: VoiceConversationItemUnion[]): number {
+    const messages = items.flatMap((item) => {
+      const message = getPersistedMessage(item);
+      return message ? [message] : [];
+    });
+    this.resetTranscript();
+    const emptyTranscript = element<HTMLElement>("emptyTranscript");
+    emptyTranscript.textContent = "No persisted user or assistant messages were found.";
+    emptyTranscript.hidden = messages.length > 0;
+    for (const message of messages) {
+      this.addMessage(message.role, message.text);
+    }
+    return messages.length;
+  }
+
+  private clearTranscript(): void {
+    this.resetTranscript();
+    this.recordEvent("Chat cleared");
+  }
+
+  private resetTranscript(): void {
+    this.assistantText = "";
+    this.assistantTextSource = undefined;
+    this.assistantMessage = undefined;
+    this.userVoiceMessage = undefined;
+    this.transcript.querySelectorAll(".message").forEach((message) => message.remove());
+    const emptyTranscript = element<HTMLElement>("emptyTranscript");
+    emptyTranscript.textContent = "No messages yet.";
+    emptyTranscript.hidden = false;
+    this.transcript.scrollTop = 0;
+    this.updateClearTranscriptButton();
+  }
+
+  private updateClearTranscriptButton(): void {
+    this.clearTranscriptButton.disabled = !this.transcript.querySelector(".message");
+  }
+
+  private async fetchConversationAudio(
+    client: AIProjectClient,
+    agentName: string,
+    conversationId: string,
+  ): Promise<string> {
+    this.conversationAudioDetails.textContent = "";
+    this.conversationAudioDetails.hidden = true;
+    this.showConversationAudioStatus("Loading recording...");
+    try {
+      const recording = await client.agentEndpointConversations.getAgentConversationAudio(
+        agentName,
+        conversationId,
+      );
+      this.conversationAudioDetails.textContent = formatRecordingDetails(recording);
+      this.conversationAudioDetails.hidden = false;
+      if (recording.blob_uri) {
+        this.showConversationAudioStatus(
+          "BYOS recording metadata loaded; audio bytes are not proxied.",
+        );
+        return "BYOS audio metadata";
+      }
+
+      const content = await client.agentEndpointConversations.getAgentConversationAudioContent(
+        agentName,
+        conversationId,
+      );
+      const blob = await content.blobBody;
+      if (!blob) {
+        throw new Error("The browser response did not contain audio data.");
+      }
+
+      this.clearConversationAudioUrl();
+      this.conversationAudioUrl = URL.createObjectURL(blob);
+      this.conversationAudio.src = this.conversationAudioUrl;
+      this.conversationAudio.hidden = false;
+      this.downloadConversationAudio.href = this.conversationAudioUrl;
+      this.downloadConversationAudio.download = `${conversationId}.wav`;
+      this.downloadConversationAudio.hidden = false;
+      this.conversationAudioStatus.hidden = true;
+      return "audio loaded";
+    } catch (error) {
+      const message = getErrorMessage(error);
+      this.showConversationAudioStatus(`Audio unavailable: ${message}`);
+      this.recordEvent(`Conversation audio unavailable: ${message}`);
+      return "audio unavailable";
+    }
+  }
+
+  private showConversationAudioStatus(message: string): void {
+    this.clearConversationAudioUrl();
+    this.conversationAudioPanel.hidden = false;
+    this.conversationAudio.hidden = true;
+    this.downloadConversationAudio.hidden = true;
+    this.conversationAudioStatus.textContent = message;
+    this.conversationAudioStatus.hidden = false;
+  }
+
+  private clearConversationAudio(): void {
+    this.clearConversationAudioUrl();
+    this.conversationAudioDetails.textContent = "";
+    this.conversationAudioDetails.hidden = true;
+    this.conversationAudioStatus.textContent = "";
+    this.conversationAudioPanel.hidden = true;
+  }
+
+  private clearConversationAudioUrl(): void {
+    this.conversationAudio.pause();
+    this.conversationAudio.removeAttribute("src");
+    this.downloadConversationAudio.removeAttribute("href");
+    if (this.conversationAudioUrl) {
+      URL.revokeObjectURL(this.conversationAudioUrl);
+      this.conversationAudioUrl = undefined;
+    }
   }
 
   private shouldFollowTranscript(): boolean {
@@ -930,11 +1142,21 @@ class VoiceAgentConsole {
 
   private setConnecting(connecting: boolean): void {
     const connected = this.connection !== undefined;
-    this.endpointInput.disabled = connecting || connected;
-    this.agentSelect.disabled = connecting || connected || this.agentSelect.options.length <= 1;
-    this.loadAgentsButton.disabled = connecting || connected || !this.endpointInput.value.trim();
-    this.connectButton.disabled = connecting || connected || !this.agentSelect.value;
+    const busy = connecting || this.conversationFetching;
+    this.endpointInput.disabled = busy || connected;
+    this.agentSelect.disabled = busy || connected || this.agentSelect.options.length <= 1;
+    this.loadAgentsButton.disabled = busy || connected || !this.endpointInput.value.trim();
+    this.conversationIdInput.disabled = busy || connected;
+    this.fetchConversationButton.disabled =
+      busy || connected || !this.agentSelect.value || !this.conversationIdInput.value.trim();
+    this.connectButton.disabled = busy || connected || !this.agentSelect.value;
     this.connectButton.textContent = connecting ? "Connecting..." : "Connect";
+  }
+
+  private setConversationFetching(fetching: boolean): void {
+    this.conversationFetching = fetching;
+    this.fetchConversationButton.textContent = fetching ? "Fetching..." : "Fetch conversation";
+    this.setConnecting(false);
   }
 
   private setConnected(connected: boolean): void {
@@ -1006,6 +1228,8 @@ class VoiceAgentConsole {
   private resetAgentOptions(resetRestState = true): void {
     this.client = undefined;
     this.loadedEndpoint = undefined;
+    this.clearConversationAudio();
+    this.setConversationId(undefined);
     this.agentSelect.replaceChildren(new Option("Load agents from project", ""));
     this.agentSelect.disabled = true;
     this.connectButton.disabled = true;
@@ -1027,6 +1251,63 @@ function element<T extends HTMLElement>(id: string): T {
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
+}
+
+function getPersistedMessage(
+  item: VoiceConversationItemUnion,
+): { role: "user" | "assistant"; text: string } | undefined {
+  if (
+    item.type !== "message" ||
+    !("role" in item) ||
+    !("content" in item) ||
+    !Array.isArray(item.content) ||
+    (item.role !== "user" && item.role !== "assistant")
+  ) {
+    return undefined;
+  }
+
+  const parts: string[] = [];
+  let hasAudio = false;
+  for (const content of item.content) {
+    if (!content || typeof content !== "object") {
+      continue;
+    }
+    const text = "text" in content && typeof content.text === "string" ? content.text : undefined;
+    const transcript =
+      "transcript" in content && typeof content.transcript === "string"
+        ? content.transcript
+        : undefined;
+    if (text || transcript) {
+      parts.push(text || transcript || "");
+    }
+    hasAudio ||= "audio" in content && typeof content.audio === "string";
+  }
+
+  return {
+    role: item.role,
+    text: parts.join("\n") || (hasAudio ? "Audio message" : "Message without text content"),
+  };
+}
+
+function formatRecordingDetails(recording: VoiceRecordingResponse): string {
+  const sampleRate =
+    recording.sample_rate >= 1000
+      ? `${recording.sample_rate / 1000} kHz`
+      : `${recording.sample_rate} Hz`;
+  const channels =
+    recording.channels === 1
+      ? "mono"
+      : recording.channels === 2
+        ? "stereo"
+        : `${recording.channels} channels`;
+  return `${recording.format.toUpperCase()} | ${sampleRate} | ${channels} | ${formatDuration(recording.duration_ms)}`;
+}
+
+function formatDuration(durationMs: number): string {
+  const totalSeconds = Math.max(0, Math.round(durationMs / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
 function getVoiceDefinition(agent: Agent): VoiceAgentDefinition {

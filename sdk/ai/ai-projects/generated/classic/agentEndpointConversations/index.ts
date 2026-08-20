@@ -48,8 +48,11 @@ export interface AgentEndpointConversationsOperations {
    * (no SAS URL). This route serves Foundry-managed storage only. For bring-your-own-storage (BYOS)
    * recordings the bytes are not proxied — the caller must download directly from customer storage using the
    * `blob_uri` returned by the metadata route — so this route returns `409 Conflict` for BYOS recordings.
-   * A request against an in-progress session also returns `409` (a distinct condition: session-not-ended
-   * versus BYOS-download-required). A conversation without persisted audio (`store = false`) returns `404`.
+   * While the conversation is `in_progress`, this route returns retriable `409 Conflict` with
+   * `error.code = recording_not_ready` and a `Retry-After` header when retry guidance is available. When the
+   * conversation is `failed`, it returns terminal `409 Conflict` with `error.code = recording_unavailable`.
+   * For a `completed` conversation, content is available subject to the existing BYOS behavior. A conversation
+   * without persisted audio (`store = false`) returns `404`.
    */
   getAgentConversationAudioContent: (
     foundryFeatures: "VoiceAgents=V1Preview",
@@ -62,9 +65,12 @@ export interface AgentEndpointConversationsOperations {
    * on the right). The common metadata (format, sample rate, channels, channel layout, duration) is returned
    * for both Foundry-managed and bring-your-own-storage (BYOS) recordings; for BYOS the response additionally
    * includes `blob_uri`, the URI of the recording in the customer's own storage (no SAS) that the customer downloads
-   * with their own credentials. The recording is built once from the per-turn segments after the session ends;
-   * a request against an in-progress session returns `409`. Requires the conversation to have persisted audio
-   * (`store = true`); otherwise returns `404`.
+   * with their own credentials. The recording is built once from the per-turn segments after persistence
+   * finalization succeeds. While the conversation is `in_progress`, this route returns retriable `409 Conflict`
+   * with `error.code = recording_not_ready` and a `Retry-After` header when retry guidance is available. When the
+   * conversation is `failed`, it returns terminal `409 Conflict` with `error.code = recording_unavailable`.
+   * For a `completed` conversation, metadata is available subject to the existing BYOS behavior. Requires the
+   * conversation to have persisted audio (`store = true`); otherwise returns `404`.
    */
   getAgentConversationAudio: (
     foundryFeatures: "VoiceAgents=V1Preview",
@@ -191,6 +197,7 @@ export interface AgentEndpointConversationsOperations {
     options?: AgentEndpointConversationsListAgentConversationsOptionalParams,
   ) => PagedAsyncIterableIterator<VoiceConversation>;
 }
+
 function _getAgentEndpointConversations(context: AIProjectContext) {
   return {
     getAgentConversationAudioContent: (
@@ -319,6 +326,7 @@ function _getAgentEndpointConversations(context: AIProjectContext) {
     ) => listAgentConversations(context, foundryFeatures, agentName, options),
   };
 }
+
 export function _getAgentEndpointConversationsOperations(
   context: AIProjectContext,
 ): AgentEndpointConversationsOperations {

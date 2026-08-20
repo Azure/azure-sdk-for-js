@@ -66,7 +66,6 @@ import {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
-  AgentKind,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   CreateAgentVersionFromCodeContent,
@@ -75,6 +74,7 @@ import {
   SessionLogEvent,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -276,11 +276,6 @@ export interface AgentsOperations {
    * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
    * associated sessions are cascade-deleted along with the agent and its versions.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
   /**
    * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
@@ -314,7 +309,7 @@ export interface AgentsOperations {
    */
   generateAgent: (
     foundryFeatures: "VoiceAgents=V1Preview",
-    kind: AgentKind,
+    body: GenerateAgentRequest,
     options?: AgentsGenerateAgentOptionalParams,
   ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
@@ -326,6 +321,7 @@ export interface AgentsOperations {
   /** Retrieves an agent definition by its unique name. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
+
 function _getAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
@@ -436,9 +432,9 @@ function _getAgents(context: AIProjectContext) {
     ) => updateAgent(context, agentName, definition, options),
     generateAgent: (
       foundryFeatures: "VoiceAgents=V1Preview",
-      kind: AgentKind,
+      body: GenerateAgentRequest,
       options?: AgentsGenerateAgentOptionalParams,
-    ) => generateAgent(context, foundryFeatures, kind, options),
+    ) => generateAgent(context, foundryFeatures, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,
@@ -447,6 +443,7 @@ function _getAgents(context: AIProjectContext) {
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
+
 export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
   return {
     ..._getAgents(context),

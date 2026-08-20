@@ -240,7 +240,8 @@ session exposed by `project.realtime`. The example below generates a Voice Agent
 streams its response:
 
 ```ts snippet:voiceAgent
-const voiceAgent = await project.agents.generateAgent("voice");
+const voiceAgentName = `voice-agent-${Date.now()}`;
+const voiceAgent = await project.agents.generateAgent({ kind: "voice", name: voiceAgentName });
 const connection = await project.realtime.connect(voiceAgent.name);
 
 try {

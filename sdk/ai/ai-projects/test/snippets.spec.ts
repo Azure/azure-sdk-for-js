@@ -126,7 +126,8 @@ describe("snippets", function () {
   });
 
   it("voiceAgent", async function () {
-    const voiceAgent = await project.agents.generateAgent("voice");
+    const voiceAgentName = `voice-agent-${Date.now()}`;
+    const voiceAgent = await project.agents.generateAgent({ kind: "voice", name: voiceAgentName });
     const connection = await project.realtime.connect(voiceAgent.name);
 
     try {

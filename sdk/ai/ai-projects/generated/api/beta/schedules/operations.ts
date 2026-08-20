@@ -74,6 +74,7 @@ export async function _listRunsDeserialize(
 
   return _pagedScheduleRunDeserializer(result.body);
 }
+
 /** Returns schedule runs that match the supplied filters. */
 export function listRuns(
   context: Client,
@@ -133,6 +134,7 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
 
   return scheduleRunDeserializer(result.body);
 }
+
 /** Retrieves the specified run for a schedule. */
 export async function getRun(
   context: Client,
@@ -184,6 +186,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return scheduleDeserializer(result.body);
 }
+
 /** Creates a new schedule or updates an existing schedule with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
@@ -232,6 +235,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _pagedScheduleDeserializer(result.body);
 }
+
 /** Returns schedules that match the supplied type and enabled filters. */
 export function list(
   context: Client,
@@ -283,6 +287,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
 
   return scheduleDeserializer(result.body);
 }
+
 /** Retrieves the specified schedule resource. */
 export async function get(
   context: Client,
@@ -294,7 +299,7 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteScheduleSend(
   context: Client,
   scheduleId: string,
   foundryFeatures: "Schedules=V1Preview",
@@ -318,7 +323,7 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteScheduleDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -326,18 +331,14 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the specified schedule resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteSchedule(
   context: Client,
   scheduleId: string,
   foundryFeatures: "Schedules=V1Preview",
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(context, scheduleId, foundryFeatures, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteScheduleSend(context, scheduleId, foundryFeatures, options);
+  return _deleteScheduleDeserialize(result);
 }

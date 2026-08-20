@@ -9,11 +9,13 @@ export interface BetaAgentsDeleteOptimizationJobOptionalParams extends Operation
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V2Preview";
 }
+
 /** Optional parameters. */
 export interface BetaAgentsCancelOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V2Preview";
 }
+
 /** Optional parameters. */
 export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -45,11 +47,13 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
   /** Filter to jobs targeting this agent name. */
   agentName?: string;
 }
+
 /** Optional parameters. */
 export interface BetaAgentsGetOptimizationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "AgentsOptimization=V2Preview";
 }
+
 /** Optional parameters. */
 export interface BetaAgentsCreateOptimizationJobOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

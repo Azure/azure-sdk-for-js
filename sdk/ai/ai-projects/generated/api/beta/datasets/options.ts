@@ -9,11 +9,13 @@ export interface BetaDatasetsDeleteGenerationJobOptionalParams extends Operation
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "DataGenerationJobs=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaDatasetsCancelGenerationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "DataGenerationJobs=V1Preview";
 }
+
 /** Optional parameters. */
 export interface BetaDatasetsCreateGenerationJobOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -23,6 +25,7 @@ export interface BetaDatasetsCreateGenerationJobOptionalParams extends Operation
   /** Client-generated unique ID for idempotent retries. When absent, the server creates the job unconditionally. */
   operationId?: string;
 }
+
 /** Optional parameters. */
 export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
@@ -50,6 +53,7 @@ export interface BetaDatasetsListGenerationJobsOptionalParams extends OperationO
    */
   before?: string;
 }
+
 /** Optional parameters. */
 export interface BetaDatasetsGetGenerationJobOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */

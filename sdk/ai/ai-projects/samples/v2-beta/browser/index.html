@@ -80,6 +80,28 @@
                 </button>
               </div>
 
+              <label for="conversationId">
+                Conversation ID
+                <span>Persisted sessions</span>
+              </label>
+              <div class="conversation-picker">
+                <input
+                  id="conversationId"
+                  name="conversationId"
+                  type="text"
+                  placeholder="Persisted conversation ID"
+                  autocomplete="off"
+                />
+                <button
+                  id="fetchConversationButton"
+                  class="secondary-action"
+                  type="button"
+                  disabled
+                >
+                  Fetch conversation
+                </button>
+              </div>
+
               <div class="connection-actions">
                 <button id="connectButton" class="primary-action" type="submit">Connect</button>
                 <button id="disconnectButton" class="secondary-action" type="button" disabled>
@@ -127,15 +149,43 @@
           aria-labelledby="conversationTab conversationHeading"
         >
           <header class="conversation-header">
-            <div>
+            <div class="conversation-title">
               <p class="section-kicker">Live session</p>
               <h2 id="conversationHeading">Conversation</h2>
+              <p class="conversation-id-readout">
+                <span>Conversation ID</span>
+                <code id="conversationIdDisplay" aria-live="polite">Not available</code>
+              </p>
             </div>
-            <div class="session-states" aria-live="polite">
-              <span id="restState" class="state-chip">REST idle</span>
-              <span id="socketState" class="state-chip">Socket closed</span>
+            <div class="conversation-header-actions">
+              <div class="session-states" aria-live="polite">
+                <span id="restState" class="state-chip">REST idle</span>
+                <span id="socketState" class="state-chip">Socket closed</span>
+              </div>
+              <button id="clearTranscriptButton" class="secondary-action" type="button" disabled>
+                Clear chat
+              </button>
             </div>
           </header>
+
+          <section
+            id="conversationAudioPanel"
+            class="conversation-audio"
+            aria-labelledby="conversationAudioHeading"
+            hidden
+          >
+            <div class="conversation-audio-heading">
+              <div>
+                <h3 id="conversationAudioHeading">Conversation audio</h3>
+                <p id="conversationAudioDetails" hidden></p>
+              </div>
+              <a id="downloadConversationAudio" class="secondary-action" download hidden>
+                Download WAV
+              </a>
+            </div>
+            <audio id="conversationAudio" controls preload="metadata" hidden></audio>
+            <p id="conversationAudioStatus" class="conversation-audio-status" role="status"></p>
+          </section>
 
           <div id="transcript" class="transcript" aria-live="polite">
             <p id="emptyTranscript" class="empty-transcript">No messages yet.</p>
@@ -323,8 +373,7 @@
   "model": "gpt-realtime",
   "instructions": "You are a concise and helpful voice assistant.",
   "output_modalities": ["text", "audio"]
-}</textarea
-                  >
+}</textarea>
 
                   <details class="management-options">
                     <summary>Optional settings</summary>
@@ -342,7 +391,6 @@
                           <option value="disabled">Disabled</option>
                         </select>
                       </div>
-
                     </div>
                   </details>
 
@@ -397,7 +445,6 @@
                     </label>
                     <input id="managementVersion" name="version" />
                   </div>
-
                 </div>
 
                 <div class="management-actions">

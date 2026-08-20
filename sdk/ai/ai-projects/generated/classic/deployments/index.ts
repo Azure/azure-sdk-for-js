@@ -17,12 +17,14 @@ export interface DeploymentsOperations {
   /** Retrieves a deployed model. */
   get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;
 }
+
 function _getDeployments(context: AIProjectContext) {
   return {
     list: (options?: DeploymentsListOptionalParams) => list(context, options),
     get: (name: string, options?: DeploymentsGetOptionalParams) => get(context, name, options),
   };
 }
+
 export function _getDeploymentsOperations(context: AIProjectContext): DeploymentsOperations {
   return {
     ..._getDeployments(context),

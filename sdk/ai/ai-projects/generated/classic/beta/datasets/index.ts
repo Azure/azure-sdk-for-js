@@ -47,6 +47,7 @@ export interface BetaDatasetsOperations {
     options?: BetaDatasetsGetGenerationJobOptionalParams,
   ) => Promise<DataGenerationJob>;
 }
+
 function _getBetaDatasets(context: AIProjectContext) {
   return {
     deleteGenerationJob: (jobId: string, options?: BetaDatasetsDeleteGenerationJobOptionalParams) =>
@@ -63,6 +64,7 @@ function _getBetaDatasets(context: AIProjectContext) {
       getGenerationJob(context, jobId, options),
   };
 }
+
 export function _getBetaDatasetsOperations(context: AIProjectContext): BetaDatasetsOperations {
   return {
     ..._getBetaDatasets(context),

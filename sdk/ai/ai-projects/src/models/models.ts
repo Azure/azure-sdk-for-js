@@ -6232,18 +6232,15 @@ export interface VoiceAgentTool {
   /** The tool kind. */
   /** The discriminator possible values: function, mcp, system, toolbox */
   type: string;
-  /** When the tool invocation creates a follow-up response. Defaults to `when_idle`. */
-  response_scheduling?: VoiceAgentToolResponseScheduling;
 }
 
 export function voiceAgentToolSerializer(item: VoiceAgentTool): any {
-  return { type: item["type"], response_scheduling: item["response_scheduling"] };
+  return { type: item["type"] };
 }
 
 export function voiceAgentToolDeserializer(item: any): VoiceAgentTool {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
   };
 }
 
@@ -6311,7 +6308,6 @@ export interface VoiceAgentFunctionTool extends VoiceAgentTool {
 export function voiceAgentFunctionToolSerializer(item: VoiceAgentFunctionTool): any {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     description: item["description"],
     parameters: !item["parameters"]
       ? item["parameters"]
@@ -6323,7 +6319,6 @@ export function voiceAgentFunctionToolSerializer(item: VoiceAgentFunctionTool): 
 export function voiceAgentFunctionToolDeserializer(item: any): VoiceAgentFunctionTool {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     description: item["description"],
     parameters: !item["parameters"]
       ? item["parameters"]
@@ -6372,12 +6367,13 @@ export interface VoiceAgentMcpTool extends VoiceAgentTool {
   type: "mcp";
   /** The URL for the MCP server. */
   server_url?: string;
+  /** When the MCP invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
 }
 
 export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     server_label: item["server_label"],
     authorization: item["authorization"],
     server_description: item["server_description"],
@@ -6399,13 +6395,13 @@ export function voiceAgentMcpToolSerializer(item: VoiceAgentMcpTool): any {
       ? item["tool_configs"]
       : toolConfigRecordSerializer(item["tool_configs"]),
     server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
   };
 }
 
 export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     server_label: item["server_label"],
     authorization: item["authorization"],
     server_description: item["server_description"],
@@ -6431,6 +6427,7 @@ export function voiceAgentMcpToolDeserializer(item: any): VoiceAgentMcpTool {
       ? item["tool_configs"]
       : toolConfigRecordDeserializer(item["tool_configs"]),
     server_url: item["server_url"],
+    response_scheduling: item["response_scheduling"],
   };
 }
 
@@ -6447,7 +6444,6 @@ export interface VoiceSystemTool extends VoiceAgentTool {
 export function voiceSystemToolSerializer(item: VoiceSystemTool): any {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     name: item["name"],
     description: item["description"],
   };
@@ -6456,7 +6452,6 @@ export function voiceSystemToolSerializer(item: VoiceSystemTool): any {
 export function voiceSystemToolDeserializer(item: any): VoiceSystemTool {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     name: item["name"],
     description: item["description"],
   };
@@ -6473,23 +6468,25 @@ export interface VoiceToolboxTool extends VoiceAgentTool {
   toolbox_name: string;
   /** The immutable version of the toolbox to attach. */
   toolbox_version: string;
+  /** When the toolbox invocation creates a follow-up response. Defaults to `when_idle`. */
+  response_scheduling?: VoiceAgentToolResponseScheduling;
 }
 
 export function voiceToolboxToolSerializer(item: VoiceToolboxTool): any {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     toolbox_name: item["toolbox_name"],
     toolbox_version: item["toolbox_version"],
+    response_scheduling: item["response_scheduling"],
   };
 }
 
 export function voiceToolboxToolDeserializer(item: any): VoiceToolboxTool {
   return {
     type: item["type"],
-    response_scheduling: item["response_scheduling"],
     toolbox_name: item["toolbox_name"],
     toolbox_version: item["toolbox_version"],
+    response_scheduling: item["response_scheduling"],
   };
 }
 
@@ -7336,6 +7333,53 @@ export function apiErrorArrayDeserializer(result: Array<ApiError>): any[] {
   });
 }
 
+/**
+ * The kind-specific inputs for generating a voice agent from high-level natural-language inputs.
+ * The generated `instructions` and audio/voice settings are stored as separate fields on the resulting agent
+ * definition, so the caller can edit or override any of them afterward via standard agent versioning.
+ */
+export interface GenerateVoiceAgentRequest {
+  /** The agent kind. Always `voice`. */
+  kind: "voice";
+  /** The unique name for the agent to create. Must be a non-empty DNS-like agent name. */
+  name: string;
+  /** Optional inference mode. When omitted, the authoring service uses `managed`. When supplied, use `managed` or `self_deployed`. */
+  model_type?: VoiceModelType;
+  /** Optional model identifier. Required when `model_type` is `self_deployed`; optional when `model_type` is `managed` or omitted. The service never invents a customer deployment name. */
+  model?: string;
+  /** An optional authoring use case. An empty string is accepted. */
+  use_case?: string;
+  /** An optional natural-language description of what the agent should do. When supplied, it seeds the generated instructions. */
+  goal?: string;
+  /** An optional agent description. The authoring service resolves its fallback when omitted. */
+  description?: string;
+  /** Optional tools carried through verbatim onto the generated agent (see `VoiceAgentTool`). */
+  tools?: VoiceAgentToolUnion[];
+  /** (Preview) When `true`, the generated voice agent is created as a draft — an editable, unpublished version the caller can review and refine before publishing it via the standard create/version path. The service defaults to `false` if a value is not specified by the caller, in which case the agent is created and published normally. */
+  draft?: boolean;
+}
+
+export function generateVoiceAgentRequestSerializer(item: GenerateVoiceAgentRequest): any {
+  return {
+    kind: item["kind"],
+    name: item["name"],
+    model_type: item["model_type"],
+    model: item["model"],
+    use_case: item["use_case"],
+    goal: item["goal"],
+    description: item["description"],
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    draft: item["draft"],
+  };
+}
+
+/** The kind-specific inputs for generating and creating an agent. */
+export type GenerateAgentRequest = GenerateVoiceAgentRequest;
+
+export function generateAgentRequestSerializer(item: GenerateAgentRequest): any {
+  return item;
+}
+
 /** A deleted agent Object */
 export interface DeleteAgentResponse {
   /** The object type. Always 'agent.deleted'. */
@@ -7747,7 +7791,8 @@ export function voiceConversationArrayDeserializer(result: Array<VoiceConversati
 /**
  * A persisted voice conversation. The Foundry envelope that owns a voice agent's stored
  * transcript, responses, per-turn metrics, and audio. It is the parent, retention, and delete boundary:
- * deleting it cascades to its responses, items, metrics, and audio.
+ * deleting it cascades to its responses, items, metrics, and audio. When finalization fails, any partial persisted
+ * responses, items, and item audio remain readable.
  */
 export interface VoiceConversation {
   /** The unique id of the conversation. */
@@ -7762,8 +7807,10 @@ export interface VoiceConversation {
   completed_at?: Date;
   /** A set of key-value pairs attached to the conversation. */
   metadata?: Record<string, string>;
-  /** Final aggregate token usage across all responses in this conversation. Absent while `status` is `in_progress` and populated after `status` is `completed`; values are not guaranteed to be reported incrementally. */
+  /** Final aggregate token usage across all responses in this conversation. Absent while `status` is `in_progress` and populated after successful `completed` finalization; it may be absent when `status` is `failed`, and values are not guaranteed to be reported incrementally. */
   usage?: RealtimeResponseUsage;
+  /** The terminal error that prevented persistence finalization. Present only when `status` is `failed`. */
+  last_error?: ApiError;
 }
 
 export function voiceConversationDeserializer(item: any): VoiceConversation {
@@ -7779,11 +7826,18 @@ export function voiceConversationDeserializer(item: any): VoiceConversation {
       ? item["metadata"]
       : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     usage: !item["usage"] ? item["usage"] : realtimeResponseUsageDeserializer(item["usage"]),
+    last_error: !item["last_error"] ? item["last_error"] : apiErrorDeserializer(item["last_error"]),
   };
 }
 
-/** The lifecycle status of a persisted voice conversation. */
-export type VoiceConversationStatus = "in_progress" | "completed";
+/**
+ * The lifecycle status of a persisted voice conversation:
+ * - `in_progress`: the live session is active, or post-session persistence finalization is pending.
+ * - `completed`: finalization succeeded after normal or client close, `end_conversation`, a max-duration `1001`
+ *   close, or a client or network disconnect that the service can still finalize.
+ * - `failed`: a terminal service, bridge, storage, or unrecoverable transport failure prevented finalization.
+ */
+export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
 
 /** model interface RealtimeResponseUsage */
 export interface RealtimeResponseUsage {

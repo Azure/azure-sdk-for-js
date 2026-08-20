@@ -13,12 +13,15 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
   /** Filter by the enabled status. */
   enabled?: boolean;
 }
+
 /** Optional parameters. */
 export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: "Evaluations=V1Preview";
 }
+
 /** Optional parameters. */
 export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface EvaluationRulesGetOptionalParams extends OperationOptions {}
