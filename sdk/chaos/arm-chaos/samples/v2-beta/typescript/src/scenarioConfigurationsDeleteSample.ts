@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a scenario definition.
  *
  * @summary delete a scenario definition.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_Delete.json
  */
 async function deleteAScenarioConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
