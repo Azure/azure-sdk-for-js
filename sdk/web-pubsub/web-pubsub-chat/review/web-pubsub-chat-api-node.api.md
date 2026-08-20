@@ -128,7 +128,7 @@ export function listMessages(context: WebPubSubChatServiceContext, conversationI
 export interface ListMessagesOptionalParams extends OperationOptions {
     earliestMessageId?: string;
     latestMessageId?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
@@ -137,7 +137,7 @@ export function listRoles(context: WebPubSubChatServiceContext, options?: ListRo
 // @public
 export interface ListRolesOptionalParams extends OperationOptions {
     continuationToken?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public
@@ -146,7 +146,7 @@ export function listRoomMembers(context: WebPubSubChatServiceContext, roomId: st
 // @public
 export interface ListRoomMembersOptionalParams extends OperationOptions {
     continuationToken?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public

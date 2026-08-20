@@ -15,7 +15,7 @@ import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 describe("", () => {
   let client: WebPubSubChatServiceClient;
   let recorder: Recorder;
-  const isLocalAuthEnabled = process.env.WPS_CHAT_LOCAL_AUTH_ENABLED === "true";
+  const isLocalAuthEnabled = process.env.WPS_CHAT_DISABLE_LOCAL_AUTH !== "true";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -153,12 +153,12 @@ describe("", () => {
       });
 
       try {
-        const firstPage = await client.listRoles({ maxpagesize: 1 }).byPage().next();
+        const firstPage = await client.listRoles({ maxPageSize: 1 }).byPage().next();
         assert.lengthOf(firstPage.value!, 1);
         assert.isDefined(firstPage.value!.continuationToken);
 
         const secondPage = await client
-          .listRoles({ maxpagesize: 1 })
+          .listRoles({ maxPageSize: 1 })
           .byPage({ continuationToken: firstPage.value!.continuationToken })
           .next();
         assert.lengthOf(secondPage.value!, 1);

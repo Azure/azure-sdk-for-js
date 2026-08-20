@@ -41,7 +41,7 @@ export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOption
 /** Optional parameters. */
 export interface ListRoomMembersOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** Continuation token for pagination. */
   continuationToken?: string;
 }
@@ -87,7 +87,7 @@ export interface GetRoleOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface ListRolesOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** Continuation token for pagination. */
   continuationToken?: string;
 }
@@ -115,7 +115,7 @@ export interface ListMessagesOptionalParams extends OperationOptions {
   /** Earliest message ID (exclusive) for pagination. */
   earliestMessageId?: string;
   /** The maximum number of result items per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Optional parameters. */
