@@ -360,6 +360,8 @@ export type {
   VoiceAgentInterimResponseTrigger,
   ApiErrorResponse,
   ApiError,
+  GenerateVoiceAgentRequest,
+  GenerateAgentRequest,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   CreateAgentVersionFromCodeContent,

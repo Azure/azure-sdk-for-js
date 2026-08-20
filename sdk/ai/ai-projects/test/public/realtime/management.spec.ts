@@ -82,7 +82,7 @@ describe("AIProjectClient Voice Agent management REST", () => {
       { httpClient },
     );
 
-    const generated = await client.agents.generateAgent("voice");
+    const generated = await client.agents.generateAgent({ kind: "voice", name: agentName });
     assert.equal(generated.versions.latest.version, "generated");
 
     const created = await client.agents.create(agentName, definition, {
@@ -130,7 +130,10 @@ describe("AIProjectClient Voice Agent management REST", () => {
     assert.equal(httpClient.requests[1].headers.get("foundry-features"), preview);
     assert.equal(httpClient.requests[3].headers.get("foundry-features"), preview);
 
-    assert.deepEqual(JSON.parse(String(httpClient.requests[0].body)), { kind: "voice" });
+    assert.deepEqual(JSON.parse(String(httpClient.requests[0].body)), {
+      kind: "voice",
+      name: agentName,
+    });
     const createBody = JSON.parse(String(httpClient.requests[1].body));
     assert.equal(createBody.name, agentName);
     assert.equal(createBody.definition.kind, "voice");
