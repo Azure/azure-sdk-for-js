@@ -803,7 +803,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           expect(longIntervalStatsbeat["initialExportTimer"]).toBeUndefined();
         } finally {
           clearTimeoutSpy.mockRestore();
-          process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          if (originalWebsiteSiteName === undefined) {
+            delete process.env.WEBSITE_SITE_NAME;
+          } else {
+            process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          }
           if (!isShutdown) {
             await longIntervalStatsbeat.shutdown();
           }
@@ -836,7 +840,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
           expect(exportSpy).not.toHaveBeenCalled();
         } finally {
-          process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          if (originalWebsiteSiteName === undefined) {
+            delete process.env.WEBSITE_SITE_NAME;
+          } else {
+            process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          }
           await longIntervalStatsbeat.shutdown();
         }
       });
