@@ -15,9 +15,7 @@
     "@azure/core-auth": "1.11.0",
     "@azure/identity": "4.13.1",
     "@types/node": "22.20.1",
-    "@types/ws": "8.18.1",
     "typescript": "6.0.3",
-    "vite": "7.3.6",
-    "ws": "8.21.2"
+    "vite": "7.3.6"
   }
 }

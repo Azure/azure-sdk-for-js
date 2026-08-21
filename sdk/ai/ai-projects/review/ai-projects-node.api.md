@@ -5303,7 +5303,6 @@ export interface VoiceAgentRealtimeClientConnectOptions {
 
 // @public
 export interface VoiceAgentRealtimeClientOptions {
-    allowCredentialsInUrl?: boolean;
     apiVersion?: string;
     connectionTimeoutInMs?: number;
     credentialScopes?: string | string[];

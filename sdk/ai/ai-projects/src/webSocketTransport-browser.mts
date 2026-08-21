@@ -8,32 +8,22 @@ import type {
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
 } from "./realtime/webSocketTransportLike.js";
-import { logger } from "./logger.js";
 
 /**
  * Default browser transport for the Voice Agents realtime client.
  *
- * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. The only place this
- * transport could put the bearer token is the connection URL's query string, and query strings are
- * routinely captured by proxies, server access logs, and browser history — so, unlike
- * {@link https://nodejs.org/api/ws.html | Node}, this transport refuses to connect with credentials
- * by default rather than silently leaking them. Prefer routing browser connections through an
- * authenticated relay that adds the header server-side — see the `webSocketFactory` option on
- * `VoiceAgentRealtimeClientOptions` and the `samples/v2-beta/browser` sample's local relay for an
- * example of that pattern. If your deployment's threat model makes URL-based credentials acceptable
- * (for example, a trusted network with no logging proxies in the path), pass
- * `allowCredentialsInUrl: true` to opt in explicitly.
+ * Browsers cannot set an `Authorization` header on a WebSocket upgrade request. This transport sends
+ * the Microsoft Entra bearer token as the `authorization.bearer.<token>` WebSocket subprotocol,
+ * which the service converts back into an `Authorization` header before forwarding the request.
  */
 export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   private webSocket?: WebSocket;
   private handlers?: VoiceAgentWebSocketHandlers;
   private readonly closeTimeoutInMs: number;
-  private readonly allowCredentialsInUrl: boolean;
   private messageChain: Promise<void> = Promise.resolve();
 
-  public constructor(closeTimeoutInMs = 5_000, allowCredentialsInUrl = false) {
+  public constructor(closeTimeoutInMs = 5_000) {
     this.closeTimeoutInMs = closeTimeoutInMs;
-    this.allowCredentialsInUrl = allowCredentialsInUrl;
   }
 
   public setHandlers(handlers: VoiceAgentWebSocketHandlers): void {
@@ -41,29 +31,11 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
   }
 
   public async connect(options: VoiceAgentWebSocketConnectOptions): Promise<void> {
-    const hasCredentialHeader = Object.keys(options.headers).some(
-      (name) => name.toLowerCase() === "authorization",
-    );
-    if (hasCredentialHeader && !this.allowCredentialsInUrl) {
-      throw new Error(
-        "Refusing to connect: browsers cannot send the Authorization header on a WebSocket " +
-          "upgrade, and this transport does not place credentials in the URL unless explicitly " +
-          "allowed. Use an authenticated relay (see the webSocketFactory option) or, if your " +
-          "deployment's threat model accepts URL-based credentials, construct this transport " +
-          "with allowCredentialsInUrl: true.",
-      );
-    }
-    if (hasCredentialHeader) {
-      logger.warning(
-        "BrowserWebSocketTransport is placing the bearer token in the WebSocket URL because " +
-          "allowCredentialsInUrl was set. Query strings are routinely captured by proxies, " +
-          "server access logs, and browser history.",
-      );
-    }
+    const protocols = addCredentialSubprotocol(options.protocols, options.headers);
     await new Promise<void>((resolve, reject) => {
       let settled = false;
       const url = addHeadersToUrl(options.url, options.headers);
-      this.webSocket = new WebSocket(url, options.protocols);
+      this.webSocket = new WebSocket(url, protocols);
       this.webSocket.binaryType = "arraybuffer";
 
       const timeout = setTimeout(() => {
@@ -183,10 +155,13 @@ export class BrowserWebSocketTransport implements VoiceAgentWebSocketTransport {
 /** @internal */
 export function addHeadersToUrl(url: string, headers: Record<string, string>): string {
   const target = new URL(url);
+  let foundryFeatures: string | undefined;
   for (const [name, value] of Object.entries(headers)) {
     switch (name.toLowerCase()) {
       case "authorization":
-        target.searchParams.set("authorization", value);
+        break;
+      case "foundry-features":
+        foundryFeatures = value;
         break;
       case "x-ms-client-request-id":
         target.searchParams.set("client-request-id", value);
@@ -198,20 +173,36 @@ export function addHeadersToUrl(url: string, headers: Record<string, string>): s
         break;
     }
   }
-  return target.toString();
+  const targetUrl = target.toString();
+  if (foundryFeatures === undefined) {
+    return targetUrl;
+  }
+  const separator = target.search ? "&" : "?";
+  const encodedFeatures = encodeURIComponent(foundryFeatures).replace(/%3D/gi, "=");
+  return `${targetUrl}${separator}foundry_features=${encodedFeatures}`;
+}
+
+function addCredentialSubprotocol(protocols: string[], headers: Record<string, string>): string[] {
+  const authorization = Object.entries(headers).find(
+    ([name]) => name.toLowerCase() === "authorization",
+  )?.[1];
+  if (authorization === undefined) {
+    return protocols;
+  }
+  const bearerPrefix = "Bearer ";
+  if (!authorization.startsWith(bearerPrefix) || authorization.length === bearerPrefix.length) {
+    throw new Error("Browser WebSocket authentication requires a Microsoft Entra bearer token.");
+  }
+  return [...protocols, `authorization.bearer.${authorization.slice(bearerPrefix.length)}`];
 }
 
 class BrowserWebSocketFactory implements VoiceAgentWebSocketFactory {
-  public constructor(private readonly allowCredentialsInUrl = false) {}
-
   public create(): VoiceAgentWebSocketTransport {
-    return new BrowserWebSocketTransport(undefined, this.allowCredentialsInUrl);
+    return new BrowserWebSocketTransport();
   }
 }
 
 /** @internal */
-export function createDefaultVoiceAgentWebSocketFactory(
-  allowCredentialsInUrl = false,
-): VoiceAgentWebSocketFactory {
-  return new BrowserWebSocketFactory(allowCredentialsInUrl);
+export function createDefaultVoiceAgentWebSocketFactory(): VoiceAgentWebSocketFactory {
+  return new BrowserWebSocketFactory();
 }
