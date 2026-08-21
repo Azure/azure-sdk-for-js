@@ -310,7 +310,6 @@ export abstract class BaseSender {
       ) {
         // Invalid instrumentation key, shutdown statsbeat, fail silently
         this.shutdownStatsbeat();
-        this.customerSDKStatsMetrics?.shutdown();
         return { code: ExportResultCode.SUCCESS };
       } else if (
         restError.statusCode &&
@@ -414,6 +413,9 @@ export abstract class BaseSender {
     void this.statsbeatManager.shutdown().catch((error) => {
       diag.warn("Failed to shut down internal Statsbeat metrics:", error);
     });
+    if (this.customerSDKStatsMetrics) {
+      this.customerSDKStatsMetrics.shutdown();
+    }
     this.statsbeatFailureCount = 0;
   }
 

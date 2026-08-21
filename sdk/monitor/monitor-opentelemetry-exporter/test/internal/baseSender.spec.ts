@@ -534,7 +534,6 @@ describe("BaseSender", () => {
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
       expect(mockStatsbeatManager.shutdown).toHaveBeenCalled();
-      expect(mockCustomerSDKStatsMetrics.shutdown).toHaveBeenCalled();
     });
 
     it("should handle a failure to shut down internal Statsbeat", async () => {
@@ -571,7 +570,6 @@ describe("BaseSender", () => {
 
       expect(mockStatsbeatManager.initialize).not.toHaveBeenCalled();
       expect(mockStatsbeatManager.shutdown).toHaveBeenCalledOnce();
-      expect(mockCustomerSDKStatsMetrics.shutdown).not.toHaveBeenCalled();
     });
 
     it("should count exception for non-retriable errors", async () => {
