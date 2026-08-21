@@ -10,12 +10,12 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type WorkspacesGenerateUploadUrlOptionalParams,
-  type WorkspacesListBySubscriptionOptionalParams,
-  type WorkspacesListByResourceGroupOptionalParams,
-  type WorkspacesDeleteOptionalParams,
-  type WorkspacesUpdateOptionalParams,
-  type WorkspacesCreateOptionalParams,
-  type WorkspacesGetOptionalParams,
+export type {
+  WorkspacesGenerateUploadUrlOptionalParams,
+  WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesDeleteOptionalParams,
+  WorkspacesUpdateOptionalParams,
+  WorkspacesCreateOptionalParams,
+  WorkspacesGetOptionalParams,
 } from "./options.js";
