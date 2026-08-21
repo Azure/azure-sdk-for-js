@@ -4,47 +4,32 @@
 import type { AzureMachineLearningServicesManagementContext as Client } from "../index.js";
 import type {
   ComputeResource,
-  CustomService,
-  ComputeInstanceDataMount,
   ClusterUpdateParameters,
   _PaginatedComputeResourcesList,
   _AmlComputeNodesInformation,
   AmlComputeNodeInformation,
   ComputeSecretsUnion,
-  IdleShutdownSetting,
-  VirtualMachineSizeListResult,
-  ResizeSchema,
   UnderlyingResourceAction,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   computeResourceSerializer,
   computeResourceDeserializer,
-  customServiceArraySerializer,
-  computeInstanceDataMountArraySerializer,
   clusterUpdateParametersSerializer,
   _paginatedComputeResourcesListDeserializer,
   _amlComputeNodesInformationDeserializer,
   computeSecretsUnionDeserializer,
-  idleShutdownSettingSerializer,
-  virtualMachineSizeListResultDeserializer,
-  resizeSchemaSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ComputeOperationsResizeOptionalParams,
-  ComputeOperationsGetAllowedResizeSizesOptionalParams,
-  ComputeOperationsUpdateIdleShutdownSettingOptionalParams,
   ComputeOperationsRestartOptionalParams,
   ComputeOperationsStopOptionalParams,
   ComputeOperationsStartOptionalParams,
-  ComputeOperationsUpdateDataMountsOptionalParams,
   ComputeOperationsListKeysOptionalParams,
   ComputeOperationsListNodesOptionalParams,
-  ComputeOperationsUpdateCustomServicesOptionalParams,
   ComputeOperationsListOptionalParams,
   ComputeOperationsDeleteOptionalParams,
   ComputeOperationsUpdateOptionalParams,
@@ -54,191 +39,6 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
-
-export function _resizeSend(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  parameters: ResizeSchema,
-  options: ComputeOperationsResizeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/resize{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      workspaceName: workspaceName,
-      computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: resizeSchemaSerializer(parameters),
-  });
-}
-
-export async function _resizeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Updates the size of a Compute Instance. */
-export function resize(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  parameters: ResizeSchema,
-  options: ComputeOperationsResizeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _resizeDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _resizeSend(context, resourceGroupName, workspaceName, computeName, parameters, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _getAllowedResizeSizesSend(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  options: ComputeOperationsGetAllowedResizeSizesOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/getAllowedVmSizesForResize{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      workspaceName: workspaceName,
-      computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getAllowedResizeSizesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<VirtualMachineSizeListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return virtualMachineSizeListResultDeserializer(result.body);
-}
-
-/** Returns supported virtual machine sizes for resize. */
-export async function getAllowedResizeSizes(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  options: ComputeOperationsGetAllowedResizeSizesOptionalParams = { requestOptions: {} },
-): Promise<VirtualMachineSizeListResult> {
-  const result = await _getAllowedResizeSizesSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    computeName,
-    options,
-  );
-  return _getAllowedResizeSizesDeserialize(result);
-}
-
-export function _updateIdleShutdownSettingSend(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  parameters: IdleShutdownSetting,
-  options: ComputeOperationsUpdateIdleShutdownSettingOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateIdleShutdownSetting{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      workspaceName: workspaceName,
-      computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: idleShutdownSettingSerializer(parameters),
-  });
-}
-
-export async function _updateIdleShutdownSettingDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Updates the idle shutdown setting of a compute instance. */
-export async function updateIdleShutdownSetting(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  parameters: IdleShutdownSetting,
-  options: ComputeOperationsUpdateIdleShutdownSettingOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _updateIdleShutdownSettingSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    computeName,
-    parameters,
-    options,
-  );
-  return _updateIdleShutdownSettingDeserialize(result);
-}
 
 export function _restartSend(
   context: Client,
@@ -254,7 +54,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -291,7 +91,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -309,7 +109,7 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +146,7 @@ export function stop(
     getInitialResponse: () =>
       _stopSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -364,7 +164,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -401,70 +201,8 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, workspaceName, computeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _updateDataMountsSend(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  dataMounts: ComputeInstanceDataMount[],
-  options: ComputeOperationsUpdateDataMountsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateDataMounts{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      workspaceName: workspaceName,
-      computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: computeInstanceDataMountArraySerializer(dataMounts),
-  });
-}
-
-export async function _updateDataMountsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Update Data Mounts of a Machine Learning compute. */
-export async function updateDataMounts(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  dataMounts: ComputeInstanceDataMount[],
-  options: ComputeOperationsUpdateDataMountsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _updateDataMountsSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    computeName,
-    dataMounts,
-    options,
-  );
-  return _updateDataMountsDeserialize(result);
 }
 
 export function _listKeysSend(
@@ -481,7 +219,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -541,7 +279,7 @@ export function _listNodesSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,76 +320,8 @@ export function listNodes(
     () => _listNodesSend(context, resourceGroupName, workspaceName, computeName, options),
     _listNodesDeserialize,
     ["200"],
-    {
-      itemName: "nodes",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "nodes", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
-}
-
-export function _updateCustomServicesSend(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  customServices: CustomService[],
-  options: ComputeOperationsUpdateCustomServicesOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/customServices{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      workspaceName: workspaceName,
-      computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: customServiceArraySerializer(customServices),
-  });
-}
-
-export async function _updateCustomServicesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Updates the custom services list. The list of custom services provided shall be overwritten. */
-export async function updateCustomServices(
-  context: Client,
-  resourceGroupName: string,
-  workspaceName: string,
-  computeName: string,
-  customServices: CustomService[],
-  options: ComputeOperationsUpdateCustomServicesOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _updateCustomServicesSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    computeName,
-    customServices,
-    options,
-  );
-  return _updateCustomServicesDeserialize(result);
 }
 
 export function _listSend(
@@ -666,7 +336,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24skip": options?.skip,
     },
     {
@@ -707,11 +377,7 @@ export function list(
     () => _listSend(context, resourceGroupName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -730,7 +396,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       underlyingResourceAction: underlyingResourceAction,
     },
     {
@@ -776,7 +442,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -795,7 +461,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -838,7 +504,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, workspaceName, computeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<ComputeResource>, ComputeResource>;
 }
 
@@ -857,7 +523,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -909,7 +575,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<ComputeResource>, ComputeResource>;
 }
 
@@ -927,7 +593,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       computeName: computeName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

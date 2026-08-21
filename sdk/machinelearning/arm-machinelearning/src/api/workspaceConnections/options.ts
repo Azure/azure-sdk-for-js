@@ -8,14 +8,6 @@ import type {
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface WorkspaceConnectionsTestConnectionOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** Workspace Connection object */
-  body?: WorkspaceConnectionPropertiesV2BasicResource;
-}
-
-/** Optional parameters. */
 export interface WorkspaceConnectionsListSecretsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
