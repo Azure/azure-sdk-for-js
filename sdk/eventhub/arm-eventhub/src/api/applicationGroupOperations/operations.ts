@@ -33,7 +33,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listByNamespaceDeserialize(
 
   return _applicationGroupListResultDeserializer(result.body);
 }
-
 /** Gets a list of application groups for a Namespace. */
 export function listByNamespace(
   context: Client,
@@ -73,7 +72,11 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -91,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       applicationGroupName: applicationGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +116,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an ApplicationGroup for a Namespace. */
 export async function $delete(
   context: Client,
@@ -149,7 +151,7 @@ export function _createOrUpdateApplicationGroupSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       applicationGroupName: applicationGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +180,6 @@ export async function _createOrUpdateApplicationGroupDeserialize(
 
   return applicationGroupDeserializer(result.body);
 }
-
 /** Creates or updates an ApplicationGroup for a Namespace. */
 export async function createOrUpdateApplicationGroup(
   context: Client,
@@ -215,7 +216,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       applicationGroupName: applicationGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +241,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ap
 
   return applicationGroupDeserializer(result.body);
 }
-
 /** Gets an ApplicationGroup for a Namespace. */
 export async function get(
   context: Client,
