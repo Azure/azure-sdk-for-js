@@ -112,9 +112,9 @@ export async function buildPackage(
 
   logger.info(`Start to build package '${name}'.`);
   const modularSDKType = getModularSDKType(packageDirectory);
+  await customizeCodes(packageDirectory);
   let errorAsWarning = false;
   if (modularSDKType === ModularSDKType.DataPlane) {
-    await customizeCodes(packageDirectory);
     errorAsWarning = true;
   }
   try {
