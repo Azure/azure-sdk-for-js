@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/newrelicobservability/arm-newrelicobservability)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-newrelicobservability)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-newrelicobservability?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-newrelicobservability)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/newrelicobservability/arm-newrelicobservability/samples)
 
 ## Getting started

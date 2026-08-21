@@ -149,7 +149,7 @@ export interface MonitorsOperations {
     monitorName: string,
     request: SwitchBillingRequest,
     options?: MonitorsSwitchBillingOptionalParams,
-  ) => Promise<NewRelicMonitorResource | undefined>;
+  ) => Promise<NewRelicMonitorResource | void>;
   /** Lists the app service resources currently being monitored by the New Relic resource, helping you understand which app services are under monitoring */
   listAppServices: (
     resourceGroupName: string,
@@ -250,7 +250,6 @@ export interface MonitorsOperations {
     options?: MonitorsGetOptionalParams,
   ) => Promise<NewRelicMonitorResource>;
 }
-
 function _getMonitors(context: NewRelicObservabilityContext) {
   return {
     resubscribe: (
@@ -435,7 +434,6 @@ function _getMonitors(context: NewRelicObservabilityContext) {
       get(context, resourceGroupName, monitorName, options),
   };
 }
-
 export function _getMonitorsOperations(context: NewRelicObservabilityContext): MonitorsOperations {
   return {
     ..._getMonitors(context),
