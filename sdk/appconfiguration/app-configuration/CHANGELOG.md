@@ -1,6 +1,6 @@
 # Release History
 
-## 1.13.0-beta.1 (Unreleased)
+## 1.13.0-beta.1 (2026-08-21)
 
 ### Features Added
 
@@ -9,13 +9,10 @@
 - `listLabels` is now available on both `AppConfigurationClient` and `FeatureFlagClient`. Each client automatically scopes results to the labels used by its own resource type: `AppConfigurationClient.listLabels` returns key-value labels, while `FeatureFlagClient.listLabels` returns feature flag labels. Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
 - `FeatureFlagClient.listFeatureFlags` now supports conditional page retrieval through the `pageEtags` option, matching the behavior of `AppConfigurationClient.listConfigurationSettings`. Each etag is sent as an `If-None-Match` header for its corresponding page, and unchanged pages are returned as empty pages with their `etag` preserved. Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
 - Added `FeatureFlagClient.addFeatureFlag`, which creates a feature flag only if it does not already exist (throwing a 412 error otherwise), mirroring `AppConfigurationClient.addConfigurationSetting`. Requires the `2026-05-01-preview` API version or later. [#39311](https://github.com/Azure/azure-sdk-for-js/pull/39311)
-### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/pull/39594)
-
-### Other Changes
 
 ## 1.12.1 (2026-06-22)
 
