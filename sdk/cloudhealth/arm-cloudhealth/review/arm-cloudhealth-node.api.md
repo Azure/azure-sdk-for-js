@@ -25,6 +25,12 @@ export interface AddDataAnnotationRequest {
 }
 
 // @public
+export type AggregationType = string;
+
+// @public
+export type AggregationUnit = string;
+
+// @public
 export interface AlertConfiguration {
     actionGroupIds?: string[];
     description?: string;
@@ -183,18 +189,12 @@ export interface DataAnnotation {
 }
 
 // @public
-export type DependenciesAggregationType = string;
-
-// @public
-export type DependenciesAggregationUnit = string;
-
-// @public
 export interface DependenciesSignalGroupV2 {
-    aggregationType: DependenciesAggregationType;
+    aggregationType: AggregationType;
     degradedThreshold?: number;
     ignoreUnknown?: boolean;
     unhealthyThreshold?: number;
-    unit?: DependenciesAggregationUnit;
+    unit?: AggregationUnit;
 }
 
 // @public
@@ -218,7 +218,7 @@ export interface DiscoveryRuleProperties {
     authenticationSetting: string;
     discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
     displayName?: string;
-    readonly entityName: string;
+    readonly entityName?: string;
     readonly error?: DiscoveryError;
     readonly provisioningState?: HealthModelProvisioningState;
     specification: DiscoveryRuleSpecificationUnion;
@@ -386,6 +386,7 @@ export interface EntityProperties {
     icon?: IconDefinition;
     impact?: EntityImpact;
     readonly provisioningState?: HealthModelProvisioningState;
+    signalAggregationGroups?: SignalAggregationGroup[];
     signalGroups?: SignalGroups;
     tags?: Record<string, string>;
 }
@@ -546,6 +547,20 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAggregationType {
+    BestOf = "BestOf",
+    MaxNotHealthy = "MaxNotHealthy",
+    MinHealthy = "MinHealthy",
+    WorstOf = "WorstOf"
+}
+
+// @public
+export enum KnownAggregationUnit {
+    Absolute = "Absolute",
+    Percentage = "Percentage"
+}
+
+// @public
 export enum KnownAlertSeverity {
     Sev0 = "Sev0",
     Sev1 = "Sev1",
@@ -565,19 +580,6 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
-}
-
-// @public
-export enum KnownDependenciesAggregationType {
-    MaxNotHealthy = "MaxNotHealthy",
-    MinHealthy = "MinHealthy",
-    WorstOf = "WorstOf"
-}
-
-// @public
-export enum KnownDependenciesAggregationUnit {
-    Absolute = "Absolute",
-    Percentage = "Percentage"
 }
 
 // @public
@@ -628,14 +630,6 @@ export enum KnownHealthState {
     Healthy = "Healthy",
     Unhealthy = "Unhealthy",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownLookBackWindow {
-    PT15M = "PT15M",
-    PT1H = "PT1H",
-    PT30M = "PT30M",
-    PT5M = "PT5M"
 }
 
 // @public
@@ -730,7 +724,8 @@ export enum KnownSignalOperator {
 export enum KnownVersions {
     V20250501Preview = "2025-05-01-preview",
     V20260101Preview = "2026-01-01-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20260501Preview = "2026-05-01-preview",
+    V20260901Preview = "2026-09-01-preview"
 }
 
 // @public
@@ -759,9 +754,6 @@ export interface LogAnalyticsSignals {
     logAnalyticsWorkspaceResourceId: string;
     signals?: LogAnalyticsSignal[];
 }
-
-// @public
-export type LookBackWindow = string;
 
 // @public
 export interface ManagedIdentityAuthenticationSettingProperties extends AuthenticationSettingProperties {
@@ -943,6 +935,20 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface SignalAggregationGroup {
+    readonly aggregatedHealthState?: HealthState;
+    aggregationType?: AggregationType;
+    degradedThreshold?: number;
+    displayName?: string;
+    ignoreUnknown?: boolean;
+    members: string[];
+    name: string;
+    unhealthyThreshold?: number;
+    unit?: AggregationUnit;
+    readonly unresolvedMembers?: string[];
+}
+
+// @public
 export interface SignalConfiguration {
     aggregationType?: MetricAggregationType;
     dimensionFilter?: string;
@@ -1072,7 +1078,6 @@ export interface SystemData {
 
 // @public
 export interface ThresholdRuleV2 {
-    lookBackWindow?: LookBackWindow;
     operator: SignalOperator;
     sensitivity?: DynamicThresholdSensitivity;
     threshold?: number;

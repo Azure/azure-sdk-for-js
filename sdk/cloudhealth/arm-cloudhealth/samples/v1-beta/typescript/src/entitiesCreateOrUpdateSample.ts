@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Entity
  *
  * @summary create a Entity
- * x-ms-original-file: 2026-05-01-preview/Entities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01-preview/Entities_CreateOrUpdate.json
  */
 async function entitiesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -131,6 +131,23 @@ async function entitiesCreateOrUpdate(): Promise<void> {
             ignoreUnknown: true,
           },
         },
+        signalAggregationGroups: [
+          {
+            name: "latency-and-errors",
+            displayName: "Latency and errors",
+            aggregationType: "WorstOf",
+            members: ["error-rate", "p95-latency"],
+          },
+          {
+            name: "compute-utilization",
+            displayName: "Compute utilization",
+            aggregationType: "MinHealthy",
+            members: ["node-cpu", "pod-cpu"],
+            unhealthyThreshold: 50,
+            unit: "Percentage",
+            ignoreUnknown: true,
+          },
+        ],
         alerts: {
           unhealthy: {
             severity: "Sev1",
