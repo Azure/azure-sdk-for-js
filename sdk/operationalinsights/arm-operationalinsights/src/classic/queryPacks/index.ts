@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   createOrUpdateWithoutName,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/queryPacks/operations.js";
-import {
+import type {
   QueryPacksCreateOrUpdateWithoutNameOptionalParams,
   QueryPacksListOptionalParams,
   QueryPacksListByResourceGroupOptionalParams,
@@ -20,8 +20,8 @@ import {
   QueryPacksCreateOrUpdateOptionalParams,
   QueryPacksGetOptionalParams,
 } from "../../api/queryPacks/options.js";
-import { LogAnalyticsQueryPack, TagsResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { LogAnalyticsQueryPack, TagsResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QueryPacks operations. */
 export interface QueryPacksOperations {
@@ -67,7 +67,6 @@ export interface QueryPacksOperations {
     options?: QueryPacksGetOptionalParams,
   ) => Promise<LogAnalyticsQueryPack>;
 }
-
 function _getQueryPacks(context: OperationalInsightsManagementContext) {
   return {
     createOrUpdateWithoutName: (
@@ -112,7 +111,6 @@ function _getQueryPacks(context: OperationalInsightsManagementContext) {
     ) => get(context, resourceGroupName, queryPackName, options),
   };
 }
-
 export function _getQueryPacksOperations(
   context: OperationalInsightsManagementContext,
 ): QueryPacksOperations {

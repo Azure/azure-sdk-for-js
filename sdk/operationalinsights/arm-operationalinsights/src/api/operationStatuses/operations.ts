@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  OperationStatus,
-  operationStatusDeserializer,
-} from "../../models/models.js";
+import type { OperationalInsightsManagementContext as Client } from "../index.js";
+import type { OperationStatus } from "../../models/models.js";
+import { errorResponseDeserializer, operationStatusDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { OperationStatusesGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { OperationStatusesGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -28,7 +21,7 @@ export function _getSend(
       location: location,
       asyncOperationId: asyncOperationId,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -44,14 +37,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Op
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return operationStatusDeserializer(result.body);
 }
-
 /** Get the status of a long running azure asynchronous operation. */
 export async function get(
   context: Client,

@@ -1,66 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   OperationalInsightsManagementContext,
   OperationalInsightsManagementClientOptionalParams,
-  createOperationalInsightsManagement,
 } from "./api/index.js";
-import {
-  AvailableServiceTiersOperations,
-  _getAvailableServiceTiersOperations,
-} from "./classic/availableServiceTiers/index.js";
-import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
-import { DataExportsOperations, _getDataExportsOperations } from "./classic/dataExports/index.js";
-import { DataSourcesOperations, _getDataSourcesOperations } from "./classic/dataSources/index.js";
-import {
-  DeletedWorkspacesOperations,
-  _getDeletedWorkspacesOperations,
-} from "./classic/deletedWorkspaces/index.js";
-import { GatewaysOperations, _getGatewaysOperations } from "./classic/gateways/index.js";
-import {
-  IntelligencePacksOperations,
-  _getIntelligencePacksOperations,
-} from "./classic/intelligencePacks/index.js";
-import {
-  LinkedServicesOperations,
-  _getLinkedServicesOperations,
-} from "./classic/linkedServices/index.js";
-import {
-  LinkedStorageAccountsOperations,
-  _getLinkedStorageAccountsOperations,
-} from "./classic/linkedStorageAccounts/index.js";
-import {
-  ManagementGroupsOperations,
-  _getManagementGroupsOperations,
-} from "./classic/managementGroups/index.js";
-import {
-  OperationStatusesOperations,
-  _getOperationStatusesOperations,
-} from "./classic/operationStatuses/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { QueriesOperations, _getQueriesOperations } from "./classic/queries/index.js";
-import { QueryPacksOperations, _getQueryPacksOperations } from "./classic/queryPacks/index.js";
-import {
-  SavedSearchesOperations,
-  _getSavedSearchesOperations,
-} from "./classic/savedSearches/index.js";
-import { SchemaOperations, _getSchemaOperations } from "./classic/schema/index.js";
-import { SharedKeysOperations, _getSharedKeysOperations } from "./classic/sharedKeys/index.js";
-import {
-  StorageInsightConfigsOperations,
-  _getStorageInsightConfigsOperations,
-} from "./classic/storageInsightConfigs/index.js";
-import { SummaryLogsOperations, _getSummaryLogsOperations } from "./classic/summaryLogs/index.js";
-import { TablesOperations, _getTablesOperations } from "./classic/tables/index.js";
-import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
-import {
-  WorkspacePurgeOperations,
-  _getWorkspacePurgeOperations,
-} from "./classic/workspacePurge/index.js";
-import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createOperationalInsightsManagement } from "./api/index.js";
+import type { AvailableServiceTiersOperations } from "./classic/availableServiceTiers/index.js";
+import { _getAvailableServiceTiersOperations } from "./classic/availableServiceTiers/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
+import type { DataExportsOperations } from "./classic/dataExports/index.js";
+import { _getDataExportsOperations } from "./classic/dataExports/index.js";
+import type { DataSourcesOperations } from "./classic/dataSources/index.js";
+import { _getDataSourcesOperations } from "./classic/dataSources/index.js";
+import type { DeletedWorkspacesOperations } from "./classic/deletedWorkspaces/index.js";
+import { _getDeletedWorkspacesOperations } from "./classic/deletedWorkspaces/index.js";
+import type { GatewaysOperations } from "./classic/gateways/index.js";
+import { _getGatewaysOperations } from "./classic/gateways/index.js";
+import type { IntelligencePacksOperations } from "./classic/intelligencePacks/index.js";
+import { _getIntelligencePacksOperations } from "./classic/intelligencePacks/index.js";
+import type { LinkedServicesOperations } from "./classic/linkedServices/index.js";
+import { _getLinkedServicesOperations } from "./classic/linkedServices/index.js";
+import type { LinkedStorageAccountsOperations } from "./classic/linkedStorageAccounts/index.js";
+import { _getLinkedStorageAccountsOperations } from "./classic/linkedStorageAccounts/index.js";
+import type { ManagementGroupsOperations } from "./classic/managementGroups/index.js";
+import { _getManagementGroupsOperations } from "./classic/managementGroups/index.js";
+import type { OperationStatusesOperations } from "./classic/operationStatuses/index.js";
+import { _getOperationStatusesOperations } from "./classic/operationStatuses/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { QueriesOperations } from "./classic/queries/index.js";
+import { _getQueriesOperations } from "./classic/queries/index.js";
+import type { QueryPacksOperations } from "./classic/queryPacks/index.js";
+import { _getQueryPacksOperations } from "./classic/queryPacks/index.js";
+import type { SavedSearchesOperations } from "./classic/savedSearches/index.js";
+import { _getSavedSearchesOperations } from "./classic/savedSearches/index.js";
+import type { SchemaOperations } from "./classic/schema/index.js";
+import { _getSchemaOperations } from "./classic/schema/index.js";
+import type { SharedKeysOperations } from "./classic/sharedKeys/index.js";
+import { _getSharedKeysOperations } from "./classic/sharedKeys/index.js";
+import type { StorageInsightConfigsOperations } from "./classic/storageInsightConfigs/index.js";
+import { _getStorageInsightConfigsOperations } from "./classic/storageInsightConfigs/index.js";
+import type { SummaryLogsOperations } from "./classic/summaryLogs/index.js";
+import { _getSummaryLogsOperations } from "./classic/summaryLogs/index.js";
+import type { TablesOperations } from "./classic/tables/index.js";
+import { _getTablesOperations } from "./classic/tables/index.js";
+import type { UsagesOperations } from "./classic/usages/index.js";
+import { _getUsagesOperations } from "./classic/usages/index.js";
+import type { WorkspacePurgeOperations } from "./classic/workspacePurge/index.js";
+import { _getWorkspacePurgeOperations } from "./classic/workspacePurge/index.js";
+import type { WorkspacesOperations } from "./classic/workspaces/index.js";
+import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { OperationalInsightsManagementClientOptionalParams } from "./api/operationalInsightsManagementContext.js";
 
@@ -78,7 +71,6 @@ export class OperationalInsightsManagementClient {
     subscriptionId: string,
     options?: OperationalInsightsManagementClientOptionalParams,
   );
-  /** Provides NSP operations for working with Log Analytics. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | OperationalInsightsManagementClientOptionalParams,
@@ -93,14 +85,7 @@ export class OperationalInsightsManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createOperationalInsightsManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createOperationalInsightsManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.deletedWorkspaces = _getDeletedWorkspacesOperations(this._client);
     this.operationStatuses = _getOperationStatusesOperations(this._client);

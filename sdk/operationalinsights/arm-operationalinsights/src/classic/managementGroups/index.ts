@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { list } from "../../api/managementGroups/operations.js";
-import { ManagementGroupsListOptionalParams } from "../../api/managementGroups/options.js";
-import { ManagementGroup } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ManagementGroupsListOptionalParams } from "../../api/managementGroups/options.js";
+import type { ManagementGroup } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagementGroups operations. */
 export interface ManagementGroupsOperations {
@@ -16,7 +16,6 @@ export interface ManagementGroupsOperations {
     options?: ManagementGroupsListOptionalParams,
   ) => PagedAsyncIterableIterator<ManagementGroup>;
 }
-
 function _getManagementGroups(context: OperationalInsightsManagementContext) {
   return {
     list: (
@@ -26,7 +25,6 @@ function _getManagementGroups(context: OperationalInsightsManagementContext) {
     ) => list(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getManagementGroupsOperations(
   context: OperationalInsightsManagementContext,
 ): ManagementGroupsOperations {
