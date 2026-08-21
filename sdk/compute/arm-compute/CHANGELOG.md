@@ -1,6 +1,6 @@
 # Release History
 
-## 25.1.1 (2026-08-12)
+## 25.1.1 (2026-08-21)
 
 ### Features Added
   - Added operation group VirtualMachineDiagnosticRunCommandsOperations
