@@ -15,12 +15,14 @@ export interface ScheduledActionExtensionOperations {
     options?: ScheduledActionExtensionListByVmsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledActionResources>;
 }
+
 function _getScheduledActionExtension(context: ComputeContext) {
   return {
     listByVms: (resourceUri: string, options?: ScheduledActionExtensionListByVmsOptionalParams) =>
       listByVms(context, resourceUri, options),
   };
 }
+
 export function _getScheduledActionExtensionOperations(
   context: ComputeContext,
 ): ScheduledActionExtensionOperations {
