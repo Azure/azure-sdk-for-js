@@ -29,11 +29,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsListByResourceOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection associated with the key vault. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
@@ -70,9 +65,8 @@ export interface PrivateEndpointConnectionsOperations {
     vaultName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams,
-  ) => Promise<PrivateEndpointConnection>;
+  ) => Promise<PrivateEndpointConnection | void>;
 }
-
 function _getPrivateEndpointConnections(context: KeyVaultManagementContext) {
   return {
     listByResource: (
@@ -139,7 +133,6 @@ function _getPrivateEndpointConnections(context: KeyVaultManagementContext) {
     ) => get(context, resourceGroupName, vaultName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: KeyVaultManagementContext,
 ): PrivateEndpointConnectionsOperations {

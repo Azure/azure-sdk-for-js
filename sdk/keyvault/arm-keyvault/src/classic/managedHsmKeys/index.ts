@@ -58,7 +58,6 @@ export interface ManagedHsmKeysOperations {
     options?: ManagedHsmKeysGetOptionalParams,
   ) => Promise<ManagedHsmKey>;
 }
-
 function _getManagedHsmKeys(context: KeyVaultManagementContext) {
   return {
     listVersions: (
@@ -91,7 +90,6 @@ function _getManagedHsmKeys(context: KeyVaultManagementContext) {
     ) => get(context, resourceGroupName, name, keyName, options),
   };
 }
-
 export function _getManagedHsmKeysOperations(
   context: KeyVaultManagementContext,
 ): ManagedHsmKeysOperations {
