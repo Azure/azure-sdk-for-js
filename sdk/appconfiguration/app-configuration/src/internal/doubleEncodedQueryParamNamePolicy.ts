@@ -7,6 +7,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { logger } from "../logger.js";
 
 const queryParameterNameReplacements = new Map([
   // The emitter re-encodes the already encoded $Select name when its value is an array.
@@ -21,14 +22,24 @@ export function doubleEncodedQueryParamNamePolicy(): PipelinePolicy {
   return {
     name: "doubleEncodedQueryParamNamePolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const queryStart = request.url.indexOf("?");
-      if (queryStart === -1) {
+      let url: URL;
+      try {
+        url = new URL(request.url);
+      } catch (error) {
+        if (error instanceof TypeError) {
+          logger.warning(
+            `"[doubleEncodedQueryParamNamePolicy] Could not parse URL: ${request.url}"`,
+          );
+          return next(request);
+        }
+        throw error;
+      }
+
+      if (url.search === "") {
         return next(request);
       }
 
-      const fragmentStart = request.url.indexOf("#", queryStart);
-      const queryEnd = fragmentStart === -1 ? request.url.length : fragmentStart;
-      const query = request.url.substring(queryStart + 1, queryEnd);
+      const query = url.search.substring(1);
       const normalizedQuery = query
         .split("&")
         .map((entry) => {
@@ -41,10 +52,8 @@ export function doubleEncodedQueryParamNamePolicy(): PipelinePolicy {
         .join("&");
 
       if (normalizedQuery !== query) {
-        request.url =
-          request.url.substring(0, queryStart + 1) +
-          normalizedQuery +
-          request.url.substring(queryEnd);
+        url.search = normalizedQuery;
+        request.url = url.toString();
       }
 
       return next(request);
