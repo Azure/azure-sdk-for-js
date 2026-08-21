@@ -30,7 +30,6 @@ export interface JobRunsOperations {
     options?: JobRunsGetOptionalParams,
   ) => Promise<JobRun>;
 }
-
 function _getJobRuns(context: StorageMoverContext) {
   return {
     list: (
@@ -60,7 +59,6 @@ function _getJobRuns(context: StorageMoverContext) {
       ),
   };
 }
-
 export function _getJobRunsOperations(context: StorageMoverContext): JobRunsOperations {
   return {
     ..._getJobRuns(context),
