@@ -6,7 +6,9 @@ import { RunMode } from "../../common/types.js";
 
 const mocks = vi.hoisted(() => ({
   calls: [] as string[],
+  configChanges: [] as string[],
   packageDirectory: "",
+  postEmitterError: undefined as Error | undefined,
   postEmitterRunModes: [] as string[],
 }));
 const tempDirectories: string[] = [];
@@ -23,6 +25,7 @@ vi.mock("../../common/postEmitter.js", () => ({
   preparePackageForBuild: vi.fn(async (_package, _repo, runMode) => {
     mocks.postEmitterRunModes.push(runMode);
     mocks.calls.push("post-emitter");
+    if (mocks.postEmitterError) throw mocks.postEmitterError;
   }),
 }));
 vi.mock("../../utils/git.js", () => ({
@@ -34,7 +37,9 @@ vi.mock("../../common/changelog/automaticGenerateChangeLogAndBumpVersion.js", ()
 }));
 vi.mock("../../utils/changeCiYaml.js", () => ({ modifyOrGenerateCiYml: vi.fn() }));
 vi.mock("../../utils/changeConfigOfTestAndSample.js", () => ({
-  changeConfigOfTestAndSample: vi.fn(),
+  changeConfigOfTestAndSample: vi.fn((_packagePath, changeModel) => {
+    mocks.configChanges.push(changeModel);
+  }),
   ChangeModel: { Change: "change", Revert: "revert" },
   SdkType: { Hlc: "hlc" },
 }));
@@ -57,6 +62,8 @@ vi.mock("../../utils/logger.js", () => ({
 
 beforeEach(async () => {
   mocks.calls.length = 0;
+  mocks.configChanges.length = 0;
+  mocks.postEmitterError = undefined;
   mocks.postEmitterRunModes.length = 0;
   const repoRoot = await mkdtemp(path.join(tmpdir(), "post-emitter-hlc-"));
   tempDirectories.push(repoRoot);
@@ -106,5 +113,24 @@ describe("HLC PostEmitter integration", () => {
     });
 
     expect(mocks.postEmitterRunModes).toEqual(["unspecified"]);
+  });
+
+  test("propagates PostEmitter failures after restoring package configuration", async () => {
+    const { generateMgmt } = await import("../../hlc/generateMgmt.js");
+    const repoRoot = path.resolve(mocks.packageDirectory, "../../..");
+    mocks.postEmitterError = new Error("PostEmitter failed");
+
+    await expect(
+      generateMgmt({
+        sdkRepo: repoRoot,
+        swaggerRepo: path.join(repoRoot, "spec"),
+        readmeMd: "service/resource-manager/readme.md",
+        gitCommitId: "a".repeat(40),
+        apiVersion: undefined,
+        sdkReleaseType: undefined,
+      }),
+    ).rejects.toThrow("PostEmitter failed");
+
+    expect(mocks.configChanges).toEqual(["change", "revert"]);
   });
 });

@@ -85,6 +85,7 @@ export async function generateMgmt(options: {
       options.readmeMd,
       undefined,
     );
+    let postEmitterFailed = false;
 
     try {
       logger.info(`Start to install dependencies for ${changedPackageDirectory}.`);
@@ -147,11 +148,16 @@ export async function generateMgmt(options: {
       logger.info(`Start to run command: 'pnpm install'.`);
       execSync("pnpm install", { stdio: "inherit" });
       if (!options.skipGeneration) {
-        await preparePackageForBuild(
-          packagePath,
-          options.sdkRepo,
-          options.runMode ?? "unspecified",
-        );
+        try {
+          await preparePackageForBuild(
+            packagePath,
+            options.sdkRepo,
+            options.runMode ?? "unspecified",
+          );
+        } catch (e) {
+          postEmitterFailed = true;
+          throw e;
+        }
       }
 
       if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
@@ -224,6 +230,9 @@ export async function generateMgmt(options: {
       );
       if (outputPackageInfo) {
         outputPackageInfo.result = "failed";
+      }
+      if (postEmitterFailed) {
+        throw e;
       }
     } finally {
       if (options.outputJson && outputPackageInfo) {
