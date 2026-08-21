@@ -22,9 +22,12 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [updateSyncTokenSample.js][updatesynctokensample]               | The AppConfiguration service supports EventGrid-based setting change notifications. This sample shows how to process these notifications. Due to the distributed nature of the AppConfiguration service, the synchronization token needs to be registered with the client to get the most up-to-date value of the setting. The ConfigurationClient.UpdateSyncToken is used to register the synchronization token. |
 | [getSettingOnlyIfChanged.js][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.)                                                                                                                                                                                                                                |
 | [listConfigurationSettings.js][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                                                                                                                                                                                                                                                           |
+| [listLabels.js][listlabels]                                     | Demonstrates listing labels for a configuration setting store.                                                                                                                                                                                                                                                                                                                                                    |
 | [listRevisions.js][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                                                                                                                                                                                                                                                       |
 | [secretReference.js][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                                                                                                                                                                                                                                                            |
 | [featureFlag.js][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                                                                                                                                                                                                                                                        |
+| [testData.js][testdata]                                         | Serialized sample App Configuration KeyValueModified event payload.                                                                                                                                                                                                                                                                                                                                               |
+| [featureFlagEndpoint.js][featureflagendpoint]                   | Demonstrates creating, retrieving, listing, and deleting feature flags using the dedicated feature flag endpoint. Requires the 2026-05-01-preview API version or later.                                                                                                                                                                                                                                           |
 
 ## Prerequisites
 
@@ -56,10 +59,10 @@ npm install
 node helloworld.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node helloworld.js
+npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node helloworld.js
 ```
 
 ## Next Steps
@@ -74,10 +77,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updatesynctokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/updateSyncTokenSample.js
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/getSettingOnlyIfChanged.js
 [listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/listConfigurationSettings.js
+[listlabels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/listLabels.js
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/listRevisions.js
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/secretReference.js
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/featureFlag.js
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
+[testdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/testData.js
+[featureflagendpoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/javascript/featureFlagEndpoint.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md

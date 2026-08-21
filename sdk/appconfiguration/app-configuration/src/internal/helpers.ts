@@ -4,12 +4,15 @@
 import {
   type ConfigurationSetting,
   type ConfigurationSettingParam,
+  type FeatureFlag,
   type HttpOnlyIfChangedField,
   type HttpOnlyIfUnchangedField,
   type HttpResponseField,
   type HttpResponseFields,
   type ListRevisionsOptions,
   type ListSettingsOptions,
+  type ListFeatureFlagRevisionsOptions,
+  type ListFeatureFlagsOptions,
   type ListSnapshotsOptions,
   type ConfigurationSnapshot,
   type SnapshotResponse,
@@ -29,6 +32,7 @@ import type {
   KeyValue,
   ConfigurationSnapshot as Snapshot,
   KeyValueFields,
+  FeatureFlagFields,
   SnapshotFields,
   CompositionType,
   SnapshotStatus,
@@ -40,6 +44,10 @@ import { SnapshotReferenceHelper, snapshotReferenceContentType } from "../snapsh
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger.js";
 import type { OperationOptions } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
+import { toCompatResponse, type CompatResponse } from "@azure/core-http-compat";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { SyncTokenHeaderField } from "../models.js";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -53,13 +61,6 @@ export interface SendConfigurationSettingsOptions
    */
   snapshotName?: string;
 }
-
-/**
- * Options for listLabels that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface SendLabelsRequestOptions extends ListLabelsOptions {}
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -146,6 +147,26 @@ export function formatFiltersAndSelect(
 }
 
 /**
+ * Transforms feature flag list filters into their generated client equivalents.
+ * @internal
+ */
+export function formatFeatureFlagFiltersAndSelect(
+  options: ListFeatureFlagsOptions | ListFeatureFlagRevisionsOptions,
+): {
+  name: string | undefined;
+  label: string | undefined;
+  tags: string[] | undefined;
+  select: FeatureFlagFields[] | undefined;
+} {
+  return {
+    name: options.nameFilter,
+    label: options.labelFilter,
+    tags: options.tagsFilter,
+    select: formatFeatureFlagFieldsForSelect(options.fields),
+  };
+}
+
+/**
  * Transforms some of the key fields in SendConfigurationSettingsOptions
  * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
  * - `options.acceptDateTime` is converted into an ISO string
@@ -194,10 +215,12 @@ export function formatSnapshotFiltersAndSelect(
  */
 export function formatLabelsFiltersAndSelect(
   listLabelsOptions: ListLabelsOptions,
-): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  resourceType?: string,
+): Pick<GetLabelsOptionalParams, "name" | "select" | "resourceType"> {
   return {
     name: listLabelsOptions.nameFilter,
     select: listLabelsOptions.fields,
+    resourceType,
   };
 }
 /**
@@ -379,7 +402,7 @@ export function serializeAsConfigurationSettingParam(
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
-  kvp: T | undefined,
+  kvp: T | void,
   status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   const source = (kvp ?? {}) as T;
@@ -475,6 +498,50 @@ export function formatFieldsForSelect(
   });
 
   return mappedFieldNames as KeyValueFields[];
+}
+
+/**
+ * Translates user-facing feature flag field names into their wire equivalents.
+ * @internal
+ */
+export function formatFeatureFlagFieldsForSelect(
+  fieldNames: (keyof FeatureFlag)[] | undefined,
+): FeatureFlagFields[] | undefined {
+  return fieldNames?.map((fieldName) =>
+    fieldName === "lastModified" ? "last_modified" : fieldName,
+  ) as FeatureFlagFields[] | undefined;
+}
+
+/**
+ * Converts a modular generated response to the compatibility response exposed by this package.
+ * @internal
+ */
+export function toAppConfigurationCompatResponse(
+  response: unknown,
+): CompatResponse & { parsedHeaders: SyncTokenHeaderField; bodyAsText: string } {
+  const rawResponse = response as FullOperationResponse & {
+    body?: unknown;
+    headers: FullOperationResponse["headers"] | Record<string, string>;
+  };
+  const headers =
+    "get" in rawResponse.headers ? rawResponse.headers : createHttpHeaders(rawResponse.headers);
+  const normalizedResponse = {
+    ...rawResponse,
+    status: Number(rawResponse.status),
+    headers,
+  } as FullOperationResponse;
+  const compatResponse = toCompatResponse(normalizedResponse);
+  return Object.assign(compatResponse, {
+    parsedHeaders: {
+      syncToken: headers.get("sync-token"),
+    },
+    bodyAsText:
+      typeof rawResponse.body === "string"
+        ? rawResponse.body
+        : rawResponse.body === undefined
+          ? ""
+          : JSON.stringify(rawResponse.body),
+  });
 }
 
 /**

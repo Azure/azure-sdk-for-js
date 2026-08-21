@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "AzureAppConfiguration": "2026-04-01"
+    "AzureAppConfiguration": "2026-05-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AzureAppConfiguration",
     "CrossLanguageDefinitionId": {
@@ -19,6 +19,16 @@
       "@azure/app-configuration!SnapshotUpdateParameters:interface": "AzureAppConfiguration.SnapshotUpdateParameters",
       "@azure/app-configuration!LabelListResult:interface": "AzureAppConfiguration.LabelListResult",
       "@azure/app-configuration!Label:interface": "AzureAppConfiguration.Label",
+      "@azure/app-configuration!FeatureFlagListResult:interface": "AzureAppConfiguration.FeatureFlagListResult",
+      "@azure/app-configuration!FeatureFlag:interface": "AzureAppConfiguration.FeatureFlag",
+      "@azure/app-configuration!FeatureFlagConditions:interface": "AzureAppConfiguration.FeatureFlagConditions",
+      "@azure/app-configuration!FeatureFlagFilter:interface": "AzureAppConfiguration.FeatureFlagFilter",
+      "@azure/app-configuration!FeatureFlagVariantDefinition:interface": "AzureAppConfiguration.FeatureFlagVariantDefinition",
+      "@azure/app-configuration!FeatureFlagAllocation:interface": "AzureAppConfiguration.FeatureFlagAllocation",
+      "@azure/app-configuration!PercentileAllocation:interface": "AzureAppConfiguration.PercentileAllocation",
+      "@azure/app-configuration!UserAllocation:interface": "AzureAppConfiguration.UserAllocation",
+      "@azure/app-configuration!GroupAllocation:interface": "AzureAppConfiguration.GroupAllocation",
+      "@azure/app-configuration!FeatureFlagTelemetryConfiguration:interface": "AzureAppConfiguration.FeatureFlagTelemetryConfiguration",
       "@azure/app-configuration!KnownGetKeysResponseContentType:enum": "AzureAppConfiguration.getKeys.ResponseContentType.anonymous",
       "@azure/app-configuration!KnownKeyValueFields:enum": "AzureAppConfiguration.KeyValueFields",
       "@azure/app-configuration!KnownGetKeyValuesResponseContentType:enum": "AzureAppConfiguration.getKeyValues.ResponseContentType.anonymous",
@@ -34,6 +44,11 @@
       "@azure/app-configuration!KnownUpdateSnapshotRequestContentType:enum": "AzureAppConfiguration.updateSnapshot.RequestContentType.anonymous",
       "@azure/app-configuration!KnownLabelFields:enum": "AzureAppConfiguration.LabelFields",
       "@azure/app-configuration!KnownGetLabelsResponseContentType:enum": "AzureAppConfiguration.getLabels.ResponseContentType.anonymous",
+      "@azure/app-configuration!KnownFeatureFlagFields:enum": "AzureAppConfiguration.FeatureFlagFields",
+      "@azure/app-configuration!KnownGetFeatureFlagsResponseContentType:enum": "AzureAppConfiguration.getFeatureFlags.ResponseContentType.anonymous",
+      "@azure/app-configuration!KnownRequirementType:enum": "AzureAppConfiguration.RequirementType",
+      "@azure/app-configuration!KnownStatusOverride:enum": "AzureAppConfiguration.StatusOverride",
+      "@azure/app-configuration!KnownGetFeatureFlagResponseContentType:enum": "AzureAppConfiguration.getFeatureFlag.ResponseContentType.anonymous",
       "@azure/app-configuration!KnownVersions:enum": "AzureAppConfiguration.Versions",
       "@azure/app-configuration!AppConfigurationClient#checkRevisions:member(1)": "AzureAppConfiguration.checkRevisions",
       "@azure/app-configuration!AppConfigurationClient#getRevisions:member(1)": "AzureAppConfiguration.getRevisions",
@@ -55,7 +70,15 @@
       "@azure/app-configuration!AppConfigurationClient#checkKeyValues:member(1)": "AzureAppConfiguration.checkKeyValues",
       "@azure/app-configuration!AppConfigurationClient#getKeyValues:member(1)": "AzureAppConfiguration.getKeyValues",
       "@azure/app-configuration!AppConfigurationClient#checkKeys:member(1)": "AzureAppConfiguration.checkKeys",
-      "@azure/app-configuration!AppConfigurationClient#getKeys:member(1)": "AzureAppConfiguration.getKeys"
+      "@azure/app-configuration!AppConfigurationClient#getKeys:member(1)": "AzureAppConfiguration.getKeys",
+      "@azure/app-configuration!FeatureFlagClientOperations#checkFeatureFlagRevisions:member": "AzureAppConfiguration.checkFeatureFlagRevisions",
+      "@azure/app-configuration!FeatureFlagClientOperations#getFeatureFlagRevisions:member": "AzureAppConfiguration.getFeatureFlagRevisions",
+      "@azure/app-configuration!FeatureFlagClientOperations#deleteFeatureFlag:member": "AzureAppConfiguration.deleteFeatureFlag",
+      "@azure/app-configuration!FeatureFlagClientOperations#putFeatureFlag:member": "AzureAppConfiguration.putFeatureFlag",
+      "@azure/app-configuration!FeatureFlagClientOperations#checkFeatureFlag:member": "AzureAppConfiguration.checkFeatureFlag",
+      "@azure/app-configuration!FeatureFlagClientOperations#getFeatureFlag:member": "AzureAppConfiguration.getFeatureFlag",
+      "@azure/app-configuration!FeatureFlagClientOperations#checkFeatureFlags:member": "AzureAppConfiguration.checkFeatureFlags",
+      "@azure/app-configuration!FeatureFlagClientOperations#getFeatureFlags:member": "AzureAppConfiguration.getFeatureFlags"
     }
   }
 }

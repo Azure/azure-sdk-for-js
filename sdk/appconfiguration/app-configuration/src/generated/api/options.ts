@@ -140,6 +140,8 @@ export interface CheckLabelsOptionalParams extends OperationOptions {
   select?: LabelFields[];
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** A filter used to indicate the resource type of the labels. Accepted values: 'kv' for key-value labels, 'ff' for feature flag labels. */
+  resourceType?: string;
 }
 
 /** Optional parameters. */
@@ -162,6 +164,8 @@ export interface GetLabelsOptionalParams extends OperationOptions {
   select?: LabelFields[];
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** A filter used to indicate the resource type of the labels. Accepted values: 'kv' for key-value labels, 'ff' for feature flag labels. */
+  resourceType?: string;
 }
 
 /** Optional parameters. */

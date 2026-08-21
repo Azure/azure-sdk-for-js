@@ -69,7 +69,7 @@ export function _checkRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -135,7 +135,7 @@ export function _getRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -201,7 +201,7 @@ export function getRevisions(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -215,7 +215,7 @@ export function _deleteLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -272,7 +272,7 @@ export function _putLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -325,9 +325,9 @@ export function _checkLabelsSend(
   options: CheckLabelsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/labels{?api%2Dversion,name,After,%24Select}",
+    "/labels{?api%2Dversion,name,After,%24Select,resourceType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -335,6 +335,7 @@ export function _checkLabelsSend(
         : options?.select.map((p: any) => {
             return p;
           }),
+      resourceType: options?.resourceType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,9 +386,9 @@ export function _getLabelsSend(
   options: GetLabelsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/labels{?api%2Dversion,name,After,%24Select}",
+    "/labels{?api%2Dversion,name,After,%24Select,resourceType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -395,6 +396,7 @@ export function _getLabelsSend(
         : options?.select.map((p: any) => {
             return p;
           }),
+      resourceType: options?.resourceType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -447,7 +449,7 @@ export function getLabels(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -461,7 +463,7 @@ export function _checkSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,7 +520,7 @@ export function _updateSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,7 +584,7 @@ export function _createSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -631,7 +633,7 @@ export function createSnapshot(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSnapshotSend(context, contentType, name, entity, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot>;
 }
 
@@ -643,7 +645,7 @@ export function _getOperationDetailsSend(
   const path = expandUrlTemplate(
     "/operations{?api%2Dversion,snapshot}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       snapshot: snapshot,
     },
     {
@@ -699,7 +701,7 @@ export function _getSnapshotSend(
     "/snapshots/{name}{?api%2Dversion,%24Select}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24Select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -760,7 +762,7 @@ export function _checkSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       After: options?.after,
     },
     {
@@ -811,7 +813,7 @@ export function _getSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,name,After,%24Select,status}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -870,7 +872,7 @@ export function getSnapshots(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -884,7 +886,7 @@ export function _checkKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -953,7 +955,7 @@ export function _deleteKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -978,7 +980,7 @@ export function _deleteKeyValueSend(
 
 export async function _deleteKeyValueDeserialize(
   result: PathUncheckedResponse,
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -989,7 +991,11 @@ export async function _deleteKeyValueDeserialize(
     throw error;
   }
 
-  return result.body ? keyValueDeserializer(result.body) : undefined;
+  if (!result.body) {
+    return;
+  }
+
+  return keyValueDeserializer(result.body);
 }
 
 /** Deletes a key-value. */
@@ -997,7 +1003,7 @@ export async function deleteKeyValue(
   context: Client,
   key: string,
   options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const result = await _deleteKeyValueSend(context, key, options);
   return _deleteKeyValueDeserialize(result);
 }
@@ -1018,7 +1024,7 @@ export function _putKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -1084,7 +1090,7 @@ export function _getKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -1152,7 +1158,7 @@ export function _checkKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1221,7 +1227,7 @@ export function _getKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1287,7 +1293,7 @@ export function getKeyValues(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1299,7 +1305,7 @@ export function _checkKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
     },
@@ -1354,7 +1360,7 @@ export function _getKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
     },
@@ -1404,7 +1410,7 @@ export function getKeys(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }

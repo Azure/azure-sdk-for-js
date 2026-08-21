@@ -91,19 +91,177 @@ export interface SettingLabel {
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
    * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
 
   /**
-   * The Audience to use for authentication with Azure Active Directory (AAD).
+   * The audience to use for authentication with Microsoft Entra ID.
    * {@link KnownAppConfigAudience} can be used interchangeably with audience.
    * If not specified, the default audience will be set to Azure Public Cloud.
    */
   audience?: string;
 }
+
+/**
+ * Provides configuration options for FeatureFlagClient.
+ */
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {
+  /**
+   * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
+   * {@link KnownFeatureFlagApiVersion} can be used interchangeably with apiVersion.
+   * Note that overriding this default value may result in unsupported behavior.
+   */
+  apiVersion?: string;
+
+  /**
+   * The audience to use for authentication with Microsoft Entra ID.
+   * {@link KnownAppConfigAudience} can be used interchangeably with audience.
+   * If not specified, the default audience will be set to Azure Public Cloud.
+   */
+  audience?: string;
+}
+
+/** The conditions that must be met for the feature flag to be enabled. */
+export interface FeatureFlagConditions {
+  /** The requirement type for the conditions. */
+  requirementType?: RequirementType;
+  /** The filters that will conditionally enable or disable the flag. */
+  filters?: FeatureFilter[];
+}
+
+/** Defines values for the feature flag condition requirement type. */
+export type RequirementType = string;
+
+/** Known values of {@link RequirementType} that the service accepts. */
+export enum KnownRequirementType {
+  /** Any condition may be met. */
+  Any = "Any",
+  /** All conditions must be met. */
+  All = "All",
+}
+
+/** A filter that conditionally enables or disables a feature flag. */
+export interface FeatureFilter {
+  /** The name of the filter. */
+  name: string;
+  /** The parameters used by the filter. */
+  parameters?: { [propertyName: string]: string };
+}
+
+/** A variant of a feature flag. */
+export interface FeatureFlagVariantDefinition {
+  /** The name of the variant. */
+  name: string;
+  /** The value of the variant. */
+  value?: string;
+  /** The content type of the variant value. */
+  contentType?: string;
+  /** Determines whether the variant overrides the status of the feature flag. */
+  statusOverride?: StatusOverride;
+}
+
+/** Defines values for a feature flag variant status override. */
+export type StatusOverride = string;
+
+/** Known values of {@link StatusOverride} that the service accepts. */
+export enum KnownStatusOverride {
+  /** Do not override the feature flag status. */
+  None = "None",
+  /** Treat the feature flag as enabled. */
+  Enabled = "Enabled",
+  /** Treat the feature flag as disabled. */
+  Disabled = "Disabled",
+}
+
+/** Defines how to allocate feature flag variants based on context. */
+export interface FeatureFlagAllocation {
+  /** The default variant to use when the feature flag is disabled. */
+  defaultWhenDisabled?: string;
+  /** The default variant to use when the feature flag is enabled but not allocated. */
+  defaultWhenEnabled?: string;
+  /** Allocates percentiles to variants. */
+  percentile?: PercentileAllocation[];
+  /** Allocates users to variants. */
+  user?: UserAllocation[];
+  /** Allocates groups to variants. */
+  group?: GroupAllocation[];
+  /** The seed used for random allocation. */
+  seed?: string;
+}
+
+/** Allocates a percentile range to a feature flag variant. */
+export interface PercentileAllocation {
+  /** The variant to allocate the percentile range to. */
+  variant: string;
+  /** The lower bound of the percentile range. */
+  from: number;
+  /** The upper bound of the percentile range. */
+  to: number;
+}
+
+/** Allocates users to a feature flag variant. */
+export interface UserAllocation {
+  /** The variant to allocate the users to. */
+  variant: string;
+  /** The users that receive the variant. */
+  users: string[];
+}
+
+/** Allocates groups to a feature flag variant. */
+export interface GroupAllocation {
+  /** The variant to allocate the groups to. */
+  variant: string;
+  /** The groups that receive the variant. */
+  groups: string[];
+}
+
+/** Telemetry configuration for a feature flag. */
+export interface FeatureFlagTelemetryConfiguration {
+  /** Whether telemetry is enabled. */
+  enabled: boolean;
+  /** Metadata to include on outbound telemetry. */
+  metadata?: { [propertyName: string]: string };
+}
+
+/** Fields that uniquely identify a feature flag. */
+export interface FeatureFlagId {
+  /** The name of the feature flag. */
+  name: string;
+  /** The label the feature flag belongs to. */
+  label?: string;
+  /** A value representing the current state of the resource. */
+  etag?: string;
+}
+
+/** Necessary fields for updating or creating a feature flag. */
+export type FeatureFlagParam = FeatureFlagId & {
+  /** The enabled state of the feature flag. */
+  enabled: boolean;
+  /** The description of the feature flag. */
+  description?: string;
+  /** The conditions of the feature flag. */
+  conditions?: FeatureFlagConditions;
+  /** The variants of the feature flag. */
+  variants?: FeatureFlagVariantDefinition[];
+  /** The allocation of the feature flag. */
+  allocation?: FeatureFlagAllocation;
+  /** The telemetry settings of the feature flag. */
+  telemetry?: FeatureFlagTelemetryConfiguration;
+  /** The tags of the feature flag. */
+  tags?: { [propertyName: string]: string };
+};
+
+/** A feature flag managed through the dedicated feature flag endpoint. */
+export type FeatureFlag = FeatureFlagParam & {
+  /** A date representing the last time the feature flag was modified. */
+  readonly lastModified?: Date;
+};
+
+/** Fields that can be selected when retrieving feature flags. */
+export type FeatureFlagFields = keyof FeatureFlag;
 
 /**
  * Known values for Azure App Configuration Audience
@@ -133,6 +291,16 @@ export enum KnownAppConfigurationApiVersion {
   V20240901 = "2024-09-01",
   /** The 2026-04-01 API version */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
+}
+
+/**
+ * Known service API versions supported by FeatureFlagClient.
+ */
+export enum KnownFeatureFlagApiVersion {
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
 }
 
 /**
@@ -471,6 +639,145 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
    * Requests the server to respond with the state of the resource at the specified time.
    */
   acceptDateTime?: Date;
+}
+
+/**
+ * Options used when creating or updating a feature flag through the dedicated
+ * feature flag endpoint.
+ */
+export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
+
+/**
+ * Options used when adding a feature flag through the dedicated feature flag endpoint.
+ */
+export interface AddFeatureFlagOptions extends OperationOptions {}
+
+/** Parameters for adding a feature flag through the dedicated feature flag endpoint. */
+export type AddFeatureFlagParam = FeatureFlagParam;
+
+/** Parameters for creating or updating a feature flag through the dedicated feature flag endpoint. */
+export type SetFeatureFlagParam = FeatureFlagParam;
+
+/** Response from adding a feature flag through the dedicated feature flag endpoint. */
+export interface AddFeatureFlagResponse
+  extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
+
+/** Response from setting a feature flag through the dedicated feature flag endpoint. */
+export interface SetFeatureFlagResponse
+  extends FeatureFlag, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {}
+
+/** Response from deleting a feature flag through the dedicated feature flag endpoint. */
+export interface DeleteFeatureFlagResponse
+  extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Response from retrieving a feature flag through the dedicated feature flag endpoint.
+ *
+ * When a conditional request is made with `onlyIfChanged` and the feature flag has
+ * not changed, the service responds with a 304 status and an otherwise empty body. In
+ * that case `statusCode` is `304` and the feature flag fields (other than `name`) are
+ * left unset.
+ */
+export type GetFeatureFlagResponse =
+  | (FeatureFlag &
+      SyncTokenHeaderField &
+      HttpResponseField<SyncTokenHeaderField> & { statusCode: 200 })
+  | (Pick<FeatureFlag, "name"> &
+      Partial<Omit<FeatureFlag, "name">> &
+      SyncTokenHeaderField &
+      HttpResponseField<SyncTokenHeaderField> & { statusCode: 304 });
+
+/**
+ * Options for getting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /**
+   * Which fields to return for the feature flag.
+   */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * Options for deleting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
+
+/**
+ * Options for listFeatureFlags that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
+
+  /**
+   * A list of page etags, one per page, used to conditionally retrieve pages. Each etag is sent as
+   * an `If-None-Match` header for its corresponding page; when the page is unchanged the service
+   * responds with `304 Not Modified` and the SDK yields an empty page whose `etag` is preserved.
+   */
+  pageEtags?: string[];
+}
+
+/**
+ * A page of feature flags and the corresponding HTTP response
+ */
+export interface ListFeatureFlagPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+  /**
+   * The feature flags for this page of results.
+   */
+  items: FeatureFlag[];
+}
+
+/**
+ * Options for listFeatureFlagRevisions that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * A page of feature flag revisions and the corresponding HTTP response
+ */
+export interface ListFeatureFlagRevisionsPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+  /**
+   * The feature flag revisions for this page of results.
+   */
+  items: FeatureFlag[];
 }
 
 /**

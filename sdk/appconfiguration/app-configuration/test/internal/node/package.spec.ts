@@ -38,11 +38,11 @@ describe("packagejson related tests", () => {
       // no-op, we don't care about the response, only the user-agent header
     }
     assert.exists(userAgent, "Expected a User-Agent header to be sent");
+    const sdkUserAgent = `azsdk-js-app-configuration/${packageVersion}`;
     assert.isTrue(
-      userAgent!.startsWith(
-        `${customUserAgentPrefix} azsdk-js-app-configuration/${packageVersion} `,
-      ),
+      userAgent!.startsWith(`${customUserAgentPrefix} ${sdkUserAgent} `),
       "Expected the custom User-Agent prefix before the App Configuration SDK identifier",
     );
+    assert.equal(userAgent!.split(sdkUserAgent).length - 1, 1);
   });
 });
