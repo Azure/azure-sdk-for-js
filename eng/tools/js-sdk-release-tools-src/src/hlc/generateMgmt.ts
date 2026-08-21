@@ -23,6 +23,7 @@ import { lintFix, updateSnippets } from "../common/devToolUtils.js";
 import { ensurePnpmInstalled } from "../common/rushUtils.js";
 import { ChangelogResult } from "../changelog/v2/ChangelogGenerator.js";
 import { RunMode } from "../common/types.js";
+import { preparePackageForBuild } from "../common/postEmitter.js";
 
 export async function generateMgmt(options: {
   sdkRepo: string;
@@ -84,6 +85,7 @@ export async function generateMgmt(options: {
       options.readmeMd,
       undefined,
     );
+    let postEmitterFailed = false;
 
     try {
       logger.info(`Start to install dependencies for ${changedPackageDirectory}.`);
@@ -145,6 +147,18 @@ export async function generateMgmt(options: {
       await ensurePnpmInstalled();
       logger.info(`Start to run command: 'pnpm install'.`);
       execSync("pnpm install", { stdio: "inherit" });
+      if (!options.skipGeneration) {
+        try {
+          await preparePackageForBuild(
+            packagePath,
+            options.sdkRepo,
+            options.runMode ?? "unspecified",
+          );
+        } catch (e) {
+          postEmitterFailed = true;
+          throw e;
+        }
+      }
 
       if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
         await lintFix(packagePath);
@@ -216,6 +230,9 @@ export async function generateMgmt(options: {
       );
       if (outputPackageInfo) {
         outputPackageInfo.result = "failed";
+      }
+      if (postEmitterFailed) {
+        throw e;
       }
     } finally {
       if (options.outputJson && outputPackageInfo) {

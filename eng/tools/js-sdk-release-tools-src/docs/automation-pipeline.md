@@ -13,6 +13,7 @@ This document describes how the JS SDK release automation pipeline works, coveri
 4. [Folder Cleanup Logic](#4-folder-cleanup-logic)
 5. [Changelog & Version Bump (Common)](#5-changelog--version-bump-common)
 6. [Output JSON Structure](#6-output-json-structure)
+7. [Post-Emitter Hook](#7-post-emitter-hook)
 
 ---
 
@@ -81,7 +82,7 @@ CLI Entry (autoGenerateInPipeline.ts)
   │   │   ├── autorest code generation
   │   │   ├── Find changed packages (git diff)
   │   │   ├── Update ci.yml / _meta.json
-  │   │   ├── pnpm install → pnpm build → changelog → pnpm pack
+  │   │   ├── pnpm install → PostEmitter.ps1 → pnpm build → changelog → pnpm pack
   │   │   └── Update snippets / README
   │   │
   │   ├── RestLevelClient ──→ generateRLCInPipeline()
@@ -89,7 +90,7 @@ CLI Entry (autoGenerateInPipeline.ts)
   │   │   │   OR
   │   │   ├── Swagger → autorest code generation
   │   │   ├── Update ci.yml
-  │   │   ├── install → customize → lint → build → pack
+  │   │   ├── install → customize → PostEmitter.ps1 → lint → build → pack
   │   │   ├── format → snippets → changelog
   │   │   └── Output artifacts & apiView
   │   │
@@ -100,6 +101,7 @@ CLI Entry (autoGenerateInPipeline.ts)
   │       │   ├── pnpm install
   │       │   ├── lint fix (Release/Local)
   │       │   ├── customize (Data Plane)
+  │       │   ├── PostEmitter.ps1
   │       │   ├── turbo build
   │       │   ├── extract ApiView info
   │       │   ├── test package
@@ -116,22 +118,28 @@ CLI Entry (autoGenerateInPipeline.ts)
 
 ### Utility Operations Summary
 
-| Operation            | Function                                     | Required / Optional                  | Description                                               |
-| -------------------- | -------------------------------------------- | ------------------------------------ | --------------------------------------------------------- |
-| Backup node_modules  | `backupNodeModules()`                        | ✅ Required (non-local)              | Recursively rename `node_modules` → `node_modules_backup` |
-| Restore node_modules | `restoreNodeModules()`                       | ✅ Required (non-local)              | Recursively rename back to `node_modules`                 |
-| Format code          | `formatSdk()`                                | ✅ Required                          | `npm run format`                                          |
-| Update snippets      | `updateSnippets()`                           | ✅ Required                          | `dev-tool run update-snippets`                            |
-| Lint fix             | `lintFix()`                                  | ⚠️ Optional (`Release`/`Local` only) | `npm run lint:fix`                                        |
-| Apply custom code    | `customizeCodes()`                           | ⚠️ Optional (Data Plane, pnpm)       | `dev-tool customization apply-v2 -s ./generated -c ./src` |
-| Clean up package dir | `cleanUpPackageDirectory()`                  | ✅ Required                          | Cleanup strategy based on SDK type + `RunMode`            |
-| Specify API version  | `specifyApiVersionToGenerateSDKByTypeSpec()` | ⚠️ Optional                          | Modify `api-version` field in `tspconfig.yaml`            |
+| Operation            | Function                                        | Required / Optional                  | Description                                                             |
+| -------------------- | ----------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
+| Backup node_modules  | `backupNodeModules()`                           | ✅ Required (non-local)              | Recursively rename `node_modules` → `node_modules_backup`               |
+| Restore node_modules | `restoreNodeModules()`                          | ✅ Required (non-local)              | Recursively rename back to `node_modules`                               |
+| Format code          | `formatSdk()`                                   | ✅ Required                          | `npm run format`                                                        |
+| Update snippets      | `updateSnippets()`                              | ✅ Required                          | `dev-tool run update-snippets`                                          |
+| Lint fix             | `lintFix()`                                     | ⚠️ Optional (`Release`/`Local` only) | `npm run lint:fix`                                                      |
+| Apply custom code    | `customizeCodes()`                              | ⚠️ Optional (Data Plane, pnpm)       | `dev-tool customization apply-v2 -s ./generated -c ./src`               |
+| Run post-emitter     | `preparePackageForBuild()` / `runPostEmitter()` | ⚠️ Optional (file-driven)            | Run package-root `PostEmitter.ps1` after customization and before build |
+| Clean up package dir | `cleanUpPackageDirectory()`                     | ✅ Required                          | Cleanup strategy based on SDK type + `RunMode`                          |
+| Specify API version  | `specifyApiVersionToGenerateSDKByTypeSpec()`    | ⚠️ Optional                          | Modify `api-version` field in `tspconfig.yaml`                          |
 
 ---
 
 ## 4. Folder Cleanup Logic
 
 The cleanup behavior is determined by **SDK type** and **run mode**. The core function is `cleanUpPackageDirectory()`.
+
+Two package-root signals override destructive cleanup:
+
+- A package that explicitly opts in with `PostEmitter.ps1` and has a customization layout (`generated/` and `src/`) causes `SpecPullRequest` and `Batch` cleanup to return without deleting the checked-in customization baseline. Packages without the hook retain existing cleanup behavior.
+- A non-customized package containing `PostEmitter.ps1` preserves that file while applying the existing cleanup policy.
 
 Two run mode categories are used internally:
 
@@ -156,7 +164,7 @@ RLC packages are identified as `"sdk-type": "client"` without modular markers.
 | Run Mode                    | Cleanup Behavior              | Details                                                                                                                            |
 | --------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory. Before writing new files, the emitter automatically empties the sources directory. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory and recreates it empty.                                                                       |
+| `SpecPullRequest` / `Batch` | **Conditional full cleanup**  | Customized packages are preserved. Other packages are emptied, retaining only `PostEmitter.ps1` when present.                      |
 
 > **Note on generation path**: The emitter behavior described below applies **only to the TypeSpec path** (Path A in §3.2). When RLC packages are generated from Swagger via autorest (Path B), the TypeSpec emitter is not involved — autorest directly overwrites files under `--output-folder` without the priority-based source directory selection described below.
 
@@ -195,10 +203,10 @@ MLC packages are identified by `is-modular-library: true` in `tspconfig.yaml`.
 
 When a management plane package previously generated via autorest (HLC) is being regenerated as a ModularClient, the old package directory retains HLC markers in `package.json`. Cleanup is based on run mode:
 
-| Run Mode                    | Cleanup Behavior    | Details                                                                                                        |
-| --------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `Release` / `Local`         | **Partial cleanup** | Preserves `test/` and `assets.json`. All other generated files, including `src/`, are removed and regenerated. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**    | Removes the entire package directory.                                                                          |
+| Run Mode                    | Cleanup Behavior             | Details                                                                                                        |
+| --------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `Release` / `Local`         | **Partial cleanup**          | Preserves `test/` and `assets.json`. All other generated files, including `src/`, are removed and regenerated. |
+| `SpecPullRequest` / `Batch` | **Conditional full cleanup** | Customized packages are preserved. Other packages are emptied, retaining only `PostEmitter.ps1` when present.  |
 
 #### Management Plane MLC — New or existing ModularClient package
 
@@ -216,17 +224,17 @@ When generating a brand-new package (no directory yet), or regenerating a packag
 | Run Mode                    | Cleanup Behavior              | Details                                                                                                                                             |
 | --------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Release` / `Local`         | **Skip cleanup (tool-level)** | Same as RLC: the tool does not delete the package directory; the emitter empties the sources directory. See §4.2 for the full file-level breakdown. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory.                                                                                                               |
+| `SpecPullRequest` / `Batch` | **Conditional full cleanup**  | Customized packages are preserved. Other packages are emptied, retaining only `PostEmitter.ps1` when present.                                       |
 
 ### 4.4 Summary Table
 
-| SDK Type          | Plane      | Source State        | `Release` / `Local`                             | `SpecPullRequest` / `Batch`                     |
-| ----------------- | ---------- | ------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| `HighLevelClient` | Management | N/A                 | No cleanup (autorest overwrites files in-place) | No cleanup (autorest overwrites files in-place) |
-| `RestLevelClient` | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
-| `ModularClient`   | Management | Converting from HLC | Partial: keep `test/`, `assets.json`            | Full cleanup                                    |
-| `ModularClient`   | Management | New or already MLC  | Skip (emitter handles)                          | Skip (emitter handles)                          |
-| `ModularClient`   | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
+| SDK Type          | Plane      | Source State        | `Release` / `Local`                             | `SpecPullRequest` / `Batch`                                          |
+| ----------------- | ---------- | ------------------- | ----------------------------------------------- | -------------------------------------------------------------------- |
+| `HighLevelClient` | Management | N/A                 | No cleanup (autorest overwrites files in-place) | No cleanup (autorest overwrites files in-place)                      |
+| `RestLevelClient` | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Preserve customized layout; otherwise full cleanup, keeping the hook |
+| `ModularClient`   | Management | Converting from HLC | Partial: keep `test/`, `assets.json`, and hook  | Preserve customized layout; otherwise full cleanup, keeping the hook |
+| `ModularClient`   | Management | New or already MLC  | Skip (emitter handles)                          | Skip (emitter handles)                                               |
+| `ModularClient`   | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Preserve customized layout; otherwise full cleanup, keeping the hook |
 
 ---
 
@@ -236,22 +244,23 @@ When generating a brand-new package (no directory yet), or regenerating a packag
 
 #### Processing Steps
 
-| Step                                     | Required                              | Operation                                      | Command / Details                                                                                                                                                                                                                                                                  | Code Link              |
-| ---------------------------------------- | ------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| **1. Code Generation**                   | ✅ Required (unless `skipGeneration`) | Run autorest to generate code                  | `autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder={sdkRepo} {readmeMd}` + optional `--tag=package-{apiVersion}` `--use={use}` | [generateMgmt.ts#L50]  |
-| **2. Find Changed Packages**             | ✅ Required                           | `getChangedPackageDirectory()`                 | Uses `git diff` to find changed package directories after generation                                                                                                                                                                                                               | [generateMgmt.ts#L73]  |
-| **3. Modify Test/Sample Config**         | ✅ Required                           | `changeConfigOfTestAndSample()`                | Modify `tsconfig.json` to skip compiling `test/` and `sample/` directories                                                                                                                                                                                                         | [generateMgmt.ts#L88]  |
-| **4. Write `_meta.json`**                | ✅ Required (non-skipGeneration)      | Write code generation metadata                 | Contains `commit`, `readme`, `autorest_command`, `repository_url`, `release_tool`, etc.                                                                                                                                                                                            | [generateMgmt.ts#L90]  |
-| **5. Generate/Modify CI YAML**           | ✅ Required (non-skipGeneration)      | `modifyOrGenerateCiYml()`                      | Create or update `ci.mgmt.yml`                                                                                                                                                                                                                                                     | [generateMgmt.ts#L105] |
-| **6. Install Dependencies**              | ✅ Required                           | pnpm                                           | `pnpm install`                                                                                                                                                                                                                                                                     | [generateMgmt.ts#L124] |
-| **7. Lint Fix**                          | ⚠️ Optional                           | `lintFix()` — only in `Release` / `Local` mode | `npm run lint:fix`                                                                                                                                                                                                                                                                 | [generateMgmt.ts#L139] |
-| **8. Build**                             | ✅ Required                           | Compile package (excluding test/sample)        | `pnpm build --filter {packageName}...`                                                                                                                                                                                                                                             | [generateMgmt.ts#L127] |
-| **9. Generate Changelog & Bump Version** | ✅ Required (non-skipGeneration)      | `generateChangelogAndBumpVersion()`            | Compare `api.md` between npm published version and local; detect breaking changes; generate changelog; bump version                                                                                                                                                                | [generateMgmt.ts#L130] |
-| **10. Pack**                             | ✅ Required                           | Generate `.tgz` package                        | `pnpm run --filter {packageName}... pack`                                                                                                                                                                                                                                          | [generateMgmt.ts#L133] |
-| **11. Update Snippets**                  | ✅ Required                           | `updateSnippets()`                             | `dev-tool run update-snippets`                                                                                                                                                                                                                                                     | [generateMgmt.ts#L152] |
-| **12. Modify README**                    | ✅ Required (non-skipGeneration)      | `changeReadmeMd()`                             | Update package `README.md`                                                                                                                                                                                                                                                         | [generateMgmt.ts#L155] |
-| **13. Add ApiView Info**                 | ✅ Required                           | `addApiViewInfo()`                             | Find `temp/**/*.api.json` file path and add to `outputJson`                                                                                                                                                                                                                        | [generateMgmt.ts#L182] |
-| **14. Restore Config**                   | ✅ Required (non-skipGeneration)      | `changeConfigOfTestAndSample(Revert)`          | Restore original `tsconfig.json` configuration                                                                                                                                                                                                                                     | [generateMgmt.ts#L203] |
+| Step                                      | Required                              | Operation                                      | Command / Details                                                                                                                                                                                                                                                                  | Code Link              |
+| ----------------------------------------- | ------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| **1. Code Generation**                    | ✅ Required (unless `skipGeneration`) | Run autorest to generate code                  | `autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder={sdkRepo} {readmeMd}` + optional `--tag=package-{apiVersion}` `--use={use}` | [generateMgmt.ts#L50]  |
+| **2. Find Changed Packages**              | ✅ Required                           | `getChangedPackageDirectory()`                 | Uses `git diff` to find changed package directories after generation                                                                                                                                                                                                               | [generateMgmt.ts#L73]  |
+| **3. Modify Test/Sample Config**          | ✅ Required                           | `changeConfigOfTestAndSample()`                | Modify `tsconfig.json` to skip compiling `test/` and `sample/` directories                                                                                                                                                                                                         | [generateMgmt.ts#L88]  |
+| **4. Write `_meta.json`**                 | ✅ Required (non-skipGeneration)      | Write code generation metadata                 | Contains `commit`, `readme`, `autorest_command`, `repository_url`, `release_tool`, etc.                                                                                                                                                                                            | [generateMgmt.ts#L90]  |
+| **5. Generate/Modify CI YAML**            | ✅ Required (non-skipGeneration)      | `modifyOrGenerateCiYml()`                      | Create or update `ci.mgmt.yml`                                                                                                                                                                                                                                                     | [generateMgmt.ts#L105] |
+| **6. Install Dependencies**               | ✅ Required                           | pnpm                                           | `pnpm install`                                                                                                                                                                                                                                                                     | [generateMgmt.ts#L124] |
+| **7. Run Post-Emitter**                   | ⚠️ Optional (non-skipGeneration)      | `preparePackageForBuild()`                     | Run package-root `PostEmitter.ps1`; fail generation on timeout or nonzero exit                                                                                                                                                                                                     | `generateMgmt.ts`      |
+| **8. Lint Fix**                           | ⚠️ Optional                           | `lintFix()` — only in `Release` / `Local` mode | `npm run lint:fix`                                                                                                                                                                                                                                                                 | [generateMgmt.ts#L139] |
+| **9. Build**                              | ✅ Required                           | Compile package (excluding test/sample)        | `pnpm build --filter {packageName}...`                                                                                                                                                                                                                                             | [generateMgmt.ts#L127] |
+| **10. Generate Changelog & Bump Version** | ✅ Required (non-skipGeneration)      | `generateChangelogAndBumpVersion()`            | Compare `api.md` between npm published version and local; detect breaking changes; generate changelog; bump version                                                                                                                                                                | [generateMgmt.ts#L130] |
+| **11. Pack**                              | ✅ Required                           | Generate `.tgz` package                        | `pnpm run --filter {packageName}... pack`                                                                                                                                                                                                                                          | [generateMgmt.ts#L133] |
+| **12. Update Snippets**                   | ✅ Required                           | `updateSnippets()`                             | `dev-tool run update-snippets`                                                                                                                                                                                                                                                     | [generateMgmt.ts#L152] |
+| **13. Modify README**                     | ✅ Required (non-skipGeneration)      | `changeReadmeMd()`                             | Update package `README.md`                                                                                                                                                                                                                                                         | [generateMgmt.ts#L155] |
+| **14. Add ApiView Info**                  | ✅ Required                           | `addApiViewInfo()`                             | Find `temp/**/*.api.json` file path and add to `outputJson`                                                                                                                                                                                                                        | [generateMgmt.ts#L182] |
+| **15. Restore Config**                    | ✅ Required (non-skipGeneration)      | `changeConfigOfTestAndSample(Revert)`          | Restore original `tsconfig.json` configuration                                                                                                                                                                                                                                     | [generateMgmt.ts#L203] |
 
 ---
 
@@ -279,20 +288,21 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 
 #### Common Post-generation Steps (both paths)
 
-| Step                                      | Required    | Operation                                   | Command / Details                                                                                                      | Code Link                       |
-| ----------------------------------------- | ----------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| **4. Generate/Modify CI YAML**            | ✅ Required | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
-| **5. Modify Test/Sample Config**          | ✅ Required | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
-| **6. Install Dependencies**               | ✅ Required | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
-| **7. Apply Custom Code**                  | ⚠️ Optional | `customizeCodes()` — pnpm repo only         | `dev-tool customization apply-v2 -s ./generated -c ./src`                                                              | [generateRLCInPipeline.ts#L215] |
-| **8. Lint Fix**                           | ⚠️ Optional | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
-| **9. Build**                              | ✅ Required | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
-| **10. Pack**                              | ✅ Required | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
-| **11. Format Code**                       | ✅ Required | `formatSdk()`                               | `npm run format`                                                                                                       | [generateRLCInPipeline.ts#L239] |
-| **12. Update Snippets**                   | ✅ Required | `updateSnippets()`                          | `dev-tool run update-snippets`                                                                                         | [generateRLCInPipeline.ts#L240] |
-| **13. Generate Changelog & Bump Version** | ✅ Required | `generateChangelogAndBumpVersion()`         | Same as HLC                                                                                                            | [generateRLCInPipeline.ts#L249] |
-| **14. Add ApiView Info**                  | ✅ Required | `addApiViewInfo()`                          | Find `*.api.json` files                                                                                                | [generateRLCInPipeline.ts#L260] |
-| **15. Restore Config**                    | ✅ Required | `changeConfigOfTestAndSample(Revert)`       | Restore original `tsconfig.json`                                                                                       | [generateRLCInPipeline.ts#L279] |
+| Step                                      | Required                         | Operation                                   | Command / Details                                                                                                      | Code Link                       |
+| ----------------------------------------- | -------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **4. Generate/Modify CI YAML**            | ✅ Required                      | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
+| **5. Modify Test/Sample Config**          | ✅ Required                      | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
+| **6. Install Dependencies**               | ✅ Required                      | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
+| **7. Apply Custom Code**                  | ⚠️ Optional                      | `customizeCodes()` — pnpm repo only         | `dev-tool customization apply-v2 -s ./generated -c ./src`                                                              | [generateRLCInPipeline.ts#L215] |
+| **8. Run Post-Emitter**                   | ⚠️ Optional (non-skipGeneration) | `preparePackageForBuild()`                  | Run after customization and fail generation on timeout or nonzero exit                                                 | `generateRLCInPipeline.ts`      |
+| **9. Lint Fix**                           | ⚠️ Optional                      | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
+| **10. Build**                             | ✅ Required                      | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
+| **11. Pack**                              | ✅ Required                      | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
+| **12. Format Code**                       | ✅ Required                      | `formatSdk()`                               | `npm run format`                                                                                                       | [generateRLCInPipeline.ts#L239] |
+| **13. Update Snippets**                   | ✅ Required                      | `updateSnippets()`                          | `dev-tool run update-snippets`                                                                                         | [generateRLCInPipeline.ts#L240] |
+| **14. Generate Changelog & Bump Version** | ✅ Required                      | `generateChangelogAndBumpVersion()`         | Same as HLC                                                                                                            | [generateRLCInPipeline.ts#L249] |
+| **15. Add ApiView Info**                  | ✅ Required                      | `addApiViewInfo()`                          | Find `*.api.json` files                                                                                                | [generateRLCInPipeline.ts#L260] |
+| **16. Restore Config**                    | ✅ Required                      | `changeConfigOfTestAndSample(Revert)`       | Restore original `tsconfig.json`                                                                                       | [generateRLCInPipeline.ts#L279] |
 
 ---
 
@@ -323,6 +333,7 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 | pnpm install         | ✅ Required | `pnpm install`                                                                                    | [rushUtils.ts#L127] |
 | Lint fix             | ⚠️ Optional | `npm run lint:fix` — only in `Release` / `Local` mode                                             | [rushUtils.ts#L139] |
 | Apply custom code    | ⚠️ Optional | `dev-tool customization apply-v2 -s ./generated -c ./src` — Data Plane packages only              | [rushUtils.ts#L146] |
+| Run Post-Emitter     | ⚠️ Optional | Run package-root `PostEmitter.ps1` after customization and before build                           | `rushUtils.ts`      |
 | turbo build          | ✅ Required | `pnpm turbo build --filter {packageName}... --token 1` (build errors are warnings for Data Plane) | [rushUtils.ts#L150] |
 | Extract ApiView info | ✅ Required | Find `temp/**/*-node.api.json` or `temp/**/*.api.json`                                            | [rushUtils.ts#L157] |
 | Test package         | ⚠️ Optional | `pnpm run test:node` — `TEST_MODE=record`; failure does not block                                 | [rushUtils.ts#L169] |
@@ -400,3 +411,55 @@ Final structure written to `--outputJsonPath`:
   "language": "JavaScript"
 }
 ```
+
+---
+
+## 7. Post-Emitter Hook
+
+Packages may provide a `PostEmitter.ps1` file directly under the package root. The hook is discovered and run by `runPostEmitter()` after optional JavaScript customization and before the first package build or API extraction.
+
+### Invocation contract
+
+```text
+pwsh -NonInteractive -NoProfile -ExecutionPolicy Bypass -File <package>/PostEmitter.ps1
+```
+
+- The package root is the working directory.
+- `pwsh` is preferred; Windows PowerShell is a local fallback.
+- The script must be a regular direct child of the package root. Symlinks and path escapes are rejected.
+- Output is inherited by the generation process and appears in pipeline logs.
+- The timeout is 600 seconds.
+- A present hook that cannot run, times out, or exits nonzero fails generation before build, API extraction, packing, or PR publication.
+- Artifact-only `skipGeneration` flows do not run the hook.
+
+The process receives these informational environment variables:
+
+- `AZSDK_POST_EMITTER_PACKAGE_ROOT`
+- `AZSDK_POST_EMITTER_REPO_ROOT`
+- `AZSDK_POST_EMITTER_BASE_REF=HEAD`
+- `AZSDK_POST_EMITTER_RUN_MODE`
+
+The HLC local CLI does not currently provide a run mode; its hook receives `unspecified` so existing lint behavior is not changed.
+
+Only process essentials such as `PATH`, home/temp locations, locale, and PowerShell module paths are inherited. Unrelated ambient variables are not forwarded to package hooks.
+
+Service scripts must be deterministic, noninteractive, idempotent, and repository-contained. They must not install dependencies, request credentials, access secrets, or download executable content.
+
+### Ordering
+
+| SDK path             | Order before build                                                     |
+| -------------------- | ---------------------------------------------------------------------- |
+| HLC                  | emit → `PostEmitter.ps1` → lint (when enabled) → build                 |
+| RLC                  | emit → customization → `PostEmitter.ps1` → lint (when enabled) → build |
+| MLC data plane       | emit → lint (when enabled) → customization → `PostEmitter.ps1` → build |
+| MLC management plane | emit → lint (when enabled) → `PostEmitter.ps1` → build                 |
+
+### Local reproduction
+
+From a package root:
+
+```powershell
+pwsh -NonInteractive -NoProfile -ExecutionPolicy Bypass -File ./PostEmitter.ps1
+```
+
+To exercise the automation-owned ordering, run `code-gen-pipeline` through `.scripts/automation_generate.sh` with a local generation input rather than invoking the hook separately.
