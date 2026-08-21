@@ -35,7 +35,7 @@ JavaScript samples are in `samples/v1/javascript/`.
 
 #### `updateDefaults` -- Required First!
 
-**One-time setup** - Configures model deployment mappings (GPT-4.1, GPT-4.1-mini, text-embedding-3-large) for your Microsoft Foundry resource. Must run before using prebuilt analyzers.
+**One-time setup** - Configures model deployment mappings (gpt-5.2, text-embedding-3-large) for your Microsoft Foundry resource. Must run before using prebuilt analyzers.
 
 #### `analyzeUrl` -- Start Here!
 
@@ -148,13 +148,16 @@ test -f samples/v1/javascript/.env && echo "OK" || echo "Run cu-sdk-setup first"
 
 #### Settings by sample
 
-| Setting                             | Required By            | Description                                                                                                  |
-| ----------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `CONTENTUNDERSTANDING_ENDPOINT`     | **All samples**        | Your Microsoft Foundry resource endpoint URL                                                                 |
-| `CONTENTUNDERSTANDING_KEY`          | All samples (optional) | API key for key-based auth. If empty, `DefaultAzureCredential` is used (recommended -- run `az login` first) |
-| `GPT_4_1_DEPLOYMENT`                | updateDefaults         | Deployment name for gpt-4.1 model (default: `gpt-4.1`)                                                       |
-| `GPT_4_1_MINI_DEPLOYMENT`           | updateDefaults         | Deployment name for gpt-4.1-mini model (default: `gpt-4.1-mini`)                                             |
-| `TEXT_EMBEDDING_3_LARGE_DEPLOYMENT` | updateDefaults         | Deployment name for text-embedding-3-large model (default: `text-embedding-3-large`)                         |
+| Setting                             | Required By                       | Description                                                                                                  |
+| ----------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `CONTENTUNDERSTANDING_ENDPOINT`     | **All samples**                   | Your Microsoft Foundry resource endpoint URL                                                                 |
+| `CONTENTUNDERSTANDING_KEY`          | All samples (optional)            | API key for key-based auth. If empty, `DefaultAzureCredential` is used (recommended -- run `az login` first) |
+| `CU_COMPLETION_MODEL`               | updateDefaults (optional)         | Completion model name (default: `gpt-5.2`)                                                                   |
+| `CU_COMPLETION_MODEL_MINI`          | updateDefaults (optional)         | Mini completion model name (default: `CU_COMPLETION_MODEL`)                                                  |
+| `CU_EMBEDDING_MODEL`                | updateDefaults (optional)         | Embedding model name (default: `text-embedding-3-large`)                                                     |
+| `CU_COMPLETION_MODEL_DEPLOYMENT`    | updateDefaults                    | Completion model deployment name (required)                                                                  |
+| `CU_COMPLETION_MINI_DEPLOYMENT`     | updateDefaults (optional)         | Mini completion deployment name (default: `CU_COMPLETION_MODEL_DEPLOYMENT`)                                  |
+| `CU_EMBEDDING_DEPLOYMENT`           | updateDefaults                    | Embedding model deployment name (required)                                                                   |
 
 | `CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID` | grantCopyAuth | Source ARM resource ID for cross-resource copy |
 | `CONTENTUNDERSTANDING_SOURCE_REGION` | grantCopyAuth | Source region (e.g., `eastus`) for cross-resource copy |

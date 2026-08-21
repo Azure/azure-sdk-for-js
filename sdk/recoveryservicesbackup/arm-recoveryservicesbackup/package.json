@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-recoveryservicesbackup",
-  "version": "14.0.0-beta.2",
+  "version": "14.0.0",
   "description": "A generated SDK for RecoveryServicesBackupClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,11 +46,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -97,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -143,46 +143,60 @@
         "default": "./dist/commonjs/api/operation/index.js"
       }
     },
-    "./api/privateEndpoint": {
+    "./api/privateEndpointOperations": {
       "browser": {
-        "types": "./dist/browser/api/privateEndpoint/index.d.ts",
-        "default": "./dist/browser/api/privateEndpoint/index.js"
+        "types": "./dist/browser/api/privateEndpointOperations/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/privateEndpoint/index.d.ts",
-        "default": "./dist/esm/api/privateEndpoint/index.js"
+        "types": "./dist/esm/api/privateEndpointOperations/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/privateEndpoint/index.d.ts",
-        "default": "./dist/commonjs/api/privateEndpoint/index.js"
+        "types": "./dist/commonjs/api/privateEndpointOperations/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointOperations/index.js"
       }
     },
-    "./api/privateEndpointConnection": {
+    "./api/privateEndpointConnectionOperations": {
       "browser": {
-        "types": "./dist/browser/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/browser/api/privateEndpointConnection/index.js"
+        "types": "./dist/browser/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnectionOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/esm/api/privateEndpointConnection/index.js"
+        "types": "./dist/esm/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnectionOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/privateEndpointConnection/index.d.ts",
-        "default": "./dist/commonjs/api/privateEndpointConnection/index.js"
+        "types": "./dist/commonjs/api/privateEndpointConnectionOperations/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnectionOperations/index.js"
       }
     },
-    "./api/protectionIntent": {
+    "./api/protectionIntentOperations": {
       "browser": {
-        "types": "./dist/browser/api/protectionIntent/index.d.ts",
-        "default": "./dist/browser/api/protectionIntent/index.js"
+        "types": "./dist/browser/api/protectionIntentOperations/index.d.ts",
+        "default": "./dist/browser/api/protectionIntentOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/protectionIntent/index.d.ts",
-        "default": "./dist/esm/api/protectionIntent/index.js"
+        "types": "./dist/esm/api/protectionIntentOperations/index.d.ts",
+        "default": "./dist/esm/api/protectionIntentOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/protectionIntent/index.d.ts",
-        "default": "./dist/commonjs/api/protectionIntent/index.js"
+        "types": "./dist/commonjs/api/protectionIntentOperations/index.d.ts",
+        "default": "./dist/commonjs/api/protectionIntentOperations/index.js"
+      }
+    },
+    "./api/bMSPrepareDataMoveOperationResult": {
+      "browser": {
+        "types": "./dist/browser/api/bMSPrepareDataMoveOperationResult/index.d.ts",
+        "default": "./dist/browser/api/bMSPrepareDataMoveOperationResult/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bMSPrepareDataMoveOperationResult/index.d.ts",
+        "default": "./dist/esm/api/bMSPrepareDataMoveOperationResult/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bMSPrepareDataMoveOperationResult/index.d.ts",
+        "default": "./dist/commonjs/api/bMSPrepareDataMoveOperationResult/index.js"
       }
     },
     "./api/tieringCostOperationStatus": {
@@ -759,6 +773,20 @@
         "default": "./dist/commonjs/api/recoveryPointsRecommendedForMove/index.js"
       }
     },
+    "./api/configureSourceScan": {
+      "browser": {
+        "types": "./dist/browser/api/configureSourceScan/index.d.ts",
+        "default": "./dist/browser/api/configureSourceScan/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/configureSourceScan/index.d.ts",
+        "default": "./dist/esm/api/configureSourceScan/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/configureSourceScan/index.d.ts",
+        "default": "./dist/commonjs/api/configureSourceScan/index.js"
+      }
+    },
     "./api/backups": {
       "browser": {
         "types": "./dist/browser/api/backups/index.d.ts",
@@ -813,20 +841,6 @@
       "require": {
         "types": "./dist/commonjs/api/backupResourceVaultConfigs/index.d.ts",
         "default": "./dist/commonjs/api/backupResourceVaultConfigs/index.js"
-      }
-    },
-    "./api/bmsPrepareDataMoveOperationResult": {
-      "browser": {
-        "types": "./dist/browser/api/bmsPrepareDataMoveOperationResult/index.d.ts",
-        "default": "./dist/browser/api/bmsPrepareDataMoveOperationResult/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/bmsPrepareDataMoveOperationResult/index.d.ts",
-        "default": "./dist/esm/api/bmsPrepareDataMoveOperationResult/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/bmsPrepareDataMoveOperationResult/index.d.ts",
-        "default": "./dist/commonjs/api/bmsPrepareDataMoveOperationResult/index.js"
       }
     },
     "./api/backupResourceStorageConfigsNonCRR": {

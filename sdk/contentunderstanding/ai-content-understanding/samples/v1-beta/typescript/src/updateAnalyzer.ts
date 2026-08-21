@@ -7,9 +7,11 @@
  * This sample demonstrates how to update an existing custom analyzer, including updating
  * its description and tags.
  *
- * The updateAnalyzer method allows you to modify certain properties of an existing analyzer:
- * - Description: Update the analyzer's description
- * - Tags: Add or update tags
+ * ## About updating analyzers
+ *
+ * The `updateAnalyzer` method allows you to modify certain properties of an existing analyzer. The following properties can be updated:
+ * - **Description**: Update the analyzer's description
+ * - **Tags**: Add or update tags
  *
  * Note: Not all analyzer properties can be updated. Field schemas, models, and configuration
  * typically cannot be changed after creation. To change these, you may need to delete and
@@ -63,7 +65,7 @@ export async function main(): Promise<void> {
         },
       },
     } as ContentFieldSchema,
-    models: { completion: "gpt-4.1" },
+    models: { completion: "gpt-5.2" },
     tags: { tag1: "tag1_initial_value" },
   } as unknown as ContentAnalyzer;
 
