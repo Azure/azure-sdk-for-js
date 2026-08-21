@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -254,6 +254,7 @@ export function batchAccountPropertiesDeserializer(item: any): BatchAccountPrope
 /** The provisioned state of the resource */
 export type ProvisioningState =
   "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
+
 /** The allocation mode for creating pools in the Batch account. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 
@@ -673,8 +674,8 @@ export interface UserAssignedIdentities {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesSerializer(item: UserAssignedIdentities): any {
-  return item;
+export function userAssignedIdentitiesSerializer(_item: UserAssignedIdentities): any {
+  return {};
 }
 
 export function userAssignedIdentitiesDeserializer(item: any): UserAssignedIdentities {
@@ -687,8 +688,8 @@ export function userAssignedIdentitiesDeserializer(item: any): UserAssignedIdent
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -714,8 +715,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1324,8 +1325,8 @@ export interface ApplicationPackageProperties {
   readonly lastActivationTime?: Date;
 }
 
-export function applicationPackagePropertiesSerializer(item: ApplicationPackageProperties): any {
-  return item;
+export function applicationPackagePropertiesSerializer(_item: ApplicationPackageProperties): any {
+  return {};
 }
 
 export function applicationPackagePropertiesDeserializer(item: any): ApplicationPackageProperties {
@@ -1826,6 +1827,7 @@ export function poolPropertiesDeserializer(item: any): PoolProperties {
 
 /** The current state of the pool. */
 export type PoolProvisioningState = "Succeeded" | "Deleting";
+
 /** Whether the pool is resizing. */
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
@@ -3067,6 +3069,7 @@ export enum KnownJobDefaultOrder {
  * **CreationTime**: If jobs have equal priority, tasks from jobs that were created earlier should be scheduled first.
  */
 export type JobDefaultOrder = string;
+
 /** How tasks should be distributed across compute nodes. */
 export type ComputeNodeFillType = "Spread" | "Pack";
 
@@ -3983,11 +3986,15 @@ export function networkSecurityPerimeterConfigurationDeserializer(
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Provisioning state of the network security perimeter configuration */
   readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of provisioning issues, if any */
   readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about the network security perimeter (NSP) */
   networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about the resource association */
   resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
   profile?: NetworkSecurityProfile;
 }
 
@@ -4013,19 +4020,19 @@ export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
 
 /** Provisioning state of a network security perimeter configuration that is being created or updated. */
 export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
-  /** Succeeded */
+  /** The configuration was provisioned successfully. */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** The configuration is being created. */
   Creating = "Creating",
-  /** Updating */
+  /** The configuration is being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** The configuration is being deleted. */
   Deleting = "Deleting",
-  /** Accepted */
+  /** The configuration request was accepted and provisioning has not started yet. */
   Accepted = "Accepted",
-  /** Failed */
+  /** The configuration failed to provision. */
   Failed = "Failed",
-  /** Canceled */
+  /** The configuration provisioning was canceled. */
   Canceled = "Canceled",
 }
 
@@ -4034,13 +4041,13 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
  * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Accepted** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: The configuration was provisioned successfully. \
+ * **Creating**: The configuration is being created. \
+ * **Updating**: The configuration is being updated. \
+ * **Deleting**: The configuration is being deleted. \
+ * **Accepted**: The configuration request was accepted and provisioning has not started yet. \
+ * **Failed**: The configuration failed to provision. \
+ * **Canceled**: The configuration provisioning was canceled.
  */
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
@@ -4054,6 +4061,7 @@ export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIss
 export interface ProvisioningIssue {
   /** Name of the issue */
   readonly name?: string;
+  /** Details of the provisioning issue */
   readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -4122,9 +4130,9 @@ export type IssueType = string;
 
 /** Severity of the issue. */
 export enum KnownSeverity {
-  /** Warning */
+  /** The issue is a warning and does not prevent the configuration from being applied. */
   Warning = "Warning",
-  /** Error */
+  /** The issue is an error and prevents the configuration from being applied. */
   Error = "Error",
 }
 
@@ -4133,8 +4141,8 @@ export enum KnownSeverity {
  * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Warning** \
- * **Error**
+ * **Warning**: The issue is a warning and does not prevent the configuration from being applied. \
+ * **Error**: The issue is an error and prevents the configuration from being applied.
  */
 export type Severity = string;
 
@@ -4148,6 +4156,7 @@ export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
 export interface AccessRule {
   /** Name of the access rule */
   name?: string;
+  /** Properties of the access rule */
   properties?: AccessRuleProperties;
 }
 
@@ -4162,6 +4171,7 @@ export function accessRuleDeserializer(item: any): AccessRule {
 
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
+  /** Direction of the access rule */
   direction?: AccessRuleDirection;
   /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
@@ -4279,6 +4289,7 @@ export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurity
 export interface ResourceAssociation {
   /** Name of the resource association */
   name?: string;
+  /** Access mode of the resource association */
   accessMode?: ResourceAssociationAccessMode;
 }
 

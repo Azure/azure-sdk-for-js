@@ -139,7 +139,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/typescript/src/privateEndpointConnectionUpdateSample.ts
 [privatelinkresourcegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/typescript/src/privateLinkResourceGetSample.ts
 [privatelinkresourcelistbybatchaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/arm-batch/samples/v11/typescript/src/privateLinkResourceListByBatchAccountSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-batch?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-batch
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/arm-batch/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
