@@ -24,14 +24,7 @@ export class CompanionAPIClient {
     subscriptionId: string,
     options: CompanionAPIClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCompanionAPI(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCompanionAPI(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.saaSOperationGroup = _getSaaSOperationGroupOperations(this._client);
     this.organizations = _getOrganizationsOperations(this._client);

@@ -82,7 +82,6 @@ export interface OrganizationsOperations {
     options?: OrganizationsGetOptionalParams,
   ) => Promise<OrganizationResource>;
 }
-
 function _getOrganizations(context: CompanionAPIContext) {
   return {
     latestLinkedSaaS: (
@@ -126,7 +125,6 @@ function _getOrganizations(context: CompanionAPIContext) {
     ) => get(context, resourceGroupName, organizationname, options),
   };
 }
-
 export function _getOrganizationsOperations(context: CompanionAPIContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
