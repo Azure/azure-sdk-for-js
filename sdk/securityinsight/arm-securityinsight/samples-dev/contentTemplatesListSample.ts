@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * Expandable properties:
  * - properties/mainTemplate
  * - properties/dependantTemplates
- * x-ms-original-file: 2025-07-01-preview/contentTemplates/GetTemplates.json
+ * x-ms-original-file: 2025-10-01-preview/contentTemplates/GetTemplates.json
  */
 async function getAllInstalledTemplates(): Promise<void> {
   const credential = new DefaultAzureCredential();

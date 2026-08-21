@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all source controls, without source control items.
  *
  * @summary gets all source controls, without source control items.
- * x-ms-original-file: 2025-07-01-preview/sourcecontrols/GetSourceControls.json
+ * x-ms-original-file: 2025-10-01-preview/sourcecontrols/GetSourceControls.json
  */
 async function getAllSourceControls(): Promise<void> {
   const credential = new DefaultAzureCredential();

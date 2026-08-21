@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to query threat intelligence indicators as per filtering criteria.
  *
  * @summary query threat intelligence indicators as per filtering criteria.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/QueryThreatIntelligence.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/QueryThreatIntelligence.json
  */
 async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria(): Promise<void> {
   const credential = new DefaultAzureCredential();

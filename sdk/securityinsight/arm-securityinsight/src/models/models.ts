@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** IP address (v4 or v6) to be enriched */
 export interface EnrichmentIpAddressBody {
   /** The dotted-decimal or colon-separated string representation of the IP address */
@@ -2401,7 +2401,7 @@ export interface _AlertRulesList {
   /** The AlertRule items on this page */
   value: AlertRuleUnion[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _alertRulesListDeserializer(item: any): _AlertRulesList {
@@ -3366,7 +3366,7 @@ export interface _AlertRuleTemplatesList {
   /** The AlertRuleTemplate items on this page */
   value: AlertRuleTemplateUnion[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _alertRuleTemplatesListDeserializer(item: any): _AlertRuleTemplatesList {
@@ -4735,17 +4735,17 @@ export function clientInfoDeserializer(item: any): ClientInfo {
   };
 }
 
-/** Paged collection of AutomationRule items */
+/** model interface _AutomationRulesList */
 export interface _AutomationRulesList {
-  /** The AutomationRule items on this page */
-  value: AutomationRule[];
+  /** List of automation rules. */
+  value?: AutomationRule[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
 export function _automationRulesListDeserializer(item: any): _AutomationRulesList {
   return {
-    value: automationRuleArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : automationRuleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -5036,7 +5036,7 @@ export interface _IncidentList {
   /** The Incident items on this page */
   value: Incident[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _incidentListDeserializer(item: any): _IncidentList {
@@ -7021,8 +7021,10 @@ export enum KnownAntispamMailDirection {
  * **Intraorg**: Intraorg
  */
 export type AntispamMailDirection = string;
+
 /** The delivery action of this mail message like Delivered, Blocked, Replaced etc */
 export type DeliveryAction = "Unknown" | "DeliveredAsSpam" | "Delivered" | "Blocked" | "Replaced";
+
 /** The delivery location of this mail message like Inbox, JunkFolder etc */
 export type DeliveryLocation =
   | "Unknown"
@@ -7975,7 +7977,7 @@ export interface _BookmarkList {
   /** The Bookmark items on this page */
   value: Bookmark[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _bookmarkListDeserializer(item: any): _BookmarkList {
@@ -8699,8 +8701,8 @@ export function customizableConnectionsConfigDeserializer(
 
 /** Encapsulate the data connector definition object */
 export interface _DataConnectorDefinitionArmCollectionWrapper {
-  /** The DataConnectorDefinition items on this page */
-  value: DataConnectorDefinitionUnion[];
+  /** List of data connector definitions. */
+  value?: DataConnectorDefinitionUnion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -8709,7 +8711,9 @@ export function _dataConnectorDefinitionArmCollectionWrapperDeserializer(
   item: any,
 ): _DataConnectorDefinitionArmCollectionWrapper {
   return {
-    value: dataConnectorDefinitionUnionArrayDeserializer(item["value"]),
+    value: !item["value"]
+      ? item["value"]
+      : dataConnectorDefinitionUnionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -13469,7 +13473,7 @@ export interface _DataConnectorList {
   /** The DataConnector items on this page */
   value: DataConnectorUnion[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _dataConnectorListDeserializer(item: any): _DataConnectorList {
@@ -13629,7 +13633,7 @@ export interface _IncidentCommentList {
   /** The IncidentComment items on this page */
   value: IncidentComment[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _incidentCommentListDeserializer(item: any): _IncidentCommentList {
@@ -13846,15 +13850,15 @@ export type IncidentTaskStatus = string;
 
 /** List of incident tasks */
 export interface _IncidentTaskList {
-  /** The IncidentTask items on this page */
-  value: IncidentTask[];
+  /** List of incident tasks. */
+  value?: IncidentTask[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
 export function _incidentTaskListDeserializer(item: any): _IncidentTaskList {
   return {
-    value: incidentTaskArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : incidentTaskArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -14270,7 +14274,7 @@ export interface _SecurityMLAnalyticsSettingsList {
   /** The SecurityMLAnalyticsSetting items on this page */
   value: SecurityMLAnalyticsSettingUnion[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _securityMLAnalyticsSettingsListDeserializer(
@@ -14832,7 +14836,7 @@ export interface PullRequest {
   /** URL of pull request */
   readonly url?: string;
   /** State of the pull request */
-  readonly state?: State;
+  readonly state?: PullRequestState;
 }
 
 export function pullRequestDeserializer(item: any): PullRequest {
@@ -14842,39 +14846,30 @@ export function pullRequestDeserializer(item: any): PullRequest {
   };
 }
 
-/** State of recommendation. */
-export enum KnownState {
-  /** Recommendation is active. */
-  Active = "Active",
-  /** Recommendation is in progress. */
-  InProgress = "InProgress",
-  /** Recommendation has been dismissed. */
-  Dismissed = "Dismissed",
-  /** Recommendation has been completed by user. */
-  CompletedByUser = "CompletedByUser",
-  /** Recommendation has been completed by the system. */
-  CompletedBySystem = "CompletedBySystem",
+/** Status of the pull request. */
+export enum KnownPullRequestState {
+  /** Open */
+  Open = "Open",
+  /** Closed */
+  Closed = "Closed",
 }
 
 /**
- * State of recommendation. \
- * {@link KnownState} can be used interchangeably with State,
+ * Status of the pull request. \
+ * {@link KnownPullRequestState} can be used interchangeably with PullRequestState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: Recommendation is active. \
- * **InProgress**: Recommendation is in progress. \
- * **Dismissed**: Recommendation has been dismissed. \
- * **CompletedByUser**: Recommendation has been completed by user. \
- * **CompletedBySystem**: Recommendation has been completed by the system.
+ * **Open**: Open \
+ * **Closed**: Closed
  */
-export type State = string;
+export type PullRequestState = string;
 
 /** List all the source controls. */
 export interface _SourceControlList {
   /** The SourceControl items on this page */
   value: SourceControl[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _sourceControlListDeserializer(item: any): _SourceControlList {
@@ -15035,7 +15030,7 @@ export interface Watchlist extends ProxyResource {
   /** The status of the Watchlist upload : New, InProgress or Complete. **Note** : When a Watchlist upload status is InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
   /** Describes provisioning state */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: WatchlistProvisioningState;
 }
 
 export function watchlistSerializer(item: Watchlist): any {
@@ -15129,7 +15124,7 @@ export interface WatchlistProperties {
   /** The status of the Watchlist upload : New, InProgress or Complete. **Note** : When a Watchlist upload status is InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
   /** Describes provisioning state */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: WatchlistProvisioningState;
 }
 
 export function watchlistPropertiesSerializer(item: WatchlistProperties): any {
@@ -15211,12 +15206,16 @@ export enum KnownSourceType {
  */
 export type SourceType = string;
 
-/** The triggered analytics rule run provisioning state */
-export enum KnownProvisioningState {
-  /** Accepted */
-  Accepted = "Accepted",
+/** The provisioning state of the watchlist */
+export enum KnownWatchlistProvisioningState {
+  /** New */
+  New = "New",
   /** InProgress */
   InProgress = "InProgress",
+  /** Uploading */
+  Uploading = "Uploading",
+  /** Deleting */
+  Deleting = "Deleting",
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
@@ -15226,17 +15225,19 @@ export enum KnownProvisioningState {
 }
 
 /**
- * The triggered analytics rule run provisioning state \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ * The provisioning state of the watchlist \
+ * {@link KnownWatchlistProvisioningState} can be used interchangeably with WatchlistProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accepted**: Accepted \
+ * **New**: New \
  * **InProgress**: InProgress \
+ * **Uploading**: Uploading \
+ * **Deleting**: Deleting \
  * **Succeeded**: Succeeded \
  * **Failed**: Failed \
  * **Canceled**: Canceled
  */
-export type ProvisioningState = string;
+export type WatchlistProvisioningState = string;
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
 export interface ErrorResponse {
@@ -15308,7 +15309,7 @@ export interface _WatchlistList {
   /** The Watchlist items on this page */
   value: Watchlist[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _watchlistListDeserializer(item: any): _WatchlistList {
@@ -15450,7 +15451,7 @@ export interface _WatchlistItemList {
   /** The WatchlistItem items on this page */
   value: WatchlistItem[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _watchlistItemListDeserializer(item: any): _WatchlistItemList {
@@ -18206,6 +18207,33 @@ export function triggeredAnalyticsRuleRunPropertiesDeserializer(
   };
 }
 
+/** The triggered analytics rule run provisioning state */
+export enum KnownProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The triggered analytics rule run provisioning state \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: Accepted \
+ * **InProgress**: InProgress \
+ * **Succeeded**: Succeeded \
+ * **Failed**: Failed \
+ * **Canceled**: Canceled
+ */
+export type ProvisioningState = string;
+
 /** The workspace manager assignment */
 export interface WorkspaceManagerAssignment extends ProxyResource {
   /** Resource Etag. */
@@ -18215,7 +18243,7 @@ export interface WorkspaceManagerAssignment extends ProxyResource {
   /** The time the last job associated to this assignment ended at */
   readonly lastJobEndTime?: Date;
   /** State of the last job associated to this assignment */
-  readonly lastJobProvisioningState?: ProvisioningState;
+  readonly lastJobProvisioningState?: JobProvisioningState;
   /** List of resources included in this workspace manager assignment */
   items?: AssignmentItem[];
 }
@@ -18250,7 +18278,7 @@ export interface WorkspaceManagerAssignmentProperties {
   /** The time the last job associated to this assignment ended at */
   readonly lastJobEndTime?: Date;
   /** State of the last job associated to this assignment */
-  readonly lastJobProvisioningState?: ProvisioningState;
+  readonly lastJobProvisioningState?: JobProvisioningState;
   /** List of resources included in this workspace manager assignment */
   items: AssignmentItem[];
 }
@@ -18276,6 +18304,30 @@ export function workspaceManagerAssignmentPropertiesDeserializer(
     items: assignmentItemArrayDeserializer(item["items"]),
   };
 }
+
+/** The provisioning state of the workspace manager job */
+export enum KnownJobProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * The provisioning state of the workspace manager job \
+ * {@link KnownJobProvisioningState} can be used interchangeably with JobProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Succeeded \
+ * **InProgress**: InProgress \
+ * **Canceled**: Canceled \
+ * **Failed**: Failed
+ */
+export type JobProvisioningState = string;
 
 export function assignmentItemArraySerializer(result: Array<AssignmentItem>): any[] {
   return result.map((item) => {
@@ -18736,7 +18788,7 @@ export interface _ActionsList {
   /** The ActionResponse items on this page */
   value: ActionResponse[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _actionsListDeserializer(item: any): _ActionsList {
@@ -19329,7 +19381,7 @@ export interface MetadataDependencies {
   /** Name of the content item */
   name?: string;
   /** Operator used for list of dependencies in criteria array. */
-  operator?: Operator;
+  operator?: MetadataDependencyOperator;
   /** This is the list of dependencies we must fulfill, according to the AND/OR operator */
   criteria?: MetadataDependencies[];
 }
@@ -19438,95 +19490,23 @@ export enum KnownKind {
  */
 export type Kind = string;
 
-/** Represents an operator in a ConditionClause. */
-export enum KnownOperator {
-  /** Equals */
-  Equals = "Equals",
-  /** NotEquals */
-  NotEquals = "NotEquals",
-  /** LessThan */
-  LessThan = "LessThan",
-  /** LessThanEqual */
-  LessThanEqual = "LessThanEqual",
-  /** GreaterThan */
-  GreaterThan = "GreaterThan",
-  /** GreaterThanEqual */
-  GreaterThanEqual = "GreaterThanEqual",
-  /** StringContains */
-  StringContains = "StringContains",
-  /** StringNotContains */
-  StringNotContains = "StringNotContains",
-  /** StringStartsWith */
-  StringStartsWith = "StringStartsWith",
-  /** StringNotStartsWith */
-  StringNotStartsWith = "StringNotStartsWith",
-  /** StringEndsWith */
-  StringEndsWith = "StringEndsWith",
-  /** StringNotEndsWith */
-  StringNotEndsWith = "StringNotEndsWith",
-  /** StringIsEmpty */
-  StringIsEmpty = "StringIsEmpty",
-  /** IsNull */
-  IsNull = "IsNull",
-  /** IsTrue */
-  IsTrue = "IsTrue",
-  /** IsFalse */
-  IsFalse = "IsFalse",
-  /** ArrayContains */
-  ArrayContains = "ArrayContains",
-  /** ArrayNotContains */
-  ArrayNotContains = "ArrayNotContains",
-  /** OnOrAfterRelative */
-  OnOrAfterRelative = "OnOrAfterRelative",
-  /** AfterRelative */
-  AfterRelative = "AfterRelative",
-  /** OnOrBeforeRelative */
-  OnOrBeforeRelative = "OnOrBeforeRelative",
-  /** BeforeRelative */
-  BeforeRelative = "BeforeRelative",
-  /** OnOrAfterAbsolute */
-  OnOrAfterAbsolute = "OnOrAfterAbsolute",
-  /** AfterAbsolute */
-  AfterAbsolute = "AfterAbsolute",
-  /** OnOrBeforeAbsolute */
-  OnOrBeforeAbsolute = "OnOrBeforeAbsolute",
-  /** BeforeAbsolute */
-  BeforeAbsolute = "BeforeAbsolute",
+/** Operator used for list of dependencies in criteria array. */
+export enum KnownMetadataDependencyOperator {
+  /** AND */
+  AND = "AND",
+  /** OR */
+  OR = "OR",
 }
 
 /**
- * Represents an operator in a ConditionClause. \
- * {@link KnownOperator} can be used interchangeably with Operator,
+ * Operator used for list of dependencies in criteria array. \
+ * {@link KnownMetadataDependencyOperator} can be used interchangeably with MetadataDependencyOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Equals**: Equals \
- * **NotEquals**: NotEquals \
- * **LessThan**: LessThan \
- * **LessThanEqual**: LessThanEqual \
- * **GreaterThan**: GreaterThan \
- * **GreaterThanEqual**: GreaterThanEqual \
- * **StringContains**: StringContains \
- * **StringNotContains**: StringNotContains \
- * **StringStartsWith**: StringStartsWith \
- * **StringNotStartsWith**: StringNotStartsWith \
- * **StringEndsWith**: StringEndsWith \
- * **StringNotEndsWith**: StringNotEndsWith \
- * **StringIsEmpty**: StringIsEmpty \
- * **IsNull**: IsNull \
- * **IsTrue**: IsTrue \
- * **IsFalse**: IsFalse \
- * **ArrayContains**: ArrayContains \
- * **ArrayNotContains**: ArrayNotContains \
- * **OnOrAfterRelative**: OnOrAfterRelative \
- * **AfterRelative**: AfterRelative \
- * **OnOrBeforeRelative**: OnOrBeforeRelative \
- * **BeforeRelative**: BeforeRelative \
- * **OnOrAfterAbsolute**: OnOrAfterAbsolute \
- * **AfterAbsolute**: AfterAbsolute \
- * **OnOrBeforeAbsolute**: OnOrBeforeAbsolute \
- * **BeforeAbsolute**: BeforeAbsolute
+ * **AND**: AND \
+ * **OR**: OR
  */
-export type Operator = string;
+export type MetadataDependencyOperator = string;
 
 export function metadataDependenciesArraySerializer(result: Array<MetadataDependencies>): any[] {
   return result.map((item) => {
@@ -19583,7 +19563,7 @@ export interface _PackageList {
   /** The PackageModel items on this page */
   value: PackageModel[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _packageListDeserializer(item: any): _PackageList {
@@ -19790,7 +19770,7 @@ export interface _ProductPackageList {
   /** The ProductPackageModel items on this page */
   value: ProductPackageModel[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _productPackageListDeserializer(item: any): _ProductPackageList {
@@ -19999,7 +19979,7 @@ export interface _ProductTemplateList {
   /** The ProductTemplateModel items on this page */
   value: ProductTemplateModel[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _productTemplateListDeserializer(item: any): _ProductTemplateList {
@@ -20320,7 +20300,7 @@ export interface _TemplateList {
   /** The TemplateModel items on this page */
   value: TemplateModel[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _templateListDeserializer(item: any): _TemplateList {
@@ -20746,7 +20726,7 @@ export interface _MetadataList {
   /** The MetadataModel items on this page */
   value: MetadataModel[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _metadataListDeserializer(item: any): _MetadataList {
@@ -21529,7 +21509,7 @@ export interface _ThreatIntelligenceInformationList {
   /** The ThreatIntelligenceInformation items on this page */
   value: ThreatIntelligenceInformationUnion[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _threatIntelligenceInformationListDeserializer(
@@ -22196,7 +22176,7 @@ export interface _RepoList {
   /** The Repo items on this page */
   value: Repo[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 export function _repoListDeserializer(item: any): _RepoList {
@@ -22412,6 +22392,96 @@ export enum KnownConnective {
  * **Or**: 'Or' connective
  */
 export type Connective = string;
+
+/** Represents an operator in a ConditionClause. */
+export enum KnownOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** NotEquals */
+  NotEquals = "NotEquals",
+  /** LessThan */
+  LessThan = "LessThan",
+  /** LessThanEqual */
+  LessThanEqual = "LessThanEqual",
+  /** GreaterThan */
+  GreaterThan = "GreaterThan",
+  /** GreaterThanEqual */
+  GreaterThanEqual = "GreaterThanEqual",
+  /** StringContains */
+  StringContains = "StringContains",
+  /** StringNotContains */
+  StringNotContains = "StringNotContains",
+  /** StringStartsWith */
+  StringStartsWith = "StringStartsWith",
+  /** StringNotStartsWith */
+  StringNotStartsWith = "StringNotStartsWith",
+  /** StringEndsWith */
+  StringEndsWith = "StringEndsWith",
+  /** StringNotEndsWith */
+  StringNotEndsWith = "StringNotEndsWith",
+  /** StringIsEmpty */
+  StringIsEmpty = "StringIsEmpty",
+  /** IsNull */
+  IsNull = "IsNull",
+  /** IsTrue */
+  IsTrue = "IsTrue",
+  /** IsFalse */
+  IsFalse = "IsFalse",
+  /** ArrayContains */
+  ArrayContains = "ArrayContains",
+  /** ArrayNotContains */
+  ArrayNotContains = "ArrayNotContains",
+  /** OnOrAfterRelative */
+  OnOrAfterRelative = "OnOrAfterRelative",
+  /** AfterRelative */
+  AfterRelative = "AfterRelative",
+  /** OnOrBeforeRelative */
+  OnOrBeforeRelative = "OnOrBeforeRelative",
+  /** BeforeRelative */
+  BeforeRelative = "BeforeRelative",
+  /** OnOrAfterAbsolute */
+  OnOrAfterAbsolute = "OnOrAfterAbsolute",
+  /** AfterAbsolute */
+  AfterAbsolute = "AfterAbsolute",
+  /** OnOrBeforeAbsolute */
+  OnOrBeforeAbsolute = "OnOrBeforeAbsolute",
+  /** BeforeAbsolute */
+  BeforeAbsolute = "BeforeAbsolute",
+}
+
+/**
+ * Represents an operator in a ConditionClause. \
+ * {@link KnownOperator} can be used interchangeably with Operator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Equals \
+ * **NotEquals**: NotEquals \
+ * **LessThan**: LessThan \
+ * **LessThanEqual**: LessThanEqual \
+ * **GreaterThan**: GreaterThan \
+ * **GreaterThanEqual**: GreaterThanEqual \
+ * **StringContains**: StringContains \
+ * **StringNotContains**: StringNotContains \
+ * **StringStartsWith**: StringStartsWith \
+ * **StringNotStartsWith**: StringNotStartsWith \
+ * **StringEndsWith**: StringEndsWith \
+ * **StringNotEndsWith**: StringNotEndsWith \
+ * **StringIsEmpty**: StringIsEmpty \
+ * **IsNull**: IsNull \
+ * **IsTrue**: IsTrue \
+ * **IsFalse**: IsFalse \
+ * **ArrayContains**: ArrayContains \
+ * **ArrayNotContains**: ArrayNotContains \
+ * **OnOrAfterRelative**: OnOrAfterRelative \
+ * **AfterRelative**: AfterRelative \
+ * **OnOrBeforeRelative**: OnOrBeforeRelative \
+ * **BeforeRelative**: BeforeRelative \
+ * **OnOrAfterAbsolute**: OnOrAfterAbsolute \
+ * **AfterAbsolute**: AfterAbsolute \
+ * **OnOrBeforeAbsolute**: OnOrBeforeAbsolute \
+ * **BeforeAbsolute**: BeforeAbsolute
+ */
+export type Operator = string;
 
 /** Count of all the threat intelligence objects on the workspace that match the provided query. */
 export interface ThreatIntelligenceCount {
@@ -23249,6 +23319,33 @@ export function recommendationPropertiesDeserializer(item: any): RecommendationP
   };
 }
 
+/** State of recommendation. */
+export enum KnownState {
+  /** Recommendation is active. */
+  Active = "Active",
+  /** Recommendation is in progress. */
+  InProgress = "InProgress",
+  /** Recommendation has been dismissed. */
+  Dismissed = "Dismissed",
+  /** Recommendation has been completed by user. */
+  CompletedByUser = "CompletedByUser",
+  /** Recommendation has been completed by the system. */
+  CompletedBySystem = "CompletedBySystem",
+}
+
+/**
+ * State of recommendation. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Recommendation is active. \
+ * **InProgress**: Recommendation is in progress. \
+ * **Dismissed**: Recommendation has been dismissed. \
+ * **CompletedByUser**: Recommendation has been completed by user. \
+ * **CompletedBySystem**: Recommendation has been completed by the system.
+ */
+export type State = string;
+
 export function recommendedSuggestionArrayDeserializer(
   result: Array<RecommendedSuggestion>,
 ): any[] {
@@ -23376,7 +23473,7 @@ export interface Job extends ProxyResource {
   /** List of items published by the job */
   items?: JobItem[];
   /** State of the job */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: JobProvisioningState;
   /** The time the job started */
   readonly startTime?: Date;
   /** Message to describe error, if an error exists */
@@ -23403,7 +23500,7 @@ export interface JobProperties {
   /** List of items published by the job */
   items?: JobItem[];
   /** State of the job */
-  readonly provisioningState?: ProvisioningState;
+  readonly provisioningState?: JobProvisioningState;
   /** The time the job started */
   readonly startTime?: Date;
   /** Message to describe error, if an error exists */
@@ -23518,8 +23615,10 @@ export type TiType = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-07-01-preview API version. */
-  V20250701Preview = "2025-07-01-preview",
+  /** The 2025-09-01 API version. */
+  V20250901 = "2025-09-01",
+  /** The 2025-10-01-preview API version. */
+  V20251001Preview = "2025-10-01-preview",
 }
 
 export function _mlBehaviorAnalyticsAlertRulePropertiesSerializer(

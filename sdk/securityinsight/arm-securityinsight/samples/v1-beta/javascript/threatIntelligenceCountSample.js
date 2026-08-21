@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the count of all TI objects for the workspace.
  *
  * @summary gets the count of all TI objects for the workspace.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/PostThreatIntelligenceCount.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/PostThreatIntelligenceCount.json
  */
 async function getTIObjectCount() {
   const credential = new DefaultAzureCredential();

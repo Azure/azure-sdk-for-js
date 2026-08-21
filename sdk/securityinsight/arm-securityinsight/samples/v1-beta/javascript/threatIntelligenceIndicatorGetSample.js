@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to view a threat intelligence indicator by name.
  *
  * @summary view a threat intelligence indicator by name.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/GetThreatIntelligenceById.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/GetThreatIntelligenceById.json
  */
 async function viewAThreatIntelligenceIndicatorByName() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers playbook on a specific entity.
  *
  * @summary triggers playbook on a specific entity.
- * x-ms-original-file: 2025-07-01-preview/manualTrigger/Entities_RunPlaybook.json
+ * x-ms-original-file: 2025-10-01-preview/manualTrigger/Entities_RunPlaybook.json
  */
 async function entitiesRunPlaybook(): Promise<void> {
   const credential = new DefaultAzureCredential();

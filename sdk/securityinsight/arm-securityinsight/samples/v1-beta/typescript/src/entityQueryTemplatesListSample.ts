@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all entity query templates.
  *
  * @summary gets all entity query templates.
- * x-ms-original-file: 2025-07-01-preview/entityQueryTemplates/GetEntityQueryTemplates.json
+ * x-ms-original-file: 2025-10-01-preview/entityQueryTemplates/GetEntityQueryTemplates.json
  */
 async function getAllEntityQueryTemplates(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a recommendation by its id.
  *
  * @summary gets a recommendation by its id.
- * x-ms-original-file: 2025-07-01-preview/recommendations/GetRecommendation.json
+ * x-ms-original-file: 2025-10-01-preview/recommendations/GetRecommendation.json
  */
 async function getARecommendation(): Promise<void> {
   const credential = new DefaultAzureCredential();
