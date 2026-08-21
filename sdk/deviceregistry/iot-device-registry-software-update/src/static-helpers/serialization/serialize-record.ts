@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export function serializeRecord(
-  item: any,
+  item: Record<string, any>,
   excludes?: string[],
   serializer?: (item: any) => any,
 ): Record<string, any> {
