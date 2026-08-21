@@ -33,7 +33,7 @@ export function _cancelSend(
       serverName: serverName,
       elasticPoolName: elasticPoolName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Cancels the asynchronous operation on the elastic pool. */
 export async function cancel(
   context: Client,
@@ -90,7 +89,7 @@ export function _listByElasticPoolSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       elasticPoolName: elasticPoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +116,6 @@ export async function _listByElasticPoolDeserialize(
 
   return _elasticPoolOperationListResultDeserializer(result.body);
 }
-
 /** Gets a list of operations performed on the elastic pool. */
 export function listByElasticPool(
   context: Client,
@@ -131,6 +129,10 @@ export function listByElasticPool(
     () => _listByElasticPoolSend(context, resourceGroupName, serverName, elasticPoolName, options),
     _listByElasticPoolDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }

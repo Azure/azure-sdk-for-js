@@ -40,7 +40,6 @@ export interface ExtendedDatabaseBlobAuditingPoliciesOperations {
     options?: ExtendedDatabaseBlobAuditingPoliciesGetOptionalParams,
   ) => Promise<ExtendedDatabaseBlobAuditingPolicy>;
 }
-
 function _getExtendedDatabaseBlobAuditingPolicies(context: SqlManagementContext) {
   return {
     listByDatabase: (
@@ -64,7 +63,6 @@ function _getExtendedDatabaseBlobAuditingPolicies(context: SqlManagementContext)
     ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
-
 export function _getExtendedDatabaseBlobAuditingPoliciesOperations(
   context: SqlManagementContext,
 ): ExtendedDatabaseBlobAuditingPoliciesOperations {

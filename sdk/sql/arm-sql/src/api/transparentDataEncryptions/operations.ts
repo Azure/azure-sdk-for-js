@@ -44,7 +44,7 @@ export function _suspendSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,6 @@ export async function _suspendDeserialize(
 
   return logicalDatabaseTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Suspend ongoing logical database's Transparent Data Encryption scan configuration. */
 export function suspend(
   context: Client,
@@ -90,7 +89,7 @@ export function suspend(
     getInitialResponse: () =>
       _suspendSend(context, resourceGroupName, serverName, databaseName, tdeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -113,7 +112,7 @@ export function _resumeSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +139,6 @@ export async function _resumeDeserialize(
 
   return logicalDatabaseTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Resume ongoing logical database's Transparent Data Encryption scan configuration. */
 export function resume(
   context: Client,
@@ -159,7 +157,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, serverName, databaseName, tdeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -180,7 +178,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,7 +205,6 @@ export async function _listByDatabaseDeserialize(
 
   return _logicalDatabaseTransparentDataEncryptionListResultDeserializer(result.body);
 }
-
 /** Gets a list of the logical database's transparent data encryption. */
 export function listByDatabase(
   context: Client,
@@ -221,7 +218,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -242,7 +243,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +272,6 @@ export async function _createOrUpdateDeserialize(
 
   return logicalDatabaseTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Updates a logical database's transparent data encryption configuration. */
 export function createOrUpdate(
   context: Client,
@@ -299,7 +299,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LogicalDatabaseTransparentDataEncryption>,
     LogicalDatabaseTransparentDataEncryption
@@ -322,7 +322,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       tdeName: tdeName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,7 +349,6 @@ export async function _getDeserialize(
 
   return logicalDatabaseTransparentDataEncryptionDeserializer(result.body);
 }
-
 /** Gets a logical database's transparent data encryption. */
 export async function get(
   context: Client,

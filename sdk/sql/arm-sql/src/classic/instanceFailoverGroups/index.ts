@@ -127,7 +127,6 @@ export interface InstanceFailoverGroupsOperations {
     options?: InstanceFailoverGroupsGetOptionalParams,
   ) => Promise<InstanceFailoverGroup>;
 }
-
 function _getInstanceFailoverGroups(context: SqlManagementContext) {
   return {
     forceFailoverAllowDataLoss: (
@@ -283,7 +282,6 @@ function _getInstanceFailoverGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, locationName, failoverGroupName, options),
   };
 }
-
 export function _getInstanceFailoverGroupsOperations(
   context: SqlManagementContext,
 ): InstanceFailoverGroupsOperations {

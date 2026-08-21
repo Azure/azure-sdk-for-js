@@ -44,7 +44,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,6 @@ export async function _listByServerDeserialize(
 
   return _replicationLinkListResultDeserializer(result.body);
 }
-
 /** Gets a list of replication links. */
 export function listByServer(
   context: Client,
@@ -84,7 +83,11 @@ export function listByServer(
     () => _listByServerSend(context, resourceGroupName, serverName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -104,7 +107,7 @@ export function _failoverAllowDataLossSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +134,6 @@ export async function _failoverAllowDataLossDeserialize(
 
   return replicationLinkDeserializer(result.body);
 }
-
 /** Fails over from the current primary server to this server allowing data loss. */
 export function failoverAllowDataLoss(
   context: Client,
@@ -154,7 +156,7 @@ export function failoverAllowDataLoss(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 }
 
@@ -174,7 +176,7 @@ export function _failoverSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +203,6 @@ export async function _failoverDeserialize(
 
   return replicationLinkDeserializer(result.body);
 }
-
 /** Fails over from the current primary server to this server. */
 export function failover(
   context: Client,
@@ -217,7 +218,7 @@ export function failover(
     getInitialResponse: () =>
       _failoverSend(context, resourceGroupName, serverName, databaseName, linkId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 }
 
@@ -235,7 +236,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +263,6 @@ export async function _listByDatabaseDeserialize(
 
   return _replicationLinkListResultDeserializer(result.body);
 }
-
 /** Gets a list of replication links on database. */
 export function listByDatabase(
   context: Client,
@@ -276,7 +276,11 @@ export function listByDatabase(
     () => _listByDatabaseSend(context, resourceGroupName, serverName, databaseName, options),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -296,7 +300,7 @@ export function _$deleteSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +322,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the replication link. */
 export function $delete(
   context: Client,
@@ -334,7 +337,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, databaseName, linkId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -355,7 +358,7 @@ export function _updateSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,7 +385,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return replicationLinkDeserializer(result.body);
 }
-
 /** Updates the replication link type. */
 export function update(
   context: Client,
@@ -407,7 +409,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 }
 
@@ -428,7 +430,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -457,7 +459,6 @@ export async function _createOrUpdateDeserialize(
 
   return replicationLinkDeserializer(result.body);
 }
-
 /** Updates the replication link type. */
 export function createOrUpdate(
   context: Client,
@@ -482,7 +483,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<ReplicationLink>, ReplicationLink>;
 }
 
@@ -502,7 +503,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       linkId: linkId,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -527,7 +528,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return replicationLinkDeserializer(result.body);
 }
-
 /** Gets a replication link. */
 export async function get(
   context: Client,

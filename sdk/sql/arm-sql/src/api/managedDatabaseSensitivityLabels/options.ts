@@ -8,7 +8,6 @@ export interface ManagedDatabaseSensitivityLabelsListByDatabaseOptionalParams ex
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams extends OperationOptions {
   skipToken?: string;
@@ -17,10 +16,8 @@ export interface ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOption
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams extends OperationOptions {
   skipToken?: string;
@@ -28,18 +25,13 @@ export interface ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalPa
   /** An OData filter expression that filters elements in the collection. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsDisableRecommendationOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ManagedDatabaseSensitivityLabelsGetOptionalParams extends OperationOptions {}

@@ -67,7 +67,7 @@ export function _listByResourceGroupServerSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -96,7 +96,6 @@ export async function _listByResourceGroupServerDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given server based on resource groups. */
 export function listByResourceGroupServer(
   context: Client,
@@ -117,7 +116,11 @@ export function listByResourceGroupServer(
       ),
     _listByResourceGroupServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -135,7 +138,7 @@ export function _listByResourceGroupLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -164,7 +167,6 @@ export async function _listByResourceGroupLocationDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given location based on resource group. */
 export function listByResourceGroupLocation(
   context: Client,
@@ -179,7 +181,11 @@ export function listByResourceGroupLocation(
     () => _listByResourceGroupLocationSend(context, resourceGroupName, locationName, options),
     _listByResourceGroupLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -195,7 +201,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -224,7 +230,6 @@ export async function _listByServerDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given server. */
 export function listByServer(
   context: Client,
@@ -237,7 +242,11 @@ export function listByServer(
     () => _listByServerSend(context, locationName, longTermRetentionServerName, options),
     _listByServerDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -251,7 +260,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -280,7 +289,6 @@ export async function _listByLocationDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists the long term retention backups for a given location. */
 export function listByLocation(
   context: Client,
@@ -292,7 +300,11 @@ export function listByLocation(
     () => _listByLocationSend(context, locationName, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -315,7 +327,7 @@ export function _updateByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,7 +356,6 @@ export async function _updateByResourceGroupDeserialize(
 
   return longTermRetentionBackupOperationResultDeserializer(result.body);
 }
-
 /** Updates an existing long term retention backup. */
 export function updateByResourceGroup(
   context: Client,
@@ -374,7 +385,7 @@ export function updateByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -401,7 +412,7 @@ export function _setLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -428,7 +439,6 @@ export async function _setLegalHoldImmutabilityByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Set legal hold immutability of an existing long term retention backup. */
 export function setLegalHoldImmutabilityByResourceGroup(
   context: Client,
@@ -459,7 +469,7 @@ export function setLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -484,7 +494,7 @@ export function _removeTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -511,7 +521,6 @@ export async function _removeTimeBasedImmutabilityByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Remove time based immutability of an existing long term retention backup. */
 export function removeTimeBasedImmutabilityByResourceGroup(
   context: Client,
@@ -542,7 +551,7 @@ export function removeTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -567,7 +576,7 @@ export function _removeLegalHoldImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -594,7 +603,6 @@ export async function _removeLegalHoldImmutabilityByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Remove legal hold immutability of an existing long term retention backup. */
 export function removeLegalHoldImmutabilityByResourceGroup(
   context: Client,
@@ -625,7 +633,7 @@ export function removeLegalHoldImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -650,7 +658,7 @@ export function _lockTimeBasedImmutabilityByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -677,7 +685,6 @@ export async function _lockTimeBasedImmutabilityByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Lock time based immutability of an existing long term retention backup. */
 export function lockTimeBasedImmutabilityByResourceGroup(
   context: Client,
@@ -708,7 +715,7 @@ export function lockTimeBasedImmutabilityByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -732,7 +739,7 @@ export function _copyByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -761,7 +768,6 @@ export async function _copyByResourceGroupDeserialize(
 
   return longTermRetentionBackupOperationResultDeserializer(result.body);
 }
-
 /** Copy an existing long term retention backup to a different server. */
 export function copyByResourceGroup(
   context: Client,
@@ -791,7 +797,7 @@ export function copyByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -819,7 +825,7 @@ export function _changeAccessTierByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -848,7 +854,6 @@ export async function _changeAccessTierByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Change a long term retention backup access tier. */
 export function changeAccessTierByResourceGroup(
   context: Client,
@@ -881,7 +886,7 @@ export function changeAccessTierByResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -904,7 +909,7 @@ export function _listByResourceGroupDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -933,7 +938,6 @@ export async function _listByResourceGroupDatabaseDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists all long term retention backups for a database based on a particular resource group. */
 export function listByResourceGroupDatabase(
   context: Client,
@@ -958,7 +962,11 @@ export function listByResourceGroupDatabase(
       ),
     _listByResourceGroupDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -980,7 +988,7 @@ export function _deleteByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1004,7 +1012,6 @@ export async function _deleteByResourceGroupDeserialize(
 
   return;
 }
-
 /** Deletes a long term retention backup. */
 export function deleteByResourceGroup(
   context: Client,
@@ -1029,7 +1036,7 @@ export function deleteByResourceGroup(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1051,7 +1058,7 @@ export function _getByResourceGroupSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1078,7 +1085,6 @@ export async function _getByResourceGroupDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Gets a long term retention backup. */
 export async function getByResourceGroup(
   context: Client,
@@ -1118,7 +1124,7 @@ export function _updateSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1147,7 +1153,6 @@ export async function _updateDeserialize(
 
   return longTermRetentionBackupOperationResultDeserializer(result.body);
 }
-
 /** Updates an existing long term retention backup. */
 export function update(
   context: Client,
@@ -1175,7 +1180,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1198,7 +1203,7 @@ export function _setLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1225,7 +1230,6 @@ export async function _setLegalHoldImmutabilityDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Set legal hold immutability of an existing long term retention backup. */
 export function setLegalHoldImmutability(
   context: Client,
@@ -1252,7 +1256,7 @@ export function setLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1275,7 +1279,7 @@ export function _removeTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1302,7 +1306,6 @@ export async function _removeTimeBasedImmutabilityDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Remove time based immutability of an existing long term retention backup. */
 export function removeTimeBasedImmutability(
   context: Client,
@@ -1331,7 +1334,7 @@ export function removeTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1354,7 +1357,7 @@ export function _removeLegalHoldImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1381,7 +1384,6 @@ export async function _removeLegalHoldImmutabilityDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Remove legal hold immutability of an existing long term retention backup. */
 export function removeLegalHoldImmutability(
   context: Client,
@@ -1410,7 +1412,7 @@ export function removeLegalHoldImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1431,7 +1433,7 @@ export function _lockTimeBasedImmutabilitySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1458,7 +1460,6 @@ export async function _lockTimeBasedImmutabilityDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Lock time based immutability of an existing long term retention backup. */
 export function lockTimeBasedImmutability(
   context: Client,
@@ -1485,7 +1486,7 @@ export function lockTimeBasedImmutability(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-01-01",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
     },
   ) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
@@ -1507,7 +1508,7 @@ export function _copySend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1536,7 +1537,6 @@ export async function _copyDeserialize(
 
   return longTermRetentionBackupOperationResultDeserializer(result.body);
 }
-
 /** Copy an existing long term retention backup. */
 export function copy(
   context: Client,
@@ -1564,7 +1564,7 @@ export function copy(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<
     OperationState<LongTermRetentionBackupOperationResult>,
     LongTermRetentionBackupOperationResult
@@ -1588,7 +1588,7 @@ export function _changeAccessTierSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1617,7 +1617,6 @@ export async function _changeAccessTierDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Change a long term retention backup access tier. */
 export function changeAccessTier(
   context: Client,
@@ -1642,7 +1641,7 @@ export function changeAccessTier(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<LongTermRetentionBackup>, LongTermRetentionBackup>;
 }
 
@@ -1660,7 +1659,7 @@ export function _listByDatabaseSend(
       locationName: locationName,
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
       onlyLatestPerDatabase: options?.onlyLatestPerDatabase,
       databaseState: options?.databaseState,
     },
@@ -1689,7 +1688,6 @@ export async function _listByDatabaseDeserialize(
 
   return _longTermRetentionBackupListResultDeserializer(result.body);
 }
-
 /** Lists all long term retention backups for a database. */
 export function listByDatabase(
   context: Client,
@@ -1710,7 +1708,11 @@ export function listByDatabase(
       ),
     _listByDatabaseDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    },
   );
 }
 
@@ -1730,7 +1732,7 @@ export function _$deleteSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1752,7 +1754,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a long term retention backup. */
 export function $delete(
   context: Client,
@@ -1775,7 +1776,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-01-01",
+    apiVersion: context.apiVersion ?? "2025-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1795,7 +1796,7 @@ export function _getSend(
       longTermRetentionServerName: longTermRetentionServerName,
       longTermRetentionDatabaseName: longTermRetentionDatabaseName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2025-01-01",
+      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1822,7 +1823,6 @@ export async function _getDeserialize(
 
   return longTermRetentionBackupDeserializer(result.body);
 }
-
 /** Gets a long term retention backup. */
 export async function get(
   context: Client,
