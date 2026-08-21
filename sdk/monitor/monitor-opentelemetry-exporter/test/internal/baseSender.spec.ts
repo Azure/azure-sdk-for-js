@@ -38,6 +38,7 @@ export const mockNetworkStats: {
   countException: Mock<(exceptionType: Error) => void>;
   countReadFailure: Mock<() => void>;
   countWriteFailure: Mock<() => void>;
+  updateEndpoint: Mock<(endpointUrl: string) => Promise<void>>;
   shutdown: Mock<() => Promise<void>>;
 } = {
   countSuccess: vi.fn(),
@@ -47,12 +48,15 @@ export const mockNetworkStats: {
   countException: vi.fn(),
   countReadFailure: vi.fn(),
   countWriteFailure: vi.fn(),
+  updateEndpoint: vi.fn().mockResolvedValue(undefined),
   shutdown: vi.fn(),
 };
 
 export const mockLongIntervalStats: {
+  updateEndpoint: Mock<(endpointUrl: string) => Promise<void>>;
   shutdown: Mock<() => Promise<void>>;
 } = {
+  updateEndpoint: vi.fn().mockResolvedValue(undefined),
   shutdown: vi.fn(),
 };
 
@@ -165,7 +169,6 @@ import { isRetriable } from "../../src/utils/breezeUtils.js";
 // Test implementation of BaseSender
 class TestBaseSender extends BaseSender {
   public sendMock = vi.fn();
-  public shutdownMock = vi.fn();
   // Default to accepting the redirect so legacy tests that exercise the success path keep working;
   // tests that want to assert the cross-origin refusal path override this with mockReturnValue(false).
   public handlePermanentRedirectMock = vi.fn().mockReturnValue(true);
@@ -241,17 +244,8 @@ class TestBaseSender extends BaseSender {
     return this.sendMock(payload);
   }
 
-  async shutdown(): Promise<void> {
-    return this.shutdownMock();
-  }
-
   handlePermanentRedirect(location: string | undefined): boolean {
     return this.handlePermanentRedirectMock(location);
-  }
-
-  // For testing access to private methods
-  public setNumConsecutiveRedirects(value: number): void {
-    (this as any).numConsecutiveRedirects = value;
   }
 
   public setStatsbeatFailureCount(value: number): void {
@@ -263,12 +257,20 @@ class TestBaseSender extends BaseSender {
   }
 }
 
+function createRedirectError(statusCode: 307 | 308, location?: string): Error {
+  return Object.assign(new Error("Redirect"), {
+    statusCode,
+    response: { headers: createHttpHeaders(location ? { location } : {}) },
+  });
+}
+
 describe("BaseSender", () => {
   let sender: TestBaseSender;
 
   beforeEach(async () => {
     // Reset all mocks
     vi.clearAllMocks();
+    (BaseSender as any).redirectRouteUpdate = Promise.resolve();
 
     // Restore isRetriable mock implementation (vi.resetAllMocks in afterEach clears it)
     (isRetriable as Mock).mockImplementation(
@@ -406,90 +408,112 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.SUCCESS);
     });
 
-    it("should handle temporary redirect (307)", async () => {
-      // First call throws a redirect error, second call succeeds
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://newlocation.com" : null),
-        },
-      };
+    it.each([307, 308] as const)(
+      "should apply an accepted %s redirect to both Statsbeat routes",
+      async (code) => {
+        const location = "https://newlocation.com";
+        sender.sendMock
+          .mockRejectedValueOnce(createRedirectError(code, location))
+          .mockResolvedValueOnce({
+            result: "success",
+            statusCode: 200,
+          });
 
-      sender.sendMock.mockRejectedValueOnce(redirectError).mockResolvedValueOnce({
-        result: "success",
-        statusCode: 200,
-      });
+        const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith("https://newlocation.com");
-      expect(sender.sendMock).toHaveBeenCalledTimes(2);
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-    });
-
-    it("should handle permanent redirect (308)", async () => {
-      // First call throws a redirect error, second call succeeds
-      const redirectError: any = new Error("Permanent redirect");
-      redirectError.statusCode = 308;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://permanentlocation.com" : null),
-        },
-      };
-
-      sender.sendMock.mockRejectedValueOnce(redirectError).mockResolvedValueOnce({
-        result: "success",
-        statusCode: 200,
-      });
-
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
-        "https://permanentlocation.com",
-      );
-      expect(sender.sendMock).toHaveBeenCalledTimes(2);
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-    });
+        expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(location);
+        expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledWith(location);
+        expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledWith(location);
+        expect(sender.sendMock).toHaveBeenCalledTimes(2);
+        expect(result.code).toBe(ExportResultCode.SUCCESS);
+      },
+    );
 
     it("should handle circular redirects", async () => {
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://newlocation.com" : null),
-        },
-      };
-
-      // Set the redirect counter to 9 (one before the limit)
-      sender.setNumConsecutiveRedirects(9);
-
-      // Next redirect should trigger circular redirect error
-      sender.sendMock.mockRejectedValue(redirectError);
+      sender.sendMock.mockRejectedValue(createRedirectError(307, "https://newlocation.com"));
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(sender.sendMock).toHaveBeenCalledTimes(10);
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain("Circular redirect");
     });
 
-    it("should refuse cross-origin redirects without retrying", async () => {
-      // A 307 to a cross-origin target whose host is outside the configured ingestion host
-      // and outside the trusted Azure Monitor ingestion suffix list. handlePermanentRedirect
-      // (mocked here) reports false so baseSender must NOT recurse into another `send` call --
-      // otherwise the auth policy would attach a freshly-signed AAD token (and the telemetry
-      // body) to the attacker host on the retry.
-      const redirectError: any = new Error("Temporary redirect");
-      redirectError.statusCode = 307;
-      redirectError.response = {
-        headers: {
-          get: (name: string) => (name === "location" ? "https://attacker.example.invalid" : null),
-        },
-      };
+    it("tracks redirect depth independently for concurrent exports", async () => {
+      let releaseFirstUpdate: (() => void) | undefined;
+      sender.getNetworkStats().updateEndpoint.mockImplementationOnce(
+        () =>
+          new Promise<void>((resolve) => {
+            releaseFirstUpdate = resolve;
+          }),
+      );
+      const attempts = new Map<string, number>();
+      sender.sendMock.mockImplementation(async (envelopes: Array<{ name: string }>) => {
+        const item = envelopes[0].name;
+        const attempt = (attempts.get(item) ?? 0) + 1;
+        attempts.set(item, attempt);
+        if (attempt === 1) {
+          throw createRedirectError(307, `https://${item}.example.com`);
+        }
+        return { result: "success", statusCode: 200 };
+      });
 
-      sender.sendMock.mockRejectedValue(redirectError);
+      const exports = Array.from({ length: 10 }, (_, index) =>
+        sender.exportEnvelopes([{ name: `export-${index}`, time: new Date() }]),
+      );
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledTimes(10));
+      await vi.waitFor(() =>
+        expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledOnce(),
+      );
+      releaseFirstUpdate!();
+
+      const results = await Promise.all(exports);
+
+      expect(results.every((result) => result.code === ExportResultCode.SUCCESS)).toBe(true);
+      expect([...attempts.values()]).toEqual(Array(10).fill(2));
+    });
+
+    it("does not let an unrelated success reset a looping export's redirect depth", async () => {
+      let loopAttempts = 0;
+      let releaseFifthRedirect: (() => void) | undefined;
+      let signalFifthAttempt: (() => void) | undefined;
+      const fifthAttemptStarted = new Promise<void>((resolve) => {
+        signalFifthAttempt = resolve;
+      });
+      sender.sendMock.mockImplementation(async (envelopes: Array<{ name: string }>) => {
+        if (envelopes[0].name === "success") {
+          return { result: "success", statusCode: 200 };
+        }
+        loopAttempts++;
+        if (loopAttempts === 5) {
+          signalFifthAttempt!();
+          await new Promise<void>((resolve) => {
+            releaseFifthRedirect = resolve;
+          });
+        }
+        throw createRedirectError(307, "https://loop.example.com");
+      });
+
+      const loopingExport = sender.exportEnvelopes([{ name: "loop", time: new Date() }]);
+      await fifthAttemptStarted;
+      const successfulExport = await sender.exportEnvelopes([
+        { name: "success", time: new Date() },
+      ]);
+      releaseFifthRedirect!();
+      const loopingResult = await loopingExport;
+
+      expect(successfulExport.code).toBe(ExportResultCode.SUCCESS);
+      expect(loopingResult.code).toBe(ExportResultCode.FAILED);
+      expect(loopingResult.error?.message).toBe("Circular redirect");
+      expect(loopAttempts).toBe(10);
+    });
+
+    it("should refuse cross-origin redirects without retrying", async () => {
+      sender.sendMock.mockRejectedValue(
+        createRedirectError(307, "https://attacker.example.invalid"),
+      );
       sender.handlePermanentRedirectMock.mockReturnValue(false);
 
       const envelopes = [{ name: "test", time: new Date() }];
@@ -498,11 +522,127 @@ describe("BaseSender", () => {
       expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
         "https://attacker.example.invalid",
       );
-      // No retry: send is called exactly once and never reaches the redirect target.
+      expect(sender.getNetworkStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(sender.getLongIntervalStats().updateEndpoint).not.toHaveBeenCalled();
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
       expect(result.code).toBe(ExportResultCode.FAILED);
       expect(result.error?.message).toContain("Refused cross-origin redirect");
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
+    });
+
+    it("should not update Statsbeat routing for a redirect without a location", async () => {
+      sender.sendMock.mockRejectedValue(createRedirectError(307));
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(sender.handlePermanentRedirectMock).not.toHaveBeenCalled();
+      expect(sender.getNetworkStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(sender.getLongIntervalStats().updateEndpoint).not.toHaveBeenCalled();
+      expect(result.code).toBe(ExportResultCode.FAILED);
+    });
+
+    it("serializes each customer retry with its matching Statsbeat route", async () => {
+      const firstLocation = "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track";
+      const secondLocation = "https://westus2-0.in.applicationinsights.azure.com/v2.1/track";
+      let customerRoute = "";
+      let networkRoute = "";
+      let longIntervalRoute = "";
+      const retryRoutes: Array<{
+        item: string;
+        customer: string;
+        network: string;
+        longInterval: string;
+      }> = [];
+      let completeFirstUpdate: (() => void) | undefined;
+      sender.handlePermanentRedirectMock.mockImplementation((location: string) => {
+        customerRoute = location;
+        return true;
+      });
+      sender.getNetworkStats().updateEndpoint.mockImplementation((endpointUrl: string) => {
+        if (endpointUrl === firstLocation) {
+          return new Promise<void>((resolve) => {
+            completeFirstUpdate = () => {
+              networkRoute = endpointUrl;
+              resolve();
+            };
+          });
+        }
+        networkRoute = endpointUrl;
+        return Promise.resolve();
+      });
+      sender.getLongIntervalStats().updateEndpoint.mockImplementation((endpointUrl: string) => {
+        longIntervalRoute = endpointUrl;
+        return Promise.resolve();
+      });
+      const attempts = new Map<string, number>();
+      sender.sendMock.mockImplementation(async (envelopes: Array<{ name: string }>) => {
+        const item = envelopes[0].name;
+        const attempt = (attempts.get(item) ?? 0) + 1;
+        attempts.set(item, attempt);
+        if (attempt === 1) {
+          throw createRedirectError(307, item === "first" ? firstLocation : secondLocation);
+        }
+        retryRoutes.push({
+          item,
+          customer: customerRoute,
+          network: networkRoute,
+          longInterval: longIntervalRoute,
+        });
+        return { result: "success", statusCode: 200 };
+      });
+
+      const firstExport = sender.exportEnvelopes([{ name: "first", time: new Date() }]);
+      const secondExport = sender.exportEnvelopes([{ name: "second", time: new Date() }]);
+
+      await vi.waitFor(() => expect(sender.handlePermanentRedirectMock).toHaveBeenCalledOnce());
+      expect(sender.getNetworkStats().updateEndpoint).toHaveBeenCalledTimes(1);
+      expect(sender.getLongIntervalStats().updateEndpoint).toHaveBeenCalledTimes(1);
+      expect(customerRoute).toBe(firstLocation);
+
+      completeFirstUpdate!();
+      await Promise.all([firstExport, secondExport]);
+
+      expect(retryRoutes).toEqual([
+        {
+          item: "first",
+          customer: firstLocation,
+          network: firstLocation,
+          longInterval: firstLocation,
+        },
+        {
+          item: "second",
+          customer: secondLocation,
+          network: secondLocation,
+          longInterval: secondLocation,
+        },
+      ]);
+      expect(
+        sender.getNetworkStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
+      expect(
+        sender.getLongIntervalStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
+      expect(customerRoute).toBe(secondLocation);
+    });
+
+    it("handles a nested redirect without re-entering the redirect queue", async () => {
+      const firstLocation = "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track";
+      const secondLocation = "https://westus2-0.in.applicationinsights.azure.com/v2.1/track";
+      sender.sendMock
+        .mockRejectedValueOnce(createRedirectError(307, firstLocation))
+        .mockRejectedValueOnce(createRedirectError(308, secondLocation))
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(sender.sendMock).toHaveBeenCalledTimes(3);
+      expect(
+        sender.getNetworkStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
+      expect(
+        sender.getLongIntervalStats().updateEndpoint.mock.calls.map((call: [string]) => call[0]),
+      ).toEqual([firstLocation, secondLocation]);
     });
 
     it("should handle invalid instrumentation key error", async () => {
@@ -1021,9 +1161,6 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
-      // Set up a scenario that triggers circular redirect
-      (testSender as any).redirectCount = 10; // Force circular redirect
-
       const restError = new Error("Permanent redirect") as any;
       restError.statusCode = 308;
       restError.response = {
@@ -1260,14 +1397,9 @@ describe("BaseSender", () => {
       // to test that it remains undefined when disabled
       class TestSenderWithoutMockStats extends BaseSender {
         sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
-        shutdownMock = vi.fn<() => Promise<void>>();
 
         async send(payload: unknown[]): Promise<SenderResult> {
           return this.sendMock(payload);
-        }
-
-        async shutdown(): Promise<void> {
-          return this.shutdownMock();
         }
 
         handlePermanentRedirect(_location: string | undefined): boolean {
@@ -1530,6 +1662,192 @@ describe("BaseSender", () => {
       expect(mockPersist.cleanExpiredFiles).toHaveBeenCalledTimes(1);
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
       expect(sender.sendMock).toHaveBeenCalledWith(file1);
+    });
+  });
+
+  describe("shutdown", () => {
+    it("cancels pending retry and startup replay without shutting shared metrics", async () => {
+      vi.useFakeTimers();
+      vi.spyOn(TestBaseSender.prototype as any, "getStartupReplayDelayMs").mockReturnValue(1000);
+      const retiringSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+      });
+      (retiringSender as any).scheduleRetryTimer(1000);
+
+      await retiringSender.shutdown();
+      await retiringSender.shutdown();
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect((retiringSender as any).retryTimer).toBeNull();
+      expect((retiringSender as any).startupReplayTimer).toBeNull();
+      expect(retiringSender.sendMock).not.toHaveBeenCalled();
+      expect(mockPersist.shift).not.toHaveBeenCalled();
+      expect(mockNetworkStats.shutdown).not.toHaveBeenCalled();
+      expect(mockLongIntervalStats.shutdown).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.shutdown).not.toHaveBeenCalled();
+      vi.useRealTimers();
+    });
+
+    it("restores a retry batch shifted while shutdown is in progress", async () => {
+      const envelopes = [{ name: "retry", time: new Date() }];
+      let finishShift: ((value: unknown[]) => void) | undefined;
+      mockPersist.shift.mockImplementation(
+        () =>
+          new Promise<unknown[]>((resolve) => {
+            finishShift = resolve;
+          }),
+      );
+
+      const replay = sender.callSendFirstPersistedFile();
+      await vi.waitFor(() => expect(mockPersist.shift).toHaveBeenCalledOnce());
+      const shuttingDown = sender.shutdown();
+      finishShift!(envelopes);
+      await Promise.all([replay, shuttingDown]);
+
+      expect(mockPersist.push).toHaveBeenCalledOnce();
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("restores a startup batch shifted while shutdown is in progress", async () => {
+      const envelopes = [{ name: "startup", time: new Date() }];
+      let finishShift: ((value: unknown[]) => void) | undefined;
+      mockPersist.shift.mockImplementation(
+        () =>
+          new Promise<unknown[]>((resolve) => {
+            finishShift = resolve;
+          }),
+      );
+
+      const replay = sender.callSendAllPersistedFiles();
+      await vi.waitFor(() => expect(mockPersist.shift).toHaveBeenCalledOnce());
+      const shuttingDown = sender.shutdown();
+      finishShift!(envelopes);
+      await Promise.all([replay, shuttingDown]);
+
+      expect(mockPersist.push).toHaveBeenCalledOnce();
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+      expect(sender.sendMock).not.toHaveBeenCalled();
+    });
+
+    it("does not reschedule work when an in-flight send completes after shutdown", async () => {
+      let finishSend: ((result: SenderResult) => void) | undefined;
+      sender.sendMock.mockImplementation(
+        () =>
+          new Promise<SenderResult>((resolve) => {
+            finishSend = resolve;
+          }),
+      );
+
+      const exporting = sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledOnce());
+      await sender.shutdown();
+      finishSend!({ result: "", statusCode: 200 });
+      const result = await exporting;
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect((sender as any).retryTimer).toBeNull();
+    });
+
+    it("restores a retry batch when its in-flight send loses ownership during shutdown", async () => {
+      const envelopes = [{ name: "retry", time: new Date() }];
+      let failSend: ((error: Error) => void) | undefined;
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockImplementation(
+        () =>
+          new Promise<SenderResult>((_resolve, reject) => {
+            failSend = reject;
+          }),
+      );
+
+      const replay = sender.callSendFirstPersistedFile();
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledOnce());
+      const shuttingDown = sender.shutdown();
+      failSend!(new RestError("Connection reset", { code: "ECONNRESET" }));
+      await Promise.all([replay, shuttingDown]);
+
+      expect(mockPersist.push).toHaveBeenCalledOnce();
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
+      expect((sender as any).retryTimer).toBeNull();
+    });
+
+    it("does not restore a batch after a definitive non-retriable response", async () => {
+      const envelopes = [{ name: "retry", time: new Date() }];
+      let failSend: ((error: Error) => void) | undefined;
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockImplementation(
+        () =>
+          new Promise<SenderResult>((_resolve, reject) => {
+            failSend = reject;
+          }),
+      );
+
+      const replay = sender.callSendFirstPersistedFile();
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledOnce());
+      const shuttingDown = sender.shutdown();
+      failSend!(new RestError("Bad request", { statusCode: 400 }));
+      await Promise.all([replay, shuttingDown]);
+
+      expect(mockPersist.push).not.toHaveBeenCalled();
+      expect((sender as any).retryTimer).toBeNull();
+    });
+
+    it("lets an internal Statsbeat replay finish without waiting on the customer redirect queue", async () => {
+      const envelopes = [{ name: "statsbeat", time: new Date() }];
+      let releaseCustomerQueue: (() => void) | undefined;
+      (BaseSender as any).redirectRouteUpdate = new Promise<void>((resolve) => {
+        releaseCustomerQueue = resolve;
+      });
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      const statsbeatSender = new TestBaseSender({
+        endpointUrl: "https://westus-0.in.applicationinsights.azure.com",
+        instrumentationKey: "statsbeat-key",
+        trackStatsbeat: false,
+        exporterOptions: { disableOfflineStorage: true },
+        isStatsbeatSender: true,
+      });
+      Object.defineProperty(statsbeatSender, "networkStatsbeatMetrics", { value: undefined });
+      Object.defineProperty(statsbeatSender, "longIntervalStatsbeatMetrics", { value: undefined });
+      statsbeatSender.sendMock
+        .mockRejectedValueOnce(
+          createRedirectError(307, "https://westus2-0.in.applicationinsights.azure.com/v2.1/track"),
+        )
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+
+      await statsbeatSender.callSendFirstPersistedFile();
+      await statsbeatSender.shutdown();
+      releaseCustomerQueue!();
+
+      expect(statsbeatSender.sendMock).toHaveBeenCalledTimes(2);
+    });
+
+    it("restores a replay batch when shutdown wins while its redirect is queued", async () => {
+      const envelopes = [{ name: "retry", time: new Date() }];
+      let releaseRedirectQueue: (() => void) | undefined;
+      (BaseSender as any).redirectRouteUpdate = new Promise<void>((resolve) => {
+        releaseRedirectQueue = resolve;
+      });
+      mockPersist.shift.mockResolvedValueOnce(envelopes);
+      sender.sendMock.mockRejectedValueOnce(
+        createRedirectError(
+          307,
+          "https://northeurope-0.in.applicationinsights.azure.com/v2.1/track",
+        ),
+      );
+
+      const replay = sender.callSendFirstPersistedFile();
+      await vi.waitFor(() => expect(sender.sendMock).toHaveBeenCalledOnce());
+      const shuttingDown = sender.shutdown();
+      releaseRedirectQueue!();
+      await Promise.all([replay, shuttingDown]);
+
+      expect(sender.handlePermanentRedirectMock).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledOnce();
+      expect(mockPersist.push).toHaveBeenCalledOnce();
+      expect(mockPersist.push).toHaveBeenCalledWith(envelopes);
     });
   });
 
