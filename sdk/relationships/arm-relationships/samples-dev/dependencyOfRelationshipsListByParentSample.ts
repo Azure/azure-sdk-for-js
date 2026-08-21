@@ -5,22 +5,26 @@ import { RelationshipsClient } from "@azure/arm-relationships";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete a DependencyOfRelationship
+ * This sample demonstrates how to list DependencyOfRelationship resources by parent
  *
- * @summary delete a DependencyOfRelationship
- * x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_Delete.json
+ * @summary list DependencyOfRelationship resources by parent
+ * x-ms-original-file: 2026-03-01-preview/DependencyOfRelationships_ListByParent.json
  */
-async function dependencyOfRelationshipsDelete(): Promise<void> {
+async function dependencyOfRelationshipsListByParent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RelationshipsClient(credential);
-  await client.dependencyOfRelationships.delete(
+  const resArray = new Array();
+  for await (const item of client.dependencyOfRelationships.listByParent(
     "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account",
-    "relationshipOne",
-  );
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await dependencyOfRelationshipsDelete();
+  await dependencyOfRelationshipsListByParent();
 }
 
 main().catch(console.error);

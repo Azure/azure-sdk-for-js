@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -25,6 +27,37 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface ContainsRelationship extends ExtensionResource {
+    properties?: ContainsRelationshipProperties;
+}
+
+// @public
+export interface ContainsRelationshipProperties {
+    readonly metadata?: RelationshipMetadata;
+    readonly originInformation?: RelationshipOriginInformation;
+    readonly provisioningState?: ProvisioningState;
+    readonly sourceId?: string;
+    readonly targetId: string;
+    readonly targetTenant?: string;
+}
+
+// @public
+export interface ContainsRelationshipsListByResourceGroupOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface ContainsRelationshipsListBySubscriptionOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface ContainsRelationshipsOperations {
+    listByResourceGroup: (resourceGroupName: string, options?: ContainsRelationshipsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ContainsRelationship>;
+    listBySubscription: (options?: ContainsRelationshipsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ContainsRelationship>;
+}
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -46,10 +79,10 @@ export interface DependencyOfRelationshipCreateOrUpdate extends ExtensionResourc
 
 // @public
 export interface DependencyOfRelationshipProperties {
-    readonly metadata: RelationshipMetadata;
-    readonly originInformation: RelationshipOriginInformation;
+    readonly metadata?: RelationshipMetadata;
+    readonly originInformation?: RelationshipOriginInformation;
     readonly provisioningState?: ProvisioningState;
-    readonly sourceId: string;
+    readonly sourceId?: string;
     targetId: string;
     targetTenant?: string;
 }
@@ -75,10 +108,15 @@ export interface DependencyOfRelationshipsGetOptionalParams extends OperationOpt
 }
 
 // @public
+export interface DependencyOfRelationshipsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface DependencyOfRelationshipsOperations {
     createOrUpdate: (resourceUri: string, name: string, resource: DependencyOfRelationshipCreateOrUpdate, options?: DependencyOfRelationshipsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DependencyOfRelationship>, DependencyOfRelationship>;
     delete: (resourceUri: string, name: string, options?: DependencyOfRelationshipsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, name: string, options?: DependencyOfRelationshipsGetOptionalParams) => Promise<DependencyOfRelationship>;
+    listByParent: (resourceUri: string, options?: DependencyOfRelationshipsListByParentOptionalParams) => PagedAsyncIterableIterator<DependencyOfRelationship>;
 }
 
 // @public
@@ -104,6 +142,8 @@ export interface ErrorResponse {
 // @public
 export interface ExtensionResource extends Resource {
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -146,7 +186,8 @@ export enum KnownRelationshipOrigins {
 
 // @public
 export enum KnownVersions {
-    Versions20230901Preview = "2023-09-01-preview"
+    V20230901Preview = "2023-09-01-preview",
+    V20260301Preview = "2026-03-01-preview"
 }
 
 // @public
@@ -211,6 +252,8 @@ export type RelationshipOrigins = string;
 // @public (undocumented)
 export class RelationshipsClient {
     constructor(credential: TokenCredential, options?: RelationshipsClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: RelationshipsClientOptionalParams);
+    readonly containsRelationships: ContainsRelationshipsOperations;
     readonly dependencyOfRelationships: DependencyOfRelationshipsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -231,6 +274,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: RelationshipsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -243,7 +288,7 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export interface ServiceGroupMemberRelationship extends ExtensionResource {
-    properties?: ServiceGroupMemberRelationshipProperties;
+    properties?: ServiceGroupMemberRelationshipPropertiesV2;
 }
 
 // @public
@@ -252,19 +297,19 @@ export interface ServiceGroupMemberRelationshipCreateOrUpdate extends ExtensionR
 }
 
 // @public
-export interface ServiceGroupMemberRelationshipProperties {
-    readonly metadata: RelationshipMetadata;
-    readonly originInformation: RelationshipOriginInformation;
-    readonly provisioningState?: ProvisioningState;
-    readonly sourceId: string;
-    targetId: string;
-    targetTenant?: string;
+export interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
+    sourceId: string;
+    sourceTenant?: string;
 }
 
 // @public
-export interface ServiceGroupMemberRelationshipPropertiesCreateOrUpdate {
-    targetId: string;
-    targetTenant?: string;
+export interface ServiceGroupMemberRelationshipPropertiesV2 {
+    readonly metadata?: RelationshipMetadata;
+    readonly originInformation?: RelationshipOriginInformation;
+    readonly provisioningState?: ProvisioningState;
+    sourceId: string;
+    sourceTenant?: string;
+    readonly targetId?: string;
 }
 
 // @public
@@ -282,10 +327,15 @@ export interface ServiceGroupMemberRelationshipsGetOptionalParams extends Operat
 }
 
 // @public
+export interface ServiceGroupMemberRelationshipsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface ServiceGroupMemberRelationshipsOperations {
     createOrUpdate: (resourceUri: string, name: string, resource: ServiceGroupMemberRelationshipCreateOrUpdate, options?: ServiceGroupMemberRelationshipsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ServiceGroupMemberRelationship>, ServiceGroupMemberRelationship>;
     delete: (resourceUri: string, name: string, options?: ServiceGroupMemberRelationshipsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, name: string, options?: ServiceGroupMemberRelationshipsGetOptionalParams) => Promise<ServiceGroupMemberRelationship>;
+    listByParent: (resourceUri: string, options?: ServiceGroupMemberRelationshipsListByParentOptionalParams) => PagedAsyncIterableIterator<ServiceGroupMemberRelationship>;
 }
 
 // @public

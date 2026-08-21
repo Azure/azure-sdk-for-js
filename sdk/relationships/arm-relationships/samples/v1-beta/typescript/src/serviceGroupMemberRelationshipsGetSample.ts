@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ServiceGroupMemberRelationship
  *
  * @summary get a ServiceGroupMemberRelationship
- * x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_Get.json
+ * x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_Get.json
  */
 async function serviceGroupMemberRelationshipsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -11,6 +11,8 @@ import type { TokenCredential } from "@azure/core-auth";
 
 /** Microsoft.Relationships Resource Provider management API. */
 export interface RelationshipsContext extends Client {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,6 +30,7 @@ export interface RelationshipsClientOptionalParams extends ClientOptions {
 /** Microsoft.Relationships Resource Provider management API. */
 export function createRelationships(
   credential: TokenCredential,
+  subscriptionId: string,
   options: RelationshipsClientOptionalParams = {},
 ): RelationshipsContext {
   const endpointUrl =
@@ -35,15 +38,17 @@ export function createRelationships(
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-relationships/1.0.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+    },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion } as RelationshipsContext;
+  return { ...clientContext, apiVersion, subscriptionId } as RelationshipsContext;
 }

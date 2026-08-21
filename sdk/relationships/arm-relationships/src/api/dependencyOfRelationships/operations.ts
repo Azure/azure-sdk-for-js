@@ -5,15 +5,20 @@ import type { RelationshipsContext as Client } from "../index.js";
 import type {
   DependencyOfRelationshipCreateOrUpdate,
   DependencyOfRelationship,
+  _DependencyOfRelationshipListResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   dependencyOfRelationshipCreateOrUpdateSerializer,
   dependencyOfRelationshipDeserializer,
+  _dependencyOfRelationshipListResultDeserializer,
 } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  DependencyOfRelationshipsListByParentOptionalParams,
   DependencyOfRelationshipsDeleteOptionalParams,
   DependencyOfRelationshipsGetOptionalParams,
   DependencyOfRelationshipsCreateOrUpdateOptionalParams,
@@ -21,6 +26,61 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listByParentSend(
+  context: Client,
+  resourceUri: string,
+  options: DependencyOfRelationshipsListByParentOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/{+resourceUri}/providers/Microsoft.Relationships/dependencyOf{?api%2Dversion}",
+    {
+      resourceUri: resourceUri,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listByParentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_DependencyOfRelationshipListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _dependencyOfRelationshipListResultDeserializer(result.body);
+}
+/** List DependencyOfRelationship resources by parent */
+export function listByParent(
+  context: Client,
+  resourceUri: string,
+  options: DependencyOfRelationshipsListByParentOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<DependencyOfRelationship> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByParentSend(context, resourceUri, options),
+    _listByParentDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
+  );
+}
 
 export function _$deleteSend(
   context: Client,
@@ -33,7 +93,7 @@ export function _$deleteSend(
     {
       resourceUri: resourceUri,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2023-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,14 +106,15 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a DependencyOfRelationship */
 export function $delete(
   context: Client,
@@ -66,7 +127,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2023-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -81,7 +142,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2023-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,14 +160,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return dependencyOfRelationshipDeserializer(result.body);
 }
-
 /** Get a DependencyOfRelationship */
 export async function get(
   context: Client,
@@ -130,7 +192,7 @@ export function _createOrUpdateSend(
     {
       resourceUri: resourceUri,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2023-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,14 +212,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return dependencyOfRelationshipDeserializer(result.body);
 }
-
 /** Create a DependencyOfRelationship */
 export function createOrUpdate(
   context: Client,
@@ -171,6 +234,6 @@ export function createOrUpdate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, resourceUri, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2023-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<DependencyOfRelationship>, DependencyOfRelationship>;
 }

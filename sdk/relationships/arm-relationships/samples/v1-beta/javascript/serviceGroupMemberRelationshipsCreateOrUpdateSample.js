@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a ServiceGroupMemberRelationship
  *
  * @summary create a ServiceGroupMemberRelationship
- * x-ms-original-file: 2023-09-01-preview/ServiceGroupMemberRelationships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01-preview/ServiceGroupMemberRelationships_CreateOrUpdate.json
  */
 async function serviceGroupMemberRelationshipsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -18,8 +18,8 @@ async function serviceGroupMemberRelationshipsCreateOrUpdate() {
     "sg1",
     {
       properties: {
-        targetId: "/providers/Microsoft.Management/serviceGroups/sg1",
-        targetTenant: "72f988bf-86f1-41af-91ab-2d7cd011db47",
+        sourceId: "/providers/Microsoft.Management/serviceGroups/sg1",
+        sourceTenant: "72f988bf-86f1-41af-91ab-2d7cd011db47",
       },
     },
   );
