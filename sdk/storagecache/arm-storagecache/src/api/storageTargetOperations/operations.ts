@@ -29,7 +29,7 @@ export function _invalidateSend(
       resourceGroupName: resourceGroupName,
       cacheName: cacheName,
       storageTargetName: storageTargetName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,7 +66,7 @@ export function invalidate(
     getInitialResponse: () =>
       _invalidateSend(context, resourceGroupName, cacheName, storageTargetName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -84,7 +84,7 @@ export function _resumeSend(
       resourceGroupName: resourceGroupName,
       cacheName: cacheName,
       storageTargetName: storageTargetName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +121,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, resourceGroupName, cacheName, storageTargetName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -139,7 +139,7 @@ export function _suspendSend(
       resourceGroupName: resourceGroupName,
       cacheName: cacheName,
       storageTargetName: storageTargetName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +176,7 @@ export function suspend(
     getInitialResponse: () =>
       _suspendSend(context, resourceGroupName, cacheName, storageTargetName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -194,7 +194,7 @@ export function _flushSend(
       resourceGroupName: resourceGroupName,
       cacheName: cacheName,
       storageTargetName: storageTargetName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,6 +231,6 @@ export function flush(
     getInitialResponse: () =>
       _flushSend(context, resourceGroupName, cacheName, storageTargetName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
