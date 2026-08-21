@@ -14,6 +14,12 @@
 - Add `redact_private_content` to trace data generation jobs and `registry_connection_id` to container configuration. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 - Add the `VoiceAgents=V1Preview` agent definition opt-in key. [#39650](https://github.com/Azure/azure-sdk-for-js/issues/39650)
 
+### Features Added
+
+- Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
+- Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
+- Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
+
 ### Bugs Fixed
 
 - Tracing: Agent creation spans now correctly parent nested HTTP spans by activating span context via `runInSpanContext`.

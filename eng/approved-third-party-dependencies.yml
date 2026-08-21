@@ -130,6 +130,7 @@ exceptions:
       - "@azure/service-bus"
   - dependency: "ws"
     packages:
+      - "@azure/ai-projects"
       - "@azure/ai-voicelive"
       - "@azure/web-pubsub-client"
   - dependency: "yargs-parser"

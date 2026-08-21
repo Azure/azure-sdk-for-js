@@ -6,6 +6,8 @@ import OpenAI from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { createAIProject } from "./api/index.js";
+import type { AgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
+import { _getAgentEndpointConversationsOperations } from "./classic/agentEndpointConversations/index.js";
 import type { AgentsOperations } from "./classic/agents/index.js";
 import { _getAgentsOperations } from "./classic/agents/index.js";
 import type { ToolboxesOperations } from "./classic/toolboxes/index.js";
@@ -33,8 +35,18 @@ import { KnownApiVersions } from "./models/models.js";
 import { getTracingFetch } from "./tracing/tracingFetch.js";
 import { resolveTracingConfig } from "./tracing/configuration.js";
 import type { ResolvedTracingConfig } from "./tracing/configuration.js";
+import {
+  VoiceAgentRealtimeClient,
+  type VoiceAgentRealtimeClientOptions,
+} from "./realtime/voiceAgentRealtimeClient.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+
+/** Options for the Foundry project client. */
+export interface AIProjectClientOptions extends AIProjectClientOptionalParams {
+  /** Options applied to realtime voice-agent connections. */
+  realtimeOptions?: VoiceAgentRealtimeClientOptions;
+}
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.
@@ -44,7 +56,7 @@ export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @constructor
  * @param {string} endpoint - The endpoint to use
  * @param {TokenCredential} credential - The credential to use
- * @param {AIProjectClientOptionalParams} [options] - Optional parameters for the client.
+ * @param {AIProjectClientOptions} [options] - Optional parameters for the client.
  * @property {DeploymentsOperations} deployments - The operation groups for deployments
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
@@ -74,29 +86,24 @@ export class AIProjectClient {
   private _options: AIProjectClientOptionalParams;
   private _tracingConfig: ResolvedTracingConfig;
 
-  constructor(
-    endpoint: string,
-    credential: TokenCredential,
-    options: AIProjectClientOptionalParams = {},
-  ) {
+  constructor(endpoint: string, credential: TokenCredential, options: AIProjectClientOptions = {}) {
+    const { realtimeOptions, ...clientOptions } = options;
     this._endpoint = endpoint;
     this._credential = credential;
-    this._options = options;
-    this._tracingConfig = resolveTracingConfig(options.tracingOptions);
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
+    this._options = clientOptions;
+    this._tracingConfig = resolveTracingConfig(clientOptions.tracingOptions);
+    const prefixFromOptions = clientOptions.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions}` : "";
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
-      ...options,
+      ...clientOptions,
       userAgentOptions: { userAgentPrefix },
       credentials: {
-        ...options.credentials,
+        ...clientOptions.credentials,
         scopes: ["https://ai.azure.com/.default"],
       },
     });
     this._azureScopeClient = createAIProject(endpoint, credential, {
-      ...options,
+      ...clientOptions,
       userAgentOptions: { userAgentPrefix },
     });
 
@@ -106,9 +113,18 @@ export class AIProjectClient {
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
+    this.agentEndpointConversations = _getAgentEndpointConversationsOperations(
+      this._cognitiveScopeClient,
+    );
     this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
+    this.realtime = new VoiceAgentRealtimeClient(clientOptions.endpoint ?? endpoint, credential, {
+      ...realtimeOptions,
+      apiVersion: realtimeOptions?.apiVersion ?? clientOptions.apiVersion,
+      credentialScopes: realtimeOptions?.credentialScopes ?? clientOptions.credentials?.scopes,
+      userAgentPrefix: realtimeOptions?.userAgentPrefix ?? prefixFromOptions,
+    });
   }
 
   /** The operation groups for toolboxes */
@@ -123,6 +139,10 @@ export class AIProjectClient {
   public readonly connections: ConnectionsOperations;
   /** The operation groups for evaluationRules */
   public readonly evaluationRules: EvaluationRulesOperations;
+  /** The operation groups for agentEndpointConversations */
+  public readonly agentEndpointConversations: AgentEndpointConversationsOperations;
+  /** Realtime voice-agent connections. */
+  public readonly realtime: VoiceAgentRealtimeClient;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta include beta features:

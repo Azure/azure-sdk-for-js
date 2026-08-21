@@ -28,6 +28,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   updateAgent,
+  generateAgent,
   createAgent,
   get,
 } from "../../api/agents/operations.js";
@@ -57,6 +58,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -72,6 +74,7 @@ import {
   SessionLogEvent,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -300,6 +303,15 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateAgentOptionalParams,
   ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  generateAgent: (
+    foundryFeatures: "VoiceAgents=V1Preview",
+    body: GenerateAgentRequest,
+    options?: AgentsGenerateAgentOptionalParams,
+  ) => Promise<Agent>;
   /** Creates a new agent or a new version of an existing agent. */
   createAgent: (
     name: string,
@@ -418,6 +430,11 @@ function _getAgents(context: AIProjectContext) {
       definition: AgentDefinitionUnion,
       options?: AgentsUpdateAgentOptionalParams,
     ) => updateAgent(context, agentName, definition, options),
+    generateAgent: (
+      foundryFeatures: "VoiceAgents=V1Preview",
+      body: GenerateAgentRequest,
+      options?: AgentsGenerateAgentOptionalParams,
+    ) => generateAgent(context, foundryFeatures, body, options),
     createAgent: (
       name: string,
       definition: AgentDefinitionUnion,

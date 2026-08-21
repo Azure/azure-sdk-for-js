@@ -20,6 +20,7 @@ import type {
   SessionDirectoryEntry,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
+  GenerateAgentRequest,
 } from "../../models/models.js";
 import {
   agentDeserializer,
@@ -38,7 +39,8 @@ import {
   agentSessionResourceDeserializer,
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
-  sessionDirectoryListResponseDeserializer,
+  _sessionDirectoryListResponseDeserializer,
+  generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -70,6 +72,7 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -119,7 +122,6 @@ export async function _deleteSessionFileDeserialize(result: PathUncheckedRespons
 
   return;
 }
-
 /**
  * Deletes the specified file or directory from the session sandbox.
  * When `recursive` is false, deleting a non-empty directory returns 409 Conflict.
@@ -179,9 +181,8 @@ export async function _listSessionFilesDeserialize(
     throw error;
   }
 
-  return sessionDirectoryListResponseDeserializer(result.body);
+  return _sessionDirectoryListResponseDeserializer(result.body);
 }
-
 /**
  * Returns files and directories at the specified path in the session sandbox.
  * The response includes only the immediate children of the target directory and defaults to the session home directory when no path is supplied.
@@ -249,7 +250,6 @@ export async function _downloadSessionFileDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
-
 /**
  * Downloads the file at the specified sandbox path as a binary stream.
  * The path is resolved relative to the session home directory.
@@ -318,7 +318,6 @@ export async function _uploadSessionFileDeserialize(
 
   return sessionFileWriteResponseDeserializer(result.body);
 }
-
 /**
  * Uploads binary file content to the specified path in the session sandbox.
  * The service stores the file relative to the session home directory and rejects payloads larger than 50 MB.
@@ -377,7 +376,6 @@ export async function _getSessionLogStreamDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
-
 /**
  * Streams console logs (stdout / stderr) for a specific hosted agent session
  * as a Server-Sent Events (SSE) stream.
@@ -467,7 +465,6 @@ export async function _listSessionsDeserialize(
 
   return _agentsPagedResultAgentSessionResourceDeserializer(result.body);
 }
-
 /** Returns a paged collection of sessions associated with the specified agent endpoint. */
 export function listSessions(
   context: Client,
@@ -524,7 +521,6 @@ export async function _stopSessionDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
-
 /** Terminates the specified hosted agent session and returns 204 No Content when the request succeeds. */
 export async function stopSession(
   context: Client,
@@ -574,7 +570,6 @@ export async function _deleteSessionDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /**
  * Deletes a session synchronously.
  * Returns 204 No Content when the session is deleted or does not exist.
@@ -630,7 +625,6 @@ export async function _getSessionDeserialize(
 
   return agentSessionResourceDeserializer(result.body);
 }
-
 /** Retrieves the details of a hosted agent session by agent name and session identifier. */
 export async function getSession(
   context: Client,
@@ -687,7 +681,6 @@ export async function _createSessionDeserialize(
 
   return agentSessionResourceDeserializer(result.body);
 }
-
 /**
  * Creates a new session for an agent endpoint.
  * The endpoint resolves the backing agent version from `version_indicator` and
@@ -734,7 +727,6 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /**
  * Disables the specified agent, preventing it from accepting new sessions or processing requests.
  * Existing active sessions are allowed to drain gracefully but no new sessions can be created.
@@ -780,7 +772,6 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /**
  * Enables the specified agent, allowing it to accept new sessions and process requests.
  * This operation is idempotent — enabling an already-enabled agent returns success with no side effects.
@@ -831,7 +822,6 @@ export async function _downloadAgentCodeDeserialize(
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
-
 /**
  * Downloads the code zip for a code-based hosted agent.
  * Returns the previously-uploaded zip (`application/zip`).
@@ -896,7 +886,6 @@ export async function _createVersionFromCodeDeserialize(
 
   return agentVersionDeserializer(result.body);
 }
-
 /**
  * Creates a new agent version from code. Uploads the code zip and creates a new version
  * for an existing agent. The SHA-256 hex digest of the zip is provided in the
@@ -964,7 +953,6 @@ export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse
 
   return agentDeserializer(result.body);
 }
-
 /** Applies a merge-patch update to the specified agent endpoint configuration. */
 export async function updateAgentObject(
   context: Client,
@@ -1024,7 +1012,6 @@ export async function _listVersionsDeserialize(
 
   return _agentsPagedResultAgentVersionObjectDeserializer(result.body);
 }
-
 /** Returns a paged collection of versions for the specified agent. */
 export function listVersions(
   context: Client,
@@ -1084,7 +1071,6 @@ export async function _deleteVersionDeserialize(
 
   return deleteAgentVersionResponseDeserializer(result.body);
 }
-
 /**
  * Deletes a specific version of an agent. For hosted agents, if the version has active
  * sessions, the request is rejected with HTTP 409 unless `force` is set to true. When
@@ -1136,7 +1122,6 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
 
   return agentVersionDeserializer(result.body);
 }
-
 /** Retrieves the specified version of an agent by its agent name and version identifier. */
 export async function getVersion(
   context: Client,
@@ -1193,7 +1178,6 @@ export async function _createAgentVersionFromManifestDeserialize(
 
   return agentVersionDeserializer(result.body);
 }
-
 /** Imports the provided manifest to create a new version for the specified agent. */
 export async function createAgentVersionFromManifest(
   context: Client,
@@ -1267,7 +1251,6 @@ export async function _createVersionDeserialize(
 
   return agentVersionDeserializer(result.body);
 }
-
 /** Creates a new version for the specified agent and returns the created version resource. */
 export async function createVersion(
   context: Client,
@@ -1321,7 +1304,6 @@ export async function _listDeserialize(
 
   return _agentsPagedResultAgentObjectDeserializer(result.body);
 }
-
 /** Returns a paged collection of agent resources. */
 export function list(
   context: Client,
@@ -1378,7 +1360,6 @@ export async function _$deleteDeserialize(
 
   return deleteAgentResponseDeserializer(result.body);
 }
-
 /**
  * Deletes an agent. For hosted agents, if any version has active sessions, the request
  * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
@@ -1438,7 +1419,6 @@ export async function _updateAgentFromManifestDeserialize(
 
   return agentDeserializer(result.body);
 }
-
 /**
  * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.
  * If no changes, returns the existing agent version.
@@ -1506,7 +1486,6 @@ export async function _createAgentFromManifestDeserialize(
 
   return agentDeserializer(result.body);
 }
-
 /** Imports the provided manifest to create an agent and returns the created resource. */
 export async function createAgentFromManifest(
   context: Client,
@@ -1578,7 +1557,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return agentDeserializer(result.body);
 }
-
 /**
  * Updates the agent by adding a new version if there are any changes to the agent definition.
  * If no changes, returns the existing agent version.
@@ -1592,6 +1570,59 @@ export async function update(
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
+}
+
+export function _generateAgentSend(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "VoiceAgents=V1Preview";
+  const path = expandUrlTemplate(
+    "/agents:generate{?api-version}",
+    {
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: generateAgentRequestSerializer(body),
+  });
+}
+
+export async function _generateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function generateAgent(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _generateAgentSend(context, body, options);
+  return _generateAgentDeserialize(result);
 }
 
 export function _createSend(
@@ -1651,7 +1682,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return agentDeserializer(result.body);
 }
-
 /** Creates a new agent or a new version of an existing agent. */
 export async function create(
   context: Client,
@@ -1700,7 +1730,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 
   return agentDeserializer(result.body);
 }
-
 /** Retrieves an agent definition by its unique name. */
 export async function get(
   context: Client,

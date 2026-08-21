@@ -36,6 +36,8 @@ import {
   _SessionDirectoryListResponse,
   _sessionDirectoryListResponseDeserializer,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
+  generateAgentRequestSerializer,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -70,6 +72,7 @@ import {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -1569,6 +1572,63 @@ export async function updateAgent(
 ): Promise<Agent> {
   const result = await _updateAgentSend(context, agentName, definition, options);
   return _updateAgentDeserialize(result);
+}
+
+export function _generateAgentSend(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents:generate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "foundry-features": foundryFeatures,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: generateAgentRequestSerializer(body),
+    });
+}
+
+export async function _generateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function generateAgent(
+  context: Client,
+  foundryFeatures: "VoiceAgents=V1Preview",
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _generateAgentSend(context, foundryFeatures, body, options);
+  return _generateAgentDeserialize(result);
 }
 
 export function _createAgentSend(

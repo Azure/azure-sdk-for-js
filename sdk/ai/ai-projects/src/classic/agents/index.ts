@@ -30,6 +30,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   update,
+  generateAgent,
   create,
   get,
 } from "../../api/agents/operations.js";
@@ -60,6 +61,7 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -67,6 +69,7 @@ import type {
   Agent,
   AgentVersion,
   AgentDefinitionUnion,
+  GenerateAgentRequest,
   DeleteAgentResponse,
   DeleteAgentVersionResponse,
   CreateAgentVersionFromCodeContent,
@@ -300,7 +303,15 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateOptionalParams,
   ): Promise<Agent>;
-  /** Creates the agent. */
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  generateAgent: (
+    body: GenerateAgentRequest,
+    options?: AgentsGenerateAgentOptionalParams,
+  ) => Promise<Agent>;
+  /** Creates a new agent or a new version of an existing agent. */
   create(
     name: string,
     definition: AgentDefinitionUnion,
@@ -316,7 +327,6 @@ export interface AgentsOperations {
   /** Retrieves the agent. */
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
-
 function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingConfig) {
   return {
     deleteSessionFile: (
@@ -457,7 +467,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       optionsOrParameterValues?: AgentsCreateOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ): Promise<Agent> {
-      // If second param is a string, it's the manifest case (4 params)
       if (typeof definitionOrManifestId === "string") {
         return createAgentFromManifest(
           context,
@@ -468,7 +477,6 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
           tracingConfig,
         );
       }
-      // Otherwise, it's the definition case (3 params)
       return create(
         context,
         name,
@@ -477,10 +485,11 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
         tracingConfig,
       );
     },
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) =>
+      generateAgent(context, body, options),
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
-
 export function _getAgentsOperations(
   context: AIProjectContext,
   tracingConfig?: ResolvedTracingConfig,
