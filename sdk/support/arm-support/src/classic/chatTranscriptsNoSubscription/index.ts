@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { list, get } from "../../api/chatTranscriptsNoSubscription/operations.js";
-import {
+import type {
   ChatTranscriptsNoSubscriptionListOptionalParams,
   ChatTranscriptsNoSubscriptionGetOptionalParams,
 } from "../../api/chatTranscriptsNoSubscription/options.js";
-import { ChatTranscriptDetails } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ChatTranscriptDetails } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ChatTranscriptsNoSubscription operations. */
 export interface ChatTranscriptsNoSubscriptionOperations {
