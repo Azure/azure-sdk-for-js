@@ -1,14 +1,48 @@
 # Release History
 
-## 5.0.0-beta.2 (Unreleased)
+## 5.0.0 (2026-08-14)
 
 ### Features Added
+  - Added operation group DeletedBackupVaultsOperations
+  - Class DataProtectionClient has a new constructor "constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);"
+  - Added Interface AdlsBlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupAutoProtectionRule
+  - Added Interface BlobBackupAutoProtectionSettings
+  - Added Interface BlobBackupDatasourceParametersForAutoProtection
+  - Added Interface BlobBackupRuleBasedAutoProtectionSettings
+  - Added Interface CostManagementSettings
+  - Added Interface DeletedBackupVault
+  - Added Interface DeletedBackupVaultResource
+  - Added Interface DeletedBackupVaultsGetOptionalParams
+  - Added Interface DeletedBackupVaultsListByLocationOptionalParams
+  - Added Interface GenericBackupDatasourceParameters
+  - Added Interface GenericRestoreDatasourceCriteria
+  - Added Interface ResourceDeletionInfo
+  - Added Interface ResourceListSelectionCriteria
+  - Interface BackupVault has a new optional parameter costManagementSettings
+  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsDeletedVaultId
+  - Interface PatchBackupVaultInput has a new optional parameter costManagementSettings
+  - Added Type Alias BlobBackupAutoProtectionSettingsUnion
+  - Added Type Alias BlobBackupPatternType
+  - Added Type Alias BlobBackupRuleMode
+  - Added Type Alias GranularityLevel
+  - Added Enum KnownBlobBackupPatternType
+  - Added Enum KnownBlobBackupRuleMode
+  - Added Enum KnownGranularityLevel
+  - Enum KnownVersions has a new value V20250901
+  - Enum KnownVersions has a new value V20260301
+  - Enum KnownVersions has a new value V20260601
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation BackupInstancesOperations.getBackupInstanceOperationResult has a new signature
+  - Operation BackupVaultOperationResultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.createOrUpdate has a new signature
+  - Operation BackupVaultsOperations.get has a new signature
+  - Operation BackupVaultsOperations.listInResourceGroup has a new signature
+  - Operation BackupVaultsOperations.listInSubscription has a new signature
+  - Operation ExportJobsOperationResultOperations.get has a new signature
+  - Operation OperationResultOperations.get has a new signature
+  - Parameter storageSettings of interface BackupVault is now optional
 
 ## 5.0.0-beta.1 (2026-04-01)
 Compared with version 4.0.0
