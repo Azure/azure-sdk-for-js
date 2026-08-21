@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the list of query API keys for the given Azure AI Search service.
  *
  * @summary returns the list of query API keys for the given Azure AI Search service.
- * x-ms-original-file: 2026-03-01-preview/SearchListQueryKeysBySearchService.json
+ * x-ms-original-file: 2026-09-01-preview/SearchListQueryKeysBySearchService.json
  */
 async function searchListQueryKeysBySearchService() {
   const credential = new DefaultAzureCredential();
