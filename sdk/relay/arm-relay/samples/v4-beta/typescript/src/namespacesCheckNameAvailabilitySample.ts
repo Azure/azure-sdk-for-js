@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the specified namespace name availability.
  *
  * @summary check the specified namespace name availability.
- * x-ms-original-file: 2024-01-01/NameSpaces/RelayNameSpaceCheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/RelayNameSpaceCheckNameAvailability.json
  */
 async function relayCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

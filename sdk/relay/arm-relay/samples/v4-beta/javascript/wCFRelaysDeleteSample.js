@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a WCF relay.
  *
  * @summary deletes a WCF relay.
- * x-ms-original-file: 2024-01-01/Relay/RelayDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Relay/RelayDelete.json
  */
 async function relayDelete() {
   const credential = new DefaultAzureCredential();
