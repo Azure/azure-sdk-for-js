@@ -51,7 +51,7 @@ export function _listByNamespaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,6 @@ export async function _listByNamespaceDeserialize(
 
   return _hybridConnectionListResultDeserializer(result.body);
 }
-
 /** Lists the hybrid connection within the namespace. */
 export function listByNamespace(
   context: Client,
@@ -91,7 +90,7 @@ export function listByNamespace(
     () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
     _listByNamespaceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -109,7 +108,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a hybrid connection. */
 export async function $delete(
   context: Client,
@@ -165,7 +163,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +192,6 @@ export async function _createOrUpdateDeserialize(
 
   return hybridConnectionDeserializer(result.body);
 }
-
 /** Creates or updates a service hybrid connection. This operation is idempotent. */
 export async function createOrUpdate(
   context: Client,
@@ -229,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,7 +251,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Hy
 
   return hybridConnectionDeserializer(result.body);
 }
-
 /** Returns the description for the specified hybrid connection. */
 export async function get(
   context: Client,
@@ -290,7 +286,7 @@ export function _regenerateKeysSend(
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,7 +315,6 @@ export async function _regenerateKeysDeserialize(
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Regenerates the primary or secondary connection strings to the hybrid connection. */
 export async function regenerateKeys(
   context: Client,
@@ -358,7 +353,7 @@ export function _listKeysSend(
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,7 +378,6 @@ export async function _listKeysDeserialize(result: PathUncheckedResponse): Promi
 
   return accessKeysDeserializer(result.body);
 }
-
 /** Primary and secondary connection strings to the hybrid connection. */
 export async function listKeys(
   context: Client,
@@ -418,7 +412,7 @@ export function _listAuthorizationRulesSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -445,7 +439,6 @@ export async function _listAuthorizationRulesDeserialize(
 
   return _authorizationRuleListResultDeserializer(result.body);
 }
-
 /** Authorization rules for a hybrid connection. */
 export function listAuthorizationRules(
   context: Client,
@@ -466,7 +459,7 @@ export function listAuthorizationRules(
       ),
     _listAuthorizationRulesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-01-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
   );
 }
 
@@ -486,7 +479,7 @@ export function _deleteAuthorizationRuleSend(
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -510,7 +503,6 @@ export async function _deleteAuthorizationRuleDeserialize(
 
   return;
 }
-
 /** Deletes a hybrid connection authorization rule. */
 export async function deleteAuthorizationRule(
   context: Client,
@@ -548,7 +540,7 @@ export function _createOrUpdateAuthorizationRuleSend(
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -577,7 +569,6 @@ export async function _createOrUpdateAuthorizationRuleDeserialize(
 
   return authorizationRuleDeserializer(result.body);
 }
-
 /** Creates or updates an authorization rule for a hybrid connection. */
 export async function createOrUpdateAuthorizationRule(
   context: Client,
@@ -616,7 +607,7 @@ export function _getAuthorizationRuleSend(
       namespaceName: namespaceName,
       hybridConnectionName: hybridConnectionName,
       authorizationRuleName: authorizationRuleName,
-      "api%2Dversion": context.apiVersion ?? "2024-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -643,7 +634,6 @@ export async function _getAuthorizationRuleDeserialize(
 
   return authorizationRuleDeserializer(result.body);
 }
-
 /** Hybrid connection authorization rule for a hybrid connection by name. */
 export async function getAuthorizationRule(
   context: Client,

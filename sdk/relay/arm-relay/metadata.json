@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Relay": "2024-01-01"
+    "Microsoft.Relay": "2026-01-01"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Relay",
     "CrossLanguageDefinitionId": {
@@ -57,6 +57,7 @@
       "@azure/arm-relay!KnownEndPointProvisioningState:enum": "Microsoft.Relay.EndPointProvisioningState",
       "@azure/arm-relay!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-relay!KnownPublicNetworkAccess:enum": "Microsoft.Relay.PublicNetworkAccess",
+      "@azure/arm-relay!KnownTlsVersion:enum": "Microsoft.Relay.TlsVersion",
       "@azure/arm-relay!KnownSkuName:enum": "Microsoft.Relay.SkuName",
       "@azure/arm-relay!KnownSkuTier:enum": "Microsoft.Relay.SkuTier",
       "@azure/arm-relay!KnownDefaultAction:enum": "Microsoft.Relay.DefaultAction",
