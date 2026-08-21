@@ -15,7 +15,6 @@ import {
 } from "@azure/ai-projects";
 import { MicrophoneCapture, PcmAudioPlayer } from "./audio.js";
 import { LocalAzureCredential } from "./localAzureCredential.js";
-import { localVoiceAgentWebSocketFactory } from "./localVoiceAgentWebSocket.js";
 import "./styles.css";
 
 const preview = "VoiceAgents=V1Preview" as const;
@@ -287,9 +286,7 @@ class VoiceAgentConsole {
     if (this.client && this.loadedEndpoint === endpoint) {
       return this.client;
     }
-    const client = new AIProjectClient(endpoint, new LocalAzureCredential(), {
-      realtimeOptions: { webSocketFactory: localVoiceAgentWebSocketFactory },
-    });
+    const client = new AIProjectClient(endpoint, new LocalAzureCredential());
     this.client = client;
     this.loadedEndpoint = endpoint;
     return client;

@@ -126,15 +126,15 @@ The samples otherwise use built-in Node modules (`node:fs`, `node:events`, and
 
 ### Browser-only development dependencies
 
-The browser sample uses Vite for bundling and a local authentication/WebSocket relay:
+The browser sample uses Vite for bundling and a local Azure CLI token endpoint:
 
 ```bash
-npm install --save-dev vite@7.3.6 typescript@6.0.3 @types/node@22.20.1 @types/ws@8.18.1
-npm install @azure/identity@4.13.1 @azure/core-auth@1.11.0 ws@8.21.2
+npm install --save-dev vite@7.3.6 typescript@6.0.3 @types/node@22.20.1
+npm install @azure/identity@4.13.1 @azure/core-auth@1.11.0
 ```
 
-`@azure/identity` and `ws` run in the local Vite server plugin, not in the browser bundle. The page
-imports `AIProjectClient` from `@azure/ai-projects`; Vite selects the package's `browser` export.
+`@azure/identity` runs in the local Vite server plugin, not in the browser bundle. The page imports
+`AIProjectClient` from `@azure/ai-projects`; Vite selects the package's `browser` export.
 
 ### Optional and sample-specific dependencies
 
@@ -292,8 +292,7 @@ characters and audio bytes. Input format is not auto-detected; WAV/MP3 data pass
 ### Browser: management, Realtime, persisted text, and audio
 
 The browser package cannot be loaded by opening `index.html` directly. It is an ES module package
-and must be bundled. The provided Vite app also supplies local-only authentication and WebSocket
-relay routes.
+and must be bundled. The provided Vite app also supplies a local-only Azure CLI token endpoint.
 
 The supplied browser project uses this effective package configuration:
 
@@ -312,18 +311,16 @@ The supplied browser project uses this effective package configuration:
     "@azure/core-auth": "1.11.0",
     "@azure/identity": "4.13.1",
     "@types/node": "22.20.1",
-    "@types/ws": "8.18.1",
     "typescript": "6.0.3",
-    "vite": "7.3.6",
-    "ws": "8.21.2"
+    "vite": "7.3.6"
   }
 }
 ```
 
 Its Vite configuration installs `localAzureDevelopmentPlugin()`, binds the development server to
 `127.0.0.1:5173`, binds preview to `127.0.0.1:4173`, and sets `strictPort: true`. Copy the
-`server/`, `src/`, `index.html`, `vite.config.ts`, and `tsconfig.json` files together; the relay is
-implemented by the server plugin and cannot be replaced by Vite configuration alone.
+`server/`, `src/`, `index.html`, `vite.config.ts`, and `tsconfig.json` files together; the
+same-origin Azure CLI token endpoint is implemented by the server plugin.
 
 From a clean copy of the browser sample:
 
@@ -373,26 +370,30 @@ externalized modules or any Node polyfill.
 The provided sample is for local development only:
 
 - The Vite server uses `AzureCliCredential`.
-- `/api/azure-token` returns a short-lived Entra token to the same-origin page for REST calls and
+- `/api/azure-token` returns a short-lived Entra token to the same-origin page and
   marks the response `Cache-Control: no-store`.
-- The `/voice` WebSocket relay keeps the token server-side and adds `Authorization` and
-  `Foundry-Features: VoiceAgents=V1Preview` to the upstream upgrade.
-- Both routes reject non-loopback clients and cross-origin browser requests.
+- The SDK sends the token as `authorization.bearer.<token>` in `Sec-WebSocket-Protocol`, alongside
+  the `realtime` application subprotocol. The service promotes it to an `Authorization` header and
+  removes the credential subprotocol before forwarding the connection.
+- The SDK sends `VoiceAgents=V1Preview` in the `foundry_features` query parameter because browsers
+  cannot add the corresponding custom upgrade header.
+- The token route rejects non-loopback clients and cross-origin browser requests.
 
 Never place a client secret, API key, long-lived token, or service credential in browser code or a
-`VITE_*` variable. For production, host an authenticated application backend/relay and use managed
-identity or an approved user-delegated Entra flow. The local Azure CLI bridge is not a production
+`VITE_*` variable. WebSocket subprotocol authentication supports Microsoft Entra bearer tokens, not
+API keys. For production, use an approved user-delegated Entra flow, such as
+`InteractiveBrowserCredential` with a registered SPA, or provide a `TokenCredential` backed by your
+application's authentication flow. The local Azure CLI token endpoint is not a production
 authentication design.
 
 ### CORS and WebSocket requirements
 
 - REST requests originate in the browser and the Foundry endpoint must allow the web application's
   origin and required headers. The local sample origin is `http://127.0.0.1:5173`.
-- Browser WebSocket APIs cannot set an `Authorization` header. Direct authenticated Realtime
-  connection is therefore disabled by default; use the supplied relay or a production equivalent.
-- The upstream URL must use `wss://`, target
-  `*.services.ai.azure.com`, and match the project/agent voice endpoint path. The local relay rejects
-  other hosts and paths.
+- Browser WebSocket APIs cannot set an `Authorization` header. The SDK therefore carries the Entra
+  token in a credential subprotocol and connects directly to the service.
+- The WebSocket URL must use `wss://`, target `*.services.ai.azure.com`, and match the project/agent
+  voice endpoint path.
 - Corporate proxies must permit secure WebSocket upgrades to the Foundry service.
 
 ### Browser audio
@@ -407,14 +408,14 @@ authentication design.
 
 ### Browser and Node differences
 
-| Area            | Node/server                                              | Browser sample                                                                                  |
-| --------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Credential      | `DefaultAzureCredential`                                 | Local Vite relay uses `AzureCliCredential`; page uses a same-origin short-lived token endpoint. |
-| WebSocket auth  | SDK can add an `Authorization` header                    | Native browser WebSocket cannot add headers; relay required.                                    |
-| File access     | `node:fs` reads/writes PCM files                         | Microphone/Web Audio and Blob downloads; no filesystem APIs.                                    |
-| Binary download | `readableStreamBody`                                     | `blobBody`                                                                                      |
-| Build           | JavaScript runs directly; TypeScript compiles with `tsc` | Bundler/dev server required.                                                                    |
-| Secrets         | May use server-side credential environment               | Never expose secrets or long-lived tokens to the page.                                          |
+| Area            | Node/server                                              | Browser sample                                                                                |
+| --------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Credential      | `DefaultAzureCredential`                                 | Local Vite endpoint uses `AzureCliCredential`; page receives a same-origin short-lived token. |
+| WebSocket auth  | SDK adds an `Authorization` header                       | SDK sends `authorization.bearer.<token>` as a WebSocket subprotocol.                          |
+| File access     | `node:fs` reads/writes PCM files                         | Microphone/Web Audio and Blob downloads; no filesystem APIs.                                  |
+| Binary download | `readableStreamBody`                                     | `blobBody`                                                                                    |
+| Build           | JavaScript runs directly; TypeScript compiles with `tsc` | Bundler/dev server required.                                                                  |
+| Secrets         | May use server-side credential environment               | Never expose client secrets, service credentials, or long-lived tokens to the page.           |
 
 ## Known limitations and blockers
 
@@ -425,7 +426,7 @@ authentication design.
   Provide a stable preview branch or companion sample archive containing the four documented
   scenarios. The public `main` sample link is insufficient until these samples merge there.
 - Voice Agents and their model choices are service/region gated.
-- The Vite authentication/WebSocket bridge is loopback-only and development-only.
+- The Vite Azure CLI token endpoint is loopback-only and development-only.
 - Browser REST calls still depend on service CORS configuration. A CORS failure must be fixed in
   the service/project configuration or by using an application backend; do not disable browser
   security.
@@ -441,24 +442,24 @@ Validation used `@azure/ai-projects@2.4.1`, Windows 10, Node.js 22.18.0, npm 10.
 Azure CLI authentication, and a Voice Agents-enabled Foundry project. Browser validation used the
 VS Code integrated browser based on Chromium 148 / Electron 42.
 
-| Check                            | Result                               | Evidence                                                                                                                                                                                 |
-| -------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Official SDK build               | Passed                               | `npm run build` produced browser, React Native, ESM, and CommonJS targets and regenerated API reports.                                                                                   |
-| Node test suite                  | Passed                               | `npm run test:node` completed with 40 files / 231 tests passed and 64 tests intentionally skipped.                                                                                       |
-| Package lint                     | Blocked by existing unrelated errors | `npm run lint` reports the package Node-engine policy mismatch and an unused tracing assignment, plus generated-code warnings; neither was introduced by the preview guide/sample fixes. |
-| Package artifact                 | Passed                               | `npm pack` produced `azure-ai-projects-2.4.1.tgz`; dry run contains 1,897 files including this guide.                                                                                    |
-| Public package availability      | Blocked as expected                  | `npm view @azure/ai-projects@2.4.1` returned `E404`; use private feed/tarball distribution.                                                                                              |
-| Clean network install            | Not completed on this machine        | npmjs.org TLS handshakes failed on Node 22 and 24; the offline cache was incomplete. Repeat clean install in release CI before handoff.                                                  |
-| TypeScript sample build          | Passed after fix                     | Adding `"type": "module"` to the sample manifest fixed NodeNext `import.meta` compilation; `npm run build` now passes.                                                                   |
-| Browser production build         | Passed                               | `tsc --noEmit && vite build` completed; only the documented unrelated Node filesystem externalization and chunk-size warnings remain.                                                    |
-| REST lifecycle sample            | Passed live                          | Generated, retrieved, updated, listed, and deleted a uniquely named temporary voice agent.                                                                                               |
-| Realtime text/tools sample       | Passed live                          | One local function call, 60 streamed text characters, and 172,800 output PCM bytes.                                                                                                      |
-| Realtime audio sample            | Passed live                          | Sent synthesized mono 24 kHz PCM16 speech; received 118 text characters and 300,000 output PCM bytes.                                                                                    |
-| Browser agent loading/CORS       | Passed live                          | Same-origin Azure CLI token route returned `200`; two paged Foundry agent requests returned `200` and loaded 189 enabled agents.                                                         |
-| Browser Realtime                 | Passed live                          | Relay connected with `store=true`; UI reached Connected/REST verified/Socket connected and completed a real text turn with text and audio events.                                        |
-| Browser persistence/audio        | Passed live                          | Persisted ID populated; conversation, items, audio metadata, and WAV content routes all returned `200`; playback/download controls rendered.                                             |
-| Browser management               | Passed live                          | Generated and deleted a uniquely named temporary agent through the Management UI.                                                                                                        |
-| Browser microphone prerequisites | Passed capability check              | Loopback was a secure context; `getUserMedia`, Web Audio, and microphone permission were available. Ambient microphone recording was intentionally not performed.                        |
+| Check                            | Result                               | Evidence                                                                                                                                                                                                                                                      |
+| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Official SDK build               | Passed                               | `npm run build` produced browser, React Native, ESM, and CommonJS targets and regenerated API reports.                                                                                                                                                        |
+| Node test suite                  | Passed                               | `npm run test:node` completed with 40 files / 231 tests passed and 64 tests intentionally skipped.                                                                                                                                                            |
+| Package lint                     | Blocked by existing unrelated errors | `npm run lint` reports the package Node-engine policy mismatch and an unused tracing assignment, plus generated-code warnings; neither was introduced by the preview guide/sample fixes.                                                                      |
+| Package artifact                 | Passed                               | `npm pack` produced `azure-ai-projects-2.4.1.tgz`; dry run contains 1,897 files including this guide.                                                                                                                                                         |
+| Public package availability      | Blocked as expected                  | `npm view @azure/ai-projects@2.4.1` returned `E404`; use private feed/tarball distribution.                                                                                                                                                                   |
+| Clean network install            | Not completed on this machine        | npmjs.org TLS handshakes failed on Node 22 and 24; the offline cache was incomplete. Repeat clean install in release CI before handoff.                                                                                                                       |
+| TypeScript sample build          | Passed after fix                     | Adding `"type": "module"` to the sample manifest fixed NodeNext `import.meta` compilation; `npm run build` now passes.                                                                                                                                        |
+| Browser production build         | Passed                               | `tsc --noEmit && vite build` completed; only the documented unrelated Node filesystem externalization and chunk-size warnings remain.                                                                                                                         |
+| REST lifecycle sample            | Passed live                          | Generated, retrieved, updated, listed, and deleted a uniquely named temporary voice agent.                                                                                                                                                                    |
+| Realtime text/tools sample       | Passed live                          | One local function call, 60 streamed text characters, and 172,800 output PCM bytes.                                                                                                                                                                           |
+| Realtime audio sample            | Passed live                          | Sent synthesized mono 24 kHz PCM16 speech; received 118 text characters and 300,000 output PCM bytes.                                                                                                                                                         |
+| Browser agent loading/CORS       | Passed live again (2026-08-21)       | Same-origin Azure CLI token route returned `200`; Foundry agent requests returned `200` and loaded 222 enabled agents.                                                                                                                                        |
+| Browser Realtime                 | Passed live again (2026-08-21)       | Direct browser connection to `web-voice-067644f8` used `realtime`, `authorization.bearer.<token>`, and the exact `foundry_features=VoiceAgents=V1Preview` query parameter; the UI reached Connected/REST verified/Socket connected and completed a text turn. |
+| Browser persistence/audio        | Passed live                          | Persisted ID populated; conversation, items, audio metadata, and WAV content routes all returned `200`; playback/download controls rendered.                                                                                                                  |
+| Browser management               | Passed live                          | Generated and deleted a uniquely named temporary agent through the Management UI.                                                                                                                                                                             |
+| Browser microphone prerequisites | Passed capability check              | Loopback was a secure context; `getUserMedia`, Web Audio, and microphone permission were available. Ambient microphone recording was intentionally not performed.                                                                                             |
 
 The SDK/sample scenarios were tested live, but the package cannot be declared release-ready until a
 separate clean machine or CI job successfully installs the private feed/tarball plus dependencies
@@ -496,6 +497,6 @@ npm run dev
 
 Required for every scenario: `FOUNDRY_PROJECT_ENDPOINT` (or browser UI entry), Azure CLI login for
 the supplied samples, project data-plane role assignment, and a Voice Agents-enabled project.
-Realtime additionally requires an enabled voice agent/model. Browser usage requires bundling, the
-local relay (or production equivalent), valid service CORS, WebSocket egress, and microphone
-permission for audio input.
+Realtime additionally requires an enabled voice agent/model. Browser usage requires bundling, valid
+service CORS, WebSocket egress, a browser-compatible `TokenCredential`, and microphone permission
+for audio input.

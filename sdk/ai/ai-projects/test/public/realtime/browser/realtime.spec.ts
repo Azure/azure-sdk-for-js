@@ -76,7 +76,7 @@ describe("AIProjectClient browser realtime", () => {
     vi.unstubAllGlobals();
   });
 
-  it("moves upgrade headers into browser-compatible query parameters", async () => {
+  it("sends bearer auth as a WebSocket subprotocol and other headers as query parameters", async () => {
     const connection = await createClient().realtime.connect("browser-agent", {
       agentSessionId: "session-1",
       store: false,
@@ -92,31 +92,16 @@ describe("AIProjectClient browser realtime", () => {
     expect(url.searchParams.get("api-version")).toBe("v1");
     expect(url.searchParams.get("agent_session_id")).toBe("session-1");
     expect(url.searchParams.get("store")).toBe("false");
-    expect(url.searchParams.get("authorization")).toBe("Bearer browser-test-token");
-    expect(url.searchParams.get("h-foundry-features")).toBe("VoiceAgents=V1Preview");
+    expect(url.searchParams.has("authorization")).toBe(false);
+    expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
+    expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
     expect(url.searchParams.get("h-x-ms-voice-structured-inputs")).toBe(
       JSON.stringify({ customer: "Ada" }),
     );
     expect(url.searchParams.has("user-agent")).toBe(false);
-    expect(socket.protocols).toEqual(["realtime"]);
+    expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
 
     await connection.close();
-  });
-
-  it("refuses to connect with credentials in the URL unless explicitly allowed", async () => {
-    const client = new AIProjectClient(
-      "https://example.services.ai.azure.com/api/projects/browser-project",
-      new BrowserTestCredential(),
-    );
-
-    // The transport's specific error is wrapped in a generic VoiceAgentConnectionError; the
-    // original message survives as its `cause`.
-    const error = await client.realtime.connect("browser-agent").catch((caught: unknown) => caught);
-    expect(error).toBeInstanceOf(Error);
-    expect((error as { cause?: unknown }).cause).toMatchObject({
-      message: expect.stringMatching(/allowCredentialsInUrl/),
-    });
-    expect(MockBrowserWebSocket.instances).toHaveLength(0);
   });
 
   it("sends client events and deserializes Blob server events", async () => {
@@ -181,7 +166,6 @@ function createClient(): AIProjectClient {
   return new AIProjectClient(
     "https://example.services.ai.azure.com/api/projects/browser-project",
     new BrowserTestCredential(),
-    { realtimeOptions: { allowCredentialsInUrl: true } },
   );
 }
 

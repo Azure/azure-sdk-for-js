@@ -1,17 +1,16 @@
 # Foundry Voice Agent browser sample
 
-This Vite app demonstrates the browser build of `@azure/ai-projects`. It follows the short-term
-Voice Agent web bridge from
-[`@azure/ai-voicelive`](https://github.com/niuzheng168/azure-sdk-for-js/commit/d326e5ea7185e4b08c1470916517480a85e8239e):
-the browser SDK still owns REST models, protocol serialization, event handling, and audio, while a
-loopback-only Vite plugin supplies local Azure CLI authentication and adds the headers that browser
-WebSockets cannot set.
+This Vite app demonstrates the browser build of `@azure/ai-projects`. The browser SDK owns REST
+models, protocol serialization, event handling, audio, and the direct WebSocket connection. Because
+browsers cannot set an `Authorization` header during a WebSocket upgrade, the SDK sends the
+Microsoft Entra token as an `authorization.bearer.<token>` WebSocket subprotocol. A loopback-only
+Vite plugin supplies Azure CLI authentication for local development.
 
 ## Prerequisites
 
 | Input                           | Required | Default                          | Purpose                                                                                                                                      |
 | ------------------------------- | -------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Node.js 22 or later             | Yes      | None                             | Runs Vite and the loopback-only authentication bridge.                                                                                       |
+| Node.js 22 or later             | Yes      | None                             | Runs Vite and the loopback-only token endpoint.                                                                                              |
 | Project endpoint in the UI      | Yes      | `VITE_FOUNDRY_PROJECT_ENDPOINT`  | Foundry project endpoint, for example `https://<resource>.services.ai.azure.com/api/projects/<project>`.                                     |
 | Voice agent selection           | No       | Preferred or first enabled agent | **Load agents** lists enabled agents from the project. The configured preference is selected when found; otherwise the first agent is used.  |
 | `VITE_FOUNDRY_PROJECT_ENDPOINT` | No       | Empty                            | Optional project-endpoint prefill for the UI.                                                                                                |
@@ -27,18 +26,18 @@ sample.
 
 > The Voice Agent management and realtime APIs are preview service features. This sample builds
 > against the target TypeSpec contract, but live requests require that contract to be deployed in
-> the selected Foundry project and region.
+> the selected Foundry project and region. In particular, the endpoint must accept
+> `foundry_features=VoiceAgents=V1Preview` on the WebSocket URL.
 
 No SPA client ID, tenant ID, client secret, or API key is required. The Vite plugin uses
-`AzureCliCredential` to expose a no-store token endpoint for the management REST request. For the
-voice connection, it keeps the token server-side, opens the Foundry WebSocket with `Authorization`
-and `Foundry-Features` headers, and relays Voice Agent protocol frames unchanged. Both development
-routes validate loopback access and same-origin browser requests.
+`AzureCliCredential` to expose a no-store token endpoint to the same-origin page. The SDK uses that
+short-lived token for REST requests and sends it directly to the Voice Agent WebSocket endpoint in
+the credential subprotocol alongside the `realtime` application subprotocol. The required
+`VoiceAgents=V1Preview` feature value is sent in the `foundry_features` query parameter.
 
-This bridge is intentionally local-development only. It is not a production authentication design.
-For a deployed web app, put the relay behind authenticated application infrastructure and use a
-managed identity, or deliberately implement user-delegated browser authentication with a registered
-SPA and `InteractiveBrowserCredential`.
+The token endpoint is intentionally local-development only. For a deployed web app, use an approved
+user-delegated Microsoft Entra flow, such as `InteractiveBrowserCredential` with a registered SPA,
+or supply a `TokenCredential` backed by your application's authentication flow.
 
 ## Run
 
@@ -54,8 +53,9 @@ npm run dev
 Open `http://127.0.0.1:5173/`, enter the project endpoint, and select **Load agents**. The sample
 lists enabled voice agents and preselects the configured preference or the first result. **Connect**
 then reuses the Azure CLI session, verifies the selected agent through the management REST API, and
-connects its voice WebSocket through the transparent local bridge. The microphone requires browser
-permission and sends mono 24 kHz PCM16 audio with server-side voice activity detection.
+connects its voice WebSocket directly using Microsoft Entra subprotocol authentication. The
+microphone requires browser permission and sends mono 24 kHz PCM16 audio with server-side voice
+activity detection.
 Capture and playback follow the [VoiceLive basic web voice assistant](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voicelive/ai-voicelive/samples/basic-web-voice-assistant)
 audio pattern: request a 24 kHz capture context, convert microphone samples to mono PCM16, play
 response chunks sequentially, and clear queued output when a response is replaced or interrupted.
