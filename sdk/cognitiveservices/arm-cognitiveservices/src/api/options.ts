@@ -10,11 +10,9 @@ export interface CalculateModelCapacityOptionalParams extends OperationOptions {
   skuName?: string;
   workloads?: ModelCapacityCalculatorWorkload[];
 }
-
 /** Optional parameters. */
 export interface CheckDomainAvailabilityOptionalParams extends OperationOptions {
   kind?: string;
 }
-
 /** Optional parameters. */
 export interface CheckSkuAvailabilityOptionalParams extends OperationOptions {}

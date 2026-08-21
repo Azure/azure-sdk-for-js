@@ -230,7 +230,6 @@ export interface CommitmentPlansOperations {
     options?: CommitmentPlansGetOptionalParams,
   ) => Promise<CommitmentPlan>;
 }
-
 function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
   return {
     listAssociations: (
@@ -500,7 +499,6 @@ function _getCommitmentPlans(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, commitmentPlanName, options),
   };
 }
-
 export function _getCommitmentPlansOperations(
   context: CognitiveServicesManagementContext,
 ): CommitmentPlansOperations {

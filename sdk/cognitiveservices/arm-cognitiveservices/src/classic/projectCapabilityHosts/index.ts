@@ -84,7 +84,6 @@ export interface ProjectCapabilityHostsOperations {
     options?: ProjectCapabilityHostsGetOptionalParams,
   ) => Promise<ProjectCapabilityHost>;
 }
-
 function _getProjectCapabilityHosts(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -198,7 +197,6 @@ function _getProjectCapabilityHosts(context: CognitiveServicesManagementContext)
     ) => get(context, resourceGroupName, accountName, projectName, capabilityHostName, options),
   };
 }
-
 export function _getProjectCapabilityHostsOperations(
   context: CognitiveServicesManagementContext,
 ): ProjectCapabilityHostsOperations {

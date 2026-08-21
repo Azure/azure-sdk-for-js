@@ -86,7 +86,6 @@ export interface OutboundRuleOperations {
     options?: OutboundRuleGetOptionalParams,
   ) => Promise<OutboundRuleBasicResource>;
 }
-
 function _getOutboundRule(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -200,7 +199,6 @@ function _getOutboundRule(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, managedNetworkName, ruleName, options),
   };
 }
-
 export function _getOutboundRuleOperations(
   context: CognitiveServicesManagementContext,
 ): OutboundRuleOperations {

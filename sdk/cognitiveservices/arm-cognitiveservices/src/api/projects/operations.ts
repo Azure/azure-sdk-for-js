@@ -36,7 +36,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _projectListResultDeserializer(result.body);
 }
-
 /** Returns all the projects in a Cognitive Services account. */
 export function list(
   context: Client,
@@ -74,11 +73,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -96,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +113,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a Cognitive Services project from the resource group. */
 export function $delete(
   context: Client,
@@ -133,7 +127,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, projectName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +146,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +173,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return projectDeserializer(result.body);
 }
-
 /** Updates a Cognitive Services Project */
 export function update(
   context: Client,
@@ -195,7 +188,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, projectName, project, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Project>, Project>;
 }
 
@@ -214,7 +207,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,7 +234,6 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return projectDeserializer(result.body);
 }
-
 /** Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on. */
 export function create(
   context: Client,
@@ -257,7 +249,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, projectName, project, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Project>, Project>;
 }
 
@@ -275,7 +267,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       projectName: projectName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +292,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return projectDeserializer(result.body);
 }
-
 /** Returns a Cognitive Services project specified by the parameters. */
 export async function get(
   context: Client,

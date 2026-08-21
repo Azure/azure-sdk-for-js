@@ -114,7 +114,6 @@ export interface ManagedNetworkSettingsOperations {
     options?: ManagedNetworkSettingsGetOptionalParams,
   ) => Promise<ManagedNetworkSettingsPropertiesBasicResource>;
 }
-
 function _getManagedNetworkSettings(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -212,7 +211,6 @@ function _getManagedNetworkSettings(context: CognitiveServicesManagementContext)
     ) => get(context, resourceGroupName, accountName, managedNetworkName, options),
   };
 }
-
 export function _getManagedNetworkSettingsOperations(
   context: CognitiveServicesManagementContext,
 ): ManagedNetworkSettingsOperations {

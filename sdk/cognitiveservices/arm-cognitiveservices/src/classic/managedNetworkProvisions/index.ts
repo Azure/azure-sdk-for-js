@@ -35,7 +35,6 @@ export interface ManagedNetworkProvisionsOperations {
     options?: ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ) => Promise<ManagedNetworkProvisionStatus>;
 }
-
 function _getManagedNetworkProvisions(context: CognitiveServicesManagementContext) {
   return {
     provisionManagedNetwork: (
@@ -77,7 +76,6 @@ function _getManagedNetworkProvisions(context: CognitiveServicesManagementContex
     },
   };
 }
-
 export function _getManagedNetworkProvisionsOperations(
   context: CognitiveServicesManagementContext,
 ): ManagedNetworkProvisionsOperations {

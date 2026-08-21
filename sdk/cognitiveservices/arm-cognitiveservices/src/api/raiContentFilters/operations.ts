@@ -28,7 +28,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _listDeserialize(
 
   return _raiContentFilterListResultDeserializer(result.body);
 }
-
 /** List Content Filters types. */
 export function list(
   context: Client,
@@ -67,11 +66,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -87,7 +82,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       filterName: filterName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +107,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ra
 
   return raiContentFilterDeserializer(result.body);
 }
-
 /** Get Content Filters by Name. */
 export async function get(
   context: Client,

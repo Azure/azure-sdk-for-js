@@ -46,7 +46,7 @@ export function _stopSend(
       projectName: projectName,
       appName: appName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,6 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
-
 /** Stops an Agent Deployment. */
 export async function stop(
   context: Client,
@@ -109,7 +108,7 @@ export function _startSend(
       projectName: projectName,
       appName: appName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,6 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
-
 /** Starts an Agent Deployment. */
 export async function start(
   context: Client,
@@ -170,7 +168,7 @@ export function _listSend(
       accountName: accountName,
       projectName: projectName,
       appName: appName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       count: options?.count,
       "%24skipToken": options?.skipToken,
       names: !options?.names
@@ -206,7 +204,6 @@ export async function _listDeserialize(
 
   return _agentDeploymentResourceArmPaginatedResultDeserializer(result.body);
 }
-
 /** Lists Agent Deployments in the application. */
 export function list(
   context: Client,
@@ -221,11 +218,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, projectName, appName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -247,7 +240,7 @@ export function _$deleteSend(
       projectName: projectName,
       appName: appName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,7 +262,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete Agent Deployment. */
 export function $delete(
   context: Client,
@@ -294,7 +286,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -317,7 +309,7 @@ export function _createOrUpdateSend(
       projectName: projectName,
       appName: appName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +338,6 @@ export async function _createOrUpdateDeserialize(
 
   return agentDeploymentDeserializer(result.body);
 }
-
 /** Creates or updates an Agent Deployment (asynchronous). */
 export function createOrUpdate(
   context: Client,
@@ -373,7 +364,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<AgentDeployment>, AgentDeployment>;
 }
 
@@ -395,7 +386,7 @@ export function _getSend(
       projectName: projectName,
       appName: appName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -420,7 +411,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ag
 
   return agentDeploymentDeserializer(result.body);
 }
-
 /** Gets an Agent Deployment by name. */
 export async function get(
   context: Client,

@@ -5,13 +5,10 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AgentApplicationsDisableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentApplicationsEnableOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentApplicationsListAgentsOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface AgentApplicationsListOptionalParams extends OperationOptions {
   /** Number of agent applications to be retrieved in a page of results. */
@@ -29,18 +26,15 @@ export interface AgentApplicationsListOptionalParams extends OperationOptions {
   /** Whether to order in ascending order. */
   orderByAsc?: boolean;
 }
-
 /** Optional parameters. */
 export interface AgentApplicationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface AgentApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface AgentApplicationsGetOptionalParams extends OperationOptions {}

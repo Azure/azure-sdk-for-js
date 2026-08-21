@@ -119,7 +119,6 @@ export interface AgentDeploymentsOperations {
     options?: AgentDeploymentsGetOptionalParams,
   ) => Promise<AgentDeployment>;
 }
-
 function _getAgentDeployments(context: CognitiveServicesManagementContext) {
   return {
     stop: (
@@ -274,7 +273,6 @@ function _getAgentDeployments(context: CognitiveServicesManagementContext) {
       get(context, resourceGroupName, accountName, projectName, appName, deploymentName, options),
   };
 }
-
 export function _getAgentDeploymentsOperations(
   context: CognitiveServicesManagementContext,
 ): AgentDeploymentsOperations {

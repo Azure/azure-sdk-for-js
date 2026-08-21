@@ -76,7 +76,6 @@ export interface AccountCapabilityHostsOperations {
     options?: AccountCapabilityHostsGetOptionalParams,
   ) => Promise<CapabilityHost>;
 }
-
 function _getAccountCapabilityHosts(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -165,7 +164,6 @@ function _getAccountCapabilityHosts(context: CognitiveServicesManagementContext)
     ) => get(context, resourceGroupName, accountName, capabilityHostName, options),
   };
 }
-
 export function _getAccountCapabilityHostsOperations(
   context: CognitiveServicesManagementContext,
 ): AccountCapabilityHostsOperations {

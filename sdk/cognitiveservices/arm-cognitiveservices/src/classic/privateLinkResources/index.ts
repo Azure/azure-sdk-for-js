@@ -15,7 +15,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListOptionalParams,
   ) => Promise<PrivateLinkResourceListResult>;
 }
-
 function _getPrivateLinkResources(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -25,7 +24,6 @@ function _getPrivateLinkResources(context: CognitiveServicesManagementContext) {
     ) => list(context, resourceGroupName, accountName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: CognitiveServicesManagementContext,
 ): PrivateLinkResourcesOperations {

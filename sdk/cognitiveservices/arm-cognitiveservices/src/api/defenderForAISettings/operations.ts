@@ -33,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listDeserialize(
 
   return _defenderForAISettingResultDeserializer(result.body);
 }
-
 /** Lists the Defender for AI settings. */
 export function list(
   context: Client,
@@ -73,11 +72,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -96,7 +91,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       defenderForAISettingName: defenderForAISettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +120,6 @@ export async function _updateDeserialize(
 
   return defenderForAISettingDeserializer(result.body);
 }
-
 /** Updates the specified Defender for AI setting. */
 export async function update(
   context: Client,
@@ -161,7 +155,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       defenderForAISettingName: defenderForAISettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +184,6 @@ export async function _createOrUpdateDeserialize(
 
   return defenderForAISettingDeserializer(result.body);
 }
-
 /** Creates or Updates the specified Defender for AI setting. */
 export async function createOrUpdate(
   context: Client,
@@ -225,7 +218,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       defenderForAISettingName: defenderForAISettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -252,7 +245,6 @@ export async function _getDeserialize(
 
   return defenderForAISettingDeserializer(result.body);
 }
-
 /** Gets the specified Defender for AI setting by name. */
 export async function get(
   context: Client,

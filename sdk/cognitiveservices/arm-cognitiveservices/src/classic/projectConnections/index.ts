@@ -55,7 +55,6 @@ export interface ProjectConnectionsOperations {
     options?: ProjectConnectionsGetOptionalParams,
   ) => Promise<ConnectionPropertiesV2BasicResource>;
 }
-
 function _getProjectConnections(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -94,7 +93,6 @@ function _getProjectConnections(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, projectName, connectionName, options),
   };
 }
-
 export function _getProjectConnectionsOperations(
   context: CognitiveServicesManagementContext,
 ): ProjectConnectionsOperations {

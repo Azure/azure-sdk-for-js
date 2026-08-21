@@ -55,7 +55,7 @@ export function _listAssociationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,7 +82,6 @@ export async function _listAssociationsDeserialize(
 
   return _commitmentPlanAccountAssociationListResultDeserializer(result.body);
 }
-
 /** Gets the associations of the Cognitive Services commitment plan. */
 export function listAssociations(
   context: Client,
@@ -95,11 +94,7 @@ export function listAssociations(
     () => _listAssociationsSend(context, resourceGroupName, commitmentPlanName, options),
     _listAssociationsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -117,7 +112,7 @@ export function _deleteAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +134,6 @@ export async function _deleteAssociationDeserialize(result: PathUncheckedRespons
 
   return;
 }
-
 /** Deletes the association of the Cognitive Services commitment plan. */
 export function deleteAssociation(
   context: Client,
@@ -160,7 +154,7 @@ export function deleteAssociation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -179,7 +173,7 @@ export function _createOrUpdateAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +202,6 @@ export async function _createOrUpdateAssociationDeserialize(
 
   return commitmentPlanAccountAssociationDeserializer(result.body);
 }
-
 /** Create or update the association of the Cognitive Services commitment plan. */
 export function createOrUpdateAssociation(
   context: Client,
@@ -235,7 +228,7 @@ export function createOrUpdateAssociation(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01",
     },
   ) as PollerLike<
     OperationState<CommitmentPlanAccountAssociation>,
@@ -257,7 +250,7 @@ export function _getAssociationSend(
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
       commitmentPlanAssociationName: commitmentPlanAssociationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +277,6 @@ export async function _getAssociationDeserialize(
 
   return commitmentPlanAccountAssociationDeserializer(result.body);
 }
-
 /** Gets the association of the Cognitive Services commitment plan. */
 export async function getAssociation(
   context: Client,
@@ -311,7 +303,7 @@ export function _listPlansBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +330,6 @@ export async function _listPlansBySubscriptionDeserialize(
 
   return _commitmentPlanListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a subscription. */
 export function listPlansBySubscription(
   context: Client,
@@ -349,11 +340,7 @@ export function listPlansBySubscription(
     () => _listPlansBySubscriptionSend(context, options),
     _listPlansBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -367,7 +354,7 @@ export function _listPlansByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -394,7 +381,6 @@ export async function _listPlansByResourceGroupDeserialize(
 
   return _commitmentPlanListResultDeserializer(result.body);
 }
-
 /** Returns all the resources of a particular type belonging to a resource group */
 export function listPlansByResourceGroup(
   context: Client,
@@ -406,11 +392,7 @@ export function listPlansByResourceGroup(
     () => _listPlansByResourceGroupSend(context, resourceGroupName, options),
     _listPlansByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -426,7 +408,7 @@ export function _deletePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -448,7 +430,6 @@ export async function _deletePlanDeserialize(result: PathUncheckedResponse): Pro
 
   return;
 }
-
 /** Deletes a Cognitive Services commitment plan from the resource group. */
 export function deletePlan(
   context: Client,
@@ -462,7 +443,7 @@ export function deletePlan(
     getInitialResponse: () =>
       _deletePlanSend(context, resourceGroupName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -479,7 +460,7 @@ export function _updatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -508,7 +489,6 @@ export async function _updatePlanDeserialize(
 
   return commitmentPlanDeserializer(result.body);
 }
-
 /** Create Cognitive Services commitment plan. */
 export function updatePlan(
   context: Client,
@@ -523,7 +503,7 @@ export function updatePlan(
     getInitialResponse: () =>
       _updatePlanSend(context, resourceGroupName, commitmentPlanName, commitmentPlan, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -540,7 +520,7 @@ export function _createOrUpdatePlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -569,7 +549,6 @@ export async function _createOrUpdatePlanDeserialize(
 
   return commitmentPlanDeserializer(result.body);
 }
-
 /** Create Cognitive Services commitment plan. */
 export function createOrUpdatePlan(
   context: Client,
@@ -590,7 +569,7 @@ export function createOrUpdatePlan(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<CommitmentPlan>, CommitmentPlan>;
 }
 
@@ -606,7 +585,7 @@ export function _getPlanSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -631,7 +610,6 @@ export async function _getPlanDeserialize(result: PathUncheckedResponse): Promis
 
   return commitmentPlanDeserializer(result.body);
 }
-
 /** Returns a Cognitive Services commitment plan specified by the parameters. */
 export async function getPlan(
   context: Client,
@@ -655,7 +633,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -682,7 +660,6 @@ export async function _listDeserialize(
 
   return _commitmentPlanListResultDeserializer(result.body);
 }
-
 /** Gets the commitmentPlans associated with the Cognitive Services account. */
 export function list(
   context: Client,
@@ -695,11 +672,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -717,7 +690,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -739,7 +712,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified commitmentPlan associated with the Cognitive Services account. */
 export function $delete(
   context: Client,
@@ -754,7 +726,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, commitmentPlanName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -773,7 +745,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -802,7 +774,6 @@ export async function _createOrUpdateDeserialize(
 
   return commitmentPlanDeserializer(result.body);
 }
-
 /** Update the state of specified commitmentPlans associated with the Cognitive Services account. */
 export async function createOrUpdate(
   context: Client,
@@ -837,7 +808,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       commitmentPlanName: commitmentPlanName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -862,7 +833,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return commitmentPlanDeserializer(result.body);
 }
-
 /** Gets the specified commitmentPlans associated with the Cognitive Services account. */
 export async function get(
   context: Client,

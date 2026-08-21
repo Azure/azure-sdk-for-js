@@ -95,7 +95,6 @@ export interface RaiBlocklistItemsOperations {
     options?: RaiBlocklistItemsGetOptionalParams,
   ) => Promise<RaiBlocklistItem>;
 }
-
 function _getRaiBlocklistItems(context: CognitiveServicesManagementContext) {
   return {
     batchDelete: (
@@ -210,7 +209,6 @@ function _getRaiBlocklistItems(context: CognitiveServicesManagementContext) {
       get(context, resourceGroupName, accountName, raiBlocklistName, raiBlocklistItemName, options),
   };
 }
-
 export function _getRaiBlocklistItemsOperations(
   context: CognitiveServicesManagementContext,
 ): RaiBlocklistItemsOperations {

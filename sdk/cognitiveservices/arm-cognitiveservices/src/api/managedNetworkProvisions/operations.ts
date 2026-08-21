@@ -29,7 +29,7 @@ export function _provisionManagedNetworkSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +58,6 @@ export async function _provisionManagedNetworkDeserialize(
 
   return managedNetworkProvisionStatusDeserializer(result.body);
 }
-
 /** Provisions the managed network of a cognitive services account. */
 export function provisionManagedNetwork(
   context: Client,
@@ -79,6 +78,6 @@ export function provisionManagedNetwork(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>;
 }

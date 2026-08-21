@@ -50,7 +50,6 @@ export interface AccountConnectionsOperations {
     options?: AccountConnectionsGetOptionalParams,
   ) => Promise<ConnectionPropertiesV2BasicResource>;
 }
-
 function _getAccountConnections(context: CognitiveServicesManagementContext) {
   return {
     list: (
@@ -84,7 +83,6 @@ function _getAccountConnections(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, connectionName, options),
   };
 }
-
 export function _getAccountConnectionsOperations(
   context: CognitiveServicesManagementContext,
 ): AccountConnectionsOperations {

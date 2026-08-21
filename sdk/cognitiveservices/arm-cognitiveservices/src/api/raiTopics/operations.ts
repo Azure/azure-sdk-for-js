@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +60,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _raiTopicResultDeserializer(result.body);
 }
-
 /** Gets the custom topics associated with the Azure OpenAI account. */
 export function list(
   context: Client,
@@ -73,11 +72,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -95,7 +90,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiTopicName: raiTopicName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,7 +112,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified custom topic associated with the Azure OpenAI account. */
 export function $delete(
   context: Client,
@@ -132,7 +126,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, raiTopicName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -151,7 +145,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiTopicName: raiTopicName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +172,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return raiTopicDeserializer(result.body);
 }
-
 /** Create the rai topic associated with the Azure OpenAI account. */
 export async function createOrUpdate(
   context: Client,
@@ -213,7 +206,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiTopicName: raiTopicName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +231,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ra
 
   return raiTopicDeserializer(result.body);
 }
-
 /** Gets the specified custom topic associated with the Azure OpenAI account. */
 export async function get(
   context: Client,

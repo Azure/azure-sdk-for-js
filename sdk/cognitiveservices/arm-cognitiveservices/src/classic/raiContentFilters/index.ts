@@ -24,7 +24,6 @@ export interface RaiContentFiltersOperations {
     options?: RaiContentFiltersGetOptionalParams,
   ) => Promise<RaiContentFilter>;
 }
-
 function _getRaiContentFilters(context: CognitiveServicesManagementContext) {
   return {
     list: (location: string, options?: RaiContentFiltersListOptionalParams) =>
@@ -33,7 +32,6 @@ function _getRaiContentFilters(context: CognitiveServicesManagementContext) {
       get(context, location, filterName, options),
   };
 }
-
 export function _getRaiContentFiltersOperations(
   context: CognitiveServicesManagementContext,
 ): RaiContentFiltersOperations {

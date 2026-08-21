@@ -49,7 +49,7 @@ export function _resumeSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,7 +74,6 @@ export async function _resumeDeserialize(result: PathUncheckedResponse): Promise
 
   return deploymentDeserializer(result.body);
 }
-
 /** Resumes inferencing on a previously paused deployment by setting the deploymentState to 'Running' (see #/definitions/DeploymentProperties/properties/deploymentState). This operation is idempotent and can be safely called on already running deployments. */
 export async function resume(
   context: Client,
@@ -107,7 +106,7 @@ export function _pauseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,7 +131,6 @@ export async function _pauseDeserialize(result: PathUncheckedResponse): Promise<
 
   return deploymentDeserializer(result.body);
 }
-
 /** Pauses inferencing on a deployment by setting the deploymentState to 'Paused' (see #/definitions/DeploymentProperties/properties/deploymentState). Only Standard, DataZoneStandard, and GlobalStandard SKUs support this operation. Inference requests to the paused deployment endpoint will receive HTTP 423 (Locked). This operation is idempotent. */
 export async function pause(
   context: Client,
@@ -159,7 +157,7 @@ export function _listSkusSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,7 +184,6 @@ export async function _listSkusDeserialize(
 
   return _deploymentSkuListResultDeserializer(result.body);
 }
-
 /** Lists the specified deployments skus associated with the Cognitive Services account. */
 export function listSkus(
   context: Client,
@@ -200,11 +197,7 @@ export function listSkus(
     () => _listSkusSend(context, resourceGroupName, accountName, deploymentName, options),
     _listSkusDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -220,7 +213,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +240,6 @@ export async function _listDeserialize(
 
   return _deploymentListResultDeserializer(result.body);
 }
-
 /** Gets the deployments associated with the Cognitive Services account. */
 export function list(
   context: Client,
@@ -260,11 +252,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -282,7 +270,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,7 +292,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes the specified deployment associated with the Cognitive Services account. */
 export function $delete(
   context: Client,
@@ -319,7 +306,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, deploymentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -338,7 +325,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -365,7 +352,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return deploymentDeserializer(result.body);
 }
-
 /** Update specified deployments associated with the Cognitive Services account. */
 export function update(
   context: Client,
@@ -381,7 +367,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, deploymentName, deployment, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Deployment>, Deployment>;
 }
 
@@ -400,7 +386,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,7 +415,6 @@ export async function _createOrUpdateDeserialize(
 
   return deploymentDeserializer(result.body);
 }
-
 /** Update the state of specified deployments associated with the Cognitive Services account. */
 export function createOrUpdate(
   context: Client,
@@ -452,7 +437,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Deployment>, Deployment>;
 }
 
@@ -470,7 +455,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -495,7 +480,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
 
   return deploymentDeserializer(result.body);
 }
-
 /** Gets the specified deployments associated with the Cognitive Services account. */
 export async function get(
   context: Client,

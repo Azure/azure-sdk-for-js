@@ -122,7 +122,6 @@ export interface AgentApplicationsOperations {
     options?: AgentApplicationsGetOptionalParams,
   ) => Promise<AgentApplication>;
 }
-
 function _getAgentApplications(context: CognitiveServicesManagementContext) {
   return {
     disable: (
@@ -234,7 +233,6 @@ function _getAgentApplications(context: CognitiveServicesManagementContext) {
     ) => get(context, resourceGroupName, accountName, projectName, name, options),
   };
 }
-
 export function _getAgentApplicationsOperations(
   context: CognitiveServicesManagementContext,
 ): AgentApplicationsOperations {
