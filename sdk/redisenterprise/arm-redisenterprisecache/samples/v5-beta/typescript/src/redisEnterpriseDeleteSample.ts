@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Redis Enterprise cache cluster.
  *
  * @summary deletes a Redis Enterprise cache cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDelete.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDelete.json
  */
 async function redisEnterpriseDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

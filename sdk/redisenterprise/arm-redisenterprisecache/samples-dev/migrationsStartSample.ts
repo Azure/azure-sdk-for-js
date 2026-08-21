@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { RedisEnterpriseManagementClient } = require("@azure/arm-redisenterprisecache");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to starts a new migration
  *
  * @summary starts a new migration
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseMigrationStart.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseMigrationStart.json
  */
-async function redisEnterpriseMigrationStart() {
+async function redisEnterpriseMigrationStart(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  const result = await client.migration.start("rg1", "cache1", {
+  const result = await client.migrations.start("rg1", "cache1", {
     properties: {
       skipDataMigration: true,
       sourceResourceId:
@@ -26,7 +26,7 @@ async function redisEnterpriseMigrationStart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await redisEnterpriseMigrationStart();
 }
 
