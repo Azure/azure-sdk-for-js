@@ -1,0 +1,44 @@
+{
+  "apiVersions": {
+    "WebPubSubChat": "2026-02-01-preview"
+  },
+  "emitterVersion": "0.55.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "WebPubSubChat",
+    "CrossLanguageDefinitionId": {
+      "@azure/web-pubsub-chat!ChatConversation:interface": "WebPubSubChat.ChatConversation",
+      "@azure/web-pubsub-chat!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure/web-pubsub-chat!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure/web-pubsub-chat!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure/web-pubsub-chat!PagedChatMessage:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/web-pubsub-chat!ChatMessage:interface": "WebPubSubChat.ChatMessage",
+      "@azure/web-pubsub-chat!MessageContent:interface": "WebPubSubChat.MessageContent",
+      "@azure/web-pubsub-chat!PagedChatRole:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/web-pubsub-chat!ChatRole:interface": "WebPubSubChat.ChatRole",
+      "@azure/web-pubsub-chat!ChatRoom:interface": "WebPubSubChat.ChatRoom",
+      "@azure/web-pubsub-chat!PagedChatRoomMember:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure/web-pubsub-chat!ChatRoomMember:interface": "WebPubSubChat.ChatRoomMember",
+      "@azure/web-pubsub-chat!ChatUser:interface": "WebPubSubChat.ChatUser",
+      "@azure/web-pubsub-chat!HumanChatUser:interface": "WebPubSubChat.HumanChatUser",
+      "@azure/web-pubsub-chat!KnownChatUserKind:enum": "WebPubSubChat.ChatUserKind",
+      "@azure/web-pubsub-chat!KnownVersions:enum": "WebPubSubChat.Versions",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#deleteUser:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.deleteUser",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#createOrReplaceUser:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.createOrReplaceUser",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#getUser:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.getUser",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#deleteRoomMember:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.deleteRoomMember",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#createOrReplaceRoomMember:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.createOrReplaceRoomMember",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#listRoomMembers:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.listRoomMembers",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#deleteRoom:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.deleteRoom",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#getRoom:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.getRoom",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#createOrReplaceRoom:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.createOrReplaceRoom",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#deleteRole:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.deleteRole",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#createOrReplaceRole:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.createOrReplaceRole",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#getRole:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.getRole",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#listRoles:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.listRoles",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#updateMessage:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.updateMessage",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#deleteMessage:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.deleteMessage",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#listMessages:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.listMessages",
+      "@azure/web-pubsub-chat!WebPubSubChatServiceClient#getConversation:member(1)": "WebPubSubChat.WebPubSubChatServiceClient.getConversation"
+    }
+  }
+}
