@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GroupQuotasEnforcementStatus } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { GroupQuotasEnforcementStatus } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GroupQuotaLocationSettingsUpdateOptionalParams extends OperationOptions {

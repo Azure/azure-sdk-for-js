@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureQuotaExtensionAPI } from "./azureQuotaExtensionAPI.js";
+import { AzureQuotaExtensionAPI } from "./azureQuotaExtensionAPI.js";
 import { _updateDeserialize, _createOrUpdateDeserialize } from "./api/quota/operations.js";
 import {
   _updateDeserialize as _updateDeserializeGroupQuotaLocationSettings,
@@ -19,11 +19,17 @@ import {
   _updateDeserialize as _updateDeserializeGroupQuotas,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeGroupQuotas,
 } from "./api/groupQuotas/operations.js";
+import { _approveDeserialize } from "./api/incomingQuotaTransfers/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeQuotaTransfers } from "./api/quotaTransfers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -67,6 +73,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -77,29 +84,29 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /{scope}/providers/Microsoft.Quota/quotas/{resourceName}": {
     deserializer: _updateDeserialize,
-    expectedStatuses: ["200", "202"],
+    expectedStatuses: ["200", "202", "201"],
   },
   "PUT /{scope}/providers/Microsoft.Quota/quotas/{resourceName}": {
     deserializer: _createOrUpdateDeserialize,
-    expectedStatuses: ["200", "202"],
+    expectedStatuses: ["200", "202", "201"],
   },
   "PATCH /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/locationSettings/{location}":
     {
       deserializer: _updateDeserializeGroupQuotaLocationSettings,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/locationSettings/{location}":
     {
@@ -109,17 +116,14 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocations/{location}":
     {
       deserializer: _updateDeserializeGroupQuotaSubscriptionAllocationRequest,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptions/{subscriptionId}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PATCH /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptions/{subscriptionId}":
     {
       deserializer: _updateDeserializeGroupQuotaSubscriptions,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/subscriptions/{subscriptionId}":
     {
@@ -129,21 +133,22 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaLimits/{location}":
     {
       deserializer: _updateDeserializeGroupQuotaLimitsRequest,
-      expectedStatuses: ["200", "202"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}":
-    {
-      deserializer: _$deleteDeserializeGroupQuotas,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeGroupQuotas, expectedStatuses: ["202", "204", "200"] },
   "PATCH /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}":
-    {
-      deserializer: _updateDeserializeGroupQuotas,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserializeGroupQuotas, expectedStatuses: ["200", "202", "201"] },
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}":
     {
       deserializer: _createOrUpdateDeserializeGroupQuotas,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/providers/{targetProvider}/locations/{region}/providers/Microsoft.Quota/incomingQuotaTransfers/{transferId}/approve":
+    { deserializer: _approveDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/providers/{targetProvider}/locations/{region}/providers/Microsoft.Quota/quotaTransfers/{transferName}":
+    {
+      deserializer: _createOrUpdateDeserializeQuotaTransfers,
       expectedStatuses: ["200", "201", "202"],
     },
 };
@@ -216,4 +221,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

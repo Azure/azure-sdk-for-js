@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to returns a list of the subscriptionIds associated with the GroupQuotas.
+ *
+ * @summary returns a list of the subscriptionIds associated with the GroupQuotas.
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasSubscriptions/ListGroupQuotaSubscriptions.json
+ */
+async function groupQuotaSubscriptionsListSubscriptions() {
+  const credential = new DefaultAzureCredential();
+  const client = new AzureQuotaExtensionAPI(credential);
+  const resArray = new Array();
+  for await (const item of client.groupQuotaSubscriptions.list(
+    "E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
+    "groupquota1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await groupQuotaSubscriptionsListSubscriptions();
+}
+
+main().catch(console.error);

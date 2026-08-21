@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The paginated list of connected cluster API operations. */
 export interface _OperationList {
   /** The list of connected cluster API operations. */
@@ -159,10 +166,15 @@ export function quotaRequestPropertiesDeserializer(item: any): QuotaRequestPrope
 
 /** Quota request status. */
 export enum KnownQuotaRequestState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** InProgress */
   InProgress = "InProgress",
 }
 
@@ -265,7 +277,7 @@ export function limitJsonObjectUnionSerializer(item: LimitJsonObjectUnion): any 
 }
 
 export function limitJsonObjectUnionDeserializer(item: any): LimitJsonObjectUnion {
-  switch (item.limitObjectType) {
+  switch (item["limitObjectType"]) {
     case "LimitValue":
       return limitObjectDeserializer(item as LimitObject);
 
@@ -276,6 +288,7 @@ export function limitJsonObjectUnionDeserializer(item: any): LimitJsonObjectUnio
 
 /** The limit object type. */
 export enum KnownLimitType {
+  /** LimitValue */
   LimitValue = "LimitValue",
 }
 
@@ -316,7 +329,9 @@ export function limitObjectDeserializer(item: any): LimitObject {
 
 /** The quota or usages limit types. */
 export enum KnownQuotaLimitTypes {
+  /** Independent */
   Independent = "Independent",
+  /** Shared */
   Shared = "Shared",
 }
 
@@ -333,8 +348,8 @@ export type QuotaLimitTypes = string;
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -360,8 +375,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -449,8 +464,507 @@ export function quotaRequestDetailsArrayDeserializer(result: Array<QuotaRequestD
   });
 }
 
+/**
+ * A quota transfer authored on the donor side. The donor selects the URI segment
+ * `{transferName}`; the recipient addresses the same logical transfer via the
+ * server-generated `properties.transferId` GUID on the `incomingQuotaTransfers` URI.
+ */
+export interface QuotaTransfer extends ProxyResource {
+  /** Properties of the quota transfer. */
+  properties?: QuotaTransferProperties;
+  /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
+  readonly etag?: string;
+}
+
+export function quotaTransferSerializer(item: QuotaTransfer): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : quotaTransferPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function quotaTransferDeserializer(item: any): QuotaTransfer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : quotaTransferPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** Donor-side properties of a quota transfer. */
+export interface QuotaTransferProperties {
+  /** The status of the underlying ARM resource operation. */
+  readonly provisioningState?: TransferProvisioningState;
+  /** The business status of the transfer. */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * Server-generated identifier the recipient uses to address the transfer on the
+   * incomingQuotaTransfers URI.
+   */
+  readonly transferId?: string;
+  /** Human-friendly label surfaced on customer GET responses and recipient inbox listings. */
+  displayName: string;
+  /** Donor-supplied free-text rationale captured at submit time. */
+  comment?: string;
+  /** Recipient subscription id. Must differ from the donor subscription. */
+  destinationSubscriptionId: string;
+  /** Recipient tenant id, resolved by the service from the recipient subscription. */
+  readonly destinationTenantId?: string;
+  /** Billing account id both donor and recipient subscriptions must roll up to. */
+  billingAccountId: string;
+  /**
+   * The quota dimension being moved, scoped by the URI's target provider
+   * (for example, `standardDv5Family` under Microsoft.Compute).
+   */
+  resourceName: string;
+  /** Amount to transfer in the resource's native unit (e.g. vCPU count). */
+  amount: number;
+  /**
+   * Same-tenant one-shot opt-in. When true, the donor PUT admission-checks recipient-side
+   * RBAC and cap at submit time and drives the transfer to terminal Completed within the
+   * same LRO, with no recipient approve required. The outcome is reflected by
+   * `transferStatus`: `Completed` means the auto path committed; `Pending` means it did
+   * not (e.g. cross-tenant, missing RBAC, cap exceeded) and the recipient must approve.
+   */
+  autoApprove?: boolean;
+  /** Time the transfer was created. */
+  readonly createdAt?: Date;
+  /** Time at which a Pending transfer expires if the recipient has not approved or rejected it. */
+  readonly expiresAt?: Date;
+  /** Principal that created the transfer. */
+  readonly createdBy?: string;
+  /**
+   * Approval record. Populated when `transferStatus` is `Accepted` or `Completed`.
+   * Mutually exclusive with `cancellation`.
+   */
+  readonly approval?: ApprovalRecord;
+  /**
+   * Cancellation record. Populated when `transferStatus` is `Cancelled`.
+   * Mutually exclusive with `approval`.
+   */
+  readonly cancellation?: CancellationRecord;
+}
+
+export function quotaTransferPropertiesSerializer(item: QuotaTransferProperties): any {
+  return {
+    displayName: item["displayName"],
+    comment: item["comment"],
+    destinationSubscriptionId: item["destinationSubscriptionId"],
+    billingAccountId: item["billingAccountId"],
+    resourceName: item["resourceName"],
+    amount: item["amount"],
+    autoApprove: item["autoApprove"],
+  };
+}
+
+export function quotaTransferPropertiesDeserializer(item: any): QuotaTransferProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    transferStatus: item["transferStatus"],
+    transferId: item["transferId"],
+    displayName: item["displayName"],
+    comment: item["comment"],
+    destinationSubscriptionId: item["destinationSubscriptionId"],
+    destinationTenantId: item["destinationTenantId"],
+    billingAccountId: item["billingAccountId"],
+    resourceName: item["resourceName"],
+    amount: item["amount"],
+    autoApprove: item["autoApprove"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    expiresAt: !item["expiresAt"] ? item["expiresAt"] : new Date(item["expiresAt"]),
+    createdBy: item["createdBy"],
+    approval: !item["approval"] ? item["approval"] : approvalRecordDeserializer(item["approval"]),
+    cancellation: !item["cancellation"]
+      ? item["cancellation"]
+      : cancellationRecordDeserializer(item["cancellation"]),
+  };
+}
+
+/**
+ * Provisioning state of the ARM long-running operation that last wrote to a quota
+ * transfer resource (the donor PUT, or the recipient approve / reject actions).
+ * Reflects the infrastructure outcome of that call only; the business outcome of the
+ * transfer itself is reported separately on `transferStatus`.
+ */
+export enum KnownTransferProvisioningState {
+  /** The LRO completed successfully. */
+  Succeeded = "Succeeded",
+  /** The LRO terminated with a failure. */
+  Failed = "Failed",
+  /** The LRO was canceled before it reached a terminal state. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Provisioning state of the ARM long-running operation that last wrote to a quota
+ * transfer resource (the donor PUT, or the recipient approve / reject actions).
+ * Reflects the infrastructure outcome of that call only; the business outcome of the
+ * transfer itself is reported separately on `transferStatus`. \
+ * {@link KnownTransferProvisioningState} can be used interchangeably with TransferProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The LRO completed successfully. \
+ * **Failed**: The LRO terminated with a failure. \
+ * **Canceled**: The LRO was canceled before it reached a terminal state.
+ */
+export type TransferProvisioningState = string;
+
+/**
+ * Business status of a quota transfer. Distinct from `provisioningState`, which only
+ * reports the ARM LRO outcome of the most recent call.
+ */
+export enum KnownTransferStatus {
+  /** The transfer has been created on the donor side and is awaiting recipient action. */
+  Pending = "Pending",
+  /** The recipient has approved the transfer; quota commit is in progress. */
+  Accepted = "Accepted",
+  /** The transfer has been applied and quota is committed at the recipient. */
+  Completed = "Completed",
+  /** The donor cancelled the transfer before it was approved. */
+  Cancelled = "Cancelled",
+  /** The recipient rejected the transfer. */
+  Rejected = "Rejected",
+  /** The transfer aged out before the recipient approved or rejected it. */
+  Expired = "Expired",
+  /** The transfer terminated with a failure. */
+  Failed = "Failed",
+}
+
+/**
+ * Business status of a quota transfer. Distinct from `provisioningState`, which only
+ * reports the ARM LRO outcome of the most recent call. \
+ * {@link KnownTransferStatus} can be used interchangeably with TransferStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The transfer has been created on the donor side and is awaiting recipient action. \
+ * **Accepted**: The recipient has approved the transfer; quota commit is in progress. \
+ * **Completed**: The transfer has been applied and quota is committed at the recipient. \
+ * **Cancelled**: The donor cancelled the transfer before it was approved. \
+ * **Rejected**: The recipient rejected the transfer. \
+ * **Expired**: The transfer aged out before the recipient approved or rejected it. \
+ * **Failed**: The transfer terminated with a failure.
+ */
+export type TransferStatus = string;
+
+/** Record of an approval action on a transfer. */
+export interface ApprovalRecord {
+  /** Optional free-text comment supplied by the approver. */
+  comment?: string;
+  /** Principal that performed the approval (typically a UPN or service principal id). */
+  actor: string;
+  /** Timestamp at which the approval was recorded. */
+  occurredAt: Date;
+}
+
+export function approvalRecordDeserializer(item: any): ApprovalRecord {
+  return {
+    comment: item["comment"],
+    actor: item["actor"],
+    occurredAt: new Date(item["occurredAt"]),
+  };
+}
+
+/** Record of a cancellation action on a transfer. */
+export interface CancellationRecord {
+  /** Optional free-text reason supplied by the donor when cancelling. */
+  reason?: string;
+  /** Principal that performed the cancellation. */
+  actor: string;
+  /** Timestamp at which the cancellation was recorded. */
+  occurredAt: Date;
+}
+
+export function cancellationRecordDeserializer(item: any): CancellationRecord {
+  return {
+    reason: item["reason"],
+    actor: item["actor"],
+    occurredAt: new Date(item["occurredAt"]),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** The response of a QuotaTransfer list operation. */
+export interface _QuotaTransferListResult {
+  /** The QuotaTransfer items on this page */
+  value: QuotaTransfer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _quotaTransferListResultDeserializer(item: any): _QuotaTransferListResult {
+  return {
+    value: quotaTransferArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function quotaTransferArraySerializer(result: Array<QuotaTransfer>): any[] {
+  return result.map((item) => {
+    return quotaTransferSerializer(item);
+  });
+}
+
+export function quotaTransferArrayDeserializer(result: Array<QuotaTransfer>): any[] {
+  return result.map((item) => {
+    return quotaTransferDeserializer(item);
+  });
+}
+
+/** Request body for the donor cancel action. */
+export interface QuotaTransferCancelRequest {
+  /** Optional free-text reason recorded on the transfer. */
+  reason?: string;
+}
+
+export function quotaTransferCancelRequestSerializer(item: QuotaTransferCancelRequest): any {
+  return { reason: item["reason"] };
+}
+
+/**
+ * Recipient-side projection of a quota transfer. The URI key `{transferId}` is the
+ * server-generated GUID returned to the donor in the PUT response under
+ * `properties.transferId`. The resource is read-only from the recipient side; state
+ * changes occur through the approve and reject actions.
+ */
+export interface IncomingQuotaTransfer extends ProxyResource {
+  /** Properties of the incoming quota transfer. */
+  properties?: IncomingQuotaTransferProperties;
+  /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
+  readonly etag?: string;
+}
+
+export function incomingQuotaTransferDeserializer(item: any): IncomingQuotaTransfer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : incomingQuotaTransferPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** Recipient-side projection properties of a quota transfer. */
+export interface IncomingQuotaTransferProperties {
+  /** The status of the underlying ARM resource operation. */
+  readonly provisioningState?: TransferProvisioningState;
+  /** The business status of the transfer. */
+  readonly transferStatus?: TransferStatus;
+  /** Server-generated identifier of the transfer (matches the URI key). */
+  readonly transferId?: string;
+  /** Fully qualified ARM resource id of the donor-side quotaTransfers resource. */
+  readonly transferRef?: string;
+  /** Donor subscription id. The recipient subscription is the one in the request URI. */
+  readonly sourceSubscriptionId?: string;
+  /** Donor tenant id, resolved by the service from the donor subscription. */
+  readonly sourceTenantId?: string;
+  /** Billing account id both donor and recipient subscriptions roll up to. */
+  readonly billingAccountId?: string;
+  /** The quota dimension being moved. */
+  readonly resourceName?: string;
+  /** Amount being transferred in the resource's native unit. */
+  readonly amount?: number;
+  /**
+   * ETag of the donor-side source document at the time the inbox entry was projected. Used
+   * as the If-Match value on approve and reject requests.
+   */
+  readonly sourceEtag?: string;
+  /**
+   * Approval record. Populated when `transferStatus` is `Accepted` or `Completed`.
+   * Mutually exclusive with `rejection`.
+   */
+  readonly approval?: ApprovalRecord;
+  /**
+   * Rejection record. Populated when `transferStatus` is `Rejected`.
+   * Mutually exclusive with `approval`.
+   */
+  readonly rejection?: RejectionRecord;
+}
+
+export function incomingQuotaTransferPropertiesDeserializer(
+  item: any,
+): IncomingQuotaTransferProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    transferStatus: item["transferStatus"],
+    transferId: item["transferId"],
+    transferRef: item["transferRef"],
+    sourceSubscriptionId: item["sourceSubscriptionId"],
+    sourceTenantId: item["sourceTenantId"],
+    billingAccountId: item["billingAccountId"],
+    resourceName: item["resourceName"],
+    amount: item["amount"],
+    sourceEtag: item["sourceEtag"],
+    approval: !item["approval"] ? item["approval"] : approvalRecordDeserializer(item["approval"]),
+    rejection: !item["rejection"]
+      ? item["rejection"]
+      : rejectionRecordDeserializer(item["rejection"]),
+  };
+}
+
+/** Record of a rejection action on a transfer. */
+export interface RejectionRecord {
+  /** Optional free-text reason supplied by the recipient when rejecting. */
+  reason?: string;
+  /** Principal that performed the rejection. */
+  actor: string;
+  /** Timestamp at which the rejection was recorded. */
+  occurredAt: Date;
+}
+
+export function rejectionRecordDeserializer(item: any): RejectionRecord {
+  return {
+    reason: item["reason"],
+    actor: item["actor"],
+    occurredAt: new Date(item["occurredAt"]),
+  };
+}
+
+/** The response of a IncomingQuotaTransfer list operation. */
+export interface _IncomingQuotaTransferListResult {
+  /** The IncomingQuotaTransfer items on this page */
+  value: IncomingQuotaTransfer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _incomingQuotaTransferListResultDeserializer(
+  item: any,
+): _IncomingQuotaTransferListResult {
+  return {
+    value: incomingQuotaTransferArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function incomingQuotaTransferArrayDeserializer(
+  result: Array<IncomingQuotaTransfer>,
+): any[] {
+  return result.map((item) => {
+    return incomingQuotaTransferDeserializer(item);
+  });
+}
+
+/** Request body for the recipient approve action. */
+export interface IncomingQuotaTransferApproveRequest {
+  /** Optional free-text comment recorded on the transfer. */
+  comment?: string;
+}
+
+export function incomingQuotaTransferApproveRequestSerializer(
+  item: IncomingQuotaTransferApproveRequest,
+): any {
+  return { comment: item["comment"] };
+}
+
+/** Request body for the recipient reject action. */
+export interface IncomingQuotaTransferRejectRequest {
+  /** Optional free-text reason recorded on the transfer. */
+  reason?: string;
+}
+
+export function incomingQuotaTransferRejectRequestSerializer(
+  item: IncomingQuotaTransferRejectRequest,
+): any {
+  return { reason: item["reason"] };
+}
+
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
-export interface GroupQuotasEntity extends ProxyResource {
+export interface GroupQuotasEntity extends ExtensionResource {
   /** Properties */
   properties?: GroupQuotasEntityProperties;
 }
@@ -567,89 +1081,6 @@ export enum KnownRequestState {
  * **Canceled**: The quota request has been canceled.
  */
 export type RequestState = string;
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
 
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntityPatch extends ProxyResource {
@@ -879,9 +1310,7 @@ export interface GroupQuotaLimitListProperties {
 }
 
 export function groupQuotaLimitListPropertiesSerializer(item: GroupQuotaLimitListProperties): any {
-  return {
-    value: !item["value"] ? item["value"] : groupQuotaLimitArraySerializer(item["value"]),
-  };
+  return { value: !item["value"] ? item["value"] : groupQuotaLimitArraySerializer(item["value"]) };
 }
 
 export function groupQuotaLimitListPropertiesDeserializer(
@@ -932,11 +1361,7 @@ export function groupQuotaLimitDeserializer(item: any): GroupQuotaLimit {
 export interface GroupQuotaLimitProperties extends GroupQuotaDetails {}
 
 export function groupQuotaLimitPropertiesSerializer(item: GroupQuotaLimitProperties): any {
-  return {
-    resourceName: item["resourceName"],
-    limit: item["limit"],
-    comment: item["comment"],
-  };
+  return { resourceName: item["resourceName"], limit: item["limit"], comment: item["comment"] };
 }
 
 export function groupQuotaLimitPropertiesDeserializer(item: any): GroupQuotaLimitProperties {
@@ -972,11 +1397,7 @@ export interface GroupQuotaDetails {
 }
 
 export function groupQuotaDetailsSerializer(item: GroupQuotaDetails): any {
-  return {
-    resourceName: item["resourceName"],
-    limit: item["limit"],
-    comment: item["comment"],
-  };
+  return { resourceName: item["resourceName"], limit: item["limit"], comment: item["comment"] };
 }
 
 export function groupQuotaDetailsDeserializer(item: any): GroupQuotaDetails {
@@ -1252,7 +1673,7 @@ export function groupQuotaSubscriptionRequestStatusArrayDeserializer(
 }
 
 /** Subscription quota list. */
-export interface SubscriptionQuotaAllocationsList extends ProxyResource {
+export interface SubscriptionQuotaAllocationsList extends ExtensionResource {
   properties?: SubscriptionQuotaAllocationsListProperties;
 }
 
@@ -1413,7 +1834,7 @@ export function subscriptionQuotaDetailsNameDeserializer(item: any): Subscriptio
 }
 
 /** The subscription quota allocation status. */
-export interface QuotaAllocationRequestStatus extends ProxyResource {
+export interface QuotaAllocationRequestStatus extends ExtensionResource {
   properties?: QuotaAllocationRequestStatusProperties;
 }
 
@@ -1593,8 +2014,11 @@ export function groupQuotasEnforcementStatusPropertiesDeserializer(
 
 /** Enforcement status. */
 export enum KnownEnforcementState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled",
+  /** NotAvailable */
   NotAvailable = "NotAvailable",
 }
 
@@ -1682,7 +2106,9 @@ export function usagesObjectDeserializer(item: any): UsagesObject {
 
 /** The quota or usages limit types. */
 export enum KnownUsagesTypes {
+  /** Individual */
   Individual = "Individual",
+  /** Combined */
   Combined = "Combined",
 }
 
@@ -1823,4 +2249,6 @@ export function currentQuotaLimitBaseArrayDeserializer(
 export enum KnownVersions {
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
+  /** The 2026-09-01-preview API version. */
+  V20260901Preview = "2026-09-01-preview",
 }

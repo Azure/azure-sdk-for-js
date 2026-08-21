@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GroupQuotasEntity, GroupQuotasEntityPatch } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { GroupQuotasEntity, GroupQuotasEntityPatch } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GroupQuotasListOptionalParams extends OperationOptions {}
