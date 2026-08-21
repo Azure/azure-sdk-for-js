@@ -571,7 +571,7 @@ describe("BaseSender", () => {
 
       expect(mockStatsbeatManager.initialize).not.toHaveBeenCalled();
       expect(mockStatsbeatManager.shutdown).toHaveBeenCalledOnce();
-      expect(mockCustomerSDKStatsMetrics.shutdown).toHaveBeenCalledOnce();
+      expect(mockCustomerSDKStatsMetrics.shutdown).not.toHaveBeenCalled();
     });
 
     it("should count exception for non-retriable errors", async () => {
