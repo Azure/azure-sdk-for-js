@@ -5,11 +5,29 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   CorsOptions,
   KnowledgeSourceReference,
+  KnowledgeBaseRetrieveDefaults,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
+  KnowledgeBaseActivityRecordUnion,
+  KnowledgeBaseReferenceUnion,
   KnowledgeRetrievalOutputMode,
   KnowledgeRetrievalReasoningEffortUnion,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
+
+export type {
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseStreamErrorEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStatusCode,
+};
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
 export interface RetrieveOptions extends OperationOptions {
@@ -19,6 +37,60 @@ export interface RetrieveOptions extends OperationOptions {
    */
   querySourceAuthorization?: string;
 }
+
+/**
+ * Options for the streaming knowledge base retrieval operation.
+ */
+export interface RetrieveStreamOptions extends OperationOptions {
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to
+   * enforce security restrictions on documents.
+   */
+  querySourceAuthorization?: string;
+}
+
+/**
+ * The set of server-sent events emitted while streaming a knowledge base retrieval.
+ *
+ * The stream ends after the terminal `response.completed` event, or after an `error` event if the
+ * retrieval fails before completing. Narrow on the `event` property to access the typed payload.
+ */
+export type KnowledgeBaseRetrievalStreamEvent =
+  | {
+      /** The retrieval stream has started; no activity or answer content has been produced yet. */
+      event: "retrieval.started";
+      data: KnowledgeBaseRetrievalStartedEvent;
+    }
+  | {
+      /** An individual activity (e.g. a search index or web retrieval step) has started executing. */
+      event: "activity.started";
+      data: KnowledgeBaseActivityStartedEvent;
+    }
+  | {
+      /** An individual activity has finished executing, successfully or not. */
+      event: "activity.completed";
+      data: KnowledgeBaseActivityRecordUnion;
+    }
+  | {
+      /** The answer message has finished streaming and is now complete. */
+      event: "answer.completed";
+      data: KnowledgeBaseAnswerCompletedEvent;
+    }
+  | {
+      /** The references used to produce the response are available. */
+      event: "references.completed";
+      data: KnowledgeBaseReferenceUnion[];
+    }
+  | {
+      /** The retrieval failed before the stream could complete normally. */
+      event: "error";
+      data: KnowledgeBaseStreamErrorEvent;
+    }
+  | {
+      /** The retrieval has completed successfully; this is the final event of the stream. */
+      event: "response.completed";
+      data: KnowledgeBaseResponseCompletedEvent;
+    };
 
 export interface KnowledgeBase {
   /**
@@ -65,4 +137,10 @@ export interface KnowledgeBase {
    * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
    */
   corsOptions?: CorsOptions;
+  /**
+   * Persisted request-wide retrieve defaults for this knowledge base. These values apply to
+   * retrieve requests that omit the corresponding fields; request-time values take precedence
+   * when present.
+   */
+  retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
 }

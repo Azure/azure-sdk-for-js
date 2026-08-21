@@ -5,34 +5,14 @@
 ```ts
 
 // @public
-export type ContentUnderstandingSkillChunkingMethod = string;
-
-// @public
-export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
-    inputTokensCount?: number;
-    modelName?: string;
-    outputTokensCount?: number;
-    type: "modelWebSummarization";
-}
-
-// @public
-export enum KnownContentUnderstandingSkillChunkingMethod {
-    FixedSize = "fixedSize",
-    Semantic = "semantic"
-}
+export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecordUnion | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReferenceUnion[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
 
 // @public
 export enum KnownVersions {
     V20251101Preview = "2025-11-01-preview",
     V20260401 = "2026-04-01",
-    V20260501Preview = "2026-05-01-preview"
-}
-
-// @public
-export interface SharePointConnectorAppRegistration {
-    applicationId: string;
-    federatedCredentialId: string;
-    tenantId?: string;
+    V20260501Preview = "2026-05-01-preview",
+    V20260801Preview = "2026-08-01-preview"
 }
 
 // (No @packageDocumentation comment for this package)

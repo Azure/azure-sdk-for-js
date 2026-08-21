@@ -7,7 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -260,12 +260,15 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
+export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
 
 // @public
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
 }
 
@@ -276,6 +279,9 @@ export function listAliases(context: SearchIndexContext, options?: ListAliasesOp
 export interface ListAliasesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -285,9 +291,9 @@ export function listIndexes(context: SearchIndexContext, options?: ListIndexesOp
 export interface ListIndexesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    count?: boolean;
-    skip?: number;
-    top?: number;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -297,10 +303,10 @@ export function listIndexesWithSelectedProperties(context: SearchIndexContext, o
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    count?: boolean;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
     select?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -310,9 +316,9 @@ export function listIndexStatsSummary(context: SearchIndexContext, options?: Lis
 export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
-    count?: boolean;
-    skip?: number;
-    top?: number;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -322,6 +328,9 @@ export function listKnowledgeBases(context: SearchIndexContext, options?: ListKn
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -331,6 +340,10 @@ export function listKnowledgeSourceFiles(context: SearchIndexContext, name: stri
 export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    prefix?: string;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -340,6 +353,9 @@ export function listKnowledgeSources(context: SearchIndexContext, options?: List
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public
@@ -353,11 +369,26 @@ export interface SearchIndexContext extends Client {
 }
 
 // @public
+export function updateKnowledgeSourceFile(context: SearchIndexContext, fileId: string, body: UpdateKnowledgeSourceFileRequest, name: string, options?: UpdateKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
+
+// @public
+export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
 export function uploadKnowledgeSourceFile(context: SearchIndexContext, contentDisposition: string, file: Uint8Array, name: string, options?: UploadKnowledgeSourceFileOptionalParams): Promise<KnowledgeSourceFile>;
 
 // @public
+export function uploadKnowledgeSourceFileMultipart(context: SearchIndexContext, body: UploadKnowledgeSourceFileMultipartRequest, name: string, options?: UploadKnowledgeSourceFileMultipartOptionalParams): Promise<KnowledgeSourceFile>;
+
+// @public
+export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
 export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
-    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 

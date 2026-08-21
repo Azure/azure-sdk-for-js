@@ -1,5 +1,10 @@
 {
   "extends": "../../../../eng/tsconfigs/src.react-native.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["DOM", "ES2023"],
+    "skipLibCheck": true
+  },
   "include": [
     "../src/events.d.ts",
     "../src/index.ts",

@@ -63,6 +63,7 @@ import type {
   SqlIntegratedChangeTrackingPolicy,
   StopAnalyzer,
   TokenFilterUnion,
+  BlobIndexerParsingMode,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   SearchResult,
@@ -80,7 +81,6 @@ import type {
   AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
-  BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
   CharFilter,
   CognitiveServicesAccount,
@@ -1137,6 +1137,16 @@ export function mapPagedAsyncIterable<T, U>(
       }
     },
   };
+}
+
+export async function collectPagedAsyncIterable<T>(
+  iter: PagedAsyncIterableIterator<T>,
+): Promise<T[]> {
+  const items: T[] = [];
+  for await (const item of iter) {
+    items.push(item);
+  }
+  return items;
 }
 
 /**

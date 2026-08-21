@@ -116,6 +116,22 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
           facetable: true,
           hasSensitivityLabel: true,
         },
+        {
+          name: "sensitivityLabelName",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sensitivityLabelName: true,
+        },
+        {
+          name: "sourceDocumentId",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sourceDocumentId: true,
+        },
       ],
     };
     await indexClient.createOrUpdateIndex(index);
@@ -128,29 +144,18 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
   });
 
   it("verify content security indexes", async () => {
-    const documents = [
-      { id: "1", sensitivityLabelId: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
-      { id: "2", sensitivityLabelId: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
-      { id: "3", sensitivityLabelId: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
-      { id: "4", sensitivityLabelId: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
-    ];
-
-    const searchClient = new SearchClient<{ id: string; sensitivityLabelId: string }>(
+    const searchClient = new SearchClient<{ id: string }>(
       indexClient.endpoint,
       index.name,
       createTestCredential(),
       recorder.configureClientOptions({}),
     );
 
-    await searchClient.uploadDocuments(documents);
-    await delay(WAIT_TIME);
-
     // Test that search with invalid authorization token throws an error
     let errorThrown = false;
     try {
       await searchClient.search("*", {
         querySourceAuthorization: "Invalid token",
-        enableElevatedRead: true,
       });
     } catch (ex: any) {
       errorThrown = true;

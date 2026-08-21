@@ -7,6 +7,9 @@ export type {
   PageSettings,
   ContinuablePage,
 } from "./static-helpers/pagingHelpers.js";
+export type { FileContents } from "./static-helpers/multipartHelpers.js";
+export type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+export type { KnowledgeBaseRetrievalStreamEvents } from "./models/index.js";
 export {
   type AutocompleteItem,
   type AutocompleteMode,
@@ -106,8 +109,10 @@ export {
   type RemoteSharePointKnowledgeSourceParams,
   type SearchIndexKnowledgeSourceParams,
   type WebKnowledgeSourceParams,
-  type WorkIQAttribution,
+  type KnowledgeBaseModelWebSummarizationActivityRecord,
   type WorkIQKnowledgeSourceParams,
+  type KnowledgeBaseActivityRecordModel,
+  type KnowledgeRetrievalAutoReasoningEffort,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 export {
   type AIFoundryModelCatalogName,
@@ -381,18 +386,36 @@ export {
   type McpServerSplitOutputParsing,
   type McpServerOutputParsingSplitParameters,
   type McpServerNoneOutputParsing,
-  type McpServerToolInclusionMode,
   KnownMcpServerAuthenticationKind,
   KnownMcpServerOutputParsingKind,
-  KnownMcpServerToolInclusionMode,
+  KnownKnowledgeSourceResultsProcessing,
+  type KnowledgeSourceResultsProcessing,
+  type SearchIndexKnowledgeSourceQueryHints,
+  type SearchIndexKnowledgeSourceFilterHint,
+  type SearchIndexKnowledgeSourceBoostUnion,
+  type SearchIndexKnowledgeSourceBoost,
+  type SearchIndexKnowledgeSourceFieldValueBoost,
+  type SearchIndexKnowledgeSourceMultiWordExpressionBoost,
+  type SearchIndexKnowledgeSourceBoostKind,
+  KnownSearchIndexKnowledgeSourceBoostKind,
   type KnowledgeSourceFile,
+  type FileUploadMetadata,
+  type UpdateKnowledgeSourceFileRequest,
+  type UploadKnowledgeSourceFileMultipartRequest,
+  type BlobIndexerParsingMode,
   type WordDelimiterTokenFilter,
+  type ContentUnderstandingSkillChunkingMethod,
+  type SharePointConnectorAppRegistration,
+  type FileKnowledgeSourceExtractionMode,
+  type ListingSearchType,
+  type WorkIQKnowledgeSourceParameters,
+  type EntraAppAuthentication,
+  type KnowledgeBaseRetrieveDefaults,
 } from "./models/azure/search/documents/indexes/index.js";
-export type {
-  KnowledgeBaseModelWebSummarizationActivityRecord,
-  ContentUnderstandingSkillChunkingMethod,
-  SharePointConnectorAppRegistration,
-} from "./models/index.js";
+export {
+  KnownFileKnowledgeSourceExtractionMode,
+  KnownListingSearchType,
+} from "./models/azure/search/documents/indexes/index.js";
 export { default as GeographyPoint } from "./geographyPoint.js";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 export type {
@@ -456,7 +479,18 @@ export type {
   VectorQueryKind,
   VectorSearchOptions,
 } from "./indexModels.js";
-export type { KnowledgeBase, RetrieveOptions } from "./knowledgeBaseModels.js";
+export type {
+  KnowledgeBase,
+  KnowledgeBaseActivityStartedEvent,
+  KnowledgeBaseAnswerCompletedEvent,
+  KnowledgeBaseResponseCompletedEvent,
+  KnowledgeBaseRetrievalStartedEvent,
+  KnowledgeBaseRetrievalStatusCode,
+  KnowledgeBaseRetrievalStreamEvent,
+  KnowledgeBaseStreamErrorEvent,
+  RetrieveOptions,
+  RetrieveStreamOptions,
+} from "./knowledgeBaseModels.js";
 export {
   KnowledgeRetrievalClient,
   type KnowledgeRetrievalClientOptions,
@@ -491,7 +525,6 @@ export {
   type BaseVectorSearchVectorizer,
   type BlobIndexerDataToExtract,
   type BlobIndexerImageAction,
-  type BlobIndexerParsingMode,
   type BlobIndexerPDFTextRotationAlgorithm,
   type CharFilter,
   type ChatCompletionSkill,
@@ -604,6 +637,8 @@ export {
   type RemoteSharePointKnowledgeSourceParameters,
   type ListIndexStatsSummaryOptions,
   type UploadKnowledgeSourceFileOptions,
+  type UploadKnowledgeSourceFileMultipartOptions,
+  type UpdateKnowledgeSourceFileOptions,
   type ResetDocumentsOptions,
   type ResetIndexerOptions,
   type ResetSkillsOptions,

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   KnowledgeBaseRetrievalContext,
   KnowledgeBaseRetrievalClientOptionalParams,
+  createKnowledgeBaseRetrieval,
 } from "./api/index.js";
-import { createKnowledgeBaseRetrieval } from "./api/index.js";
-import type {
+import {
   KnowledgeBaseRetrievalRequest,
   KnowledgeBaseRetrievalResponse,
 } from "../models/azure/search/documents/knowledgeBases/models.js";
-import { retrieve } from "./api/operations.js";
-import type { RetrieveOptionalParams } from "./api/options.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { retrieveStream, retrieve } from "./api/operations.js";
+import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./api/options.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { KnowledgeBaseRetrievalClientOptionalParams } from "./api/knowledgeBaseRetrievalContext.js";
 
@@ -28,15 +28,30 @@ export class KnowledgeBaseRetrievalClient {
     knowledgeBaseName: string,
     options: KnowledgeBaseRetrievalClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKnowledgeBaseRetrieval(endpointParam, credential, knowledgeBaseName, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKnowledgeBaseRetrieval(
+      endpointParam,
+      credential,
+      knowledgeBaseName,
+      options,
+    );
     this.pipeline = this._client.pipeline;
+  }
+
+  /**
+   * Retrieves relevant data from backing stores and streams progress and results as server-sent
+   * events.
+   *
+   * Process the response incrementally using server-sent event framing. Each event contains an
+   * event name and a JSON-encoded data payload. The stream ends with either a `response.completed`
+   * event or an `error` event. OpenAPI 2.0 represents the response body as a string, so generated
+   * clients may expose the raw response without typed event parsing. Do not deserialize the
+   * complete response body as a single JSON document.
+   */
+  retrieveStream(
+    retrievalRequest: KnowledgeBaseRetrievalRequest,
+    options: RetrieveStreamOptionalParams = { requestOptions: {} },
+  ): Promise<Uint8Array> {
+    return retrieveStream(this._client, retrievalRequest, options);
   }
 
   /** KnowledgeBase retrieves relevant data from backing stores. */

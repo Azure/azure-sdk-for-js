@@ -4,9 +4,35 @@
 
 ### Features Added
 
+- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`.
+- Added `uploadKnowledgeSourceFileMultipart` and `updateKnowledgeSourceFile` methods to `SearchIndexClient`, with `UploadKnowledgeSourceFileMultipartRequest`, `UpdateKnowledgeSourceFileRequest`, `FileUploadMetadata`, and the corresponding options types.
+- Added `KnowledgeRetrievalAutoReasoningEffort` reasoning effort variant for knowledge retrieval.
+- Added `citationUrl` on knowledge base activity/reference response types.
+- Added `startedAt` and `completedAt` on knowledge base activity record response types.
+- Added `logicalReasoningEffort` on `KnowledgeBaseAgenticReasoningActivityRecord`, reporting the reasoning effort requested by the customer as distinct from the `retrievalReasoningEffort` used for billing.
+- Added `retrieveStream` method to `KnowledgeRetrievalClient`, which streams retrieval progress and results as server-sent events instead of waiting for the full retrieval to complete. It returns an `AsyncIterable` of `KnowledgeBaseRetrievalStreamEvent`, along with the new `RetrieveStreamOptions`, `KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode` types.
+- Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
+- Exported types that were previously reachable only indirectly: `KnowledgeSourceResultsProcessing`, `KnownKnowledgeSourceResultsProcessing`, `SearchIndexKnowledgeSourceQueryHints`, `SearchIndexKnowledgeSourceFilterHint`, `SearchIndexKnowledgeSourceBoost`, `SearchIndexKnowledgeSourceBoostUnion`, `SearchIndexKnowledgeSourceFieldValueBoost`, `SearchIndexKnowledgeSourceMultiWordExpressionBoost`, `SearchIndexKnowledgeSourceBoostKind`, `KnownSearchIndexKnowledgeSourceBoostKind`, `FileKnowledgeSourceExtractionMode`, `KnownFileKnowledgeSourceExtractionMode`, `KnowledgeBaseActivityRecordModel`, and `KnowledgeRetrievalAutoReasoningEffort`.
+- `KnowledgeSourceFile.parsingMode` is now typed as `BlobIndexerParsingMode` instead of a bare `string`, so it accepts the same known values as the rest of the library.
+- Added `retrieveDefaults` on `KnowledgeBase`, and `resultsProcessing` on knowledge sources, so the stored defaults returned by the `2026-08-01-preview` service are visible on the public models.
+- Added `workIQParameters` on `WorkIQKnowledgeSource` and `corsOptions` on `FileKnowledgeSource`, and exported the supporting `WorkIQKnowledgeSourceParameters`, `EntraAppAuthentication`, and `KnowledgeBaseRetrieveDefaults` types.
+- Added `queryHints` on the Azure Blob, indexed OneLake, and indexed SharePoint knowledge source parameter types.
+- Added `search`, `pageSize`, and `searchType` options to the index, alias, index stats summary, knowledge base, and knowledge source list methods, along with the `ListingSearchType` and `KnownListingSearchType` types.
+- The knowledge retrieval streaming event payloads (`KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode`) are now defined by the service spec rather than hand-authored. As a result, `KnowledgeBaseRetrievalStartedEvent.reasoningEffort` is now typed as the discriminated `KnowledgeRetrievalReasoningEffortUnion` instead of the open base type, so it can be narrowed by its `kind`.
+
 ### Breaking Changes
 
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required to match the service contract.
+- Removed `WorkIQAttribution`, along with the `attributions` property that referenced it, from knowledge base response types.
+- Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`. Use the `resultsProcessing` property on `McpServerTool` with `KnownKnowledgeSourceResultsProcessing` instead, mapping the former `reranked` value to `rerank`.
+- Renamed the `elapsedInMs` property to `elapsedMs` on activity record types.
+- Renamed the `modelName` property to `model` (now typed as `KnowledgeBaseActivityRecordModel`) on model activity record types.
+- Renamed the `totalSynchronizations` property to `totalSynchronization` on indexer status types.
+
 ### Bugs Fixed
+
+- Fixed `SearchIndexerClient.resetDocuments` so that the `dataSourceDocumentIds` option is correctly forwarded to the service.
+- Fixed continuation for every paged operation. The generated paging metadata referenced the raw wire property name (`NextLink` or `@odata.nextLink`) rather than the deserialized property name (`nextLink` or `odataNextLink`), so the continuation link was never found and iteration silently stopped after the first page. This affected `listIndexes`, `listIndexesNames`, `listAliases`, `listAliasesNames`, `listIndexStatsSummary`, `listKnowledgeBases`, `listKnowledgeSources`, `listKnowledgeSourceFiles`, `listSynonymMaps`, `listSynonymMapsNames`, `listIndexers`, `listIndexersNames`, `listDataSourceConnections`, `listDataSourceConnectionsNames`, `listSkillsets`, and `listSkillsetsNames`.
 
 ### Other Changes
 

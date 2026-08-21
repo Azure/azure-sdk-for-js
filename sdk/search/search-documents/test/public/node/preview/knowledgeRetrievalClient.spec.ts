@@ -208,6 +208,12 @@ describe("Knowledge", { timeout: 20_000 }, () => {
         kind: "workIQ",
         name: ksName,
         description: "WorkIQ knowledge source for testing",
+        workIQParameters: {
+          entraAppAuthentication: {
+            applicationId: assertEnvironmentVariable("WORKIQ_APPLICATION_ID"),
+            federatedCredentialId: assertEnvironmentVariable("WORKIQ_FEDERATED_CREDENTIAL_ID"),
+          },
+        },
       };
 
       // Create

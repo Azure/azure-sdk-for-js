@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ListingSearchType } from "../../models/azure/search/documents/indexes/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -24,7 +24,11 @@ export interface GetServiceStatisticsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
+/** Optional parameters. */
+export interface UpdateKnowledgeSourceFileOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
 /** Optional parameters. */
 export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -32,21 +36,31 @@ export interface DeleteKnowledgeSourceFileOptionalParams extends OperationOption
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListKnowledgeSourceFilesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** Optional prefix to filter files by their directory-like path. */
+  prefix?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
+/** Optional parameters. */
+export interface UploadKnowledgeSourceFileMultipartOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}
 /** Optional parameters. */
 export interface UploadKnowledgeSourceFileOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -54,7 +68,6 @@ export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -62,15 +75,19 @@ export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -78,7 +95,6 @@ export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -90,7 +106,6 @@ export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -102,7 +117,6 @@ export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOp
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -110,15 +124,19 @@ export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -126,7 +144,6 @@ export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -138,7 +155,6 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -150,7 +166,6 @@ export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOpti
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateAliasOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -158,15 +173,19 @@ export interface CreateAliasOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListAliasesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetAliasOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -174,7 +193,6 @@ export interface GetAliasOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteAliasOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -186,7 +204,6 @@ export interface DeleteAliasOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -198,7 +215,6 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface AnalyzeTextOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -206,7 +222,6 @@ export interface AnalyzeTextOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetIndexStatisticsOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -214,7 +229,6 @@ export interface GetIndexStatisticsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateIndexOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -222,37 +236,34 @@ export interface CreateIndexOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface ListIndexesOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetIndexOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -260,7 +271,6 @@ export interface GetIndexOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteIndexOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -272,7 +282,6 @@ export interface DeleteIndexOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -286,7 +295,6 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateSynonymMapOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -294,17 +302,21 @@ export interface CreateSynonymMapOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
   /** The Accept header. */
   accept?: "application/json;odata.metadata=minimal";
   /** Selects which top-level properties to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
+  /** A string used to narrow down the listing so that fewer results need to be paged through. If omitted or an empty string is passed, no narrowing is applied. */
+  search?: string;
+  /** The maximum number of items to return in a single page. The server enforces a maximum; if omitted, the server determines a suitable default. */
+  pageSize?: number;
+  /** Specifies how the search parameter is interpreted. Currently only 'prefix' is supported. */
+  searchType?: ListingSearchType;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface GetSynonymMapOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -312,7 +324,6 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface DeleteSynonymMapOptionalParams extends OperationOptions {
   /** The Accept header. */
@@ -324,7 +335,6 @@ export interface DeleteSynonymMapOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
-
 /** Optional parameters. */
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
   /** The Accept header. */
