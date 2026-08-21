@@ -41,6 +41,13 @@ export interface LogPolicyOptions {
 }
 
 /**
+ * Azure-specific header names that should be logged without redaction when
+ * using the Azure SDK pipeline. These headers are added to the base set of
+ * allowed headers from ts-http-runtime.
+ */
+const azureAllowedHeaderNames = ["azure-deprecating"];
+
+/**
  * A policy that logs all requests and responses.
  * @param options - Options to configure logPolicy.
  */
@@ -48,5 +55,9 @@ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
   return tspLogPolicy({
     logger: coreLogger.info,
     ...options,
+    additionalAllowedHeaderNames: [
+      ...azureAllowedHeaderNames,
+      ...(options.additionalAllowedHeaderNames ?? []),
+    ],
   });
 }
