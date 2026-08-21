@@ -1,5 +1,29 @@
 # Release History
 
+## 1.0.0-beta.4 (2026-08-21)
+Compared with version 1.0.0-beta.3
+
+### Features Added
+  - Added Interface SignalAggregationGroup
+  - Interface EntityProperties has a new optional parameter signalAggregationGroups
+  - Added Type Alias AggregationType
+  - Added Type Alias AggregationUnit
+  - Added Enum KnownAggregationType
+  - Added Enum KnownAggregationUnit
+  - Enum KnownVersions has a new value V20260901Preview
+
+### Breaking Changes
+  - Operation DiscoveryRulesOperations.get has a new signature
+  - Operation DiscoveryRulesOperations.listByHealthModel has a new signature
+  - Interface ThresholdRuleV2 no longer has parameter lookBackWindow
+  - Parameter entityName of interface DiscoveryRuleProperties is now optional
+  - Removed Type Alias DependenciesAggregationType
+  - Removed Type Alias DependenciesAggregationUnit
+  - Removed Type Alias LookBackWindow
+  - Removed Enum KnownDependenciesAggregationType
+  - Removed Enum KnownDependenciesAggregationUnit
+  - Removed Enum KnownLookBackWindow
+
 ## 1.0.0-beta.3 (2026-07-12)
 Compared with version 1.0.0-beta.2
 

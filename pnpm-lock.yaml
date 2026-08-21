@@ -4408,7 +4408,7 @@ importers:
   sdk/cloudhealth/arm-cloudhealth:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.1.0
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
