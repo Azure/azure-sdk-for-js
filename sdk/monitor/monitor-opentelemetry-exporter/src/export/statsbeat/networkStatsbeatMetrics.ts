@@ -134,12 +134,19 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   public shutdown(): Promise<void> {
+    this.isInitialized = false;
+    if (NetworkStatsbeatMetrics.instance === this) {
+      NetworkStatsbeatMetrics.instance = null;
+    }
     return this.networkStatsbeatMeterProvider.shutdown();
   }
 
   private async initialize(): Promise<void> {
     try {
       await super.getResourceProvider();
+      if (!this.isInitialized) {
+        return;
+      }
 
       // Add network observable callbacks
       this.successCountGauge.addCallback(this.successCallback.bind(this));
