@@ -123,7 +123,7 @@ CLI Entry (autoGenerateInPipeline.ts)
 | Format code          | `formatSdk()`                                | ✅ Required                          | `npm run format`                                          |
 | Update snippets      | `updateSnippets()`                           | ✅ Required                          | `dev-tool run update-snippets`                            |
 | Lint fix             | `lintFix()`                                  | ⚠️ Optional (`Release`/`Local` only) | `npm run lint:fix`                                        |
-| Apply custom code    | `customizeCodes()`                           | ⚠️ Optional (Data Plane, pnpm)       | `dev-tool customization apply-v2 -s ./generated -c ./src` |
+| Apply custom code    | `customizeCodes()`                           | ⚠️ Optional (root `generated/`)      | `dev-tool customization apply -s ./generated -t ./src`    |
 | Clean up package dir | `cleanUpPackageDirectory()`                  | ✅ Required                          | Cleanup strategy based on SDK type + `RunMode`            |
 | Specify API version  | `specifyApiVersionToGenerateSDKByTypeSpec()` | ⚠️ Optional                          | Modify `api-version` field in `tspconfig.yaml`            |
 
@@ -284,7 +284,7 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 | **4. Generate/Modify CI YAML**            | ✅ Required | `modifyOrGenerateCiYml()`                   | Create or update `ci.yml`                                                                                              | [generateRLCInPipeline.ts#L180] |
 | **5. Modify Test/Sample Config**          | ✅ Required | `changeConfigOfTestAndSample()`             | Skip test/sample compilation                                                                                           | [generateRLCInPipeline.ts#L186] |
 | **6. Install Dependencies**               | ✅ Required | pnpm                                        | `pnpm install`                                                                                                         | [generateRLCInPipeline.ts#L204] |
-| **7. Apply Custom Code**                  | ⚠️ Optional | `customizeCodes()` — pnpm repo only         | `dev-tool customization apply-v2 -s ./generated -c ./src`                                                              | [generateRLCInPipeline.ts#L215] |
+| **7. Apply Custom Code**                  | ⚠️ Optional | `customizeCodes()` — root `generated/` only | `dev-tool customization apply -s ./generated -t ./src`                                                                 | [generateRLCInPipeline.ts#L215] |
 | **8. Lint Fix**                           | ⚠️ Optional | `lintFix()` — `Release` / `Local` mode only | `npm run lint:fix`                                                                                                     | [generateRLCInPipeline.ts#L218] |
 | **9. Build**                              | ✅ Required | Compile package                             | `pnpm build --filter {packageName}...` (`Release`/`Local`) or `pnpm run --filter {packageName}... build` (other modes) | [generateRLCInPipeline.ts#L208] |
 | **10. Pack**                              | ✅ Required | Generate `.tgz`                             | `pnpm run --filter {packageName}... pack`                                                                              | [generateRLCInPipeline.ts#L210] |
@@ -322,7 +322,7 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 | -------------------- | ----------- | ------------------------------------------------------------------------------------------------- | ------------------- |
 | pnpm install         | ✅ Required | `pnpm install`                                                                                    | [rushUtils.ts#L127] |
 | Lint fix             | ⚠️ Optional | `npm run lint:fix` — only in `Release` / `Local` mode                                             | [rushUtils.ts#L139] |
-| Apply custom code    | ⚠️ Optional | `dev-tool customization apply-v2 -s ./generated -c ./src` — Data Plane packages only              | [rushUtils.ts#L146] |
+| Apply custom code    | ⚠️ Optional | `dev-tool customization apply -s ./generated -t ./src` — packages with root-level `generated/`    | [rushUtils.ts#L146] |
 | turbo build          | ✅ Required | `pnpm turbo build --filter {packageName}... --token 1` (build errors are warnings for Data Plane) | [rushUtils.ts#L150] |
 | Extract ApiView info | ✅ Required | Find `temp/**/*-node.api.json` or `temp/**/*.api.json`                                            | [rushUtils.ts#L157] |
 | Test package         | ⚠️ Optional | `pnpm run test:node` — `TEST_MODE=record`; failure does not block                                 | [rushUtils.ts#L169] |
