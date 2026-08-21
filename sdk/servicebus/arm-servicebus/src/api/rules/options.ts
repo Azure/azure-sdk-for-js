@@ -10,12 +10,9 @@ export interface RulesListBySubscriptionsOptionalParams extends OperationOptions
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface RulesDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RulesCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface RulesGetOptionalParams extends OperationOptions {}
