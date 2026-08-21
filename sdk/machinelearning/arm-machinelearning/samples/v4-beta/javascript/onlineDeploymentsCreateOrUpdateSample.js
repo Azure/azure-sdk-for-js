@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Inference Endpoint Deployment (asynchronous).
  *
  * @summary create or update Inference Endpoint Deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateKubernetesOnlineDeployment() {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function createOrUpdateKubernetesOnlineDeployment() {
  * This sample demonstrates how to create or update Inference Endpoint Deployment (asynchronous).
  *
  * @summary create or update Inference Endpoint Deployment (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
  */
 async function createOrUpdateManagedOnlineDeployment() {
   const credential = new DefaultAzureCredential();

@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,6 @@ export async function _listDeserialize(
 
   return _privateLinkResourceListResultDeserializer(result.body);
 }
-
 /**
  * Called by Client (Portal, CLI, etc) to get available "private link resources" for the workspace.
  * Each "private link resource" is a connection endpoint (IP address) to the resource.
@@ -75,7 +74,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

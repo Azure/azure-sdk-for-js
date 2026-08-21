@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Inference Endpoints.
  *
  * @summary list Inference Endpoints.
- * x-ms-original-file: 2026-03-15-preview/Workspace/InferenceEndpoint/list.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/InferenceEndpoint/list.json
  */
 async function listWorkspaceInferenceEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

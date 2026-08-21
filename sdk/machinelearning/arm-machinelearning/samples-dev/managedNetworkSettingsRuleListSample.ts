@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the managed network outbound rules for a machine learning workspace.
  *
  * @summary lists the managed network outbound rules for a machine learning workspace.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/listRule.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/listRule.json
  */
 async function listManagedNetworkSettingsRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

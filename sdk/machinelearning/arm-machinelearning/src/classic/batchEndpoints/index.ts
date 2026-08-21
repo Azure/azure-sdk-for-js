@@ -120,7 +120,6 @@ export interface BatchEndpointsOperations {
     options?: BatchEndpointsGetOptionalParams,
   ) => Promise<BatchEndpoint>;
 }
-
 function _getBatchEndpoints(context: AzureMachineLearningServicesManagementContext) {
   return {
     listKeys: (
@@ -234,7 +233,6 @@ function _getBatchEndpoints(context: AzureMachineLearningServicesManagementConte
     ) => get(context, resourceGroupName, workspaceName, endpointName, options),
   };
 }
-
 export function _getBatchEndpointsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): BatchEndpointsOperations {

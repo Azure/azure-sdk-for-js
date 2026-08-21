@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary called by end-users to approve or reject a PE connection.
  * This method must validate and forward the call to NRP.
- * x-ms-original-file: 2026-03-15-preview/PrivateEndpointConnection/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/PrivateEndpointConnection/createOrUpdate.json
  */
 async function workspacePutPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

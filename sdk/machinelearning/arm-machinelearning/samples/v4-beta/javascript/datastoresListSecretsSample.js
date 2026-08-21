@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get datastore secrets.
  *
  * @summary get datastore secrets.
- * x-ms-original-file: 2026-03-15-preview/Datastore/listSecrets.json
+ * x-ms-original-file: 2026-05-15-preview/Datastore/listSecrets.json
  */
 async function getDatastoreSecrets() {
   const credential = new DefaultAzureCredential();

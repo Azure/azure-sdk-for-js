@@ -104,7 +104,6 @@ export interface RegistryCodeVersionsOperations {
     options?: RegistryCodeVersionsGetOptionalParams,
   ) => Promise<CodeVersion>;
 }
-
 function _getRegistryCodeVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     createOrGetStartPendingUpload: (
@@ -212,7 +211,6 @@ function _getRegistryCodeVersions(context: AzureMachineLearningServicesManagemen
     ) => get(context, resourceGroupName, registryName, codeName, version, options),
   };
 }
-
 export function _getRegistryCodeVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistryCodeVersionsOperations {

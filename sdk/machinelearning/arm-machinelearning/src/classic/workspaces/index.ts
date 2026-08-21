@@ -212,7 +212,6 @@ export interface WorkspacesOperations {
     options?: WorkspacesGetOptionalParams,
   ) => Promise<Workspace>;
 }
-
 function _getWorkspaces(context: AzureMachineLearningServicesManagementContext) {
   return {
     resyncKeys: (
@@ -386,7 +385,6 @@ function _getWorkspaces(context: AzureMachineLearningServicesManagementContext) 
     ) => get(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getWorkspacesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): WorkspacesOperations {
