@@ -13,7 +13,7 @@ import type {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "../types.js";
-import type { Sampler } from "@opentelemetry/sdk-trace-base";
+import type { BufferConfig, Sampler } from "@opentelemetry/sdk-trace-base";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
@@ -54,6 +54,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   public metricExportIntervalMillis: number;
   /** Custom OpenTelemetry sampler (env-only) */
   public sampler?: Sampler;
+  /**
+   * OpenTelemetry BatchSpanProcessor buffer configuration options.
+   * Note: Currently only supported via programmatic configuration.
+   * TODO: Add JSON config and environment variable support for this field.
+   */
+  public batchSpanProcessorOptions?: BufferConfig;
 
   private _resource: Resource = emptyResource();
   private _aksResourceDetectorPopulated: boolean = false;
@@ -144,6 +150,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.enablePerformanceCounters !== undefined
           ? options.enablePerformanceCounters
           : this.enablePerformanceCounters;
+      this.batchSpanProcessorOptions = options.batchSpanProcessorOptions;
     }
     // JSON configuration will take precedence over options provided
     this._mergeJsonConfig();

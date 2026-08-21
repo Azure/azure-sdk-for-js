@@ -5,6 +5,7 @@
 ```ts
 
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
+import type { BufferConfig } from '@opentelemetry/sdk-trace-base';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
@@ -17,6 +18,7 @@ import type { ViewOptions } from '@opentelemetry/sdk-metrics';
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    batchSpanProcessorOptions?: BufferConfig;
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enablePerformanceCounters?: boolean;
