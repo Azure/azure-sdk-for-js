@@ -6,8 +6,8 @@ import {
   SynonymMap,
   synonymMapSerializer,
   synonymMapDeserializer,
-  ListSynonymMapsResult,
-  listSynonymMapsResultDeserializer,
+  _ListSynonymMapsResult,
+  _listSynonymMapsResultDeserializer,
   SearchIndex,
   searchIndexSerializer,
   searchIndexDeserializer,
@@ -273,7 +273,7 @@ export async function _updateKnowledgeSourceFileDeserialize(
 
   return knowledgeSourceFileDeserializer(result.body);
 }
-/** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional extraction override) and a 'content' part with the raw file bytes. */
+/** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
 export async function updateKnowledgeSourceFile(
   context: Client,
   fileId: string,
@@ -458,7 +458,7 @@ export async function _uploadKnowledgeSourceFileMultipartDeserialize(
 
   return knowledgeSourceFileDeserializer(result.body);
 }
-/** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional parsing/extraction overrides) and a 'content' part with the raw file bytes. */
+/** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
 export async function uploadKnowledgeSourceFileMultipart(
   context: Client,
   body: UploadKnowledgeSourceFileMultipartRequest,
@@ -2049,7 +2049,7 @@ export function _getSynonymMapsSend(
 
 export async function _getSynonymMapsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListSynonymMapsResult> {
+): Promise<_ListSynonymMapsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -2060,15 +2060,24 @@ export async function _getSynonymMapsDeserialize(
     throw error;
   }
 
-  return listSynonymMapsResultDeserializer(result.body);
+  return _listSynonymMapsResultDeserializer(result.body);
 }
 /** Lists all synonym maps available for a search service. */
-export async function getSynonymMaps(
+export function getSynonymMaps(
   context: Client,
   options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-): Promise<ListSynonymMapsResult> {
-  const result = await _getSynonymMapsSend(context, options);
-  return _getSynonymMapsDeserialize(result);
+): PagedAsyncIterableIterator<SynonymMap> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getSynonymMapsSend(context, options),
+    _getSynonymMapsDeserialize,
+    ["200"],
+    {
+      itemName: "synonymMaps",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getSynonymMapSend(

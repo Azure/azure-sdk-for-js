@@ -1008,6 +1008,9 @@ export interface FieldMappingFunction {
 }
 
 // @public
+export type FileContents = string | NodeReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+
+// @public
 export interface FileKnowledgeSource extends BaseKnowledgeSource {
     corsOptions?: CorsOptions;
     fileParameters: FileKnowledgeSourceParameters;
@@ -1030,6 +1033,12 @@ export interface FileKnowledgeSourceParameters {
 export interface FileKnowledgeSourceParams extends BaseKnowledgeSourceParams {
     kind: "file";
     queryHintOverrides?: SearchIndexKnowledgeSourceQueryHints;
+}
+
+// @public
+export interface FileUploadMetadata {
+    fileName?: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -1476,7 +1485,7 @@ export type KnowledgeBaseActivityRecord = KnowledgeBaseSearchIndexActivityRecord
 // @public
 export interface KnowledgeBaseActivityRecordModel {
     deploymentId?: string;
-    modelName?: string;
+    modelName: string;
 }
 
 // @public
@@ -1723,6 +1732,9 @@ export type KnowledgeBaseRetrievalStreamEvent = {
 };
 
 // @public
+export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecord | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReference[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
+
+// @public
 export interface KnowledgeBaseRetrieveDefaults {
     maxOutputDocuments?: number;
     maxOutputSizeInTokens?: number;
@@ -1740,7 +1752,7 @@ export interface KnowledgeBaseSearchIndexReference extends BaseKnowledgeBaseRefe
 // @public
 export interface KnowledgeBaseStreamErrorEvent {
     activity?: KnowledgeBaseActivityRecord[];
-    error?: KnowledgeBaseErrorDetail;
+    error: KnowledgeBaseErrorDetail;
 }
 
 // @public
@@ -3400,6 +3412,9 @@ export interface NoAuthAzureMachineLearningVectorizerParameters extends BaseAzur
 }
 
 // @public
+export type NodeReadableStream = NodeJS.ReadableStream;
+
+// @public
 export type OcrLineEnding = string;
 
 // @public
@@ -3824,7 +3839,9 @@ export class SearchIndexClient {
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
     readonly serviceVersion: string;
+    updateKnowledgeSourceFile(name: string, fileId: string, body: UpdateKnowledgeSourceFileRequest, options?: UpdateKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
     uploadKnowledgeSourceFile(name: string, file: Uint8Array, contentDisposition: string, options?: UploadKnowledgeSourceFileOptions): Promise<KnowledgeSourceFile>;
+    uploadKnowledgeSourceFileMultipart(name: string, body: UploadKnowledgeSourceFileMultipartRequest, options?: UploadKnowledgeSourceFileMultipartOptions): Promise<KnowledgeSourceFile>;
 }
 
 // @public
@@ -4639,8 +4656,36 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
     onlyOnSamePosition?: boolean;
 }
 
+// @public (undocumented)
+export interface UpdateKnowledgeSourceFileOptions extends OperationOptions {
+}
+
+// @public
+export interface UpdateKnowledgeSourceFileRequest {
+    content: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: FileUploadMetadata;
+}
+
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
+
+// @public (undocumented)
+export interface UploadKnowledgeSourceFileMultipartOptions extends OperationOptions {
+}
+
+// @public
+export interface UploadKnowledgeSourceFileMultipartRequest {
+    content: FileContents | {
+        contents: FileContents;
+        contentType?: string;
+        filename?: string;
+    };
+    metadata: FileUploadMetadata;
+}
 
 // @public (undocumented)
 export interface UploadKnowledgeSourceFileOptions extends OperationOptions {

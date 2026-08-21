@@ -93,7 +93,7 @@ export interface KnowledgeBaseActivityRecord {
 // @public
 export interface KnowledgeBaseActivityRecordModel {
     deploymentId?: string;
-    modelName?: string;
+    modelName: string;
 }
 
 // @public
@@ -497,7 +497,7 @@ export interface KnowledgeBaseSearchIndexReference extends KnowledgeBaseReferenc
 // @public
 export interface KnowledgeBaseStreamErrorEvent {
     activity?: KnowledgeBaseActivityRecordUnion[];
-    error?: KnowledgeBaseErrorDetail;
+    error: KnowledgeBaseErrorDetail;
 }
 
 // @public
@@ -779,8 +779,8 @@ export interface SearchIndexKnowledgeSourceParams extends KnowledgeSourceParams 
 // @public
 export interface ServedImage {
     imageId?: string;
-    imagePath?: string;
-    sizeBytes?: number;
+    imagePath: string;
+    sizeBytes: number;
 }
 
 // @public

@@ -1814,9 +1814,9 @@ export interface ServedImage {
   /** The image label extracted from the source document by Content Understanding enrichment. Corresponds to the figure numbering in the original document. */
   imageId?: string;
   /** The relative path to the image within the asset store. */
-  imagePath?: string;
+  imagePath: string;
   /** The size in bytes of this image as sent to the model. */
-  sizeBytes?: number;
+  sizeBytes: number;
 }
 
 export function servedImageDeserializer(item: any): ServedImage {
@@ -2545,7 +2545,7 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
 /** Represents the model used for a knowledge base LLM activity, including its model name and deployment identifier. */
 export interface KnowledgeBaseActivityRecordModel {
   /** The name of the model used for the activity. */
-  modelName?: string;
+  modelName: string;
   /** The deployment identifier of the model used for the activity. */
   deploymentId?: string;
 }
@@ -3254,7 +3254,7 @@ export function knowledgeBaseAnswerCompletedEventDeserializer(
 /** Emitted in place of `response.completed` if retrieval fails after the stream starts. */
 export interface KnowledgeBaseStreamErrorEvent {
   /** The error detail explaining why the retrieval stream failed. */
-  error?: KnowledgeBaseErrorDetail;
+  error: KnowledgeBaseErrorDetail;
   /** Activity records that completed before the retrieval failed. */
   activity?: KnowledgeBaseActivityRecordUnion[];
 }
@@ -3263,7 +3263,7 @@ export function knowledgeBaseStreamErrorEventDeserializer(
   item: any,
 ): KnowledgeBaseStreamErrorEvent {
   return {
-    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    error: knowledgeBaseErrorDetailDeserializer(item["error"]),
     activity: !item["activity"]
       ? item["activity"]
       : knowledgeBaseActivityRecordUnionArrayDeserializer(item["activity"]),

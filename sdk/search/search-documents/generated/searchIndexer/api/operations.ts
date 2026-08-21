@@ -6,27 +6,31 @@ import {
   SearchIndexerDataSourceConnection,
   searchIndexerDataSourceConnectionSerializer,
   searchIndexerDataSourceConnectionDeserializer,
-  ListDataSourcesResult,
-  listDataSourcesResultDeserializer,
+  _ListDataSourcesResult,
+  _listDataSourcesResultDeserializer,
   IndexerResyncBody,
   indexerResyncBodySerializer,
   documentKeysOrIdsSerializer,
   SearchIndexer,
   searchIndexerSerializer,
   searchIndexerDeserializer,
-  ListIndexersResult,
-  listIndexersResultDeserializer,
+  _ListIndexersResult,
+  _listIndexersResultDeserializer,
   SearchIndexerStatus,
   searchIndexerStatusDeserializer,
   SearchIndexerSkillset,
   searchIndexerSkillsetSerializer,
   searchIndexerSkillsetDeserializer,
-  ListSkillsetsResult,
-  listSkillsetsResultDeserializer,
+  _ListSkillsetsResult,
+  _listSkillsetsResultDeserializer,
   SkillNames,
   skillNamesSerializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ResetSkillsOptionalParams,
@@ -208,7 +212,7 @@ export function _getSkillsetsSend(
 
 export async function _getSkillsetsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListSkillsetsResult> {
+): Promise<_ListSkillsetsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -219,15 +223,24 @@ export async function _getSkillsetsDeserialize(
     throw error;
   }
 
-  return listSkillsetsResultDeserializer(result.body);
+  return _listSkillsetsResultDeserializer(result.body);
 }
 /** List all skillsets in a search service. */
-export async function getSkillsets(
+export function getSkillsets(
   context: Client,
   options: GetSkillsetsOptionalParams = { requestOptions: {} },
-): Promise<ListSkillsetsResult> {
-  const result = await _getSkillsetsSend(context, options);
-  return _getSkillsetsDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexerSkillset> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getSkillsetsSend(context, options),
+    _getSkillsetsDeserialize,
+    ["200"],
+    {
+      itemName: "skillsets",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getSkillsetSend(
@@ -555,7 +568,7 @@ export function _getIndexersSend(
 
 export async function _getIndexersDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListIndexersResult> {
+): Promise<_ListIndexersResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -566,15 +579,24 @@ export async function _getIndexersDeserialize(
     throw error;
   }
 
-  return listIndexersResultDeserializer(result.body);
+  return _listIndexersResultDeserializer(result.body);
 }
 /** Lists all indexers available for a search service. */
-export async function getIndexers(
+export function getIndexers(
   context: Client,
   options: GetIndexersOptionalParams = { requestOptions: {} },
-): Promise<ListIndexersResult> {
-  const result = await _getIndexersSend(context, options);
-  return _getIndexersDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexer> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getIndexersSend(context, options),
+    _getIndexersDeserialize,
+    ["200"],
+    {
+      itemName: "indexers",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getIndexerSend(
@@ -1071,7 +1093,7 @@ export function _getDataSourceConnectionsSend(
 
 export async function _getDataSourceConnectionsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListDataSourcesResult> {
+): Promise<_ListDataSourcesResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1082,15 +1104,24 @@ export async function _getDataSourceConnectionsDeserialize(
     throw error;
   }
 
-  return listDataSourcesResultDeserializer(result.body);
+  return _listDataSourcesResultDeserializer(result.body);
 }
 /** Lists all datasources available for a search service. */
-export async function getDataSourceConnections(
+export function getDataSourceConnections(
   context: Client,
   options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
-): Promise<ListDataSourcesResult> {
-  const result = await _getDataSourceConnectionsSend(context, options);
-  return _getDataSourceConnectionsDeserialize(result);
+): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getDataSourceConnectionsSend(context, options),
+    _getDataSourceConnectionsDeserialize,
+    ["200"],
+    {
+      itemName: "dataSources",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
 }
 
 export function _getDataSourceConnectionSend(

@@ -1139,6 +1139,16 @@ export function mapPagedAsyncIterable<T, U>(
   };
 }
 
+export async function collectPagedAsyncIterable<T>(
+  iter: PagedAsyncIterableIterator<T>,
+): Promise<T[]> {
+  const items: T[] = [];
+  for await (const item of iter) {
+    items.push(item);
+  }
+  return items;
+}
+
 /**
  * Converts public IndexDocumentsAction format to generated IndexAction format.
  * The public API uses `__actionType` with document properties spread at the root,

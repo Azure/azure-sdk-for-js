@@ -5,15 +5,13 @@ import type { SearchIndexerContext, SearchIndexerClientOptionalParams } from "./
 import { createSearchIndexer } from "./api/index.js";
 import type {
   SearchIndexerDataSourceConnection,
-  ListDataSourcesResult,
   IndexerResyncBody,
   SearchIndexer,
-  ListIndexersResult,
   SearchIndexerStatus,
   SearchIndexerSkillset,
-  ListSkillsetsResult,
   SkillNames,
 } from "../models/azure/search/documents/indexes/models.js";
+import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   resetSkills,
   createSkillset,
@@ -99,7 +97,7 @@ export class SearchIndexerClient {
   /** List all skillsets in a search service. */
   getSkillsets(
     options: GetSkillsetsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSkillsetsResult> {
+  ): PagedAsyncIterableIterator<SearchIndexerSkillset> {
     return getSkillsets(this._client, options);
   }
 
@@ -147,7 +145,7 @@ export class SearchIndexerClient {
   /** Lists all indexers available for a search service. */
   getIndexers(
     options: GetIndexersOptionalParams = { requestOptions: {} },
-  ): Promise<ListIndexersResult> {
+  ): PagedAsyncIterableIterator<SearchIndexer> {
     return getIndexers(this._client, options);
   }
 
@@ -220,7 +218,7 @@ export class SearchIndexerClient {
   /** Lists all datasources available for a search service. */
   getDataSourceConnections(
     options: GetDataSourceConnectionsOptionalParams = { requestOptions: {} },
-  ): Promise<ListDataSourcesResult> {
+  ): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection> {
     return getDataSourceConnections(this._client, options);
   }
 

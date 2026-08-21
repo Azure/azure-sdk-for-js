@@ -285,7 +285,7 @@ export class SearchIndexClient {
     getKnowledgeSourceStatus(name: string, options?: GetKnowledgeSourceStatusOptionalParams): Promise<KnowledgeSourceStatus>;
     getServiceStatistics(options?: GetServiceStatisticsOptionalParams): Promise<SearchServiceStatistics>;
     getSynonymMap(name: string, options?: GetSynonymMapOptionalParams): Promise<SynonymMap>;
-    getSynonymMaps(options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
+    getSynonymMaps(options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;

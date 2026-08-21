@@ -15,12 +15,13 @@ import type {
   KnowledgeBaseRetrievalResponse,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 import {
-  knowledgeBaseActivityRecordUnionArrayDeserializer,
   knowledgeBaseActivityRecordUnionDeserializer,
-  knowledgeBaseErrorDetailDeserializer,
-  knowledgeBaseMessageDeserializer,
+  knowledgeBaseActivityStartedEventDeserializer,
+  knowledgeBaseAnswerCompletedEventDeserializer,
   knowledgeBaseReferenceUnionArrayDeserializer,
-  knowledgeBaseRetrievalResponseDeserializer,
+  knowledgeBaseResponseCompletedEventDeserializer,
+  knowledgeBaseRetrievalStartedEventDeserializer,
+  knowledgeBaseStreamErrorEventDeserializer,
 } from "./models/azure/search/documents/knowledgeBases/models.js";
 import type {
   KnowledgeBaseRetrievalClientOptionalParams,
@@ -240,15 +241,15 @@ export async function* deserializeRetrievalStream(
 
     switch (event.event) {
       case "retrieval.started":
-        yield { event: "retrieval.started", data };
+        yield {
+          event: "retrieval.started",
+          data: knowledgeBaseRetrievalStartedEventDeserializer(data),
+        };
         break;
       case "activity.started":
         yield {
           event: "activity.started",
-          data: {
-            ...data,
-            startedAt: new Date(data.startedAt),
-          },
+          data: knowledgeBaseActivityStartedEventDeserializer(data),
         };
         break;
       case "activity.completed":
@@ -260,10 +261,7 @@ export async function* deserializeRetrievalStream(
       case "answer.completed":
         yield {
           event: "answer.completed",
-          data: {
-            messageIndex: data.messageIndex,
-            message: knowledgeBaseMessageDeserializer(data.message),
-          },
+          data: knowledgeBaseAnswerCompletedEventDeserializer(data),
         };
         break;
       case "references.completed":
@@ -275,21 +273,13 @@ export async function* deserializeRetrievalStream(
       case "error":
         yield {
           event: "error",
-          data: {
-            error: data.error ? knowledgeBaseErrorDetailDeserializer(data.error) : undefined,
-            activity: data.activity
-              ? knowledgeBaseActivityRecordUnionArrayDeserializer(data.activity)
-              : undefined,
-          },
+          data: knowledgeBaseStreamErrorEventDeserializer(data),
         };
         break;
       case "response.completed":
         yield {
           event: "response.completed",
-          data: {
-            statusCode: data.statusCode,
-            response: knowledgeBaseRetrievalResponseDeserializer(data.response),
-          },
+          data: knowledgeBaseResponseCompletedEventDeserializer(data),
         };
         break;
       default:

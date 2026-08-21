@@ -260,7 +260,7 @@ export interface GetSynonymMapOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): Promise<ListSynonymMapsResult>;
+export function getSynonymMaps(context: SearchIndexContext, options?: GetSynonymMapsOptionalParams): PagedAsyncIterableIterator<SynonymMap>;
 
 // @public
 export interface GetSynonymMapsOptionalParams extends OperationOptions {

@@ -10,6 +10,7 @@ import {
 import { NodeReadableStream } from "./static-helpers/platform-types.js";
 
 export { SearchClient } from "./search/searchClient.js";
+export type { KnowledgeBaseRetrievalStreamEvents } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -100,7 +101,6 @@ export type {
   SearchIndexerDataIdentityUnion,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataUserAssignedIdentity,
-  ListSynonymMapsResult,
   SearchIndex,
   SearchField,
   SearchFieldDataType,
@@ -339,7 +339,6 @@ export type {
   DataDeletionDetectionPolicyUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
   NativeBlobSoftDeleteDeletionDetectionPolicy,
-  ListDataSourcesResult,
   IndexerResyncBody,
   IndexerResyncOption,
   DocumentKeysOrIds,
@@ -355,7 +354,6 @@ export type {
   FieldMapping,
   FieldMappingFunction,
   SearchIndexerCache,
-  ListIndexersResult,
   SearchIndexerStatus,
   IndexerStatus,
   IndexerRuntime,
@@ -446,7 +444,6 @@ export type {
   IndexProjectionMode,
   SearchIndexerKnowledgeStoreProjectionSelector,
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
-  ListSkillsetsResult,
   SkillNames,
   ListingSearchType,
 } from "./models/azure/search/documents/indexes/index.js";

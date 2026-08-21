@@ -173,8 +173,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listIndexers",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getIndexers(updatedOptions);
-        return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getIndexers(updatedOptions),
+            utils.generatedSearchIndexerToPublicSearchIndexer,
+          ),
+        );
       },
     );
   }
@@ -189,11 +193,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listIndexersNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getIndexers({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.indexers.map((idx) => idx.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getIndexers({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (indexer) => indexer.name,
+          ),
+        );
       },
     );
   }
@@ -209,8 +217,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnections",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDataSourceConnections(updatedOptions);
-        return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getDataSourceConnections(updatedOptions),
+            utils.generatedDataSourceToPublicDataSource,
+          ),
+        );
       },
     );
   }
@@ -227,11 +239,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listDataSourceConnectionsNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDataSourceConnections({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.dataSources.map((ds) => ds.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getDataSourceConnections({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (dataSource) => dataSource.name,
+          ),
+        );
       },
     );
   }
@@ -247,8 +263,12 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listSkillsets",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSkillsets(updatedOptions);
-        return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getSkillsets(updatedOptions),
+            utils.generatedSkillsetToPublicSkillset,
+          ),
+        );
       },
     );
   }
@@ -263,11 +283,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-listSkillsetsNames",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSkillsets({
-          ...updatedOptions,
-          select: "name",
-        });
-        return result.skillsets.map((sks) => sks.name);
+        return utils.collectPagedAsyncIterable(
+          utils.mapPagedAsyncIterable(
+            this.client.getSkillsets({
+              ...updatedOptions,
+              select: "name",
+            }),
+            (skillset) => skillset.name,
+          ),
+        );
       },
     );
   }

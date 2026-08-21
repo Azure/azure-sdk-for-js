@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- Regenerated from the `2026-08-01-preview` Search service API.
+- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`.
+- Added `uploadKnowledgeSourceFileMultipart` and `updateKnowledgeSourceFile` methods to `SearchIndexClient`, with `UploadKnowledgeSourceFileMultipartRequest`, `UpdateKnowledgeSourceFileRequest`, `FileUploadMetadata`, and the corresponding options types.
 - Added `KnowledgeRetrievalAutoReasoningEffort` reasoning effort variant for knowledge retrieval.
 - Added `citationUrl` on knowledge base activity/reference response types.
 - Added `startedAt` and `completedAt` on knowledge base activity record response types.
@@ -21,6 +22,7 @@
 
 ### Breaking Changes
 
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required to match the service contract.
 - Removed `WorkIQAttribution`, along with the `attributions` property that referenced it, from knowledge base response types.
 - Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`. Use the `resultsProcessing` property on `McpServerTool` with `KnownKnowledgeSourceResultsProcessing` instead, mapping the former `reranked` value to `rerank`.
 - Renamed the `elapsedInMs` property to `elapsedMs` on activity record types.
@@ -30,7 +32,7 @@
 ### Bugs Fixed
 
 - Fixed `SearchIndexerClient.resetDocuments` so that the `dataSourceDocumentIds` option is correctly forwarded to the service.
-- Fixed continuation for every paged operation. The generated paging metadata referenced the raw wire property name (`NextLink` or `@odata.nextLink`) rather than the deserialized property name (`nextLink` or `odataNextLink`), so the continuation link was never found and iteration silently stopped after the first page. This affected `listIndexes`, `listIndexesNames`, `listAliases`, `listAliasesNames`, `listIndexStatsSummary`, `listKnowledgeBases`, `listKnowledgeSources`, and `listKnowledgeSourceFiles`.
+- Fixed continuation for every paged operation. The generated paging metadata referenced the raw wire property name (`NextLink` or `@odata.nextLink`) rather than the deserialized property name (`nextLink` or `odataNextLink`), so the continuation link was never found and iteration silently stopped after the first page. This affected `listIndexes`, `listIndexesNames`, `listAliases`, `listAliasesNames`, `listIndexStatsSummary`, `listKnowledgeBases`, `listKnowledgeSources`, `listKnowledgeSourceFiles`, `listSynonymMaps`, `listSynonymMapsNames`, `listIndexers`, `listIndexersNames`, `listDataSourceConnections`, `listDataSourceConnectionsNames`, `listSkillsets`, and `listSkillsetsNames`.
 
 ### Other Changes
 

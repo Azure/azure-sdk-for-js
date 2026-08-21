@@ -181,12 +181,12 @@ export class SearchIndexerClient {
     deleteIndexer(name: string, options?: DeleteIndexerOptionalParams): Promise<void>;
     deleteSkillset(name: string, options?: DeleteSkillsetOptionalParams): Promise<void>;
     getDataSourceConnection(name: string, options?: GetDataSourceConnectionOptionalParams): Promise<SearchIndexerDataSourceConnection>;
-    getDataSourceConnections(options?: GetDataSourceConnectionsOptionalParams): Promise<ListDataSourcesResult>;
+    getDataSourceConnections(options?: GetDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
     getIndexer(name: string, options?: GetIndexerOptionalParams): Promise<SearchIndexer>;
-    getIndexers(options?: GetIndexersOptionalParams): Promise<ListIndexersResult>;
+    getIndexers(options?: GetIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
     getIndexerStatus(name: string, options?: GetIndexerStatusOptionalParams): Promise<SearchIndexerStatus>;
     getSkillset(name: string, options?: GetSkillsetOptionalParams): Promise<SearchIndexerSkillset>;
-    getSkillsets(options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
+    getSkillsets(options?: GetSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
     readonly pipeline: Pipeline;
     resetDocuments(name: string, options?: ResetDocumentsOptionalParams): Promise<void>;
     resetIndexer(name: string, options?: ResetIndexerOptionalParams): Promise<void>;

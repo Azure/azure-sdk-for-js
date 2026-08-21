@@ -50,6 +50,32 @@ describe("convenience layer carries generated fields", () => {
     assert.include(url, "searchType=prefix");
   });
 
+  it("forwards multipart file upload and update parameters", async () => {
+    const uploadRequests: PipelineRequest[] = [];
+    const uploadClient = captureClient(
+      { fileId: "file-1", fileName: "updated.txt" },
+      uploadRequests,
+      201,
+    );
+    const updateRequests: PipelineRequest[] = [];
+    const updateClient = captureClient(
+      { fileId: "file-1", fileName: "updated.txt" },
+      updateRequests,
+    );
+    const body = {
+      metadata: { fileName: "updated.txt", metadata: { category: "docs" } },
+      content: new Uint8Array([1, 2, 3]),
+    };
+
+    await uploadClient.uploadKnowledgeSourceFileMultipart("source", body);
+    await updateClient.updateKnowledgeSourceFile("source", "file-1", body);
+
+    assert.equal(uploadRequests[0].method, "POST");
+    assert.include(uploadRequests[0].url, "knowledgesources('source')/files");
+    assert.equal(updateRequests[0].method, "PUT");
+    assert.include(updateRequests[0].url, "knowledgesources('source')/files('file-1')");
+  });
+
   it("round-trips resultsProcessing on a knowledge source", async () => {
     const captured: PipelineRequest[] = [];
     const client = captureClient(

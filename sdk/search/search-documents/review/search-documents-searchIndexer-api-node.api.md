@@ -121,7 +121,7 @@ export interface GetDataSourceConnectionOptionalParams extends OperationOptions 
 }
 
 // @public
-export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): Promise<ListDataSourcesResult>;
+export function getDataSourceConnections(context: SearchIndexerContext, options?: GetDataSourceConnectionsOptionalParams): PagedAsyncIterableIterator<SearchIndexerDataSourceConnection>;
 
 // @public
 export interface GetDataSourceConnectionsOptionalParams extends OperationOptions {
@@ -143,7 +143,7 @@ export interface GetIndexerOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): Promise<ListIndexersResult>;
+export function getIndexers(context: SearchIndexerContext, options?: GetIndexersOptionalParams): PagedAsyncIterableIterator<SearchIndexer>;
 
 // @public
 export interface GetIndexersOptionalParams extends OperationOptions {
@@ -174,7 +174,7 @@ export interface GetSkillsetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): Promise<ListSkillsetsResult>;
+export function getSkillsets(context: SearchIndexerContext, options?: GetSkillsetsOptionalParams): PagedAsyncIterableIterator<SearchIndexerSkillset>;
 
 // @public
 export interface GetSkillsetsOptionalParams extends OperationOptions {

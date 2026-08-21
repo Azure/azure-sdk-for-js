@@ -2050,31 +2050,7 @@ export interface LimitTokenFilter extends TokenFilter {
 }
 
 // @public
-export interface ListDataSourcesResult {
-    readonly dataSources: SearchIndexerDataSourceConnection[];
-    readonly odataNextLink?: string;
-}
-
-// @public
-export interface ListIndexersResult {
-    readonly indexers: SearchIndexer[];
-    readonly odataNextLink?: string;
-}
-
-// @public
 export type ListingSearchType = string;
-
-// @public
-export interface ListSkillsetsResult {
-    readonly odataNextLink?: string;
-    readonly skillsets: SearchIndexerSkillset[];
-}
-
-// @public
-export interface ListSynonymMapsResult {
-    readonly odataNextLink?: string;
-    readonly synonymMaps: SynonymMap[];
-}
 
 // @public
 export interface LuceneStandardAnalyzer extends LexicalAnalyzer {

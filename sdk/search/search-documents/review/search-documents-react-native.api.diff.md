@@ -18,5 +18,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export type CreateSynonymMapOptions = OperationOptions;
  
+@@ -3411,9 +3411,9 @@
+     scoringUri: string;
+ }
+ 
+ // @public
+-export type NodeReadableStream = NodeJS.ReadableStream;
++export type NodeReadableStream = never;
+ 
+ // @public
+ export type OcrLineEnding = string;
+ 
 
 ```

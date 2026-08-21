@@ -9,7 +9,7 @@ import {
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
-import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import { getBinaryResponse } from "#platform/static-helpers/serialization/get-binary-response";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { RetrieveStreamOptionalParams, RetrieveOptionalParams } from "./options.js";
 import {

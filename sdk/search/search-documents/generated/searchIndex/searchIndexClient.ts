@@ -8,7 +8,6 @@ import {
 } from "./api/index.js";
 import {
   SynonymMap,
-  ListSynonymMapsResult,
   SearchIndex,
   SearchIndexResponse,
   GetIndexStatisticsResult,
@@ -134,7 +133,7 @@ export class SearchIndexClient {
     return getServiceStatistics(this._client, options);
   }
 
-  /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional extraction override) and a 'content' part with the raw file bytes. */
+  /** Updates an existing file in a File knowledge source in place, replacing its indexed content. Uses multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
   updateKnowledgeSourceFile(
     fileId: string,
     body: UpdateKnowledgeSourceFileRequest,
@@ -161,7 +160,7 @@ export class SearchIndexClient {
     return listKnowledgeSourceFiles(this._client, name, options);
   }
 
-  /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name, custom metadata, and optional parsing/extraction overrides) and a 'content' part with the raw file bytes. */
+  /** Uploads a file to a File knowledge source using multipart/form-data: a JSON 'metadata' part (file name and custom metadata) and a 'content' part with the raw file bytes. */
   uploadKnowledgeSourceFileMultipart(
     body: UploadKnowledgeSourceFileMultipartRequest,
     name: string,
@@ -383,7 +382,7 @@ export class SearchIndexClient {
   /** Lists all synonym maps available for a search service. */
   getSynonymMaps(
     options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-  ): Promise<ListSynonymMapsResult> {
+  ): PagedAsyncIterableIterator<SynonymMap> {
     return getSynonymMaps(this._client, options);
   }
 

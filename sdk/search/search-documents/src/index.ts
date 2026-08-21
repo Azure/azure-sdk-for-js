@@ -7,6 +7,9 @@ export type {
   PageSettings,
   ContinuablePage,
 } from "./static-helpers/pagingHelpers.js";
+export type { FileContents } from "./static-helpers/multipartHelpers.js";
+export type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+export type { KnowledgeBaseRetrievalStreamEvents } from "./models/index.js";
 export {
   type AutocompleteItem,
   type AutocompleteMode,
@@ -396,6 +399,9 @@ export {
   type SearchIndexKnowledgeSourceBoostKind,
   KnownSearchIndexKnowledgeSourceBoostKind,
   type KnowledgeSourceFile,
+  type FileUploadMetadata,
+  type UpdateKnowledgeSourceFileRequest,
+  type UploadKnowledgeSourceFileMultipartRequest,
   type BlobIndexerParsingMode,
   type WordDelimiterTokenFilter,
   type ContentUnderstandingSkillChunkingMethod,
@@ -631,6 +637,8 @@ export {
   type RemoteSharePointKnowledgeSourceParameters,
   type ListIndexStatsSummaryOptions,
   type UploadKnowledgeSourceFileOptions,
+  type UploadKnowledgeSourceFileMultipartOptions,
+  type UpdateKnowledgeSourceFileOptions,
   type ResetDocumentsOptions,
   type ResetIndexerOptions,
   type ResetSkillsOptions,
