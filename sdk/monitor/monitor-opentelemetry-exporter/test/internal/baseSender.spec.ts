@@ -11,7 +11,11 @@ import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_DISABLE_SDKSTATS,
 } from "../../src/Declarations/Constants.js";
-import { ExceptionType, RetryCode } from "../../src/export/statsbeat/types.js";
+import {
+  ExceptionType,
+  MAX_STATSBEAT_FAILURES,
+  RetryCode,
+} from "../../src/export/statsbeat/types.js";
 import type { SenderResult } from "../../src/types.js";
 import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -54,6 +58,20 @@ export const mockLongIntervalStats: {
   shutdown: Mock<() => Promise<void>>;
 } = {
   shutdown: vi.fn(),
+};
+
+const mockStatsbeatManager = {
+  initialize: vi.fn(),
+  shutdown: vi.fn().mockResolvedValue(undefined),
+  countSuccess: mockNetworkStats.countSuccess,
+  countFailure: mockNetworkStats.countFailure,
+  countThrottle: mockNetworkStats.countThrottle,
+  countRetry: mockNetworkStats.countRetry,
+  countException: mockNetworkStats.countException,
+  countReadFailure: mockNetworkStats.countReadFailure,
+  countWriteFailure: mockNetworkStats.countWriteFailure,
+  networkStatsbeatMetrics: mockNetworkStats,
+  longIntervalStatsbeatMetrics: mockLongIntervalStats,
 };
 
 // Helper type for our mock
@@ -109,6 +127,14 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
       constructor() {
         return mockLongIntervalStats;
       }
+    },
+  };
+});
+
+vi.mock("../../src/export/statsbeat/statsbeatManager.js", () => {
+  return {
+    StatsbeatManager: {
+      getInstance: vi.fn(() => mockStatsbeatManager),
     },
   };
 });
@@ -188,15 +214,6 @@ class TestBaseSender extends BaseSender {
   constructor(options: any) {
     super(options);
 
-    // Override the private properties with our mocks
-    Object.defineProperty(this, "networkStatsbeatMetrics", {
-      value: mockNetworkStats,
-      writable: true,
-    });
-    Object.defineProperty(this, "longIntervalStatsbeatMetrics", {
-      value: mockLongIntervalStats,
-      writable: true,
-    });
     Object.defineProperty(this, "customerSDKStatsMetrics", {
       value: mockCustomerSDKStatsMetrics,
       writable: true,
@@ -269,6 +286,8 @@ describe("BaseSender", () => {
   beforeEach(async () => {
     // Reset all mocks
     vi.clearAllMocks();
+    mockStatsbeatManager.shutdown.mockResolvedValue(undefined);
+    mockStatsbeatManager.networkStatsbeatMetrics = mockNetworkStats;
 
     // Restore isRetriable mock implementation (vi.resetAllMocks in afterEach clears it)
     (isRetriable as Mock).mockImplementation(
@@ -514,9 +533,43 @@ describe("BaseSender", () => {
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
-      // Network stats now use singleton pattern, so no direct shutdown call
-      // Long interval stats still have shutdown method
-      expect(sender.getLongIntervalStats().shutdown).toHaveBeenCalled();
+      expect(mockStatsbeatManager.shutdown).toHaveBeenCalled();
+    });
+
+    it("should handle a failure to shut down internal Statsbeat", async () => {
+      const shutdownError = new Error("shutdown failed");
+      const invalidKeyError: any = new Error("Invalid instrumentation key");
+      invalidKeyError.statusCode = 400;
+      mockStatsbeatManager.shutdown.mockRejectedValueOnce(shutdownError);
+      sender.sendMock.mockRejectedValue(invalidKeyError);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+      await Promise.resolve();
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(diag.warn).toHaveBeenCalledWith(
+        "Failed to shut down internal Statsbeat metrics:",
+        shutdownError,
+      );
+    });
+
+    it("should globally shut down Statsbeat after repeated internal failures", async () => {
+      mockStatsbeatManager.initialize.mockClear();
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: false,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+      sender.sendMock.mockRejectedValue(new RestError("Unauthorized", { statusCode: 401 }));
+
+      for (let i = 0; i <= MAX_STATSBEAT_FAILURES; i++) {
+        await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+      }
+
+      expect(mockStatsbeatManager.initialize).not.toHaveBeenCalled();
+      expect(mockStatsbeatManager.shutdown).toHaveBeenCalledOnce();
     });
 
     it("should count exception for non-retriable errors", async () => {
@@ -1054,8 +1107,11 @@ describe("BaseSender", () => {
     });
 
     it("should capture exception.message for CLIENT_EXCEPTION when network error occurs without statsbeat", async () => {
-      // Disable network statsbeat to trigger CLIENT_EXCEPTION path
-      (testSender as any).networkStatsbeatMetrics = null;
+      (
+        mockStatsbeatManager as {
+          networkStatsbeatMetrics: typeof mockNetworkStats | undefined;
+        }
+      ).networkStatsbeatMetrics = undefined;
 
       // Mock a network error that throws an exception
       testSender.sendMock.mockRejectedValue(new Error("Error message"));

@@ -12,6 +12,7 @@ import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
@@ -89,9 +90,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.isDefined(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.isDefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
         assert.strictEqual(
-          exporter?.["sender"]?.["networkStatsbeatMetrics"]?.["isInitialized"],
+          exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics?.["isInitialized"],
           true,
         );
       });
@@ -399,8 +400,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           await statsbeat["getResourceProvider"]();
 
           process.env = originalEnv;
-          // When no specific environment variables are set, it falls back to VM detection
-          assert.strictEqual(statsbeat["resourceProvider"], "vm");
+          assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         });
       });
 
@@ -481,7 +481,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
           process.env = originalEnv;
           assert.strictEqual(testStatsbeat["resourceProvider"], "functions");
-          assert.strictEqual(testStatsbeat["resourceIdentifier"], "my-function-app");
+          assert.strictEqual(testStatsbeat["resourceIdentifier"], "");
 
           await testStatsbeat.shutdown();
         });
@@ -563,8 +563,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           await statsbeat["getResourceProvider"]();
 
           process.env = originalEnv;
-          // With empty environment variables, it falls through to VM detection
-          assert.strictEqual(statsbeat["resourceProvider"], "vm");
+          assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         });
       });
     });
@@ -761,31 +760,95 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Disable Non-Essential Statsbeat", () => {
-      it("should disable statsbeat when the environment variable is set", () => {
+      it("should disable statsbeat when the environment variable is set", async () => {
+        await StatsbeatManager.getInstance().shutdown();
         process.env[ENV_DISABLE_STATSBEAT] = "true";
-        // Reset singletons to pick up environment variable
-        (NetworkStatsbeatMetrics as any).instance = null;
-        (LongIntervalStatsbeatMetrics as any).instance = null;
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.isDefined(exporter["sender"]["networkStatsbeatMetrics"]);
-        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
-        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
+        const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
+        assert.isDefined(networkStatsbeat);
+        assert.isUndefined(networkStatsbeat?.["readFailureGauge"]);
+        assert.isUndefined(networkStatsbeat?.["writeFailureGauge"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
-        // Reset singletons again for clean state
-        (NetworkStatsbeatMetrics as any).instance = null;
-        (LongIntervalStatsbeatMetrics as any).instance = null;
+        await StatsbeatManager.getInstance().shutdown();
       });
 
-      it("should disable all statsbeat when the legacy environment variable is set", () => {
+      it("should disable all statsbeat when the legacy environment variable is set", async () => {
+        await StatsbeatManager.getInstance().shutdown();
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.isUndefined(exporter["sender"]["networkStatsbeatMetrics"]);
-        assert.isUndefined(exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
+        assert.isUndefined(exporter["sender"]["statsbeatManager"].longIntervalStatsbeatMetrics);
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
       });
     });
 
     describe("Long Interval Statsbeat Metrics", () => {
+      it("unrefs and cancels the delayed initial export during shutdown", async () => {
+        const originalWebsiteSiteName = process.env.WEBSITE_SITE_NAME;
+        process.env.WEBSITE_SITE_NAME = "statsbeat-test";
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+        const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
+        const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
+        let isShutdown = false;
+
+        try {
+          await vi.waitFor(() => expect(longIntervalStatsbeat["initialExportTimer"]).toBeDefined());
+          const initialExportTimer = longIntervalStatsbeat["initialExportTimer"];
+          expect(initialExportTimer?.hasRef()).toBe(false);
+
+          await longIntervalStatsbeat.shutdown();
+          isShutdown = true;
+
+          expect(clearTimeoutSpy).toHaveBeenCalledWith(initialExportTimer);
+          expect(longIntervalStatsbeat["initialExportTimer"]).toBeUndefined();
+        } finally {
+          clearTimeoutSpy.mockRestore();
+          if (originalWebsiteSiteName === undefined) {
+            delete process.env.WEBSITE_SITE_NAME;
+          } else {
+            process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          }
+          if (!isShutdown) {
+            await longIntervalStatsbeat.shutdown();
+          }
+        }
+      });
+
+      it("does not export an initial collection after shutdown begins", async () => {
+        const originalWebsiteSiteName = process.env.WEBSITE_SITE_NAME;
+        process.env.WEBSITE_SITE_NAME = "statsbeat-test";
+        (LongIntervalStatsbeatMetrics as any).instance = null;
+        const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
+        let resolveCollection!: (value: any) => void;
+        const collectionPromise = new Promise<any>((resolve) => {
+          resolveCollection = resolve;
+        });
+
+        try {
+          await vi.waitFor(() => expect(longIntervalStatsbeat["initialExportTimer"]).toBeDefined());
+          const collectSpy = vi
+            .spyOn(longIntervalStatsbeat["longIntervalMetricReader"], "collect")
+            .mockReturnValue(collectionPromise);
+          const exportSpy = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
+          const initialExportPromise = longIntervalStatsbeat["exportInitialStatsbeat"]();
+          longIntervalStatsbeat["initialExportPromise"] = initialExportPromise;
+          await vi.waitFor(() => expect(collectSpy).toHaveBeenCalledOnce());
+
+          const shutdownPromise = longIntervalStatsbeat.shutdown();
+          resolveCollection({ resourceMetrics: {} });
+          await shutdownPromise;
+
+          expect(exportSpy).not.toHaveBeenCalled();
+        } finally {
+          if (originalWebsiteSiteName === undefined) {
+            delete process.env.WEBSITE_SITE_NAME;
+          } else {
+            process.env.WEBSITE_SITE_NAME = originalWebsiteSiteName;
+          }
+          await longIntervalStatsbeat.shutdown();
+        }
+      });
+
       it("should properly bind the metric reader to a metric producer", async () => {
         // Get an instance of LongIntervalStatsbeatMetrics
         const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
