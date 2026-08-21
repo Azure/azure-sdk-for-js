@@ -28,7 +28,7 @@ export function _deleteServiceGroupSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}{?api%2Dversion}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,7 +41,9 @@ export async function _deleteServiceGroupDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -60,7 +62,7 @@ export function deleteServiceGroup(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteServiceGroupSend(context, serviceGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -74,7 +76,7 @@ export function _updateServiceGroupSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}{?api%2Dversion}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,7 +96,9 @@ export async function _updateServiceGroupDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -115,7 +119,7 @@ export function updateServiceGroup(
     getInitialResponse: () =>
       _updateServiceGroupSend(context, serviceGroupName, updateServiceGroupRequest, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
 }
 
@@ -129,7 +133,7 @@ export function _createOrUpdateServiceGroupSend(
     "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}{?api%2Dversion}",
     {
       serviceGroupName: serviceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +153,9 @@ export async function _createOrUpdateServiceGroupDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,8 +184,8 @@ export function createOrUpdateServiceGroup(
           createServiceGroupRequest,
           options,
         ),
-      resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2024-02-01-preview",
+      resourceLocationConfig: "original-uri",
+      apiVersion: context.apiVersion ?? "2026-08-01",
     },
   ) as PollerLike<OperationState<ServiceGroup>, ServiceGroup>;
 }

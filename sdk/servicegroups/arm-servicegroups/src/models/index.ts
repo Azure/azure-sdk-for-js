@@ -5,6 +5,7 @@ export type {
   ServiceGroup,
   ServiceGroupProperties,
   ProvisioningState,
+  ServiceGroupAttributes,
   ParentServiceGroupProperties,
   ProxyResource,
   Resource,
@@ -13,6 +14,15 @@ export type {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  ServiceGroupCollectionResponse,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
 } from "./models.js";
-export { KnownProvisioningState, KnownCreatedByType, KnownVersions } from "./models.js";
+export {
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownOrigin,
+  KnownActionType,
+  KnownVersions,
+} from "./models.js";
