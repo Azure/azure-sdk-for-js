@@ -6,6 +6,8 @@ import type {
   ContainerInstanceManagementClientOptionalParams,
 } from "./api/index.js";
 import { createContainerInstanceManagement } from "./api/index.js";
+import type { AiAgentsGroupsOperations } from "./classic/aiAgentsGroups/index.js";
+import { _getAiAgentsGroupsOperations } from "./classic/aiAgentsGroups/index.js";
 import type { CGProfileOperations } from "./classic/cgProfile/index.js";
 import { _getCGProfileOperations } from "./classic/cgProfile/index.js";
 import type { CGProfilesOperations } from "./classic/cgProfiles/index.js";
@@ -20,8 +22,6 @@ import type { NGroupsOperations } from "./classic/nGroups/index.js";
 import { _getNGroupsOperations } from "./classic/nGroups/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SandboxGroupsOperations } from "./classic/sandboxGroups/index.js";
-import { _getSandboxGroupsOperations } from "./classic/sandboxGroups/index.js";
 import type { SubnetServiceAssociationLinkOperations } from "./classic/subnetServiceAssociationLink/index.js";
 import { _getSubnetServiceAssociationLinkOperations } from "./classic/subnetServiceAssociationLink/index.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -58,20 +58,13 @@ export class ContainerInstanceManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerInstanceManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerInstanceManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.subnetServiceAssociationLink = _getSubnetServiceAssociationLinkOperations(this._client);
     this.location = _getLocationOperations(this._client);
     this.cgProfiles = _getCGProfilesOperations(this._client);
     this.containers = _getContainersOperations(this._client);
-    this.sandboxGroups = _getSandboxGroupsOperations(this._client);
+    this.aiAgentsGroups = _getAiAgentsGroupsOperations(this._client);
     this.cgProfile = _getCGProfileOperations(this._client);
     this.nGroups = _getNGroupsOperations(this._client);
     this.containerGroups = _getContainerGroupsOperations(this._client);
@@ -86,8 +79,8 @@ export class ContainerInstanceManagementClient {
   public readonly cgProfiles: CGProfilesOperations;
   /** The operation groups for containers */
   public readonly containers: ContainersOperations;
-  /** The operation groups for sandboxGroups */
-  public readonly sandboxGroups: SandboxGroupsOperations;
+  /** The operation groups for aiAgentsGroups */
+  public readonly aiAgentsGroups: AiAgentsGroupsOperations;
   /** The operation groups for cgProfile */
   public readonly cgProfile: CGProfileOperations;
   /** The operation groups for nGroups */

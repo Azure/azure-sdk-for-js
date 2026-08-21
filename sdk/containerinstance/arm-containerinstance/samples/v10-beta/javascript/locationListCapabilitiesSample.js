@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the list of CPU/memory/GPU capabilities of a region.
  *
  * @summary get the list of CPU/memory/GPU capabilities of a region.
- * x-ms-original-file: 2026-06-01-preview/CapabilitiesList.json
+ * x-ms-original-file: 2026-08-01-preview/CapabilitiesList.json
  */
 async function getCapabilities() {
   const credential = new DefaultAzureCredential();
