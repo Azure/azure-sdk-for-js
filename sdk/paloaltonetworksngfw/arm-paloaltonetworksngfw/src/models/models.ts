@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -503,6 +503,326 @@ export function customCaptureConfigurationsFirewallResourceArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return customCaptureConfigurationsFirewallResourceDeserializer(item);
+  });
+}
+
+/** Log Ingestion Settings on a firewall (singleton — the name is always 'default'). This is the modern Azure Monitor Log Ingestion (Data Collection Rule based) surface that supersedes the legacy getLogProfile/saveLogProfile actions. Sync child resource — PUT/GET/DELETE forward to the partner synchronously; the caller does not poll a long-running operation. */
+export interface LogIngestionSettingsResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties: LogIngestionSettingsProperties;
+}
+
+export function logIngestionSettingsResourceSerializer(item: LogIngestionSettingsResource): any {
+  return { properties: logIngestionSettingsPropertiesSerializer(item["properties"]) };
+}
+
+export function logIngestionSettingsResourceDeserializer(item: any): LogIngestionSettingsResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: logIngestionSettingsPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Log Ingestion Settings for a firewall (Azure Monitor Log Ingestion / Data Collection Rule based). */
+export interface LogIngestionSettingsProperties {
+  /** One of possible log type */
+  logType?: LogType;
+  /** Log option SAME/INDIVIDUAL */
+  logOption?: LogOption;
+  /** Application Insight details */
+  applicationInsights?: ApplicationInsights;
+  /** Common destination configurations */
+  commonDestination?: LogDestinationV2;
+  /** Traffic destination configurations */
+  trafficLogDestination?: LogDestinationV2;
+  /** Threat destination configurations */
+  threatLogDestination?: LogDestinationV2;
+  /** Decrypt destination configurations */
+  decryptLogDestination?: LogDestinationV2;
+}
+
+export function logIngestionSettingsPropertiesSerializer(
+  item: LogIngestionSettingsProperties,
+): any {
+  return {
+    logType: item["logType"],
+    logOption: item["logOption"],
+    applicationInsights: !item["applicationInsights"]
+      ? item["applicationInsights"]
+      : applicationInsightsSerializer(item["applicationInsights"]),
+    commonDestination: !item["commonDestination"]
+      ? item["commonDestination"]
+      : logDestinationV2Serializer(item["commonDestination"]),
+    trafficLogDestination: !item["trafficLogDestination"]
+      ? item["trafficLogDestination"]
+      : logDestinationV2Serializer(item["trafficLogDestination"]),
+    threatLogDestination: !item["threatLogDestination"]
+      ? item["threatLogDestination"]
+      : logDestinationV2Serializer(item["threatLogDestination"]),
+    decryptLogDestination: !item["decryptLogDestination"]
+      ? item["decryptLogDestination"]
+      : logDestinationV2Serializer(item["decryptLogDestination"]),
+  };
+}
+
+export function logIngestionSettingsPropertiesDeserializer(
+  item: any,
+): LogIngestionSettingsProperties {
+  return {
+    logType: item["logType"],
+    logOption: item["logOption"],
+    applicationInsights: !item["applicationInsights"]
+      ? item["applicationInsights"]
+      : applicationInsightsDeserializer(item["applicationInsights"]),
+    commonDestination: !item["commonDestination"]
+      ? item["commonDestination"]
+      : logDestinationV2Deserializer(item["commonDestination"]),
+    trafficLogDestination: !item["trafficLogDestination"]
+      ? item["trafficLogDestination"]
+      : logDestinationV2Deserializer(item["trafficLogDestination"]),
+    threatLogDestination: !item["threatLogDestination"]
+      ? item["threatLogDestination"]
+      : logDestinationV2Deserializer(item["threatLogDestination"]),
+    decryptLogDestination: !item["decryptLogDestination"]
+      ? item["decryptLogDestination"]
+      : logDestinationV2Deserializer(item["decryptLogDestination"]),
+  };
+}
+
+/** Possible log types */
+export enum KnownLogType {
+  /** TRAFFIC */
+  Traffic = "TRAFFIC",
+  /** THREAT */
+  Threat = "THREAT",
+  /** DECRYPTION */
+  Decryption = "DECRYPTION",
+  /** WILDFIRE */
+  Wildfire = "WILDFIRE",
+  /** DLP */
+  DLP = "DLP",
+  /** AUDIT */
+  Audit = "AUDIT",
+}
+
+/**
+ * Possible log types \
+ * {@link KnownLogType} can be used interchangeably with LogType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TRAFFIC** \
+ * **THREAT** \
+ * **DECRYPTION** \
+ * **WILDFIRE** \
+ * **DLP** \
+ * **AUDIT**
+ */
+export type LogType = string;
+
+/** Log options possible */
+export enum KnownLogOption {
+  /** SAME_DESTINATION */
+  SameDestination = "SAME_DESTINATION",
+  /** INDIVIDUAL_DESTINATION */
+  IndividualDestination = "INDIVIDUAL_DESTINATION",
+}
+
+/**
+ * Log options possible \
+ * {@link KnownLogOption} can be used interchangeably with LogOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SAME_DESTINATION** \
+ * **INDIVIDUAL_DESTINATION**
+ */
+export type LogOption = string;
+
+/** Application Insights key */
+export interface ApplicationInsights {
+  /** Resource id for Application Insights */
+  id?: string;
+  /** Application Insights key */
+  key?: string;
+}
+
+export function applicationInsightsSerializer(item: ApplicationInsights): any {
+  return { id: item["id"], key: item["key"] };
+}
+
+export function applicationInsightsDeserializer(item: any): ApplicationInsights {
+  return {
+    id: item["id"],
+    key: item["key"],
+  };
+}
+
+/** Log Destination for the Azure Monitor Log Ingestion (Data Collection Rule) method. Carries the DCR-based `monitorConfigurationsV2`. */
+export interface LogDestinationV2 {
+  /** Storage account configurations */
+  storageConfigurations?: StorageAccount;
+  /** Event Hub configurations */
+  eventHubConfigurations?: EventHub;
+  /** Azure Monitor Log Ingestion (Data Collection Rule) configuration for this destination. */
+  monitorConfigurationsV2?: MonitorLogV2;
+}
+
+export function logDestinationV2Serializer(item: LogDestinationV2): any {
+  return {
+    storageConfigurations: !item["storageConfigurations"]
+      ? item["storageConfigurations"]
+      : storageAccountSerializer(item["storageConfigurations"]),
+    eventHubConfigurations: !item["eventHubConfigurations"]
+      ? item["eventHubConfigurations"]
+      : eventHubSerializer(item["eventHubConfigurations"]),
+    monitorConfigurationsV2: !item["monitorConfigurationsV2"]
+      ? item["monitorConfigurationsV2"]
+      : monitorLogV2Serializer(item["monitorConfigurationsV2"]),
+  };
+}
+
+export function logDestinationV2Deserializer(item: any): LogDestinationV2 {
+  return {
+    storageConfigurations: !item["storageConfigurations"]
+      ? item["storageConfigurations"]
+      : storageAccountDeserializer(item["storageConfigurations"]),
+    eventHubConfigurations: !item["eventHubConfigurations"]
+      ? item["eventHubConfigurations"]
+      : eventHubDeserializer(item["eventHubConfigurations"]),
+    monitorConfigurationsV2: !item["monitorConfigurationsV2"]
+      ? item["monitorConfigurationsV2"]
+      : monitorLogV2Deserializer(item["monitorConfigurationsV2"]),
+  };
+}
+
+/** Storage Account configurations */
+export interface StorageAccount {
+  /** Resource ID of storage account */
+  id?: string;
+  /** Subscription Id */
+  subscriptionId?: string;
+  /** Storage account name */
+  accountName?: string;
+}
+
+export function storageAccountSerializer(item: StorageAccount): any {
+  return {
+    id: item["id"],
+    subscriptionId: item["subscriptionId"],
+    accountName: item["accountName"],
+  };
+}
+
+export function storageAccountDeserializer(item: any): StorageAccount {
+  return {
+    id: item["id"],
+    subscriptionId: item["subscriptionId"],
+    accountName: item["accountName"],
+  };
+}
+
+/** EventHub configurations */
+export interface EventHub {
+  /** Resource ID of EventHub */
+  id?: string;
+  /** Subscription Id */
+  subscriptionId?: string;
+  /** EventHub name */
+  name?: string;
+  /** EventHub namespace */
+  nameSpace?: string;
+  /** EventHub policy name */
+  policyName?: string;
+}
+
+export function eventHubSerializer(item: EventHub): any {
+  return {
+    id: item["id"],
+    subscriptionId: item["subscriptionId"],
+    name: item["name"],
+    nameSpace: item["nameSpace"],
+    policyName: item["policyName"],
+  };
+}
+
+export function eventHubDeserializer(item: any): EventHub {
+  return {
+    id: item["id"],
+    subscriptionId: item["subscriptionId"],
+    name: item["name"],
+    nameSpace: item["nameSpace"],
+    policyName: item["policyName"],
+  };
+}
+
+/**
+ * Log collection using the Azure Monitor Log Ingestion API (Data Collection Rule based).
+ * This supersedes the legacy HTTP Data Collector `MonitorLog` for firewalls that have migrated
+ * to the modern DCR ingestion path. When this block is supplied, all four fields are required.
+ */
+export interface MonitorLogV2 {
+  /** ARM resource ID of the Data Collection Rule (DCR) that governs how these logs are transformed and routed. */
+  dcrId: string;
+  /** HTTPS logs ingestion endpoint that receives the data (the DCR's logs ingestion endpoint or its Data Collection Endpoint). */
+  logIngestionEndpoint: string;
+  /** Immutable ID of the Data Collection Rule (the value that begins with `dcr-`). */
+  dcrImmutableId: string;
+  /** DCR input stream that receives the data. For a custom table this is typically `Custom-<TableName>`. */
+  streamName: string;
+}
+
+export function monitorLogV2Serializer(item: MonitorLogV2): any {
+  return {
+    dcrId: item["dcrId"],
+    logIngestionEndpoint: item["logIngestionEndpoint"],
+    dcrImmutableId: item["dcrImmutableId"],
+    streamName: item["streamName"],
+  };
+}
+
+export function monitorLogV2Deserializer(item: any): MonitorLogV2 {
+  return {
+    dcrId: item["dcrId"],
+    logIngestionEndpoint: item["logIngestionEndpoint"],
+    dcrImmutableId: item["dcrImmutableId"],
+    streamName: item["streamName"],
+  };
+}
+
+/** The response of a LogIngestionSettingsResource list operation. */
+export interface _LogIngestionSettingsResourceListResult {
+  /** The LogIngestionSettingsResource items on this page */
+  value: LogIngestionSettingsResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _logIngestionSettingsResourceListResultDeserializer(
+  item: any,
+): _LogIngestionSettingsResourceListResult {
+  return {
+    value: logIngestionSettingsResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function logIngestionSettingsResourceArraySerializer(
+  result: Array<LogIngestionSettingsResource>,
+): any[] {
+  return result.map((item) => {
+    return logIngestionSettingsResourceSerializer(item);
+  });
+}
+
+export function logIngestionSettingsResourceArrayDeserializer(
+  result: Array<LogIngestionSettingsResource>,
+): any[] {
+  return result.map((item) => {
+    return logIngestionSettingsResourceDeserializer(item);
   });
 }
 
@@ -3072,73 +3392,6 @@ export function logSettingsDeserializer(item: any): LogSettings {
   };
 }
 
-/** Possible log types */
-export enum KnownLogType {
-  /** TRAFFIC */
-  Traffic = "TRAFFIC",
-  /** THREAT */
-  Threat = "THREAT",
-  /** DECRYPTION */
-  Decryption = "DECRYPTION",
-  /** WILDFIRE */
-  Wildfire = "WILDFIRE",
-  /** DLP */
-  DLP = "DLP",
-  /** AUDIT */
-  Audit = "AUDIT",
-}
-
-/**
- * Possible log types \
- * {@link KnownLogType} can be used interchangeably with LogType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TRAFFIC** \
- * **THREAT** \
- * **DECRYPTION** \
- * **WILDFIRE** \
- * **DLP** \
- * **AUDIT**
- */
-export type LogType = string;
-
-/** Log options possible */
-export enum KnownLogOption {
-  /** SAME_DESTINATION */
-  SameDestination = "SAME_DESTINATION",
-  /** INDIVIDUAL_DESTINATION */
-  IndividualDestination = "INDIVIDUAL_DESTINATION",
-}
-
-/**
- * Log options possible \
- * {@link KnownLogOption} can be used interchangeably with LogOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SAME_DESTINATION** \
- * **INDIVIDUAL_DESTINATION**
- */
-export type LogOption = string;
-
-/** Application Insights key */
-export interface ApplicationInsights {
-  /** Resource id for Application Insights */
-  id?: string;
-  /** Application Insights key */
-  key?: string;
-}
-
-export function applicationInsightsSerializer(item: ApplicationInsights): any {
-  return { id: item["id"], key: item["key"] };
-}
-
-export function applicationInsightsDeserializer(item: any): ApplicationInsights {
-  return {
-    id: item["id"],
-    key: item["key"],
-  };
-}
-
 /** Log Destination */
 export interface LogDestination {
   /** Storage account configurations */
@@ -3174,66 +3427,6 @@ export function logDestinationDeserializer(item: any): LogDestination {
     monitorConfigurations: !item["monitorConfigurations"]
       ? item["monitorConfigurations"]
       : monitorLogDeserializer(item["monitorConfigurations"]),
-  };
-}
-
-/** Storage Account configurations */
-export interface StorageAccount {
-  /** Resource ID of storage account */
-  id?: string;
-  /** Subscription Id */
-  subscriptionId?: string;
-  /** Storage account name */
-  accountName?: string;
-}
-
-export function storageAccountSerializer(item: StorageAccount): any {
-  return {
-    id: item["id"],
-    subscriptionId: item["subscriptionId"],
-    accountName: item["accountName"],
-  };
-}
-
-export function storageAccountDeserializer(item: any): StorageAccount {
-  return {
-    id: item["id"],
-    subscriptionId: item["subscriptionId"],
-    accountName: item["accountName"],
-  };
-}
-
-/** EventHub configurations */
-export interface EventHub {
-  /** Resource ID of EventHub */
-  id?: string;
-  /** Subscription Id */
-  subscriptionId?: string;
-  /** EventHub name */
-  name?: string;
-  /** EventHub namespace */
-  nameSpace?: string;
-  /** EventHub policy name */
-  policyName?: string;
-}
-
-export function eventHubSerializer(item: EventHub): any {
-  return {
-    id: item["id"],
-    subscriptionId: item["subscriptionId"],
-    name: item["name"],
-    nameSpace: item["nameSpace"],
-    policyName: item["policyName"],
-  };
-}
-
-export function eventHubDeserializer(item: any): EventHub {
-  return {
-    id: item["id"],
-    subscriptionId: item["subscriptionId"],
-    name: item["name"],
-    nameSpace: item["nameSpace"],
-    policyName: item["policyName"],
   };
 }
 
@@ -4197,6 +4390,8 @@ export enum KnownVersions {
   V20260126Preview = "2026-01-26-preview",
   /** The 2026-05-11-preview API version. */
   V20260511Preview = "2026-05-11-preview",
+  /** The 2026-07-29-preview API version. */
+  V20260729Preview = "2026-07-29-preview",
 }
 
 export function _globalRulestackResourcePropertiesSerializer(item: GlobalRulestackResource): any {

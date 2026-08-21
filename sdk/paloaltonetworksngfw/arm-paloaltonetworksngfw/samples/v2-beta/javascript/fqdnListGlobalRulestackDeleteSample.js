@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a FqdnListGlobalRulestackResource
  *
  * @summary delete a FqdnListGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_Delete_MaximumSet_Gen.json
  */
 async function fqdnListGlobalRulestackDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function fqdnListGlobalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to delete a FqdnListGlobalRulestackResource
  *
  * @summary delete a FqdnListGlobalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/FqdnListGlobalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/FqdnListGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function fqdnListGlobalRulestackDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();

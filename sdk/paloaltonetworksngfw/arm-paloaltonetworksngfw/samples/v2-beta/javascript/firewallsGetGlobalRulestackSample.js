@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Global Rulestack associated with the Firewall
  *
  * @summary get Global Rulestack associated with the Firewall
- * x-ms-original-file: 2026-05-11-preview/Firewalls_getGlobalRulestack_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_getGlobalRulestack_MaximumSet_Gen.json
  */
 async function firewallsGetGlobalRulestackMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function firewallsGetGlobalRulestackMaximumSetGen() {
  * This sample demonstrates how to get Global Rulestack associated with the Firewall
  *
  * @summary get Global Rulestack associated with the Firewall
- * x-ms-original-file: 2026-05-11-preview/Firewalls_getGlobalRulestack_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_getGlobalRulestack_MinimumSet_Gen.json
  */
 async function firewallsGetGlobalRulestackMinimumSetGen() {
   const credential = new DefaultAzureCredential();

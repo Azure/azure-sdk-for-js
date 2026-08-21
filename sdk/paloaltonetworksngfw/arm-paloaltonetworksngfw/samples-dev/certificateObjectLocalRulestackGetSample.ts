@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a CertificateObjectLocalRulestackResource
  *
  * @summary get a CertificateObjectLocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectLocalRulestack_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectLocalRulestack_Get_MaximumSet_Gen.json
  */
 async function certificateObjectLocalRulestackGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function certificateObjectLocalRulestackGetMaximumSetGen(): Promise<void> 
  * This sample demonstrates how to get a CertificateObjectLocalRulestackResource
  *
  * @summary get a CertificateObjectLocalRulestackResource
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectLocalRulestack_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectLocalRulestack_Get_MinimumSet_Gen.json
  */
 async function certificateObjectLocalRulestackGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -63,7 +63,7 @@ export function _revertSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/revert{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,6 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Revert rulestack configuration */
 export async function revert(
   context: Client,
@@ -106,7 +105,7 @@ export function _listSecurityServicesSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listSecurityServices{?api%2Dversion,skip,top,type}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
       type: typeParam,
@@ -136,7 +135,6 @@ export async function _listSecurityServicesDeserialize(
 
   return securityServicesResponseDeserializer(result.body);
 }
-
 /** List the security services for rulestack */
 export async function listSecurityServices(
   context: Client,
@@ -157,7 +155,7 @@ export function _listPredefinedUrlCategoriesSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listPredefinedUrlCategories{?api%2Dversion,skip,top}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
     },
@@ -186,7 +184,6 @@ export async function _listPredefinedUrlCategoriesDeserialize(
 
   return predefinedUrlCategoriesResponseDeserializer(result.body);
 }
-
 /** List predefined URL categories for rulestack */
 export async function listPredefinedUrlCategories(
   context: Client,
@@ -206,7 +203,7 @@ export function _listFirewallsSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listFirewalls{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +230,6 @@ export async function _listFirewallsDeserialize(
 
   return listFirewallsResponseDeserializer(result.body);
 }
-
 /** List of Firewalls associated with Rulestack */
 export async function listFirewalls(
   context: Client,
@@ -253,7 +249,7 @@ export function _listCountriesSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listCountries{?api%2Dversion,skip,top}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
     },
@@ -282,7 +278,6 @@ export async function _listCountriesDeserialize(
 
   return countriesResponseDeserializer(result.body);
 }
-
 /** List of countries for Rulestack */
 export async function listCountries(
   context: Client,
@@ -302,7 +297,7 @@ export function _listAppIdsSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listAppIds{?api%2Dversion,appIdVersion,appPrefix,skip,top}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       appIdVersion: options?.appIdVersion,
       appPrefix: options?.appPrefix,
       skip: options?.skip,
@@ -333,7 +328,6 @@ export async function _listAppIdsDeserialize(
 
   return listAppIdResponseDeserializer(result.body);
 }
-
 /** List of AppIds for GlobalRulestack ApiVersion */
 export async function listAppIds(
   context: Client,
@@ -354,7 +348,7 @@ export function _listAdvancedSecurityObjectsSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listAdvancedSecurityObjects{?api%2Dversion,skip,top,type}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       skip: options?.skip,
       top: options?.top,
       type: typeParam,
@@ -384,7 +378,6 @@ export async function _listAdvancedSecurityObjectsDeserialize(
 
   return advSecurityObjectListResponseDeserializer(result.body);
 }
-
 /** Get the list of advanced security objects */
 export async function listAdvancedSecurityObjects(
   context: Client,
@@ -410,7 +403,7 @@ export function _getChangeLogSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/getChangeLog{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +428,6 @@ export async function _getChangeLogDeserialize(result: PathUncheckedResponse): P
 
   return changelogDeserializer(result.body);
 }
-
 /** Get changelog */
 export async function getChangeLog(
   context: Client,
@@ -455,7 +447,7 @@ export function _commitSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/commit{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -477,7 +469,6 @@ export async function _commitDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Commit rulestack configuration */
 export function commit(
   context: Client,
@@ -489,7 +480,7 @@ export function commit(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _commitSend(context, globalRulestackName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -500,7 +491,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -527,7 +518,6 @@ export async function _listDeserialize(
 
   return _globalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List GlobalRulestackResource resources by Tenant */
 export function list(
   context: Client,
@@ -541,7 +531,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -555,7 +545,7 @@ export function _$deleteSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -577,7 +567,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a GlobalRulestackResource */
 export function $delete(
   context: Client,
@@ -589,7 +578,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, globalRulestackName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -603,7 +592,7 @@ export function _updateSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -632,7 +621,6 @@ export async function _updateDeserialize(
 
   return globalRulestackResourceDeserializer(result.body);
 }
-
 /** Update a GlobalRulestackResource */
 export async function update(
   context: Client,
@@ -654,7 +642,7 @@ export function _createOrUpdateSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -683,7 +671,6 @@ export async function _createOrUpdateDeserialize(
 
   return globalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a GlobalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -696,7 +683,7 @@ export function createOrUpdate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, globalRulestackName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<GlobalRulestackResource>, GlobalRulestackResource>;
 }
 
@@ -709,7 +696,7 @@ export function _getSend(
     "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}{?api%2Dversion}",
     {
       globalRulestackName: globalRulestackName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -736,7 +723,6 @@ export async function _getDeserialize(
 
   return globalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a GlobalRulestackResource */
 export async function get(
   context: Client,

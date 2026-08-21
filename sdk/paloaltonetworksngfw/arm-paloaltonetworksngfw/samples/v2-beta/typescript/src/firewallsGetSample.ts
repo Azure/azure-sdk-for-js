@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FirewallResource
  *
  * @summary get a FirewallResource
- * x-ms-original-file: 2026-05-11-preview/Firewalls_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_Get_MaximumSet_Gen.json
  */
 async function firewallsGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function firewallsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to get a FirewallResource
  *
  * @summary get a FirewallResource
- * x-ms-original-file: 2026-05-11-preview/Firewalls_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/Firewalls_Get_MinimumSet_Gen.json
  */
 async function firewallsGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

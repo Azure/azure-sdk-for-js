@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list CertificateObjectGlobalRulestackResource resources by Tenant
  *
  * @summary list CertificateObjectGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_List_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function certificateObjectGlobalRulestackListMaximumSetGen(): Promise<void
  * This sample demonstrates how to list CertificateObjectGlobalRulestackResource resources by Tenant
  *
  * @summary list CertificateObjectGlobalRulestackResource resources by Tenant
- * x-ms-original-file: 2026-05-11-preview/CertificateObjectGlobalRulestack_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CertificateObjectGlobalRulestack_List_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

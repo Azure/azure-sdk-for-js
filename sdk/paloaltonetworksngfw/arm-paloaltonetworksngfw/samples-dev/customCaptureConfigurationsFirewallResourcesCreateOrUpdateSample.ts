@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to start a Custom Capture Configuration on a firewall. SYNC — returns 200 OK + body immediately. Body's properties.pcapStatus reflects current state (typically InProgress). Caller polls GET on its own clock using properties.nextCheckInSeconds as the cadence hint.
  *
  * @summary start a Custom Capture Configuration on a firewall. SYNC — returns 200 OK + body immediately. Body's properties.pcapStatus reflects current state (typically InProgress). Caller polls GET on its own clock using properties.nextCheckInSeconds as the cadence hint.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function customCaptureConfigurationsFirewallResourcesCreateOrUpdateMaximum
  * This sample demonstrates how to start a Custom Capture Configuration on a firewall. SYNC — returns 200 OK + body immediately. Body's properties.pcapStatus reflects current state (typically InProgress). Caller polls GET on its own clock using properties.nextCheckInSeconds as the cadence hint.
  *
  * @summary start a Custom Capture Configuration on a firewall. SYNC — returns 200 OK + body immediately. Body's properties.pcapStatus reflects current state (typically InProgress). Caller polls GET on its own clock using properties.nextCheckInSeconds as the cadence hint.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
