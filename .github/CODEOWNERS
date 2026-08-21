@@ -1714,6 +1714,9 @@ sdk/compute/arm-compute-bulkactions/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/redhatopenshifthcp/arm-redhatopenshifthcp/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
