@@ -15,6 +15,7 @@ export type { GenerateDetailedCostReportOperations } from "./generateDetailedCos
 export type { GenerateDetailedCostReportOperationResultsOperations } from "./generateDetailedCostReportOperationResults/index.js";
 export type { GenerateDetailedCostReportOperationStatusOperations } from "./generateDetailedCostReportOperationStatus/index.js";
 export type { GenerateReservationDetailsReportOperations } from "./generateReservationDetailsReport/index.js";
+export type { MarkupRulesOperations } from "./markupRules/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { PriceSheetOperations } from "./priceSheet/index.js";
 export type { QueryOperations } from "./query/index.js";
