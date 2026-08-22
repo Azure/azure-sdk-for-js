@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   listByHealthModel,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/discoveryRules/operations.js";
-import type {
+import {
   DiscoveryRulesListByHealthModelOptionalParams,
   DiscoveryRulesDeleteOptionalParams,
   DiscoveryRulesCreateOrUpdateOptionalParams,
   DiscoveryRulesGetOptionalParams,
 } from "../../api/discoveryRules/options.js";
-import type { DiscoveryRule, DiscoveryRuleResourceCreate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DiscoveryRuleResourceCreate } from "../../models/customizations/models.js";
+import { DiscoveryRule } from "../../models/microsoft/cloudHealth/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiscoveryRules operations. */
 export interface DiscoveryRulesOperations {

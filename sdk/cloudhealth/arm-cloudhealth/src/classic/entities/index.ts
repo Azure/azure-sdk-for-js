@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   getSignalRecommendations,
   getDataAnnotations,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/entities/operations.js";
-import type {
+import {
   EntitiesGetSignalRecommendationsOptionalParams,
   EntitiesGetDataAnnotationsOptionalParams,
   EntitiesAddDataAnnotationOptionalParams,
@@ -26,7 +26,7 @@ import type {
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "../../api/entities/options.js";
-import type {
+import {
   Entity,
   EntityHistoryRequest,
   EntityHistoryResponse,
@@ -38,9 +38,9 @@ import type {
   GetDataAnnotationsRequest,
   GetDataAnnotationsResponse,
   GetSignalRecommendationsResponse,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+} from "../../models/microsoft/cloudHealth/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Entities operations. */
 export interface EntitiesOperations {

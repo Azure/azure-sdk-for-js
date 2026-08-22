@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cloudhealth",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for CloudHealthClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.1.0",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -129,104 +129,6 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/discoveryRules": {
-      "browser": {
-        "types": "./dist/browser/api/discoveryRules/index.d.ts",
-        "default": "./dist/browser/api/discoveryRules/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/discoveryRules/index.d.ts",
-        "default": "./dist/esm/api/discoveryRules/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/discoveryRules/index.d.ts",
-        "default": "./dist/commonjs/api/discoveryRules/index.js"
-      }
-    },
-    "./api/relationships": {
-      "browser": {
-        "types": "./dist/browser/api/relationships/index.d.ts",
-        "default": "./dist/browser/api/relationships/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/relationships/index.d.ts",
-        "default": "./dist/esm/api/relationships/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/relationships/index.d.ts",
-        "default": "./dist/commonjs/api/relationships/index.js"
-      }
-    },
-    "./api/entities": {
-      "browser": {
-        "types": "./dist/browser/api/entities/index.d.ts",
-        "default": "./dist/browser/api/entities/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/entities/index.d.ts",
-        "default": "./dist/esm/api/entities/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/entities/index.d.ts",
-        "default": "./dist/commonjs/api/entities/index.js"
-      }
-    },
-    "./api/authenticationSettings": {
-      "browser": {
-        "types": "./dist/browser/api/authenticationSettings/index.d.ts",
-        "default": "./dist/browser/api/authenticationSettings/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/authenticationSettings/index.d.ts",
-        "default": "./dist/esm/api/authenticationSettings/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/authenticationSettings/index.d.ts",
-        "default": "./dist/commonjs/api/authenticationSettings/index.js"
-      }
-    },
-    "./api/signalDefinitions": {
-      "browser": {
-        "types": "./dist/browser/api/signalDefinitions/index.d.ts",
-        "default": "./dist/browser/api/signalDefinitions/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/signalDefinitions/index.d.ts",
-        "default": "./dist/esm/api/signalDefinitions/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/signalDefinitions/index.d.ts",
-        "default": "./dist/commonjs/api/signalDefinitions/index.js"
-      }
-    },
-    "./api/healthModels": {
-      "browser": {
-        "types": "./dist/browser/api/healthModels/index.d.ts",
-        "default": "./dist/browser/api/healthModels/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/healthModels/index.d.ts",
-        "default": "./dist/esm/api/healthModels/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/healthModels/index.d.ts",
-        "default": "./dist/commonjs/api/healthModels/index.js"
-      }
-    },
-    "./api/operations": {
-      "browser": {
-        "types": "./dist/browser/api/operations/index.d.ts",
-        "default": "./dist/browser/api/operations/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/operations/index.d.ts",
-        "default": "./dist/esm/api/operations/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/operations/index.d.ts",
-        "default": "./dist/commonjs/api/operations/index.js"
-      }
-    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
@@ -239,6 +141,34 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/customizations": {
+      "browser": {
+        "types": "./dist/browser/models/customizations/index.d.ts",
+        "default": "./dist/browser/models/customizations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/customizations/index.d.ts",
+        "default": "./dist/esm/models/customizations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/customizations/index.d.ts",
+        "default": "./dist/commonjs/models/customizations/index.js"
+      }
+    },
+    "./models/microsoft/cloudHealth": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/cloudHealth/index.d.ts",
+        "default": "./dist/browser/models/microsoft/cloudHealth/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/cloudHealth/index.d.ts",
+        "default": "./dist/esm/models/microsoft/cloudHealth/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/cloudHealth/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/cloudHealth/index.js"
       }
     }
   },

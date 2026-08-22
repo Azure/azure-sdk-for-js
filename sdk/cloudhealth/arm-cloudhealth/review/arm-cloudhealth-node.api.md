@@ -4,16 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -162,7 +162,6 @@ export class CloudHealthClient {
 
 // @public
 export interface CloudHealthClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
@@ -724,13 +723,6 @@ export enum KnownSignalOperator {
     LessThan = "LessThan",
     LessThanOrEqual = "LessThanOrEqual",
     NotEqual = "NotEqual"
-}
-
-// @public
-export enum KnownVersions {
-    V20250501Preview = "2025-05-01-preview",
-    V20260101Preview = "2026-01-01-preview",
-    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
