@@ -1,4 +1,28 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/enrollments/index.ts",
+    "../src/api/usagePlans/index.ts",
+    "../src/api/unifiedResilienceItems/index.ts",
+    "../src/api/drillRunResources/index.ts",
+    "../src/api/drillRuns/index.ts",
+    "../src/api/drillResources/index.ts",
+    "../src/api/drills/index.ts",
+    "../src/api/recoveryJobResources/index.ts",
+    "../src/api/recoveryJobs/index.ts",
+    "../src/api/recoveryResources/index.ts",
+    "../src/api/recoveryPlanActions/index.ts",
+    "../src/api/recoveryPlans/index.ts",
+    "../src/api/goalResources/index.ts",
+    "../src/api/goalTemplates/index.ts",
+    "../src/api/goalAssignments/index.ts",
+    "../src/api/operationStatus/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
