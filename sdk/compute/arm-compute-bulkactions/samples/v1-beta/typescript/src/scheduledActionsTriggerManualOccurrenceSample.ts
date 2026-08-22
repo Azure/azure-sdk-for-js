@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger a manual occurrence of the scheduled action immediately, outside its normal schedule.
  *
  * @summary trigger a manual occurrence of the scheduled action immediately, outside its normal schedule.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_TriggerManualOccurrence_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_TriggerManualOccurrence_MaximumSet_Gen.json
  */
 async function scheduledActionsTriggerManualOccurrenceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

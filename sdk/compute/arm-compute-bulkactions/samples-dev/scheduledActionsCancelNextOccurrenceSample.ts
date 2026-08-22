@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel the next scheduled occurrence of the scheduled action.
  *
  * @summary cancel the next scheduled occurrence of the scheduled action.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActions_CancelNextOccurrence_MaximumSet_Gen.json
  */
 async function scheduledActionsCancelNextOccurrenceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

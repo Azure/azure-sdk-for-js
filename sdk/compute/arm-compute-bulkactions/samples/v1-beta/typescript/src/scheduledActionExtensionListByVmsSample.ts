@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ScheduledActionResources resources by parent
  *
  * @summary list ScheduledActionResources resources by parent
- * x-ms-original-file: 2026-07-06-preview/ScheduledActionExtension_ListByVms_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/ScheduledActionExtension_ListByVms_MaximumSet_Gen.json
  */
 async function scheduledActionExtensionListByVmsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

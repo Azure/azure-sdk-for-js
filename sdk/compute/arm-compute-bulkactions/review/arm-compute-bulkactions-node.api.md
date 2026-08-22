@@ -191,6 +191,7 @@ export interface BulkCreateCustomOperations {
     getAsyncOperationStatus: (location: string, asyncOperationId: string, options?: BulkCreateCustomGetAsyncOperationStatusOptionalParams) => Promise<OperationStatusResult>;
     listByResourceGroup: (resourceGroupName: string, location: string, options?: BulkCreateCustomListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
     listBySubscription: (location: string, options?: BulkCreateCustomListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
+    virtualMachinesGetOperationStatus: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams) => Promise<GetOperationStatusResponse>;
 }
 
 // @public
@@ -233,11 +234,30 @@ export interface BulkCreateCustomProperties {
     computeProfile: ComputeProfile;
     readonly createdTime?: Date;
     executionParameters?: ExecutionParameters;
+    minCapacity?: number;
     overridesProfile?: BulkCreateCustomOverridesProfile;
+    partialFulfillmentPolicy?: PartialFulfillmentPolicy;
     priorityProfile: BulkCreateCustomPriorityProfile;
     readonly provisioningState?: ProvisioningState;
+    readonly resources?: BulkCreateCustomResource[];
     vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
     zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
+}
+
+// @public
+export interface BulkCreateCustomResource {
+    virtualMachineInfo?: BulkCreateCustomVirtualMachineInfo;
+}
+
+// @public
+export interface BulkCreateCustomVirtualMachineInfo {
+    name?: string;
+    vmSize?: string;
+    zone?: string;
+}
+
+// @public
+export interface BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -276,6 +296,47 @@ export interface CancelOperationsContent {
 export interface CancelOperationsResponse {
     results: ResourceOperation[];
 }
+
+// @public
+export interface CapacityRecommendation {
+    details?: CapacityRecommendationDetails;
+    error?: string;
+    errorDetails?: string;
+    status: CapacityRecommendationStatus;
+}
+
+// @public
+export interface CapacityRecommendationDetails {
+    availabilityZones?: boolean;
+    desiredLocations?: string[];
+    desiredSizes?: CapacityRecommendationSize[];
+    placementScores?: CapacityRecommendationPlacementScore[];
+    recommendationRequestedAtUtc?: Date;
+}
+
+// @public
+export interface CapacityRecommendationParameters {
+    availabilityZones?: boolean;
+    desiredLocations?: string[];
+    desiredSizes?: string[];
+}
+
+// @public
+export interface CapacityRecommendationPlacementScore {
+    availabilityZone?: string;
+    isQuotaAvailable?: boolean;
+    region?: string;
+    score?: string;
+    sku?: string;
+}
+
+// @public
+export interface CapacityRecommendationSize {
+    sku?: string;
+}
+
+// @public
+export type CapacityRecommendationStatus = string;
 
 // @public
 export interface CapacityReservationProfile {
@@ -509,6 +570,7 @@ export interface ExecuteVdiCreateRequest {
 
 // @public
 export interface ExecutionParameters {
+    capacityRecommendationParameters?: CapacityRecommendationParameters;
     optimizationPreference?: OptimizationPreference;
     retryPolicy?: RetryPolicy;
     verifyVmAgentHealth?: boolean;
@@ -643,6 +705,14 @@ export enum KnownCachingTypes {
     None = "None",
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownCapacityRecommendationStatus {
+    Failed = "Failed",
+    NotInitiated = "NotInitiated",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -849,6 +919,18 @@ export enum KnownNotificationType {
 }
 
 // @public
+export enum KnownOccurrenceResourceProvisioningState {
+    Canceled = "Canceled",
+    Cancelling = "Cancelling",
+    Created = "Created",
+    Failed = "Failed",
+    InvalidState = "InvalidState",
+    Rescheduling = "Rescheduling",
+    Scheduled = "Scheduled",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownOccurrenceState {
     Canceled = "Canceled",
     Cancelling = "Cancelling",
@@ -899,6 +981,19 @@ export enum KnownOsType {
 }
 
 // @public
+export enum KnownPartialFulfillmentMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownPartialFulfillmentReason {
+    InsufficientCapacity = "InsufficientCapacity",
+    InsufficientQuota = "InsufficientQuota",
+    None = "None"
+}
+
+// @public
 export enum KnownPriorityType {
     Regular = "Regular",
     Spot = "Spot"
@@ -938,31 +1033,6 @@ export enum KnownPublicIPAllocationMethod {
 }
 
 // @public
-export enum KnownRecurringScheduledActionsDeadlineType {
-    CompleteBy = "CompleteBy",
-    InitiateAt = "InitiateAt",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownRecurringScheduledActionsProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownRecurringScheduledActionsResourceOperationType {
-    Create = "Create",
-    Deallocate = "Deallocate",
-    Delete = "Delete",
-    Hibernate = "Hibernate",
-    Start = "Start",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownResourceOperationStatus {
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -980,16 +1050,34 @@ export enum KnownResourceOperationType {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownResourceType {
+    VirtualMachine = "VirtualMachine",
+    VirtualMachineScaleSet = "VirtualMachineScaleSet"
+}
+
+// @public
+export enum KnownScheduledActionsDeadlineType {
+    CompleteBy = "CompleteBy",
+    InitiateAt = "InitiateAt",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownScheduledActionsProvisioningState {
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownResourceType {
-    VirtualMachine = "VirtualMachine",
-    VirtualMachineScaleSet = "VirtualMachineScaleSet"
+export enum KnownScheduledActionsResourceOperationType {
+    Create = "Create",
+    Deallocate = "Deallocate",
+    Delete = "Delete",
+    Hibernate = "Hibernate",
+    Start = "Start",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1033,7 +1121,8 @@ export enum KnownStorageAccountTypes {
 export enum KnownVersions {
     V20260406Preview = "2026-04-06-preview",
     V20260606 = "2026-06-06",
-    V20260706Preview = "2026-07-06-preview"
+    V20260706Preview = "2026-07-06-preview",
+    V20260806Preview = "2026-08-06-preview"
 }
 
 // @public
@@ -1300,7 +1389,7 @@ export interface OccurrenceExtensionOperations {
 export interface OccurrenceExtensionProperties {
     readonly errorDetails?: ErrorModel;
     notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: OccurrenceResourceProvisioningState;
     resourceId: string;
     scheduledActionId: string;
     readonly scheduledTime: Date;
@@ -1324,11 +1413,14 @@ export interface OccurrenceResource {
     readonly id: string;
     readonly name: string;
     notificationSettings?: NotificationProperties[];
-    readonly provisioningState?: ResourceProvisioningState;
+    readonly provisioningState?: OccurrenceResourceProvisioningState;
     resourceId: string;
     readonly scheduledTime: Date;
     readonly type?: string;
 }
+
+// @public
+export type OccurrenceResourceProvisioningState = string;
 
 // @public
 export interface OccurrenceResultSummary {
@@ -1478,6 +1570,19 @@ export interface PageSettings {
 }
 
 // @public
+export type PartialFulfillmentMode = string;
+
+// @public
+export interface PartialFulfillmentPolicy {
+    readonly fulfilledCapacity?: number;
+    mode?: PartialFulfillmentMode;
+    readonly reason?: PartialFulfillmentReason;
+}
+
+// @public
+export type PartialFulfillmentReason = string;
+
+// @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
@@ -1541,28 +1646,6 @@ export type PublicIPAddressSkuTier = string;
 export type PublicIPAllocationMethod = string;
 
 // @public
-export type RecurringScheduledActionsDeadlineType = string;
-
-// @public
-export interface RecurringScheduledActionsExecutionParameters {
-    optimizationPreference?: OptimizationPreference;
-    retryPolicy?: RecurringScheduledActionsRetryPolicy;
-}
-
-// @public
-export type RecurringScheduledActionsProvisioningState = string;
-
-// @public
-export type RecurringScheduledActionsResourceOperationType = string;
-
-// @public
-export interface RecurringScheduledActionsRetryPolicy {
-    onFailureAction?: RecurringScheduledActionsResourceOperationType;
-    retryCount?: number;
-    retryWindowInMinutes?: number;
-}
-
-// @public
 export interface ReimagePayload {
     baseProfile?: VirtualMachineReimageParameters;
     resourceOverrides?: ReimageResourceOverride[];
@@ -1619,6 +1702,7 @@ export interface ResourceOperation {
 
 // @public
 export interface ResourceOperationDetails {
+    capacityRecommendation?: CapacityRecommendation;
     completedAt?: string;
     deadline?: string;
     deadlineType?: DeadlineType;
@@ -1656,9 +1740,6 @@ export type ResourceOperationType = string;
 export interface ResourcePatchRequest {
     resources: ScheduledActionResourceInput[];
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceProvisionPayload {
@@ -1758,7 +1839,7 @@ export interface ScheduledActionProperties {
     disabled?: boolean;
     endTime?: string;
     notificationSettings: NotificationProperties[];
-    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    readonly provisioningState?: ScheduledActionsProvisioningState;
     resourceType: ResourceType;
     schedule: ScheduledActionsSchedule;
     startTime: string;
@@ -1800,6 +1881,9 @@ export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationO
 }
 
 // @public
+export type ScheduledActionsDeadlineType = string;
+
+// @public
 export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1820,12 +1904,18 @@ export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ScheduledActionsExecutionParameters {
+    optimizationPreference?: OptimizationPreference;
+    retryPolicy?: ScheduledActionsRetryPolicy;
+}
+
+// @public
 export interface ScheduledActionsExtensionProperties {
     actionType: ScheduledActionType;
     disabled?: boolean;
     endTime?: string;
     notificationSettings: NotificationProperties[];
-    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    readonly provisioningState?: ScheduledActionsProvisioningState;
     readonly resourceNotificationSettings?: NotificationProperties[];
     resourceType: ResourceType;
     schedule: ScheduledActionsSchedule;
@@ -1871,9 +1961,22 @@ export interface ScheduledActionsPatchResourcesOptionalParams extends OperationO
 }
 
 // @public
+export type ScheduledActionsProvisioningState = string;
+
+// @public
+export type ScheduledActionsResourceOperationType = string;
+
+// @public
+export interface ScheduledActionsRetryPolicy {
+    onFailureAction?: ScheduledActionsResourceOperationType;
+    retryCount?: number;
+    retryWindowInMinutes?: number;
+}
+
+// @public
 export interface ScheduledActionsSchedule {
-    deadlineType?: RecurringScheduledActionsDeadlineType;
-    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    deadlineType?: ScheduledActionsDeadlineType;
+    executionParameters?: ScheduledActionsExecutionParameters;
     requestedDaysOfTheMonth?: number[];
     requestedMonths?: Month[];
     requestedWeekDays?: WeekDay[];
@@ -1883,8 +1986,8 @@ export interface ScheduledActionsSchedule {
 
 // @public
 export interface ScheduledActionsScheduleUpdate {
-    deadlineType?: RecurringScheduledActionsDeadlineType;
-    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    deadlineType?: ScheduledActionsDeadlineType;
+    executionParameters?: ScheduledActionsExecutionParameters;
     requestedDaysOfTheMonth?: number[];
     requestedMonths?: Month[];
     requestedWeekDays?: WeekDay[];

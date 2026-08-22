@@ -204,6 +204,8 @@ export interface ExecutionParameters {
   retryPolicy?: RetryPolicy;
   /** When true on an executeStart request, run a post-Start VM agent health check and engage the fallback chain if the guest agent does not report Ready. Ignored for non-Start operations. */
   verifyVmAgentHealth?: boolean;
+  /** Capacity recommendation parameters for the request. When provided on an executeStart request, the service computes placement recommendations only if the VM fails to start due to an allocation failure; the recommendations for the desired sizes and locations are then surfaced in the operation's capacityRecommendation response. */
+  capacityRecommendationParameters?: CapacityRecommendationParameters;
 }
 
 export function executionParametersSerializer(item: ExecutionParameters): any {
@@ -213,6 +215,9 @@ export function executionParametersSerializer(item: ExecutionParameters): any {
       ? item["retryPolicy"]
       : retryPolicySerializer(item["retryPolicy"]),
     verifyVmAgentHealth: item["verifyVmAgentHealth"],
+    capacityRecommendationParameters: !item["capacityRecommendationParameters"]
+      ? item["capacityRecommendationParameters"]
+      : capacityRecommendationParametersSerializer(item["capacityRecommendationParameters"]),
   };
 }
 
@@ -223,6 +228,9 @@ export function executionParametersDeserializer(item: any): ExecutionParameters 
       ? item["retryPolicy"]
       : retryPolicyDeserializer(item["retryPolicy"]),
     verifyVmAgentHealth: item["verifyVmAgentHealth"],
+    capacityRecommendationParameters: !item["capacityRecommendationParameters"]
+      ? item["capacityRecommendationParameters"]
+      : capacityRecommendationParametersDeserializer(item["capacityRecommendationParameters"]),
   };
 }
 
@@ -305,6 +313,52 @@ export enum KnownResourceOperationType {
  * **GetInstanceView**: Post-Start VM agent health-check sub-operation; surfaced when the customer opts into verifyVmAgentHealth on a Start request
  */
 export type ResourceOperationType = string;
+
+/** The parameters used to request capacity/placement recommendations for a start operation. Placement recommendations are only computed if the VM fails to start due to an allocation failure. */
+export interface CapacityRecommendationParameters {
+  /** The list of desired Azure regions to be considered for the capacity recommendation */
+  desiredLocations?: string[];
+  /** The list of desired VM sizes (SKUs) to be considered for the capacity recommendation */
+  desiredSizes?: string[];
+  /** Whether the capacity recommendation should be computed per availability zone */
+  availabilityZones?: boolean;
+}
+
+export function capacityRecommendationParametersSerializer(
+  item: CapacityRecommendationParameters,
+): any {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: !item["desiredSizes"]
+      ? item["desiredSizes"]
+      : item["desiredSizes"].map((p: any) => {
+          return p;
+        }),
+    availabilityZones: item["availabilityZones"],
+  };
+}
+
+export function capacityRecommendationParametersDeserializer(
+  item: any,
+): CapacityRecommendationParameters {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    desiredSizes: !item["desiredSizes"]
+      ? item["desiredSizes"]
+      : item["desiredSizes"].map((p: any) => {
+          return p;
+        }),
+    availabilityZones: item["availabilityZones"],
+  };
+}
 
 /** The resources needed for the user request */
 export interface Resources {
@@ -435,6 +489,8 @@ export interface ResourceOperationDetails {
   retryPolicy?: RetryPolicy;
   /** Resource notification details. */
   resourceNotificationDetails?: ResourceNotificationDetails;
+  /** The capacity/placement recommendation computed for the operation, if requested */
+  capacityRecommendation?: CapacityRecommendation;
 }
 
 export function resourceOperationDetailsDeserializer(item: any): ResourceOperationDetails {
@@ -460,6 +516,9 @@ export function resourceOperationDetailsDeserializer(item: any): ResourceOperati
     resourceNotificationDetails: !item["resourceNotificationDetails"]
       ? item["resourceNotificationDetails"]
       : resourceNotificationDetailsDeserializer(item["resourceNotificationDetails"]),
+    capacityRecommendation: !item["capacityRecommendation"]
+      ? item["capacityRecommendation"]
+      : capacityRecommendationDeserializer(item["capacityRecommendation"]),
   };
 }
 
@@ -565,6 +624,143 @@ export interface ResourceNotificationDetails {
 export function resourceNotificationDetailsDeserializer(item: any): ResourceNotificationDetails {
   return {
     resourceContext: item["resourceContext"],
+  };
+}
+
+/** The capacity/placement recommendation computed for a resource operation */
+export interface CapacityRecommendation {
+  /** The lifecycle status of the capacity recommendation */
+  status: CapacityRecommendationStatus;
+  /** The error message if the capacity recommendation failed */
+  error?: string;
+  /** The detailed error information if the capacity recommendation failed */
+  errorDetails?: string;
+  /** The details of the capacity recommendation */
+  details?: CapacityRecommendationDetails;
+}
+
+export function capacityRecommendationDeserializer(item: any): CapacityRecommendation {
+  return {
+    status: item["status"],
+    error: item["error"],
+    errorDetails: item["errorDetails"],
+    details: !item["details"]
+      ? item["details"]
+      : capacityRecommendationDetailsDeserializer(item["details"]),
+  };
+}
+
+/** The lifecycle status of the capacity recommendation for an operation */
+export enum KnownCapacityRecommendationStatus {
+  /** The capacity recommendation has not been initiated */
+  NotInitiated = "NotInitiated",
+  /** The capacity recommendation completed successfully */
+  Succeeded = "Succeeded",
+  /** The capacity recommendation failed */
+  Failed = "Failed",
+  /** The capacity recommendation was skipped */
+  Skipped = "Skipped",
+}
+
+/**
+ * The lifecycle status of the capacity recommendation for an operation \
+ * {@link KnownCapacityRecommendationStatus} can be used interchangeably with CapacityRecommendationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotInitiated**: The capacity recommendation has not been initiated \
+ * **Succeeded**: The capacity recommendation completed successfully \
+ * **Failed**: The capacity recommendation failed \
+ * **Skipped**: The capacity recommendation was skipped
+ */
+export type CapacityRecommendationStatus = string;
+
+/** The details of a capacity recommendation */
+export interface CapacityRecommendationDetails {
+  /** The list of desired Azure regions from the request */
+  desiredLocations?: string[];
+  /** The UTC timestamp of when the recommendation was requested */
+  recommendationRequestedAtUtc?: Date;
+  /** The list of desired VM sizes from the request */
+  desiredSizes?: CapacityRecommendationSize[];
+  /** Whether the response is split by availability zone */
+  availabilityZones?: boolean;
+  /** The array of placement scores per SKU, region and zone */
+  placementScores?: CapacityRecommendationPlacementScore[];
+}
+
+export function capacityRecommendationDetailsDeserializer(
+  item: any,
+): CapacityRecommendationDetails {
+  return {
+    desiredLocations: !item["desiredLocations"]
+      ? item["desiredLocations"]
+      : item["desiredLocations"].map((p: any) => {
+          return p;
+        }),
+    recommendationRequestedAtUtc: !item["recommendationRequestedAtUtc"]
+      ? item["recommendationRequestedAtUtc"]
+      : new Date(item["recommendationRequestedAtUtc"]),
+    desiredSizes: !item["desiredSizes"]
+      ? item["desiredSizes"]
+      : capacityRecommendationSizeArrayDeserializer(item["desiredSizes"]),
+    availabilityZones: item["availabilityZones"],
+    placementScores: !item["placementScores"]
+      ? item["placementScores"]
+      : capacityRecommendationPlacementScoreArrayDeserializer(item["placementScores"]),
+  };
+}
+
+export function capacityRecommendationSizeArrayDeserializer(
+  result: Array<CapacityRecommendationSize>,
+): any[] {
+  return result.map((item) => {
+    return capacityRecommendationSizeDeserializer(item);
+  });
+}
+
+/** A desired VM size (SKU) considered for the capacity recommendation */
+export interface CapacityRecommendationSize {
+  /** The VM size (SKU) name */
+  sku?: string;
+}
+
+export function capacityRecommendationSizeDeserializer(item: any): CapacityRecommendationSize {
+  return {
+    sku: item["sku"],
+  };
+}
+
+export function capacityRecommendationPlacementScoreArrayDeserializer(
+  result: Array<CapacityRecommendationPlacementScore>,
+): any[] {
+  return result.map((item) => {
+    return capacityRecommendationPlacementScoreDeserializer(item);
+  });
+}
+
+/** The placement score for a given SKU, region and optionally availability zone */
+export interface CapacityRecommendationPlacementScore {
+  /** The VM size (SKU) name */
+  sku?: string;
+  /** The Azure region */
+  region?: string;
+  /** The availability zone identifier, present only when availabilityZones was requested */
+  availabilityZone?: string;
+  /** The placement score, eg High, Medium or Low */
+  score?: string;
+  /** Whether quota is available for the SKU, region and zone combination */
+  isQuotaAvailable?: boolean;
+}
+
+export function capacityRecommendationPlacementScoreDeserializer(
+  item: any,
+): CapacityRecommendationPlacementScore {
+  return {
+    sku: item["sku"],
+    region: item["region"],
+    availabilityZone: item["availabilityZone"],
+    score: item["score"],
+    isQuotaAvailable: item["isQuotaAvailable"],
   };
 }
 
@@ -5077,27 +5273,6 @@ export function operationStatusResultArrayDeserializer(
   });
 }
 
-/** The provisioning state of a resource type. */
-export enum KnownResourceProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled.
- */
-export type ResourceProvisioningState = string;
-
 /** List of LaunchBulkInstancesOperation resources. */
 export interface _LaunchBulkInstancesOperationListResult {
   /** The list of LaunchBulkInstancesOperation resources. */
@@ -5344,6 +5519,12 @@ export interface BulkCreateCustomProperties {
   capacity: number;
   /** Specifies capacity type for launching instances. It can be in terms of VMs or vCPUs. */
   capacityType?: CapacityType;
+  /** The minimum capacity, expressed in units specified by capacityType, that Azure must be able to allocate for the request to proceed. If Azure cannot allocate at least this capacity with high confidence, the request is rejected with 409 Conflict (InsufficientCapacity) and no VMs are created. Otherwise, Azure allocates as much capacity as possible, up to the requested capacity. Must be greater than 0, less than capacity, and requires partialFulfillmentPolicy.mode to be Enabled. */
+  minCapacity?: number;
+  /** Controls how partial fulfillment is handled for a BulkCreateCustom request. When enabled, Azure creates only the VMs or vCPUs it has high confidence can be successfully allocated, instead of attempting the entire request and potentially returning allocation failures. */
+  partialFulfillmentPolicy?: PartialFulfillmentPolicy;
+  /** The virtual machine resources resolved for the operation. */
+  readonly resources?: BulkCreateCustomResource[];
   /** Configuration Options for Regular or Spot instances in BulkCreateCustom. */
   priorityProfile: BulkCreateCustomPriorityProfile;
   /** List of VM sizes supported for BulkCreateCustom */
@@ -5362,6 +5543,10 @@ export function bulkCreateCustomPropertiesSerializer(item: BulkCreateCustomPrope
   return {
     capacity: item["capacity"],
     capacityType: item["capacityType"],
+    minCapacity: item["minCapacity"],
+    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
+      ? item["partialFulfillmentPolicy"]
+      : partialFulfillmentPolicySerializer(item["partialFulfillmentPolicy"]),
     priorityProfile: bulkCreateCustomPriorityProfileSerializer(item["priorityProfile"]),
     vmSizesProfile: !item["vmSizesProfile"]
       ? item["vmSizesProfile"]
@@ -5385,6 +5570,13 @@ export function bulkCreateCustomPropertiesDeserializer(item: any): BulkCreateCus
     provisioningState: item["provisioningState"],
     capacity: item["capacity"],
     capacityType: item["capacityType"],
+    minCapacity: item["minCapacity"],
+    partialFulfillmentPolicy: !item["partialFulfillmentPolicy"]
+      ? item["partialFulfillmentPolicy"]
+      : partialFulfillmentPolicyDeserializer(item["partialFulfillmentPolicy"]),
+    resources: !item["resources"]
+      ? item["resources"]
+      : bulkCreateCustomResourceArrayDeserializer(item["resources"]),
     priorityProfile: bulkCreateCustomPriorityProfileDeserializer(item["priorityProfile"]),
     vmSizesProfile: !item["vmSizesProfile"]
       ? item["vmSizesProfile"]
@@ -5399,6 +5591,109 @@ export function bulkCreateCustomPropertiesDeserializer(item: any): BulkCreateCus
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
       : executionParametersDeserializer(item["executionParameters"]),
+  };
+}
+
+/** Controls how partial fulfillment is handled for a BulkCreateCustom request. When enabled, Azure creates only the VMs or vCPUs it has high confidence can be successfully allocated, instead of attempting the entire request and potentially returning allocation failures. */
+export interface PartialFulfillmentPolicy {
+  /** The amount of capacity that was actually attempted, expressed in the units specified by capacityType. When partial fulfillment is enabled, this value can be less than the requested capacity. */
+  readonly fulfilledCapacity?: number;
+  /** Specifies whether partial fulfillment is allowed. When Enabled, Azure creates as many VMs as it has high confidence can be successfully allocated. When Disabled, Azure attempts to create all requested VMs, which may result into allocation failures. */
+  mode?: PartialFulfillmentMode;
+  /** Indicates why the fulfilled capacity is less than the requested capacity. Possible values include InsufficientCapacity and InsufficientQuota. Returned only in the create response when partial fulfillment is enabled and the request cannot be fully satisfied. */
+  readonly reason?: PartialFulfillmentReason;
+}
+
+export function partialFulfillmentPolicySerializer(item: PartialFulfillmentPolicy): any {
+  return { mode: item["mode"] };
+}
+
+export function partialFulfillmentPolicyDeserializer(item: any): PartialFulfillmentPolicy {
+  return {
+    fulfilledCapacity: item["fulfilledCapacity"],
+    mode: item["mode"],
+    reason: item["reason"],
+  };
+}
+
+/** Whether the service may launch fewer instances than requested when the full capacity cannot be satisfied. */
+export enum KnownPartialFulfillmentMode {
+  /** Partial fulfillment is allowed. */
+  Enabled = "Enabled",
+  /** Partial fulfillment is not allowed. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether the service may launch fewer instances than requested when the full capacity cannot be satisfied. \
+ * {@link KnownPartialFulfillmentMode} can be used interchangeably with PartialFulfillmentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Partial fulfillment is allowed. \
+ * **Disabled**: Partial fulfillment is not allowed.
+ */
+export type PartialFulfillmentMode = string;
+
+/** The reason the requested capacity could only be partially fulfilled. */
+export enum KnownPartialFulfillmentReason {
+  /** The requested capacity could not be fully satisfied due to insufficient capacity in the region. */
+  InsufficientCapacity = "InsufficientCapacity",
+  /** The requested capacity could not be fully satisfied due to insufficient quota in the subscription. */
+  InsufficientQuota = "InsufficientQuota",
+  /** The requested capacity was successfully satisfied without any partial fulfillment. */
+  None = "None",
+}
+
+/**
+ * The reason the requested capacity could only be partially fulfilled. \
+ * {@link KnownPartialFulfillmentReason} can be used interchangeably with PartialFulfillmentReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InsufficientCapacity**: The requested capacity could not be fully satisfied due to insufficient capacity in the region. \
+ * **InsufficientQuota**: The requested capacity could not be fully satisfied due to insufficient quota in the subscription. \
+ * **None**: The requested capacity was successfully satisfied without any partial fulfillment.
+ */
+export type PartialFulfillmentReason = string;
+
+export function bulkCreateCustomResourceArrayDeserializer(
+  result: Array<BulkCreateCustomResource>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomResourceDeserializer(item);
+  });
+}
+
+/** A virtual machine resource resolved for a BulkCreateCustom operation. */
+export interface BulkCreateCustomResource {
+  /** Information about the resolved virtual machine. */
+  virtualMachineInfo?: BulkCreateCustomVirtualMachineInfo;
+}
+
+export function bulkCreateCustomResourceDeserializer(item: any): BulkCreateCustomResource {
+  return {
+    virtualMachineInfo: !item["virtualMachineInfo"]
+      ? item["virtualMachineInfo"]
+      : bulkCreateCustomVirtualMachineInfoDeserializer(item["virtualMachineInfo"]),
+  };
+}
+
+/** Information about a virtual machine resolved for a BulkCreateCustom operation. */
+export interface BulkCreateCustomVirtualMachineInfo {
+  /** The resolved Azure virtual machine name. */
+  name?: string;
+  /** The virtual machine size selected for the virtual machine. */
+  vmSize?: string;
+  /** The subscription-relative logical availability zone selected for the virtual machine. */
+  zone?: string;
+}
+
+export function bulkCreateCustomVirtualMachineInfoDeserializer(
+  item: any,
+): BulkCreateCustomVirtualMachineInfo {
+  return {
+    name: item["name"],
+    vmSize: item["vmSize"],
+    zone: item["zone"],
   };
 }
 
@@ -5856,7 +6151,7 @@ export interface ScheduledActionProperties {
   /** Tell if the scheduled action is disabled or not */
   disabled?: boolean;
   /** The status of the last provisioning operation performed on the resource. */
-  readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+  readonly provisioningState?: ScheduledActionsProvisioningState;
 }
 
 export function scheduledActionPropertiesSerializer(item: ScheduledActionProperties): any {
@@ -5936,9 +6231,9 @@ export interface ScheduledActionsSchedule {
   /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
   requestedDaysOfTheMonth?: number[];
   /** The execution parameters the scheduled action is supposed to follow */
-  executionParameters?: RecurringScheduledActionsExecutionParameters;
+  executionParameters?: ScheduledActionsExecutionParameters;
   /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
-  deadlineType?: RecurringScheduledActionsDeadlineType;
+  deadlineType?: ScheduledActionsDeadlineType;
 }
 
 export function scheduledActionsScheduleSerializer(item: ScheduledActionsSchedule): any {
@@ -5962,7 +6257,7 @@ export function scheduledActionsScheduleSerializer(item: ScheduledActionsSchedul
         }),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
-      : recurringScheduledActionsExecutionParametersSerializer(item["executionParameters"]),
+      : scheduledActionsExecutionParametersSerializer(item["executionParameters"]),
     deadlineType: item["deadlineType"],
   };
 }
@@ -5988,7 +6283,7 @@ export function scheduledActionsScheduleDeserializer(item: any): ScheduledAction
         }),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
-      : recurringScheduledActionsExecutionParametersDeserializer(item["executionParameters"]),
+      : scheduledActionsExecutionParametersDeserializer(item["executionParameters"]),
     deadlineType: item["deadlineType"],
   };
 }
@@ -6081,48 +6376,46 @@ export enum KnownMonth {
 export type Month = string;
 
 /** The execution parameters the scheduled action is supposed to follow */
-export interface RecurringScheduledActionsExecutionParameters {
+export interface ScheduledActionsExecutionParameters {
   /** Details that could optimize the user's request */
   optimizationPreference?: OptimizationPreference;
   /** Retry policy the user can pass */
-  retryPolicy?: RecurringScheduledActionsRetryPolicy;
+  retryPolicy?: ScheduledActionsRetryPolicy;
 }
 
-export function recurringScheduledActionsExecutionParametersSerializer(
-  item: RecurringScheduledActionsExecutionParameters,
+export function scheduledActionsExecutionParametersSerializer(
+  item: ScheduledActionsExecutionParameters,
 ): any {
   return {
     optimizationPreference: item["optimizationPreference"],
     retryPolicy: !item["retryPolicy"]
       ? item["retryPolicy"]
-      : recurringScheduledActionsRetryPolicySerializer(item["retryPolicy"]),
+      : scheduledActionsRetryPolicySerializer(item["retryPolicy"]),
   };
 }
 
-export function recurringScheduledActionsExecutionParametersDeserializer(
+export function scheduledActionsExecutionParametersDeserializer(
   item: any,
-): RecurringScheduledActionsExecutionParameters {
+): ScheduledActionsExecutionParameters {
   return {
     optimizationPreference: item["optimizationPreference"],
     retryPolicy: !item["retryPolicy"]
       ? item["retryPolicy"]
-      : recurringScheduledActionsRetryPolicyDeserializer(item["retryPolicy"]),
+      : scheduledActionsRetryPolicyDeserializer(item["retryPolicy"]),
   };
 }
 
 /** Retry policy the scheduled action can pass */
-export interface RecurringScheduledActionsRetryPolicy {
+export interface ScheduledActionsRetryPolicy {
   /** Retry count for the request */
   retryCount?: number;
   /** Retry window in minutes for the request */
   retryWindowInMinutes?: number;
   /** Action to take on failure */
-  onFailureAction?: RecurringScheduledActionsResourceOperationType;
+  onFailureAction?: ScheduledActionsResourceOperationType;
 }
 
-export function recurringScheduledActionsRetryPolicySerializer(
-  item: RecurringScheduledActionsRetryPolicy,
-): any {
+export function scheduledActionsRetryPolicySerializer(item: ScheduledActionsRetryPolicy): any {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
@@ -6130,9 +6423,7 @@ export function recurringScheduledActionsRetryPolicySerializer(
   };
 }
 
-export function recurringScheduledActionsRetryPolicyDeserializer(
-  item: any,
-): RecurringScheduledActionsRetryPolicy {
+export function scheduledActionsRetryPolicyDeserializer(item: any): ScheduledActionsRetryPolicy {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
@@ -6141,7 +6432,7 @@ export function recurringScheduledActionsRetryPolicyDeserializer(
 }
 
 /** The resource operation to take on a scheduled-action failure. */
-export enum KnownRecurringScheduledActionsResourceOperationType {
+export enum KnownScheduledActionsResourceOperationType {
   /** The default value for this enum type */
   Unknown = "Unknown",
   /** Start operations on the resources */
@@ -6158,7 +6449,7 @@ export enum KnownRecurringScheduledActionsResourceOperationType {
 
 /**
  * The resource operation to take on a scheduled-action failure. \
- * {@link KnownRecurringScheduledActionsResourceOperationType} can be used interchangeably with RecurringScheduledActionsResourceOperationType,
+ * {@link KnownScheduledActionsResourceOperationType} can be used interchangeably with ScheduledActionsResourceOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown**: The default value for this enum type \
@@ -6168,10 +6459,10 @@ export enum KnownRecurringScheduledActionsResourceOperationType {
  * **Create**: Create operations on the resources \
  * **Delete**: Delete operations on the resources
  */
-export type RecurringScheduledActionsResourceOperationType = string;
+export type ScheduledActionsResourceOperationType = string;
 
 /** The type of deadline the scheduled action follows for its schedule. */
-export enum KnownRecurringScheduledActionsDeadlineType {
+export enum KnownScheduledActionsDeadlineType {
   /** Default value of Unknown. */
   Unknown = "Unknown",
   /** Initiate the operation at the given deadline. */
@@ -6182,14 +6473,14 @@ export enum KnownRecurringScheduledActionsDeadlineType {
 
 /**
  * The type of deadline the scheduled action follows for its schedule. \
- * {@link KnownRecurringScheduledActionsDeadlineType} can be used interchangeably with RecurringScheduledActionsDeadlineType,
+ * {@link KnownScheduledActionsDeadlineType} can be used interchangeably with ScheduledActionsDeadlineType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Unknown**: Default value of Unknown. \
  * **InitiateAt**: Initiate the operation at the given deadline. \
  * **CompleteBy**: Complete the operation by the given deadline.
  */
-export type RecurringScheduledActionsDeadlineType = string;
+export type ScheduledActionsDeadlineType = string;
 
 export function notificationPropertiesArraySerializer(
   result: Array<NotificationProperties>,
@@ -6268,7 +6559,7 @@ export enum KnownLanguage {
 export type Language = string;
 
 /** Provisioning state of the scheduled action resource. */
-export enum KnownRecurringScheduledActionsProvisioningState {
+export enum KnownScheduledActionsProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
   /** Resource creation failed. */
@@ -6281,7 +6572,7 @@ export enum KnownRecurringScheduledActionsProvisioningState {
 
 /**
  * Provisioning state of the scheduled action resource. \
- * {@link KnownRecurringScheduledActionsProvisioningState} can be used interchangeably with RecurringScheduledActionsProvisioningState,
+ * {@link KnownScheduledActionsProvisioningState} can be used interchangeably with ScheduledActionsProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
@@ -6289,7 +6580,7 @@ export enum KnownRecurringScheduledActionsProvisioningState {
  * **Canceled**: Resource creation was canceled. \
  * **Deleting**: Resource is being deleted.
  */
-export type RecurringScheduledActionsProvisioningState = string;
+export type ScheduledActionsProvisioningState = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -6384,9 +6675,9 @@ export interface ScheduledActionsScheduleUpdate {
   /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
   requestedDaysOfTheMonth?: number[];
   /** The execution parameters the scheduled action is supposed to follow */
-  executionParameters?: RecurringScheduledActionsExecutionParameters;
+  executionParameters?: ScheduledActionsExecutionParameters;
   /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
-  deadlineType?: RecurringScheduledActionsDeadlineType;
+  deadlineType?: ScheduledActionsDeadlineType;
 }
 
 export function scheduledActionsScheduleUpdateSerializer(
@@ -6412,7 +6703,7 @@ export function scheduledActionsScheduleUpdateSerializer(
         }),
     executionParameters: !item["executionParameters"]
       ? item["executionParameters"]
-      : recurringScheduledActionsExecutionParametersSerializer(item["executionParameters"]),
+      : scheduledActionsExecutionParametersSerializer(item["executionParameters"]),
     deadlineType: item["deadlineType"],
   };
 }
@@ -6803,7 +7094,7 @@ export interface ScheduledActionsExtensionProperties {
   /** Tell if the scheduled action is disabled or not */
   disabled?: boolean;
   /** The status of the last provisioning operation performed on the resource. */
-  readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+  readonly provisioningState?: ScheduledActionsProvisioningState;
   /** The notification settings for the scheduled action at a resource level. Resource level notification settings are scope to specific resources only and submitted through attach requests. */
   readonly resourceNotificationSettings?: NotificationProperties[];
 }
@@ -6902,7 +7193,7 @@ export interface OccurrenceResource {
   /** The time the occurrence is scheduled for the resource. */
   readonly scheduledTime: Date;
   /** The current state of the resource */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: OccurrenceResourceProvisioningState;
   /** Error details for the resource. Only populated if resource is in failed state. */
   readonly errorDetails?: ErrorModel;
 }
@@ -6921,6 +7212,42 @@ export function occurrenceResourceDeserializer(item: any): OccurrenceResource {
     errorDetails: !item["errorDetails"] ? item["errorDetails"] : item["errorDetails"],
   };
 }
+
+/** The provisioning state of a scheduled-action resource within an occurrence. */
+export enum KnownOccurrenceResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The resource has been created */
+  Created = "Created",
+  /** The resource has been scheduled */
+  Scheduled = "Scheduled",
+  /** The resource is going through cancellation */
+  Cancelling = "Cancelling",
+  /** The resource is being rescheduled */
+  Rescheduling = "Rescheduling",
+  /** The resource is in an invalid state */
+  InvalidState = "InvalidState",
+}
+
+/**
+ * The provisioning state of a scheduled-action resource within an occurrence. \
+ * {@link KnownOccurrenceResourceProvisioningState} can be used interchangeably with OccurrenceResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Created**: The resource has been created \
+ * **Scheduled**: The resource has been scheduled \
+ * **Cancelling**: The resource is going through cancellation \
+ * **Rescheduling**: The resource is being rescheduled \
+ * **InvalidState**: The resource is in an invalid state
+ */
+export type OccurrenceResourceProvisioningState = string;
 
 /** Request to ask for a delay in an occurrence, delay should be set to client local time eg (PST) 2025-05-30T06:35:00-07:00 */
 export interface DelayRequest {
@@ -6996,7 +7323,7 @@ export interface OccurrenceExtensionProperties {
   /** The time the occurrence is scheduled for the resource. Specified in UTC. */
   readonly scheduledTime: Date;
   /** The current state of the resource */
-  readonly provisioningState?: ResourceProvisioningState;
+  readonly provisioningState?: OccurrenceResourceProvisioningState;
   /** Error details for the resource. Only populated if resource is in failed state. */
   readonly errorDetails?: ErrorModel;
   /** The arm identifier of the scheduled action the occurrence belongs to */
@@ -7026,4 +7353,6 @@ export enum KnownVersions {
   V20260606 = "2026-06-06",
   /** 2026-07-06-preview version */
   V20260706Preview = "2026-07-06-preview",
+  /** 2026-08-06-preview version */
+  V20260806Preview = "2026-08-06-preview",
 }
