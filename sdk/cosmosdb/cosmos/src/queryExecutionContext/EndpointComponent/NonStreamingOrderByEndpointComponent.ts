@@ -53,7 +53,18 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * @returns true if there is other elements to process in the NonStreamingOrderByEndpointComponent.
    */
   public hasMoreResults(): boolean {
-    return this.priorityQueueBufferSize > 0 && this.executionContext.hasMoreResults();
+    // `isCompleted` is the authoritative "done" signal: `fetchMore` already sets it the moment a
+    // page comes back empty and short-circuits every subsequent call to `{ result: undefined }`
+    // without touching `executionContext` again. Without this check, a caller that only consults
+    // `hasMoreResults()` never learns that — `executionContext.hasMoreResults()` can remain `true`
+    // indefinitely (e.g. a document producer re-queued after a zero-item page with a live
+    // continuation token), so the caller spins forever on an already-terminal, no-I/O `fetchMore()`,
+    // starving the event loop microtask-by-microtask with no macrotask ever getting a turn.
+    return (
+      !this.isCompleted &&
+      this.priorityQueueBufferSize > 0 &&
+      this.executionContext.hasMoreResults()
+    );
   }
 
   /**
