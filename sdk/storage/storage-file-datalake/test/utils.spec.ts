@@ -5,6 +5,7 @@ import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
+  setUploadChecksumParameters,
 } from "../src/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
@@ -84,5 +85,22 @@ describe("Utility Helpers", () => {
         FileEndpoint=https://storagesample.file.core.windows.net;
         SharedAccessSignature=${sharedAccessSignature}`,
     );
+  });
+
+  it("setUploadChecksumParameters flattens customized checksums", async () => {
+    const transactionalContentMD5 = new Uint8Array([1, 2, 3]);
+    const transactionalContentCrc64 = new Uint8Array([4, 5, 6]);
+    const parameters: {
+      transactionalContentHash?: Uint8Array;
+      transactionalContentCrc64?: Uint8Array;
+    } = {};
+
+    await setUploadChecksumParameters(new Uint8Array([7, 8, 9]), 3, parameters, {
+      transactionalContentMD5,
+      transactionalContentCrc64,
+    });
+
+    assert.strictEqual(parameters.transactionalContentHash, transactionalContentMD5);
+    assert.strictEqual(parameters.transactionalContentCrc64, transactionalContentCrc64);
   });
 });
