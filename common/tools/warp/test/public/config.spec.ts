@@ -506,5 +506,76 @@ describe("findWarpConfig", () => {
       expect(result!.source.path).toContain("warp.config.yml");
       expect(result!.source.path).not.toContain("base");
     });
+
+    it("inherits prunePlatformTargets from base config", async () => {
+      await fs.writeFile(
+        path.join(tmpDir, "warp.base.config.yml"),
+        stringify({ ...baseConfig, prunePlatformTargets: true }),
+      );
+      await fs.writeFile(
+        path.join(tmpDir, "warp.config.yml"),
+        stringify({ extends: "./warp.base.config.yml" }),
+      );
+
+      const result = await findWarpConfig(tmpDir);
+      expect(result!.config.prunePlatformTargets).toBe(true);
+    });
+
+    it("lets the child override prunePlatformTargets from base", async () => {
+      await fs.writeFile(
+        path.join(tmpDir, "warp.base.config.yml"),
+        stringify({ ...baseConfig, prunePlatformTargets: true }),
+      );
+      await fs.writeFile(
+        path.join(tmpDir, "warp.config.yml"),
+        stringify({ extends: "./warp.base.config.yml", prunePlatformTargets: false }),
+      );
+
+      const result = await findWarpConfig(tmpDir);
+      expect(result!.config.prunePlatformTargets).toBe(false);
+    });
+  });
+
+  describe("prunePlatformTargets validation", () => {
+    const validTargets = [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }];
+
+    it("defaults to undefined when omitted", async () => {
+      await fs.writeFile(
+        path.join(tmpDir, "warp.config.yml"),
+        stringify({ exports: { ".": "./src/index.ts" }, targets: validTargets }),
+      );
+
+      const result = await findWarpConfig(tmpDir);
+      expect(result!.config.prunePlatformTargets).toBeUndefined();
+    });
+
+    it("accepts a boolean value", async () => {
+      await fs.writeFile(
+        path.join(tmpDir, "warp.config.yml"),
+        stringify({
+          exports: { ".": "./src/index.ts" },
+          targets: validTargets,
+          prunePlatformTargets: true,
+        }),
+      );
+
+      const result = await findWarpConfig(tmpDir);
+      expect(result!.config.prunePlatformTargets).toBe(true);
+    });
+
+    it("throws when not a boolean", async () => {
+      await fs.writeFile(
+        path.join(tmpDir, "warp.config.yml"),
+        stringify({
+          exports: { ".": "./src/index.ts" },
+          targets: validTargets,
+          prunePlatformTargets: "yes",
+        }),
+      );
+
+      await expect(findWarpConfig(tmpDir)).rejects.toThrow(
+        '"prunePlatformTargets" must be a boolean',
+      );
+    });
   });
 });
