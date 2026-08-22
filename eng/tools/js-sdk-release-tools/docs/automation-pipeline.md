@@ -39,11 +39,11 @@ The package exposes the following CLI commands (defined in `package.json` `bin`)
 
 #### Local Code Generation
 
-| Command          | Parameters                                                                                                                             | Description                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `hlc-code-gen`   | see [hlc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/hlc.md)                       | Local HLC (management-plane) code generation from swagger/README     |
-| `rlc-code-gen`   | see [llc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/llc.md)                       | Local RLC (data-plane) code generation                               |
-| `changelog-tool` | see [changelog-tool.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/docs/changelog-tool.md) | Generate changelog by comparing api.md against published npm package |
+| Command          | Parameters                                                                                                                         | Description                                                          |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `hlc-code-gen`   | see [hlc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/hlc.md)                       | Local HLC (management-plane) code generation from swagger/README     |
+| `rlc-code-gen`   | see [llc.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/llc.md)                       | Local RLC (data-plane) code generation                               |
+| `changelog-tool` | see [changelog-tool.md](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools/docs/changelog-tool.md) | Generate changelog by comparing api.md against published npm package |
 
 ### SDK Type Enum (`SDKType`)
 
