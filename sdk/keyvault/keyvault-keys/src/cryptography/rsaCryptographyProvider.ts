@@ -47,12 +47,13 @@ export class RsaCryptographyProvider implements CryptographyProvider {
 
     const padding =
       encryptParameters.algorithm === "RSA1_5" ? RSA_PKCS1_PADDING : RSA_PKCS1_OAEP_PADDING;
+    const oaepHash = encryptParameters.algorithm === "RSA-OAEP-256" ? "sha256" : undefined;
 
     return Promise.resolve({
       algorithm: encryptParameters.algorithm,
       keyID: this.key.kid,
       result: publicEncrypt(
-        { key: keyPEM, padding: padding },
+        { key: keyPEM, padding: padding, oaepHash },
         Buffer.from(encryptParameters.plaintext),
       ),
     });
@@ -76,10 +77,11 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     const keyPEM = convertJWKtoPEM(this.key);
 
     const padding = algorithm === "RSA1_5" ? RSA_PKCS1_PADDING : RSA_PKCS1_OAEP_PADDING;
+    const oaepHash = algorithm === "RSA-OAEP-256" ? "sha256" : undefined;
 
     return Promise.resolve({
       algorithm: algorithm as KeyWrapAlgorithm,
-      result: publicEncrypt({ key: keyPEM, padding }, Buffer.from(keyToWrap)),
+      result: publicEncrypt({ key: keyPEM, padding, oaepHash }, Buffer.from(keyToWrap)),
       keyID: this.key.kid,
     });
   }
@@ -152,6 +154,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   private applicableAlgorithms: string[] = [
     "RSA1_5",
     "RSA-OAEP",
+    "RSA-OAEP-256",
     "PS256",
     "RS256",
     "PS384",

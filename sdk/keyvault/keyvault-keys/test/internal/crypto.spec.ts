@@ -6,14 +6,34 @@ import type { DecryptParameters, EncryptParameters, KeyVaultKey } from "../../sr
 import { CryptographyClient, KeyClient } from "../../src/index.js";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider.js";
 import type { JsonWebKey } from "../../src/index.js";
-import { stringToUint8Array } from "../public/utils/crypto.js";
+import { createRsaKey, stringToUint8Array } from "../public/utils/crypto.js";
 import type { CryptographyProvider } from "../../src/cryptography/models.js";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import type { SendRequest } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { constants as cryptoConstants, createPrivateKey, privateDecrypt } from "node:crypto";
 import type { MockInstance } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
+/**
+ * Converts the raw (Uint8Array-valued) RSA JsonWebKey fixture used elsewhere in these tests
+ * into the base64url-string JWK shape Node's `crypto.createPrivateKey` expects.
+ */
+function toNodePrivateKeyJwk(key: JsonWebKey): Record<string, string> {
+  const toBase64Url = (value?: Uint8Array): string => Buffer.from(value!).toString("base64url");
+  return {
+    kty: "RSA",
+    n: toBase64Url(key.n),
+    e: toBase64Url(key.e),
+    d: toBase64Url(key.d),
+    p: toBase64Url(key.p),
+    q: toBase64Url(key.q),
+    dp: toBase64Url(key.dp),
+    dq: toBase64Url(key.dq),
+    qi: toBase64Url(key.qi),
+  };
+}
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -215,6 +235,115 @@ describe("internal crypto tests", () => {
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
         "Key type does not match the algorithm RSA",
       );
+    });
+
+    describe("RSA-OAEP-256", function () {
+      const rsaKey = createRsaKey();
+      const nodePrivateKey = createPrivateKey({
+        key: toNodePrivateKeyJwk(rsaKey),
+        format: "jwk",
+      });
+
+      it("is reported as locally supported for encrypt and wrapKey", () => {
+        const provider = new RsaCryptographyProvider(rsaKey);
+        assert.isTrue(provider.isSupported("RSA-OAEP-256", "encrypt"));
+        assert.isTrue(provider.isSupported("RSA-OAEP-256", "wrapKey"));
+      });
+
+      it("resolves entirely locally (no network) via CryptographyClient", async () => {
+        // Constructing the client from a plain JsonWebKey (no credential) creates ONLY a
+        // local provider -- there is no RemoteCryptographyProvider for this call to fall
+        // back to, so a successful result here proves the operation never needed the network.
+        const cryptoClient = new CryptographyClient(rsaKey);
+        const plaintext = stringToUint8Array("hello RSA-OAEP-256");
+
+        const encrypted = await cryptoClient.encrypt({
+          algorithm: "RSA-OAEP-256",
+          plaintext,
+        });
+        assert.equal(encrypted.algorithm, "RSA-OAEP-256");
+
+        const decrypted = privateDecrypt(
+          {
+            key: nodePrivateKey,
+            padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: "sha256",
+          },
+          Buffer.from(encrypted.result),
+        );
+        assert.deepEqual(new Uint8Array(decrypted), plaintext);
+      });
+
+      it("encrypts locally using SHA-256 as the OAEP hash, round-tripping through Node's own decrypt", async () => {
+        const provider = new RsaCryptographyProvider(rsaKey);
+        const plaintext = stringToUint8Array("some plaintext to encrypt");
+
+        const { result: ciphertext } = await provider.encrypt({
+          algorithm: "RSA-OAEP-256",
+          plaintext,
+        });
+
+        const decrypted = privateDecrypt(
+          {
+            key: nodePrivateKey,
+            padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: "sha256",
+          },
+          Buffer.from(ciphertext),
+        );
+        assert.deepEqual(new Uint8Array(decrypted), plaintext);
+
+        // Decrypting as though SHA-1 (RSA-OAEP's default hash) had been used must fail --
+        // proving encrypt really used SHA-256, and didn't silently fall back to Node's default.
+        assert.throws(() =>
+          privateDecrypt(
+            {
+              key: nodePrivateKey,
+              padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+              oaepHash: "sha1",
+            },
+            Buffer.from(ciphertext),
+          ),
+        );
+      });
+
+      it("wraps a key locally using SHA-256 as the OAEP hash, round-tripping through Node's own decrypt", async () => {
+        const provider = new RsaCryptographyProvider(rsaKey);
+        const keyToWrap = stringToUint8Array("a-data-encryption-key");
+
+        const { result: wrapped, algorithm } = await provider.wrapKey("RSA-OAEP-256", keyToWrap);
+        assert.equal(algorithm, "RSA-OAEP-256");
+
+        const unwrapped = privateDecrypt(
+          {
+            key: nodePrivateKey,
+            padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: "sha256",
+          },
+          Buffer.from(wrapped),
+        );
+        assert.deepEqual(new Uint8Array(unwrapped), keyToWrap);
+      });
+
+      it("leaves plain RSA-OAEP (SHA-1) encrypt/wrapKey behavior unchanged", async () => {
+        const provider = new RsaCryptographyProvider(rsaKey);
+        const plaintext = stringToUint8Array("hello RSA-OAEP");
+
+        const { result: ciphertext } = await provider.encrypt({
+          algorithm: "RSA-OAEP",
+          plaintext,
+        });
+
+        const decrypted = privateDecrypt(
+          {
+            key: nodePrivateKey,
+            padding: cryptoConstants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: "sha1",
+          },
+          Buffer.from(ciphertext),
+        );
+        assert.deepEqual(new Uint8Array(decrypted), plaintext);
+      });
     });
   });
 

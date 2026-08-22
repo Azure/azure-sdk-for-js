@@ -1,5 +1,17 @@
 # Release History
 
+## 4.11.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Added local (non-network) support for the `RSA-OAEP-256` algorithm in `CryptographyClient`'s `encrypt` and `wrapKey` operations, matching the already-supported `RSA-OAEP` and `RSA1_5` algorithms. Previously, `RSA-OAEP-256` operations always required a network round-trip to the service even when local crypto material was available.
+
+### Other Changes
+
 ## 4.11.0-beta.1 (2026-07-07)
 
 ### Features Added
