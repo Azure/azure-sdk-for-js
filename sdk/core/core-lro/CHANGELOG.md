@@ -1,5 +1,17 @@
 # Release History
 
+## 3.5.0 (Unreleased)
+
+### Features Added
+
+- Added the `onInitialResponse` option to initialize custom poller state from the initial LRO response before `submitted()` resolves. [#39476](https://github.com/Azure/azure-sdk-for-js/issues/39476)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.4.0 (2026-07-13)
 
 ### Other Changes

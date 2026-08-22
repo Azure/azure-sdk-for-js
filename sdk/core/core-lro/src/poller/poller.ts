@@ -39,6 +39,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const {
       processResult,
       updateState,
+      onInitialResponse,
       withOperationLocation: withOperationLocationCallback,
       intervalInMs = POLL_INTERVAL_IN_MS,
       restoreFrom,
@@ -62,6 +63,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       statePromise = initOperation({
         init,
         processResult,
+        onInitialResponse,
         getOperationStatus: getStatusFromInitialResponse,
         withOperationLocation,
         setErrorAsResult: !resolveOnUnsuccessful,

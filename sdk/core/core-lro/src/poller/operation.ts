@@ -139,11 +139,18 @@ export async function initOperation<
     operationLocation?: string;
   }) => OperationStatus;
   processResult?: (result: TResponse, state: TState) => Promise<TResult>;
+  onInitialResponse?: (state: TState, response: TResponse) => void | Promise<void>;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TResult, TState>> {
-  const { init, processResult, getOperationStatus, withOperationLocation, setErrorAsResult } =
-    inputs;
+  const {
+    init,
+    processResult,
+    onInitialResponse,
+    getOperationStatus,
+    withOperationLocation,
+    setErrorAsResult,
+  } = inputs;
   const {
     operationLocation,
     resourceLocation,
@@ -162,6 +169,13 @@ export async function initOperation<
   };
   logger.verbose(`LRO: Operation description:`, config);
   const state = { status: "running", config } as any;
+  const protectedConfig = {
+    ...config,
+    metadata: config.metadata ? { ...config.metadata } : undefined,
+  };
+  await onInitialResponse?.(state, response);
+  state.status = "running";
+  state.config = protectedConfig;
   const status = getOperationStatus({ response, state, operationLocation });
   await processOperationStatus({
     state,

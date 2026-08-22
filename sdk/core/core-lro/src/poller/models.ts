@@ -68,6 +68,15 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
    */
   updateState?: (state: TState, lastResponse: TResponse) => void;
   /**
+   * A function to initialize service-specific state from the initial response.
+   *
+   * The callback is invoked once after the state is created and before the initial
+   * response is processed. It is awaited before `submitted()` resolves and is not
+   * invoked when restoring a serialized poller. Changes to the core-owned `status`
+   * and operation configuration are discarded.
+   */
+  onInitialResponse?: (state: TState, response: TResponse) => void | Promise<void>;
+  /**
    * A function to be called each time the operation location is updated by the
    * service.
    */

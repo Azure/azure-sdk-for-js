@@ -33,6 +33,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     processResult,
     restoreFrom,
     updateState,
+    onInitialResponse,
     withOperationLocation,
     resolveOnUnsuccessful = false,
     baseUrl,
@@ -68,6 +69,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
       withOperationLocation,
       restoreFrom,
       updateState,
+      onInitialResponse,
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
         : ({ flatResponse }) => flatResponse as Promise<TResult>,

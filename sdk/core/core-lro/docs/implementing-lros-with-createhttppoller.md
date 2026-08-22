@@ -25,6 +25,7 @@ Moreover, the last two pieces are options in the options bag which is defined as
 export interface CreateHttpPollerOptions<TResult, TState> {
   processResult?: (result: unknown, state: TState) => TResult;
   updateState?: (state: TState, response: LroResponse) => void;
+  onInitialResponse?: (state: TState, response: LroResponse) => void | Promise<void>;
   intervalInMs?: number;
   restoreFrom?: string;
   resourceLocationConfig?: LroResourceLocationConfig;
@@ -34,6 +35,8 @@ export interface CreateHttpPollerOptions<TResult, TState> {
 ```
 
 More specifically, those two pieces are the values of `processResult` and `updateState` respectively. `processResult` takes the last polling response and the state as input and returns a `TResult`, which will eventually be returned to the customer when they call `poller.pollUntilDone()`. `updateState` can mutate the state with specific information from every polling response such as updating metadata fields (e.g. many operations return a `lastUpdatedDateTime` field in their polling responses to tell the customer when last time their operation had an activity).
+
+`onInitialResponse` can initialize service-specific state from the initial response. The callback runs once after the state is created and before the initial response is processed, including when that response is already terminal. It is awaited before `submitted()` resolves and is not invoked when restoring a serialized poller. Changes to the core-owned operation status and configuration are discarded.
 
 These are the main four pieces of information needed to construct the poller but there are other options that can be used to adjust the poller behavior:
 - `intervalInMs`: controls the time interval between polling requests

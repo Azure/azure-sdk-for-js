@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ImplementationName, Result } from "../utils/utils.js";
+import type { ImplementationName, Result, State } from "../utils/utils.js";
 import { assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils.js";
 import { describe, it, assert, expect, vi } from "vitest";
 import { createRunLroWith, createTestPoller } from "../utils/router.js";
 import { createHttpPoller } from "../../src/index.js";
+import type { OperationState } from "../../src/index.js";
 import { makeRawResponse } from "../utils/utils.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "@azure-tools/test-utils-vitest";
@@ -3361,6 +3362,161 @@ matrix(
 );
 
 describe("createHttpPoller", () => {
+  describe("onInitialResponse callback", () => {
+    it("initializes custom state before submitted resolves without a polling URL", async () => {
+      type JobState = State & { jobId?: string };
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: { id: "job-123" },
+          rawResponse: makeRawResponse({
+            statusCode: 202,
+            request: { method: "POST", url: "https://example.com/jobs" },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+
+      const poller = createHttpPoller<Result, JobState>(lro, {
+        onInitialResponse: async (state, response) => {
+          await delay(1);
+          state.jobId = (response.flatResponse as { id: string }).id;
+        },
+      });
+
+      await poller.submitted();
+
+      assert.equal(poller.operationState?.jobId, "job-123");
+    });
+
+    it("preserves the status determined from the initial response", async () => {
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: {},
+          rawResponse: makeRawResponse({
+            statusCode: 202,
+            headers: { "operation-location": "https://example.com/jobs/job-123" },
+            request: { method: "POST", url: "https://example.com/jobs" },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+
+      const poller = createHttpPoller<Result, State>(lro, {
+        onInitialResponse: (state) => {
+          state.status = "succeeded";
+        },
+      });
+
+      await poller.submitted();
+
+      assert.equal(poller.operationState?.status, "running");
+    });
+
+    it("preserves the operation configuration", async () => {
+      type StateWithConfig = State & {
+        config: { operationLocation?: string };
+      };
+      const operationLocation = "https://example.com/jobs/job-123";
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: {},
+          rawResponse: makeRawResponse({
+            statusCode: 202,
+            headers: { "operation-location": operationLocation },
+            request: { method: "POST", url: "https://example.com/jobs" },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+
+      const poller = createHttpPoller<Result, StateWithConfig>(lro, {
+        onInitialResponse: (state) => {
+          state.config.operationLocation = "https://example.com/incorrect";
+        },
+      });
+
+      await poller.submitted();
+
+      assert.equal(poller.operationState?.config.operationLocation, operationLocation);
+    });
+
+    it("initializes state before processing an initially terminal response", async () => {
+      type AnalysisState = OperationState<string> & { operationId?: string };
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: { id: "operation-123" },
+          rawResponse: makeRawResponse({
+            statusCode: 200,
+            request: { method: "PUT", url: "https://example.com/analyze" },
+            body: { properties: { provisioningState: "Succeeded" } },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+
+      const poller = createHttpPoller<string, AnalysisState>(lro, {
+        onInitialResponse: (state, response) => {
+          state.operationId = (response.flatResponse as { id: string }).id;
+        },
+        processResult: async (_response, state) => state.operationId ?? "missing",
+      });
+
+      assert.equal(await poller.pollUntilDone(), "operation-123");
+    });
+
+    it("retains initialized state without invoking the callback when restored", async () => {
+      type JobState = State & { jobId?: string };
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: { id: "job-123" },
+          rawResponse: makeRawResponse({
+            statusCode: 202,
+            headers: { "operation-location": "https://example.com/jobs/job-123" },
+            request: { method: "POST", url: "https://example.com/jobs" },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+      const poller = createHttpPoller<Result, JobState>(lro, {
+        onInitialResponse: (state, response) => {
+          state.jobId = (response.flatResponse as { id: string }).id;
+        },
+      });
+      const restoreFrom = await poller.serialize();
+
+      const restoredPoller = createHttpPoller<Result, JobState>(lro, {
+        restoreFrom,
+        onInitialResponse: () => {
+          throw new Error("onInitialResponse should not run when restoring state");
+        },
+      });
+      await restoredPoller.submitted();
+
+      assert.equal(restoredPoller.operationState?.jobId, "job-123");
+    });
+
+    it("rejects submission when initialization fails", async () => {
+      const lro = {
+        sendInitialRequest: async () => ({
+          flatResponse: {},
+          rawResponse: makeRawResponse({
+            statusCode: 202,
+            headers: { "operation-location": "https://example.com/jobs/job-123" },
+            request: { method: "POST", url: "https://example.com/jobs" },
+          }),
+        }),
+        sendPollRequest: vi.fn(),
+      };
+      const poller = createHttpPoller<Result, State>(lro, {
+        onInitialResponse: async () => {
+          throw new Error("Unable to initialize operation state");
+        },
+      });
+
+      await expect(poller.submitted()).rejects.toThrow("Unable to initialize operation state");
+    });
+  });
+
   describe("withOperationLocation callback", () => {
     it("calls withOperationLocation on initial and updated locations", async () => {
       const locations: string[] = [];
