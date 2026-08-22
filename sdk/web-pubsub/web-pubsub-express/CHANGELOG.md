@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Other Changes
+
+- Clarified webhook authentication responsibilities and the `ce-signature` documentation.
+  [#39487](https://github.com/Azure/azure-sdk-for-js/pull/39487)
+
 ## 1.1.0 (2026-07-14)
 
 ### Features Added
