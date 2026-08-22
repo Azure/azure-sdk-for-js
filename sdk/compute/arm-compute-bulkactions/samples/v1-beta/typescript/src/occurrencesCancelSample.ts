@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel the occurrence so its pending operations do not run.
  *
  * @summary cancel the occurrence so its pending operations do not run.
- * x-ms-original-file: 2026-07-06-preview/Occurrences_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-06-preview/Occurrences_Cancel_MaximumSet_Gen.json
  */
 async function occurrencesCancelMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

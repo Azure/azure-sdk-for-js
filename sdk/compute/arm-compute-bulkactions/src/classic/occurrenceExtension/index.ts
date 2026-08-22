@@ -15,6 +15,7 @@ export interface OccurrenceExtensionOperations {
     options?: OccurrenceExtensionListOccurrenceByVmsOptionalParams,
   ) => PagedAsyncIterableIterator<OccurrenceExtensionResource>;
 }
+
 function _getOccurrenceExtension(context: ComputeContext) {
   return {
     listOccurrenceByVms: (
@@ -23,6 +24,7 @@ function _getOccurrenceExtension(context: ComputeContext) {
     ) => listOccurrenceByVms(context, resourceUri, options),
   };
 }
+
 export function _getOccurrenceExtensionOperations(
   context: ComputeContext,
 ): OccurrenceExtensionOperations {
