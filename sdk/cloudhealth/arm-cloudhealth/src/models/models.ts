@@ -1080,7 +1080,8 @@ export function authenticationSettingPropertiesDeserializer(
 
 /** Alias for AuthenticationSettingPropertiesUnion */
 export type AuthenticationSettingPropertiesUnion =
-  ManagedIdentityAuthenticationSettingProperties | AuthenticationSettingProperties;
+  | ManagedIdentityAuthenticationSettingProperties
+  | AuthenticationSettingProperties;
 
 export function authenticationSettingPropertiesUnionSerializer(
   item: AuthenticationSettingPropertiesUnion,
@@ -2651,6 +2652,14 @@ export interface DiscoveryRule extends ProxyResource {
   properties?: DiscoveryRuleProperties;
 }
 
+export function discoveryRuleSerializer(item: DiscoveryRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : discoveryRulePropertiesSerializer(item["properties"]),
+  };
+}
+
 export function discoveryRuleDeserializer(item: any): DiscoveryRule {
   return {
     id: item["id"],
@@ -2685,6 +2694,17 @@ export interface DiscoveryRuleProperties {
   readonly error?: DiscoveryError;
   /** Name of the entity which represents the discovery rule. Note: It might take a few minutes after creating the discovery rule until the entity is created. */
   readonly entityName: string;
+}
+
+export function discoveryRulePropertiesSerializer(item: DiscoveryRuleProperties): any {
+  return {
+    displayName: item["displayName"],
+    authenticationSetting: item["authenticationSetting"],
+    discoverRelationships: item["discoverRelationships"],
+    addRecommendedSignals: item["addRecommendedSignals"],
+    specification: discoveryRuleSpecificationUnionSerializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
+  };
 }
 
 export function discoveryRulePropertiesDeserializer(item: any): DiscoveryRuleProperties {
@@ -2880,47 +2900,6 @@ export function discoveryErrorDeserializer(item: any): DiscoveryError {
   };
 }
 
-/** Discovery rule resource for create/update operations. */
-export interface DiscoveryRuleResourceCreate extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: DiscoveryRulePropertiesCreate;
-}
-
-export function discoveryRuleResourceCreateSerializer(item: DiscoveryRuleResourceCreate): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : discoveryRulePropertiesCreateSerializer(item["properties"]),
-  };
-}
-
-/** Discovery rule properties for create/update operations, omitting server-side read-only fields (entityName is required+read-only in the canonical model). */
-export interface DiscoveryRulePropertiesCreate {
-  /** Display name */
-  displayName?: string;
-  /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
-  authenticationSetting: string;
-  /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
-  discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
-  /** Whether to add all recommended signals to the discovered entities. */
-  addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
-  /** Specification of the discovery rule defining how entities are discovered. */
-  specification: DiscoveryRuleSpecificationUnion;
-  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`. */
-  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
-}
-
-export function discoveryRulePropertiesCreateSerializer(item: DiscoveryRulePropertiesCreate): any {
-  return {
-    displayName: item["displayName"],
-    authenticationSetting: item["authenticationSetting"],
-    discoverRelationships: item["discoverRelationships"],
-    addRecommendedSignals: item["addRecommendedSignals"],
-    specification: discoveryRuleSpecificationUnionSerializer(item["specification"]),
-    addResourceHealthSignal: item["addResourceHealthSignal"],
-  };
-}
-
 /** The response of a DiscoveryRule list operation. */
 export interface _DiscoveryRuleListResult {
   /** The DiscoveryRule items on this page */
@@ -2936,10 +2915,871 @@ export function _discoveryRuleListResultDeserializer(item: any): _DiscoveryRuleL
   };
 }
 
+export function discoveryRuleArraySerializer(result: Array<DiscoveryRule>): any[] {
+  return result.map((item) => {
+    return discoveryRuleSerializer(item);
+  });
+}
+
 export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): any[] {
   return result.map((item) => {
     return discoveryRuleDeserializer(item);
   });
+}
+
+/** A discovery rule which automatically finds entities and relationships in a health model based on an Azure Resource Graph query */
+export interface DiscoveryRuleCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DiscoveryRulePropertiesCreateOrUpdate;
+}
+
+export function discoveryRuleCreateOrUpdateSerializer(item: DiscoveryRuleCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : discoveryRulePropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function discoveryRuleCreateOrUpdateDeserializer(item: any): DiscoveryRuleCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : discoveryRulePropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Discovery rule properties */
+export interface DiscoveryRulePropertiesCreateOrUpdate {
+  /** Display name */
+  displayName?: string;
+  /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
+  authenticationSetting: string;
+  /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
+  discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
+  /** Whether to add all recommended signals to the discovered entities. */
+  addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
+  /** Specification of the discovery rule defining how entities are discovered. */
+  specification: DiscoveryRuleSpecificationUnion;
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
+  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
+}
+
+export function discoveryRulePropertiesCreateOrUpdateSerializer(
+  item: DiscoveryRulePropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    authenticationSetting: item["authenticationSetting"],
+    discoverRelationships: item["discoverRelationships"],
+    addRecommendedSignals: item["addRecommendedSignals"],
+    specification: discoveryRuleSpecificationUnionSerializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
+  };
+}
+
+export function discoveryRulePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DiscoveryRulePropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    authenticationSetting: item["authenticationSetting"],
+    discoverRelationships: item["discoverRelationships"],
+    addRecommendedSignals: item["addRecommendedSignals"],
+    specification: discoveryRuleSpecificationUnionDeserializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
+  };
+}
+
+/** A relationship (aka edge) between two entities in a health model */
+export interface RelationshipCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RelationshipPropertiesCreateOrUpdate;
+}
+
+export function relationshipCreateOrUpdateSerializer(item: RelationshipCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : relationshipPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function relationshipCreateOrUpdateDeserializer(item: any): RelationshipCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : relationshipPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Relationship properties */
+export interface RelationshipPropertiesCreateOrUpdate {
+  /** Display name */
+  displayName?: string;
+  /** Resource name of the parent entity */
+  parentEntityName: string;
+  /** Resource name of the child entity */
+  childEntityName: string;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
+}
+
+export function relationshipPropertiesCreateOrUpdateSerializer(
+  item: RelationshipPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    parentEntityName: item["parentEntityName"],
+    childEntityName: item["childEntityName"],
+    tags: item["tags"],
+  };
+}
+
+export function relationshipPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): RelationshipPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    parentEntityName: item["parentEntityName"],
+    childEntityName: item["childEntityName"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** An entity (aka node) of a health model */
+export interface EntityCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EntityPropertiesCreateOrUpdate;
+}
+
+export function entityCreateOrUpdateSerializer(item: EntityCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : entityPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function entityCreateOrUpdateDeserializer(item: any): EntityCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : entityPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Properties which are common across all kinds of entities */
+export interface EntityPropertiesCreateOrUpdate {
+  /** Display name */
+  displayName?: string;
+  /** Positioning of the entity on the model canvas */
+  canvasPosition?: EntityCoordinates;
+  /** Visual icon definition. If not set, a default icon is used. */
+  icon?: IconDefinition;
+  /** Health objective as a percentage of time the entity should be healthy. */
+  healthObjective?: number;
+  /** Impact of the entity in health state propagation */
+  impact?: EntityImpact;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
+  /** Signal groups which are assigned to this entity */
+  signalGroups?: SignalGroupsCreateOrUpdate;
+  /** Alert configuration for this entity */
+  alerts?: EntityAlerts;
+}
+
+export function entityPropertiesCreateOrUpdateSerializer(
+  item: EntityPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    canvasPosition: !item["canvasPosition"]
+      ? item["canvasPosition"]
+      : entityCoordinatesSerializer(item["canvasPosition"]),
+    icon: !item["icon"] ? item["icon"] : iconDefinitionSerializer(item["icon"]),
+    healthObjective: item["healthObjective"],
+    impact: item["impact"],
+    tags: item["tags"],
+    signalGroups: !item["signalGroups"]
+      ? item["signalGroups"]
+      : signalGroupsCreateOrUpdateSerializer(item["signalGroups"]),
+    alerts: !item["alerts"] ? item["alerts"] : entityAlertsSerializer(item["alerts"]),
+  };
+}
+
+export function entityPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): EntityPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    canvasPosition: !item["canvasPosition"]
+      ? item["canvasPosition"]
+      : entityCoordinatesDeserializer(item["canvasPosition"]),
+    icon: !item["icon"] ? item["icon"] : iconDefinitionDeserializer(item["icon"]),
+    healthObjective: item["healthObjective"],
+    impact: item["impact"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    signalGroups: !item["signalGroups"]
+      ? item["signalGroups"]
+      : signalGroupsCreateOrUpdateDeserializer(item["signalGroups"]),
+    alerts: !item["alerts"] ? item["alerts"] : entityAlertsDeserializer(item["alerts"]),
+  };
+}
+
+/** Contains various signal groups that can be assigned to an entity */
+export interface SignalGroupsCreateOrUpdate {
+  /** Azure Resource Signal Group */
+  azureResource?: AzureResourceSignalsCreateOrUpdate;
+  /** Log Analytics Signal Group */
+  azureLogAnalytics?: LogAnalyticsSignals;
+  /** Azure Monitor Workspace Signal Group */
+  azureMonitorWorkspace?: AzureMonitorWorkspaceSignals;
+  /** Settings for dependency signals to control how the health state of child entities influences the health state of the parent entity. */
+  dependencies?: DependenciesSignalGroupV2;
+}
+
+export function signalGroupsCreateOrUpdateSerializer(item: SignalGroupsCreateOrUpdate): any {
+  return {
+    azureResource: !item["azureResource"]
+      ? item["azureResource"]
+      : azureResourceSignalsCreateOrUpdateSerializer(item["azureResource"]),
+    azureLogAnalytics: !item["azureLogAnalytics"]
+      ? item["azureLogAnalytics"]
+      : logAnalyticsSignalsSerializer(item["azureLogAnalytics"]),
+    azureMonitorWorkspace: !item["azureMonitorWorkspace"]
+      ? item["azureMonitorWorkspace"]
+      : azureMonitorWorkspaceSignalsSerializer(item["azureMonitorWorkspace"]),
+    dependencies: !item["dependencies"]
+      ? item["dependencies"]
+      : dependenciesSignalGroupV2Serializer(item["dependencies"]),
+  };
+}
+
+export function signalGroupsCreateOrUpdateDeserializer(item: any): SignalGroupsCreateOrUpdate {
+  return {
+    azureResource: !item["azureResource"]
+      ? item["azureResource"]
+      : azureResourceSignalsCreateOrUpdateDeserializer(item["azureResource"]),
+    azureLogAnalytics: !item["azureLogAnalytics"]
+      ? item["azureLogAnalytics"]
+      : logAnalyticsSignalsDeserializer(item["azureLogAnalytics"]),
+    azureMonitorWorkspace: !item["azureMonitorWorkspace"]
+      ? item["azureMonitorWorkspace"]
+      : azureMonitorWorkspaceSignalsDeserializer(item["azureMonitorWorkspace"]),
+    dependencies: !item["dependencies"]
+      ? item["dependencies"]
+      : dependenciesSignalGroupV2Deserializer(item["dependencies"]),
+  };
+}
+
+/** A grouping of Azure resource signals */
+export interface AzureResourceSignalsCreateOrUpdate {
+  /** Reference to the name of the authentication setting which is used for querying the data source. */
+  authenticationSetting: string;
+  /** Azure resource ID */
+  azureResourceId: string;
+  /** Azure resource kind (e.g., 'functionapp'). Populated by the UI for icon rendering. Can be null if not populated. */
+  azureResourceKind?: string;
+  /** Signals assigned to this group. */
+  signals?: AzureResourceSignal[];
+  /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
+  resourceHealth?: AzureResourceHealthSignalCreateOrUpdate;
+}
+
+export function azureResourceSignalsCreateOrUpdateSerializer(
+  item: AzureResourceSignalsCreateOrUpdate,
+): any {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    azureResourceId: item["azureResourceId"],
+    azureResourceKind: item["azureResourceKind"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : azureResourceSignalArraySerializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalCreateOrUpdateSerializer(item["resourceHealth"]),
+  };
+}
+
+export function azureResourceSignalsCreateOrUpdateDeserializer(
+  item: any,
+): AzureResourceSignalsCreateOrUpdate {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    azureResourceId: item["azureResourceId"],
+    azureResourceKind: item["azureResourceKind"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : azureResourceSignalArrayDeserializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalCreateOrUpdateDeserializer(item["resourceHealth"]),
+  };
+}
+
+/** Azure resource health signal configuration */
+export interface AzureResourceHealthSignalCreateOrUpdate {
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health. Defaults to Enabled. */
+  enabled?: ResourceHealthAvailabilityStateSignalBehavior;
+}
+
+export function azureResourceHealthSignalCreateOrUpdateSerializer(
+  item: AzureResourceHealthSignalCreateOrUpdate,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function azureResourceHealthSignalCreateOrUpdateDeserializer(
+  item: any,
+): AzureResourceHealthSignalCreateOrUpdate {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** An authentication setting in a health model */
+export interface AuthenticationSettingCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AuthenticationSettingPropertiesCreateOrUpdateUnion;
+}
+
+export function authenticationSettingCreateOrUpdateSerializer(
+  item: AuthenticationSettingCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : authenticationSettingPropertiesCreateOrUpdateUnionSerializer(item["properties"]),
+  };
+}
+
+export function authenticationSettingCreateOrUpdateDeserializer(
+  item: any,
+): AuthenticationSettingCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : authenticationSettingPropertiesCreateOrUpdateUnionDeserializer(item["properties"]),
+  };
+}
+
+/** Authentication setting properties */
+export interface AuthenticationSettingPropertiesCreateOrUpdate {
+  /** Display name */
+  displayName?: string;
+  /** Kind of the authentication setting */
+  /** The discriminator possible values: ManagedIdentity */
+  authenticationKind: AuthenticationKind;
+}
+
+export function authenticationSettingPropertiesCreateOrUpdateSerializer(
+  item: AuthenticationSettingPropertiesCreateOrUpdate,
+): any {
+  return { displayName: item["displayName"], authenticationKind: item["authenticationKind"] };
+}
+
+export function authenticationSettingPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AuthenticationSettingPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    authenticationKind: item["authenticationKind"],
+  };
+}
+
+/** Alias for AuthenticationSettingPropertiesCreateOrUpdateUnion */
+export type AuthenticationSettingPropertiesCreateOrUpdateUnion =
+  | ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate
+  | AuthenticationSettingPropertiesCreateOrUpdate;
+
+export function authenticationSettingPropertiesCreateOrUpdateUnionSerializer(
+  item: AuthenticationSettingPropertiesCreateOrUpdateUnion,
+): any {
+  switch (item.authenticationKind) {
+    case "ManagedIdentity":
+      return managedIdentityAuthenticationSettingPropertiesCreateOrUpdateSerializer(
+        item as ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return authenticationSettingPropertiesCreateOrUpdateSerializer(item);
+  }
+}
+
+export function authenticationSettingPropertiesCreateOrUpdateUnionDeserializer(
+  item: any,
+): AuthenticationSettingPropertiesCreateOrUpdateUnion {
+  switch (item["authenticationKind"]) {
+    case "ManagedIdentity":
+      return managedIdentityAuthenticationSettingPropertiesCreateOrUpdateDeserializer(
+        item as ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return authenticationSettingPropertiesCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** Authentication setting properties for Azure Managed Identity */
+export interface ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate extends AuthenticationSettingPropertiesCreateOrUpdate {
+  /** Kind of the authentication setting */
+  authenticationKind: "ManagedIdentity";
+  /** Name of the managed identity to use. Either 'SystemAssigned' or the resourceId of a user-assigned identity. */
+  managedIdentityName: string;
+}
+
+export function managedIdentityAuthenticationSettingPropertiesCreateOrUpdateSerializer(
+  item: ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    authenticationKind: item["authenticationKind"],
+    managedIdentityName: item["managedIdentityName"],
+  };
+}
+
+export function managedIdentityAuthenticationSettingPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ManagedIdentityAuthenticationSettingPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    authenticationKind: item["authenticationKind"],
+    managedIdentityName: item["managedIdentityName"],
+  };
+}
+
+/** A signal definition in a health model */
+export interface SignalDefinitionCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SignalDefinitionPropertiesCreateOrUpdateUnion;
+}
+
+export function signalDefinitionCreateOrUpdateSerializer(
+  item: SignalDefinitionCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : signalDefinitionPropertiesCreateOrUpdateUnionSerializer(item["properties"]),
+  };
+}
+
+export function signalDefinitionCreateOrUpdateDeserializer(
+  item: any,
+): SignalDefinitionCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : signalDefinitionPropertiesCreateOrUpdateUnionDeserializer(item["properties"]),
+  };
+}
+
+/** SignalDefinition properties */
+export interface SignalDefinitionPropertiesCreateOrUpdate {
+  /** Display name */
+  displayName?: string;
+  /** Kind of the signal definition */
+  /** The discriminator possible values: AzureResourceMetric, LogAnalyticsQuery, PrometheusMetricsQuery */
+  signalKind: SignalKind;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: RefreshInterval;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string;
+  /** Evaluation rules for the signal definition */
+  evaluationRules: EvaluationRule;
+}
+
+export function signalDefinitionPropertiesCreateOrUpdateSerializer(
+  item: SignalDefinitionPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: item["tags"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
+  };
+}
+
+export function signalDefinitionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SignalDefinitionPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+/** Alias for SignalDefinitionPropertiesCreateOrUpdateUnion */
+export type SignalDefinitionPropertiesCreateOrUpdateUnion =
+  | ResourceMetricSignalDefinitionPropertiesCreateOrUpdate
+  | LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate
+  | PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate
+  | SignalDefinitionPropertiesCreateOrUpdate;
+
+export function signalDefinitionPropertiesCreateOrUpdateUnionSerializer(
+  item: SignalDefinitionPropertiesCreateOrUpdateUnion,
+): any {
+  switch (item.signalKind) {
+    case "AzureResourceMetric":
+      return resourceMetricSignalDefinitionPropertiesCreateOrUpdateSerializer(
+        item as ResourceMetricSignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdateSerializer(
+        item as LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsSignalDefinitionPropertiesCreateOrUpdateSerializer(
+        item as PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return signalDefinitionPropertiesCreateOrUpdateSerializer(item);
+  }
+}
+
+export function signalDefinitionPropertiesCreateOrUpdateUnionDeserializer(
+  item: any,
+): SignalDefinitionPropertiesCreateOrUpdateUnion {
+  switch (item["signalKind"]) {
+    case "AzureResourceMetric":
+      return resourceMetricSignalDefinitionPropertiesCreateOrUpdateDeserializer(
+        item as ResourceMetricSignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdateDeserializer(
+        item as LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsSignalDefinitionPropertiesCreateOrUpdateDeserializer(
+        item as PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return signalDefinitionPropertiesCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** Azure Resource Metric Signal Definition properties */
+export interface ResourceMetricSignalDefinitionPropertiesCreateOrUpdate extends SignalDefinitionPropertiesCreateOrUpdate {
+  /** Kind of the signal definition */
+  signalKind: "AzureResourceMetric";
+  /** Metric namespace */
+  metricNamespace: string;
+  /** Name of the metric */
+  metricName: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType: MetricAggregationType;
+  /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
+  dimensionFilter?: string;
+}
+
+export function resourceMetricSignalDefinitionPropertiesCreateOrUpdateSerializer(
+  item: ResourceMetricSignalDefinitionPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: item["tags"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    timeGrain: item["timeGrain"],
+    aggregationType: item["aggregationType"],
+    dimensionFilter: item["dimensionFilter"],
+  };
+}
+
+export function resourceMetricSignalDefinitionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ResourceMetricSignalDefinitionPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    timeGrain: item["timeGrain"],
+    aggregationType: item["aggregationType"],
+    dimensionFilter: item["dimensionFilter"],
+  };
+}
+
+/** Log Analytics Query Signal Definition properties */
+export interface LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate extends SignalDefinitionPropertiesCreateOrUpdate {
+  /** Kind of the signal definition */
+  signalKind: "LogAnalyticsQuery";
+  /** Query text in KQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string;
+}
+
+export function logAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdateSerializer(
+  item: LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: item["tags"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+  };
+}
+
+export function logAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): LogAnalyticsQuerySignalDefinitionPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+  };
+}
+
+/** Prometheus Metrics Signal Definition properties */
+export interface PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate extends SignalDefinitionPropertiesCreateOrUpdate {
+  /** Kind of the signal definition */
+  signalKind: "PrometheusMetricsQuery";
+  /** Query text in PromQL syntax */
+  queryText: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string;
+}
+
+export function prometheusMetricsSignalDefinitionPropertiesCreateOrUpdateSerializer(
+  item: PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: item["tags"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+  };
+}
+
+export function prometheusMetricsSignalDefinitionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PrometheusMetricsSignalDefinitionPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    signalKind: item["signalKind"],
+    refreshInterval: item["refreshInterval"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    dataUnit: item["dataUnit"],
+    evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+  };
+}
+
+/** A HealthModel resource */
+export interface HealthModelCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HealthModelPropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityCreateOrUpdate;
+}
+
+export function healthModelCreateOrUpdateSerializer(item: HealthModelCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : healthModelPropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function healthModelCreateOrUpdateDeserializer(item: any): HealthModelCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : healthModelPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** HealthModel properties */
+export interface HealthModelPropertiesCreateOrUpdate {}
+
+export function healthModelPropertiesCreateOrUpdateSerializer(
+  _item: HealthModelPropertiesCreateOrUpdate,
+): any {
+  return {};
+}
+
+export function healthModelPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): HealthModelPropertiesCreateOrUpdate {
+  return item;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityCreateOrUpdateSerializer(
+  item: ManagedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityCreateOrUpdateDeserializer(
+  item: any,
+): ManagedServiceIdentityCreateOrUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** The type used for update operations of the HealthModel. */
+export interface HealthModelUpdateUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function healthModelUpdateUpdateSerializer(item: HealthModelUpdateUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+    tags: item["tags"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityUpdateDeserializer(item: any): ManagedServiceIdentityUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
 }
 
 /** API Versions */

@@ -4,8 +4,6 @@
 import { MonitorContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  IssueResourceCreate,
-  issueResourceCreateSerializer,
   IssueResource,
   issueResourceDeserializer,
   IssueResourceUpdate,
@@ -21,18 +19,20 @@ import {
   listParameterSerializer,
   PagedRelatedAlert,
   pagedRelatedAlertDeserializer,
-  RelatedAlertsCreate,
-  relatedAlertsCreateSerializer,
   RelatedAlerts,
   relatedAlertsDeserializer,
   PagedRelatedResource,
   pagedRelatedResourceDeserializer,
-  RelatedResourcesCreate,
-  relatedResourcesCreateSerializer,
   RelatedResources,
   relatedResourcesDeserializer,
   BackgroundVisualization,
   backgroundVisualizationDeserializer,
+  IssueResourceCreateOrUpdate,
+  issueResourceCreateOrUpdateSerializer,
+  RelatedAlertsCreate,
+  relatedAlertsCreateSerializer,
+  RelatedResourcesCreate,
+  relatedResourcesCreateSerializer,
   BackgroundVisualizationCreate,
   backgroundVisualizationCreateSerializer,
 } from "../../models/models.js";
@@ -204,12 +204,14 @@ export function _addOrUpdateResourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: relatedResourcesCreateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: relatedResourcesCreateSerializer(body),
+    });
 }
 
 export async function _addOrUpdateResourcesDeserialize(
@@ -330,12 +332,14 @@ export function _addOrUpdateAlertsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: relatedAlertsCreateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: relatedAlertsCreateSerializer(body),
+    });
 }
 
 export async function _addOrUpdateAlertsDeserialize(
@@ -790,7 +794,7 @@ export function _createSend(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  resource: IssueResourceCreate,
+  resource: IssueResourceCreateOrUpdate,
   options: IssueCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -807,12 +811,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: issueResourceCreateSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: issueResourceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<IssueResource> {
@@ -833,7 +839,7 @@ export async function create(
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
   issueName: string,
-  resource: IssueResourceCreate,
+  resource: IssueResourceCreateOrUpdate,
   options: IssueCreateOptionalParams = { requestOptions: {} },
 ): Promise<IssueResource> {
   const result = await _createSend(

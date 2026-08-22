@@ -18,7 +18,7 @@ import type {
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
 } from "../../api/assets/options.js";
-import type { Asset, AssetUpdate } from "../../models/models.js";
+import type { Asset, AssetUpdate, AssetCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface AssetsOperations {
     options?: AssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Asset>;
   /** Delete a Asset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     assetName: string,
@@ -55,7 +50,7 @@ export interface AssetsOperations {
   createOrReplace: (
     resourceGroupName: string,
     assetName: string,
-    resource: Asset,
+    resource: AssetCreateOrUpdate,
     options?: AssetsCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<Asset>, Asset>;
   /** Get a Asset */
@@ -85,7 +80,7 @@ function _getAssets(context: DeviceRegistryManagementContext) {
     createOrReplace: (
       resourceGroupName: string,
       assetName: string,
-      resource: Asset,
+      resource: AssetCreateOrUpdate,
       options?: AssetsCreateOrReplaceOptionalParams,
     ) => createOrReplace(context, resourceGroupName, assetName, resource, options),
     get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>

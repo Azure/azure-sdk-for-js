@@ -9,8 +9,9 @@ import {
 } from "../../models/models.js";
 import {
   PrivateEndpointConnection,
-  privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
+  PrivateEndpointConnectionCreateOrUpdate,
+  privateEndpointConnectionCreateOrUpdateSerializer,
 } from "../../models/privateLinksAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -150,7 +151,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   privateLinkName: string,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: PrivateEndpointConnection,
+  privateEndpointConnection: PrivateEndpointConnectionCreateOrUpdate,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -166,12 +167,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateEndpointConnectionSerializer(privateEndpointConnection),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: privateEndpointConnectionCreateOrUpdateSerializer(privateEndpointConnection),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -194,7 +197,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   privateLinkName: string,
   privateEndpointConnectionName: string,
-  privateEndpointConnection: PrivateEndpointConnection,
+  privateEndpointConnection: PrivateEndpointConnectionCreateOrUpdate,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

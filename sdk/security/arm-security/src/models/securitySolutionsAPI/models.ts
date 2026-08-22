@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
-import { ProvisioningState } from "../common/models.js";
-import { ProxyResource, SystemData, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
+import { ProvisioningState } from "../common/models.js";
+import { ProxyResource, SystemData, systemDataDeserializer } from "../models.js";
+
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DiscoveredSecuritySolution extends ProxyResource {
   /** Location where the resource is stored */
@@ -418,6 +418,10 @@ export interface JitNetworkAccessPolicy extends ProxyResource {
   readonly provisioningState?: string;
 }
 
+export function jitNetworkAccessPolicySerializer(item: JitNetworkAccessPolicy): any {
+  return { properties: _jitNetworkAccessPolicyPropertiesSerializer(item), kind: item["kind"] };
+}
+
 export function jitNetworkAccessPolicyDeserializer(item: any): JitNetworkAccessPolicy {
   return {
     id: item["id"],
@@ -439,6 +443,17 @@ export interface JitNetworkAccessPolicyProperties {
   requests?: JitNetworkAccessRequest[];
   /** Gets the provisioning state of the Just-in-Time policy. */
   readonly provisioningState?: string;
+}
+
+export function jitNetworkAccessPolicyPropertiesSerializer(
+  item: JitNetworkAccessPolicyProperties,
+): any {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
+  };
 }
 
 export function jitNetworkAccessPolicyPropertiesDeserializer(
@@ -771,6 +786,14 @@ export function _jitNetworkAccessPoliciesListDeserializer(
     value: !item["value"] ? item["value"] : jitNetworkAccessPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function jitNetworkAccessPolicyArraySerializer(
+  result: Array<JitNetworkAccessPolicy>,
+): any[] {
+  return result.map((item) => {
+    return jitNetworkAccessPolicySerializer(item);
+  });
 }
 
 export function jitNetworkAccessPolicyArrayDeserializer(
@@ -1386,12 +1409,83 @@ export function securitySolutionsReferenceDataPropertiesDeserializer(
   };
 }
 
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface JitNetworkAccessPolicyCreateOrUpdate extends ProxyResource {
+  /** Kind of the resource */
+  kind?: string;
+  /** Configurations for Microsoft.Compute/virtualMachines resource type. */
+  virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+  requests?: JitNetworkAccessRequest[];
+}
+
+export function jitNetworkAccessPolicyCreateOrUpdateSerializer(
+  item: JitNetworkAccessPolicyCreateOrUpdate,
+): any {
+  return {
+    properties: _jitNetworkAccessPolicyCreateOrUpdatePropertiesSerializer(item),
+    kind: item["kind"],
+  };
+}
+
+export function jitNetworkAccessPolicyCreateOrUpdateDeserializer(
+  item: any,
+): JitNetworkAccessPolicyCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ..._jitNetworkAccessPolicyCreateOrUpdatePropertiesDeserializer(item["properties"]),
+    kind: item["kind"],
+  };
+}
+
+/** model interface JitNetworkAccessPolicyPropertiesCreateOrUpdate */
+export interface JitNetworkAccessPolicyPropertiesCreateOrUpdate {
+  /** Configurations for Microsoft.Compute/virtualMachines resource type. */
+  virtualMachines: JitNetworkAccessPolicyVirtualMachine[];
+  requests?: JitNetworkAccessRequest[];
+}
+
+export function jitNetworkAccessPolicyPropertiesCreateOrUpdateSerializer(
+  item: JitNetworkAccessPolicyPropertiesCreateOrUpdate,
+): any {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
+  };
+}
+
+export function jitNetworkAccessPolicyPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): JitNetworkAccessPolicyPropertiesCreateOrUpdate {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArrayDeserializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArrayDeserializer(item["requests"]),
+  };
+}
+
 export function _discoveredSecuritySolutionPropertiesDeserializer(item: any) {
   return {
     securityFamily: item["securityFamily"],
     offer: item["offer"],
     publisher: item["publisher"],
     sku: item["sku"],
+  };
+}
+
+export function _jitNetworkAccessPolicyPropertiesSerializer(item: JitNetworkAccessPolicy): any {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
   };
 }
 
@@ -1451,5 +1545,25 @@ export function _securitySolutionsReferenceDataPropertiesDeserializer(item: any)
     publisher: item["publisher"],
     publisherDisplayName: item["publisherDisplayName"],
     template: item["template"],
+  };
+}
+
+export function _jitNetworkAccessPolicyCreateOrUpdatePropertiesSerializer(
+  item: JitNetworkAccessPolicyCreateOrUpdate,
+): any {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArraySerializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArraySerializer(item["requests"]),
+  };
+}
+
+export function _jitNetworkAccessPolicyCreateOrUpdatePropertiesDeserializer(item: any) {
+  return {
+    virtualMachines: jitNetworkAccessPolicyVirtualMachineArrayDeserializer(item["virtualMachines"]),
+    requests: !item["requests"]
+      ? item["requests"]
+      : jitNetworkAccessRequestArrayDeserializer(item["requests"]),
   };
 }

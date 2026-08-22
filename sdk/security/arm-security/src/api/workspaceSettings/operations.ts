@@ -5,10 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   WorkspaceSetting,
-  workspaceSettingSerializer,
   workspaceSettingDeserializer,
   _WorkspaceSettingList,
   _workspaceSettingListDeserializer,
+  WorkspaceSettingCreateOrUpdate,
+  workspaceSettingCreateOrUpdateSerializer,
+  WorkspaceSettingUpdate,
+  workspaceSettingUpdateSerializer,
 } from "../../models/legacySettingsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -121,7 +124,7 @@ export async function $delete(
 export function _updateSend(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: WorkspaceSetting,
+  workspaceSetting: WorkspaceSettingUpdate,
   options: WorkspaceSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,12 +138,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: workspaceSettingSerializer(workspaceSetting),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: workspaceSettingUpdateSerializer(workspaceSetting),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<WorkspaceSetting> {
@@ -159,7 +164,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 export async function update(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: WorkspaceSetting,
+  workspaceSetting: WorkspaceSettingUpdate,
   options: WorkspaceSettingsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<WorkspaceSetting> {
   const result = await _updateSend(context, workspaceSettingName, workspaceSetting, options);
@@ -169,7 +174,7 @@ export async function update(
 export function _createSend(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: WorkspaceSetting,
+  workspaceSetting: WorkspaceSettingCreateOrUpdate,
   options: WorkspaceSettingsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -183,12 +188,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: workspaceSettingSerializer(workspaceSetting),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: workspaceSettingCreateOrUpdateSerializer(workspaceSetting),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<WorkspaceSetting> {
@@ -207,7 +214,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   workspaceSettingName: string,
-  workspaceSetting: WorkspaceSetting,
+  workspaceSetting: WorkspaceSettingCreateOrUpdate,
   options: WorkspaceSettingsCreateOptionalParams = { requestOptions: {} },
 ): Promise<WorkspaceSetting> {
   const result = await _createSend(context, workspaceSettingName, workspaceSetting, options);

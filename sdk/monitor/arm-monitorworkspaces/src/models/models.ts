@@ -736,41 +736,84 @@ export function azureMonitorWorkspaceResourceArrayDeserializer(
   });
 }
 
-/** Issue resource for create/update operations. */
-export interface IssueResourceCreate extends ProxyResource {
+/** The Issue resource */
+export interface IssueResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
-  properties?: IssuePayloadCreate;
+  properties?: IssueProperties;
 }
 
-export function issueResourceCreateSerializer(item: IssueResourceCreate): any {
+export function issueResourceSerializer(item: IssueResource): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
-      : issuePayloadCreateSerializer(item["properties"]),
+      : issuePropertiesSerializer(item["properties"]),
   };
 }
 
-/** Issue properties for create/update operations, omitting server-side read-only fields (investigations, investigationsCount, provisioningState). */
-export interface IssuePayloadCreate {
+export function issueResourceDeserializer(item: any): IssueResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : issuePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The issue properties */
+export interface IssueProperties {
   /** The issue title */
   title: string;
   /** The issue status */
   status: Status;
   /** The issue severity */
   severity: string;
+  /** The list of investigations in the issue */
+  readonly investigations: InvestigationMetadata[];
   /** The issue impact time (in UTC) */
   impactTime: Date;
+  /** The number of investigations in the issue */
+  readonly investigationsCount: number;
   /** The issue background information */
   background?: Background;
+  /** The issue notification settings */
+  notifications?: Notifications;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
 }
 
-export function issuePayloadCreateSerializer(item: IssuePayloadCreate): any {
+export function issuePropertiesSerializer(item: IssueProperties): any {
   return {
     title: item["title"],
     status: item["status"],
     severity: item["severity"],
     impactTime: item["impactTime"].toISOString(),
     background: !item["background"] ? item["background"] : backgroundSerializer(item["background"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : notificationsSerializer(item["notifications"]),
+  };
+}
+
+export function issuePropertiesDeserializer(item: any): IssueProperties {
+  return {
+    title: item["title"],
+    status: item["status"],
+    severity: item["severity"],
+    investigations: investigationMetadataArrayDeserializer(item["investigations"]),
+    impactTime: new Date(item["impactTime"]),
+    investigationsCount: item["investigationsCount"],
+    background: !item["background"]
+      ? item["background"]
+      : backgroundDeserializer(item["background"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : notificationsDeserializer(item["notifications"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -800,6 +843,29 @@ export enum KnownStatus {
  * **Canceled**: The issue is canceled
  */
 export type Status = string;
+
+export function investigationMetadataArrayDeserializer(
+  result: Array<InvestigationMetadata>,
+): any[] {
+  return result.map((item) => {
+    return investigationMetadataDeserializer(item);
+  });
+}
+
+/** Properties of the current investigation */
+export interface InvestigationMetadata {
+  /** The unique identifier of the investigation */
+  id: string;
+  /** The creation time of the investigation (in UTC) */
+  createdAt: Date;
+}
+
+export function investigationMetadataDeserializer(item: any): InvestigationMetadata {
+  return {
+    id: item["id"],
+    createdAt: new Date(item["createdAt"]),
+  };
+}
 
 /** The issue background information */
 export interface Background {
@@ -857,107 +923,6 @@ export function backgroundDetailsDeserializer(item: any): BackgroundDetails {
   return {
     name: item["name"],
     value: item["value"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** The Issue resource */
-export interface IssueResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: IssueProperties;
-}
-
-export function issueResourceDeserializer(item: any): IssueResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : issuePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** The issue properties */
-export interface IssueProperties {
-  /** The issue title */
-  title: string;
-  /** The issue status */
-  status: Status;
-  /** The issue severity */
-  severity: string;
-  /** The list of investigations in the issue */
-  readonly investigations: InvestigationMetadata[];
-  /** The issue impact time (in UTC) */
-  impactTime: Date;
-  /** The number of investigations in the issue */
-  readonly investigationsCount: number;
-  /** The issue background information */
-  background?: Background;
-  /** The issue notification settings */
-  notifications?: Notifications;
-  /** The provisioning state of the resource. */
-  readonly provisioningState?: ResourceProvisioningState;
-}
-
-export function issuePropertiesDeserializer(item: any): IssueProperties {
-  return {
-    title: item["title"],
-    status: item["status"],
-    severity: item["severity"],
-    investigations: investigationMetadataArrayDeserializer(item["investigations"]),
-    impactTime: new Date(item["impactTime"]),
-    investigationsCount: item["investigationsCount"],
-    background: !item["background"]
-      ? item["background"]
-      : backgroundDeserializer(item["background"]),
-    notifications: !item["notifications"]
-      ? item["notifications"]
-      : notificationsDeserializer(item["notifications"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-export function investigationMetadataArrayDeserializer(
-  result: Array<InvestigationMetadata>,
-): any[] {
-  return result.map((item) => {
-    return investigationMetadataDeserializer(item);
-  });
-}
-
-/** Properties of the current investigation */
-export interface InvestigationMetadata {
-  /** The unique identifier of the investigation */
-  id: string;
-  /** The creation time of the investigation (in UTC) */
-  createdAt: Date;
-}
-
-export function investigationMetadataDeserializer(item: any): InvestigationMetadata {
-  return {
-    id: item["id"],
-    createdAt: new Date(item["createdAt"]),
   };
 }
 
@@ -1149,6 +1114,24 @@ export function timeBasedUpdatesNotificationTypeDeserializer(
   };
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
 /** The Issue resource update */
 export interface IssueResourceUpdate {
   /** The resource-specific properties for this resource. */
@@ -1205,6 +1188,12 @@ export function _issueResourceListResultDeserializer(item: any): _IssueResourceL
     value: issueResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function issueResourceArraySerializer(result: Array<IssueResource>): any[] {
+  return result.map((item) => {
+    return issueResourceSerializer(item);
+  });
 }
 
 export function issueResourceArrayDeserializer(result: Array<IssueResource>): any[] {
@@ -1325,6 +1314,12 @@ export function pagedRelatedAlertDeserializer(item: any): PagedRelatedAlert {
   };
 }
 
+export function relatedAlertArraySerializer(result: Array<RelatedAlert>): any[] {
+  return result.map((item) => {
+    return relatedAlertSerializer(item);
+  });
+}
+
 export function relatedAlertArrayDeserializer(result: Array<RelatedAlert>): any[] {
   return result.map((item) => {
     return relatedAlertDeserializer(item);
@@ -1343,6 +1338,10 @@ export interface RelatedAlert {
   readonly addedAt: Date;
   /** The last update time of this relation (in UTC) */
   readonly lastModifiedAt: Date;
+}
+
+export function relatedAlertSerializer(item: RelatedAlert): any {
+  return { id: item["id"], relevance: item["relevance"] };
 }
 
 export function relatedAlertDeserializer(item: any): RelatedAlert {
@@ -1376,38 +1375,14 @@ export enum KnownRelevance {
  */
 export type Relevance = string;
 
-/** A list of related alerts for write operations. */
-export interface RelatedAlertsCreate {
-  /** A list of related alerts */
-  value: RelatedAlertCreate[];
-}
-
-export function relatedAlertsCreateSerializer(item: RelatedAlertsCreate): any {
-  return { value: relatedAlertCreateArraySerializer(item["value"]) };
-}
-
-export function relatedAlertCreateArraySerializer(result: Array<RelatedAlertCreate>): any[] {
-  return result.map((item) => {
-    return relatedAlertCreateSerializer(item);
-  });
-}
-
-/** Properties of an alert related to the issue for write operations, omitting server-side read-only fields (origin, addedAt, lastModifiedAt). */
-export interface RelatedAlertCreate {
-  /** The alert ID */
-  id: string;
-  /** The alerts's relevance status */
-  relevance: Relevance;
-}
-
-export function relatedAlertCreateSerializer(item: RelatedAlertCreate): any {
-  return { id: item["id"], relevance: item["relevance"] };
-}
-
 /** A list of related alerts */
 export interface RelatedAlerts {
   /** A list of related alerts */
   value: RelatedAlert[];
+}
+
+export function relatedAlertsSerializer(item: RelatedAlerts): any {
+  return { value: relatedAlertArraySerializer(item["value"]) };
 }
 
 export function relatedAlertsDeserializer(item: any): RelatedAlerts {
@@ -1431,6 +1406,12 @@ export function pagedRelatedResourceDeserializer(item: any): PagedRelatedResourc
   };
 }
 
+export function relatedResourceArraySerializer(result: Array<RelatedResource>): any[] {
+  return result.map((item) => {
+    return relatedResourceSerializer(item);
+  });
+}
+
 export function relatedResourceArrayDeserializer(result: Array<RelatedResource>): any[] {
   return result.map((item) => {
     return relatedResourceDeserializer(item);
@@ -1451,6 +1432,10 @@ export interface RelatedResource {
   readonly lastModifiedAt: Date;
 }
 
+export function relatedResourceSerializer(item: RelatedResource): any {
+  return { id: item["id"], relevance: item["relevance"] };
+}
+
 export function relatedResourceDeserializer(item: any): RelatedResource {
   return {
     id: item["id"],
@@ -1461,38 +1446,14 @@ export function relatedResourceDeserializer(item: any): RelatedResource {
   };
 }
 
-/** A list of related resources for write operations. */
-export interface RelatedResourcesCreate {
-  /** A list of related resources */
-  value: RelatedResourceCreate[];
-}
-
-export function relatedResourcesCreateSerializer(item: RelatedResourcesCreate): any {
-  return { value: relatedResourceCreateArraySerializer(item["value"]) };
-}
-
-export function relatedResourceCreateArraySerializer(result: Array<RelatedResourceCreate>): any[] {
-  return result.map((item) => {
-    return relatedResourceCreateSerializer(item);
-  });
-}
-
-/** Properties of a resource related to the issue for write operations, omitting server-side read-only fields (origin, addedAt, lastModifiedAt). */
-export interface RelatedResourceCreate {
-  /** The resource ID */
-  id: string;
-  /** The resource's relevance status */
-  relevance: Relevance;
-}
-
-export function relatedResourceCreateSerializer(item: RelatedResourceCreate): any {
-  return { id: item["id"], relevance: item["relevance"] };
-}
-
 /** A list of related resources */
 export interface RelatedResources {
   /** A list of related resources */
   value: RelatedResource[];
+}
+
+export function relatedResourcesSerializer(item: RelatedResources): any {
+  return { value: relatedResourceArraySerializer(item["value"]) };
 }
 
 export function relatedResourcesDeserializer(item: any): RelatedResources {
@@ -1509,21 +1470,15 @@ export interface BackgroundVisualization {
   readonly origin: Origin;
 }
 
+export function backgroundVisualizationSerializer(item: BackgroundVisualization): any {
+  return { visualization: item["visualization"] };
+}
+
 export function backgroundVisualizationDeserializer(item: any): BackgroundVisualization {
   return {
     visualization: item["visualization"],
     origin: originDeserializer(item["origin"]),
   };
-}
-
-/** Background visualization for write operations, omitting the server-side read-only 'origin' field. */
-export interface BackgroundVisualizationCreate {
-  /** The background visualization content, in Adaptive Card format */
-  visualization: string;
-}
-
-export function backgroundVisualizationCreateSerializer(item: BackgroundVisualizationCreate): any {
-  return { visualization: item["visualization"] };
 }
 
 /** Metrics container resource for an Azure Monitor Workspace. */
@@ -1604,6 +1559,468 @@ export function metricsContainerResourceArrayDeserializer(
   return result.map((item) => {
     return metricsContainerResourceDeserializer(item);
   });
+}
+
+/** Metrics container resource for an Azure Monitor Workspace. */
+export interface MetricsContainerResourceCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MetricsContainerCreateOrUpdate;
+}
+
+export function metricsContainerResourceCreateOrUpdateSerializer(
+  item: MetricsContainerResourceCreateOrUpdate,
+): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : metricsContainerCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function metricsContainerResourceCreateOrUpdateDeserializer(
+  item: any,
+): MetricsContainerResourceCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : metricsContainerCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a metrics container. */
+export interface MetricsContainerCreateOrUpdate {
+  /** The version of Metrics Query Service that this AMW will use for all metric queries. */
+  version?: string;
+}
+
+export function metricsContainerCreateOrUpdateSerializer(
+  item: MetricsContainerCreateOrUpdate,
+): any {
+  return { version: item["version"] };
+}
+
+export function metricsContainerCreateOrUpdateDeserializer(
+  item: any,
+): MetricsContainerCreateOrUpdate {
+  return {
+    version: item["version"],
+  };
+}
+
+/** The Issue resource */
+export interface IssueResourceCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: IssuePropertiesCreateOrUpdate;
+}
+
+export function issueResourceCreateOrUpdateSerializer(item: IssueResourceCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : issuePropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function issueResourceCreateOrUpdateDeserializer(item: any): IssueResourceCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : issuePropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** The issue properties */
+export interface IssuePropertiesCreateOrUpdate {
+  /** The issue title */
+  title: string;
+  /** The issue status */
+  status: Status;
+  /** The issue severity */
+  severity: string;
+  /** The issue impact time (in UTC) */
+  impactTime: Date;
+  /** The issue background information */
+  background?: Background;
+  /** The issue notification settings */
+  notifications?: Notifications;
+}
+
+export function issuePropertiesCreateOrUpdateSerializer(item: IssuePropertiesCreateOrUpdate): any {
+  return {
+    title: item["title"],
+    status: item["status"],
+    severity: item["severity"],
+    impactTime: item["impactTime"].toISOString(),
+    background: !item["background"] ? item["background"] : backgroundSerializer(item["background"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : notificationsSerializer(item["notifications"]),
+  };
+}
+
+export function issuePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): IssuePropertiesCreateOrUpdate {
+  return {
+    title: item["title"],
+    status: item["status"],
+    severity: item["severity"],
+    impactTime: new Date(item["impactTime"]),
+    background: !item["background"]
+      ? item["background"]
+      : backgroundDeserializer(item["background"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : notificationsDeserializer(item["notifications"]),
+  };
+}
+
+/** A list of related alerts */
+export interface RelatedAlertsCreate {
+  /** A list of related alerts */
+  value: RelatedAlertCreate[];
+}
+
+export function relatedAlertsCreateSerializer(item: RelatedAlertsCreate): any {
+  return { value: relatedAlertCreateArraySerializer(item["value"]) };
+}
+
+export function relatedAlertsCreateDeserializer(item: any): RelatedAlertsCreate {
+  return {
+    value: relatedAlertCreateArrayDeserializer(item["value"]),
+  };
+}
+
+export function relatedAlertCreateArraySerializer(result: Array<RelatedAlertCreate>): any[] {
+  return result.map((item) => {
+    return relatedAlertCreateSerializer(item);
+  });
+}
+
+export function relatedAlertCreateArrayDeserializer(result: Array<RelatedAlertCreate>): any[] {
+  return result.map((item) => {
+    return relatedAlertCreateDeserializer(item);
+  });
+}
+
+/** Properties of an alert which is related to the issue */
+export interface RelatedAlertCreate {
+  /** The alert ID */
+  id: string;
+  /** The alerts's relevance status */
+  relevance: Relevance;
+}
+
+export function relatedAlertCreateSerializer(item: RelatedAlertCreate): any {
+  return { id: item["id"], relevance: item["relevance"] };
+}
+
+export function relatedAlertCreateDeserializer(item: any): RelatedAlertCreate {
+  return {
+    id: item["id"],
+    relevance: item["relevance"],
+  };
+}
+
+/** A list of related resources */
+export interface RelatedResourcesCreate {
+  /** A list of related resources */
+  value: RelatedResourceCreate[];
+}
+
+export function relatedResourcesCreateSerializer(item: RelatedResourcesCreate): any {
+  return { value: relatedResourceCreateArraySerializer(item["value"]) };
+}
+
+export function relatedResourcesCreateDeserializer(item: any): RelatedResourcesCreate {
+  return {
+    value: relatedResourceCreateArrayDeserializer(item["value"]),
+  };
+}
+
+export function relatedResourceCreateArraySerializer(result: Array<RelatedResourceCreate>): any[] {
+  return result.map((item) => {
+    return relatedResourceCreateSerializer(item);
+  });
+}
+
+export function relatedResourceCreateArrayDeserializer(
+  result: Array<RelatedResourceCreate>,
+): any[] {
+  return result.map((item) => {
+    return relatedResourceCreateDeserializer(item);
+  });
+}
+
+/** Properties of a resource which is related to the issue */
+export interface RelatedResourceCreate {
+  /** The resource ID */
+  id: string;
+  /** The resource's relevance status */
+  relevance: Relevance;
+}
+
+export function relatedResourceCreateSerializer(item: RelatedResourceCreate): any {
+  return { id: item["id"], relevance: item["relevance"] };
+}
+
+export function relatedResourceCreateDeserializer(item: any): RelatedResourceCreate {
+  return {
+    id: item["id"],
+    relevance: item["relevance"],
+  };
+}
+
+/** The issue background visualization */
+export interface BackgroundVisualizationCreate {
+  /** The background visualization content, in Adaptive Card format */
+  visualization: string;
+}
+
+export function backgroundVisualizationCreateSerializer(item: BackgroundVisualizationCreate): any {
+  return { visualization: item["visualization"] };
+}
+
+export function backgroundVisualizationCreateDeserializer(
+  item: any,
+): BackgroundVisualizationCreate {
+  return {
+    visualization: item["visualization"],
+  };
+}
+
+/** An Azure Monitor Workspace definition */
+export interface AzureMonitorWorkspaceResourceCreateOrUpdate extends TrackedResource {
+  /** Resource properties */
+  properties?: AzureMonitorWorkspaceCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityCreateOrUpdate;
+}
+
+export function azureMonitorWorkspaceResourceCreateOrUpdateSerializer(
+  item: AzureMonitorWorkspaceResourceCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureMonitorWorkspaceCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function azureMonitorWorkspaceResourceCreateOrUpdateDeserializer(
+  item: any,
+): AzureMonitorWorkspaceResourceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureMonitorWorkspaceCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Properties of an Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceCreateOrUpdate {
+  /** Properties related to the metrics container in the Azure Monitor Workspace */
+  metrics?: AzureMonitorWorkspaceMetricsCreateOrUpdate;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function azureMonitorWorkspaceCreateOrUpdateSerializer(
+  item: AzureMonitorWorkspaceCreateOrUpdate,
+): any {
+  return {
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : azureMonitorWorkspaceMetricsCreateOrUpdateSerializer(item["metrics"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function azureMonitorWorkspaceCreateOrUpdateDeserializer(
+  item: any,
+): AzureMonitorWorkspaceCreateOrUpdate {
+  return {
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : azureMonitorWorkspaceMetricsCreateOrUpdateDeserializer(item["metrics"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+/** Properties related to the metrics container in the Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceMetricsCreateOrUpdate {
+  /** Flag that indicates whether to enable access using resource permissions. */
+  enableAccessUsingResourcePermissions?: boolean;
+}
+
+export function azureMonitorWorkspaceMetricsCreateOrUpdateSerializer(
+  item: AzureMonitorWorkspaceMetricsCreateOrUpdate,
+): any {
+  return { enableAccessUsingResourcePermissions: item["enableAccessUsingResourcePermissions"] };
+}
+
+export function azureMonitorWorkspaceMetricsCreateOrUpdateDeserializer(
+  item: any,
+): AzureMonitorWorkspaceMetricsCreateOrUpdate {
+  return {
+    enableAccessUsingResourcePermissions: item["enableAccessUsingResourcePermissions"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityCreateOrUpdateSerializer(
+  item: ManagedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityCreateOrUpdateDeserializer(
+  item: any,
+): ManagedServiceIdentityCreateOrUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** The type used for updating an Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceResourceUpdateUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
+  /** Resource properties */
+  properties?: AzureMonitorWorkspaceUpdate;
+}
+
+export function azureMonitorWorkspaceResourceUpdateUpdateSerializer(
+  item: AzureMonitorWorkspaceResourceUpdateUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : azureMonitorWorkspaceUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityUpdateDeserializer(item: any): ManagedServiceIdentityUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Properties of an Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceUpdate {
+  /** Properties related to the metrics container in the Azure Monitor Workspace */
+  metrics?: AzureMonitorWorkspaceMetricsUpdate;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export function azureMonitorWorkspaceUpdateSerializer(item: AzureMonitorWorkspaceUpdate): any {
+  return {
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : azureMonitorWorkspaceMetricsUpdateSerializer(item["metrics"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+export function azureMonitorWorkspaceUpdateDeserializer(item: any): AzureMonitorWorkspaceUpdate {
+  return {
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : azureMonitorWorkspaceMetricsUpdateDeserializer(item["metrics"]),
+    publicNetworkAccess: item["publicNetworkAccess"],
+  };
+}
+
+/** Properties related to the metrics container in the Azure Monitor Workspace */
+export interface AzureMonitorWorkspaceMetricsUpdate {
+  /** Flag that indicates whether to enable access using resource permissions. */
+  enableAccessUsingResourcePermissions?: boolean;
+}
+
+export function azureMonitorWorkspaceMetricsUpdateSerializer(
+  item: AzureMonitorWorkspaceMetricsUpdate,
+): any {
+  return { enableAccessUsingResourcePermissions: item["enableAccessUsingResourcePermissions"] };
+}
+
+export function azureMonitorWorkspaceMetricsUpdateDeserializer(
+  item: any,
+): AzureMonitorWorkspaceMetricsUpdate {
+  return {
+    enableAccessUsingResourcePermissions: item["enableAccessUsingResourcePermissions"],
+  };
 }
 
 /** The available API versions. */

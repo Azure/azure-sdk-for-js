@@ -16,7 +16,7 @@ import type {
   ChatModelDeploymentsCreateOrUpdateOptionalParams,
   ChatModelDeploymentsGetOptionalParams,
 } from "../../api/chatModelDeployments/options.js";
-import type { ChatModelDeployment, ChatModelDeploymentUpdate } from "../../models/models.js";
+import type { ChatModelDeployment, ChatModelDeploymentUpdate, ChatModelDeploymentCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -48,7 +48,7 @@ export interface ChatModelDeploymentsOperations {
     resourceGroupName: string,
     workspaceName: string,
     chatModelDeploymentName: string,
-    resource: ChatModelDeployment,
+    resource: ChatModelDeploymentCreateOrUpdate,
     options?: ChatModelDeploymentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ChatModelDeployment>, ChatModelDeployment>;
   /** Get a ChatModelDeployment */
@@ -91,7 +91,7 @@ function _getChatModelDeployments(context: DiscoveryContext) {
       resourceGroupName: string,
       workspaceName: string,
       chatModelDeploymentName: string,
-      resource: ChatModelDeployment,
+      resource: ChatModelDeploymentCreateOrUpdate,
       options?: ChatModelDeploymentsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

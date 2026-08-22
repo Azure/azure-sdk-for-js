@@ -17,5 +17,10 @@ export type {
   InformationProtectionPolicyName,
   WorkspaceSetting,
   WorkspaceSettingProperties,
+  WorkspaceSettingCreateOrUpdate,
+  WorkspaceSettingUpdate,
+  InformationProtectionPolicyCreateOrUpdate,
+  InformationProtectionPolicyPropertiesCreateOrUpdate,
+  AutoProvisioningSettingCreateOrUpdate,
 } from "./models.js";
 export { KnownAutoProvision, KnownInformationProtectionPolicyName } from "./models.js";

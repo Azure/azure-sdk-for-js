@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -324,11 +324,12 @@
+@@ -388,11 +388,12 @@
  // @public
  export type CreatedByType = string;
  
@@ -19,15 +19,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export { Credential_2 as Credential }
  
  // @public
- export interface CredentialProperties {
-     readonly provisioningState?: ProvisioningState;
-@@ -353,14 +354,14 @@
+ export interface CredentialCreateOrUpdate extends TrackedResource {
+     properties?: CredentialPropertiesCreateOrUpdate;
+@@ -426,14 +427,14 @@
  }
  
  // @public
  export interface CredentialsOperations {
--    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: Credential, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
-+    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: Credential_2, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential_2>, Credential_2>;
+-    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: CredentialCreateOrUpdate, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
++    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: CredentialCreateOrUpdate, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential_2>, Credential_2>;
      delete: (resourceGroupName: string, namespaceName: string, options?: CredentialsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
 -    get: (resourceGroupName: string, namespaceName: string, options?: CredentialsGetOptionalParams) => Promise<Credential>;
 -    listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: CredentialsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Credential>;

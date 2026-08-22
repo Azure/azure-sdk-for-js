@@ -9,7 +9,7 @@ import {
   SettingsGetOptionalParams,
 } from "../../api/settings/options.js";
 import { SettingName } from "../../models/common/models.js";
-import { SettingUnion } from "../../models/settingsAPI/models.js";
+import { SettingUnion, SettingCreateOrUpdateUnion } from "../../models/settingsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Settings operations. */
@@ -19,7 +19,7 @@ export interface SettingsOperations {
   /** updating settings about different configurations in Microsoft Defender for Cloud */
   update: (
     settingName: SettingName,
-    setting: SettingUnion,
+    setting: SettingCreateOrUpdateUnion,
     options?: SettingsUpdateOptionalParams,
   ) => Promise<SettingUnion>;
   /** Settings of different configurations in Microsoft Defender for Cloud */
@@ -31,7 +31,7 @@ function _getSettings(context: SecurityCenterContext) {
     list: (options?: SettingsListOptionalParams) => list(context, options),
     update: (
       settingName: SettingName,
-      setting: SettingUnion,
+      setting: SettingCreateOrUpdateUnion,
       options?: SettingsUpdateOptionalParams,
     ) => update(context, settingName, setting, options),
     get: (settingName: SettingName, options?: SettingsGetOptionalParams) =>

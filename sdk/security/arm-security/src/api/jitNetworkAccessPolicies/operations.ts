@@ -4,10 +4,6 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
-  JitNetworkAccessPolicyCreate,
-  jitNetworkAccessPolicyCreateSerializer,
-} from "../../models/securityManagementClient/models.js";
-import {
   JitNetworkAccessPolicy,
   jitNetworkAccessPolicyDeserializer,
   JitNetworkAccessRequest,
@@ -16,6 +12,8 @@ import {
   _jitNetworkAccessPoliciesListDeserializer,
   JitNetworkAccessPolicyInitiateRequest,
   jitNetworkAccessPolicyInitiateRequestSerializer,
+  JitNetworkAccessPolicyCreateOrUpdate,
+  jitNetworkAccessPolicyCreateOrUpdateSerializer,
 } from "../../models/securitySolutionsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -369,7 +367,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: JitNetworkAccessPolicyCreate,
+  body: JitNetworkAccessPolicyCreateOrUpdate,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -385,12 +383,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: jitNetworkAccessPolicyCreateSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: jitNetworkAccessPolicyCreateOrUpdateSerializer(body),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -413,7 +413,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   ascLocation: string,
   jitNetworkAccessPolicyName: string,
-  body: JitNetworkAccessPolicyCreate,
+  body: JitNetworkAccessPolicyCreateOrUpdate,
   options: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<JitNetworkAccessPolicy> {
   const result = await _createOrUpdateSend(

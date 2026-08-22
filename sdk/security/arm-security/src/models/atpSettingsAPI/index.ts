@@ -4,4 +4,5 @@
 export type {
   AdvancedThreatProtectionSetting,
   AdvancedThreatProtectionProperties,
+  AdvancedThreatProtectionSettingCreateOrUpdate,
 } from "./models.js";

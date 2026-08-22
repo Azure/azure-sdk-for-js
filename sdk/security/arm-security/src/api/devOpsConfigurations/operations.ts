@@ -5,10 +5,13 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import {
   DevOpsConfiguration,
-  devOpsConfigurationSerializer,
   devOpsConfigurationDeserializer,
   _DevOpsConfigurationListResponse,
   _devOpsConfigurationListResponseDeserializer,
+  DevOpsConfigurationCreateOrUpdate,
+  devOpsConfigurationCreateOrUpdateSerializer,
+  DevOpsConfigurationUpdate,
+  devOpsConfigurationUpdateSerializer,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -139,7 +142,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: DevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfigurationUpdate,
   options: DevOpsConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -154,12 +157,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: devOpsConfigurationSerializer(devOpsConfiguration),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: devOpsConfigurationUpdateSerializer(devOpsConfiguration),
+    });
 }
 
 export async function _updateDeserialize(
@@ -181,7 +186,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: DevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfigurationUpdate,
   options: DevOpsConfigurationsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -198,7 +203,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: DevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfigurationCreateOrUpdate,
   options: DevOpsConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -213,12 +218,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: devOpsConfigurationSerializer(devOpsConfiguration),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: devOpsConfigurationCreateOrUpdateSerializer(devOpsConfiguration),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -240,7 +247,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   securityConnectorName: string,
-  devOpsConfiguration: DevOpsConfiguration,
+  devOpsConfiguration: DevOpsConfigurationCreateOrUpdate,
   options: DevOpsConfigurationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DevOpsConfiguration>, DevOpsConfiguration> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

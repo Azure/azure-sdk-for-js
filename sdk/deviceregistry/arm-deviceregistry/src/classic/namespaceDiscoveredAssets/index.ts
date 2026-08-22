@@ -19,6 +19,7 @@ import type {
 import type {
   NamespaceDiscoveredAsset,
   NamespaceDiscoveredAssetUpdate,
+  NamespaceDiscoveredAssetCreateOrUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -32,11 +33,6 @@ export interface NamespaceDiscoveredAssetsOperations {
     options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
   /** Delete a NamespaceDiscoveredAsset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -56,7 +52,7 @@ export interface NamespaceDiscoveredAssetsOperations {
     resourceGroupName: string,
     namespaceName: string,
     discoveredAssetName: string,
-    resource: NamespaceDiscoveredAsset,
+    resource: NamespaceDiscoveredAssetCreateOrUpdate,
     options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
   ) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
   /** Get a NamespaceDiscoveredAsset */
@@ -93,7 +89,7 @@ function _getNamespaceDiscoveredAssets(context: DeviceRegistryManagementContext)
       resourceGroupName: string,
       namespaceName: string,
       discoveredAssetName: string,
-      resource: NamespaceDiscoveredAsset,
+      resource: NamespaceDiscoveredAssetCreateOrUpdate,
       options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
     ) =>
       createOrReplace(

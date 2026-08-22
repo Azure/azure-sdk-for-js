@@ -18,7 +18,7 @@ import type {
   BookshelvesCreateOrUpdateOptionalParams,
   BookshelvesGetOptionalParams,
 } from "../../api/bookshelves/options.js";
-import type { Bookshelf, BookshelfUpdate } from "../../models/models.js";
+import type { Bookshelf, BookshelfUpdate, BookshelfCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -50,7 +50,7 @@ export interface BookshelvesOperations {
   createOrUpdate: (
     resourceGroupName: string,
     bookshelfName: string,
-    resource: Bookshelf,
+    resource: BookshelfCreateOrUpdate,
     options?: BookshelvesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Bookshelf>, Bookshelf>;
   /** Get a Bookshelf */
@@ -82,7 +82,7 @@ function _getBookshelves(context: DiscoveryContext) {
     createOrUpdate: (
       resourceGroupName: string,
       bookshelfName: string,
-      resource: Bookshelf,
+      resource: BookshelfCreateOrUpdate,
       options?: BookshelvesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, bookshelfName, resource, options),
     get: (

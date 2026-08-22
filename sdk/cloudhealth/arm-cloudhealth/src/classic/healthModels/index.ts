@@ -18,7 +18,7 @@ import type {
   HealthModelsCreateOptionalParams,
   HealthModelsGetOptionalParams,
 } from "../../api/healthModels/options.js";
-import type { HealthModel, HealthModelUpdate } from "../../models/models.js";
+import type { HealthModel, HealthModelCreateOrUpdate, HealthModelUpdateUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -43,14 +43,14 @@ export interface HealthModelsOperations {
   update: (
     resourceGroupName: string,
     healthModelName: string,
-    properties: HealthModelUpdate,
+    properties: HealthModelUpdateUpdate,
     options?: HealthModelsUpdateOptionalParams,
   ) => PollerLike<OperationState<HealthModel>, HealthModel>;
   /** Create a HealthModel */
   create: (
     resourceGroupName: string,
     healthModelName: string,
-    resource: HealthModel,
+    resource: HealthModelCreateOrUpdate,
     options?: HealthModelsCreateOptionalParams,
   ) => PollerLike<OperationState<HealthModel>, HealthModel>;
   /** Get a HealthModel */
@@ -77,13 +77,13 @@ function _getHealthModels(context: CloudHealthContext) {
     update: (
       resourceGroupName: string,
       healthModelName: string,
-      properties: HealthModelUpdate,
+      properties: HealthModelUpdateUpdate,
       options?: HealthModelsUpdateOptionalParams,
     ) => update(context, resourceGroupName, healthModelName, properties, options),
     create: (
       resourceGroupName: string,
       healthModelName: string,
-      resource: HealthModel,
+      resource: HealthModelCreateOrUpdate,
       options?: HealthModelsCreateOptionalParams,
     ) => create(context, resourceGroupName, healthModelName, resource, options),
     get: (

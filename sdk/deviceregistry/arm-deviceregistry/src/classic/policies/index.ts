@@ -20,7 +20,7 @@ import type {
   PoliciesCreateOrUpdateOptionalParams,
   PoliciesGetOptionalParams,
 } from "../../api/policies/options.js";
-import type { Policy, PolicyUpdate, ActivateBringYourOwnRootRequest } from "../../models/models.js";
+import type { Policy, PolicyUpdate, ActivateBringYourOwnRootRequest, PolicyCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -56,11 +56,6 @@ export interface PoliciesOperations {
     options?: PoliciesUpdateOptionalParams,
   ) => PollerLike<OperationState<Policy>, Policy>;
   /** Delete a Policy */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     namespaceName: string,
@@ -72,7 +67,7 @@ export interface PoliciesOperations {
     resourceGroupName: string,
     namespaceName: string,
     policyName: string,
-    resource: Policy,
+    resource: PolicyCreateOrUpdate,
     options?: PoliciesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Policy>, Policy>;
   /** Get a Policy */
@@ -129,7 +124,7 @@ function _getPolicies(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       namespaceName: string,
       policyName: string,
-      resource: Policy,
+      resource: PolicyCreateOrUpdate,
       options?: PoliciesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, namespaceName, policyName, resource, options),
     get: (

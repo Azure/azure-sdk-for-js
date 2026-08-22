@@ -2612,7 +2612,9 @@ export function eventDestinationDeserializer(item: any): EventDestination {
 
 /** Alias for EventDestinationUnion */
 export type EventDestinationUnion =
-  EventMqttDestination | EventStorageDestination | EventDestination;
+  | EventMqttDestination
+  | EventStorageDestination
+  | EventDestination;
 
 export function eventDestinationUnionSerializer(item: EventDestinationUnion): any {
   switch (item.target) {
@@ -2737,7 +2739,9 @@ export function streamDestinationDeserializer(item: any): StreamDestination {
 
 /** Alias for StreamDestinationUnion */
 export type StreamDestinationUnion =
-  StreamMqttDestination | StreamStorageDestination | StreamDestination;
+  | StreamMqttDestination
+  | StreamStorageDestination
+  | StreamDestination;
 
 export function streamDestinationUnionSerializer(item: StreamDestinationUnion): any {
   switch (item.target) {
@@ -5611,6 +5615,1400 @@ export function schemaVersionArrayDeserializer(result: Array<SchemaVersion>): an
   return result.map((item) => {
     return schemaVersionDeserializer(item);
   });
+}
+
+/** Schema version's definition. */
+export interface SchemaVersionCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SchemaVersionPropertiesCreateOrUpdate;
+}
+
+export function schemaVersionCreateOrUpdateSerializer(item: SchemaVersionCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaVersionPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function schemaVersionCreateOrUpdateDeserializer(item: any): SchemaVersionCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaVersionPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Defines the schema version properties. */
+export interface SchemaVersionPropertiesCreateOrUpdate {
+  /** Human-readable description of the schema. */
+  description?: string;
+  /** Schema content. */
+  schemaContent: string;
+}
+
+export function schemaVersionPropertiesCreateOrUpdateSerializer(
+  item: SchemaVersionPropertiesCreateOrUpdate,
+): any {
+  return { description: item["description"], schemaContent: item["schemaContent"] };
+}
+
+export function schemaVersionPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SchemaVersionPropertiesCreateOrUpdate {
+  return {
+    description: item["description"],
+    schemaContent: item["schemaContent"],
+  };
+}
+
+/** Schema definition. */
+export interface SchemaCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SchemaPropertiesCreateOrUpdate;
+}
+
+export function schemaCreateOrUpdateSerializer(item: SchemaCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function schemaCreateOrUpdateDeserializer(item: any): SchemaCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Defines the schema properties. */
+export interface SchemaPropertiesCreateOrUpdate {
+  /** Human-readable display name. */
+  displayName?: string;
+  /** Human-readable description of the schema. */
+  description?: string;
+  /** Format of the schema. */
+  format: Format;
+  /** Type of the schema. */
+  schemaType: SchemaType;
+  /** Schema tags. */
+  tags?: Record<string, string>;
+}
+
+export function schemaPropertiesCreateOrUpdateSerializer(
+  item: SchemaPropertiesCreateOrUpdate,
+): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    format: item["format"],
+    schemaType: item["schemaType"],
+    tags: item["tags"],
+  };
+}
+
+export function schemaPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SchemaPropertiesCreateOrUpdate {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    format: item["format"],
+    schemaType: item["schemaType"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Schema registry definition. */
+export interface SchemaRegistryCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SchemaRegistryPropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityCreateOrUpdate;
+}
+
+export function schemaRegistryCreateOrUpdateSerializer(item: SchemaRegistryCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaRegistryPropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function schemaRegistryCreateOrUpdateDeserializer(item: any): SchemaRegistryCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaRegistryPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Defines the schema registry properties. */
+export interface SchemaRegistryPropertiesCreateOrUpdate {
+  /** Schema registry namespace. Uniquely identifies a schema registry within a tenant. */
+  namespace: string;
+  /** Human-readable display name. */
+  displayName?: string;
+  /** Human-readable description of the schema registry. */
+  description?: string;
+  /** The Storage Account's Container URL where schemas will be stored. */
+  storageAccountContainerUrl: string;
+}
+
+export function schemaRegistryPropertiesCreateOrUpdateSerializer(
+  item: SchemaRegistryPropertiesCreateOrUpdate,
+): any {
+  return {
+    namespace: item["namespace"],
+    displayName: item["displayName"],
+    description: item["description"],
+    storageAccountContainerUrl: item["storageAccountContainerUrl"],
+  };
+}
+
+export function schemaRegistryPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): SchemaRegistryPropertiesCreateOrUpdate {
+  return {
+    namespace: item["namespace"],
+    displayName: item["displayName"],
+    description: item["description"],
+    storageAccountContainerUrl: item["storageAccountContainerUrl"],
+  };
+}
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentityCreateOrUpdateSerializer(
+  item: SystemAssignedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityCreateOrUpdateDeserializer(
+  item: any,
+): SystemAssignedServiceIdentityCreateOrUpdate {
+  return {
+    type: item["type"],
+  };
+}
+
+/** The type used for update operations of the SchemaRegistry. */
+export interface SchemaRegistryUpdateUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: SchemaRegistryUpdateProperties;
+}
+
+export function schemaRegistryUpdateUpdateSerializer(item: SchemaRegistryUpdateUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityUpdateSerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaRegistryUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Managed service identity (either system assigned, or none) */
+export interface SystemAssignedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: SystemAssignedServiceIdentityType;
+}
+
+export function systemAssignedServiceIdentityUpdateSerializer(
+  item: SystemAssignedServiceIdentityUpdate,
+): any {
+  return { type: item["type"] };
+}
+
+export function systemAssignedServiceIdentityUpdateDeserializer(
+  item: any,
+): SystemAssignedServiceIdentityUpdate {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Discovered device definition. */
+export interface NamespaceDiscoveredDeviceCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceDiscoveredDevicePropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function namespaceDiscoveredDeviceCreateOrUpdateSerializer(
+  item: NamespaceDiscoveredDeviceCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDiscoveredDevicePropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function namespaceDiscoveredDeviceCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDiscoveredDeviceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDiscoveredDevicePropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the discovered device properties. */
+export interface NamespaceDiscoveredDevicePropertiesCreateOrUpdate {
+  /** A device ID that represents the device in a system external to Azure. Unique within scope of an Azure tenant. */
+  externalDeviceId?: string;
+  /** Endpoints for discovered devices. */
+  endpoints?: DiscoveredMessagingEndpoints;
+  /** Device manufacturer. */
+  manufacturer?: string;
+  /** Device model. */
+  model?: string;
+  /** Device operating system name. */
+  operatingSystem?: string;
+  /** Device operating system version. */
+  operatingSystemVersion?: string;
+  /** A set of key-value pairs that contain custom attributes. */
+  attributes?: Record<string, any>;
+  /** Identifier used to detect changes in the discovered device. */
+  discoveryId: string;
+  /** An integer that is incremented each time the resource is modified. */
+  version: number;
+}
+
+export function namespaceDiscoveredDevicePropertiesCreateOrUpdateSerializer(
+  item: NamespaceDiscoveredDevicePropertiesCreateOrUpdate,
+): any {
+  return {
+    externalDeviceId: item["externalDeviceId"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : discoveredMessagingEndpointsSerializer(item["endpoints"]),
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    operatingSystem: item["operatingSystem"],
+    operatingSystemVersion: item["operatingSystemVersion"],
+    attributes: item["attributes"],
+    discoveryId: item["discoveryId"],
+    version: item["version"],
+  };
+}
+
+export function namespaceDiscoveredDevicePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDiscoveredDevicePropertiesCreateOrUpdate {
+  return {
+    externalDeviceId: item["externalDeviceId"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : discoveredMessagingEndpointsDeserializer(item["endpoints"]),
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    operatingSystem: item["operatingSystem"],
+    operatingSystemVersion: item["operatingSystemVersion"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    discoveryId: item["discoveryId"],
+    version: item["version"],
+  };
+}
+
+/** Discovered asset definition. */
+export interface NamespaceDiscoveredAssetCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceDiscoveredAssetPropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function namespaceDiscoveredAssetCreateOrUpdateSerializer(
+  item: NamespaceDiscoveredAssetCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDiscoveredAssetPropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function namespaceDiscoveredAssetCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDiscoveredAssetCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDiscoveredAssetPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the discovered asset properties. */
+export interface NamespaceDiscoveredAssetPropertiesCreateOrUpdate {
+  /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
+  deviceRef: DeviceRef;
+  /** Human-readable display name. */
+  displayName?: string;
+  /** URIs or type definition IDs. */
+  assetTypeRefs?: string[];
+  /** Human-readable description of the asset. */
+  description?: string;
+  /** Identifier used to detect changes in the asset. */
+  discoveryId: string;
+  /** Asset ID provided by the customer. */
+  externalAssetId?: string;
+  /** An integer that is incremented each time the resource is modified. */
+  version: number;
+  /** Asset manufacturer. */
+  manufacturer?: string;
+  /** Asset manufacturer URI. */
+  manufacturerUri?: string;
+  /** Asset model. */
+  model?: string;
+  /** Asset product code. */
+  productCode?: string;
+  /** Asset hardware revision number. */
+  hardwareRevision?: string;
+  /** Asset software revision number. */
+  softwareRevision?: string;
+  /** Asset documentation reference. */
+  documentationUri?: string;
+  /** Asset serial number. */
+  serialNumber?: string;
+  /** A set of key-value pairs that contain custom attributes. */
+  attributes?: Record<string, any>;
+  /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
+  defaultDatasetsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
+  defaultEventsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
+  defaultStreamsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
+  defaultManagementGroupsConfiguration?: string;
+  /** Default destinations for a dataset. */
+  defaultDatasetsDestinations?: DatasetDestinationUnion[];
+  /** Default destinations for an event. */
+  defaultEventsDestinations?: EventDestinationUnion[];
+  /** Default destinations for a stream. */
+  defaultStreamsDestinations?: StreamDestinationUnion[];
+  /** Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set. */
+  datasets?: NamespaceDiscoveredDataset[];
+  /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
+  eventGroups?: NamespaceDiscoveredEventGroup[];
+  /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
+  streams?: NamespaceDiscoveredStream[];
+  /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
+  managementGroups?: NamespaceDiscoveredManagementGroup[];
+}
+
+export function namespaceDiscoveredAssetPropertiesCreateOrUpdateSerializer(
+  item: NamespaceDiscoveredAssetPropertiesCreateOrUpdate,
+): any {
+  return {
+    deviceRef: deviceRefSerializer(item["deviceRef"]),
+    displayName: item["displayName"],
+    assetTypeRefs: !item["assetTypeRefs"]
+      ? item["assetTypeRefs"]
+      : item["assetTypeRefs"].map((p: any) => {
+          return p;
+        }),
+    description: item["description"],
+    discoveryId: item["discoveryId"],
+    externalAssetId: item["externalAssetId"],
+    version: item["version"],
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: item["attributes"],
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultStreamsConfiguration: item["defaultStreamsConfiguration"],
+    defaultManagementGroupsConfiguration: item["defaultManagementGroupsConfiguration"],
+    defaultDatasetsDestinations: !item["defaultDatasetsDestinations"]
+      ? item["defaultDatasetsDestinations"]
+      : datasetDestinationUnionArraySerializer(item["defaultDatasetsDestinations"]),
+    defaultEventsDestinations: !item["defaultEventsDestinations"]
+      ? item["defaultEventsDestinations"]
+      : eventDestinationUnionArraySerializer(item["defaultEventsDestinations"]),
+    defaultStreamsDestinations: !item["defaultStreamsDestinations"]
+      ? item["defaultStreamsDestinations"]
+      : streamDestinationUnionArraySerializer(item["defaultStreamsDestinations"]),
+    datasets: !item["datasets"]
+      ? item["datasets"]
+      : namespaceDiscoveredDatasetArraySerializer(item["datasets"]),
+    eventGroups: !item["eventGroups"]
+      ? item["eventGroups"]
+      : namespaceDiscoveredEventGroupArraySerializer(item["eventGroups"]),
+    streams: !item["streams"]
+      ? item["streams"]
+      : namespaceDiscoveredStreamArraySerializer(item["streams"]),
+    managementGroups: !item["managementGroups"]
+      ? item["managementGroups"]
+      : namespaceDiscoveredManagementGroupArraySerializer(item["managementGroups"]),
+  };
+}
+
+export function namespaceDiscoveredAssetPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDiscoveredAssetPropertiesCreateOrUpdate {
+  return {
+    deviceRef: deviceRefDeserializer(item["deviceRef"]),
+    displayName: item["displayName"],
+    assetTypeRefs: !item["assetTypeRefs"]
+      ? item["assetTypeRefs"]
+      : item["assetTypeRefs"].map((p: any) => {
+          return p;
+        }),
+    description: item["description"],
+    discoveryId: item["discoveryId"],
+    externalAssetId: item["externalAssetId"],
+    version: item["version"],
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultStreamsConfiguration: item["defaultStreamsConfiguration"],
+    defaultManagementGroupsConfiguration: item["defaultManagementGroupsConfiguration"],
+    defaultDatasetsDestinations: !item["defaultDatasetsDestinations"]
+      ? item["defaultDatasetsDestinations"]
+      : datasetDestinationUnionArrayDeserializer(item["defaultDatasetsDestinations"]),
+    defaultEventsDestinations: !item["defaultEventsDestinations"]
+      ? item["defaultEventsDestinations"]
+      : eventDestinationUnionArrayDeserializer(item["defaultEventsDestinations"]),
+    defaultStreamsDestinations: !item["defaultStreamsDestinations"]
+      ? item["defaultStreamsDestinations"]
+      : streamDestinationUnionArrayDeserializer(item["defaultStreamsDestinations"]),
+    datasets: !item["datasets"]
+      ? item["datasets"]
+      : namespaceDiscoveredDatasetArrayDeserializer(item["datasets"]),
+    eventGroups: !item["eventGroups"]
+      ? item["eventGroups"]
+      : namespaceDiscoveredEventGroupArrayDeserializer(item["eventGroups"]),
+    streams: !item["streams"]
+      ? item["streams"]
+      : namespaceDiscoveredStreamArrayDeserializer(item["streams"]),
+    managementGroups: !item["managementGroups"]
+      ? item["managementGroups"]
+      : namespaceDiscoveredManagementGroupArrayDeserializer(item["managementGroups"]),
+  };
+}
+
+/** Device definition. */
+export interface NamespaceDeviceCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceDevicePropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation?: ExtendedLocation;
+}
+
+export function namespaceDeviceCreateOrUpdateSerializer(item: NamespaceDeviceCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDevicePropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function namespaceDeviceCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDeviceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceDevicePropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: !item["extendedLocation"]
+      ? item["extendedLocation"]
+      : extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the device properties. */
+export interface NamespaceDevicePropertiesCreateOrUpdate {
+  /** Indicates if the resource is enabled or not. */
+  enabled?: boolean;
+  /** The Device ID provided by the customer. */
+  externalDeviceId?: string;
+  /** Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided. */
+  discoveredDeviceRef?: string;
+  /** Device manufacturer. */
+  manufacturer?: string;
+  /** Device model. */
+  model?: string;
+  /** Device operating system. */
+  operatingSystem?: string;
+  /** Device operating system version. */
+  operatingSystemVersion?: string;
+  /** Property bag containing the device's unassigned and assigned endpoints. */
+  endpoints?: MessagingEndpoints;
+  /** A set of key-value pairs that contain custom attributes set by the customer. */
+  attributes?: Record<string, any>;
+  /** Policy used to issue device certificates. */
+  policy?: DeviceCredentialPolicy;
+}
+
+export function namespaceDevicePropertiesCreateOrUpdateSerializer(
+  item: NamespaceDevicePropertiesCreateOrUpdate,
+): any {
+  return {
+    enabled: item["enabled"],
+    externalDeviceId: item["externalDeviceId"],
+    discoveredDeviceRef: item["discoveredDeviceRef"],
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    operatingSystem: item["operatingSystem"],
+    operatingSystemVersion: item["operatingSystemVersion"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : messagingEndpointsSerializer(item["endpoints"]),
+    attributes: item["attributes"],
+    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicySerializer(item["policy"]),
+  };
+}
+
+export function namespaceDevicePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceDevicePropertiesCreateOrUpdate {
+  return {
+    enabled: item["enabled"],
+    externalDeviceId: item["externalDeviceId"],
+    discoveredDeviceRef: item["discoveredDeviceRef"],
+    manufacturer: item["manufacturer"],
+    model: item["model"],
+    operatingSystem: item["operatingSystem"],
+    operatingSystemVersion: item["operatingSystemVersion"],
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : messagingEndpointsDeserializer(item["endpoints"]),
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    policy: !item["policy"] ? item["policy"] : deviceCredentialPolicyDeserializer(item["policy"]),
+  };
+}
+
+/** Asset definition. */
+export interface NamespaceAssetCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceAssetPropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function namespaceAssetCreateOrUpdateSerializer(item: NamespaceAssetCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceAssetPropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function namespaceAssetCreateOrUpdateDeserializer(item: any): NamespaceAssetCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceAssetPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the asset properties. */
+export interface NamespaceAssetPropertiesCreateOrUpdate {
+  /** Enabled/disabled status of the asset. */
+  enabled?: boolean;
+  /** Asset ID provided by the customer. */
+  externalAssetId?: string;
+  /** Human-readable display name. */
+  displayName?: string;
+  /** Human-readable description of the asset. */
+  description?: string;
+  /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
+  deviceRef: DeviceRef;
+  /** URIs or type definition IDs. */
+  assetTypeRefs?: string[];
+  /** Asset manufacturer. */
+  manufacturer?: string;
+  /** Asset manufacturer URI. */
+  manufacturerUri?: string;
+  /** Asset model. */
+  model?: string;
+  /** Asset product code. */
+  productCode?: string;
+  /** Asset hardware revision number. */
+  hardwareRevision?: string;
+  /** Asset software revision number. */
+  softwareRevision?: string;
+  /** Asset documentation reference. */
+  documentationUri?: string;
+  /** Asset serial number. */
+  serialNumber?: string;
+  /** A set of key-value pairs that contain custom attributes set by the customer. */
+  attributes?: Record<string, any>;
+  /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
+  discoveredAssetRefs?: string[];
+  /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
+  defaultDatasetsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
+  defaultEventsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
+  defaultStreamsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
+  defaultManagementGroupsConfiguration?: string;
+  /** Default destinations for a dataset. */
+  defaultDatasetsDestinations?: DatasetDestinationUnion[];
+  /** Default destinations for an event. */
+  defaultEventsDestinations?: EventDestinationUnion[];
+  /** Default destinations for a stream. */
+  defaultStreamsDestinations?: StreamDestinationUnion[];
+  /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
+  datasets?: NamespaceDataset[];
+  /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
+  eventGroups?: NamespaceEventGroup[];
+  /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
+  streams?: NamespaceStream[];
+  /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
+  managementGroups?: ManagementGroup[];
+}
+
+export function namespaceAssetPropertiesCreateOrUpdateSerializer(
+  item: NamespaceAssetPropertiesCreateOrUpdate,
+): any {
+  return {
+    enabled: item["enabled"],
+    externalAssetId: item["externalAssetId"],
+    displayName: item["displayName"],
+    description: item["description"],
+    deviceRef: deviceRefSerializer(item["deviceRef"]),
+    assetTypeRefs: !item["assetTypeRefs"]
+      ? item["assetTypeRefs"]
+      : item["assetTypeRefs"].map((p: any) => {
+          return p;
+        }),
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: item["attributes"],
+    discoveredAssetRefs: !item["discoveredAssetRefs"]
+      ? item["discoveredAssetRefs"]
+      : item["discoveredAssetRefs"].map((p: any) => {
+          return p;
+        }),
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultStreamsConfiguration: item["defaultStreamsConfiguration"],
+    defaultManagementGroupsConfiguration: item["defaultManagementGroupsConfiguration"],
+    defaultDatasetsDestinations: !item["defaultDatasetsDestinations"]
+      ? item["defaultDatasetsDestinations"]
+      : datasetDestinationUnionArraySerializer(item["defaultDatasetsDestinations"]),
+    defaultEventsDestinations: !item["defaultEventsDestinations"]
+      ? item["defaultEventsDestinations"]
+      : eventDestinationUnionArraySerializer(item["defaultEventsDestinations"]),
+    defaultStreamsDestinations: !item["defaultStreamsDestinations"]
+      ? item["defaultStreamsDestinations"]
+      : streamDestinationUnionArraySerializer(item["defaultStreamsDestinations"]),
+    datasets: !item["datasets"]
+      ? item["datasets"]
+      : namespaceDatasetArraySerializer(item["datasets"]),
+    eventGroups: !item["eventGroups"]
+      ? item["eventGroups"]
+      : namespaceEventGroupArraySerializer(item["eventGroups"]),
+    streams: !item["streams"] ? item["streams"] : namespaceStreamArraySerializer(item["streams"]),
+    managementGroups: !item["managementGroups"]
+      ? item["managementGroups"]
+      : managementGroupArraySerializer(item["managementGroups"]),
+  };
+}
+
+export function namespaceAssetPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NamespaceAssetPropertiesCreateOrUpdate {
+  return {
+    enabled: item["enabled"],
+    externalAssetId: item["externalAssetId"],
+    displayName: item["displayName"],
+    description: item["description"],
+    deviceRef: deviceRefDeserializer(item["deviceRef"]),
+    assetTypeRefs: !item["assetTypeRefs"]
+      ? item["assetTypeRefs"]
+      : item["assetTypeRefs"].map((p: any) => {
+          return p;
+        }),
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    discoveredAssetRefs: !item["discoveredAssetRefs"]
+      ? item["discoveredAssetRefs"]
+      : item["discoveredAssetRefs"].map((p: any) => {
+          return p;
+        }),
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultStreamsConfiguration: item["defaultStreamsConfiguration"],
+    defaultManagementGroupsConfiguration: item["defaultManagementGroupsConfiguration"],
+    defaultDatasetsDestinations: !item["defaultDatasetsDestinations"]
+      ? item["defaultDatasetsDestinations"]
+      : datasetDestinationUnionArrayDeserializer(item["defaultDatasetsDestinations"]),
+    defaultEventsDestinations: !item["defaultEventsDestinations"]
+      ? item["defaultEventsDestinations"]
+      : eventDestinationUnionArrayDeserializer(item["defaultEventsDestinations"]),
+    defaultStreamsDestinations: !item["defaultStreamsDestinations"]
+      ? item["defaultStreamsDestinations"]
+      : streamDestinationUnionArrayDeserializer(item["defaultStreamsDestinations"]),
+    datasets: !item["datasets"]
+      ? item["datasets"]
+      : namespaceDatasetArrayDeserializer(item["datasets"]),
+    eventGroups: !item["eventGroups"]
+      ? item["eventGroups"]
+      : namespaceEventGroupArrayDeserializer(item["eventGroups"]),
+    streams: !item["streams"] ? item["streams"] : namespaceStreamArrayDeserializer(item["streams"]),
+    managementGroups: !item["managementGroups"]
+      ? item["managementGroups"]
+      : managementGroupArrayDeserializer(item["managementGroups"]),
+  };
+}
+
+/** A Credential Policy */
+export interface PolicyCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PolicyPropertiesCreateOrUpdate;
+}
+
+export function policyCreateOrUpdateSerializer(item: PolicyCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : policyPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function policyCreateOrUpdateDeserializer(item: any): PolicyCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : policyPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Credential Policy. */
+export interface PolicyPropertiesCreateOrUpdate {
+  /** The certificate configuration. */
+  certificate?: CertificateConfigurationCreateOrUpdate;
+}
+
+export function policyPropertiesCreateOrUpdateSerializer(
+  item: PolicyPropertiesCreateOrUpdate,
+): any {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificateConfigurationCreateOrUpdateSerializer(item["certificate"]),
+  };
+}
+
+export function policyPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): PolicyPropertiesCreateOrUpdate {
+  return {
+    certificate: !item["certificate"]
+      ? item["certificate"]
+      : certificateConfigurationCreateOrUpdateDeserializer(item["certificate"]),
+  };
+}
+
+/** The certificate configuration. */
+export interface CertificateConfigurationCreateOrUpdate {
+  /** The configuration to set up an ICA. */
+  certificateAuthorityConfiguration: CertificateAuthorityConfigurationCreateOrUpdate;
+  /** The leaf certificate configuration. */
+  leafCertificateConfiguration: LeafCertificateConfiguration;
+}
+
+export function certificateConfigurationCreateOrUpdateSerializer(
+  item: CertificateConfigurationCreateOrUpdate,
+): any {
+  return {
+    certificateAuthorityConfiguration: certificateAuthorityConfigurationCreateOrUpdateSerializer(
+      item["certificateAuthorityConfiguration"],
+    ),
+    leafCertificateConfiguration: leafCertificateConfigurationSerializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+export function certificateConfigurationCreateOrUpdateDeserializer(
+  item: any,
+): CertificateConfigurationCreateOrUpdate {
+  return {
+    certificateAuthorityConfiguration: certificateAuthorityConfigurationCreateOrUpdateDeserializer(
+      item["certificateAuthorityConfiguration"],
+    ),
+    leafCertificateConfiguration: leafCertificateConfigurationDeserializer(
+      item["leafCertificateConfiguration"],
+    ),
+  };
+}
+
+/** The configuration to set up an ICA. */
+export interface CertificateAuthorityConfigurationCreateOrUpdate {
+  /** Crypto type: ECC. */
+  keyType: SupportedKeyType;
+  /** Configuration for Bring Your Own Root. */
+  bringYourOwnRoot?: BringYourOwnRootCreateOrUpdate;
+}
+
+export function certificateAuthorityConfigurationCreateOrUpdateSerializer(
+  item: CertificateAuthorityConfigurationCreateOrUpdate,
+): any {
+  return {
+    keyType: item["keyType"],
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootCreateOrUpdateSerializer(item["bringYourOwnRoot"]),
+  };
+}
+
+export function certificateAuthorityConfigurationCreateOrUpdateDeserializer(
+  item: any,
+): CertificateAuthorityConfigurationCreateOrUpdate {
+  return {
+    keyType: item["keyType"],
+    bringYourOwnRoot: !item["bringYourOwnRoot"]
+      ? item["bringYourOwnRoot"]
+      : bringYourOwnRootCreateOrUpdateDeserializer(item["bringYourOwnRoot"]),
+  };
+}
+
+/** Configuration for Bring Your Own Root. When enabled, customers provide their own CA-signed certificates instead of using the service-managed CA. */
+export interface BringYourOwnRootCreateOrUpdate {
+  /** Indicates whether Bring Your Own Root is enabled. This can only be set at creation time and cannot be changed afterward. */
+  enabled: boolean;
+}
+
+export function bringYourOwnRootCreateOrUpdateSerializer(
+  item: BringYourOwnRootCreateOrUpdate,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function bringYourOwnRootCreateOrUpdateDeserializer(
+  item: any,
+): BringYourOwnRootCreateOrUpdate {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** A Credential Resource */
+export interface CredentialCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CredentialPropertiesCreateOrUpdate;
+}
+
+export function credentialCreateOrUpdateSerializer(item: CredentialCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : credentialPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function credentialCreateOrUpdateDeserializer(item: any): CredentialCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : credentialPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the Credential Resource. */
+export interface CredentialPropertiesCreateOrUpdate {}
+
+export function credentialPropertiesCreateOrUpdateSerializer(
+  _item: CredentialPropertiesCreateOrUpdate,
+): any {
+  return {};
+}
+
+export function credentialPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): CredentialPropertiesCreateOrUpdate {
+  return item;
+}
+
+/** Namespace definition. */
+export interface NamespaceCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NamespacePropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityCreateOrUpdate;
+}
+
+export function namespaceCreateOrUpdateSerializer(item: NamespaceCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespacePropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function namespaceCreateOrUpdateDeserializer(item: any): NamespaceCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespacePropertiesCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** The namespace properties model. */
+export interface NamespacePropertiesCreateOrUpdate {
+  /** Assigned and unassigned messaging endpoints. */
+  messaging?: Messaging;
+}
+
+export function namespacePropertiesCreateOrUpdateSerializer(
+  item: NamespacePropertiesCreateOrUpdate,
+): any {
+  return {
+    messaging: !item["messaging"] ? item["messaging"] : messagingSerializer(item["messaging"]),
+  };
+}
+
+export function namespacePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): NamespacePropertiesCreateOrUpdate {
+  return {
+    messaging: !item["messaging"] ? item["messaging"] : messagingDeserializer(item["messaging"]),
+  };
+}
+
+/** The type used for update operations of the Namespace. */
+export interface NamespaceUpdateUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: SystemAssignedServiceIdentityUpdate;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: NamespaceUpdateProperties;
+}
+
+export function namespaceUpdateUpdateSerializer(item: NamespaceUpdateUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : systemAssignedServiceIdentityUpdateSerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : namespaceUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Asset Endpoint Profile definition. */
+export interface AssetEndpointProfileCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AssetEndpointProfilePropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function assetEndpointProfileCreateOrUpdateSerializer(
+  item: AssetEndpointProfileCreateOrUpdate,
+): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : assetEndpointProfilePropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function assetEndpointProfileCreateOrUpdateDeserializer(
+  item: any,
+): AssetEndpointProfileCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : assetEndpointProfilePropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the Asset Endpoint Profile properties. */
+export interface AssetEndpointProfilePropertiesCreateOrUpdate {
+  /** The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration. */
+  targetAddress: string;
+  /** Defines the configuration for the connector type that is being used with the endpoint profile. */
+  endpointProfileType: string;
+  /** Defines the client authentication mechanism to the server. */
+  authentication?: Authentication;
+  /** Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF). */
+  additionalConfiguration?: string;
+  /** Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided. */
+  discoveredAssetEndpointProfileRef?: string;
+}
+
+export function assetEndpointProfilePropertiesCreateOrUpdateSerializer(
+  item: AssetEndpointProfilePropertiesCreateOrUpdate,
+): any {
+  return {
+    targetAddress: item["targetAddress"],
+    endpointProfileType: item["endpointProfileType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationSerializer(item["authentication"]),
+    additionalConfiguration: item["additionalConfiguration"],
+    discoveredAssetEndpointProfileRef: item["discoveredAssetEndpointProfileRef"],
+  };
+}
+
+export function assetEndpointProfilePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AssetEndpointProfilePropertiesCreateOrUpdate {
+  return {
+    targetAddress: item["targetAddress"],
+    endpointProfileType: item["endpointProfileType"],
+    authentication: !item["authentication"]
+      ? item["authentication"]
+      : authenticationDeserializer(item["authentication"]),
+    additionalConfiguration: item["additionalConfiguration"],
+    discoveredAssetEndpointProfileRef: item["discoveredAssetEndpointProfileRef"],
+  };
+}
+
+/** Asset definition. */
+export interface AssetCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AssetPropertiesCreateOrUpdate;
+  /** The extended location. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function assetCreateOrUpdateSerializer(item: AssetCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : assetPropertiesCreateOrUpdateSerializer(item["properties"]),
+    extendedLocation: extendedLocationSerializer(item["extendedLocation"]),
+  };
+}
+
+export function assetCreateOrUpdateDeserializer(item: any): AssetCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : assetPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    extendedLocation: extendedLocationDeserializer(item["extendedLocation"]),
+  };
+}
+
+/** Defines the asset properties. */
+export interface AssetPropertiesCreateOrUpdate {
+  /** Enabled/Disabled status of the asset. */
+  enabled?: boolean;
+  /** Asset id provided by the customer. */
+  externalAssetId?: string;
+  /** Human-readable display name. */
+  displayName?: string;
+  /** Human-readable description of the asset. */
+  description?: string;
+  /** A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name. */
+  assetEndpointProfileRef: string;
+  /** Asset manufacturer name. */
+  manufacturer?: string;
+  /** Asset manufacturer URI. */
+  manufacturerUri?: string;
+  /** Asset model name. */
+  model?: string;
+  /** Asset product code. */
+  productCode?: string;
+  /** Revision number of the hardware. */
+  hardwareRevision?: string;
+  /** Revision number of the software. */
+  softwareRevision?: string;
+  /** Reference to the documentation. */
+  documentationUri?: string;
+  /** Asset serial number. */
+  serialNumber?: string;
+  /** A set of key-value pairs that contain custom attributes set by the customer. */
+  attributes?: Record<string, any>;
+  /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
+  discoveredAssetRefs?: string[];
+  /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
+  defaultDatasetsConfiguration?: string;
+  /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
+  defaultEventsConfiguration?: string;
+  /** Object that describes the default topic information for the asset. */
+  defaultTopic?: Topic;
+  /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
+  datasets?: Dataset[];
+  /** Array of events that are part of the asset. Each event can have per-event configuration. */
+  events?: Event[];
+}
+
+export function assetPropertiesCreateOrUpdateSerializer(item: AssetPropertiesCreateOrUpdate): any {
+  return {
+    enabled: item["enabled"],
+    externalAssetId: item["externalAssetId"],
+    displayName: item["displayName"],
+    description: item["description"],
+    assetEndpointProfileRef: item["assetEndpointProfileRef"],
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: item["attributes"],
+    discoveredAssetRefs: !item["discoveredAssetRefs"]
+      ? item["discoveredAssetRefs"]
+      : item["discoveredAssetRefs"].map((p: any) => {
+          return p;
+        }),
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultTopic: !item["defaultTopic"]
+      ? item["defaultTopic"]
+      : topicSerializer(item["defaultTopic"]),
+    datasets: !item["datasets"] ? item["datasets"] : datasetArraySerializer(item["datasets"]),
+    events: !item["events"] ? item["events"] : eventArraySerializer(item["events"]),
+  };
+}
+
+export function assetPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): AssetPropertiesCreateOrUpdate {
+  return {
+    enabled: item["enabled"],
+    externalAssetId: item["externalAssetId"],
+    displayName: item["displayName"],
+    description: item["description"],
+    assetEndpointProfileRef: item["assetEndpointProfileRef"],
+    manufacturer: item["manufacturer"],
+    manufacturerUri: item["manufacturerUri"],
+    model: item["model"],
+    productCode: item["productCode"],
+    hardwareRevision: item["hardwareRevision"],
+    softwareRevision: item["softwareRevision"],
+    documentationUri: item["documentationUri"],
+    serialNumber: item["serialNumber"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : Object.fromEntries(
+          Object.entries(item["attributes"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    discoveredAssetRefs: !item["discoveredAssetRefs"]
+      ? item["discoveredAssetRefs"]
+      : item["discoveredAssetRefs"].map((p: any) => {
+          return p;
+        }),
+    defaultDatasetsConfiguration: item["defaultDatasetsConfiguration"],
+    defaultEventsConfiguration: item["defaultEventsConfiguration"],
+    defaultTopic: !item["defaultTopic"]
+      ? item["defaultTopic"]
+      : topicDeserializer(item["defaultTopic"]),
+    datasets: !item["datasets"] ? item["datasets"] : datasetArrayDeserializer(item["datasets"]),
+    events: !item["events"] ? item["events"] : eventArrayDeserializer(item["events"]),
+  };
 }
 
 /** Microsoft.DeviceRegistry Resource Provider supported API versions. */

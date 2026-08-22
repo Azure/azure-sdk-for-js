@@ -6,13 +6,14 @@ import type {
   RecoveryPlan,
   RecoveryPlanUpdate,
   _RecoveryPlanListResult,
+  RecoveryPlanCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  recoveryPlanSerializer,
   recoveryPlanDeserializer,
   recoveryPlanUpdateSerializer,
   _recoveryPlanListResultDeserializer,
+  recoveryPlanCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -199,7 +200,7 @@ export function _createOrUpdateSend(
   context: Client,
   serviceGroupName: string,
   recoveryPlanName: string,
-  resource: RecoveryPlan,
+  resource: RecoveryPlanCreateOrUpdate,
   options: RecoveryPlansCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -213,12 +214,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recoveryPlanSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recoveryPlanCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -242,7 +245,7 @@ export function createOrUpdate(
   context: Client,
   serviceGroupName: string,
   recoveryPlanName: string,
-  resource: RecoveryPlan,
+  resource: RecoveryPlanCreateOrUpdate,
   options: RecoveryPlansCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RecoveryPlan>, RecoveryPlan> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

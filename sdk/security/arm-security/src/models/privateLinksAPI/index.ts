@@ -8,5 +8,8 @@ export type {
   PrivateLinkProperties,
   PublicNetworkAccess,
   PrivateLinkUpdate,
+  PrivateLinkResourceCreateOrUpdate,
+  PrivateLinkPropertiesCreateOrUpdate,
+  PrivateEndpointConnectionCreateOrUpdate,
 } from "./models.js";
 export { KnownPublicNetworkAccess } from "./models.js";

@@ -7,4 +7,6 @@ export type {
   RuleState,
   SuppressionAlertsScope,
   ScopeElement,
+  AlertsSuppressionRuleCreateOrUpdate,
+  AlertsSuppressionRulePropertiesCreateOrUpdate,
 } from "./models.js";

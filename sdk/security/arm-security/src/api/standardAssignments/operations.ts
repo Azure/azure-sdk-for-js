@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import {
   StandardAssignment,
-  standardAssignmentSerializer,
   standardAssignmentDeserializer,
   _StandardAssignmentsList,
   _standardAssignmentsListDeserializer,
+  StandardAssignmentCreateOrUpdate,
+  standardAssignmentCreateOrUpdateSerializer,
 } from "../../models/securityStandardsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -125,7 +126,7 @@ export function _createSend(
   context: Client,
   resourceId: string,
   standardAssignmentName: string,
-  standardAssignment: StandardAssignment,
+  standardAssignment: StandardAssignmentCreateOrUpdate,
   options: StandardAssignmentsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,12 +140,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: standardAssignmentSerializer(standardAssignment),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: standardAssignmentCreateOrUpdateSerializer(standardAssignment),
+    });
 }
 
 export async function _createDeserialize(
@@ -166,7 +169,7 @@ export async function create(
   context: Client,
   resourceId: string,
   standardAssignmentName: string,
-  standardAssignment: StandardAssignment,
+  standardAssignment: StandardAssignmentCreateOrUpdate,
   options: StandardAssignmentsCreateOptionalParams = { requestOptions: {} },
 ): Promise<StandardAssignment> {
   const result = await _createSend(

@@ -10,7 +10,7 @@ import type {
   GoalTemplatesCreateOrUpdateOptionalParams,
   GoalTemplatesGetOptionalParams,
 } from "../../api/goalTemplates/options.js";
-import type { GoalTemplate } from "../../models/models.js";
+import type { GoalTemplate, GoalTemplateCreateOrUpdate, GoalTemplateUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -45,42 +45,42 @@ export interface GoalTemplatesOperations {
   update: (
     serviceGroupName: string,
     goalTemplateName: string,
-    properties: GoalTemplate,
+    properties: GoalTemplateUpdate,
     options?: GoalTemplatesUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use update instead */
   beginUpdate: (
     serviceGroupName: string,
     goalTemplateName: string,
-    properties: GoalTemplate,
+    properties: GoalTemplateUpdate,
     options?: GoalTemplatesUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     serviceGroupName: string,
     goalTemplateName: string,
-    properties: GoalTemplate,
+    properties: GoalTemplateUpdate,
     options?: GoalTemplatesUpdateOptionalParams,
   ) => Promise<void>;
   /** Create a GoalTemplate */
   createOrUpdate: (
     serviceGroupName: string,
     goalTemplateName: string,
-    resource: GoalTemplate,
+    resource: GoalTemplateCreateOrUpdate,
     options?: GoalTemplatesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<GoalTemplate>, GoalTemplate>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     serviceGroupName: string,
     goalTemplateName: string,
-    resource: GoalTemplate,
+    resource: GoalTemplateCreateOrUpdate,
     options?: GoalTemplatesCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<GoalTemplate>, GoalTemplate>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     serviceGroupName: string,
     goalTemplateName: string,
-    resource: GoalTemplate,
+    resource: GoalTemplateCreateOrUpdate,
     options?: GoalTemplatesCreateOrUpdateOptionalParams,
   ) => Promise<GoalTemplate>;
   /** Get a GoalTemplate */
@@ -119,13 +119,13 @@ function _getGoalTemplates(context: AzureResilienceManagementContext) {
     update: (
       serviceGroupName: string,
       goalTemplateName: string,
-      properties: GoalTemplate,
+      properties: GoalTemplateUpdate,
       options?: GoalTemplatesUpdateOptionalParams,
     ) => update(context, serviceGroupName, goalTemplateName, properties, options),
     beginUpdate: async (
       serviceGroupName: string,
       goalTemplateName: string,
-      properties: GoalTemplate,
+      properties: GoalTemplateUpdate,
       options?: GoalTemplatesUpdateOptionalParams,
     ) => {
       const poller = update(context, serviceGroupName, goalTemplateName, properties, options);
@@ -135,7 +135,7 @@ function _getGoalTemplates(context: AzureResilienceManagementContext) {
     beginUpdateAndWait: async (
       serviceGroupName: string,
       goalTemplateName: string,
-      properties: GoalTemplate,
+      properties: GoalTemplateUpdate,
       options?: GoalTemplatesUpdateOptionalParams,
     ) => {
       return await update(context, serviceGroupName, goalTemplateName, properties, options);
@@ -143,13 +143,13 @@ function _getGoalTemplates(context: AzureResilienceManagementContext) {
     createOrUpdate: (
       serviceGroupName: string,
       goalTemplateName: string,
-      resource: GoalTemplate,
+      resource: GoalTemplateCreateOrUpdate,
       options?: GoalTemplatesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, serviceGroupName, goalTemplateName, resource, options),
     beginCreateOrUpdate: async (
       serviceGroupName: string,
       goalTemplateName: string,
-      resource: GoalTemplate,
+      resource: GoalTemplateCreateOrUpdate,
       options?: GoalTemplatesCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(context, serviceGroupName, goalTemplateName, resource, options);
@@ -159,7 +159,7 @@ function _getGoalTemplates(context: AzureResilienceManagementContext) {
     beginCreateOrUpdateAndWait: async (
       serviceGroupName: string,
       goalTemplateName: string,
-      resource: GoalTemplate,
+      resource: GoalTemplateCreateOrUpdate,
       options?: GoalTemplatesCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, serviceGroupName, goalTemplateName, resource, options);

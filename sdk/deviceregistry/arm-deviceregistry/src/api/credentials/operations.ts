@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type { Credential, CredentialUpdate, _CredentialListResult } from "../../models/models.js";
+import type { Credential, _CredentialListResult, CredentialCreateOrUpdate, CredentialUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  credentialSerializer,
   credentialDeserializer,
-  credentialUpdateSerializer,
   _credentialListResultDeserializer,
+  credentialCreateOrUpdateSerializer,
+  credentialUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -152,12 +152,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: credentialUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: credentialUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Credential> {
@@ -224,11 +226,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Credential */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -248,7 +245,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  resource: Credential,
+  resource: CredentialCreateOrUpdate,
   options: CredentialsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -263,12 +260,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: credentialSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: credentialCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -290,7 +289,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  resource: Credential,
+  resource: CredentialCreateOrUpdate,
   options: CredentialsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Credential>, Credential> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

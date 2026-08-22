@@ -9,7 +9,7 @@ import type {
   EnrollmentsCreateOrUpdateOptionalParams,
   EnrollmentsGetOptionalParams,
 } from "../../api/enrollments/options.js";
-import type { Enrollment } from "../../models/models.js";
+import type { Enrollment, EnrollmentCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -49,7 +49,7 @@ export interface EnrollmentsOperations {
     resourceGroupName: string,
     usagePlanName: string,
     enrollmentName: string,
-    resource: Enrollment,
+    resource: EnrollmentCreateOrUpdate,
     options?: EnrollmentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Enrollment>, Enrollment>;
   /** @deprecated use createOrUpdate instead */
@@ -57,7 +57,7 @@ export interface EnrollmentsOperations {
     resourceGroupName: string,
     usagePlanName: string,
     enrollmentName: string,
-    resource: Enrollment,
+    resource: EnrollmentCreateOrUpdate,
     options?: EnrollmentsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<Enrollment>, Enrollment>>;
   /** @deprecated use createOrUpdate instead */
@@ -65,7 +65,7 @@ export interface EnrollmentsOperations {
     resourceGroupName: string,
     usagePlanName: string,
     enrollmentName: string,
-    resource: Enrollment,
+    resource: EnrollmentCreateOrUpdate,
     options?: EnrollmentsCreateOrUpdateOptionalParams,
   ) => Promise<Enrollment>;
   /** Get an Enrollment. */
@@ -112,7 +112,7 @@ function _getEnrollments(context: AzureResilienceManagementContext) {
       resourceGroupName: string,
       usagePlanName: string,
       enrollmentName: string,
-      resource: Enrollment,
+      resource: EnrollmentCreateOrUpdate,
       options?: EnrollmentsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(context, resourceGroupName, usagePlanName, enrollmentName, resource, options),
@@ -120,7 +120,7 @@ function _getEnrollments(context: AzureResilienceManagementContext) {
       resourceGroupName: string,
       usagePlanName: string,
       enrollmentName: string,
-      resource: Enrollment,
+      resource: EnrollmentCreateOrUpdate,
       options?: EnrollmentsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -138,7 +138,7 @@ function _getEnrollments(context: AzureResilienceManagementContext) {
       resourceGroupName: string,
       usagePlanName: string,
       enrollmentName: string,
-      resource: Enrollment,
+      resource: EnrollmentCreateOrUpdate,
       options?: EnrollmentsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

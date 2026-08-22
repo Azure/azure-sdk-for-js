@@ -15,10 +15,10 @@ import type {
   GetDataAnnotationsRequest,
   GetDataAnnotationsResponse,
   GetSignalRecommendationsResponse,
+  EntityCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  entitySerializer,
   entityDeserializer,
   _entityListResultDeserializer,
   entityHistoryRequestSerializer,
@@ -31,6 +31,7 @@ import {
   getDataAnnotationsRequestSerializer,
   getDataAnnotationsResponseDeserializer,
   getSignalRecommendationsResponseDeserializer,
+  entityCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -555,7 +556,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   healthModelName: string,
   entityName: string,
-  resource: Entity,
+  resource: EntityCreateOrUpdate,
   options: EntitiesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -571,12 +572,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: entitySerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: entityCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Entity> {
@@ -599,7 +602,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   healthModelName: string,
   entityName: string,
-  resource: Entity,
+  resource: EntityCreateOrUpdate,
   options: EntitiesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Entity>, Entity> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

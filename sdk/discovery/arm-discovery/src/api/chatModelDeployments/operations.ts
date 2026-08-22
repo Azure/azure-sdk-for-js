@@ -6,13 +6,14 @@ import type {
   ChatModelDeployment,
   ChatModelDeploymentUpdate,
   _ChatModelDeploymentListResult,
+  ChatModelDeploymentCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  chatModelDeploymentSerializer,
   chatModelDeploymentDeserializer,
   chatModelDeploymentUpdateSerializer,
   _chatModelDeploymentListResultDeserializer,
+  chatModelDeploymentCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -213,7 +214,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   workspaceName: string,
   chatModelDeploymentName: string,
-  resource: ChatModelDeployment,
+  resource: ChatModelDeploymentCreateOrUpdate,
   options: ChatModelDeploymentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -229,12 +230,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: chatModelDeploymentSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: chatModelDeploymentCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -258,7 +261,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   workspaceName: string,
   chatModelDeploymentName: string,
-  resource: ChatModelDeployment,
+  resource: ChatModelDeploymentCreateOrUpdate,
   options: ChatModelDeploymentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ChatModelDeployment>, ChatModelDeployment> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

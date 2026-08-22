@@ -4,7 +4,6 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   Automation,
-  automationSerializer,
   automationDeserializer,
   AutomationUpdateModel,
   automationUpdateModelSerializer,
@@ -12,6 +11,10 @@ import {
   _automationListDeserializer,
   AutomationValidationStatus,
   automationValidationStatusDeserializer,
+  AutomationCreateOrUpdate,
+  automationCreateOrUpdateSerializer,
+  AutomationCreate,
+  automationCreateSerializer,
 } from "../../models/automationsAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
@@ -39,7 +42,7 @@ export function _validateSend(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: Automation,
+  automation: AutomationCreate,
   options: AutomationsValidateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -54,12 +57,14 @@ export function _validateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationSerializer(automation),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: automationCreateSerializer(automation),
+    });
 }
 
 export async function _validateDeserialize(
@@ -81,7 +86,7 @@ export async function validate(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: Automation,
+  automation: AutomationCreate,
   options: AutomationsValidateOptionalParams = { requestOptions: {} },
 ): Promise<AutomationValidationStatus> {
   const result = await _validateSend(
@@ -290,7 +295,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: Automation,
+  automation: AutomationCreateOrUpdate,
   options: AutomationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -305,12 +310,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: automationSerializer(automation),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: automationCreateOrUpdateSerializer(automation),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -332,7 +339,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   automationName: string,
-  automation: Automation,
+  automation: AutomationCreateOrUpdate,
   options: AutomationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Automation> {
   const result = await _createOrUpdateSend(

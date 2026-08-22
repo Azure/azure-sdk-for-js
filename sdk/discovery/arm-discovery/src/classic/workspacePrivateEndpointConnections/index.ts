@@ -14,7 +14,7 @@ import type {
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/workspacePrivateEndpointConnections/options.js";
-import type { WorkspacePrivateEndpointConnection } from "../../models/models.js";
+import type { WorkspacePrivateEndpointConnection, WorkspacePrivateEndpointConnectionCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface WorkspacePrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    resource: WorkspacePrivateEndpointConnection,
+    resource: WorkspacePrivateEndpointConnectionCreateOrUpdate,
     options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => PollerLike<
     OperationState<WorkspacePrivateEndpointConnection>,
@@ -69,7 +69,7 @@ function _getWorkspacePrivateEndpointConnections(context: DiscoveryContext) {
       resourceGroupName: string,
       workspaceName: string,
       privateEndpointConnectionName: string,
-      resource: WorkspacePrivateEndpointConnection,
+      resource: WorkspacePrivateEndpointConnectionCreateOrUpdate,
       options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

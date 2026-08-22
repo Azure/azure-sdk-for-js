@@ -14,7 +14,7 @@ import type {
   RelationshipsCreateOrUpdateOptionalParams,
   RelationshipsGetOptionalParams,
 } from "../../api/relationships/options.js";
-import type { Relationship } from "../../models/models.js";
+import type { Relationship, RelationshipCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface RelationshipsOperations {
     resourceGroupName: string,
     healthModelName: string,
     relationshipName: string,
-    resource: Relationship,
+    resource: RelationshipCreateOrUpdate,
     options?: RelationshipsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Relationship>, Relationship>;
   /** Get a Relationship */
@@ -67,7 +67,7 @@ function _getRelationships(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       relationshipName: string,
-      resource: Relationship,
+      resource: RelationshipCreateOrUpdate,
       options?: RelationshipsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

@@ -5,12 +5,13 @@ import type { DiscoveryContext as Client } from "../index.js";
 import type {
   BookshelfPrivateEndpointConnection,
   _BookshelfPrivateEndpointConnectionListResult,
+  BookshelfPrivateEndpointConnectionCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  bookshelfPrivateEndpointConnectionSerializer,
   bookshelfPrivateEndpointConnectionDeserializer,
   _bookshelfPrivateEndpointConnectionListResultDeserializer,
+  bookshelfPrivateEndpointConnectionCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -150,7 +151,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   bookshelfName: string,
   privateEndpointConnectionName: string,
-  resource: BookshelfPrivateEndpointConnection,
+  resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
   options: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -166,12 +167,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: bookshelfPrivateEndpointConnectionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: bookshelfPrivateEndpointConnectionCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -195,7 +198,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   bookshelfName: string,
   privateEndpointConnectionName: string,
-  resource: BookshelfPrivateEndpointConnection,
+  resource: BookshelfPrivateEndpointConnectionCreateOrUpdate,
   options: BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<BookshelfPrivateEndpointConnection>,

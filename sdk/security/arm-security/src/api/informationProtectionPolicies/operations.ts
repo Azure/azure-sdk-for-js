@@ -5,11 +5,12 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   InformationProtectionPolicy,
-  informationProtectionPolicySerializer,
   informationProtectionPolicyDeserializer,
   InformationProtectionPolicyName,
   _InformationProtectionPolicyList,
   _informationProtectionPolicyListDeserializer,
+  InformationProtectionPolicyCreateOrUpdate,
+  informationProtectionPolicyCreateOrUpdateSerializer,
 } from "../../models/legacySettingsAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -82,7 +83,7 @@ export function _createOrUpdateSend(
   context: Client,
   scope: string,
   informationProtectionPolicyName: InformationProtectionPolicyName,
-  informationProtectionPolicy: InformationProtectionPolicy,
+  informationProtectionPolicy: InformationProtectionPolicyCreateOrUpdate,
   options: InformationProtectionPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -96,12 +97,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: informationProtectionPolicySerializer(informationProtectionPolicy),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: informationProtectionPolicyCreateOrUpdateSerializer(informationProtectionPolicy),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -123,7 +126,7 @@ export async function createOrUpdate(
   context: Client,
   scope: string,
   informationProtectionPolicyName: InformationProtectionPolicyName,
-  informationProtectionPolicy: InformationProtectionPolicy,
+  informationProtectionPolicy: InformationProtectionPolicyCreateOrUpdate,
   options: InformationProtectionPoliciesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<InformationProtectionPolicy> {
   const result = await _createOrUpdateSend(

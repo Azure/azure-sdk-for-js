@@ -7,14 +7,17 @@ import type {
   UpdateGoalResourceRequest,
   RecommendCapacityRequest,
   _GoalAssignmentListResult,
+  GoalAssignmentCreateOrUpdate,
+  GoalAssignmentUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  goalAssignmentSerializer,
   goalAssignmentDeserializer,
   updateGoalResourceRequestSerializer,
   recommendCapacityRequestSerializer,
   _goalAssignmentListResultDeserializer,
+  goalAssignmentCreateOrUpdateSerializer,
+  goalAssignmentUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -320,7 +323,7 @@ export function _updateSend(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  properties: GoalAssignment,
+  properties: GoalAssignmentUpdate,
   options: GoalAssignmentsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -334,12 +337,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalAssignmentSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalAssignmentUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -361,7 +366,7 @@ export function update(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  properties: GoalAssignment,
+  properties: GoalAssignmentUpdate,
   options: GoalAssignmentsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -378,7 +383,7 @@ export function _createOrUpdateSend(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  resource: GoalAssignment,
+  resource: GoalAssignmentCreateOrUpdate,
   options: GoalAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -392,12 +397,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: goalAssignmentSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: goalAssignmentCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -419,7 +426,7 @@ export function createOrUpdate(
   context: Client,
   serviceGroupName: string,
   goalAssignmentName: string,
-  resource: GoalAssignment,
+  resource: GoalAssignmentCreateOrUpdate,
   options: GoalAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

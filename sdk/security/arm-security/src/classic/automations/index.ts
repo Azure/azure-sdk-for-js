@@ -24,6 +24,8 @@ import {
   Automation,
   AutomationUpdateModel,
   AutomationValidationStatus,
+  AutomationCreateOrUpdate,
+  AutomationCreate,
 } from "../../models/automationsAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -33,7 +35,7 @@ export interface AutomationsOperations {
   validate: (
     resourceGroupName: string,
     automationName: string,
-    automation: Automation,
+    automation: AutomationCreate,
     options?: AutomationsValidateOptionalParams,
   ) => Promise<AutomationValidationStatus>;
   /** Lists all the security automations in the specified subscription. Use the 'nextLink' property in the response to get the next page of security automations for the specified subscription. */
@@ -60,7 +62,7 @@ export interface AutomationsOperations {
   createOrUpdate: (
     resourceGroupName: string,
     automationName: string,
-    automation: Automation,
+    automation: AutomationCreateOrUpdate,
     options?: AutomationsCreateOrUpdateOptionalParams,
   ) => Promise<Automation>;
   /** Retrieves information about the model of a security automation. */
@@ -76,7 +78,7 @@ function _getAutomations(context: SecurityCenterContext) {
     validate: (
       resourceGroupName: string,
       automationName: string,
-      automation: Automation,
+      automation: AutomationCreate,
       options?: AutomationsValidateOptionalParams,
     ) => validate(context, resourceGroupName, automationName, automation, options),
     list: (options?: AutomationsListOptionalParams) => list(context, options),
@@ -98,7 +100,7 @@ function _getAutomations(context: SecurityCenterContext) {
     createOrUpdate: (
       resourceGroupName: string,
       automationName: string,
-      automation: Automation,
+      automation: AutomationCreateOrUpdate,
       options?: AutomationsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, automationName, automation, options),
     get: (

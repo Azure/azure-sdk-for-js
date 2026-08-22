@@ -10,4 +10,7 @@ export type {
   AssignmentProperties,
   AssignedComponentItem,
   AssignmentPropertiesAdditionalData,
+  AssignmentCreateOrUpdate,
+  StandardCreateOrUpdate,
+  StandardPropertiesCreateOrUpdate,
 } from "./models.js";

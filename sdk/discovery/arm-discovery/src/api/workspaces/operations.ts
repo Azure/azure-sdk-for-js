@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DiscoveryContext as Client } from "../index.js";
-import type { Workspace, WorkspaceUpdate, _WorkspaceListResult } from "../../models/models.js";
+import type { Workspace, WorkspaceUpdate, _WorkspaceListResult, WorkspaceCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  workspaceSerializer,
   workspaceDeserializer,
   workspaceUpdateSerializer,
   _workspaceListResultDeserializer,
+  workspaceCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -239,7 +239,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  resource: Workspace,
+  resource: WorkspaceCreateOrUpdate,
   options: WorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -254,12 +254,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: workspaceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: workspaceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -282,7 +284,7 @@ export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  resource: Workspace,
+  resource: WorkspaceCreateOrUpdate,
   options: WorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Workspace>, Workspace> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

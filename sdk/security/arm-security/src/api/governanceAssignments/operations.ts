@@ -5,10 +5,11 @@ import { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
   GovernanceAssignment,
-  governanceAssignmentSerializer,
   governanceAssignmentDeserializer,
   _GovernanceAssignmentsList,
   _governanceAssignmentsListDeserializer,
+  GovernanceAssignmentCreateOrUpdate,
+  governanceAssignmentCreateOrUpdateSerializer,
 } from "../../models/governanceAPI/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -132,7 +133,7 @@ export function _createOrUpdateSend(
   scope: string,
   assessmentName: string,
   assignmentKey: string,
-  governanceAssignment: GovernanceAssignment,
+  governanceAssignment: GovernanceAssignmentCreateOrUpdate,
   options: GovernanceAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -147,12 +148,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: governanceAssignmentSerializer(governanceAssignment),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: governanceAssignmentCreateOrUpdateSerializer(governanceAssignment),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -175,7 +178,7 @@ export async function createOrUpdate(
   scope: string,
   assessmentName: string,
   assignmentKey: string,
-  governanceAssignment: GovernanceAssignment,
+  governanceAssignment: GovernanceAssignmentCreateOrUpdate,
   options: GovernanceAssignmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<GovernanceAssignment> {
   const result = await _createOrUpdateSend(

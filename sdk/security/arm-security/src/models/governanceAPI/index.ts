@@ -18,6 +18,10 @@ export type {
   ExecuteGovernanceRuleParams,
   OperationResult,
   OperationResultStatus,
+  GovernanceRuleCreateOrUpdate,
+  GovernanceRulePropertiesCreateOrUpdate,
+  GovernanceRuleMetadataCreateOrUpdate,
+  GovernanceAssignmentCreateOrUpdate,
 } from "./models.js";
 export {
   KnownGovernanceRuleType,

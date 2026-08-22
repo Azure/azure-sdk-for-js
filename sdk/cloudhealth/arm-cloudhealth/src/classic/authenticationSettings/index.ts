@@ -14,7 +14,7 @@ import type {
   AuthenticationSettingsCreateOrUpdateOptionalParams,
   AuthenticationSettingsGetOptionalParams,
 } from "../../api/authenticationSettings/options.js";
-import type { AuthenticationSetting } from "../../models/models.js";
+import type { AuthenticationSetting, AuthenticationSettingCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -38,7 +38,7 @@ export interface AuthenticationSettingsOperations {
     resourceGroupName: string,
     healthModelName: string,
     authenticationSettingName: string,
-    resource: AuthenticationSetting,
+    resource: AuthenticationSettingCreateOrUpdate,
     options?: AuthenticationSettingsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AuthenticationSetting>, AuthenticationSetting>;
   /** Get a AuthenticationSetting */
@@ -67,7 +67,7 @@ function _getAuthenticationSettings(context: CloudHealthContext) {
       resourceGroupName: string,
       healthModelName: string,
       authenticationSettingName: string,
-      resource: AuthenticationSetting,
+      resource: AuthenticationSettingCreateOrUpdate,
       options?: AuthenticationSettingsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

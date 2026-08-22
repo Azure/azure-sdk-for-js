@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
-import type { SchemaVersion, _SchemaVersionListResult } from "../../models/models.js";
+import type { SchemaVersion, _SchemaVersionListResult, SchemaVersionCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  schemaVersionSerializer,
   schemaVersionDeserializer,
   _schemaVersionListResultDeserializer,
+  schemaVersionCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -122,11 +122,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a SchemaVersion */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -158,7 +153,7 @@ export function _createOrReplaceSend(
   schemaRegistryName: string,
   schemaName: string,
   schemaVersionName: string,
-  resource: SchemaVersion,
+  resource: SchemaVersionCreateOrUpdate,
   options: SchemaVersionsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -175,12 +170,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: schemaVersionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: schemaVersionCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -204,7 +201,7 @@ export async function createOrReplace(
   schemaRegistryName: string,
   schemaName: string,
   schemaVersionName: string,
-  resource: SchemaVersion,
+  resource: SchemaVersionCreateOrUpdate,
   options: SchemaVersionsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): Promise<SchemaVersion> {
   const result = await _createOrReplaceSend(

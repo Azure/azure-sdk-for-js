@@ -1236,7 +1236,9 @@ export function recoveryGroupBaseActionDeserializer(item: any): RecoveryGroupBas
 
 /** Alias for RecoveryGroupBaseActionUnion */
 export type RecoveryGroupBaseActionUnion =
-  RecoveryGroupManualAction | RecoveryGroupCustomRunbookAction | RecoveryGroupBaseAction;
+  | RecoveryGroupManualAction
+  | RecoveryGroupCustomRunbookAction
+  | RecoveryGroupBaseAction;
 
 export function recoveryGroupBaseActionUnionSerializer(item: RecoveryGroupBaseActionUnion): any {
   switch (item.type) {
@@ -1542,42 +1544,6 @@ export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentit
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
-  };
-}
-
-/** Represents a recovery orchestration plan resource in the Azure Resilience Management provider namespace. */
-export interface RecoveryPlanUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanUpdateProperties;
-}
-
-export function recoveryPlanUpdateSerializer(item: RecoveryPlanUpdate): any {
-  return {
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : recoveryPlanUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** Properties of the recovery orchestration plan that can be updated. */
-export interface RecoveryPlanUpdateProperties {
-  /** A description of the recovery orchestration plan. */
-  planDescription?: string;
-  /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
-  recoveryGroupsSetting?: RecoveryGroupsSetting;
-}
-
-export function recoveryPlanUpdatePropertiesSerializer(item: RecoveryPlanUpdateProperties): any {
-  return {
-    planDescription: item["planDescription"],
-    recoveryGroupsSetting: !item["recoveryGroupsSetting"]
-      ? item["recoveryGroupsSetting"]
-      : recoveryGroupsSettingSerializer(item["recoveryGroupsSetting"]),
   };
 }
 
@@ -3372,7 +3338,9 @@ export function jobResourcePropertiesDeserializer(item: any): JobResourcePropert
 
 /** Alias for JobResourcePropertiesUnion */
 export type JobResourcePropertiesUnion =
-  RecoveryJobResourceProperties | DrillRunResourceProperties | JobResourceProperties;
+  | RecoveryJobResourceProperties
+  | DrillRunResourceProperties
+  | JobResourceProperties;
 
 export function jobResourcePropertiesUnionDeserializer(item: any): JobResourcePropertiesUnion {
   switch (item["jobResourceType"]) {
@@ -5439,6 +5407,1117 @@ export function enrollmentArrayDeserializer(result: Array<Enrollment>): any[] {
   return result.map((item) => {
     return enrollmentDeserializer(item);
   });
+}
+
+/** An enrollment that links a usage plan to a service group. */
+export interface EnrollmentCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EnrollmentPropertiesCreateOrUpdate;
+}
+
+export function enrollmentCreateOrUpdateSerializer(item: EnrollmentCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : enrollmentPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function enrollmentCreateOrUpdateDeserializer(item: any): EnrollmentCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : enrollmentPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of enrollment properties. */
+export interface EnrollmentPropertiesCreateOrUpdate {
+  /** ARM resource identifier of the service group associated with this usage plan. */
+  serviceGroupId: string;
+}
+
+export function enrollmentPropertiesCreateOrUpdateSerializer(
+  item: EnrollmentPropertiesCreateOrUpdate,
+): any {
+  return { serviceGroupId: item["serviceGroupId"] };
+}
+
+export function enrollmentPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): EnrollmentPropertiesCreateOrUpdate {
+  return {
+    serviceGroupId: item["serviceGroupId"],
+  };
+}
+
+/** A usage plan resource for Resiliency feature billing. */
+export interface UsagePlanCreateOrUpdate extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: UsagePlanPropertiesCreateOrUpdate;
+}
+
+export function usagePlanCreateOrUpdateSerializer(item: UsagePlanCreateOrUpdate): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : usagePlanPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function usagePlanCreateOrUpdateDeserializer(item: any): UsagePlanCreateOrUpdate {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : usagePlanPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of usage plan properties. */
+export interface UsagePlanPropertiesCreateOrUpdate {
+  /** The type of the usage plan. */
+  planType?: UsagePlanType;
+}
+
+export function usagePlanPropertiesCreateOrUpdateSerializer(
+  item: UsagePlanPropertiesCreateOrUpdate,
+): any {
+  return { planType: item["planType"] };
+}
+
+export function usagePlanPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): UsagePlanPropertiesCreateOrUpdate {
+  return {
+    planType: item["planType"],
+  };
+}
+
+/** Request body for AddNotes API. */
+export interface DrillRunAddNotesRequestCreate {
+  /** The notes string. */
+  notes?: string;
+}
+
+export function drillRunAddNotesRequestCreateSerializer(item: DrillRunAddNotesRequestCreate): any {
+  return { notes: item["notes"] };
+}
+
+/** Drill resource */
+export interface DrillCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DrillPropertiesCreateOrUpdateUnion;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityCreateOrUpdate;
+}
+
+export function drillCreateOrUpdateSerializer(item: DrillCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : drillPropertiesCreateOrUpdateUnionSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function drillCreateOrUpdateDeserializer(item: any): DrillCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : drillPropertiesCreateOrUpdateUnionDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Properties of the Resiliency Drill. */
+export interface DrillPropertiesCreateOrUpdate {
+  /** ROPlan properties. */
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillCreateOrUpdate;
+  /** Properties for internal resources that are created for the Drill. */
+  drillAssetProperties?: AssetPropertiesOfDrill;
+  /** Chaos Resource properties. */
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrillCreateOrUpdate;
+  /** RBAC setup mode. */
+  rbacSetupMode?: RbacSetupMode;
+  /** The discriminator for the Drill object hierarchy. */
+  /** The discriminator possible values: Zonal, Regional */
+  drillType: DrillType;
+  /** Monitoring properties of the Drill. */
+  monitoringProperties?: MonitoringPropertiesOfDrillCreateOrUpdate;
+}
+
+export function drillPropertiesCreateOrUpdateSerializer(item: DrillPropertiesCreateOrUpdate): any {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateSerializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateSerializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateSerializer(item["monitoringProperties"]),
+  };
+}
+
+export function drillPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): DrillPropertiesCreateOrUpdate {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateDeserializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateDeserializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateDeserializer(item["monitoringProperties"]),
+  };
+}
+
+/** Alias for DrillPropertiesCreateOrUpdateUnion */
+export type DrillPropertiesCreateOrUpdateUnion =
+  | ZonalDrillPropertiesCreateOrUpdate
+  | RegionalDrillPropertiesCreateOrUpdate
+  | DrillPropertiesCreateOrUpdate;
+
+export function drillPropertiesCreateOrUpdateUnionSerializer(
+  item: DrillPropertiesCreateOrUpdateUnion,
+): any {
+  switch (item.drillType) {
+    case "Zonal":
+      return zonalDrillPropertiesCreateOrUpdateSerializer(
+        item as ZonalDrillPropertiesCreateOrUpdate,
+      );
+
+    case "Regional":
+      return regionalDrillPropertiesCreateOrUpdateSerializer(
+        item as RegionalDrillPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return drillPropertiesCreateOrUpdateSerializer(item);
+  }
+}
+
+export function drillPropertiesCreateOrUpdateUnionDeserializer(
+  item: any,
+): DrillPropertiesCreateOrUpdateUnion {
+  switch (item["drillType"]) {
+    case "Zonal":
+      return zonalDrillPropertiesCreateOrUpdateDeserializer(
+        item as ZonalDrillPropertiesCreateOrUpdate,
+      );
+
+    case "Regional":
+      return regionalDrillPropertiesCreateOrUpdateDeserializer(
+        item as RegionalDrillPropertiesCreateOrUpdate,
+      );
+
+    default:
+      return drillPropertiesCreateOrUpdateDeserializer(item);
+  }
+}
+
+/** RecoveryPlan properties. */
+export interface RecoveryPlanPropertiesOfDrillCreateOrUpdate {
+  /** Identity to use for RecoveryPlan operations. */
+  identity: AssociatedIdentity;
+}
+
+export function recoveryPlanPropertiesOfDrillCreateOrUpdateSerializer(
+  item: RecoveryPlanPropertiesOfDrillCreateOrUpdate,
+): any {
+  return { identity: associatedIdentitySerializer(item["identity"]) };
+}
+
+export function recoveryPlanPropertiesOfDrillCreateOrUpdateDeserializer(
+  item: any,
+): RecoveryPlanPropertiesOfDrillCreateOrUpdate {
+  return {
+    identity: associatedIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Chaos Resource properties. */
+export interface ChaosResourcePropertiesOfDrillCreateOrUpdate {
+  /** Identity to use for Chaos Resource operations. */
+  identity: AssociatedIdentity;
+  /** Identity to be used by the Chaos Resource for invoking faults on resources. */
+  chaosResourceIdentityForFaults: AssociatedIdentity;
+}
+
+export function chaosResourcePropertiesOfDrillCreateOrUpdateSerializer(
+  item: ChaosResourcePropertiesOfDrillCreateOrUpdate,
+): any {
+  return {
+    identity: associatedIdentitySerializer(item["identity"]),
+    chaosResourceIdentityForFaults: associatedIdentitySerializer(
+      item["chaosResourceIdentityForFaults"],
+    ),
+  };
+}
+
+export function chaosResourcePropertiesOfDrillCreateOrUpdateDeserializer(
+  item: any,
+): ChaosResourcePropertiesOfDrillCreateOrUpdate {
+  return {
+    identity: associatedIdentityDeserializer(item["identity"]),
+    chaosResourceIdentityForFaults: associatedIdentityDeserializer(
+      item["chaosResourceIdentityForFaults"],
+    ),
+  };
+}
+
+/** Drill monitoring properties. */
+export interface MonitoringPropertiesOfDrillCreateOrUpdate {
+  /** Identity to use for Drill monitoring operations. */
+  identity?: AssociatedIdentity;
+}
+
+export function monitoringPropertiesOfDrillCreateOrUpdateSerializer(
+  item: MonitoringPropertiesOfDrillCreateOrUpdate,
+): any {
+  return {
+    identity: !item["identity"] ? item["identity"] : associatedIdentitySerializer(item["identity"]),
+  };
+}
+
+export function monitoringPropertiesOfDrillCreateOrUpdateDeserializer(
+  item: any,
+): MonitoringPropertiesOfDrillCreateOrUpdate {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : associatedIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Definition of Zonal Drill properties. */
+export interface ZonalDrillPropertiesCreateOrUpdate extends DrillPropertiesCreateOrUpdate {
+  /** The discriminator for the Drill object hierarchy. */
+  drillType: "Zonal";
+}
+
+export function zonalDrillPropertiesCreateOrUpdateSerializer(
+  item: ZonalDrillPropertiesCreateOrUpdate,
+): any {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateSerializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateSerializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateSerializer(item["monitoringProperties"]),
+  };
+}
+
+export function zonalDrillPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): ZonalDrillPropertiesCreateOrUpdate {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateDeserializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateDeserializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateDeserializer(item["monitoringProperties"]),
+  };
+}
+
+/** Definition of Regional Drill properties. */
+export interface RegionalDrillPropertiesCreateOrUpdate extends DrillPropertiesCreateOrUpdate {
+  /** The discriminator for the Drill object hierarchy. */
+  drillType: "Regional";
+}
+
+export function regionalDrillPropertiesCreateOrUpdateSerializer(
+  item: RegionalDrillPropertiesCreateOrUpdate,
+): any {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateSerializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillSerializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateSerializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateSerializer(item["monitoringProperties"]),
+  };
+}
+
+export function regionalDrillPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): RegionalDrillPropertiesCreateOrUpdate {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillCreateOrUpdateDeserializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillDeserializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillCreateOrUpdateDeserializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    drillType: item["drillType"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillCreateOrUpdateDeserializer(item["monitoringProperties"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityCreateOrUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityCreateOrUpdateSerializer(
+  item: ManagedServiceIdentityCreateOrUpdate,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityCreateOrUpdateDeserializer(
+  item: any,
+): ManagedServiceIdentityCreateOrUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** The type used for update operations of the Drill. */
+export interface DrillUpdateUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
+  /** The resource-specific properties for this resource. */
+  properties?: DrillUpdatePropertiesUpdate;
+}
+
+export function drillUpdateUpdateSerializer(item: DrillUpdateUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : drillUpdatePropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityUpdate {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityUpdateDeserializer(item: any): ManagedServiceIdentityUpdate {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** The updatable properties of the Drill. */
+export interface DrillUpdatePropertiesUpdate {
+  /** Recovery Plan properties. */
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillUpdate;
+  /** Properties for internal resources that are created for the Drill. */
+  drillAssetProperties?: AssetPropertiesOfDrillUpdate;
+  /** Chaos Resource properties. */
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrillUpdate;
+  /** RBAC setup mode. */
+  rbacSetupMode?: RbacSetupMode;
+  /** Monitoring properties of the Drill. */
+  monitoringProperties?: MonitoringPropertiesOfDrillUpdate;
+}
+
+export function drillUpdatePropertiesUpdateSerializer(item: DrillUpdatePropertiesUpdate): any {
+  return {
+    recoveryPlanProperties: !item["recoveryPlanProperties"]
+      ? item["recoveryPlanProperties"]
+      : recoveryPlanPropertiesOfDrillUpdateSerializer(item["recoveryPlanProperties"]),
+    drillAssetProperties: !item["drillAssetProperties"]
+      ? item["drillAssetProperties"]
+      : assetPropertiesOfDrillUpdateSerializer(item["drillAssetProperties"]),
+    chaosResourceProperties: !item["chaosResourceProperties"]
+      ? item["chaosResourceProperties"]
+      : chaosResourcePropertiesOfDrillUpdateSerializer(item["chaosResourceProperties"]),
+    rbacSetupMode: item["rbacSetupMode"],
+    monitoringProperties: !item["monitoringProperties"]
+      ? item["monitoringProperties"]
+      : monitoringPropertiesOfDrillUpdateSerializer(item["monitoringProperties"]),
+  };
+}
+
+/** RecoveryPlan properties. */
+export interface RecoveryPlanPropertiesOfDrillUpdate {
+  /** Identity to use for RecoveryPlan operations. */
+  identity: AssociatedIdentity;
+}
+
+export function recoveryPlanPropertiesOfDrillUpdateSerializer(
+  item: RecoveryPlanPropertiesOfDrillUpdate,
+): any {
+  return { identity: associatedIdentitySerializer(item["identity"]) };
+}
+
+export function recoveryPlanPropertiesOfDrillUpdateDeserializer(
+  item: any,
+): RecoveryPlanPropertiesOfDrillUpdate {
+  return {
+    identity: associatedIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Drill asset properties. */
+export interface AssetPropertiesOfDrillUpdate {
+  /** Subscription where Drill's internal resources will be created. */
+  subscription: string;
+  /** Region where Drill's internal resources will be created. */
+  region: string;
+}
+
+export function assetPropertiesOfDrillUpdateSerializer(item: AssetPropertiesOfDrillUpdate): any {
+  return { subscription: item["subscription"], region: item["region"] };
+}
+
+export function assetPropertiesOfDrillUpdateDeserializer(item: any): AssetPropertiesOfDrillUpdate {
+  return {
+    subscription: item["subscription"],
+    region: item["region"],
+  };
+}
+
+/** Chaos Resource properties. */
+export interface ChaosResourcePropertiesOfDrillUpdate {
+  /** Identity to use for Chaos Resource operations. */
+  identity: AssociatedIdentity;
+  /** Identity to be used by the Chaos Resource for invoking faults on resources. */
+  chaosResourceIdentityForFaults: AssociatedIdentity;
+}
+
+export function chaosResourcePropertiesOfDrillUpdateSerializer(
+  item: ChaosResourcePropertiesOfDrillUpdate,
+): any {
+  return {
+    identity: associatedIdentitySerializer(item["identity"]),
+    chaosResourceIdentityForFaults: associatedIdentitySerializer(
+      item["chaosResourceIdentityForFaults"],
+    ),
+  };
+}
+
+export function chaosResourcePropertiesOfDrillUpdateDeserializer(
+  item: any,
+): ChaosResourcePropertiesOfDrillUpdate {
+  return {
+    identity: associatedIdentityDeserializer(item["identity"]),
+    chaosResourceIdentityForFaults: associatedIdentityDeserializer(
+      item["chaosResourceIdentityForFaults"],
+    ),
+  };
+}
+
+/** Drill monitoring properties. */
+export interface MonitoringPropertiesOfDrillUpdate {
+  /** Identity to use for Drill monitoring operations. */
+  identity?: AssociatedIdentity;
+}
+
+export function monitoringPropertiesOfDrillUpdateSerializer(
+  item: MonitoringPropertiesOfDrillUpdate,
+): any {
+  return {
+    identity: !item["identity"] ? item["identity"] : associatedIdentitySerializer(item["identity"]),
+  };
+}
+
+export function monitoringPropertiesOfDrillUpdateDeserializer(
+  item: any,
+): MonitoringPropertiesOfDrillUpdate {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : associatedIdentityDeserializer(item["identity"]),
+  };
+}
+
+/** Represents a recovery orchestration plan resource in the Azure Resilience Management provider namespace. */
+export interface RecoveryPlanCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoveryPlanPropertiesCreateOrUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityCreateOrUpdate;
+}
+
+export function recoveryPlanCreateOrUpdateSerializer(item: RecoveryPlanCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryPlanPropertiesCreateOrUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateSerializer(item["identity"]),
+  };
+}
+
+export function recoveryPlanCreateOrUpdateDeserializer(item: any): RecoveryPlanCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryPlanPropertiesCreateOrUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityCreateOrUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Properties of the recovery orchestration plan. */
+export interface RecoveryPlanPropertiesCreateOrUpdate {
+  /** The type of the recovery orchestration plan, which can be set during creation but cannot be changed afterward. */
+  planType: RecoveryPlanType;
+  /** A description of the recovery orchestration plan. */
+  planDescription: string;
+  /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
+  recoveryGroupsSetting: RecoveryGroupsSettingCreateOrUpdate;
+}
+
+export function recoveryPlanPropertiesCreateOrUpdateSerializer(
+  item: RecoveryPlanPropertiesCreateOrUpdate,
+): any {
+  return {
+    planType: item["planType"],
+    planDescription: item["planDescription"],
+    recoveryGroupsSetting: recoveryGroupsSettingCreateOrUpdateSerializer(
+      item["recoveryGroupsSetting"],
+    ),
+  };
+}
+
+export function recoveryPlanPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): RecoveryPlanPropertiesCreateOrUpdate {
+  return {
+    planType: item["planType"],
+    planDescription: item["planDescription"],
+    recoveryGroupsSetting: recoveryGroupsSettingCreateOrUpdateDeserializer(
+      item["recoveryGroupsSetting"],
+    ),
+  };
+}
+
+/** Settings for the recovery orchestration groups. */
+export interface RecoveryGroupsSettingCreateOrUpdate {
+  /** The default recovery orchestration group setting. Every recovery orchestration plan has a default recovery orchestration group. */
+  defaultGroup: RecoveryGroupCreateOrUpdate;
+  /** Additional recovery orchestration group settings. */
+  additionalGroups?: RecoveryGroup[];
+}
+
+export function recoveryGroupsSettingCreateOrUpdateSerializer(
+  item: RecoveryGroupsSettingCreateOrUpdate,
+): any {
+  return {
+    defaultGroup: recoveryGroupCreateOrUpdateSerializer(item["defaultGroup"]),
+    additionalGroups: !item["additionalGroups"]
+      ? item["additionalGroups"]
+      : recoveryGroupArraySerializer(item["additionalGroups"]),
+  };
+}
+
+export function recoveryGroupsSettingCreateOrUpdateDeserializer(
+  item: any,
+): RecoveryGroupsSettingCreateOrUpdate {
+  return {
+    defaultGroup: recoveryGroupCreateOrUpdateDeserializer(item["defaultGroup"]),
+    additionalGroups: !item["additionalGroups"]
+      ? item["additionalGroups"]
+      : recoveryGroupArrayDeserializer(item["additionalGroups"]),
+  };
+}
+
+/** Represents a recovery orchestration group resource in the Azure Resilience Management provider namespace. */
+export interface RecoveryGroupCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoveryGroupProperties;
+}
+
+export function recoveryGroupCreateOrUpdateSerializer(item: RecoveryGroupCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryGroupPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function recoveryGroupCreateOrUpdateDeserializer(item: any): RecoveryGroupCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryGroupPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Represents a recovery orchestration plan resource in the Azure Resilience Management provider namespace. */
+export interface RecoveryPlanUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoveryPlanPropertiesUpdate;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityUpdate;
+}
+
+export function recoveryPlanUpdateSerializer(item: RecoveryPlanUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryPlanPropertiesUpdateSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+  };
+}
+
+export function recoveryPlanUpdateDeserializer(item: any): RecoveryPlanUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryPlanPropertiesUpdateDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateDeserializer(item["identity"]),
+  };
+}
+
+/** Properties of the recovery orchestration plan. */
+export interface RecoveryPlanPropertiesUpdate {
+  /** A description of the recovery orchestration plan. */
+  planDescription: string;
+  /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
+  recoveryGroupsSetting: RecoveryGroupsSettingUpdate;
+}
+
+export function recoveryPlanPropertiesUpdateSerializer(item: RecoveryPlanPropertiesUpdate): any {
+  return {
+    planDescription: item["planDescription"],
+    recoveryGroupsSetting: recoveryGroupsSettingUpdateSerializer(item["recoveryGroupsSetting"]),
+  };
+}
+
+export function recoveryPlanPropertiesUpdateDeserializer(item: any): RecoveryPlanPropertiesUpdate {
+  return {
+    planDescription: item["planDescription"],
+    recoveryGroupsSetting: recoveryGroupsSettingUpdateDeserializer(item["recoveryGroupsSetting"]),
+  };
+}
+
+/** Settings for the recovery orchestration groups. */
+export interface RecoveryGroupsSettingUpdate {
+  /** The default recovery orchestration group setting. Every recovery orchestration plan has a default recovery orchestration group. */
+  defaultGroup: RecoveryGroupUpdate;
+  /** Additional recovery orchestration group settings. */
+  additionalGroups?: RecoveryGroup[];
+}
+
+export function recoveryGroupsSettingUpdateSerializer(item: RecoveryGroupsSettingUpdate): any {
+  return {
+    defaultGroup: recoveryGroupUpdateSerializer(item["defaultGroup"]),
+    additionalGroups: !item["additionalGroups"]
+      ? item["additionalGroups"]
+      : recoveryGroupArraySerializer(item["additionalGroups"]),
+  };
+}
+
+export function recoveryGroupsSettingUpdateDeserializer(item: any): RecoveryGroupsSettingUpdate {
+  return {
+    defaultGroup: recoveryGroupUpdateDeserializer(item["defaultGroup"]),
+    additionalGroups: !item["additionalGroups"]
+      ? item["additionalGroups"]
+      : recoveryGroupArrayDeserializer(item["additionalGroups"]),
+  };
+}
+
+/** Represents a recovery orchestration group resource in the Azure Resilience Management provider namespace. */
+export interface RecoveryGroupUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: RecoveryGroupProperties;
+}
+
+export function recoveryGroupUpdateSerializer(item: RecoveryGroupUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryGroupPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function recoveryGroupUpdateDeserializer(item: any): RecoveryGroupUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : recoveryGroupPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Goal template a AzureResilienceProviderHub resource */
+export interface GoalTemplateCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GoalTemplatePropertiesCreateOrUpdate;
+}
+
+export function goalTemplateCreateOrUpdateSerializer(item: GoalTemplateCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalTemplatePropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function goalTemplateCreateOrUpdateDeserializer(item: any): GoalTemplateCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalTemplatePropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of goal template property. */
+export interface GoalTemplatePropertiesCreateOrUpdate {
+  /** Option specified by customer under high availability section of goal template */
+  requireHighAvailability?: RequirementSelected;
+  /** Option specified by customer under disaster recovery section of goal template */
+  requireDisasterRecovery?: RequirementSelected;
+  /** Regional recovery point objective specified by customer. eg, PT15M for 15 minutes */
+  regionalRecoveryPointObjective?: string;
+  /** Regional recovery time objective specified by customer. eg, PT15M for 15 minutes */
+  regionalRecoveryTimeObjective?: string;
+  /** Type of Goal Template created by customer */
+  goalType: GoalType;
+}
+
+export function goalTemplatePropertiesCreateOrUpdateSerializer(
+  item: GoalTemplatePropertiesCreateOrUpdate,
+): any {
+  return {
+    requireHighAvailability: item["requireHighAvailability"],
+    requireDisasterRecovery: item["requireDisasterRecovery"],
+    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
+    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
+    goalType: item["goalType"],
+  };
+}
+
+export function goalTemplatePropertiesCreateOrUpdateDeserializer(
+  item: any,
+): GoalTemplatePropertiesCreateOrUpdate {
+  return {
+    requireHighAvailability: item["requireHighAvailability"],
+    requireDisasterRecovery: item["requireDisasterRecovery"],
+    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
+    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
+    goalType: item["goalType"],
+  };
+}
+
+/** Goal template a AzureResilienceProviderHub resource */
+export interface GoalTemplateUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GoalTemplatePropertiesUpdate;
+}
+
+export function goalTemplateUpdateSerializer(item: GoalTemplateUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalTemplatePropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function goalTemplateUpdateDeserializer(item: any): GoalTemplateUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalTemplatePropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of goal template property. */
+export interface GoalTemplatePropertiesUpdate {
+  /** Option specified by customer under high availability section of goal template */
+  requireHighAvailability?: RequirementSelected;
+  /** Option specified by customer under disaster recovery section of goal template */
+  requireDisasterRecovery?: RequirementSelected;
+  /** Regional recovery point objective specified by customer. eg, PT15M for 15 minutes */
+  regionalRecoveryPointObjective?: string;
+  /** Regional recovery time objective specified by customer. eg, PT15M for 15 minutes */
+  regionalRecoveryTimeObjective?: string;
+  /** Type of Goal Template created by customer */
+  goalType: GoalType;
+}
+
+export function goalTemplatePropertiesUpdateSerializer(item: GoalTemplatePropertiesUpdate): any {
+  return {
+    requireHighAvailability: item["requireHighAvailability"],
+    requireDisasterRecovery: item["requireDisasterRecovery"],
+    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
+    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
+    goalType: item["goalType"],
+  };
+}
+
+export function goalTemplatePropertiesUpdateDeserializer(item: any): GoalTemplatePropertiesUpdate {
+  return {
+    requireHighAvailability: item["requireHighAvailability"],
+    requireDisasterRecovery: item["requireDisasterRecovery"],
+    regionalRecoveryPointObjective: item["regionalRecoveryPointObjective"],
+    regionalRecoveryTimeObjective: item["regionalRecoveryTimeObjective"],
+    goalType: item["goalType"],
+  };
+}
+
+/** Goal assignment a AzureResilienceProviderHub resource */
+export interface GoalAssignmentCreateOrUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GoalAssignmentPropertiesCreateOrUpdate;
+}
+
+export function goalAssignmentCreateOrUpdateSerializer(item: GoalAssignmentCreateOrUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalAssignmentPropertiesCreateOrUpdateSerializer(item["properties"]),
+  };
+}
+
+export function goalAssignmentCreateOrUpdateDeserializer(item: any): GoalAssignmentCreateOrUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalAssignmentPropertiesCreateOrUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of goal assignment property. */
+export interface GoalAssignmentPropertiesCreateOrUpdate {
+  /** Arm id of the goal template. */
+  goalTemplateId: string;
+  /** The type of goal assignment. */
+  goalAssignmentType: GoalAssignmentType;
+  /** List of service level resources. */
+  serviceLevelResources?: ServiceLevelResource[];
+}
+
+export function goalAssignmentPropertiesCreateOrUpdateSerializer(
+  item: GoalAssignmentPropertiesCreateOrUpdate,
+): any {
+  return {
+    goalTemplateId: item["goalTemplateId"],
+    goalAssignmentType: item["goalAssignmentType"],
+    serviceLevelResources: !item["serviceLevelResources"]
+      ? item["serviceLevelResources"]
+      : serviceLevelResourceArraySerializer(item["serviceLevelResources"]),
+  };
+}
+
+export function goalAssignmentPropertiesCreateOrUpdateDeserializer(
+  item: any,
+): GoalAssignmentPropertiesCreateOrUpdate {
+  return {
+    goalTemplateId: item["goalTemplateId"],
+    goalAssignmentType: item["goalAssignmentType"],
+    serviceLevelResources: !item["serviceLevelResources"]
+      ? item["serviceLevelResources"]
+      : serviceLevelResourceArrayDeserializer(item["serviceLevelResources"]),
+  };
+}
+
+/** Goal assignment a AzureResilienceProviderHub resource */
+export interface GoalAssignmentUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GoalAssignmentPropertiesUpdate;
+}
+
+export function goalAssignmentUpdateSerializer(item: GoalAssignmentUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalAssignmentPropertiesUpdateSerializer(item["properties"]),
+  };
+}
+
+export function goalAssignmentUpdateDeserializer(item: any): GoalAssignmentUpdate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : goalAssignmentPropertiesUpdateDeserializer(item["properties"]),
+  };
+}
+
+/** Definition of goal assignment property. */
+export interface GoalAssignmentPropertiesUpdate {
+  /** Arm id of the goal template. */
+  goalTemplateId: string;
+  /** The type of goal assignment. */
+  goalAssignmentType: GoalAssignmentType;
+  /** List of service level resources. */
+  serviceLevelResources?: ServiceLevelResource[];
+}
+
+export function goalAssignmentPropertiesUpdateSerializer(
+  item: GoalAssignmentPropertiesUpdate,
+): any {
+  return {
+    goalTemplateId: item["goalTemplateId"],
+    goalAssignmentType: item["goalAssignmentType"],
+    serviceLevelResources: !item["serviceLevelResources"]
+      ? item["serviceLevelResources"]
+      : serviceLevelResourceArraySerializer(item["serviceLevelResources"]),
+  };
+}
+
+export function goalAssignmentPropertiesUpdateDeserializer(
+  item: any,
+): GoalAssignmentPropertiesUpdate {
+  return {
+    goalTemplateId: item["goalTemplateId"],
+    goalAssignmentType: item["goalAssignmentType"],
+    serviceLevelResources: !item["serviceLevelResources"]
+      ? item["serviceLevelResources"]
+      : serviceLevelResourceArrayDeserializer(item["serviceLevelResources"]),
+  };
 }
 
 /** Microsoft.AzureResilienceManagement Resource Provider supported API versions. */

@@ -7,14 +7,15 @@ import type {
   NamespaceDeviceUpdate,
   _NamespaceDeviceListResult,
   DeviceCredentialsRevokeRequest,
+  NamespaceDeviceCreateOrUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  namespaceDeviceSerializer,
   namespaceDeviceDeserializer,
   namespaceDeviceUpdateSerializer,
   _namespaceDeviceListResultDeserializer,
   deviceCredentialsRevokeRequestSerializer,
+  namespaceDeviceCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -62,7 +63,7 @@ export function _revokeSend(
 }
 
 export async function _revokeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -82,7 +83,7 @@ export function revoke(
   body: DeviceCredentialsRevokeRequest,
   options: NamespaceDevicesRevokeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _revokeDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _revokeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -186,11 +187,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a NamespaceDevice */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -273,7 +269,7 @@ export function _createOrReplaceSend(
   resourceGroupName: string,
   namespaceName: string,
   deviceName: string,
-  resource: NamespaceDevice,
+  resource: NamespaceDeviceCreateOrUpdate,
   options: NamespaceDevicesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -289,12 +285,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: namespaceDeviceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: namespaceDeviceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -317,7 +315,7 @@ export function createOrReplace(
   resourceGroupName: string,
   namespaceName: string,
   deviceName: string,
-  resource: NamespaceDevice,
+  resource: NamespaceDeviceCreateOrUpdate,
   options: NamespaceDevicesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NamespaceDevice>, NamespaceDevice> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {

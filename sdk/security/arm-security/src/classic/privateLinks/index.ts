@@ -20,7 +20,11 @@ import {
   PrivateLinksHeadOptionalParams,
   PrivateLinksGetOptionalParams,
 } from "../../api/privateLinks/options.js";
-import { PrivateLinkResource, PrivateLinkUpdate } from "../../models/privateLinksAPI/models.js";
+import {
+  PrivateLinkResource,
+  PrivateLinkUpdate,
+  PrivateLinkResourceCreateOrUpdate,
+} from "../../models/privateLinksAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -65,21 +69,21 @@ export interface PrivateLinksOperations {
   create: (
     resourceGroupName: string,
     privateLinkName: string,
-    privateLink: PrivateLinkResource,
+    privateLink: PrivateLinkResourceCreateOrUpdate,
     options?: PrivateLinksCreateOptionalParams,
   ) => PollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>;
   /** @deprecated use create instead */
   beginCreate: (
     resourceGroupName: string,
     privateLinkName: string,
-    privateLink: PrivateLinkResource,
+    privateLink: PrivateLinkResourceCreateOrUpdate,
     options?: PrivateLinksCreateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<PrivateLinkResource>, PrivateLinkResource>>;
   /** @deprecated use create instead */
   beginCreateAndWait: (
     resourceGroupName: string,
     privateLinkName: string,
-    privateLink: PrivateLinkResource,
+    privateLink: PrivateLinkResourceCreateOrUpdate,
     options?: PrivateLinksCreateOptionalParams,
   ) => Promise<PrivateLinkResource>;
   /** Checks whether private link exists. */
@@ -132,13 +136,13 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     create: (
       resourceGroupName: string,
       privateLinkName: string,
-      privateLink: PrivateLinkResource,
+      privateLink: PrivateLinkResourceCreateOrUpdate,
       options?: PrivateLinksCreateOptionalParams,
     ) => create(context, resourceGroupName, privateLinkName, privateLink, options),
     beginCreate: async (
       resourceGroupName: string,
       privateLinkName: string,
-      privateLink: PrivateLinkResource,
+      privateLink: PrivateLinkResourceCreateOrUpdate,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
       const poller = create(context, resourceGroupName, privateLinkName, privateLink, options);
@@ -148,7 +152,7 @@ function _getPrivateLinks(context: SecurityCenterContext) {
     beginCreateAndWait: async (
       resourceGroupName: string,
       privateLinkName: string,
-      privateLink: PrivateLinkResource,
+      privateLink: PrivateLinkResourceCreateOrUpdate,
       options?: PrivateLinksCreateOptionalParams,
     ) => {
       return await create(context, resourceGroupName, privateLinkName, privateLink, options);

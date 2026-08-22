@@ -16,7 +16,7 @@ import type {
   NodePoolsCreateOrUpdateOptionalParams,
   NodePoolsGetOptionalParams,
 } from "../../api/nodePools/options.js";
-import type { NodePool, NodePoolUpdate } from "../../models/models.js";
+import type { NodePool, NodePoolUpdate, NodePoolCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -48,7 +48,7 @@ export interface NodePoolsOperations {
     resourceGroupName: string,
     supercomputerName: string,
     nodePoolName: string,
-    resource: NodePool,
+    resource: NodePoolCreateOrUpdate,
     options?: NodePoolsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<NodePool>, NodePool>;
   /** Get a NodePool */
@@ -83,7 +83,7 @@ function _getNodePools(context: DiscoveryContext) {
       resourceGroupName: string,
       supercomputerName: string,
       nodePoolName: string,
-      resource: NodePool,
+      resource: NodePoolCreateOrUpdate,
       options?: NodePoolsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

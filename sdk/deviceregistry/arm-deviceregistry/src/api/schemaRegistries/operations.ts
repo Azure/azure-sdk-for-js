@@ -4,15 +4,16 @@
 import type { DeviceRegistryManagementContext as Client } from "../index.js";
 import type {
   SchemaRegistry,
-  SchemaRegistryUpdate,
   _SchemaRegistryListResult,
+  SchemaRegistryCreateOrUpdate,
+  SchemaRegistryUpdateUpdate,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  schemaRegistrySerializer,
   schemaRegistryDeserializer,
-  schemaRegistryUpdateSerializer,
   _schemaRegistryListResultDeserializer,
+  schemaRegistryCreateOrUpdateSerializer,
+  schemaRegistryUpdateUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -171,11 +172,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a SchemaRegistry */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -195,7 +191,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   schemaRegistryName: string,
-  properties: SchemaRegistryUpdate,
+  properties: SchemaRegistryUpdateUpdate,
   options: SchemaRegistriesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -210,12 +206,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: schemaRegistryUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: schemaRegistryUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<SchemaRegistry> {
@@ -235,7 +233,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   schemaRegistryName: string,
-  properties: SchemaRegistryUpdate,
+  properties: SchemaRegistryUpdateUpdate,
   options: SchemaRegistriesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SchemaRegistry>, SchemaRegistry> {
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
@@ -252,7 +250,7 @@ export function _createOrReplaceSend(
   context: Client,
   resourceGroupName: string,
   schemaRegistryName: string,
-  resource: SchemaRegistry,
+  resource: SchemaRegistryCreateOrUpdate,
   options: SchemaRegistriesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -267,12 +265,14 @@ export function _createOrReplaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: schemaRegistrySerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: schemaRegistryCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceDeserialize(
@@ -294,7 +294,7 @@ export function createOrReplace(
   context: Client,
   resourceGroupName: string,
   schemaRegistryName: string,
-  resource: SchemaRegistry,
+  resource: SchemaRegistryCreateOrUpdate,
   options: SchemaRegistriesCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SchemaRegistry>, SchemaRegistry> {
   return getLongRunningPoller(context, _createOrReplaceDeserialize, ["200", "201", "202"], {

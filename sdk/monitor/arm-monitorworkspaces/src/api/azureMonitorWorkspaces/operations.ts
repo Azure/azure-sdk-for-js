@@ -5,12 +5,13 @@ import { MonitorContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   AzureMonitorWorkspaceResource,
-  azureMonitorWorkspaceResourceSerializer,
   azureMonitorWorkspaceResourceDeserializer,
-  AzureMonitorWorkspaceResourceUpdate,
-  azureMonitorWorkspaceResourceUpdateSerializer,
   _AzureMonitorWorkspaceResourceListResult,
   _azureMonitorWorkspaceResourceListResultDeserializer,
+  AzureMonitorWorkspaceResourceCreateOrUpdate,
+  azureMonitorWorkspaceResourceCreateOrUpdateSerializer,
+  AzureMonitorWorkspaceResourceUpdateUpdate,
+  azureMonitorWorkspaceResourceUpdateUpdateSerializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -187,7 +188,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
-  properties: AzureMonitorWorkspaceResourceUpdate,
+  properties: AzureMonitorWorkspaceResourceUpdateUpdate,
   options: AzureMonitorWorkspacesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -202,12 +203,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: azureMonitorWorkspaceResourceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: azureMonitorWorkspaceResourceUpdateUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -229,7 +232,7 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
-  properties: AzureMonitorWorkspaceResourceUpdate,
+  properties: AzureMonitorWorkspaceResourceUpdateUpdate,
   options: AzureMonitorWorkspacesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<AzureMonitorWorkspaceResource> {
   const result = await _updateSend(
@@ -246,7 +249,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
-  resource: AzureMonitorWorkspaceResource,
+  resource: AzureMonitorWorkspaceResourceCreateOrUpdate,
   options: AzureMonitorWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -261,12 +264,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: azureMonitorWorkspaceResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: azureMonitorWorkspaceResourceCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -288,7 +293,7 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   azureMonitorWorkspaceName: string,
-  resource: AzureMonitorWorkspaceResource,
+  resource: AzureMonitorWorkspaceResourceCreateOrUpdate,
   options: AzureMonitorWorkspacesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<AzureMonitorWorkspaceResource> {
   const result = await _createOrUpdateSend(

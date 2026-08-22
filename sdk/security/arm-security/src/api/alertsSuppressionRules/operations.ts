@@ -4,10 +4,11 @@
 import { SecurityCenterContext as Client } from "../index.js";
 import {
   AlertsSuppressionRule,
-  alertsSuppressionRuleSerializer,
   alertsSuppressionRuleDeserializer,
   _AlertsSuppressionRulesList,
   _alertsSuppressionRulesListDeserializer,
+  AlertsSuppressionRuleCreateOrUpdate,
+  alertsSuppressionRuleCreateOrUpdateSerializer,
 } from "../../models/alertsSuppressionRulesAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import {
@@ -121,7 +122,7 @@ export async function $delete(
 export function _updateSend(
   context: Client,
   alertsSuppressionRuleName: string,
-  alertsSuppressionRule: AlertsSuppressionRule,
+  alertsSuppressionRule: AlertsSuppressionRuleCreateOrUpdate,
   options: AlertsSuppressionRulesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -135,12 +136,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: alertsSuppressionRuleSerializer(alertsSuppressionRule),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: alertsSuppressionRuleCreateOrUpdateSerializer(alertsSuppressionRule),
+    });
 }
 
 export async function _updateDeserialize(
@@ -161,7 +164,7 @@ export async function _updateDeserialize(
 export async function update(
   context: Client,
   alertsSuppressionRuleName: string,
-  alertsSuppressionRule: AlertsSuppressionRule,
+  alertsSuppressionRule: AlertsSuppressionRuleCreateOrUpdate,
   options: AlertsSuppressionRulesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<AlertsSuppressionRule> {
   const result = await _updateSend(

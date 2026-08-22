@@ -18,7 +18,11 @@ import {
   GovernanceRulesCreateOrUpdateOptionalParams,
   GovernanceRulesGetOptionalParams,
 } from "../../api/governanceRules/options.js";
-import { GovernanceRule, OperationResult } from "../../models/governanceAPI/models.js";
+import {
+  GovernanceRule,
+  OperationResult,
+  GovernanceRuleCreateOrUpdate,
+} from "../../models/governanceAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -31,7 +35,7 @@ export interface GovernanceRulesOperations {
     ruleId: string,
     operationId: string,
     options?: GovernanceRulesOperationResultsOptionalParams,
-  ) => Promise<OperationResult>;
+  ) => Promise<OperationResult | void>;
   /** Execute a governance rule */
   execute: (
     scope: string,
@@ -77,7 +81,7 @@ export interface GovernanceRulesOperations {
   createOrUpdate: (
     scope: string,
     ruleId: string,
-    governanceRule: GovernanceRule,
+    governanceRule: GovernanceRuleCreateOrUpdate,
     options?: GovernanceRulesCreateOrUpdateOptionalParams,
   ) => Promise<GovernanceRule>;
   /** Get a specific governance rule for the requested scope by ruleId */
@@ -137,7 +141,7 @@ function _getGovernanceRules(context: SecurityCenterContext) {
     createOrUpdate: (
       scope: string,
       ruleId: string,
-      governanceRule: GovernanceRule,
+      governanceRule: GovernanceRuleCreateOrUpdate,
       options?: GovernanceRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, scope, ruleId, governanceRule, options),
     get: (scope: string, ruleId: string, options?: GovernanceRulesGetOptionalParams) =>

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { DiscoveryContext as Client } from "../index.js";
-import type { NodePool, NodePoolUpdate, _NodePoolListResult } from "../../models/models.js";
+import type { NodePool, NodePoolUpdate, _NodePoolListResult, NodePoolCreateOrUpdate } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  nodePoolSerializer,
   nodePoolDeserializer,
   nodePoolUpdateSerializer,
   _nodePoolListResultDeserializer,
+  nodePoolCreateOrUpdateSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -200,7 +200,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   supercomputerName: string,
   nodePoolName: string,
-  resource: NodePool,
+  resource: NodePoolCreateOrUpdate,
   options: NodePoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -216,12 +216,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: nodePoolSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: nodePoolCreateOrUpdateSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<NodePool> {
@@ -243,7 +245,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   supercomputerName: string,
   nodePoolName: string,
-  resource: NodePool,
+  resource: NodePoolCreateOrUpdate,
   options: NodePoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NodePool>, NodePool> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {

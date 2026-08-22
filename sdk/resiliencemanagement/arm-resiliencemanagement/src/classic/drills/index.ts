@@ -28,11 +28,12 @@ import type {
 } from "../../api/drills/options.js";
 import type {
   Drill,
-  DrillUpdate,
   ValidateForExecutionRequest,
   DrillStartRequest,
   DrillEndRequest,
   AddOrUpdateResourcesRequest,
+  DrillCreateOrUpdate,
+  DrillUpdateUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -185,42 +186,42 @@ export interface DrillsOperations {
   update: (
     serviceGroupName: string,
     drillName: string,
-    properties: DrillUpdate,
+    properties: DrillUpdateUpdate,
     options?: DrillsUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use update instead */
   beginUpdate: (
     serviceGroupName: string,
     drillName: string,
-    properties: DrillUpdate,
+    properties: DrillUpdateUpdate,
     options?: DrillsUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use update instead */
   beginUpdateAndWait: (
     serviceGroupName: string,
     drillName: string,
-    properties: DrillUpdate,
+    properties: DrillUpdateUpdate,
     options?: DrillsUpdateOptionalParams,
   ) => Promise<void>;
   /** Create a Drill */
   create: (
     serviceGroupName: string,
     drillName: string,
-    resource: Drill,
+    resource: DrillCreateOrUpdate,
     options?: DrillsCreateOptionalParams,
   ) => PollerLike<OperationState<Drill>, Drill>;
   /** @deprecated use create instead */
   beginCreate: (
     serviceGroupName: string,
     drillName: string,
-    resource: Drill,
+    resource: DrillCreateOrUpdate,
     options?: DrillsCreateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<Drill>, Drill>>;
   /** @deprecated use create instead */
   beginCreateAndWait: (
     serviceGroupName: string,
     drillName: string,
-    resource: Drill,
+    resource: DrillCreateOrUpdate,
     options?: DrillsCreateOptionalParams,
   ) => Promise<Drill>;
   /** Get a Drill */
@@ -422,13 +423,13 @@ function _getDrills(context: AzureResilienceManagementContext) {
     update: (
       serviceGroupName: string,
       drillName: string,
-      properties: DrillUpdate,
+      properties: DrillUpdateUpdate,
       options?: DrillsUpdateOptionalParams,
     ) => update(context, serviceGroupName, drillName, properties, options),
     beginUpdate: async (
       serviceGroupName: string,
       drillName: string,
-      properties: DrillUpdate,
+      properties: DrillUpdateUpdate,
       options?: DrillsUpdateOptionalParams,
     ) => {
       const poller = update(context, serviceGroupName, drillName, properties, options);
@@ -438,7 +439,7 @@ function _getDrills(context: AzureResilienceManagementContext) {
     beginUpdateAndWait: async (
       serviceGroupName: string,
       drillName: string,
-      properties: DrillUpdate,
+      properties: DrillUpdateUpdate,
       options?: DrillsUpdateOptionalParams,
     ) => {
       return await update(context, serviceGroupName, drillName, properties, options);
@@ -446,13 +447,13 @@ function _getDrills(context: AzureResilienceManagementContext) {
     create: (
       serviceGroupName: string,
       drillName: string,
-      resource: Drill,
+      resource: DrillCreateOrUpdate,
       options?: DrillsCreateOptionalParams,
     ) => create(context, serviceGroupName, drillName, resource, options),
     beginCreate: async (
       serviceGroupName: string,
       drillName: string,
-      resource: Drill,
+      resource: DrillCreateOrUpdate,
       options?: DrillsCreateOptionalParams,
     ) => {
       const poller = create(context, serviceGroupName, drillName, resource, options);
@@ -462,7 +463,7 @@ function _getDrills(context: AzureResilienceManagementContext) {
     beginCreateAndWait: async (
       serviceGroupName: string,
       drillName: string,
-      resource: Drill,
+      resource: DrillCreateOrUpdate,
       options?: DrillsCreateOptionalParams,
     ) => {
       return await create(context, serviceGroupName, drillName, resource, options);

@@ -35,6 +35,9 @@ export type {
   ResourceIdentityType,
   OperationStatusResult,
   TrackedResource,
+  ProxyResourceCreateOrUpdate,
+  PrivateEndpointConnectionPropertiesCreateOrUpdate,
+  PrivateEndpointCreateOrUpdate,
 } from "./models/index.js";
 export {
   KnownCreatedByType,
@@ -77,12 +80,15 @@ export type {
   RuleState,
   SuppressionAlertsScope,
   ScopeElement,
+  AlertsSuppressionRuleCreateOrUpdate,
+  AlertsSuppressionRulePropertiesCreateOrUpdate,
 } from "./models/alertsSuppressionRulesAPI/index.js";
 export type { ApiCollection, ApiCollectionProperties } from "./models/apiCollectionsAPI/index.js";
 export type {
   Application,
   ApplicationProperties,
   ApplicationSourceResourceType,
+  ApplicationCreateOrUpdate,
 } from "./models/applicationsAPI/index.js";
 export { KnownApplicationSourceResourceType } from "./models/applicationsAPI/index.js";
 export type {
@@ -118,6 +124,7 @@ export type {
   SecurityAssessment,
   SecurityAssessmentProperties,
   ExpandEnum,
+  SecurityAssessmentMetadataResponseCreateOrUpdate,
 } from "./models/assessmentAPI/index.js";
 export {
   KnownTactics,
@@ -134,6 +141,7 @@ export {
 export type {
   AdvancedThreatProtectionSetting,
   AdvancedThreatProtectionProperties,
+  AdvancedThreatProtectionSettingCreateOrUpdate,
 } from "./models/atpSettingsAPI/index.js";
 export type {
   Automation,
@@ -164,6 +172,9 @@ export type {
   SecurityContactPropertiesNotificationsByRole,
   SecurityContactRole,
   SecurityContactName,
+  SecurityContactCreateOrUpdate,
+  AutomationCreateOrUpdate,
+  AutomationCreate,
 } from "./models/automationsAPI/index.js";
 export {
   KnownEventSource,
@@ -218,6 +229,10 @@ export type {
   ScanSummary,
   BlobsScanSummary,
   FilesScanSummary,
+  DefenderForStorageSettingCreateOrUpdate,
+  DefenderForStorageSettingPropertiesCreateOrUpdate,
+  MalwareScanningPropertiesCreateOrUpdate,
+  SensitiveDataDiscoveryPropertiesCreateOrUpdate,
 } from "./models/defenderForStorageAPI/index.js";
 export {
   KnownBlobScanResultsOptions,
@@ -240,6 +255,10 @@ export type {
   ExecuteGovernanceRuleParams,
   OperationResult,
   OperationResultStatus,
+  GovernanceRuleCreateOrUpdate,
+  GovernanceRulePropertiesCreateOrUpdate,
+  GovernanceRuleMetadataCreateOrUpdate,
+  GovernanceAssignmentCreateOrUpdate,
 } from "./models/governanceAPI/index.js";
 export {
   KnownGovernanceRuleType,
@@ -323,6 +342,9 @@ export type {
   IoTSecurityAggregatedAlertPropertiesTopDevicesListItem,
   IoTSecurityAggregatedRecommendation,
   IoTSecurityAggregatedRecommendationProperties,
+  IoTSecuritySolutionModelCreateOrUpdate,
+  IoTSecuritySolutionPropertiesCreateOrUpdate,
+  DeviceSecurityGroupCreateOrUpdate,
 } from "./models/ioTSecurityAPI/index.js";
 export {
   KnownValueType,
@@ -352,6 +374,11 @@ export type {
   InformationProtectionPolicyName,
   WorkspaceSetting,
   WorkspaceSettingProperties,
+  WorkspaceSettingCreateOrUpdate,
+  WorkspaceSettingUpdate,
+  InformationProtectionPolicyCreateOrUpdate,
+  InformationProtectionPolicyPropertiesCreateOrUpdate,
+  AutoProvisioningSettingCreateOrUpdate,
 } from "./models/legacySettingsAPI/index.js";
 export {
   KnownAutoProvision,
@@ -373,6 +400,8 @@ export type {
   Extension,
   IsEnabled,
   PricingList,
+  PricingCreateOrUpdate,
+  PricingPropertiesCreateOrUpdate,
 } from "./models/pricingsAPI/index.js";
 export {
   KnownPricingTier,
@@ -388,6 +417,9 @@ export type {
   PrivateLinkProperties,
   PublicNetworkAccess,
   PrivateLinkUpdate,
+  PrivateLinkResourceCreateOrUpdate,
+  PrivateLinkPropertiesCreateOrUpdate,
+  PrivateEndpointConnectionCreateOrUpdate,
 } from "./models/privateLinksAPI/index.js";
 export { KnownPublicNetworkAccess } from "./models/privateLinksAPI/index.js";
 export type {
@@ -520,6 +552,38 @@ export type {
   ArcAutoProvisioningConfiguration,
   ArcAutoProvisioningGcp,
   VmScannersGcp,
+  SecurityConnectorCreateOrUpdate,
+  SecurityConnectorPropertiesCreateOrUpdate,
+  EnvironmentDataCreateOrUpdate,
+  EnvironmentDataCreateOrUpdateUnion,
+  AwsEnvironmentDataCreateOrUpdate,
+  GcpProjectEnvironmentDataCreateOrUpdate,
+  GcpOrganizationalDataCreateOrUpdate,
+  GcpOrganizationalDataCreateOrUpdateUnion,
+  GcpOrganizationalDataOrganizationCreateOrUpdate,
+  GcpOrganizationalDataMemberCreateOrUpdate,
+  GcpProjectDetailsCreateOrUpdate,
+  GithubScopeEnvironmentDataCreateOrUpdate,
+  AzureDevOpsScopeEnvironmentDataCreateOrUpdate,
+  GitlabScopeEnvironmentDataCreateOrUpdate,
+  DockerHubEnvironmentDataCreateOrUpdate,
+  JFrogEnvironmentDataCreateOrUpdate,
+  SecurityConnectorUpdate,
+  SecurityConnectorPropertiesUpdate,
+  EnvironmentDataUpdate,
+  EnvironmentDataUpdateUnion,
+  AwsEnvironmentDataUpdate,
+  GcpProjectEnvironmentDataUpdate,
+  GcpOrganizationalDataUpdate,
+  GcpOrganizationalDataUpdateUnion,
+  GcpOrganizationalDataOrganizationUpdate,
+  GcpOrganizationalDataMemberUpdate,
+  GcpProjectDetailsUpdate,
+  GithubScopeEnvironmentDataUpdate,
+  AzureDevOpsScopeEnvironmentDataUpdate,
+  GitlabScopeEnvironmentDataUpdate,
+  DockerHubEnvironmentDataUpdate,
+  JFrogEnvironmentDataUpdate,
 } from "./models/securityConnectorsAPI/index.js";
 export {
   KnownCloudName,
@@ -569,6 +633,22 @@ export type {
   GitHubRepository,
   GitHubRepositoryProperties,
   IssueCreationRequest,
+  AzureDevOpsRepositoryCreateOrUpdate,
+  AzureDevOpsRepositoryPropertiesCreateOrUpdate,
+  AzureDevOpsRepositoryUpdate,
+  AzureDevOpsRepositoryPropertiesUpdate,
+  AzureDevOpsProjectCreateOrUpdate,
+  AzureDevOpsProjectPropertiesCreateOrUpdate,
+  AzureDevOpsProjectUpdate,
+  AzureDevOpsProjectPropertiesUpdate,
+  DevOpsConfigurationCreateOrUpdate,
+  DevOpsConfigurationPropertiesCreateOrUpdate,
+  DevOpsConfigurationUpdate,
+  DevOpsConfigurationPropertiesUpdate,
+  AzureDevOpsOrgCreateOrUpdate,
+  AzureDevOpsOrgPropertiesCreateOrUpdate,
+  AzureDevOpsOrgUpdate,
+  AzureDevOpsOrgPropertiesUpdate,
 } from "./models/securityConnectorsDevOpsAPI/index.js";
 export {
   KnownDevOpsProvisioningState,
@@ -582,10 +662,6 @@ export {
   KnownInventoryListKind,
   KnownInventoryKind,
 } from "./models/securityConnectorsDevOpsAPI/index.js";
-export type {
-  JitNetworkAccessPolicyCreate,
-  JitNetworkAccessPolicyPropertiesCreate,
-} from "./models/securityManagementClient/index.js";
 export type { SecurityOperator } from "./models/securityOperatorsAPI/index.js";
 export type {
   DiscoveredSecuritySolution,
@@ -635,6 +711,8 @@ export type {
   SecuritySolutionsReferenceDataList,
   SecuritySolutionsReferenceData,
   SecuritySolutionsReferenceDataProperties,
+  JitNetworkAccessPolicyCreateOrUpdate,
+  JitNetworkAccessPolicyPropertiesCreateOrUpdate,
 } from "./models/securitySolutionsAPI/index.js";
 export {
   KnownSecurityFamily,
@@ -668,6 +746,15 @@ export type {
   RecommendationSupportedClouds,
   SeverityEnum,
   SecurityIssue,
+  CustomRecommendationCreateOrUpdate,
+  CustomRecommendationPropertiesCreateOrUpdate,
+  StandardAssignmentCreateOrUpdate,
+  StandardAssignmentPropertiesCreateOrUpdate,
+  StandardAssignmentPropertiesAttestationDataCreateOrUpdate,
+  StandardAssignmentMetadataCreateOrUpdate,
+  SecurityStandardCreateOrUpdate,
+  SecurityStandardPropertiesCreateOrUpdate,
+  StandardMetadataCreateOrUpdate,
 } from "./models/securityStandardsAPI/index.js";
 export {
   KnownStandardType,
@@ -699,6 +786,9 @@ export type {
   AzureServersSetting,
   ServerVulnerabilityAssessmentsAzureSettingProperties,
   ServerVulnerabilityAssessmentsAzureSettingSelectedProvider,
+  ServerVulnerabilityAssessmentsSettingCreateOrUpdate,
+  ServerVulnerabilityAssessmentsSettingCreateOrUpdateUnion,
+  AzureServersSettingCreateOrUpdate,
 } from "./models/serverVulnerabilityAssessmentsSettingsAPI/index.js";
 export {
   KnownServerVulnerabilityAssessmentsSettingKind,
@@ -713,6 +803,10 @@ export type {
   DataExportSettingProperties,
   AlertSyncSettings,
   AlertSyncSettingProperties,
+  SettingCreateOrUpdate,
+  SettingCreateOrUpdateUnion,
+  DataExportSettingsCreateOrUpdate,
+  AlertSyncSettingsCreateOrUpdate,
 } from "./models/settingsAPI/index.js";
 export { KnownSettingKind } from "./models/settingsAPI/index.js";
 export type {
@@ -742,6 +836,8 @@ export type {
   ScanPropertiesV2,
   ScanTriggerType,
   ScanState,
+  SqlVulnerabilityAssessmentSettingsCreateOrUpdate,
+  SqlVulnerabilityAssessmentSettingsPropertiesCreateOrUpdate,
 } from "./models/sqlVulnerabilityAssessmentsAPI/index.js";
 export {
   KnownRuleStatus,
@@ -761,6 +857,9 @@ export type {
   AssignmentProperties,
   AssignedComponentItem,
   AssignmentPropertiesAdditionalData,
+  AssignmentCreateOrUpdate,
+  StandardCreateOrUpdate,
+  StandardPropertiesCreateOrUpdate,
 } from "./models/standardsAPI/index.js";
 export type {
   SecuritySubAssessment,

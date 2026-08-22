@@ -14,7 +14,7 @@ import type {
   SchemaVersionsCreateOrReplaceOptionalParams,
   SchemaVersionsGetOptionalParams,
 } from "../../api/schemaVersions/options.js";
-import type { SchemaVersion } from "../../models/models.js";
+import type { SchemaVersion, SchemaVersionCreateOrUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -28,11 +28,6 @@ export interface SchemaVersionsOperations {
     options?: SchemaVersionsListBySchemaOptionalParams,
   ) => PagedAsyncIterableIterator<SchemaVersion>;
   /** Delete a SchemaVersion */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schemaRegistryName: string,
@@ -46,7 +41,7 @@ export interface SchemaVersionsOperations {
     schemaRegistryName: string,
     schemaName: string,
     schemaVersionName: string,
-    resource: SchemaVersion,
+    resource: SchemaVersionCreateOrUpdate,
     options?: SchemaVersionsCreateOrReplaceOptionalParams,
   ) => Promise<SchemaVersion>;
   /** Get a SchemaVersion */
@@ -87,7 +82,7 @@ function _getSchemaVersions(context: DeviceRegistryManagementContext) {
       schemaRegistryName: string,
       schemaName: string,
       schemaVersionName: string,
-      resource: SchemaVersion,
+      resource: SchemaVersionCreateOrUpdate,
       options?: SchemaVersionsCreateOrReplaceOptionalParams,
     ) =>
       createOrReplace(

@@ -18,7 +18,10 @@ import {
   AssessmentsMetadataCreateInSubscriptionOptionalParams,
   AssessmentsMetadataGetInSubscriptionOptionalParams,
 } from "../../api/assessmentsMetadata/options.js";
-import { SecurityAssessmentMetadataResponse } from "../../models/assessmentAPI/models.js";
+import {
+  SecurityAssessmentMetadataResponse,
+  SecurityAssessmentMetadataResponseCreateOrUpdate,
+} from "../../models/assessmentAPI/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AssessmentsMetadata operations. */
@@ -44,7 +47,7 @@ export interface AssessmentsMetadataOperations {
   /** Create metadata information on an assessment type in a specific subscription */
   createInSubscription: (
     assessmentMetadataName: string,
-    assessmentMetadata: SecurityAssessmentMetadataResponse,
+    assessmentMetadata: SecurityAssessmentMetadataResponseCreateOrUpdate,
     options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
   ) => Promise<SecurityAssessmentMetadataResponse>;
   /** Get metadata information on an assessment type in a specific subscription */
@@ -67,7 +70,7 @@ function _getAssessmentsMetadata(context: SecurityCenterContext) {
     ) => deleteInSubscription(context, assessmentMetadataName, options),
     createInSubscription: (
       assessmentMetadataName: string,
-      assessmentMetadata: SecurityAssessmentMetadataResponse,
+      assessmentMetadata: SecurityAssessmentMetadataResponseCreateOrUpdate,
       options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
     ) => createInSubscription(context, assessmentMetadataName, assessmentMetadata, options),
     getInSubscription: (

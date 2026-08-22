@@ -33,19 +33,19 @@ import {
   IssueCreateOptionalParams,
 } from "../../api/issue/options.js";
 import {
-  IssueResourceCreate,
   IssueResource,
   IssueResourceUpdate,
   InvestigationResult,
   FetchInvestigationResultParameters,
   ListParameter,
   PagedRelatedAlert,
-  RelatedAlertsCreate,
   RelatedAlerts,
   PagedRelatedResource,
-  RelatedResourcesCreate,
   RelatedResources,
   BackgroundVisualization,
+  IssueResourceCreateOrUpdate,
+  RelatedAlertsCreate,
+  RelatedResourcesCreate,
   BackgroundVisualizationCreate,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -148,7 +148,7 @@ export interface IssueOperations {
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     issueName: string,
-    resource: IssueResourceCreate,
+    resource: IssueResourceCreateOrUpdate,
     options?: IssueCreateOptionalParams,
   ) => Promise<IssueResource>;
 }
@@ -295,7 +295,7 @@ function _getIssue(context: MonitorContext) {
       resourceGroupName: string,
       azureMonitorWorkspaceName: string,
       issueName: string,
-      resource: IssueResourceCreate,
+      resource: IssueResourceCreateOrUpdate,
       options?: IssueCreateOptionalParams,
     ) =>
       create(context, resourceGroupName, azureMonitorWorkspaceName, issueName, resource, options),

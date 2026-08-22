@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -28,9 +30,21 @@ export interface Asset extends TrackedResource {
 }
 
 // @public
+export interface AssetCreateOrUpdate extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: AssetPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface AssetEndpointProfile extends TrackedResource {
     extendedLocation: ExtendedLocation;
     properties?: AssetEndpointProfileProperties;
+}
+
+// @public
+export interface AssetEndpointProfileCreateOrUpdate extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: AssetEndpointProfilePropertiesCreateOrUpdate;
 }
 
 // @public
@@ -43,6 +57,15 @@ export interface AssetEndpointProfileProperties {
     readonly status?: AssetEndpointProfileStatus;
     targetAddress: string;
     readonly uuid?: string;
+}
+
+// @public
+export interface AssetEndpointProfilePropertiesCreateOrUpdate {
+    additionalConfiguration?: string;
+    authentication?: Authentication;
+    discoveredAssetEndpointProfileRef?: string;
+    endpointProfileType: string;
+    targetAddress: string;
 }
 
 // @public
@@ -69,7 +92,7 @@ export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends O
 
 // @public
 export interface AssetEndpointProfilesOperations {
-    createOrReplace: (resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
+    createOrReplace: (resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfileCreateOrUpdate, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
     delete: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesGetOptionalParams) => Promise<AssetEndpointProfile>;
     listByResourceGroup: (resourceGroupName: string, options?: AssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
@@ -136,6 +159,30 @@ export interface AssetProperties {
 }
 
 // @public
+export interface AssetPropertiesCreateOrUpdate {
+    assetEndpointProfileRef: string;
+    attributes?: Record<string, any>;
+    datasets?: Dataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultEventsConfiguration?: string;
+    defaultTopic?: Topic;
+    description?: string;
+    discoveredAssetRefs?: string[];
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    events?: Event_2[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+}
+
+// @public
 export interface AssetsCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -159,7 +206,7 @@ export interface AssetsListBySubscriptionOptionalParams extends OperationOptions
 
 // @public
 export interface AssetsOperations {
-    createOrReplace: (resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
+    createOrReplace: (resourceGroupName: string, assetName: string, resource: AssetCreateOrUpdate, options?: AssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
     delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) => Promise<Asset>;
     listByResourceGroup: (resourceGroupName: string, options?: AssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Asset>;
@@ -279,6 +326,11 @@ export interface BringYourOwnRoot {
 }
 
 // @public
+export interface BringYourOwnRootCreateOrUpdate {
+    enabled: boolean;
+}
+
+// @public
 export type BringYourOwnRootStatus = string;
 
 // @public
@@ -300,6 +352,12 @@ export interface CertificateAuthorityConfiguration {
 }
 
 // @public
+export interface CertificateAuthorityConfigurationCreateOrUpdate {
+    bringYourOwnRoot?: BringYourOwnRootCreateOrUpdate;
+    keyType: SupportedKeyType;
+}
+
+// @public
 export interface CertificateAuthorityConfigurationUpdate {
     bringYourOwnRoot?: BringYourOwnRootUpdate;
 }
@@ -307,6 +365,12 @@ export interface CertificateAuthorityConfigurationUpdate {
 // @public
 export interface CertificateConfiguration {
     certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
+    leafCertificateConfiguration: LeafCertificateConfiguration;
+}
+
+// @public
+export interface CertificateConfigurationCreateOrUpdate {
+    certificateAuthorityConfiguration: CertificateAuthorityConfigurationCreateOrUpdate;
     leafCertificateConfiguration: LeafCertificateConfiguration;
 }
 
@@ -330,8 +394,17 @@ export interface Credential extends TrackedResource {
 }
 
 // @public
+export interface CredentialCreateOrUpdate extends TrackedResource {
+    properties?: CredentialPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface CredentialProperties {
     readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface CredentialPropertiesCreateOrUpdate {
 }
 
 // @public
@@ -354,7 +427,7 @@ export interface CredentialsListByResourceGroupOptionalParams extends OperationO
 
 // @public
 export interface CredentialsOperations {
-    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: Credential, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, resource: CredentialCreateOrUpdate, options?: CredentialsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Credential>, Credential>;
     delete: (resourceGroupName: string, namespaceName: string, options?: CredentialsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, options?: CredentialsGetOptionalParams) => Promise<Credential>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: CredentialsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Credential>;
@@ -609,6 +682,8 @@ export interface InboundEndpoints {
     version?: string;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -834,6 +909,12 @@ export interface NamespaceAsset extends TrackedResource {
 }
 
 // @public
+export interface NamespaceAssetCreateOrUpdate extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceAssetPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface NamespaceAssetProperties {
     assetTypeRefs?: string[];
     attributes?: Record<string, any>;
@@ -870,6 +951,37 @@ export interface NamespaceAssetProperties {
 }
 
 // @public
+export interface NamespaceAssetPropertiesCreateOrUpdate {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveredAssetRefs?: string[];
+    displayName?: string;
+    documentationUri?: string;
+    enabled?: boolean;
+    eventGroups?: NamespaceEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    managementGroups?: ManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceStream[];
+}
+
+// @public
 export interface NamespaceAssetsCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -889,7 +1001,7 @@ export interface NamespaceAssetsListByResourceGroupOptionalParams extends Operat
 
 // @public
 export interface NamespaceAssetsOperations {
-    createOrReplace: (resourceGroupName: string, namespaceName: string, assetName: string, resource: NamespaceAsset, options?: NamespaceAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, assetName: string, resource: NamespaceAssetCreateOrUpdate, options?: NamespaceAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
     delete: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, assetName: string, options?: NamespaceAssetsGetOptionalParams) => Promise<NamespaceAsset>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceAsset>;
@@ -986,6 +1098,12 @@ export interface NamespaceAssetUpdateProperties {
 }
 
 // @public
+export interface NamespaceCreateOrUpdate extends TrackedResource {
+    identity?: SystemAssignedServiceIdentityCreateOrUpdate;
+    properties?: NamespacePropertiesCreateOrUpdate;
+}
+
+// @public
 export interface NamespaceDataset {
     dataPoints?: NamespaceDatasetDataPoint[];
     datasetConfiguration?: string;
@@ -1011,6 +1129,12 @@ export interface NamespaceDevice extends TrackedResource {
 }
 
 // @public
+export interface NamespaceDeviceCreateOrUpdate extends TrackedResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: NamespaceDevicePropertiesCreateOrUpdate;
+}
+
+// @public
 export interface NamespaceDeviceProperties {
     attributes?: Record<string, any>;
     discoveredDeviceRef?: string;
@@ -1027,6 +1151,20 @@ export interface NamespaceDeviceProperties {
     readonly status?: DeviceStatus;
     readonly uuid?: string;
     readonly version?: number;
+}
+
+// @public
+export interface NamespaceDevicePropertiesCreateOrUpdate {
+    attributes?: Record<string, any>;
+    discoveredDeviceRef?: string;
+    enabled?: boolean;
+    endpoints?: MessagingEndpoints;
+    externalDeviceId?: string;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
+    policy?: DeviceCredentialPolicy;
 }
 
 // @public
@@ -1049,7 +1187,7 @@ export interface NamespaceDevicesListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface NamespaceDevicesOperations {
-    createOrReplace: (resourceGroupName: string, namespaceName: string, deviceName: string, resource: NamespaceDevice, options?: NamespaceDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, deviceName: string, resource: NamespaceDeviceCreateOrUpdate, options?: NamespaceDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDevice>, NamespaceDevice>;
     delete: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, deviceName: string, options?: NamespaceDevicesGetOptionalParams) => Promise<NamespaceDevice>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDevice>;
@@ -1089,6 +1227,12 @@ export interface NamespaceDiscoveredAsset extends TrackedResource {
 }
 
 // @public
+export interface NamespaceDiscoveredAssetCreateOrUpdate extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredAssetPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface NamespaceDiscoveredAssetProperties {
     assetTypeRefs?: string[];
     attributes?: Record<string, any>;
@@ -1121,6 +1265,37 @@ export interface NamespaceDiscoveredAssetProperties {
 }
 
 // @public
+export interface NamespaceDiscoveredAssetPropertiesCreateOrUpdate {
+    assetTypeRefs?: string[];
+    attributes?: Record<string, any>;
+    datasets?: NamespaceDiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultDatasetsDestinations?: DatasetDestinationUnion[];
+    defaultEventsConfiguration?: string;
+    defaultEventsDestinations?: EventDestinationUnion[];
+    defaultManagementGroupsConfiguration?: string;
+    defaultStreamsConfiguration?: string;
+    defaultStreamsDestinations?: StreamDestinationUnion[];
+    description?: string;
+    deviceRef: DeviceRef;
+    discoveryId: string;
+    displayName?: string;
+    documentationUri?: string;
+    eventGroups?: NamespaceDiscoveredEventGroup[];
+    externalAssetId?: string;
+    hardwareRevision?: string;
+    managementGroups?: NamespaceDiscoveredManagementGroup[];
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    streams?: NamespaceDiscoveredStream[];
+    version: number;
+}
+
+// @public
 export interface NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1140,7 +1315,7 @@ export interface NamespaceDiscoveredAssetsListByResourceGroupOptionalParams exte
 
 // @public
 export interface NamespaceDiscoveredAssetsOperations {
-    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, resource: NamespaceDiscoveredAsset, options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, resource: NamespaceDiscoveredAssetCreateOrUpdate, options?: NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredAsset>, NamespaceDiscoveredAsset>;
     delete: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, discoveredAssetName: string, options?: NamespaceDiscoveredAssetsGetOptionalParams) => Promise<NamespaceDiscoveredAsset>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredAsset>;
@@ -1215,6 +1390,12 @@ export interface NamespaceDiscoveredDevice extends TrackedResource {
 }
 
 // @public
+export interface NamespaceDiscoveredDeviceCreateOrUpdate extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: NamespaceDiscoveredDevicePropertiesCreateOrUpdate;
+}
+
+// @public
 export interface NamespaceDiscoveredDeviceProperties {
     attributes?: Record<string, any>;
     discoveryId: string;
@@ -1225,6 +1406,19 @@ export interface NamespaceDiscoveredDeviceProperties {
     operatingSystem?: string;
     operatingSystemVersion?: string;
     readonly provisioningState?: ProvisioningState;
+    version: number;
+}
+
+// @public
+export interface NamespaceDiscoveredDevicePropertiesCreateOrUpdate {
+    attributes?: Record<string, any>;
+    discoveryId: string;
+    endpoints?: DiscoveredMessagingEndpoints;
+    externalDeviceId?: string;
+    manufacturer?: string;
+    model?: string;
+    operatingSystem?: string;
+    operatingSystemVersion?: string;
     version: number;
 }
 
@@ -1248,7 +1442,7 @@ export interface NamespaceDiscoveredDevicesListByResourceGroupOptionalParams ext
 
 // @public
 export interface NamespaceDiscoveredDevicesOperations {
-    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, resource: NamespaceDiscoveredDevice, options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, resource: NamespaceDiscoveredDeviceCreateOrUpdate, options?: NamespaceDiscoveredDevicesCreateOrReplaceOptionalParams) => PollerLike<OperationState<NamespaceDiscoveredDevice>, NamespaceDiscoveredDevice>;
     delete: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, discoveredDeviceName: string, options?: NamespaceDiscoveredDevicesGetOptionalParams) => Promise<NamespaceDiscoveredDevice>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: NamespaceDiscoveredDevicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NamespaceDiscoveredDevice>;
@@ -1372,6 +1566,11 @@ export interface NamespaceProperties {
 }
 
 // @public
+export interface NamespacePropertiesCreateOrUpdate {
+    messaging?: Messaging;
+}
+
+// @public
 export interface NamespacesCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1400,13 +1599,13 @@ export interface NamespacesMigrateOptionalParams extends OperationOptions {
 
 // @public
 export interface NamespacesOperations {
-    createOrReplace: (resourceGroupName: string, namespaceName: string, resource: Namespace, options?: NamespacesCreateOrReplaceOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
+    createOrReplace: (resourceGroupName: string, namespaceName: string, resource: NamespaceCreateOrUpdate, options?: NamespacesCreateOrReplaceOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
     delete: (resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams) => Promise<Namespace>;
     listByResourceGroup: (resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Namespace>;
     listBySubscription: (options?: NamespacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Namespace>;
     migrate: (resourceGroupName: string, namespaceName: string, body: NamespaceMigrateRequest, options?: NamespacesMigrateOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, namespaceName: string, properties: NamespaceUpdate, options?: NamespacesUpdateOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
+    update: (resourceGroupName: string, namespaceName: string, properties: NamespaceUpdateUpdate, options?: NamespacesUpdateOptionalParams) => PollerLike<OperationState<Namespace>, Namespace>;
 }
 
 // @public
@@ -1432,6 +1631,13 @@ export interface NamespaceUpdate {
 // @public
 export interface NamespaceUpdateProperties {
     messaging?: Messaging;
+}
+
+// @public
+export interface NamespaceUpdateUpdate {
+    identity?: SystemAssignedServiceIdentityUpdate;
+    properties?: NamespaceUpdateProperties;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1529,7 +1735,7 @@ export interface PoliciesListByResourceGroupOptionalParams extends OperationOpti
 // @public
 export interface PoliciesOperations {
     activateBringYourOwnRoot: (resourceGroupName: string, namespaceName: string, policyName: string, body: ActivateBringYourOwnRootRequest, options?: PoliciesActivateBringYourOwnRootOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (resourceGroupName: string, namespaceName: string, policyName: string, resource: Policy, options?: PoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, policyName: string, resource: PolicyCreateOrUpdate, options?: PoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Policy>, Policy>;
     delete: (resourceGroupName: string, namespaceName: string, policyName: string, options?: PoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, namespaceName: string, policyName: string, options?: PoliciesGetOptionalParams) => Promise<Policy>;
     listByResourceGroup: (resourceGroupName: string, namespaceName: string, options?: PoliciesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Policy>;
@@ -1553,9 +1759,19 @@ export interface Policy extends ProxyResource {
 }
 
 // @public
+export interface PolicyCreateOrUpdate extends ProxyResource {
+    properties?: PolicyPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface PolicyProperties {
     certificate?: CertificateConfiguration;
     readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PolicyPropertiesCreateOrUpdate {
+    certificate?: CertificateConfigurationCreateOrUpdate;
 }
 
 // @public
@@ -1584,6 +1800,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -1600,6 +1818,11 @@ export interface Schema extends ProxyResource {
 }
 
 // @public
+export interface SchemaCreateOrUpdate extends ProxyResource {
+    properties?: SchemaPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface SchemaProperties {
     description?: string;
     displayName?: string;
@@ -1608,6 +1831,15 @@ export interface SchemaProperties {
     schemaType: SchemaType;
     tags?: Record<string, string>;
     readonly uuid?: string;
+}
+
+// @public
+export interface SchemaPropertiesCreateOrUpdate {
+    description?: string;
+    displayName?: string;
+    format: Format;
+    schemaType: SchemaType;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1634,12 +1866,12 @@ export interface SchemaRegistriesListBySubscriptionOptionalParams extends Operat
 
 // @public
 export interface SchemaRegistriesOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistry, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistryCreateOrUpdate, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
     delete: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesGetOptionalParams) => Promise<SchemaRegistry>;
     listByResourceGroup: (resourceGroupName: string, options?: SchemaRegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
     listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
-    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdateUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 
 // @public
@@ -1654,6 +1886,12 @@ export interface SchemaRegistry extends TrackedResource {
 }
 
 // @public
+export interface SchemaRegistryCreateOrUpdate extends TrackedResource {
+    identity?: SystemAssignedServiceIdentityCreateOrUpdate;
+    properties?: SchemaRegistryPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface SchemaRegistryProperties {
     description?: string;
     displayName?: string;
@@ -1661,6 +1899,14 @@ export interface SchemaRegistryProperties {
     readonly provisioningState?: ProvisioningState;
     storageAccountContainerUrl: string;
     readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistryPropertiesCreateOrUpdate {
+    description?: string;
+    displayName?: string;
+    namespace: string;
+    storageAccountContainerUrl: string;
 }
 
 // @public
@@ -1674,6 +1920,13 @@ export interface SchemaRegistryUpdate {
 export interface SchemaRegistryUpdateProperties {
     description?: string;
     displayName?: string;
+}
+
+// @public
+export interface SchemaRegistryUpdateUpdate {
+    identity?: SystemAssignedServiceIdentityUpdate;
+    properties?: SchemaRegistryUpdateProperties;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1695,7 +1948,7 @@ export interface SchemasListBySchemaRegistryOptionalParams extends OperationOpti
 
 // @public
 export interface SchemasOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: SchemaCreateOrUpdate, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
     delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasGetOptionalParams) => Promise<Schema>;
     listBySchemaRegistry: (resourceGroupName: string, schemaRegistryName: string, options?: SchemasListBySchemaRegistryOptionalParams) => PagedAsyncIterableIterator<Schema>;
@@ -1710,12 +1963,23 @@ export interface SchemaVersion extends ProxyResource {
 }
 
 // @public
+export interface SchemaVersionCreateOrUpdate extends ProxyResource {
+    properties?: SchemaVersionPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface SchemaVersionProperties {
     description?: string;
     readonly hash?: string;
     readonly provisioningState?: ProvisioningState;
     schemaContent: string;
     readonly uuid?: string;
+}
+
+// @public
+export interface SchemaVersionPropertiesCreateOrUpdate {
+    description?: string;
+    schemaContent: string;
 }
 
 // @public
@@ -1737,7 +2001,7 @@ export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptio
 
 // @public
 export interface SchemaVersionsOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersionCreateOrUpdate, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
     delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams) => Promise<SchemaVersion>;
     listBySchema: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams) => PagedAsyncIterableIterator<SchemaVersion>;
@@ -1799,7 +2063,17 @@ export interface SystemAssignedServiceIdentity {
 }
 
 // @public
+export interface SystemAssignedServiceIdentityCreateOrUpdate {
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
 export type SystemAssignedServiceIdentityType = string;
+
+// @public
+export interface SystemAssignedServiceIdentityUpdate {
+    type: SystemAssignedServiceIdentityType;
+}
 
 // @public
 export interface SystemData {
