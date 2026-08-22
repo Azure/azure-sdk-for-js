@@ -309,6 +309,8 @@ describe("filterRelevantFiles", () => {
 describe("verifyPackages", () => {
   afterEach(() => {
     vi.clearAllMocks();
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("returns 0 when version is not published (new version)", () => {
@@ -379,6 +381,9 @@ describe("verifyPackages", () => {
   });
 
   it("returns 1 when version is published and files ARE modified", () => {
+    vi.stubEnv("TF_BUILD", "True");
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     vi.mocked(fs.default.existsSync).mockReturnValueOnce(true);
     vi.mocked(fs.default.readFileSync).mockReturnValueOnce(
       JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
@@ -399,6 +404,20 @@ describe("verifyPackages", () => {
 
     const result = verifyPackages(["@azure/storage-blob"], ["/repo/sdk/storage/storage-blob"]);
     assert.strictEqual(result, 1);
+    assert.ok(
+      errorSpy.mock.calls.some(
+        (call) =>
+          call[0] ===
+          'Package version check failed for @azure/storage-blob@1.2.3: source files changed after published tag "@azure/storage-blob_1.2.3". Run "npx dev-tool package increment-version" from sdk/storage/storage-blob and commit the resulting changes.',
+      ),
+    );
+    assert.ok(
+      logSpy.mock.calls.some(
+        (call) =>
+          call[0] ===
+          '##vso[task.logissue type=error]Package version check failed for @azure/storage-blob@1.2.3: source files changed after published tag "@azure/storage-blob_1.2.3". Run "npx dev-tool package increment-version" from sdk/storage/storage-blob and commit the resulting changes.',
+      ),
+    );
   });
 
   it("handles multiple packages with mixed pass/fail", () => {
