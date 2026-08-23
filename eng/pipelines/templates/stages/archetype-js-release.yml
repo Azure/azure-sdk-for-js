@@ -47,9 +47,6 @@ stages:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
-              # workaround for step "Validate SBoM Manifest" failing and blocking publish
-              - name: SbomToolkit_CoseValidationBlocking
-                value: 'true'
             displayName: 'Release: ${{artifact.name}}'
             # Manual runs release the queue-time artifact selection unchanged. Post-merge CI runs
             # additionally gate on the auto-release resolution: only release packages the labeled PR changed.

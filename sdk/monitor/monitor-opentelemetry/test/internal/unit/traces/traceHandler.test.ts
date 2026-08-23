@@ -32,6 +32,14 @@ import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exp
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
 import { createTracingClient } from "@azure/core-tracing";
+import {
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_SERVER_ADDRESS,
+  ATTR_SERVER_PORT,
+  ATTR_URL_FULL,
+  ATTR_URL_PATH,
+} from "@opentelemetry/semantic-conventions";
 
 describe("Library/TraceHandler", () => {
   const connectionString = "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -290,7 +298,8 @@ describe("Library/TraceHandler", () => {
       const spans = allSpans.filter(
         (span: ReadableSpan) =>
           span.attributes["startAttribute"] === "SomeValue" &&
-          span.attributes["http.target"] === "/test",
+          (span.attributes[ATTR_URL_PATH] === "/test" ||
+            span.attributes[ATTR_URL_FULL] === `http://localhost:${mockHttpServerPort}/test`),
       );
       expect(spans.length).toBe(2);
       assert.deepStrictEqual(spans.length, 2);
@@ -304,17 +313,11 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
       assert.isDefined(spans[0].startTime);
       assert.isDefined(spans[0].endTime);
-      assert.deepStrictEqual(spans[0].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
-      assert.deepStrictEqual(
-        spans[0].attributes["http.url"],
-        `http://localhost:${mockHttpServerPort}/test`,
-      );
-      assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
-      assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[0].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
+      assert.deepStrictEqual(spans[0].attributes[ATTR_URL_PATH], "/test");
       // Outgoing request
       assert.deepStrictEqual(spans[1].name, "GET");
       assert.deepStrictEqual(
@@ -325,16 +328,14 @@ describe("Library/TraceHandler", () => {
       assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
       assert.isDefined(spans[1].startTime);
       assert.isDefined(spans[1].endTime);
-      assert.deepStrictEqual(spans[1].attributes["http.host"], `localhost:${mockHttpServerPort}`);
-      assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
-      assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
-      assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
-      assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_ADDRESS], "localhost");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_SERVER_PORT], mockHttpServerPort);
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_REQUEST_METHOD], "GET");
+      assert.deepStrictEqual(spans[1].attributes[ATTR_HTTP_RESPONSE_STATUS_CODE], 200);
       assert.deepStrictEqual(
-        spans[1].attributes["http.url"],
+        spans[1].attributes[ATTR_URL_FULL],
         `http://localhost:${mockHttpServerPort}/test`,
       );
-      assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
       assert.notDeepEqual(spans[0].spanContext().spanId, spans[1].spanContext().spanId);
       // Incoming request
       assert.deepStrictEqual(spans[0].attributes["startAttribute"], "SomeValue");
