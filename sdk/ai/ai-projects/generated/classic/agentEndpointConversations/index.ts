@@ -33,11 +33,12 @@ import {
 import {
   VoiceConversation,
   VoiceResponse,
-  VoiceConversationItemUnion,
+  VoiceConversationItem,
   VoiceItemAudioResponse,
   VoiceRecordingResponse,
   AgentEndpointConversationsGetAgentConversationAudioContentResponse,
   AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+  AgentEndpointConversationsGetAgentConversationItemResponse,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -120,7 +121,7 @@ export interface AgentEndpointConversationsOperations {
     conversationId: string,
     itemId: string,
     options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams,
-  ) => Promise<VoiceConversationItemUnion>;
+  ) => Promise<AgentEndpointConversationsGetAgentConversationItemResponse>;
   /**
    * Returns a paged collection of items — the complete ordered conversation history, including user input,
    * assistant output, and client-created tool outputs (transcripts + tool events). Returns `404` when the
@@ -131,7 +132,7 @@ export interface AgentEndpointConversationsOperations {
     agentName: string,
     conversationId: string,
     options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams,
-  ) => PagedAsyncIterableIterator<VoiceConversationItemUnion>;
+  ) => PagedAsyncIterableIterator<VoiceConversationItem>;
   /**
    * Returns a paged collection of the output items produced by a specific response (the response's output
    * projection). For the complete ordered conversation history — including user input and client-created
@@ -144,7 +145,7 @@ export interface AgentEndpointConversationsOperations {
     conversationId: string,
     responseId: string,
     options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
-  ) => PagedAsyncIterableIterator<VoiceConversationItemUnion>;
+  ) => PagedAsyncIterableIterator<VoiceConversationItem>;
   /**
    * Retrieves a single response from the specified conversation by its id, including its `output` items,
    * `usage`, and status. Returns `404` when the conversation or response was not persisted (`store = false`).

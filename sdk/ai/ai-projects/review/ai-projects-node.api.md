@@ -41,6 +41,30 @@ export interface A2AProtocolConfiguration {
 }
 
 // @public
+export type A2AProtocolVersion = "1.0";
+
+// @public
+export interface A2ATool extends Tool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    type: "a2a";
+}
+
+// @public
+export interface A2AToolboxTool extends ToolboxTool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    // (undocumented)
+    type: "a2a";
+}
+
+// @public
 export interface ActivityProtocolConfiguration {
     enable_m365_public_endpoint?: boolean;
 }
@@ -184,6 +208,11 @@ export interface AgentEndpointConversationsGetAgentConversationItemAudioOptional
 export interface AgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
 }
 
+// @public (undocumented)
+export type AgentEndpointConversationsGetAgentConversationItemResponse = {
+    body: VoiceConversationItem;
+};
+
 // @public
 export interface AgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
 }
@@ -230,12 +259,12 @@ export interface AgentEndpointConversationsOperations {
     getAgentConversation: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
     getAgentConversationAudio: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
     getAgentConversationAudioContent: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse>;
-    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<VoiceConversationItemUnion>;
+    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemResponse>;
     getAgentConversationItemAudio: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
     getAgentConversationItemAudioContent: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
     getAgentConversationResponse: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
-    listAgentConversationItems: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<VoiceConversationItemUnion>;
-    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<VoiceConversationItemUnion>;
+    listAgentConversationItems: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<VoiceConversationItem>;
+    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<VoiceConversationItem>;
     listAgentConversationResponses: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
     listAgentConversations: (agentName: string, options?: AgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
 }
@@ -894,11 +923,11 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsOperations {
-    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
+    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
 }
 
 // @public
@@ -1278,41 +1307,41 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
     action?: RoutineActionUnion;
     description?: string;
     enabled?: boolean;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     payload?: RoutineDispatchPayloadUnion;
 }
 
 // @public
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
     order?: string;
 }
@@ -1322,7 +1351,7 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     filter?: string;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
     order?: string;
 }
@@ -2763,6 +2792,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     kind: "hosted";
     memory: string;
     protocol_versions?: ProtocolVersionRecord[];
+    session_configuration?: SessionConfiguration;
     telemetry_config?: TelemetryConfig;
 }
 
@@ -4361,6 +4391,11 @@ export type SearchContentType = "text" | "image";
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
+export interface SessionConfiguration {
+    idle_timeout_seconds?: number;
+}
+
+// @public
 export interface SessionDirectoryEntry {
     is_directory: boolean;
     modified_time: Date;
@@ -4680,10 +4715,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "web_iq_preview" | "a2a";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -4824,10 +4859,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | MCPTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | MCPTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -5303,7 +5338,6 @@ export interface VoiceAgentRealtimeClientConnectOptions {
 
 // @public
 export interface VoiceAgentRealtimeClientOptions {
-    allowCredentialsInUrl?: boolean;
     apiVersion?: string;
     connectionTimeoutInMs?: number;
     credentialScopes?: string | string[];
@@ -6101,13 +6135,9 @@ export interface VoiceAgentWebSocketTransport {
 }
 
 // @public
-export interface VoiceAssistantMessageItem extends VoiceMessageItem {
-    content: RealtimeConversationItemMessageAssistantContent[];
-    id?: string;
-    object?: "realtime.item";
-    // (undocumented)
-    role: "assistant";
-    status?: "completed" | "incomplete" | "in_progress";
+export interface VoiceAssistantMessageItem extends RealtimeConversationItemMessageAssistant {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
@@ -6244,17 +6274,7 @@ export interface VoiceConversation {
 }
 
 // @public
-export interface VoiceConversationItem {
-    created_at?: Date;
-    response_id?: string;
-    type: VoiceConversationItemType;
-}
-
-// @public
-export type VoiceConversationItemType = "message" | "function_call" | "function_call_output" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "mcp_approval_response";
-
-// @public
-export type VoiceConversationItemUnion = VoiceMessageItemUnion | VoiceFunctionCallItem | VoiceFunctionCallOutputItem | VoiceMcpListToolsItem | VoiceMcpCallItem | VoiceMcpApprovalRequestItem | VoiceMcpApprovalResponseItem | VoiceConversationItem;
+export type VoiceConversationItem = VoiceSystemMessageItem | VoiceUserMessageItem | VoiceAssistantMessageItem | VoiceFunctionCallItem | VoiceFunctionCallOutputItem | VoiceMcpListToolsItem | VoiceMcpCallItem | VoiceMcpApprovalRequestItem | VoiceMcpApprovalResponseItem;
 
 // @public
 export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
@@ -6273,27 +6293,16 @@ export type VoiceEndOfUtteranceDetectionModel = "semantic_detection_v1" | "seman
 export type VoiceEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
 
 // @public
-export interface VoiceFunctionCallItem extends VoiceConversationItem {
-    arguments: string;
-    call_id?: string;
-    id?: string;
-    name: string;
-    object?: "realtime.item";
-    status?: "completed" | "incomplete" | "in_progress";
-    // (undocumented)
-    type: "function_call";
+export interface VoiceFunctionCallItem extends RealtimeConversationItemFunctionCall {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
-export interface VoiceFunctionCallOutputItem extends VoiceConversationItem {
-    call_id: string;
-    id?: string;
+export interface VoiceFunctionCallOutputItem extends RealtimeConversationItemFunctionCallOutput {
+    readonly created_at?: Date;
     name?: string;
-    object?: "realtime.item";
-    output: string;
-    status?: "completed" | "incomplete" | "in_progress";
-    // (undocumented)
-    type: "function_call_output";
+    readonly response_id?: string;
 }
 
 // @public
@@ -6332,60 +6341,28 @@ export interface VoiceItemAudioResponse {
 }
 
 // @public
-export interface VoiceMcpApprovalRequestItem extends VoiceConversationItem {
-    arguments: string;
-    id: string;
-    name: string;
-    server_label: string;
-    // (undocumented)
-    type: "mcp_approval_request";
+export interface VoiceMcpApprovalRequestItem extends RealtimeMCPApprovalRequest {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
-export interface VoiceMcpApprovalResponseItem extends VoiceConversationItem {
-    approval_request_id: string;
-    approve: boolean;
-    id: string;
-    // (undocumented)
-    reason?: string;
-    // (undocumented)
-    type: "mcp_approval_response";
+export interface VoiceMcpApprovalResponseItem extends RealtimeMCPApprovalResponse {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
-export interface VoiceMcpCallItem extends VoiceConversationItem {
-    // (undocumented)
-    approval_request_id?: string;
-    arguments: string;
-    // (undocumented)
-    error?: RealtimeMCPErrorUnion;
-    id: string;
-    name: string;
-    // (undocumented)
-    output?: string;
-    server_label: string;
-    // (undocumented)
-    type: "mcp_call";
+export interface VoiceMcpCallItem extends RealtimeMCPToolCall {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
-export interface VoiceMcpListToolsItem extends VoiceConversationItem {
-    id?: string;
-    server_label: string;
-    tools: MCPListToolsTool[];
-    // (undocumented)
-    type: "mcp_list_tools";
+export interface VoiceMcpListToolsItem extends RealtimeMCPListTools {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
-
-// @public
-export interface VoiceMessageItem extends VoiceConversationItem {
-    role: RealtimeConversationItemMessageType;
-    // (undocumented)
-    type: "message";
-}
-
-// @public
-export type VoiceMessageItemUnion = VoiceSystemMessageItem | VoiceUserMessageItem | VoiceAssistantMessageItem | VoiceMessageItem;
 
 // @public
 export type VoiceModelType = "managed" | "self_deployed";
@@ -6426,7 +6403,7 @@ export interface VoiceResponse extends OmitPropertiesRealtimeResponse {
     created_at?: Date;
     id: string;
     metadata?: Record<string, string>;
-    output?: VoiceConversationItemUnion[];
+    output?: VoiceConversationItem[];
     temperature?: number;
 }
 
@@ -6440,17 +6417,13 @@ export interface VoiceResponseAudioOutput {
     format?: RealtimeAudioFormatsUnion;
     voice?: string;
     voice_locale?: string;
-    voice_type?: string;
+    voice_type?: VoiceType;
 }
 
 // @public
-export interface VoiceSystemMessageItem extends VoiceMessageItem {
-    content: RealtimeConversationItemMessageSystemContent[];
-    id?: string;
-    object?: "realtime.item";
-    // (undocumented)
-    role: "system";
-    status?: "completed" | "incomplete" | "in_progress";
+export interface VoiceSystemMessageItem extends RealtimeConversationItemMessageSystem {
+    readonly created_at?: Date;
+    readonly response_id?: string;
 }
 
 // @public
@@ -6484,13 +6457,29 @@ export type VoiceTurnDetectionType = "server_vad" | "semantic_vad" | "azure_sema
 export type VoiceTurnDetectionUnion = VoiceAzureSemanticVadTurnDetection | VoiceAzureSemanticVadEnTurnDetection | VoiceAzureSemanticVadMultilingualTurnDetection | VoiceTurnDetection;
 
 // @public
-export interface VoiceUserMessageItem extends VoiceMessageItem {
-    content: RealtimeConversationItemMessageUserContent[];
-    id?: string;
-    object?: "realtime.item";
+export type VoiceType = "openai" | "azure-standard" | "azure-custom" | "azure-personal" | "avatar-voice-sync" | "azure-realtime-native";
+
+// @public
+export interface VoiceUserMessageItem extends RealtimeConversationItemMessageUser {
+    readonly created_at?: Date;
+    readonly response_id?: string;
+}
+
+// @public
+export interface WebIQPreviewTool extends Tool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    type: "web_iq_preview";
+}
+
+// @public
+export interface WebIQPreviewToolboxTool extends ToolboxTool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
     // (undocumented)
-    role: "user";
-    status?: "completed" | "incomplete" | "in_progress";
+    type: "web_iq_preview";
 }
 
 // @public

@@ -18,6 +18,7 @@
 
 - Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
 - Added `project.realtime` (`VoiceAgentRealtimeClient`) for establishing bidirectional realtime WebSocket sessions with voice agents, including text, audio, and tool-call streaming.
+- Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
 - Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
 
 ### Bugs Fixed

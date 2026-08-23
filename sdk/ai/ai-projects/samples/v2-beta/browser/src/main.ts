@@ -7,7 +7,7 @@ import {
   type Agent,
   type AgentDefinitionUnion,
   type AgentVersion,
-  type VoiceConversationItemUnion,
+  type VoiceConversationItem,
   type VoiceRecordingResponse,
   type VoiceAgentDefinition,
   type VoiceAgentConnection,
@@ -15,7 +15,6 @@ import {
 } from "@azure/ai-projects";
 import { MicrophoneCapture, PcmAudioPlayer } from "./audio.js";
 import { LocalAzureCredential } from "./localAzureCredential.js";
-import { localVoiceAgentWebSocketFactory } from "./localVoiceAgentWebSocket.js";
 import "./styles.css";
 
 const preview = "VoiceAgents=V1Preview" as const;
@@ -287,9 +286,7 @@ class VoiceAgentConsole {
     if (this.client && this.loadedEndpoint === endpoint) {
       return this.client;
     }
-    const client = new AIProjectClient(endpoint, new LocalAzureCredential(), {
-      realtimeOptions: { webSocketFactory: localVoiceAgentWebSocketFactory },
-    });
+    const client = new AIProjectClient(endpoint, new LocalAzureCredential());
     this.client = client;
     this.loadedEndpoint = endpoint;
     return client;
@@ -363,7 +360,7 @@ class VoiceAgentConsole {
         agentName,
         conversationId,
       );
-      const items: VoiceConversationItemUnion[] = [];
+      const items: VoiceConversationItem[] = [];
       for await (const item of client.agentEndpointConversations.listAgentConversationItems(
         agentName,
         conversationId,
@@ -1004,7 +1001,7 @@ class VoiceAgentConsole {
     }
   }
 
-  private renderFetchedConversation(items: VoiceConversationItemUnion[]): number {
+  private renderFetchedConversation(items: VoiceConversationItem[]): number {
     const messages = items.flatMap((item) => {
       const message = getPersistedMessage(item);
       return message ? [message] : [];
@@ -1254,7 +1251,7 @@ function getErrorMessage(error: unknown): string {
 }
 
 function getPersistedMessage(
-  item: VoiceConversationItemUnion,
+  item: VoiceConversationItem,
 ): { role: "user" | "assistant"; text: string } | undefined {
   if (
     item.type !== "message" ||

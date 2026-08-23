@@ -14,14 +14,14 @@ import {
 
 export function _connectVoiceAgentSend(
   context: Client,
-  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/endpoint/protocols/voice{?agent_session_id,store,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
+    "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,agent_session_id,store,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
     {
       agent_name: agentName,
+      foundry_features: options?.foundryFeaturesQuery,
       agent_session_id: options?.agentSessionId,
       store: options?.store,
       "x%2Dagent%2Dversion%2Doverride": options?.agentVersionOverride,
@@ -36,7 +36,9 @@ export function _connectVoiceAgentSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "foundry-features": foundryFeatures,
+        ...(options?.foundryFeatures !== undefined
+          ? { "foundry-features": options?.foundryFeatures }
+          : {}),
         ...(options?.websocketSubprotocol !== undefined
           ? { "sec-websocket-protocol": options?.websocketSubprotocol }
           : {}),
@@ -64,7 +66,9 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 
 /**
  * Connects to a voice agent over WebSocket. The client must send an HTTP GET with `Upgrade: websocket`
- * headers. The optional `realtime` subprotocol is the only accepted subprotocol value.
+ * headers. The optional `realtime` subprotocol is the only accepted subprotocol value. Supply the
+ * `VoiceAgents=V1Preview` opt-in through either the `Foundry-Features` header or the `foundry_features`
+ * query parameter.
  *
  * If the target agent is disabled, the HTTP WebSocket handshake fails before the `101 Switching Protocols`
  * upgrade. The service returns `409 Conflict` using the shared Foundry `ApiErrorResponse` shape with
@@ -72,10 +76,9 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
  */
 export async function connectVoiceAgent(
   context: Client,
-  foundryFeatures: "VoiceAgents=V1Preview",
   agentName: string,
   options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _connectVoiceAgentSend(context, foundryFeatures, agentName, options);
+  const result = await _connectVoiceAgentSend(context, agentName, options);
   return _connectVoiceAgentDeserialize(result);
 }

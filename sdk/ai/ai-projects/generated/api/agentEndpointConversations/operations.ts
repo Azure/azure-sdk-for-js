@@ -12,8 +12,7 @@ import {
   _agentsPagedResultVoiceResponseDeserializer,
   VoiceResponse,
   voiceResponseDeserializer,
-  voiceConversationItemUnionDeserializer,
-  VoiceConversationItemUnion,
+  VoiceConversationItem,
   _AgentsPagedResultVoiceConversationItem,
   _agentsPagedResultVoiceConversationItemDeserializer,
   VoiceItemAudioResponse,
@@ -22,6 +21,7 @@ import {
   voiceRecordingResponseDeserializer,
   AgentEndpointConversationsGetAgentConversationAudioContentResponse,
   AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+  AgentEndpointConversationsGetAgentConversationItemResponse,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -404,7 +404,7 @@ export function _getAgentConversationItemSend(
 
 export async function _getAgentConversationItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<VoiceConversationItemUnion> {
+): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -415,7 +415,7 @@ export async function _getAgentConversationItemDeserialize(
     throw error;
   }
 
-  return voiceConversationItemUnionDeserializer(result.body);
+  return { body: result.body as any };
 }
 
 /**
@@ -434,7 +434,7 @@ export async function getAgentConversationItem(
   options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<VoiceConversationItemUnion> {
+): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
   const result = await _getAgentConversationItemSend(
     context,
     foundryFeatures,
@@ -511,7 +511,7 @@ export function listAgentConversationItems(
   options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItemUnion> {
+): PagedAsyncIterableIterator<VoiceConversationItem> {
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -591,7 +591,7 @@ export function listAgentConversationResponseItems(
   options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItemUnion> {
+): PagedAsyncIterableIterator<VoiceConversationItem> {
   return buildPagedAsyncIterator(
     context,
     () =>
