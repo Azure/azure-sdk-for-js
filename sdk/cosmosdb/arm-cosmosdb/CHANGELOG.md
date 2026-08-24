@@ -1,5 +1,381 @@
 # Release History
 
+## 17.1.0-beta.1 (2026-08-20)
+Compared with version 17.0.0
+
+### Features Added
+  - Added operation group ChaosFaultOperations
+  - Added operation group CopyJobsOperations
+  - Added operation group DataTransferJobsOperations
+  - Added operation group FleetAnalyticsOperations
+  - Added operation group GarnetClustersOperations
+  - Added operation group GraphResourcesOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation group SoftDeletedDatabaseAccountsOperations
+  - Added operation group SoftDeletedSqlContainersOperations
+  - Added operation group SoftDeletedSqlDatabasesOperations
+  - Added operation group ThroughputPoolAccountOperations
+  - Added operation group ThroughputPoolAccountsOperations
+  - Added operation group ThroughputPoolOperations
+  - Added operation group ThroughputPoolsOperations
+  - Added operation CassandraClustersOperations.beginInvokeCommandAsync
+  - Added operation CassandraClustersOperations.beginInvokeCommandAsyncAndWait
+  - Added operation CassandraClustersOperations.getBackup
+  - Added operation CassandraClustersOperations.getCommandAsync
+  - Added operation CassandraClustersOperations.invokeCommandAsync
+  - Added operation CassandraClustersOperations.listBackups
+  - Added operation CassandraClustersOperations.listCommand
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraView
+  - Added operation CassandraResourcesOperations.beginCreateUpdateCassandraViewAndWait
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraView
+  - Added operation CassandraResourcesOperations.beginDeleteCassandraViewAndWait
+  - Added operation CassandraResourcesOperations.beginMigrateCassandraViewToAutoscale
+  - Added operation CassandraResourcesOperations.beginMigrateCassandraViewToAutoscaleAndWait
+  - Added operation CassandraResourcesOperations.beginMigrateCassandraViewToManualThroughput
+  - Added operation CassandraResourcesOperations.beginMigrateCassandraViewToManualThroughputAndWait
+  - Added operation CassandraResourcesOperations.beginUpdateCassandraViewThroughput
+  - Added operation CassandraResourcesOperations.beginUpdateCassandraViewThroughputAndWait
+  - Added operation CassandraResourcesOperations.createUpdateCassandraView
+  - Added operation CassandraResourcesOperations.deleteCassandraView
+  - Added operation CassandraResourcesOperations.getCassandraView
+  - Added operation CassandraResourcesOperations.getCassandraViewThroughput
+  - Added operation CassandraResourcesOperations.listCassandraViews
+  - Added operation CassandraResourcesOperations.migrateCassandraViewToAutoscale
+  - Added operation CassandraResourcesOperations.migrateCassandraViewToManualThroughput
+  - Added operation CassandraResourcesOperations.updateCassandraViewThroughput
+  - Added operation MongoDBResourcesOperations.beginListMongoDBCollectionPartitionMerge
+  - Added operation MongoDBResourcesOperations.beginListMongoDBCollectionPartitionMergeAndWait
+  - Added operation MongoDBResourcesOperations.beginMongoDBContainerRedistributeThroughput
+  - Added operation MongoDBResourcesOperations.beginMongoDBContainerRedistributeThroughputAndWait
+  - Added operation MongoDBResourcesOperations.beginMongoDBContainerRetrieveThroughputDistribution
+  - Added operation MongoDBResourcesOperations.beginMongoDBContainerRetrieveThroughputDistributionAndWait
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabasePartitionMerge
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabasePartitionMergeAndWait
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabaseRedistributeThroughput
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabaseRedistributeThroughputAndWait
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabaseRetrieveThroughputDistribution
+  - Added operation MongoDBResourcesOperations.beginMongoDBDatabaseRetrieveThroughputDistributionAndWait
+  - Added operation MongoDBResourcesOperations.listMongoDBCollectionPartitionMerge
+  - Added operation MongoDBResourcesOperations.mongoDBContainerRedistributeThroughput
+  - Added operation MongoDBResourcesOperations.mongoDBContainerRetrieveThroughputDistribution
+  - Added operation MongoDBResourcesOperations.mongoDBDatabasePartitionMerge
+  - Added operation MongoDBResourcesOperations.mongoDBDatabaseRedistributeThroughput
+  - Added operation MongoDBResourcesOperations.mongoDBDatabaseRetrieveThroughputDistribution
+  - Added operation SqlResourcesOperations.beginListSqlContainerPartitionMerge
+  - Added operation SqlResourcesOperations.beginListSqlContainerPartitionMergeAndWait
+  - Added operation SqlResourcesOperations.beginSqlContainerRedistributeThroughput
+  - Added operation SqlResourcesOperations.beginSqlContainerRedistributeThroughputAndWait
+  - Added operation SqlResourcesOperations.beginSqlContainerRetrieveThroughputDistribution
+  - Added operation SqlResourcesOperations.beginSqlContainerRetrieveThroughputDistributionAndWait
+  - Added operation SqlResourcesOperations.beginSqlDatabasePartitionMerge
+  - Added operation SqlResourcesOperations.beginSqlDatabasePartitionMergeAndWait
+  - Added operation SqlResourcesOperations.beginSqlDatabaseRedistributeThroughput
+  - Added operation SqlResourcesOperations.beginSqlDatabaseRedistributeThroughputAndWait
+  - Added operation SqlResourcesOperations.beginSqlDatabaseRetrieveThroughputDistribution
+  - Added operation SqlResourcesOperations.beginSqlDatabaseRetrieveThroughputDistributionAndWait
+  - Added operation SqlResourcesOperations.listSqlContainerPartitionMerge
+  - Added operation SqlResourcesOperations.sqlContainerRedistributeThroughput
+  - Added operation SqlResourcesOperations.sqlContainerRetrieveThroughputDistribution
+  - Added operation SqlResourcesOperations.sqlDatabasePartitionMerge
+  - Added operation SqlResourcesOperations.sqlDatabaseRedistributeThroughput
+  - Added operation SqlResourcesOperations.sqlDatabaseRetrieveThroughputDistribution
+  - Added Interface AccessRule
+  - Added Interface AccessRuleProperties
+  - Added Interface AzureBlobContainer
+  - Added Interface AzureBlobDataTransferDataSourceSink
+  - Added Interface AzureBlobSourceSinkDetails
+  - Added Interface BackupResource
+  - Added Interface BaseCopyJobProperties
+  - Added Interface BaseCopyJobTask
+  - Added Interface BaseCosmosDataTransferDataSourceSink
+  - Added Interface BlobToCassandraRUCopyJobProperties
+  - Added Interface BlobToCassandraRUCopyJobTask
+  - Added Interface CapacityModeChangeTransitionState
+  - Added Interface CassandraClustersGetBackupOptionalParams
+  - Added Interface CassandraClustersGetCommandAsyncOptionalParams
+  - Added Interface CassandraClustersInvokeCommandAsyncOptionalParams
+  - Added Interface CassandraClustersListBackupsOptionalParams
+  - Added Interface CassandraClustersListCommandOptionalParams
+  - Added Interface CassandraResourcesCreateUpdateCassandraViewOptionalParams
+  - Added Interface CassandraResourcesDeleteCassandraViewOptionalParams
+  - Added Interface CassandraResourcesGetCassandraViewOptionalParams
+  - Added Interface CassandraResourcesGetCassandraViewThroughputOptionalParams
+  - Added Interface CassandraResourcesListCassandraViewsOptionalParams
+  - Added Interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams
+  - Added Interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams
+  - Added Interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
+  - Added Interface CassandraRUToBlobCopyJobProperties
+  - Added Interface CassandraRUToBlobCopyJobTask
+  - Added Interface CassandraRUToCassandraRUCopyJobProperties
+  - Added Interface CassandraRUToCassandraRUCopyJobTask
+  - Added Interface CassandraViewCreateUpdateParameters
+  - Added Interface CassandraViewCreateUpdateProperties
+  - Added Interface CassandraViewGetProperties
+  - Added Interface CassandraViewGetPropertiesOptions
+  - Added Interface CassandraViewGetPropertiesResource
+  - Added Interface CassandraViewGetResults
+  - Added Interface CassandraViewResource
+  - Added Interface ChaosFaultEnableDisableOptionalParams
+  - Added Interface ChaosFaultGetOptionalParams
+  - Added Interface ChaosFaultListOptionalParams
+  - Added Interface ChaosFaultProperties
+  - Added Interface ChaosFaultResource
+  - Added Interface CommandAsyncPostBody
+  - Added Interface CommandPublicResource
+  - Added Interface CopyJobGetResults
+  - Added Interface CopyJobProperties
+  - Added Interface CopyJobsCancelOptionalParams
+  - Added Interface CopyJobsCompleteOptionalParams
+  - Added Interface CopyJobsCreateOptionalParams
+  - Added Interface CopyJobsGetOptionalParams
+  - Added Interface CopyJobsListByDatabaseAccountOptionalParams
+  - Added Interface CopyJobsPauseOptionalParams
+  - Added Interface CopyJobsResumeOptionalParams
+  - Added Interface CosmosCassandraDataTransferDataSourceSink
+  - Added Interface CosmosDBCassandraTable
+  - Added Interface CosmosDBMongoCollection
+  - Added Interface CosmosDBMongoVCoreCollection
+  - Added Interface CosmosDBNoSqlContainer
+  - Added Interface CosmosDBSourceSinkDetails
+  - Added Interface CosmosMongoDataTransferDataSourceSink
+  - Added Interface CosmosMongoVCoreDataTransferDataSourceSink
+  - Added Interface CosmosSqlDataTransferDataSourceSink
+  - Added Interface CreateJobRequest
+  - Added Interface DataMaskingPolicy
+  - Added Interface DataMaskingPolicyExcludedPathsItem
+  - Added Interface DataMaskingPolicyIncludedPathsItem
+  - Added Interface DataTransferDataSourceSink
+  - Added Interface DataTransferJobGetResults
+  - Added Interface DataTransferJobProperties
+  - Added Interface DataTransferJobsCancelOptionalParams
+  - Added Interface DataTransferJobsCompleteOptionalParams
+  - Added Interface DataTransferJobsCreateOptionalParams
+  - Added Interface DataTransferJobsGetOptionalParams
+  - Added Interface DataTransferJobsListByDatabaseAccountOptionalParams
+  - Added Interface DataTransferJobsPauseOptionalParams
+  - Added Interface DataTransferJobsResumeOptionalParams
+  - Added Interface DiagnosticLogSettings
+  - Added Interface FleetAnalyticsCreateOptionalParams
+  - Added Interface FleetAnalyticsDeleteOptionalParams
+  - Added Interface FleetAnalyticsGetOptionalParams
+  - Added Interface FleetAnalyticsListOptionalParams
+  - Added Interface FleetAnalyticsProperties
+  - Added Interface FleetAnalyticsResource
+  - Added Interface GarnetClusterResource
+  - Added Interface GarnetClusterResourcePatch
+  - Added Interface GarnetClusterResourcePatchProperties
+  - Added Interface GarnetClusterResourceProperties
+  - Added Interface GarnetClusterResourcePropertiesEndPointsItem
+  - Added Interface GarnetClustersCreateUpdateOptionalParams
+  - Added Interface GarnetClustersDeleteOptionalParams
+  - Added Interface GarnetClustersGetOptionalParams
+  - Added Interface GarnetClustersListByResourceGroupOptionalParams
+  - Added Interface GarnetClustersListBySubscriptionOptionalParams
+  - Added Interface GarnetClustersUpdateOptionalParams
+  - Added Interface GraphResource
+  - Added Interface GraphResourceCreateUpdateParameters
+  - Added Interface GraphResourceCreateUpdateProperties
+  - Added Interface GraphResourceGetProperties
+  - Added Interface GraphResourceGetPropertiesOptions
+  - Added Interface GraphResourceGetPropertiesResource
+  - Added Interface GraphResourceGetResults
+  - Added Interface GraphResourcesCreateUpdateGraphOptionalParams
+  - Added Interface GraphResourcesDeleteGraphResourceOptionalParams
+  - Added Interface GraphResourcesGetGraphOptionalParams
+  - Added Interface GraphResourcesListGraphsOptionalParams
+  - Added Interface MaterializedViewDefinition
+  - Added Interface MaterializedViewDetails
+  - Added Interface MaterializedViewsProperties
+  - Added Interface MergeParameters
+  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
+  - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
+  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
+  - Added Interface MongoRUToMongoRUCopyJobProperties
+  - Added Interface MongoRUToMongoRUCopyJobTask
+  - Added Interface MongoRUToMongoVCoreCopyJobProperties
+  - Added Interface MongoRUToMongoVCoreCopyJobTask
+  - Added Interface MongoVCoreSourceSinkDetails
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityProfile
+  - Added Interface NoSqlRUToNoSqlRUCopyJobProperties
+  - Added Interface NoSqlRUToNoSqlRUCopyJobTask
+  - Added Interface PhysicalPartitionId
+  - Added Interface PhysicalPartitionStorageInfo
+  - Added Interface PhysicalPartitionStorageInfoCollection
+  - Added Interface PhysicalPartitionThroughputInfoProperties
+  - Added Interface PhysicalPartitionThroughputInfoResource
+  - Added Interface PhysicalPartitionThroughputInfoResult
+  - Added Interface PhysicalPartitionThroughputInfoResultProperties
+  - Added Interface PhysicalPartitionThroughputInfoResultPropertiesResource
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface RedistributeThroughputParameters
+  - Added Interface RedistributeThroughputProperties
+  - Added Interface RedistributeThroughputPropertiesResource
+  - Added Interface ResourceAssociation
+  - Added Interface RetrieveThroughputParameters
+  - Added Interface RetrieveThroughputProperties
+  - Added Interface RetrieveThroughputPropertiesResource
+  - Added Interface SoftDeleteConfiguration
+  - Added Interface SoftDeletedDatabaseAccountGetResult
+  - Added Interface SoftDeletedDatabaseAccountProperties
+  - Added Interface SoftDeletedDatabaseAccountResource
+  - Added Interface SoftDeletedDatabaseAccountsGetOptionalParams
+  - Added Interface SoftDeletedDatabaseAccountsListByLocationOptionalParams
+  - Added Interface SoftDeletedDatabaseAccountsListByResourceGroupAndLocationOptionalParams
+  - Added Interface SoftDeletedDatabaseAccountsListResult
+  - Added Interface SoftDeletedDatabaseAccountsPurgeOptionalParams
+  - Added Interface SoftDeletedDatabaseAccountsRestoreOptionalParams
+  - Added Interface SoftDeletedSqlContainerGetResult
+  - Added Interface SoftDeletedSqlContainerProperties
+  - Added Interface SoftDeletedSqlContainerResource
+  - Added Interface SoftDeletedSqlContainersGetOptionalParams
+  - Added Interface SoftDeletedSqlContainersListOptionalParams
+  - Added Interface SoftDeletedSqlContainersListResult
+  - Added Interface SoftDeletedSqlContainersPurgeOptionalParams
+  - Added Interface SoftDeletedSqlContainersRestoreOptionalParams
+  - Added Interface SoftDeletedSqlDatabaseGetResult
+  - Added Interface SoftDeletedSqlDatabaseProperties
+  - Added Interface SoftDeletedSqlDatabaseResource
+  - Added Interface SoftDeletedSqlDatabasesGetOptionalParams
+  - Added Interface SoftDeletedSqlDatabasesListOptionalParams
+  - Added Interface SoftDeletedSqlDatabasesListResult
+  - Added Interface SoftDeletedSqlDatabasesPurgeOptionalParams
+  - Added Interface SoftDeletedSqlDatabasesRestoreOptionalParams
+  - Added Interface SoftDeletionMetadata
+  - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  - Added Interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  - Added Interface SqlResourcesSqlDatabasePartitionMergeOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  - Added Interface ThroughputBucketResource
+  - Added Interface ThroughputPoolAccountCreateOptionalParams
+  - Added Interface ThroughputPoolAccountDeleteOptionalParams
+  - Added Interface ThroughputPoolAccountGetOptionalParams
+  - Added Interface ThroughputPoolAccountProperties
+  - Added Interface ThroughputPoolAccountResource
+  - Added Interface ThroughputPoolAccountsListOptionalParams
+  - Added Interface ThroughputPoolCreateOrUpdateOptionalParams
+  - Added Interface ThroughputPoolDeleteOptionalParams
+  - Added Interface ThroughputPoolGetOptionalParams
+  - Added Interface ThroughputPoolProperties
+  - Added Interface ThroughputPoolResource
+  - Added Interface ThroughputPoolsListByResourceGroupOptionalParams
+  - Added Interface ThroughputPoolsListOptionalParams
+  - Added Interface ThroughputPoolUpdate
+  - Added Interface ThroughputPoolUpdateOptionalParams
+  - Interface AccountKeyMetadata has a new optional parameter approximateLastUsageTime
+  - Interface ClusterResourceProperties has a new optional parameter clusterType
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter capacityMode
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter softDeleteConfiguration
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter capacityMode
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountCreateUpdateProperties has a new optional parameter softDeleteConfiguration
+  - Interface DatabaseAccountGetProperties has a new optional parameter capacityMode
+  - Interface DatabaseAccountGetProperties has a new optional parameter capacityModeChangeTransitionState
+  - Interface DatabaseAccountGetProperties has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountGetProperties has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountGetProperties has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountGetProperties has a new optional parameter softDeleteConfiguration
+  - Interface DatabaseAccountGetProperties has a new optional parameter throughputPoolDedicatedRUs
+  - Interface DatabaseAccountGetProperties has a new optional parameter throughputPoolMaxConsumableRUs
+  - Interface DatabaseAccountGetResults has a new optional parameter capacityMode
+  - Interface DatabaseAccountGetResults has a new optional parameter capacityModeChangeTransitionState
+  - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountGetResults has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountGetResults has a new optional parameter softDeleteConfiguration
+  - Interface DatabaseAccountGetResults has a new optional parameter throughputPoolDedicatedRUs
+  - Interface DatabaseAccountGetResults has a new optional parameter throughputPoolMaxConsumableRUs
+  - Interface DatabaseAccountRegenerateKeyParameters has a new optional parameter skipAccountKeysLastUsageCheck
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter capacityMode
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter softDeleteConfiguration
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter capacityMode
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter diagnosticLogSettings
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter enableAllVersionsAndDeletesChangeFeed
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountUpdateProperties has a new optional parameter softDeleteConfiguration
+  - Interface RestorableSqlContainerPropertiesResourceContainer has a new optional parameter dataMaskingPolicy
+  - Interface RestorableSqlContainerPropertiesResourceContainer has a new optional parameter materializedViewDefinition
+  - Interface RestorableSqlContainerPropertiesResourceContainer has a new optional parameter materializedViews
+  - Interface RestorableSqlContainerPropertiesResourceContainer has a new optional parameter materializedViewsProperties
+  - Interface SqlContainerGetPropertiesResource has a new optional parameter dataMaskingPolicy
+  - Interface SqlContainerGetPropertiesResource has a new optional parameter materializedViewDefinition
+  - Interface SqlContainerGetPropertiesResource has a new optional parameter materializedViews
+  - Interface SqlContainerGetPropertiesResource has a new optional parameter materializedViewsProperties
+  - Interface SqlContainerResource has a new optional parameter dataMaskingPolicy
+  - Interface SqlContainerResource has a new optional parameter materializedViewDefinition
+  - Interface SqlContainerResource has a new optional parameter materializedViews
+  - Interface SqlContainerResource has a new optional parameter materializedViewsProperties
+  - Interface ThroughputSettingsGetPropertiesResource has a new optional parameter throughputBuckets
+  - Interface ThroughputSettingsResource has a new optional parameter throughputBuckets
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias AllocationState
+  - Added Type Alias BackupState
+  - Added Type Alias BaseCopyJobPropertiesUnion
+  - Added Type Alias BaseCosmosDataTransferDataSourceSinkUnion
+  - Added Type Alias CapacityMode
+  - Added Type Alias CapacityModeTransitionStatus
+  - Added Type Alias ClusterType
+  - Added Type Alias CommandStatus
+  - Added Type Alias CopyJobMode
+  - Added Type Alias CopyJobStatus
+  - Added Type Alias CopyJobType
+  - Added Type Alias DataTransferComponent
+  - Added Type Alias DataTransferDataSourceSinkUnion
+  - Added Type Alias DataTransferJobMode
+  - Added Type Alias EnableFullTextQuery
+  - Added Type Alias FleetAnalyticsPropertiesStorageLocationType
+  - Added Type Alias GarnetAuthenticationType
+  - Added Type Alias GarnetCacheProvisioningState
+  - Added Type Alias IssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias Severity
+  - Added Type Alias SoftDeleteActionKind
+  - Added Type Alias SupportedActions
+  - Added Type Alias ThroughputPolicyType
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownAllocationState
+  - Added Enum KnownBackupState
+  - Added Enum KnownCapacityMode
+  - Added Enum KnownCapacityModeTransitionStatus
+  - Added Enum KnownClusterType
+  - Added Enum KnownCommandStatus
+  - Added Enum KnownCopyJobMode
+  - Added Enum KnownCopyJobStatus
+  - Added Enum KnownCopyJobType
+  - Added Enum KnownDataTransferComponent
+  - Added Enum KnownDataTransferJobMode
+  - Added Enum KnownFleetAnalyticsPropertiesStorageLocationType
+  - Added Enum KnownGarnetAuthenticationType
+  - Added Enum KnownGarnetCacheProvisioningState
+  - Added Enum KnownIssueType
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownSeverity
+  - Added Enum KnownSoftDeleteActionKind
+  - Added Enum KnownThroughputPolicyType
+  - Enum KnownContinuousTier has a new value Continuous35Days
+  - Enum KnownVersions has a new value V20260401Preview
+
 ## 17.0.0 (2026-07-06)
 
 ### Features Added
