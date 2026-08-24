@@ -18,8 +18,8 @@ import { KnownSearchAudience } from "./searchAudience.js";
 import type {
   CreateDataSourceConnectionOptions,
   CreateIndexerOptions,
-  CreateorUpdateDataSourceConnectionOptions,
-  CreateorUpdateIndexerOptions,
+  CreateOrUpdateDataSourceConnectionOptions,
+  CreateOrUpdateIndexerOptions,
   CreateOrUpdateSkillsetOptions,
   CreateSkillsetOptions,
   DeleteDataSourceConnectionOptions,
@@ -429,7 +429,7 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateIndexer(
     indexer: SearchIndexer,
-    options: CreateorUpdateIndexerOptions = {},
+    options: CreateOrUpdateIndexerOptions = {},
   ): Promise<SearchIndexer> {
     return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateIndexer",
@@ -457,7 +457,7 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
-    options: CreateorUpdateDataSourceConnectionOptions = {},
+    options: CreateOrUpdateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
     return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateDataSourceConnection",

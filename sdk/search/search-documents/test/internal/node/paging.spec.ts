@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 import { assert, describe, it } from "vitest";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
-import { AzureKeyCredential } from "../../src/index.js";
-import { SearchIndexClient } from "../../src/searchIndexClient.js";
-import { SearchIndexerClient } from "../../src/searchIndexerClient.js";
+import { AzureKeyCredential } from "../../../src/index.js";
+import { SearchIndexClient } from "../../../src/searchIndexClient.js";
+import { SearchIndexerClient } from "../../../src/searchIndexerClient.js";
 
 /**
  * Serves a canned two-page response so that continuation is exercised without a
@@ -116,6 +116,125 @@ describe("generated paging continuation", () => {
     }
 
     assert.deepEqual(names, ["kb-1", "kb-2"]);
+    assert.equal(urls.length, 2);
+  });
+
+  it("follows continuation for aliases, index stats, knowledge sources, files, and index names", async () => {
+    const cases: Array<{
+      bodies: Record<string, unknown>[];
+      collect: (client: SearchIndexClient) => Promise<string[]>;
+      expected: string[];
+    }> = [
+      {
+        bodies: [
+          { value: [{ name: "alias-1", indexes: ["idx"] }], "@odata.nextLink": NEXT_PAGE },
+          { value: [{ name: "alias-2", indexes: ["idx"] }] },
+        ],
+        collect: async (client) => {
+          const names: string[] = [];
+          for await (const item of client.listAliases()) names.push(item.name);
+          return names;
+        },
+        expected: ["alias-1", "alias-2"],
+      },
+      {
+        bodies: [
+          {
+            value: [{ name: "stats-1", documentCount: 1, storageSize: 2, vectorIndexSize: 3 }],
+            "@odata.nextLink": NEXT_PAGE,
+          },
+          {
+            value: [{ name: "stats-2", documentCount: 1, storageSize: 2, vectorIndexSize: 3 }],
+          },
+        ],
+        collect: async (client) => {
+          const names: string[] = [];
+          for await (const item of client.listIndexStatsSummary()) names.push(item.name);
+          return names;
+        },
+        expected: ["stats-1", "stats-2"],
+      },
+      {
+        bodies: [
+          {
+            value: [
+              {
+                name: "source-1",
+                kind: "searchIndex",
+                searchIndexParameters: { searchIndexName: "idx" },
+              },
+            ],
+            "@odata.nextLink": NEXT_PAGE,
+          },
+          {
+            value: [
+              {
+                name: "source-2",
+                kind: "searchIndex",
+                searchIndexParameters: { searchIndexName: "idx" },
+              },
+            ],
+          },
+        ],
+        collect: async (client) => {
+          const names: string[] = [];
+          for await (const item of client.listKnowledgeSources()) names.push(item.name);
+          return names;
+        },
+        expected: ["source-1", "source-2"],
+      },
+      {
+        bodies: [
+          { value: [{ fileId: "file-1" }], "@odata.nextLink": NEXT_PAGE },
+          { value: [{ fileId: "file-2" }] },
+        ],
+        collect: async (client) => {
+          const ids: string[] = [];
+          for await (const item of client.listKnowledgeSourceFiles("source")) {
+            if (item.fileId) ids.push(item.fileId);
+          }
+          return ids;
+        },
+        expected: ["file-1", "file-2"],
+      },
+      {
+        bodies: [
+          { value: [{ name: "index-1" }], "@odata.nextLink": NEXT_PAGE },
+          { value: [{ name: "index-2" }] },
+        ],
+        collect: async (client) => {
+          const names: string[] = [];
+          for await (const item of client.listIndexesNames()) names.push(item);
+          return names;
+        },
+        expected: ["index-1", "index-2"],
+      },
+    ];
+
+    for (const testCase of cases) {
+      const urls: string[] = [];
+      const client = twoPageClient(testCase.bodies, urls);
+      assert.deepEqual(await testCase.collect(client), testCase.expected);
+      assert.equal(urls.length, 2);
+    }
+  });
+
+  it("iterates listIndexes by page without duplicates", async () => {
+    const urls: string[] = [];
+    const client = twoPageClient(
+      [
+        { value: [{ name: "index-1", fields: [] }], "@odata.nextLink": NEXT_PAGE },
+        { value: [{ name: "index-2", fields: [] }] },
+      ],
+      urls,
+    );
+
+    const pages: string[][] = [];
+    for await (const page of client.listIndexes().byPage()) {
+      pages.push(page.map((index) => index.name));
+    }
+
+    assert.deepEqual(pages, [["index-1"], ["index-2"]]);
     assert.equal(urls.length, 2);
   });
 

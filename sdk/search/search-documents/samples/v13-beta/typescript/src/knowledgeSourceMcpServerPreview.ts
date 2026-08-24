@@ -54,7 +54,7 @@ async function main(): Promise<void> {
     kind: "mcpServer",
     description: "MCP server knowledge source delegating retrieval to a remote MCP endpoint.",
     mcpServerParameters: {
-      serverURL: mcpServerUrl || "https://contoso.example.com/mcp",
+      serverUrl: mcpServerUrl || "https://contoso.example.com/mcp",
       authentication: {
         kind: "storedHeaders",
         storedHeadersParameters: {

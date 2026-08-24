@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { assert, describe, it } from "vitest";
+
+import { assert, describe, expect, it } from "vitest";
 import { deserializeRetrievalStream } from "../../src/knowledgeRetrievalClient.js";
 import type { KnowledgeBaseRetrievalStreamEvent } from "../../src/knowledgeBaseModels.js";
 
@@ -45,7 +46,7 @@ describe("knowledge retrieval stream", () => {
     });
   });
 
-  it("converts activity timestamps to dates", async () => {
+  it("converts activity timestamps and diagnostics", async () => {
     const events = await collect([
       {
         event: "activity.started",
@@ -64,6 +65,13 @@ describe("knowledge retrieval stream", () => {
           startedAt: "2026-08-01T00:00:00Z",
           completedAt: "2026-08-01T00:00:01Z",
           elapsedMs: 1000,
+          imageServing: {
+            servedImages: [{ imageId: "image-1", imagePath: "/images/1", sizeBytes: 42 }],
+          },
+          queryHintProcessing: {
+            generatedBoost: "manual",
+            generatedFilter: "category eq 'manual'",
+          },
         }),
       },
     ]);
@@ -79,40 +87,67 @@ describe("knowledge retrieval stream", () => {
       startedAt?: Date;
       completedAt?: Date;
       elapsedMs?: number;
+      imageServing?: { servedImages?: unknown[] };
+      queryHintProcessing?: { generatedFilter?: string };
     };
     assert.deepEqual(completed.startedAt, new Date("2026-08-01T00:00:00Z"));
     assert.deepEqual(completed.completedAt, new Date("2026-08-01T00:00:01Z"));
     assert.equal(completed.elapsedMs, 1000);
+    assert.equal(completed.imageServing?.servedImages?.length, 1);
+    assert.equal(completed.queryHintProcessing?.generatedFilter, "category eq 'manual'");
   });
 
-  it("deserializes the terminal response completed event", async () => {
-    const [event] = await collect([
+  it("deserializes answer and reference completion events", async () => {
+    const events = await collect([
+      {
+        event: "answer.completed",
+        data: JSON.stringify({
+          messageIndex: 0,
+          message: { role: "assistant", content: [{ type: "text", text: "answer" }] },
+        }),
+      },
+      {
+        event: "references.completed",
+        data: JSON.stringify([
+          {
+            id: "reference-1",
+            type: "searchIndex",
+            activitySource: 1,
+            citationUrl: "https://example.search.windows.net/indexes('idx')/docs('1')",
+          },
+        ]),
+      },
+    ]);
+
+    assert.equal(events[0].event, "answer.completed");
+    assert.equal(
+      events[0].event === "answer.completed" ? events[0].data.messageIndex : undefined,
+      0,
+    );
+    assert.equal(events[1].event, "references.completed");
+    assert.equal(events[1].event === "references.completed" ? events[1].data.length : 0, 1);
+  });
+
+  it("deserializes terminal response and error events", async () => {
+    const events = await collect([
       {
         event: "response.completed",
         data: JSON.stringify({
-          statusCode: 200,
+          statusCode: 206,
           response: { response: [{ role: "assistant", content: [] }] },
         }),
       },
-    ]);
-
-    assert.equal(event.event, "response.completed");
-    assert.equal((event.data as { statusCode: number }).statusCode, 200);
-  });
-
-  it("deserializes the error event", async () => {
-    const [event] = await collect([
       {
         event: "error",
-        data: JSON.stringify({
-          error: { code: "Failed", message: "retrieval failed" },
-        }),
+        data: JSON.stringify({ error: { code: "Failed", message: "retrieval failed" } }),
       },
     ]);
 
-    assert.equal(event.event, "error");
+    assert.equal(events[0].event, "response.completed");
+    assert.equal(events[0].event === "response.completed" ? events[0].data.statusCode : 0, 206);
+    assert.equal(events[1].event, "error");
     assert.equal(
-      (event.data as { error?: { message?: string } }).error?.message,
+      events[1].event === "error" ? events[1].data.error.message : undefined,
       "retrieval failed",
     );
   });
@@ -122,7 +157,12 @@ describe("knowledge retrieval stream", () => {
       { event: "end", data: "" },
       { event: "some.future.event", data: "{}" },
     ]);
-
     assert.isEmpty(events);
+  });
+
+  it("rejects malformed JSON event payloads", async () => {
+    await expect(collect([{ event: "retrieval.started", data: "not-json" }])).rejects.toThrow(
+      SyntaxError,
+    );
   });
 });

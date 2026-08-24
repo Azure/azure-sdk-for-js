@@ -168,6 +168,12 @@ export class KnowledgeRetrievalClient {
     this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
   }
 
+  /**
+   * Retrieves relevant data from the backing stores configured by the knowledge base.
+   * @param retrievalRequest - The retrieval request to process.
+   * @param options - Options to the retrieve operation.
+   * @returns The completed retrieval response.
+   */
   public async retrieve(
     retrievalRequest: KnowledgeBaseRetrievalRequest,
     options: RetrieveOptions = {},
@@ -192,17 +198,28 @@ export class KnowledgeRetrievalClient {
    *
    * @param retrievalRequest - The retrieval request to process.
    * @param options - Options to the retrieve stream operation.
+   * @returns An async iterable of typed server-sent events.
    *
-   * @example
-   * ```ts snippet:ignore
-   * for await (const event of await client.retrieveStream({ messages })) {
-   *   switch (event.event) {
-   *     case "activity.completed":
-   *       console.log(`activity ${event.data.id} took ${event.data.elapsedMs}ms`);
-   *       break;
-   *     case "response.completed":
-   *       console.log(event.data.response.response);
-   *       break;
+   * @example Iterate typed retrieval events.
+   * ```ts snippet:ReadmeSampleRetrieveKnowledgeStream
+   * import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
+   *
+   * const client = new KnowledgeRetrievalClient(
+   *   "<endpoint>",
+   *   "<knowledgeBaseName>",
+   *   new AzureKeyCredential("<apiKey>"),
+   * );
+   *
+   * for await (const event of await client.retrieveStream({
+   *   intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+   *   includeActivity: true,
+   * })) {
+   *   if (event.event === "activity.completed") {
+   *     console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
+   *   } else if (event.event === "response.completed") {
+   *     console.log(event.data.response.response);
+   *   } else if (event.event === "error") {
+   *     throw new Error(event.data.error.message);
    *   }
    * }
    * ```

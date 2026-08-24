@@ -4,37 +4,35 @@
 
 ### Features Added
 
-- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`.
-- Added `uploadKnowledgeSourceFileMultipart` and `updateKnowledgeSourceFile` methods to `SearchIndexClient`, with `UploadKnowledgeSourceFileMultipartRequest`, `UpdateKnowledgeSourceFileRequest`, `FileUploadMetadata`, and the corresponding options types.
-- Added `KnowledgeRetrievalAutoReasoningEffort` reasoning effort variant for knowledge retrieval.
-- Added `citationUrl` on knowledge base activity/reference response types.
-- Added `startedAt` and `completedAt` on knowledge base activity record response types.
-- Added `logicalReasoningEffort` on `KnowledgeBaseAgenticReasoningActivityRecord`, reporting the reasoning effort requested by the customer as distinct from the `retrievalReasoningEffort` used for billing.
-- Added `retrieveStream` method to `KnowledgeRetrievalClient`, which streams retrieval progress and results as server-sent events instead of waiting for the full retrieval to complete. It returns an `AsyncIterable` of `KnowledgeBaseRetrievalStreamEvent`, along with the new `RetrieveStreamOptions`, `KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode` types.
-- Added `queryHints`/`queryHintOverrides` and `resultsProcessing` options on index knowledge source configuration.
-- Exported types that were previously reachable only indirectly: `KnowledgeSourceResultsProcessing`, `KnownKnowledgeSourceResultsProcessing`, `SearchIndexKnowledgeSourceQueryHints`, `SearchIndexKnowledgeSourceFilterHint`, `SearchIndexKnowledgeSourceBoost`, `SearchIndexKnowledgeSourceBoostUnion`, `SearchIndexKnowledgeSourceFieldValueBoost`, `SearchIndexKnowledgeSourceMultiWordExpressionBoost`, `SearchIndexKnowledgeSourceBoostKind`, `KnownSearchIndexKnowledgeSourceBoostKind`, `FileKnowledgeSourceExtractionMode`, `KnownFileKnowledgeSourceExtractionMode`, `KnowledgeBaseActivityRecordModel`, and `KnowledgeRetrievalAutoReasoningEffort`.
-- `KnowledgeSourceFile.parsingMode` is now typed as `BlobIndexerParsingMode` instead of a bare `string`, so it accepts the same known values as the rest of the library.
-- Added `retrieveDefaults` on `KnowledgeBase`, and `resultsProcessing` on knowledge sources, so the stored defaults returned by the `2026-08-01-preview` service are visible on the public models.
-- Added `workIQParameters` on `WorkIQKnowledgeSource` and `corsOptions` on `FileKnowledgeSource`, and exported the supporting `WorkIQKnowledgeSourceParameters`, `EntraAppAuthentication`, and `KnowledgeBaseRetrieveDefaults` types.
-- Added `queryHints` on the Azure Blob, indexed OneLake, and indexed SharePoint knowledge source parameter types.
-- Added `search`, `pageSize`, and `searchType` options to the index, alias, index stats summary, knowledge base, and knowledge source list methods, along with the `ListingSearchType` and `KnownListingSearchType` types.
-- The knowledge retrieval streaming event payloads (`KnowledgeBaseRetrievalStartedEvent`, `KnowledgeBaseActivityStartedEvent`, `KnowledgeBaseAnswerCompletedEvent`, `KnowledgeBaseStreamErrorEvent`, `KnowledgeBaseResponseCompletedEvent`, and `KnowledgeBaseRetrievalStatusCode`) are now defined by the service spec rather than hand-authored. As a result, `KnowledgeBaseRetrievalStartedEvent.reasoningEffort` is now typed as the discriminated `KnowledgeRetrievalReasoningEffortUnion` instead of the open base type, so it can be narrowed by its `kind`.
+- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added stored `queryHints`, request-time `queryHintOverrides`, query-hint processing diagnostics, served-image diagnostics, and Search-owned `citationUrl` values on supported indexed references. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added Work IQ bring-your-own Microsoft Entra application parameters and a separate `queryWorkIQSourceAuthorization` user assertion option. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added server-driven `search`, `pageSize`, and `searchType` listing options and continuation across indexes, aliases, synonym maps, indexers, data sources, skillsets, knowledge bases, knowledge sources, files, and index statistics. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added activity start/completion timestamps, structured activity `model` metadata, Work IQ sensitivity-label metadata, `maxVectorIndexSizePerIndexInBytes`, and GPT-5.6 SOL/Terra/Luna model names. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Exported all concrete activity/reference union members, query-hint/image-serving helpers, known activity/reference enums, File/MCP request types, and other new August model types from the package root. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Added `logicalReasoningEffort` to `KnowledgeBaseAgenticReasoningActivityRecord` as an additive post-cut preview field; it is not used in August samples. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
 
 ### Breaking Changes
 
-- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required to match the service contract.
-- Removed `WorkIQAttribution`, along with the `attributions` property that referenced it, from knowledge base response types.
-- Removed `McpServerToolInclusionMode` and `KnownMcpServerToolInclusionMode`. Use the `resultsProcessing` property on `McpServerTool` with `KnownKnowledgeSourceResultsProcessing` instead, mapping the former `reranked` value to `rerank`.
-- Renamed the `elapsedInMs` property to `elapsedMs` on activity record types.
-- Renamed the `modelName` property to `model` (now typed as `KnowledgeBaseActivityRecordModel`) on model activity record types.
-- Renamed the `totalSynchronizations` property to `totalSynchronization` on indexer status types.
+- `WorkIQKnowledgeSource.workIQParameters` is now required. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Renamed activity `elapsedInMs` to `elapsedMs`, replaced activity `modelName` with structured `model`, and renamed indexer status `totalSynchronizations` to `totalSynchronization`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
 
 ### Bugs Fixed
 
-- Fixed `SearchIndexerClient.resetDocuments` so that the `dataSourceDocumentIds` option is correctly forwarded to the service.
-- Fixed continuation for every paged operation. The generated paging metadata referenced the raw wire property name (`NextLink` or `@odata.nextLink`) rather than the deserialized property name (`nextLink` or `odataNextLink`), so the continuation link was never found and iteration silently stopped after the first page. This affected `listIndexes`, `listIndexesNames`, `listAliases`, `listAliasesNames`, `listIndexStatsSummary`, `listKnowledgeBases`, `listKnowledgeSources`, `listKnowledgeSourceFiles`, `listSynonymMaps`, `listSynonymMapsNames`, `listIndexers`, `listIndexersNames`, `listDataSourceConnections`, `listDataSourceConnectionsNames`, `listSkillsets`, and `listSkillsetsNames`.
+- Fixed `SearchIndexerClient.resetDocuments` so `dataSourceDocumentIds` is forwarded to the service. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Fixed continuation for every generated paged operation by reading the deserialized `nextLink`/`odataNextLink` property instead of its wire name. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Fixed convenience conversions that dropped query hints, ingestion settings, and generated resource names from indexed knowledge sources. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
 
 ### Other Changes
+
+- Expanded README snippets and TypeScript/JavaScript samples for File lifecycle, query hints, private ingestion, retrieval defaults/controls/citations, Work IQ BYO Entra authentication, typed streaming, cursor pagination, service limits, and knowledge base tags. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
 
 ## 13.1.0-beta.1 (2026-06-01)
 

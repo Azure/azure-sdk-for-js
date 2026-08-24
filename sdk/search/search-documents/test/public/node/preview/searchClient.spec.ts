@@ -33,9 +33,12 @@ describe("search scenarios (preview)", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteIndex(TEST_INDEX_NAME);
-    await delay(WAIT_TIME);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   const baseSemanticOptions = () =>
@@ -139,8 +142,11 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
   });
 
   afterEach(async () => {
-    await indexClient.deleteIndex(index.name);
-    await recorder?.stop();
+    try {
+      await indexClient.deleteIndex(index.name).catch(() => {});
+    } finally {
+      await recorder?.stop();
+    }
   });
 
   it("verify content security indexes", async () => {

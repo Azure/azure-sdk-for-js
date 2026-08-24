@@ -147,56 +147,49 @@ import type {
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
   KnowledgeSourceIngestionPermissionOption,
-  IndexedSqlKnowledgeSourceParameters,
-  FileKnowledgeSourceParameters,
-  McpServerKnowledgeSourceParameters,
+  ContentColumnMapping,
+  EmbeddingColumnMapping,
 } from "./models/azure/search/documents/indexes/index.js";
 import type { SharePointConnectorAppRegistration } from "./models/azure/search/documents/indexes/index.js";
 import type {
   AssetStore,
   FreshnessPolicy,
   AIServices,
+  KnowledgeSourceNetworkAccessMode,
   KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
 } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
-/**
- * Options for a list skillsets operation.
- */
-export type ListSkillsetsOptions = OperationOptions;
+/** Options shared by server-driven resource listing operations. */
+export interface ResourceListingOptions extends OperationOptions {
+  /** A string used to narrow the listing. */
+  search?: string;
+  /** The maximum number of resources to return in one service page. */
+  pageSize?: number;
+  /** Specifies how `search` is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
 
-/**
- * Options for a list synonymMaps operation.
- */
-export type ListSynonymMapsOptions = OperationOptions;
+/** Options for a list skillsets operation. */
+export type ListSkillsetsOptions = ResourceListingOptions;
+
+/** Options for a list synonym maps operation. */
+export type ListSynonymMapsOptions = ResourceListingOptions;
 
 /**
  * Options for a list indexes operation.
  */
-export interface ListIndexesOptions extends OperationOptions {
-  /**
-   * A string used to narrow down the listing so that fewer results need to be paged through. If
-   * omitted or an empty string is passed, no narrowing is applied.
-   */
-  search?: string;
-  /**
-   * The maximum number of items to return in a single page. The server enforces a maximum; if
-   * omitted, the server determines a suitable default.
-   */
-  pageSize?: number;
-  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
-  searchType?: ListingSearchType;
-}
+export type ListIndexesOptions = ResourceListingOptions;
 
 /**
  * Options for a list indexers operation.
  */
-export type ListIndexersOptions = OperationOptions;
+export type ListIndexersOptions = ResourceListingOptions;
 
 /**
  * Options for a list data sources operation.
  */
-export type ListDataSourceConnectionsOptions = OperationOptions;
+export type ListDataSourceConnectionsOptions = ResourceListingOptions;
 
 /**
  * Options for get index operation.
@@ -318,12 +311,6 @@ export interface ResyncIndexerOptions extends OperationOptions {
  * Options for list index stats summary operation.
  */
 export interface ListIndexStatsSummaryOptions extends OperationOptions {
-  /** The number of items to retrieve. Default is 50, maximum is 1000. */
-  top?: number;
-  /** The number of items to skip. */
-  skip?: number;
-  /** A value that specifies whether to fetch the total count of items. Default is false. */
-  count?: boolean;
   /**
    * A string used to narrow down the listing so that fewer results need to be paged through. If
    * omitted or an empty string is passed, no narrowing is applied.
@@ -464,7 +451,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 /**
  * Options for create/update indexer operation.
  */
-export interface CreateorUpdateIndexerOptions extends OperationOptions {
+export interface CreateOrUpdateIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be updated only if the etag matches.
    */
@@ -478,11 +465,13 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
    */
   disableCacheReprocessingChangeDetection?: boolean;
 }
+/** @deprecated Use {@link CreateOrUpdateIndexerOptions}. */
+export type CreateorUpdateIndexerOptions = CreateOrUpdateIndexerOptions;
 
 /**
  * Options for create/update datasource operation.
  */
-export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
+export interface CreateOrUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
    * If set to true, Resource will be updated only if the etag matches.
    */
@@ -492,6 +481,8 @@ export interface CreateorUpdateDataSourceConnectionOptions extends OperationOpti
    */
   skipIndexerResetRequirementForCache?: boolean;
 }
+/** @deprecated Use {@link CreateOrUpdateDataSourceConnectionOptions}. */
+export type CreateorUpdateDataSourceConnectionOptions = CreateOrUpdateDataSourceConnectionOptions;
 
 /**
  * Options for delete index operation.
@@ -3105,29 +3096,6 @@ export interface TextTranslationSkill extends BaseSearchIndexerSkill {
   suggestedFrom?: TextTranslationSkillLanguage;
 }
 
-/**
- * A skill that analyzes image files. It extracts a rich set of visual features based on the image
- * content.
- */
-export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
-  /**
-   * A value indicating which language code to use. Default is en.
-   */
-  defaultLanguageCode?: ImageAnalysisSkillLanguage;
-  /**
-   * A list of visual features.
-   */
-  visualFeatures?: VisualFeature[];
-  /**
-   * A string indicating which domain-specific details to return.
-   */
-  details?: ImageDetail[];
-}
-
 export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
@@ -3434,6 +3402,18 @@ export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
   indexedSqlParameters: IndexedSqlKnowledgeSourceParameters;
 }
 
+/** Parameters for an indexed SQL knowledge source. */
+export interface IndexedSqlKnowledgeSourceParameters {
+  connectionString: string;
+  tableOrView: string;
+  highWaterMarkColumnName?: string;
+  contentColumns?: ContentColumnMapping[];
+  embeddingColumns?: EmbeddingColumnMapping[];
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
+  readonly createdResources?: Record<string, string>;
+}
+
 /**
  * Configuration for a knowledge source that supports direct file upload and indexing.
  */
@@ -3452,6 +3432,16 @@ export interface FileKnowledgeSource extends BaseKnowledgeSource {
   corsOptions?: CorsOptions;
 }
 
+/** Parameters for a File knowledge source. */
+export interface FileKnowledgeSourceParameters {
+  /** Consolidated ingestion settings. */
+  ingestionParameters?: KnowledgeSourceIngestionParameters;
+  /** Stored query hints used unless request-time overrides are supplied. */
+  queryHints?: SearchIndexKnowledgeSourceQueryHints;
+  /** Names of resources created by the service. */
+  readonly createdResources?: Record<string, string>;
+}
+
 /**
  * Configuration for a knowledge source backed by an MCP (Model Context Protocol) server.
  */
@@ -3464,6 +3454,86 @@ export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the MCP server knowledge source.
    */
   mcpServerParameters: McpServerKnowledgeSourceParameters;
+}
+
+/** Parameters for an MCP server knowledge source. */
+export interface McpServerKnowledgeSourceParameters {
+  /** The MCP server endpoint. */
+  serverUrl: string;
+  /** Authentication used by Search when invoking the MCP server. */
+  authentication?: McpServerAuthenticationUnion;
+  /** Tools exposed by the MCP server. */
+  tools: McpServerTool[];
+}
+
+/** Base authentication configuration for an MCP server. */
+export interface McpServerAuthentication {
+  kind: McpServerAuthenticationKind;
+}
+export type McpServerAuthenticationKind = string;
+export type McpServerAuthenticationUnion =
+  | McpServerFoundryConnectionAuthentication
+  | McpServerStoredHeadersAuthentication
+  | McpServerAuthentication;
+export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+  kind: "foundryConnection";
+  foundryConnectionParameters: McpServerFoundryConnectionParameters;
+}
+export interface McpServerFoundryConnectionParameters {
+  connectionId?: string;
+}
+export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+  kind: "storedHeaders";
+  storedHeadersParameters: McpServerStoredHeadersParameters;
+}
+export interface McpServerStoredHeadersParameters {
+  headers?: McpServerHeaders;
+}
+export interface McpServerHeaders {
+  additionalProperties?: Record<string, string>;
+}
+
+/** A tool exposed by an MCP server. */
+export interface McpServerTool {
+  name?: string;
+  outputParsing?: McpServerOutputParsingUnion;
+  resultsProcessing?: KnowledgeSourceResultsProcessing;
+  maxOutputTokens?: number;
+}
+export interface McpServerOutputParsing {
+  kind: McpServerOutputParsingKind;
+}
+export type McpServerOutputParsingKind = string;
+export type McpServerOutputParsingUnion =
+  | McpServerAutoOutputParsing
+  | McpServerJsonOutputParsing
+  | McpServerSplitOutputParsing
+  | McpServerNoneOutputParsing
+  | McpServerOutputParsing;
+export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+  kind: "auto";
+}
+export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+  kind: "json";
+  jsonParameters: McpServerOutputParsingJsonParameters;
+}
+export interface McpServerOutputParsingJsonParameters {
+  documentsPath: string;
+  includeContext?: boolean;
+}
+export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+  kind: "split";
+  splitParameters?: McpServerOutputParsingSplitParameters;
+}
+export interface McpServerOutputParsingSplitParameters {
+  textSplitMode?: TextSplitMode;
+  maximumPageLength?: number;
+  pageOverlapLength?: number;
+  maximumPagesToTake?: number;
+  defaultLanguageCode?: SplitSkillLanguage;
+}
+export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+  kind: "none";
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3488,6 +3558,11 @@ export interface KnowledgeSourceIngestionParameters {
   assetStore?: AssetStore;
   /** Optional freshness policy for biasing retrieval toward newer documents. */
   freshnessPolicy?: FreshnessPolicy;
+  /**
+   * Controls the network used by ingestion. `private` requires the Search service to have the
+   * necessary shared private links/private endpoints before the knowledge source is created.
+   */
+  networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
 
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
@@ -3542,6 +3617,7 @@ export interface ListKnowledgeBasesOptions extends OperationOptions {
   /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
   searchType?: ListingSearchType;
 }
+/** Options for creating a knowledge base. */
 export interface CreateKnowledgeBaseOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeSourceOptions extends OperationOptions {
@@ -3571,12 +3647,27 @@ export interface ListKnowledgeSourcesOptions extends OperationOptions {
   /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
   searchType?: ListingSearchType;
 }
+/** Options for creating a knowledge source. */
 export interface CreateKnowledgeSourceOptions extends OperationOptions {}
+/** Options for retrieving knowledge source synchronization status. */
 export interface GetKnowledgeSourceStatusOptions extends OperationOptions {}
+/** Options for uploading a binary File knowledge source file. */
 export interface UploadKnowledgeSourceFileOptions extends OperationOptions {}
+/** Options for multipart File knowledge source upload. */
 export interface UploadKnowledgeSourceFileMultipartOptions extends OperationOptions {}
+/** Options for replacing a File knowledge source file. */
 export interface UpdateKnowledgeSourceFileOptions extends OperationOptions {}
-export interface ListKnowledgeSourceFilesOptions extends OperationOptions {}
+export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
+  /** Optional directory-like path prefix used to filter files. */
+  prefix?: string;
+  /** A string used to narrow the file listing. */
+  search?: string;
+  /** The maximum number of files to return in one page. */
+  pageSize?: number;
+  /** Specifies how the `search` parameter is interpreted. Currently only `prefix` is supported. */
+  searchType?: ListingSearchType;
+}
+/** Options for deleting a File knowledge source file. */
 export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {}
 
 /**

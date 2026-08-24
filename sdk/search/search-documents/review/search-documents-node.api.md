@@ -586,11 +586,11 @@ export type CreateIndexerOptions = OperationOptions;
 // @public
 export type CreateIndexOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface CreateKnowledgeBaseOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateKnowledgeSourceOptions extends OperationOptions {
 }
 
@@ -600,17 +600,23 @@ export interface CreateOrUpdateAliasOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
+export interface CreateOrUpdateDataSourceConnectionOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
     skipIndexerResetRequirementForCache?: boolean;
 }
 
+// @public @deprecated (undocumented)
+export type CreateorUpdateDataSourceConnectionOptions = CreateOrUpdateDataSourceConnectionOptions;
+
 // @public
-export interface CreateorUpdateIndexerOptions extends OperationOptions {
+export interface CreateOrUpdateIndexerOptions extends OperationOptions {
     disableCacheReprocessingChangeDetection?: boolean;
     onlyIfUnchanged?: boolean;
     skipIndexerResetRequirementForCache?: boolean;
 }
+
+// @public @deprecated (undocumented)
+export type CreateorUpdateIndexerOptions = CreateOrUpdateIndexerOptions;
 
 // @public
 export interface CreateOrUpdateIndexOptions extends OperationOptions {
@@ -751,7 +757,7 @@ export interface DeleteKnowledgeBaseOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteKnowledgeSourceFileOptions extends OperationOptions {
 }
 
@@ -1022,10 +1028,8 @@ export type FileKnowledgeSourceExtractionMode = string;
 
 // @public
 export interface FileKnowledgeSourceParameters {
-    // Warning: (ae-forgotten-export) The symbol "CreatedResources" needs to be exported by the entry point index.d.ts
-    readonly createdResources?: CreatedResources;
-    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceIngestionParameters_2" needs to be exported by the entry point index.d.ts
-    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    readonly createdResources?: Record<string, string>;
+    ingestionParameters?: KnowledgeSourceIngestionParameters;
     queryHints?: SearchIndexKnowledgeSourceQueryHints;
 }
 
@@ -1107,7 +1111,7 @@ export interface GetKnowledgeBaseOptions extends OperationOptions {
 export interface GetKnowledgeSourceOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetKnowledgeSourceStatusOptions extends OperationOptions {
 }
 
@@ -1157,19 +1161,20 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
     visualFeatures?: VisualFeature[];
 }
 
-// @public
-export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
-    defaultLanguageCode?: ImageAnalysisSkillLanguage;
-    details?: ImageDetail[];
-    odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
-    visualFeatures?: VisualFeature[];
-}
-
 // @public (undocumented)
 export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 
 // @public (undocumented)
 export type ImageDetail = `${KnownImageDetail}`;
+
+// @public
+export interface ImageServingStatistics {
+    imagesRetrieved?: number;
+    imagesSentToModel?: number;
+    servedImages?: ServedImage[];
+    totalImageSizeBytes?: number;
+    verbalizationUsed?: boolean;
+}
 
 // @public
 export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
@@ -1264,13 +1269,21 @@ export interface IndexedSqlKnowledgeSource extends BaseKnowledgeSource {
 
 // @public
 export interface IndexedSqlKnowledgeSourceParameters {
+    // (undocumented)
     connectionString: string;
+    // (undocumented)
     contentColumns?: ContentColumnMapping[];
-    readonly createdResources?: CreatedResources;
+    // (undocumented)
+    readonly createdResources?: Record<string, string>;
+    // (undocumented)
     embeddingColumns?: EmbeddingColumnMapping[];
+    // (undocumented)
     highWaterMarkColumnName?: string;
-    ingestionParameters?: KnowledgeSourceIngestionParameters_2;
+    // (undocumented)
+    ingestionParameters?: KnowledgeSourceIngestionParameters;
+    // (undocumented)
     queryHints?: SearchIndexKnowledgeSourceQueryHints;
+    // (undocumented)
     tableOrView: string;
 }
 
@@ -1450,7 +1463,7 @@ export interface KeywordTokenizer {
     odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.KeywordTokenizer";
 }
 
-// @public (undocumented)
+// @public
 export interface KnowledgeBase {
     answerInstructions?: string;
     corsOptions?: CorsOptions;
@@ -1464,21 +1477,9 @@ export interface KnowledgeBase {
     retrievalInstructions?: string;
     retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
     retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
+    tags?: Record<string, string>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseSearchIndexActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseAzureBlobActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSharePointActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedOneLakeActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWebActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseRemoteSharePointActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseWorkIQActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricDataAgentActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFabricOntologyActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseMcpServerActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseFileActivityRecord" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "KnowledgeBaseIndexedSqlActivityRecord" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type KnowledgeBaseActivityRecord = KnowledgeBaseSearchIndexActivityRecord | KnowledgeBaseAzureBlobActivityRecord | KnowledgeBaseIndexedSharePointActivityRecord | KnowledgeBaseIndexedOneLakeActivityRecord | KnowledgeBaseWebActivityRecord | KnowledgeBaseRemoteSharePointActivityRecord | KnowledgeBaseWorkIQActivityRecord | KnowledgeBaseFabricDataAgentActivityRecord | KnowledgeBaseFabricOntologyActivityRecord | KnowledgeBaseMcpServerActivityRecord | KnowledgeBaseFileActivityRecord | KnowledgeBaseIndexedSqlActivityRecord | KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseModelWebSummarizationActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
@@ -1514,6 +1515,22 @@ export interface KnowledgeBaseAnswerCompletedEvent {
 }
 
 // @public
+export interface KnowledgeBaseAzureBlobActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseAzureBlobActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    type: "azureBlob";
+}
+
+// @public
 export interface KnowledgeBaseAzureBlobReference extends BaseKnowledgeBaseReference {
     blobUrl?: string;
     citationUrl?: string;
@@ -1543,10 +1560,40 @@ export interface KnowledgeBaseErrorDetail {
 }
 
 // @public
+export interface KnowledgeBaseFabricDataAgentActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseFabricDataAgentActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    fabricDataAgentArguments?: KnowledgeBaseFabricDataAgentActivityArguments;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "fabricDataAgent";
+}
+
+// @public
 export interface KnowledgeBaseFabricDataAgentReference extends BaseKnowledgeBaseReference {
     dataAgentId?: string;
     type: "fabricDataAgent";
     workspaceId?: string;
+}
+
+// @public
+export interface KnowledgeBaseFabricOntologyActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseFabricOntologyActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    fabricOntologyArguments?: KnowledgeBaseFabricOntologyActivityArguments;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "fabricOntology";
 }
 
 // @public
@@ -1557,10 +1604,42 @@ export interface KnowledgeBaseFabricOntologyReference extends BaseKnowledgeBaseR
 }
 
 // @public
+export interface KnowledgeBaseFileActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseFileActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    fileArguments?: KnowledgeBaseFileActivityArguments;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    type: "file";
+}
+
+// @public
 export interface KnowledgeBaseFileReference extends BaseKnowledgeBaseReference {
     citationUrl?: string;
     docName?: string;
     type: "file";
+}
+
+// @public
+export interface KnowledgeBaseIndexedOneLakeActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseIndexedOneLakeActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    type: "indexedOneLake";
 }
 
 // @public
@@ -1572,11 +1651,43 @@ export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseR
 }
 
 // @public
+export interface KnowledgeBaseIndexedSharePointActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseIndexedSharePointActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    indexedSharePointArguments?: KnowledgeBaseIndexedSharePointActivityArguments;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    type: "indexedSharePoint";
+}
+
+// @public
 export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBaseReference {
     citationUrl?: string;
     docUrl?: string;
     searchSensitivityLabelInfo?: PurviewSensitivityLabelInfo;
     type: "indexedSharePoint";
+}
+
+// @public
+export interface KnowledgeBaseIndexedSqlActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseIndexedSqlActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    indexedSqlArguments?: KnowledgeBaseIndexedSqlActivityArguments;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    type: "indexedSql";
 }
 
 // @public
@@ -1588,6 +1699,22 @@ export interface KnowledgeBaseIndexedSqlReference extends BaseKnowledgeBaseRefer
 
 // @public
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
+
+// @public
+export interface KnowledgeBaseMcpServerActivityArguments {
+    toolArguments?: Record<string, any>;
+    toolName?: string;
+}
+
+// @public
+export interface KnowledgeBaseMcpServerActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    mcpServerArguments?: KnowledgeBaseMcpServerActivityArguments;
+    queryTime?: Date;
+    type: "mcpServer";
+}
 
 // @public
 export interface KnowledgeBaseMcpServerReference extends BaseKnowledgeBaseReference {
@@ -1656,10 +1783,32 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends BaseKn
 }
 
 // @public
+export interface KnowledgeBaseQueryHintProcessing {
+    generatedBoost?: string;
+    generatedFilter?: string;
+}
+
+// @public
 export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | KnowledgeBaseWorkIQReference | KnowledgeBaseFabricDataAgentReference | KnowledgeBaseFabricOntologyReference | KnowledgeBaseMcpServerReference | KnowledgeBaseFileReference | KnowledgeBaseIndexedSqlReference | BaseKnowledgeBaseReference;
 
 // @public
 export type KnowledgeBaseReferenceType = string;
+
+// @public
+export interface KnowledgeBaseRemoteSharePointActivityArguments {
+    filterExpressionAddOn?: string;
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseRemoteSharePointActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    remoteSharePointArguments?: KnowledgeBaseRemoteSharePointActivityArguments;
+    type: "remoteSharePoint";
+}
 
 // @public
 export interface KnowledgeBaseRemoteSharePointReference extends BaseKnowledgeBaseReference {
@@ -1732,13 +1881,31 @@ export type KnowledgeBaseRetrievalStreamEvent = {
 };
 
 // @public
-export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedEvent | KnowledgeBaseActivityStartedEvent | KnowledgeBaseActivityRecord | KnowledgeBaseAnswerCompletedEvent | KnowledgeBaseReference[] | KnowledgeBaseStreamErrorEvent | KnowledgeBaseResponseCompletedEvent;
-
-// @public
 export interface KnowledgeBaseRetrieveDefaults {
     maxOutputDocuments?: number;
     maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
+}
+
+// @public
+export interface KnowledgeBaseSearchIndexActivityArguments {
+    filter?: string;
+    queryType?: QueryType;
+    search?: string;
+    searchFields?: SearchIndexFieldReference[];
+    semanticConfigurationName?: string;
+    sourceDataFields?: SearchIndexFieldReference[];
+}
+
+// @public
+export interface KnowledgeBaseSearchIndexActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryHintProcessing?: KnowledgeBaseQueryHintProcessing;
+    queryTime?: Date;
+    searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
+    type: "searchIndex";
 }
 
 // @public
@@ -1756,10 +1923,44 @@ export interface KnowledgeBaseStreamErrorEvent {
 }
 
 // @public
+export interface KnowledgeBaseWebActivityArguments {
+    count?: number;
+    freshness?: string;
+    language?: string;
+    market?: string;
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseWebActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "web";
+    webArguments?: KnowledgeBaseWebActivityArguments;
+}
+
+// @public
 export interface KnowledgeBaseWebReference extends BaseKnowledgeBaseReference {
     title?: string;
     type: "web";
     url?: string;
+}
+
+// @public
+export interface KnowledgeBaseWorkIQActivityArguments {
+    search?: string;
+}
+
+// @public
+export interface KnowledgeBaseWorkIQActivityRecord extends BaseKnowledgeBaseActivityRecord {
+    count?: number;
+    imageServing?: ImageServingStatistics;
+    knowledgeSourceName?: string;
+    queryTime?: Date;
+    type: "workIQ";
+    workIQArguments?: KnowledgeBaseWorkIQActivityArguments;
 }
 
 // @public
@@ -1779,7 +1980,6 @@ export class KnowledgeRetrievalClient {
     readonly endpoint: string;
     readonly knowledgeBaseName: string;
     readonly pipeline: Pipeline;
-    // (undocumented)
     retrieve(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveOptions): Promise<KnowledgeBaseRetrievalResponse>;
     retrieveStream(retrievalRequest: KnowledgeBaseRetrievalRequest, options?: RetrieveStreamOptions): Promise<AsyncIterable<KnowledgeBaseRetrievalStreamEvent>>;
     readonly serviceVersion: string;
@@ -1867,6 +2067,7 @@ export interface KnowledgeSourceIngestionParameters {
     identity?: SearchIndexerDataIdentity;
     ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
     ingestionSchedule?: IndexingSchedule;
+    networkAccessMode?: KnowledgeSourceNetworkAccessMode;
 }
 
 // @public
@@ -1877,6 +2078,9 @@ export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource
 
 // @public
 export type KnowledgeSourceKind = string;
+
+// @public
+export type KnowledgeSourceNetworkAccessMode = string;
 
 // @public
 export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | WorkIQKnowledgeSourceParams | FabricDataAgentKnowledgeSourceParams | FabricOntologyKnowledgeSourceParams | McpServerKnowledgeSourceParams | FileKnowledgeSourceParams | IndexedSqlKnowledgeSourceParams | BaseKnowledgeSourceParams;
@@ -2327,8 +2531,50 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
+export enum KnownKnowledgeBaseActivityRecordType {
+    AgenticReasoning = "agenticReasoning",
+    AzureBlob = "azureBlob",
+    FabricDataAgent = "fabricDataAgent",
+    FabricOntology = "fabricOntology",
+    File = "file",
+    IndexedOneLake = "indexedOneLake",
+    IndexedSharePoint = "indexedSharePoint",
+    IndexedSql = "indexedSql",
+    McpServer = "mcpServer",
+    ModelAnswerSynthesis = "modelAnswerSynthesis",
+    ModelQueryPlanning = "modelQueryPlanning",
+    ModelWebSummarization = "modelWebSummarization",
+    RemoteSharePoint = "remoteSharePoint",
+    SearchIndex = "searchIndex",
+    Web = "web",
+    WorkIQ = "workIQ"
+}
+
+// @public
 export enum KnownKnowledgeBaseModelKind {
     AzureOpenAI = "azureOpenAI"
+}
+
+// @public
+export enum KnownKnowledgeBaseReferenceType {
+    AzureBlob = "azureBlob",
+    FabricDataAgent = "fabricDataAgent",
+    FabricOntology = "fabricOntology",
+    File = "file",
+    IndexedOneLake = "indexedOneLake",
+    IndexedSharePoint = "indexedSharePoint",
+    IndexedSql = "indexedSql",
+    McpServer = "mcpServer",
+    RemoteSharePoint = "remoteSharePoint",
+    SearchIndex = "searchIndex",
+    Web = "web",
+    WorkIQ = "workIQ"
+}
+
+// @public
+export enum KnownKnowledgeBaseRetrievalStatusCode {
+    OK = 200,
+    PartialContent = 206
 }
 
 // @public
@@ -2367,6 +2613,12 @@ export enum KnownKnowledgeSourceKind {
     SearchIndex = "searchIndex",
     Web = "web",
     WorkIQ = "workIQ"
+}
+
+// @public
+export enum KnownKnowledgeSourceNetworkAccessMode {
+    Private = "private",
+    Public = "public"
 }
 
 // @public
@@ -3139,26 +3391,19 @@ export interface ListAliasesOptions extends OperationOptions {
 }
 
 // @public
-export type ListDataSourceConnectionsOptions = OperationOptions;
+export type ListDataSourceConnectionsOptions = ResourceListingOptions;
 
 // @public
-export type ListIndexersOptions = OperationOptions;
+export type ListIndexersOptions = ResourceListingOptions;
 
 // @public
-export interface ListIndexesOptions extends OperationOptions {
-    pageSize?: number;
-    search?: string;
-    searchType?: ListingSearchType;
-}
+export type ListIndexesOptions = ResourceListingOptions;
 
 // @public
 export interface ListIndexStatsSummaryOptions extends OperationOptions {
-    count?: boolean;
     pageSize?: number;
     search?: string;
     searchType?: ListingSearchType;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3173,6 +3418,10 @@ export interface ListKnowledgeBasesOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface ListKnowledgeSourceFilesOptions extends OperationOptions {
+    pageSize?: number;
+    prefix?: string;
+    search?: string;
+    searchType?: ListingSearchType;
 }
 
 // @public (undocumented)
@@ -3188,10 +3437,10 @@ export interface ListSearchResultsPageSettings {
 }
 
 // @public
-export type ListSkillsetsOptions = OperationOptions;
+export type ListSkillsetsOptions = ResourceListingOptions;
 
 // @public
-export type ListSynonymMapsOptions = OperationOptions;
+export type ListSynonymMapsOptions = ResourceListingOptions;
 
 // @public
 export interface LuceneStandardAnalyzer extends BaseLexicalAnalyzer {
@@ -3234,39 +3483,47 @@ export type MarkdownParsingSubmode = string;
 
 // @public
 export interface McpServerAuthentication {
+    // (undocumented)
     kind: McpServerAuthenticationKind;
 }
 
-// @public
+// @public (undocumented)
 export type McpServerAuthenticationKind = string;
 
-// @public
+// @public (undocumented)
 export type McpServerAuthenticationUnion = McpServerFoundryConnectionAuthentication | McpServerStoredHeadersAuthentication | McpServerAuthentication;
 
-// @public
+// @public (undocumented)
 export interface McpServerAutoOutputParsing extends McpServerOutputParsing {
+    // (undocumented)
     kind: "auto";
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerFoundryConnectionAuthentication extends McpServerAuthentication {
+    // (undocumented)
     foundryConnectionParameters: McpServerFoundryConnectionParameters;
+    // (undocumented)
     kind: "foundryConnection";
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerFoundryConnectionParameters {
+    // (undocumented)
     connectionId?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerHeaders {
+    // (undocumented)
     additionalProperties?: Record<string, string>;
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerJsonOutputParsing extends McpServerOutputParsing {
+    // (undocumented)
     jsonParameters: McpServerOutputParsingJsonParameters;
+    // (undocumented)
     kind: "json";
 }
 
@@ -3279,7 +3536,7 @@ export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
 // @public
 export interface McpServerKnowledgeSourceParameters {
     authentication?: McpServerAuthenticationUnion;
-    serverURL: string;
+    serverUrl: string;
     tools: McpServerTool[];
 }
 
@@ -3288,61 +3545,77 @@ export interface McpServerKnowledgeSourceParams extends BaseKnowledgeSourceParam
     kind: "mcpServer";
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
+    // (undocumented)
     kind: "none";
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerOutputParsing {
+    // (undocumented)
     kind: McpServerOutputParsingKind;
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerOutputParsingJsonParameters {
+    // (undocumented)
     documentsPath: string;
+    // (undocumented)
     includeContext?: boolean;
 }
 
-// @public
+// @public (undocumented)
 export type McpServerOutputParsingKind = string;
 
-// @public
+// @public (undocumented)
 export interface McpServerOutputParsingSplitParameters {
-    // Warning: (ae-forgotten-export) The symbol "SplitSkillLanguage_2" needs to be exported by the entry point index.d.ts
-    defaultLanguageCode?: SplitSkillLanguage_2;
+    // (undocumented)
+    defaultLanguageCode?: SplitSkillLanguage;
+    // (undocumented)
     maximumPageLength?: number;
+    // (undocumented)
     maximumPagesToTake?: number;
+    // (undocumented)
     pageOverlapLength?: number;
-    // Warning: (ae-forgotten-export) The symbol "TextSplitMode_2" needs to be exported by the entry point index.d.ts
-    textSplitMode?: TextSplitMode_2;
+    // (undocumented)
+    textSplitMode?: TextSplitMode;
 }
 
-// @public
+// @public (undocumented)
 export type McpServerOutputParsingUnion = McpServerAutoOutputParsing | McpServerJsonOutputParsing | McpServerSplitOutputParsing | McpServerNoneOutputParsing | McpServerOutputParsing;
 
-// @public
+// @public (undocumented)
 export interface McpServerSplitOutputParsing extends McpServerOutputParsing {
+    // (undocumented)
     kind: "split";
+    // (undocumented)
     splitParameters?: McpServerOutputParsingSplitParameters;
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerStoredHeadersAuthentication extends McpServerAuthentication {
+    // (undocumented)
     kind: "storedHeaders";
+    // (undocumented)
     storedHeadersParameters: McpServerStoredHeadersParameters;
 }
 
-// @public
+// @public (undocumented)
 export interface McpServerStoredHeadersParameters {
+    // (undocumented)
     headers?: McpServerHeaders;
 }
 
 // @public
 export interface McpServerTool {
+    // (undocumented)
     maxOutputTokens?: number;
+    // (undocumented)
     name?: string;
+    // (undocumented)
     outputParsing?: McpServerOutputParsingUnion;
+    // (undocumented)
     resultsProcessing?: KnowledgeSourceResultsProcessing;
 }
 
@@ -3643,6 +3916,13 @@ export interface ResourceCounter {
     usage: number;
 }
 
+// @public
+export interface ResourceListingOptions extends OperationOptions {
+    pageSize?: number;
+    search?: string;
+    searchType?: ListingSearchType;
+}
+
 export { RestError }
 
 // @public
@@ -3650,14 +3930,16 @@ export interface ResyncIndexerOptions extends OperationOptions {
     resyncOptions?: IndexerResyncOption[];
 }
 
-// @public (undocumented)
+// @public
 export interface RetrieveOptions extends OperationOptions {
     querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
 }
 
 // @public
 export interface RetrieveStreamOptions extends OperationOptions {
     querySourceAuthorization?: string;
+    queryWorkIQSourceAuthorization?: string;
 }
 
 // @public
@@ -3802,6 +4084,8 @@ export class SearchIndexClient {
     createKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateKnowledgeSourceOptions): Promise<KnowledgeSource>;
     createOrUpdateAlias(alias: SearchIndexAlias, options?: CreateOrUpdateAliasOptions): Promise<SearchIndexAlias>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateKnowledgeBase(knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
+    // @deprecated
     createOrUpdateKnowledgeBase(knowledgeBaseName: string, knowledgeBase: KnowledgeBase, options?: CreateOrUpdateKnowledgeBaseOptions): Promise<KnowledgeBase>;
     // (undocumented)
     createOrUpdateKnowledgeSource(knowledgeSource: KnowledgeSource, options?: CreateOrUpdateKnowledgeSourceOptions): Promise<KnowledgeSource>;
@@ -3884,8 +4168,8 @@ export class SearchIndexerClient {
     readonly apiVersion: string;
     createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
-    createOrUpdateDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateorUpdateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
-    createOrUpdateIndexer(indexer: SearchIndexer, options?: CreateorUpdateIndexerOptions): Promise<SearchIndexer>;
+    createOrUpdateDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateOrUpdateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
+    createOrUpdateIndexer(indexer: SearchIndexer, options?: CreateOrUpdateIndexerOptions): Promise<SearchIndexer>;
     createOrUpdateSkillset(skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptions): Promise<SearchIndexerSkillset>;
     createSkillset(skillset: SearchIndexerSkillset, options?: CreateSkillsetOptions): Promise<SearchIndexerSkillset>;
     deleteDataSourceConnection(dataSourceConnection: string | SearchIndexerDataSourceConnection, options?: DeleteDataSourceConnectionOptions): Promise<void>;
@@ -4352,6 +4636,13 @@ export interface SentimentSkillV3 extends BaseSearchIndexerSkill {
 }
 
 // @public
+export interface ServedImage {
+    imageId?: string;
+    imagePath: string;
+    sizeBytes: number;
+}
+
+// @public
 export interface ServiceCounters {
     aliasCounter: ResourceCounter;
     dataSourceCounter: ResourceCounter;
@@ -4656,7 +4947,7 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
     onlyOnSamePosition?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateKnowledgeSourceFileOptions extends OperationOptions {
 }
 
@@ -4673,7 +4964,7 @@ export interface UpdateKnowledgeSourceFileRequest {
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
-// @public (undocumented)
+// @public
 export interface UploadKnowledgeSourceFileMultipartOptions extends OperationOptions {
 }
 
@@ -4687,7 +4978,7 @@ export interface UploadKnowledgeSourceFileMultipartRequest {
     metadata: FileUploadMetadata;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadKnowledgeSourceFileOptions extends OperationOptions {
 }
 

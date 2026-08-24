@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { setLogLevel } from "@azure/logger";
+import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 import {
   AzureKeyCredential,
@@ -29,31 +30,41 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // To manage indexers, datasources and skillsets
     const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+    // @ts-preserve-whitespace
+    // To retrieve from a knowledge base
+    const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+      "<endpoint>",
+      "<knowledgeBaseName>",
+      new AzureKeyCredential("<apiKey>"),
+    );
   });
 
   it("ReadmeSampleCreateClient_NationalCloud", async () => {
+    const credential = new DefaultAzureCredential({
+      authorityHost: "https://login.chinacloudapi.cn",
+    });
+    // @ts-preserve-whitespace
     // To query and manipulate documents
-    const searchClient = new SearchClient(
-      "<endpoint>",
-      "<indexName>",
-      new AzureKeyCredential("<apiKey>"),
-      {
-        audience: KnownSearchAudience.AzureChina,
-      },
-    );
+    const searchClient = new SearchClient("<endpoint>", "<indexName>", credential, {
+      audience: KnownSearchAudience.AzureChina,
+    });
     // @ts-preserve-whitespace
     // To manage indexes and synonymmaps
-    const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
+    const indexClient = new SearchIndexClient("<endpoint>", credential, {
       audience: KnownSearchAudience.AzureChina,
     });
     // @ts-preserve-whitespace
     // To manage indexers, datasources and skillsets
-    const indexerClient = new SearchIndexerClient(
+    const indexerClient = new SearchIndexerClient("<endpoint>", credential, {
+      audience: KnownSearchAudience.AzureChina,
+    });
+    // @ts-preserve-whitespace
+    // To retrieve from a knowledge base
+    const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
       "<endpoint>",
-      new AzureKeyCredential("<apiKey>"),
-      {
-        audience: KnownSearchAudience.AzureChina,
-      },
+      "<knowledgeBaseName>",
+      credential,
+      { audience: KnownSearchAudience.AzureChina },
     );
   });
 
@@ -197,7 +208,7 @@ describe("snippets", () => {
     const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];
     // @ts-preserve-whitespace
     for await (const result of searchResults.results) {
-      // result.document has hotelId, hotelName, and rating.
+      // result.document has hotelId, hotelName, and rooms with only the beds property.
       // Trying to access result.document.description would emit a TS error.
       console.log(result.document.hotelName);
     }
@@ -380,6 +391,58 @@ describe("snippets", () => {
       "<knowledgeBaseName>",
       new AzureKeyCredential("<apiKey>"),
     );
+  });
+
+  it("ReadmeSampleRetrieveKnowledge", async () => {
+    const client = new KnowledgeRetrievalClient(
+      "<endpoint>",
+      "<knowledgeBaseName>",
+      new AzureKeyCredential("<apiKey>"),
+    );
+    // @ts-preserve-whitespace
+    const response = await client.retrieve({
+      intents: [{ type: "semantic", search: "What information is available?" }],
+      retrievalReasoningEffort: { kind: "auto" },
+      includeActivity: true,
+    });
+    // @ts-preserve-whitespace
+    console.log(response.response);
+  });
+
+  it("ReadmeSampleRetrieveKnowledgeStream", async () => {
+    const client = new KnowledgeRetrievalClient(
+      "<endpoint>",
+      "<knowledgeBaseName>",
+      new AzureKeyCredential("<apiKey>"),
+    );
+    // @ts-preserve-whitespace
+    for await (const event of await client.retrieveStream({
+      intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+      includeActivity: true,
+    })) {
+      if (event.event === "activity.completed") {
+        console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
+      } else if (event.event === "response.completed") {
+        console.log(event.data.response.response);
+      } else if (event.event === "error") {
+        throw new Error(event.data.error.message);
+      }
+    }
+  });
+
+  it("ReadmeSampleManageKnowledgeSourceFile", async () => {
+    const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+    const body = {
+      metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+      content: { contents: new Uint8Array([1, 2, 3]), contentType: "text/plain" },
+    };
+    // @ts-preserve-whitespace
+    const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+    // @ts-preserve-whitespace
+    await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId!, {
+      ...body,
+      metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+    });
   });
 
   it("SetLogLevel", () => {

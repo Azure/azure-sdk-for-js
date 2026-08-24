@@ -103,6 +103,7 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Search Documents",
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/search-documents/",
     "productSlugs": [
       "azure",
       "azure-cognitive-search",

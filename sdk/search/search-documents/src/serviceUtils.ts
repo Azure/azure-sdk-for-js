@@ -31,6 +31,10 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
+  IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
+  IndexedSqlKnowledgeSource as GeneratedIndexedSqlKnowledgeSource,
+  FileKnowledgeSource as GeneratedFileKnowledgeSource,
+  McpServerKnowledgeSource as GeneratedMcpServerKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
@@ -95,6 +99,10 @@ import type {
   KnowledgeBaseModel,
   KnowledgeSource,
   KnowledgeSourceIngestionParameters,
+  IndexedSharePointKnowledgeSourceParameters,
+  IndexedSqlKnowledgeSource,
+  FileKnowledgeSourceParameters,
+  McpServerKnowledgeSource,
   KnowledgeSourceVectorizer,
   LexicalAnalyzer,
   LexicalTokenizer,
@@ -132,7 +140,7 @@ import { isComplexField } from "./serviceModels.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceIngestionParameters as GeneratedKnowledgeSourceIngestionParameters } from "./models/azure/search/documents/knowledgeBases/index.js";
 
-export const defaultServiceVersion = "2026-05-01-preview";
+export const defaultServiceVersion = "2026-08-01-preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
   "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
@@ -974,6 +982,7 @@ export function convertKnowledgeSourceToPublic(
       const { encryptionKey } = knowledgeSource as GeneratedSearchIndexKnowledgeSource;
       return {
         ...knowledgeSource,
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       } as KnowledgeSource;
     }
@@ -983,6 +992,7 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "azureBlob",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         azureBlobParameters: convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters),
       };
@@ -993,6 +1003,7 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "indexedOneLake",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
         indexedOneLakeParameters: {
           fabricWorkspaceId: indexedOneLakeParameters.fabricWorkspaceId,
@@ -1001,8 +1012,43 @@ export function convertKnowledgeSourceToPublic(
             indexedOneLakeParameters.ingestionParameters,
           ),
           targetPath: indexedOneLakeParameters.targetPath,
+          queryHints: indexedOneLakeParameters.queryHints,
           createdResources: indexedOneLakeParameters.createdResources?.additionalProperties,
         },
+      };
+    }
+    case "indexedSharePoint": {
+      const { encryptionKey, indexedSharePointParameters } =
+        knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "indexedSharePoint",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedSharePointParameters: convertIndexedSharePointParametersToPublic(
+          indexedSharePointParameters,
+        ),
+      };
+    }
+    case "indexedSql": {
+      const { encryptionKey, indexedSqlParameters } =
+        knowledgeSource as GeneratedIndexedSqlKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "indexedSql",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        indexedSqlParameters: convertIndexedSqlParametersToPublic(indexedSqlParameters),
+      };
+    }
+    case "file": {
+      const { encryptionKey, fileParameters } = knowledgeSource as GeneratedFileKnowledgeSource;
+      return {
+        ...knowledgeSource,
+        kind: "file",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        fileParameters: convertFileKnowledgeSourceParametersToPublic(fileParameters),
       };
     }
     case "web": {
@@ -1010,22 +1056,32 @@ export function convertKnowledgeSourceToPublic(
       return {
         ...knowledgeSource,
         kind: "web",
+        etag: knowledgeSource.eTag,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
-    case "indexedSharePoint":
     case "remoteSharePoint":
     case "workIQ":
-    case "mcpServer":
-    case "indexedSql":
-    case "file":
     case "fabricDataAgent":
     case "fabricOntology": {
       const { encryptionKey } = knowledgeSource;
       return {
         ...knowledgeSource,
         encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        etag: knowledgeSource.eTag,
       } as KnowledgeSource;
+    }
+    case "mcpServer": {
+      const { encryptionKey, mcpServerParameters } =
+        knowledgeSource as GeneratedMcpServerKnowledgeSource;
+      const { serverURL, ...parameters } = mcpServerParameters;
+      return {
+        ...knowledgeSource,
+        kind: "mcpServer",
+        etag: knowledgeSource.eTag,
+        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+        mcpServerParameters: { ...parameters, serverUrl: serverURL },
+      } as McpServerKnowledgeSource;
     }
     default: {
       logger.warning(`Unknown knowledge source kind ${knowledgeSource.kind}`);
@@ -1040,9 +1096,20 @@ export function convertKnowledgeSourceToGenerated(
   if (!knowledgeSource) {
     return undefined;
   }
-  const { encryptionKey } = knowledgeSource;
+  const { encryptionKey, etag } = knowledgeSource;
+  if (knowledgeSource.kind === "mcpServer") {
+    const mcpKnowledgeSource = knowledgeSource as McpServerKnowledgeSource;
+    const { serverUrl, ...parameters } = mcpKnowledgeSource.mcpServerParameters;
+    return {
+      ...mcpKnowledgeSource,
+      eTag: etag,
+      encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
+      mcpServerParameters: { ...parameters, serverURL: serverUrl },
+    } as GeneratedKnowledgeSource;
+  }
   return {
     ...knowledgeSource,
+    eTag: etag,
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
   } as GeneratedKnowledgeSource;
 }
@@ -1073,20 +1140,53 @@ function convertAzureBlobKnowledgeSourceParametersToPublic(
   if (!params) {
     return undefined;
   }
-  const { embeddingModel, chatCompletionModel, identity, ...rest } =
-    params.ingestionParameters ?? {};
   return {
-    ...rest,
-    embeddingModel: !embeddingModel
-      ? embeddingModel
-      : generatedKnowledgeSourceVectorizerToPublicVectorizer(embeddingModel),
-    identity: convertSearchIndexerDataIdentityToPublic(identity),
     connectionString: params.connectionString,
     containerName: params.containerName,
-    chatCompletionModel: !chatCompletionModel
-      ? chatCompletionModel
-      : convertKnowledgeBaseModelToPublic(chatCompletionModel),
-  } as AzureBlobKnowledgeSourceParameters;
+    folderPath: params.folderPath,
+    isAdlsGen2: params.isAdlsGen2,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    queryHints: params.queryHints,
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertIndexedSharePointParametersToPublic(
+  params: GeneratedIndexedSharePointKnowledgeSource["indexedSharePointParameters"],
+): IndexedSharePointKnowledgeSourceParameters {
+  return {
+    connectionString: params.connectionString,
+    containerName: params.containerName,
+    query: params.query,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    queryHints: params.queryHints,
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertIndexedSqlParametersToPublic(
+  params: GeneratedIndexedSqlKnowledgeSource["indexedSqlParameters"],
+): IndexedSqlKnowledgeSource["indexedSqlParameters"] {
+  return {
+    connectionString: params.connectionString,
+    tableOrView: params.tableOrView,
+    highWaterMarkColumnName: params.highWaterMarkColumnName,
+    contentColumns: params.contentColumns,
+    embeddingColumns: params.embeddingColumns,
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    queryHints: params.queryHints,
+    createdResources: params.createdResources?.additionalProperties,
+  };
+}
+
+function convertFileKnowledgeSourceParametersToPublic(
+  params: GeneratedFileKnowledgeSource["fileParameters"],
+): FileKnowledgeSourceParameters {
+  return {
+    ingestionParameters: convertKnowledgeIngestionParametersToPublic(params.ingestionParameters),
+    queryHints: params.queryHints,
+    createdResources: params.createdResources?.additionalProperties,
+  };
 }
 
 function convertKnowledgeBaseModelToPublic(model: GeneratedKnowledgeBaseModel): KnowledgeBaseModel {
