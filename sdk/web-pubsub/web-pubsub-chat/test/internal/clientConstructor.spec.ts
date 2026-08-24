@@ -3,10 +3,16 @@
 
 import { WebPubSubChatServiceClient } from "../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
+  type HttpClient,
+  type PipelinePolicy,
+} from "@azure/core-rest-pipeline";
 import * as jwt from "jsonwebtoken";
 import { webPubSubChatCredentialPolicy } from "../../src/webPubSubChatCredentialPolicy.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 
 describe("WebPubSubChatServiceClient constructor", () => {
   const fakeEndpoint = "https://example.webpubsub.azure.com";
@@ -51,6 +57,66 @@ describe("WebPubSubChatServiceClient constructor", () => {
     const client = new WebPubSubChatServiceClient(fakeEndpoint, fakeTokenCredential, hub);
     assert.isNotNull(client);
     assert.isNotNull(client.pipeline);
+  });
+
+  it("forwards the HTTP client with a clone of the caller pipeline", async () => {
+    const pipeline = createEmptyPipeline();
+    const customPolicy: PipelinePolicy = {
+      name: "customPolicy",
+      sendRequest: vi.fn((request, next) => next(request)),
+    };
+    pipeline.addPolicy(customPolicy);
+    const httpClient: HttpClient = {
+      sendRequest: vi.fn(async (request) => ({
+        request,
+        status: 200,
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+        bodyAsText: JSON.stringify({ token: "fake-client-token" }),
+      })),
+    };
+    const credential = {
+      getToken: async () => ({ token: "fake-token", expiresOnTimestamp: Date.now() + 3600000 }),
+    };
+    const client = new WebPubSubChatServiceClient(fakeEndpoint, credential, hub, {
+      pipeline,
+      httpClient,
+    });
+
+    const underlyingClient = (
+      client as unknown as {
+        _webPubSubServiceClient: { _context: { pipeline: typeof client.pipeline } };
+      }
+    )._webPubSubServiceClient;
+    const token = await client.getClientAccessToken();
+
+    assert.strictEqual(client.pipeline, pipeline);
+    assert.notStrictEqual(underlyingClient._context.pipeline, pipeline);
+    assert.include(underlyingClient._context.pipeline.getOrderedPolicies(), customPolicy);
+    assert.equal(token.token, "fake-client-token");
+    assert.isTrue(vi.mocked(httpClient.sendRequest).mock.calls.length > 0);
+  });
+
+  it("keeps key credential policies isolated between cloned pipelines", () => {
+    const pipeline = createEmptyPipeline();
+    const client = new WebPubSubChatServiceClient(fakeConnectionString, hub, { pipeline });
+    const underlyingClient = (
+      client as unknown as {
+        _webPubSubServiceClient: { _context: { pipeline: typeof client.pipeline } };
+      }
+    )._webPubSubServiceClient;
+
+    assert.include(
+      client.pipeline.getOrderedPolicies().map((policy) => policy.name),
+      "webPubSubChatCredentialPolicy",
+    );
+    assert.include(
+      underlyingClient._context.pipeline.getOrderedPolicies().map((policy) => policy.name),
+      "webPubSubKeyCredentialPolicy",
+    );
+    assert.notInclude(
+      underlyingClient._context.pipeline.getOrderedPolicies().map((policy) => policy.name),
+      "webPubSubChatCredentialPolicy",
+    );
   });
 
   it("applies reverse proxy policy when reverseProxyEndpoint is set", () => {

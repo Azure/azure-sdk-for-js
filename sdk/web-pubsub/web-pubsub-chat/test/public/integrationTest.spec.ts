@@ -231,6 +231,7 @@ describe("", () => {
       const roomRoleName = "room.test_message_role";
       const messageText = recorder.variable("messageText", `test message ${Date.now()}`);
       const updatedMessageText = `${messageText} updated`;
+      const binaryContent = new Uint8Array([0, 1, 2, 254, 255]);
       let roomId2: string | undefined;
       let conversationId: string | undefined;
       let messageId: string | undefined;
@@ -277,6 +278,12 @@ describe("", () => {
           content: { text: updatedMessageText },
         });
         assert.equal(updated.content.text, updatedMessageText);
+
+        const binaryUpdated = await client.updateMessage(conversationId, messageId, {
+          createdBy: userId,
+          content: { binary: binaryContent },
+        });
+        assert.deepEqual(binaryUpdated.content.binary, binaryContent);
 
         await client.deleteMessage(conversationId, messageId);
       } finally {

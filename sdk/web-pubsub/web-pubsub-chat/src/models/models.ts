@@ -274,7 +274,7 @@ export function chatRoomMemberDeserializer(item: any): ChatRoomMember {
 export interface ChatUser {
   /** The kind of user. */
   /** The discriminator possible values: Human */
-  kind: ChatUserKind;
+  kind: string;
   /** User identifier. */
   readonly id: string;
   /** User's display nickname. */
@@ -345,7 +345,7 @@ export interface HumanChatUserInput extends ChatUserInput {
 }
 
 /** Alias for ChatUserInputUnion */
-export type ChatUserInputUnion = HumanChatUserInput | ChatUserInput;
+export type ChatUserInputUnion = HumanChatUserInput;
 
 export function humanChatUserSerializer(item: HumanChatUserInput): any {
   return { kind: item["kind"], nickname: item["nickname"], roleName: item["roleName"] };

@@ -67,7 +67,7 @@ export interface ChatRoomMemberInput {
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
-    kind: ChatUserKind;
+    kind: string;
     nickname: string;
 }
 
@@ -78,7 +78,7 @@ export interface ChatUserInput {
 }
 
 // @public
-export type ChatUserInputUnion = HumanChatUserInput | ChatUserInput;
+export type ChatUserInputUnion = HumanChatUserInput;
 
 // @public
 export type ChatUserKind = "Human";

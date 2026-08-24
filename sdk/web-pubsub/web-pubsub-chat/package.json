@@ -83,6 +83,7 @@
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.2.0",
     "@azure/web-pubsub": "^1.2.1",
     "jsonwebtoken": "^9.0.0",

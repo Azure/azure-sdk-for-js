@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import {
+  assertEnvironmentVariable,
   Recorder,
   type RecorderStartOptions,
   type VitestTestContext,
@@ -16,6 +17,7 @@ const recorderOptions: RecorderStartOptions = {
     WPS_CHAT_CONNECTION_STRING: `Endpoint=${endpoint};AccessKey=${apiKey};Version=1.0;`,
   },
   removeCentralSanitizers: [
+    "AZSDK4001", // The endpoint is sanitized explicitly below.
     "AZSDK3430", // $..id
     "AZSDK3433", // $..userId
     "AZSDK3442", // $..createdBy
@@ -31,5 +33,16 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers(
+    {
+      uriSanitizers: [
+        {
+          target: assertEnvironmentVariable("WPS_CHAT_ENDPOINT"),
+          value: endpoint,
+        },
+      ],
+    },
+    ["record", "playback"],
+  );
   return recorder;
 }

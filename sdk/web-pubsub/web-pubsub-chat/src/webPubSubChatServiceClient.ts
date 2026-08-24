@@ -59,15 +59,18 @@ import {
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
+import { isKeyCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { parseConnectionString } from "./parseConnectionString.js";
 import { webPubSubChatCredentialPolicy } from "./webPubSubChatCredentialPolicy.js";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 import type { ClientAccessToken, GetClientAccessTokenOptions } from "./models/clientToken.js";
+import { tracingClient } from "./tracing.js";
 
 export type { WebPubSubChatServiceClientOptionalParams } from "./api/webPubSubChatServiceContext.js";
 
+/** Options for configuring the Web PubSub Chat service client. */
 export interface WebPubSubChatServiceClientOptions extends WebPubSubChatServiceClientOptionalParams {
   /** The reverse proxy endpoint (e.g. APIM gateway URL). */
   reverseProxyEndpoint?: string;
@@ -117,12 +120,13 @@ export class WebPubSubChatServiceClient {
       options = maybeOptions ?? {};
     }
 
+    const webPubSubPipeline = options.pipeline?.clone();
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
 
-    if (credential instanceof AzureKeyCredential) {
+    if (isKeyCredential(credential)) {
       const { credentials: _creds, ...restOptions } = options;
       this._client = createWebPubSubChatService(
         endpoint,
@@ -146,12 +150,8 @@ export class WebPubSubChatServiceClient {
       this._client.pipeline.addPolicy(webPubSubReverseProxyPolicy(options.reverseProxyEndpoint));
     }
 
-    // Create an internal WebPubSubServiceClient for token generation.
-    // TODO: In the next version, consider propagating the remaining compatible client options
-    // or sharing the pipeline.
-    const webPubSubOptions = options.reverseProxyEndpoint
-      ? { reverseProxyEndpoint: options.reverseProxyEndpoint }
-      : undefined;
+    const { apiVersion: _apiVersion, ...webPubSubOptions } = options;
+    webPubSubOptions.pipeline = webPubSubPipeline;
     if (isConnectionString) {
       this._webPubSubServiceClient = new WebPubSubServiceClient(
         endpointOrConnectionString,
@@ -175,7 +175,11 @@ export class WebPubSubChatServiceClient {
     userId: string,
     options: DeleteUserOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteUser(this._client, userId, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteUser",
+      options,
+      (updatedOptions) => deleteUser(this._client, userId, updatedOptions),
+    );
   }
 
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
@@ -184,7 +188,11 @@ export class WebPubSubChatServiceClient {
     resource: ChatUserInputUnion,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
-    return createOrReplaceUser(this._client, userId, resource, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.createOrReplaceUser",
+      options,
+      (updatedOptions) => createOrReplaceUser(this._client, userId, resource, updatedOptions),
+    );
   }
 
   /** Get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
@@ -192,7 +200,9 @@ export class WebPubSubChatServiceClient {
     userId: string,
     options: GetUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
-    return getUser(this._client, userId, options);
+    return tracingClient.withSpan("WebPubSubChatServiceClient.getUser", options, (updatedOptions) =>
+      getUser(this._client, userId, updatedOptions),
+    );
   }
 
   /** Delete a room member. */
@@ -201,7 +211,11 @@ export class WebPubSubChatServiceClient {
     userId: string,
     options: DeleteRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteRoomMember(this._client, roomId, userId, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteRoomMember",
+      options,
+      (updatedOptions) => deleteRoomMember(this._client, roomId, userId, updatedOptions),
+    );
   }
 
   /** Create or replace a room member. */
@@ -211,7 +225,12 @@ export class WebPubSubChatServiceClient {
     resource: ChatRoomMemberInput,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
-    return createOrReplaceRoomMember(this._client, roomId, userId, resource, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.createOrReplaceRoomMember",
+      options,
+      (updatedOptions) =>
+        createOrReplaceRoomMember(this._client, roomId, userId, resource, updatedOptions),
+    );
   }
 
   /** Get room members. */
@@ -219,7 +238,18 @@ export class WebPubSubChatServiceClient {
     roomId: string,
     options: ListRoomMembersOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<ChatRoomMember> {
-    return listRoomMembers(this._client, roomId, options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listRoomMembers",
+      options,
+    );
+    try {
+      return listRoomMembers(this._client, roomId, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /** Delete a room. */
@@ -227,7 +257,11 @@ export class WebPubSubChatServiceClient {
     roomId: string,
     options: DeleteRoomOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteRoom(this._client, roomId, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteRoom",
+      options,
+      (updatedOptions) => deleteRoom(this._client, roomId, updatedOptions),
+    );
   }
 
   /** Get room information. */
@@ -235,7 +269,9 @@ export class WebPubSubChatServiceClient {
     roomId: string,
     options: GetRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
-    return getRoom(this._client, roomId, options);
+    return tracingClient.withSpan("WebPubSubChatServiceClient.getRoom", options, (updatedOptions) =>
+      getRoom(this._client, roomId, updatedOptions),
+    );
   }
 
   /** Create or replace a room with a client-specified ID. */
@@ -244,7 +280,11 @@ export class WebPubSubChatServiceClient {
     resource: ChatRoomInput,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
-    return createOrReplaceRoom(this._client, roomId, resource, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.createOrReplaceRoom",
+      options,
+      (updatedOptions) => createOrReplaceRoom(this._client, roomId, resource, updatedOptions),
+    );
   }
 
   /** Delete a role. */
@@ -252,7 +292,11 @@ export class WebPubSubChatServiceClient {
     roleName: string,
     options: DeleteRoleOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteRole(this._client, roleName, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteRole",
+      options,
+      (updatedOptions) => deleteRole(this._client, roleName, updatedOptions),
+    );
   }
 
   /** Create or replace a role. */
@@ -261,7 +305,11 @@ export class WebPubSubChatServiceClient {
     resource: ChatRoleInput,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
-    return createOrReplaceRole(this._client, roleName, resource, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.createOrReplaceRole",
+      options,
+      (updatedOptions) => createOrReplaceRole(this._client, roleName, resource, updatedOptions),
+    );
   }
 
   /** Get role information. */
@@ -269,14 +317,27 @@ export class WebPubSubChatServiceClient {
     roleName: string,
     options: GetRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
-    return getRole(this._client, roleName, options);
+    return tracingClient.withSpan("WebPubSubChatServiceClient.getRole", options, (updatedOptions) =>
+      getRole(this._client, roleName, updatedOptions),
+    );
   }
 
   /** Query roles in a hub. */
   listRoles(
     options: ListRolesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<ChatRole> {
-    return listRoles(this._client, options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listRoles",
+      options,
+    );
+    try {
+      return listRoles(this._client, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /** Update a message. */
@@ -286,7 +347,12 @@ export class WebPubSubChatServiceClient {
     resource: ChatMessageInput,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
-    return updateMessage(this._client, conversationId, messageId, resource, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.updateMessage",
+      options,
+      (updatedOptions) =>
+        updateMessage(this._client, conversationId, messageId, resource, updatedOptions),
+    );
   }
 
   /** Delete a message. */
@@ -295,7 +361,11 @@ export class WebPubSubChatServiceClient {
     messageId: string,
     options: DeleteMessageOptionalParams = { requestOptions: {} },
   ): Promise<void> {
-    return deleteMessage(this._client, conversationId, messageId, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.deleteMessage",
+      options,
+      (updatedOptions) => deleteMessage(this._client, conversationId, messageId, updatedOptions),
+    );
   }
 
   /** Query messages in a conversation from latest to earliest. */
@@ -303,7 +373,18 @@ export class WebPubSubChatServiceClient {
     conversationId: string,
     options: ListMessagesOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<ChatMessage> {
-    return listMessages(this._client, conversationId, options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "WebPubSubChatServiceClient.listMessages",
+      options,
+    );
+    try {
+      return listMessages(this._client, conversationId, updatedOptions);
+    } catch (error: unknown) {
+      span.setStatus({ status: "error", error: error instanceof Error ? error : String(error) });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /** Get conversation information. */
@@ -311,7 +392,11 @@ export class WebPubSubChatServiceClient {
     conversationId: string,
     options: GetConversationOptionalParams = { requestOptions: {} },
   ): Promise<ChatConversation> {
-    return getConversation(this._client, conversationId, options);
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.getConversation",
+      options,
+      (updatedOptions) => getConversation(this._client, conversationId, updatedOptions),
+    );
   }
 
   /**
@@ -324,9 +409,14 @@ export class WebPubSubChatServiceClient {
   async getClientAccessToken(
     options: GetClientAccessTokenOptions = {},
   ): Promise<ClientAccessToken> {
-    return this._webPubSubServiceClient.getClientAccessToken({
-      ...options,
-      roles: chatClientRoles,
-    });
+    return tracingClient.withSpan(
+      "WebPubSubChatServiceClient.getClientAccessToken",
+      options,
+      (updatedOptions) =>
+        this._webPubSubServiceClient.getClientAccessToken({
+          ...updatedOptions,
+          roles: chatClientRoles,
+        }),
+    );
   }
 }
