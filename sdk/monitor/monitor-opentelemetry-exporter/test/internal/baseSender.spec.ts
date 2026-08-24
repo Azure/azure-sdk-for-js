@@ -422,7 +422,11 @@ describe("BaseSender", () => {
     });
 
     it("should preserve the failure status when Network Statsbeat is inactive", async () => {
-      mockStatsbeatManager.networkStatsbeatMetrics = undefined;
+      (
+        mockStatsbeatManager as {
+          networkStatsbeatMetrics: typeof mockNetworkStats | undefined;
+        }
+      ).networkStatsbeatMetrics = undefined;
       sender.sendMock.mockResolvedValue({ statusCode: 400 });
       const envelopes = [{ name: "test", time: new Date() }];
 
