@@ -17,6 +17,7 @@ export interface ServiceFindBlobsByTagsOptionalParams extends OperationOptions {
   /** Specify to include additional, optional information. */
   include?: FilterBlobsIncludeItem[];
 }
+
 /** Optional parameters. */
 export interface ServiceSubmitBatchOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
@@ -24,6 +25,7 @@ export interface ServiceSubmitBatchOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface ServiceGetAccountInfoOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -31,6 +33,7 @@ export interface ServiceGetAccountInfoOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ServiceGetUserDelegationKeyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -38,6 +41,7 @@ export interface ServiceGetUserDelegationKeyOptionalParams extends OperationOpti
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ServiceListContainersOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -53,6 +57,7 @@ export interface ServiceListContainersOptionalParams extends OperationOptions {
   /** Specify to include additional, optional information. */
   include?: ListContainersIncludeType[];
 }
+
 /** Optional parameters. */
 export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -60,6 +65,7 @@ export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -67,6 +73,7 @@ export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

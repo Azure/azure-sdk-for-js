@@ -38,6 +38,7 @@ export interface BlobSetTagsOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface BlobGetTagsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -61,6 +62,7 @@ export interface BlobGetTagsOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob with a non-matching Etag value. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface BlobGetAccountInfoOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -68,6 +70,7 @@ export interface BlobGetAccountInfoOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface BlobSetTierOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -85,6 +88,7 @@ export interface BlobSetTierOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobAbortCopyFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -94,6 +98,7 @@ export interface BlobAbortCopyFromUrlOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
 }
+
 /** Optional parameters. */
 export interface BlobCopyFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -143,6 +148,7 @@ export interface BlobCopyFromUrlOptionalParams extends OperationOptions {
   /** Specifies the file request token intent. */
   fileRequestIntent?: FileShareTokenIntent;
 }
+
 /** Optional parameters. */
 export interface BlobStartCopyFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -188,6 +194,7 @@ export interface BlobStartCopyFromUrlOptionalParams extends OperationOptions {
   /** Indicates whether the blob has a legal hold. */
   legalHold?: boolean;
 }
+
 /** Optional parameters. */
 export interface BlobCreateSnapshotOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -217,6 +224,7 @@ export interface BlobCreateSnapshotOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
 }
+
 /** Optional parameters. */
 export interface BlobBreakLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -236,6 +244,7 @@ export interface BlobBreakLeaseOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobChangeLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -253,6 +262,7 @@ export interface BlobChangeLeaseOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobRenewLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -270,6 +280,7 @@ export interface BlobRenewLeaseOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobReleaseLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -287,6 +298,7 @@ export interface BlobReleaseLeaseOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobAcquireLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -306,6 +318,7 @@ export interface BlobAcquireLeaseOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobSetMetadataOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -335,6 +348,7 @@ export interface BlobSetMetadataOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobSetLegalHoldOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -346,6 +360,7 @@ export interface BlobSetLegalHoldOptionalParams extends OperationOptions {
   /** Specifies the version ID of the blob. */
   versionId?: string;
 }
+
 /** Optional parameters. */
 export interface BlobDeleteImmutabilityPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -357,6 +372,7 @@ export interface BlobDeleteImmutabilityPolicyOptionalParams extends OperationOpt
   /** Specifies the version ID of the blob. */
   versionId?: string;
 }
+
 /** Optional parameters. */
 export interface BlobSetImmutabilityPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -374,6 +390,7 @@ export interface BlobSetImmutabilityPolicyOptionalParams extends OperationOption
   /** Specifies the version ID of the blob. */
   versionId?: string;
 }
+
 /** Optional parameters. */
 export interface BlobSetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -405,6 +422,7 @@ export interface BlobSetPropertiesOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobSetExpiryOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -414,6 +432,7 @@ export interface BlobSetExpiryOptionalParams extends OperationOptions {
   /** The date-time this blob will expire. */
   expiresOn?: Date;
 }
+
 /** Optional parameters. */
 export interface BlobUndeleteOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -421,6 +440,7 @@ export interface BlobUndeleteOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface BlobDeleteOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -452,6 +472,7 @@ export interface BlobDeleteOptionalParams extends OperationOptions {
   /** Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date-time. */
   accessTierIfUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface BlobGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -481,6 +502,7 @@ export interface BlobGetPropertiesOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
+
 /** Optional parameters. */
 export interface BlobDownloadOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

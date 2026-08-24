@@ -142,6 +142,7 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Seals the append blob to make it read-only. */
 export async function seal(
   context: Client,
@@ -413,6 +414,7 @@ export function _appendBlockFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads a new block of data from the specified URL to the end of an append blob. */
 export async function appendBlockFromUrl(
   context: Client,
@@ -669,6 +671,7 @@ export function _appendBlockDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads a new block of data to the end of an append blob. */
 export async function appendBlock(
   context: Client,
@@ -905,6 +908,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Creates a new append blob. */
 export async function create(
   context: Client,

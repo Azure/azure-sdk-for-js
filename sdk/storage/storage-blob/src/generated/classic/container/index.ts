@@ -20,7 +20,7 @@ import {
   setAccessPolicy,
   getAccessPolicy,
   setMetadata,
-  $delete,
+  deleteContainer,
   getProperties,
   create,
 } from "../../api/container/operations.js";
@@ -451,12 +451,7 @@ export interface ContainerOperations {
     >
   >;
   /** Deletes the specified container. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteContainer: (
     options?: ContainerDeleteOptionalParams,
   ) => Promise<
     {
@@ -534,6 +529,7 @@ export interface ContainerOperations {
     >
   >;
 }
+
 function _getContainer(context: BlobContext) {
   return {
     getAccountInfo: (options?: ContainerGetAccountInfoOptionalParams) =>
@@ -578,12 +574,13 @@ function _getContainer(context: BlobContext) {
     getAccessPolicy: (options?: ContainerGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
     setMetadata: (options?: ContainerSetMetadataOptionalParams) => setMetadata(context, options),
-    delete: (options?: ContainerDeleteOptionalParams) => $delete(context, options),
+    deleteContainer: (options?: ContainerDeleteOptionalParams) => deleteContainer(context, options),
     getProperties: (options?: ContainerGetPropertiesOptionalParams) =>
       getProperties(context, options),
     create: (options?: ContainerCreateOptionalParams) => create(context, options),
   };
 }
+
 export function _getContainerOperations(context: BlobContext): ContainerOperations {
   return {
     ..._getContainer(context),

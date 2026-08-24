@@ -7,7 +7,6 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { NodeReadableStream } from "@azure-rest/core-client";
 import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import {
@@ -18,6 +17,7 @@ import {
   deserializeXmlObject,
   XmlSerializedObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /** The blob service properties. */
@@ -1432,10 +1432,13 @@ export function containerPropertiesXmlObjectDeserializer(
 
 /** The lease status. */
 export type LeaseStatus = "unlocked" | "locked";
+
 /** The lease state. */
 export type LeaseState = "available" | "leased" | "expired" | "breaking" | "broken";
+
 /** The lease duration. */
 export type LeaseDuration = "infinite" | "fixed";
+
 /** The public access type. */
 export type PublicAccessType = "blob" | "container";
 
@@ -3049,8 +3052,10 @@ export function blobPropertiesXmlObjectDeserializer(
 
 /** The blob type. */
 export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+
 /** The copy status. */
 export type CopyStatus = "pending" | "success" | "failed" | "aborted";
+
 /** The access tiers. */
 export type AccessTier =
   | "P4"
@@ -3070,14 +3075,17 @@ export type AccessTier =
   | "Premium"
   | "Cold"
   | "Smart";
+
 /** The archive status. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
   | "rehydrate-pending-to-cold"
   | "rehydrate-pending-to-smart";
+
 /** The priority of the rehydrate operation. */
 export type RehydratePriority = "High" | "Standard";
+
 /** The immutability policy mode. */
 export type ImmutabilityPolicyMode = "mutable" | "locked" | "unlocked";
 
@@ -3999,6 +4007,7 @@ export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknow
 
 /** Specifies what additional information should be returned as part of the list operation. */
 export type ListContainersIncludeType = "metadata" | "deleted" | "system";
+
 /** The account SKU. */
 export type SkuName =
   | "Standard_LRS"
@@ -4009,11 +4018,14 @@ export type SkuName =
   | "Standard_GZRS"
   | "Premium_ZRS"
   | "Standard_RAGZRS";
+
 /** The account kind. */
 export type AccountKind =
   "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
+
 /** Specifies what type of blobs should be returned as part of the filter operation. */
 export type FilterBlobsIncludeItem = "none" | "versions";
+
 /** Specifies additional datasets to include when listing blobs in a container. */
 export type ListBlobsIncludeItem =
   | "copy"
@@ -4026,23 +4038,32 @@ export type ListBlobsIncludeItem =
   | "immutabilitypolicy"
   | "legalhold"
   | "deletedwithversions";
+
 /** The algorithm used to produce the encryption key hash. */
 export type EncryptionAlgorithmType = "AES256";
+
 /** Specifies the delete behavior of blob snapshots. */
 export type DeleteSnapshotsOptionType = "only" | "include";
+
 /** The type of blob deletions. */
 export type BlobDeleteType = "Permanent";
+
 /** The blob expiry options. */
 export type BlobExpiryOptions = "NeverExpire" | "RelativeToCreation" | "RelativeToNow" | "Absolute";
+
 /** The blob copy source tags types. */
 export type BlobCopySourceTags = "REPLACE" | "COPY";
+
 /** The file share token intent types. */
 export type FileShareTokenIntent = "backup";
+
 /** The block list types. */
 export type BlockListType = "committed" | "uncommitted" | "all";
+
 /** The premium page blob access tier types. */
 export type PremiumPageBlobAccessTier =
   "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80";
+
 /** The sequence number actions. */
 export type SequenceNumberActionType = "increment" | "max" | "update";
 

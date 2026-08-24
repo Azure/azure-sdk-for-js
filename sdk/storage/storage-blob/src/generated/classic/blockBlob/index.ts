@@ -320,6 +320,7 @@ export interface BlockBlobOperations {
     >
   >;
 }
+
 function _getBlockBlob(context: BlobContext) {
   return {
     query: (queryRequest: QueryRequest, options?: BlockBlobQueryOptionalParams) =>
@@ -346,6 +347,7 @@ function _getBlockBlob(context: BlobContext) {
       upload(context, body, contentLength, options),
   };
 }
+
 export function _getBlockBlobOperations(context: BlobContext): BlockBlobOperations {
   return {
     ..._getBlockBlob(context),

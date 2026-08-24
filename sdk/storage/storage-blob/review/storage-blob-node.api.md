@@ -22,8 +22,7 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { NodeJSReadableStream } from '@azure/storage-common';
-import { NodeReadableStream } from '@azure-rest/core-client';
-import { NodeReadableStream as NodeReadableStream_2 } from '@azure/core-rest-pipeline';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';

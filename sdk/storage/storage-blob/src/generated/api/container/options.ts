@@ -16,6 +16,7 @@ export interface ContainerGetAccountInfoOptionalParams extends OperationOptions 
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ContainerListBlobHierarchySegmentApacheArrowOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -35,6 +36,7 @@ export interface ContainerListBlobHierarchySegmentApacheArrowOptionalParams exte
   /** Filters the results to return only names that are ordered before this value. Currently only applies to Apache Arrow scenario. */
   endBefore?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerListBlobHierarchySegmentOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -52,6 +54,7 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends Operati
   /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; for recursive list, multiple entity levels are supported. (Inclusive) */
   startFrom?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerListBlobFlatSegmentApacheArrowOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -71,6 +74,7 @@ export interface ContainerListBlobFlatSegmentApacheArrowOptionalParams extends O
   /** Filters the results to return only names that are ordered before this value. Currently only applies to Apache Arrow scenario. */
   endBefore?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerListBlobsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -88,6 +92,7 @@ export interface ContainerListBlobsOptionalParams extends OperationOptions {
   /** Specifies the relative path to list paths from. For non-recursive list, only one entity level is supported; for recursive list, multiple entity levels are supported. (Inclusive) */
   startFrom?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerChangeLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -99,6 +104,7 @@ export interface ContainerChangeLeaseOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerBreakLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -112,6 +118,7 @@ export interface ContainerBreakLeaseOptionalParams extends OperationOptions {
   /** Proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. */
   breakPeriod?: number;
 }
+
 /** Optional parameters. */
 export interface ContainerRenewLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -123,6 +130,7 @@ export interface ContainerRenewLeaseOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerReleaseLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -134,6 +142,7 @@ export interface ContainerReleaseLeaseOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerAcquireLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -147,6 +156,7 @@ export interface ContainerAcquireLeaseOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerFindBlobsByTagsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -160,6 +170,7 @@ export interface ContainerFindBlobsByTagsOptionalParams extends OperationOptions
   /** Specify to include additional, optional information. */
   include?: FilterBlobsIncludeItem[];
 }
+
 /** Optional parameters. */
 export interface ContainerSubmitBatchOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
@@ -167,6 +178,7 @@ export interface ContainerSubmitBatchOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerRenameOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -176,6 +188,7 @@ export interface ContainerRenameOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ContainerRestoreOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -187,6 +200,7 @@ export interface ContainerRestoreOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href=\"https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations\">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
 }
+
 /** Optional parameters. */
 export interface ContainerSetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -206,6 +220,7 @@ export interface ContainerSetAccessPolicyOptionalParams extends OperationOptions
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerGetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -215,6 +230,7 @@ export interface ContainerGetAccessPolicyOptionalParams extends OperationOptions
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerSetMetadataOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -228,6 +244,7 @@ export interface ContainerSetMetadataOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has been modified since the specified date-time. */
   ifModifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerDeleteOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -241,6 +258,7 @@ export interface ContainerDeleteOptionalParams extends OperationOptions {
   /** Specify this value to operate only on a blob if it has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
 }
+
 /** Optional parameters. */
 export interface ContainerGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -250,6 +268,7 @@ export interface ContainerGetPropertiesOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
 }
+
 /** Optional parameters. */
 export interface ContainerCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

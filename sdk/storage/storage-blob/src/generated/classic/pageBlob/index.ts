@@ -309,6 +309,7 @@ export interface PageBlobOperations {
     >
   >;
 }
+
 function _getPageBlob(context: BlobContext) {
   return {
     copyIncremental: (copySource: string, options?: PageBlobCopyIncrementalOptionalParams) =>
@@ -342,6 +343,7 @@ function _getPageBlob(context: BlobContext) {
       create(context, size, options),
   };
 }
+
 export function _getPageBlobOperations(context: BlobContext): PageBlobOperations {
   return {
     ..._getPageBlob(context),

@@ -27,6 +27,7 @@ export interface AppendBlobSealOptionalParams extends OperationOptions {
   /** A byte offset where the operation will only succeed if the append position is equal. If not, the request will fail with AppendPositionConditionNotMet. */
   appendPosition?: number;
 }
+
 /** Optional parameters. */
 export interface AppendBlobAppendBlockFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -84,6 +85,7 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends OperationOpt
   /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
+
 /** Optional parameters. */
 export interface AppendBlobAppendBlockOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -123,6 +125,7 @@ export interface AppendBlobAppendBlockOptionalParams extends OperationOptions {
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
 }
+
 /** Optional parameters. */
 export interface AppendBlobCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

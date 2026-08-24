@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -39,6 +38,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -274,6 +274,7 @@ export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse)
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Queries the data of the specified blob with the provided query expressions. */
 export async function query(
   context: Client,
@@ -473,6 +474,7 @@ export function _getBlockListDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Retrieves the list of blocks that have been uploaded as part of the block blob. */
 export async function getBlockList(
   context: Client,
@@ -724,6 +726,7 @@ export function _commitBlockListDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Writes to the block blob by specifying the list of block IDs that make up the blob. */
 export async function commitBlockList(
   context: Client,
@@ -965,6 +968,7 @@ export function _stageBlockFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Creates a new block of data from the specified URL to be committed as part of a blob. */
 export async function stageBlockFromUrl(
   context: Client,
@@ -1177,6 +1181,7 @@ export function _stageBlockDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Creates a new block of data to be committed as part of a blob. */
 export async function stageBlock(
   context: Client,
@@ -1467,6 +1472,7 @@ export function _uploadBlobFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads the content from the specified URL to the block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function uploadBlobFromUrl(
   context: Client,
@@ -1737,6 +1743,7 @@ export function _uploadDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads the content to the specified block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function upload(
   context: Client,

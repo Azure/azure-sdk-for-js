@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   errorXmlDeserializer,
   LeaseStatus,
@@ -58,6 +57,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
@@ -188,6 +188,7 @@ export function _setTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Sets the tags of the specified blob. */
 export async function setTags(
   context: Client,
@@ -328,6 +329,7 @@ export function _getTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Gets the tags of the specified blob. */
 export async function getTags(
   context: Client,
@@ -460,6 +462,7 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
@@ -594,6 +597,7 @@ export function _setTierDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Sets the tier of the specified blob. */
 export async function setTier(
   context: Client,
@@ -716,6 +720,7 @@ export function _abortCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Aborts a pending asynchronous copy operation and leaves a destination blob with zero length and full metadata. */
 export async function abortCopyFromUrl(
   context: Client,
@@ -939,6 +944,7 @@ export function _copyFromUrlDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Synchronously copies a blob from a source URL to the destination blob. */
 export async function copyFromUrl(
   context: Client,
@@ -1151,6 +1157,7 @@ export function _startCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Starts an asynchronous copy from a source URL to a destination blob. */
 export async function startCopyFromUrl(
   context: Client,
@@ -1331,6 +1338,7 @@ export function _createSnapshotDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Creates a read-only snapshot of the specified blob. */
 export async function createSnapshot(
   context: Client,
@@ -1493,6 +1501,7 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
 export async function breakLease(
   context: Client,
@@ -1652,6 +1661,7 @@ export function _changeLeaseDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Change the ID of an existing lease. */
 export async function changeLease(
   context: Client,
@@ -1811,6 +1821,7 @@ export function _renewLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Renews an existing lease. */
 export async function renewLease(
   context: Client,
@@ -1964,6 +1975,7 @@ export function _releaseLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
 export async function releaseLease(
   context: Client,
@@ -2123,6 +2135,7 @@ export function _acquireLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Requests a new lease on the specified blob. */
 export async function acquireLease(
   context: Client,
@@ -2306,6 +2319,7 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Sets user-defined metadata for the specified blob. */
 export async function setMetadata(
   context: Client,
@@ -2446,6 +2460,7 @@ export function _setLegalHoldDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Sets a legal hold on the specified blob. */
 export async function setLegalHold(
   context: Client,
@@ -2573,6 +2588,7 @@ export function _deleteImmutabilityPolicyDeserializeExceptionHeaders(
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Deletes the immutability policy on the specified blob. */
 export async function deleteImmutabilityPolicy(
   context: Client,
@@ -2719,6 +2735,7 @@ export function _setImmutabilityPolicyDeserializeExceptionHeaders(result: PathUn
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Set the immutability policy on the specified blob. */
 export async function setImmutabilityPolicy(
   context: Client,
@@ -2891,6 +2908,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Sets system properties on the specified blob. */
 export async function setProperties(
   context: Client,
@@ -3029,6 +3047,7 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Set the expiration time of the specified blob. */
 export async function setExpiry(
   context: Client,
@@ -3153,6 +3172,7 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Undelete the specified previously soft deleted blob. */
 export async function undelete(
   context: Client,
@@ -3178,7 +3198,7 @@ export async function undelete(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
-export function _$deleteSend(
+export function _deleteBlobSend(
   context: Client,
   options: BlobDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -3243,14 +3263,17 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _deleteBlobDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
       error.details = errorXmlDeserializer(result.body);
     }
-    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
+    error.details = {
+      ...(error.details as any),
+      ..._deleteBlobDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -3262,7 +3285,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+export function _deleteBlobDeserializeHeaders(result: PathUncheckedResponse): {
   date: Date;
   version: string;
   requestId?: string;
@@ -3283,7 +3306,7 @@ export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
-export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+export function _deleteBlobDeserializeExceptionHeaders(result: PathUncheckedResponse): {
   errorCode?: string;
   xMsCopySourceErrorCode?: string;
   xMsCopySourceStatusCode?: number;
@@ -3305,13 +3328,9 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteBlob(
   context: Client,
   options: BlobDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
@@ -3326,9 +3345,12 @@ export async function $delete(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _$deleteSend(context, { ...options, onResponse: _storageCompat.onResponse });
-  await _$deleteDeserialize(result);
-  const parsedHeaders = _$deleteDeserializeHeaders(result);
+  const result = await _deleteBlobSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  await _deleteBlobDeserialize(result);
+  const parsedHeaders = _deleteBlobDeserializeHeaders(result);
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
@@ -3646,6 +3668,7 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Returns all user-defined metadata, standard HTTP properties, and system properties for the specified blob. It does not return the content of the blob. */
 export async function getProperties(
   context: Client,
@@ -4095,6 +4118,7 @@ export function _downloadDeserializeExceptionHeaders(result: PathUncheckedRespon
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Downloads the specified blob. */
 export async function download(
   context: Client,

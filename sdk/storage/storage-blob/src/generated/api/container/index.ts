@@ -19,7 +19,7 @@ export {
   setAccessPolicy,
   getAccessPolicy,
   setMetadata,
-  $delete,
+  deleteContainer,
   getProperties,
   create,
 } from "./operations.js";
