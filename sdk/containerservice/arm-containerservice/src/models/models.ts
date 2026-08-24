@@ -689,6 +689,8 @@ export enum KnownOssku {
   Ubuntu2404 = "Ubuntu2404",
   /** Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https://aka.ms/azurecontainerlinux */
   AzureContainerLinux = "AzureContainerLinux",
+  /** Use Ubuntu2604 as the OS for node images. For limitations and supported Kubernetes versions, see https://aka.ms/aks/supported-ubuntu-versions */
+  Ubuntu2604 = "Ubuntu2604",
 }
 
 /**
@@ -708,7 +710,8 @@ export enum KnownOssku {
  * **Windows2025**: Use Windows2025 as the OS for node images. Unsupported for system node pools. Windows2025 supports Windows2022 and Windows 2025 containers; it cannot run Windows2019 containers and vice versa. \
  * **WindowsAnnual**: Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\//aka.ms\/aks\/windows-annual-channel-details. \
  * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions \
- * **AzureContainerLinux**: Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https:\//aka.ms\/azurecontainerlinux
+ * **AzureContainerLinux**: Use Azure Container Linux as the OS for node images. Azure Container Linux is a container-optimized, security-focused Linux OS built on Azure Linux, with an immutable filesystem. ACL is derived from the Flatcar Container Linux project, building on Flatcar's proven container-first, immutable design, while adding Azure Linux packages, servicing, and deep integration with the Azure and AKS lifecycle. For more information, see https:\//aka.ms\/azurecontainerlinux \
+ * **Ubuntu2604**: Use Ubuntu2604 as the OS for node images. For limitations and supported Kubernetes versions, see https:\//aka.ms\/aks\/supported-ubuntu-versions
  */
 export type Ossku = string;
 
@@ -989,6 +992,12 @@ export interface KubeletConfig {
   kubeReserved?: KubeReserved;
   /** Hard eviction thresholds for kubelet. When a threshold is not set, the system default is used. See [AKS node resource reservations](https://aka.ms/aks/nodereservations) for details on computed defaults. Only applicable for Linux nodepools. */
   hardEvictionThreshold?: HardEvictionThreshold;
+  /** Soft eviction thresholds for kubelet. When crossed, pods are evicted after the paired softEvictionGracePeriod. System defaults apply when the cluster's `enableNodeHardening` property is true; otherwise no soft eviction is configured. For each signal (memoryAvailable, nodeFsAvailable, nodeFsInodesFree), the entries in softEvictionThreshold and softEvictionGracePeriod must be in the same state: both omitted (default), both non-empty (override), or both empty strings (opt that signal out). Only applicable for Linux nodepools. See https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#soft-eviction-thresholds. */
+  softEvictionThreshold?: SoftEvictionThreshold;
+  /** Grace periods for soft eviction signals — how long a threshold must be held before pod eviction. Same defaulting and pairing rules as softEvictionThreshold. Values are Go-style duration strings (e.g. '1m30s'); supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'. Only applicable for Linux nodepools. */
+  softEvictionGracePeriod?: SoftEvictionGracePeriod;
+  /** Maximum grace period, in seconds, for pods to terminate during a soft eviction; caps the pod's terminationGracePeriodSeconds. Default is 60, applied when the cluster's `enableNodeHardening` property is true. Only applicable for Linux nodepools. */
+  evictionMaxPodGracePeriodInSeconds?: number;
 }
 
 export function kubeletConfigSerializer(item: KubeletConfig): any {
@@ -1015,6 +1024,13 @@ export function kubeletConfigSerializer(item: KubeletConfig): any {
     hardEvictionThreshold: !item["hardEvictionThreshold"]
       ? item["hardEvictionThreshold"]
       : hardEvictionThresholdSerializer(item["hardEvictionThreshold"]),
+    softEvictionThreshold: !item["softEvictionThreshold"]
+      ? item["softEvictionThreshold"]
+      : softEvictionThresholdSerializer(item["softEvictionThreshold"]),
+    softEvictionGracePeriod: !item["softEvictionGracePeriod"]
+      ? item["softEvictionGracePeriod"]
+      : softEvictionGracePeriodSerializer(item["softEvictionGracePeriod"]),
+    evictionMaxPodGracePeriodInSeconds: item["evictionMaxPodGracePeriodInSeconds"],
   };
 }
 
@@ -1042,6 +1058,13 @@ export function kubeletConfigDeserializer(item: any): KubeletConfig {
     hardEvictionThreshold: !item["hardEvictionThreshold"]
       ? item["hardEvictionThreshold"]
       : hardEvictionThresholdDeserializer(item["hardEvictionThreshold"]),
+    softEvictionThreshold: !item["softEvictionThreshold"]
+      ? item["softEvictionThreshold"]
+      : softEvictionThresholdDeserializer(item["softEvictionThreshold"]),
+    softEvictionGracePeriod: !item["softEvictionGracePeriod"]
+      ? item["softEvictionGracePeriod"]
+      : softEvictionGracePeriodDeserializer(item["softEvictionGracePeriod"]),
+    evictionMaxPodGracePeriodInSeconds: item["evictionMaxPodGracePeriodInSeconds"],
   };
 }
 
@@ -1101,6 +1124,58 @@ export function hardEvictionThresholdSerializer(item: HardEvictionThreshold): an
 }
 
 export function hardEvictionThresholdDeserializer(item: any): HardEvictionThreshold {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
+
+/** Soft eviction thresholds for kubelet. These thresholds trigger graceful pod eviction when node resources drop below the specified values for at least the corresponding grace period defined in softEvictionGracePeriod. Supported formats are Ki, Mi, Gi, or percentages using %. */
+export interface SoftEvictionThreshold {
+  /** The threshold for available memory below which soft pod eviction is triggered. Accepts absolute values (e.g. '500Mi') or percentage values (e.g. '5%'). Absolute minimum is 100Mi; percentage minimum is 2%. Default uses a capacity-based step ladder: 500Mi for nodes with <=8GiB, 750Mi for 16GiB, and 1024Mi (1Gi) for >=32GiB. Must also be greater than the effective hardEvictionThreshold.memoryAvailable. */
+  memoryAvailable?: string;
+  /** The threshold for available node filesystem space below which soft pod eviction is triggered. Accepts absolute values (e.g. '1Gi') or percentage values (e.g. '10%'). Default is '12%'. Must be greater than or equal to 10% and greater than the effective hardEvictionThreshold.nodeFsAvailable. */
+  nodeFsAvailable?: string;
+  /** The threshold for available inodes on the node filesystem below which soft pod eviction is triggered. Accepts absolute inode counts (e.g. '100000') or percentage values (e.g. '5%'). Default is '7%'. Percentage values must be greater than or equal to 5% and greater than the effective hardEvictionThreshold.nodeFsInodesFree. */
+  nodeFsInodesFree?: string;
+}
+
+export function softEvictionThresholdSerializer(item: SoftEvictionThreshold): any {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
+
+export function softEvictionThresholdDeserializer(item: any): SoftEvictionThreshold {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
+
+/** Grace periods for kubelet soft eviction thresholds. Each field is a Go-style duration string (e.g. '1m30s') that specifies how long the corresponding soft eviction signal must be crossed before pod eviction is triggered. A grace period only applies when the matching soft eviction threshold is set. */
+export interface SoftEvictionGracePeriod {
+  /** The grace period for the memoryAvailable soft eviction signal, expressed as a Go-style duration string (e.g. '30s', '1m30s'). Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'. Must be greater than or equal to '30s'. Default is '30s'. */
+  memoryAvailable?: string;
+  /** The grace period for the nodeFsAvailable soft eviction signal, expressed as a Go-style duration string (e.g. '30s', '1m30s'). Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'. Must be greater than or equal to '30s'. Default is '2m'. */
+  nodeFsAvailable?: string;
+  /** The grace period for the nodeFsInodesFree soft eviction signal, expressed as a Go-style duration string (e.g. '30s', '1m30s'). Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'. Must be greater than or equal to '30s'. Default is '2m'. */
+  nodeFsInodesFree?: string;
+}
+
+export function softEvictionGracePeriodSerializer(item: SoftEvictionGracePeriod): any {
+  return {
+    memoryAvailable: item["memoryAvailable"],
+    nodeFsAvailable: item["nodeFsAvailable"],
+    nodeFsInodesFree: item["nodeFsInodesFree"],
+  };
+}
+
+export function softEvictionGracePeriodDeserializer(item: any): SoftEvictionGracePeriod {
   return {
     memoryAvailable: item["memoryAvailable"],
     nodeFsAvailable: item["nodeFsAvailable"],
@@ -1319,6 +1394,8 @@ export interface AgentPoolNetworkProfile {
   applicationSecurityGroups?: string[];
   /** Secondary network interface configurations for each VM in the agent pool. Each entry is a template: one physical NIC per entry is provisioned on every VM instance. These interfaces are created at agent pool creation time and are immutable. The length of the list must be less than the NIC capacity minus 1 for the VM size of the agent pool (AKS manages the primary NIC). For example, a Standard_D8a_v4 VM supports up to 4 NICs, so the maximum number of secondary interfaces allowed is 3. For mixed-SKU VM pools the effective capacity is the minimum across all SKUs: count(secondaryNetworkInterfaces) + 1 <= min(maxNICs). For more information, see https://aka.ms/aks/multi-nic */
   secondaryNetworkInterfaces?: AgentPoolNetworkInterface[];
+  /** DRANET settings of an agent pool. */
+  dranet?: DranetProfile;
 }
 
 export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile): any {
@@ -1342,6 +1419,7 @@ export function agentPoolNetworkProfileSerializer(item: AgentPoolNetworkProfile)
     secondaryNetworkInterfaces: !item["secondaryNetworkInterfaces"]
       ? item["secondaryNetworkInterfaces"]
       : agentPoolNetworkInterfaceArraySerializer(item["secondaryNetworkInterfaces"]),
+    dranet: !item["dranet"] ? item["dranet"] : dranetProfileSerializer(item["dranet"]),
   };
 }
 
@@ -1366,6 +1444,7 @@ export function agentPoolNetworkProfileDeserializer(item: any): AgentPoolNetwork
     secondaryNetworkInterfaces: !item["secondaryNetworkInterfaces"]
       ? item["secondaryNetworkInterfaces"]
       : agentPoolNetworkInterfaceArrayDeserializer(item["secondaryNetworkInterfaces"]),
+    dranet: !item["dranet"] ? item["dranet"] : dranetProfileDeserializer(item["dranet"]),
   };
 }
 
@@ -1476,6 +1555,8 @@ export interface AgentPoolNetworkInterface {
   vnetSubnetId?: string;
   /** Whether accelerated networking is enabled on this secondary NIC. If omitted, this defaults to true only when the agent pool VM SKU supports accelerated networking. Validation will fail if it is enabled on an unsupported SKU or NIC configuration. */
   enableAcceleratedNetworking?: boolean;
+  /** Public IP configuration for this secondary NIC. Only valid when `type` is `Standard`. Set `publicIPAddressVersion` to provision a per-VM instance-level public IP for the NIC, then optionally shape it with `ipTags` or `publicIPPrefixID`. If omitted, no public IP is provisioned. Idle timeout is not configurable. For more information, see https://aka.ms/aks/multi-nic */
+  publicIPAddressConfiguration?: AgentPoolNICPublicIPAddressConfiguration;
 }
 
 export function agentPoolNetworkInterfaceSerializer(item: AgentPoolNetworkInterface): any {
@@ -1483,6 +1564,9 @@ export function agentPoolNetworkInterfaceSerializer(item: AgentPoolNetworkInterf
     type: item["type"],
     vnetSubnetId: item["vnetSubnetId"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+    publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
+      ? item["publicIPAddressConfiguration"]
+      : agentPoolNICPublicIPAddressConfigurationSerializer(item["publicIPAddressConfiguration"]),
   };
 }
 
@@ -1491,6 +1575,9 @@ export function agentPoolNetworkInterfaceDeserializer(item: any): AgentPoolNetwo
     type: item["type"],
     vnetSubnetId: item["vnetSubnetId"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
+    publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
+      ? item["publicIPAddressConfiguration"]
+      : agentPoolNICPublicIPAddressConfigurationDeserializer(item["publicIPAddressConfiguration"]),
   };
 }
 
@@ -1511,6 +1598,85 @@ export enum KnownAgentPoolNetworkInterfaceType {
  * **Dynamic**: A secondary network interface created without IP configuration or subnet attachment. The interface is provisioned in an uninitialized state and the subnet is attached during workload creation. `vnetSubnetId` must be set to an empty string (`""`) or omitted.
  */
 export type AgentPoolNetworkInterfaceType = string;
+
+/** Public IP configuration applied to a secondary NIC on an agent pool. `ipTags` and `publicIPPrefixID` are mutually exclusive, matching the primary NIC's behavior. For more information, see https://aka.ms/aks/multi-nic */
+export interface AgentPoolNICPublicIPAddressConfiguration {
+  /** IP version of the public IP provisioned for this NIC. Required: its presence is what enables public IP provisioning, so an empty configuration allocates nothing. `IPv4` is the only accepted value. */
+  publicIPAddressVersion: AgentPoolNICPublicIPAddressVersion;
+  /** IP tags to attach to the public IP allocated for this NIC. Each tag's `ipTagType` must be `FirstPartyUsage`, `NetworkDomain`, or `RoutingPreference`. Mutually exclusive with `publicIPPrefixID`. */
+  ipTags?: IPTag[];
+  /** The resource ID of a public IP prefix to draw this NIC's public IP from. Mutually exclusive with `ipTags`. */
+  publicIPPrefixID?: string;
+}
+
+export function agentPoolNICPublicIPAddressConfigurationSerializer(
+  item: AgentPoolNICPublicIPAddressConfiguration,
+): any {
+  return {
+    publicIPAddressVersion: item["publicIPAddressVersion"],
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArraySerializer(item["ipTags"]),
+    publicIPPrefixID: item["publicIPPrefixID"],
+  };
+}
+
+export function agentPoolNICPublicIPAddressConfigurationDeserializer(
+  item: any,
+): AgentPoolNICPublicIPAddressConfiguration {
+  return {
+    publicIPAddressVersion: item["publicIPAddressVersion"],
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArrayDeserializer(item["ipTags"]),
+    publicIPPrefixID: item["publicIPPrefixID"],
+  };
+}
+
+/** IP version of the public IP allocated for a secondary NIC. `IPv4` is the only accepted value. */
+export enum KnownAgentPoolNICPublicIPAddressVersion {
+  /** The public IP allocated for the NIC will be IPv4. */
+  IPv4 = "IPv4",
+}
+
+/**
+ * IP version of the public IP allocated for a secondary NIC. `IPv4` is the only accepted value. \
+ * {@link KnownAgentPoolNICPublicIPAddressVersion} can be used interchangeably with AgentPoolNICPublicIPAddressVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: The public IP allocated for the NIC will be IPv4.
+ */
+export type AgentPoolNICPublicIPAddressVersion = string;
+
+/** DRANET settings of an agent pool. */
+export interface DranetProfile {
+  /** The DRANET mode for the agent pool. */
+  mode?: DranetMode;
+}
+
+export function dranetProfileSerializer(item: DranetProfile): any {
+  return { mode: item["mode"] };
+}
+
+export function dranetProfileDeserializer(item: any): DranetProfile {
+  return {
+    mode: item["mode"],
+  };
+}
+
+/** The DRANET mode for the agent pool. */
+export enum KnownDranetMode {
+  /** DRANET is not managed by AKS. */
+  Unmanaged = "Unmanaged",
+  /** DRANET is managed by AKS. */
+  Managed = "Managed",
+}
+
+/**
+ * The DRANET mode for the agent pool. \
+ * {@link KnownDranetMode} can be used interchangeably with DranetMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unmanaged**: DRANET is not managed by AKS. \
+ * **Managed**: DRANET is managed by AKS.
+ */
+export type DranetMode = string;
 
 /** The Windows agent pool's specific profile. */
 export interface AgentPoolWindowsProfile {
@@ -1641,17 +1807,27 @@ export type DriverType = string;
 export interface NvidiaGPUProfile {
   /** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
   managementMode?: ManagementMode;
+  /**
+   * NVIDIA GPU resource allocation mode. DevicePlugin installs the NVIDIA
+   * Kubernetes device plugin. DRA installs the NVIDIA DRA driver.
+   */
+  driverMode?: NvidiaDriverMode;
   /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
   migStrategy?: MigStrategy;
 }
 
 export function nvidiaGPUProfileSerializer(item: NvidiaGPUProfile): any {
-  return { managementMode: item["managementMode"], migStrategy: item["migStrategy"] };
+  return {
+    managementMode: item["managementMode"],
+    driverMode: item["driverMode"],
+    migStrategy: item["migStrategy"],
+  };
 }
 
 export function nvidiaGPUProfileDeserializer(item: any): NvidiaGPUProfile {
   return {
     managementMode: item["managementMode"],
+    driverMode: item["driverMode"],
     migStrategy: item["migStrategy"],
   };
 }
@@ -1673,6 +1849,24 @@ export enum KnownManagementMode {
  * **Managed**: Managed GPU experience is enabled for NVIDIA GPUs.
  */
 export type ManagementMode = string;
+
+/** NVIDIA GPU resource allocation mode. */
+export enum KnownNvidiaDriverMode {
+  /** NVIDIA Kubernetes device plugin is installed on the nodes for resource allocation and scheduling. */
+  DevicePlugin = "DevicePlugin",
+  /** NVIDIA Device Resource Allocation (DRA) driver is installed on the nodes for resource allocation and scheduling. */
+  DRA = "DRA",
+}
+
+/**
+ * NVIDIA GPU resource allocation mode. \
+ * {@link KnownNvidiaDriverMode} can be used interchangeably with NvidiaDriverMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DevicePlugin**: NVIDIA Kubernetes device plugin is installed on the nodes for resource allocation and scheduling. \
+ * **DRA**: NVIDIA Device Resource Allocation (DRA) driver is installed on the nodes for resource allocation and scheduling.
+ */
+export type NvidiaDriverMode = string;
 
 /** Sets the MIG (Multi-Instance GPU) strategy that will be used for managed MIG support. For more information about the different strategies, visit aka.ms/aks/managed-gpu. When not specified, the default is None. */
 export enum KnownMigStrategy {
@@ -2535,6 +2729,87 @@ export function bootstrapKubeletConfigDeserializer(item: any): BootstrapKubeletC
   };
 }
 
+/** Agent pool. */
+export interface AgentPoolUpdate {
+  /** Properties for the agent pool. */
+  properties?: AgentPoolUpdateProperties;
+}
+
+export function agentPoolUpdateSerializer(item: AgentPoolUpdate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : agentPoolUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties for the agent pool. */
+export interface AgentPoolUpdateProperties {
+  /** Number of agents (VMs) to host docker containers. */
+  count?: number;
+  /** Specifications on VirtualMachines agent pool. */
+  virtualMachinesProfile?: AgentPoolUpdateVirtualMachinesProfile;
+}
+
+export function agentPoolUpdatePropertiesSerializer(item: AgentPoolUpdateProperties): any {
+  return {
+    count: item["count"],
+    virtualMachinesProfile: !item["virtualMachinesProfile"]
+      ? item["virtualMachinesProfile"]
+      : agentPoolUpdateVirtualMachinesProfileSerializer(item["virtualMachinesProfile"]),
+  };
+}
+
+/** Specifications on VirtualMachines agent pool. */
+export interface AgentPoolUpdateVirtualMachinesProfile {
+  /** Specifications on how to scale a VirtualMachines agent pool. */
+  scale?: AgentPoolUpdateScaleProfile;
+}
+
+export function agentPoolUpdateVirtualMachinesProfileSerializer(
+  item: AgentPoolUpdateVirtualMachinesProfile,
+): any {
+  return {
+    scale: !item["scale"] ? item["scale"] : agentPoolUpdateScaleProfileSerializer(item["scale"]),
+  };
+}
+
+/** Specifications on how to scale a VirtualMachines agent pool. */
+export interface AgentPoolUpdateScaleProfile {
+  /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
+  manual?: AgentPoolUpdateManualScaleProfile[];
+}
+
+export function agentPoolUpdateScaleProfileSerializer(item: AgentPoolUpdateScaleProfile): any {
+  return {
+    manual: !item["manual"]
+      ? item["manual"]
+      : agentPoolUpdateManualScaleProfileArraySerializer(item["manual"]),
+  };
+}
+
+export function agentPoolUpdateManualScaleProfileArraySerializer(
+  result: Array<AgentPoolUpdateManualScaleProfile>,
+): any[] {
+  return result.map((item) => {
+    return agentPoolUpdateManualScaleProfileSerializer(item);
+  });
+}
+
+/** Specifications on number of machines. */
+export interface AgentPoolUpdateManualScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** Number of nodes. */
+  count?: number;
+}
+
+export function agentPoolUpdateManualScaleProfileSerializer(
+  item: AgentPoolUpdateManualScaleProfile,
+): any {
+  return { size: item["size"], count: item["count"] };
+}
+
 /** The list of available versions for an agent pool. */
 export interface AgentPoolAvailableVersions {
   /** The ID of the agent pool version list. */
@@ -2824,6 +3099,8 @@ export interface ManagedCluster extends TrackedResource {
   supportPlan?: KubernetesSupportPlan;
   /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
   enableFips?: boolean;
+  /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
+  enableNodeHardening?: boolean;
   /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
   /** The network configuration profile. */
@@ -2907,6 +3184,7 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "enableRbac",
       "supportPlan",
       "enableFips",
+      "enableNodeHardening",
       "enableNamespaceResources",
       "networkProfile",
       "aadProfile",
@@ -3025,6 +3303,8 @@ export interface ManagedClusterProperties {
   supportPlan?: KubernetesSupportPlan;
   /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. */
   enableFips?: boolean;
+  /** Whether to enable node hardening at the cluster level. When enabled, AKS applies hardened defaults for soft eviction thresholds, kube-reserved, and system-reserved on all Linux node pools in the cluster. Per-node-pool kubeletConfig settings take precedence over hardening defaults. On agent pools running Kubernetes 1.37 or later, node hardening is enabled by default and cannot be disabled; setting this field to false has no effect on those pools. */
+  enableNodeHardening?: boolean;
   /** Enable namespace as Azure resource. The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
   /** The network configuration profile. */
@@ -3123,6 +3403,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
     enableFIPS: item["enableFips"],
+    enableNodeHardening: item["enableNodeHardening"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -3248,6 +3529,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
     enableFips: item["enableFIPS"],
+    enableNodeHardening: item["enableNodeHardening"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -4595,8 +4877,6 @@ export enum KnownOutboundType {
   UserDefinedRouting = "userDefinedRouting",
   /** The AKS-managed NAT gateway is used for egress. */
   ManagedNATGateway = "managedNATGateway",
-  /** The AKS-managed NAT gateway V2 is used for egress. */
-  ManagedNATGatewayV2 = "managedNATGatewayV2",
   /** The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. */
   UserAssignedNATGateway = "userAssignedNATGateway",
   /** The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https://azure.microsoft.com/en-us/updates/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access/ */
@@ -4611,7 +4891,6 @@ export enum KnownOutboundType {
  * **loadBalancer**: The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'. For more information see [outbound type loadbalancer](https:\//docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-loadbalancer). \
  * **userDefinedRouting**: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. For more information see [outbound type userDefinedRouting](https:\//docs.microsoft.com\/azure\/aks\/egress-outboundtype#outbound-type-of-userdefinedrouting). \
  * **managedNATGateway**: The AKS-managed NAT gateway is used for egress. \
- * **managedNATGatewayV2**: The AKS-managed NAT gateway V2 is used for egress. \
  * **userAssignedNATGateway**: The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. \
  * **none**: The AKS cluster is not set with any outbound-type. All AKS nodes follows Azure VM default outbound behavior. Please refer to https:\//azure.microsoft.com\/en-us\/updates\/default-outbound-access-for-vms-in-azure-will-be-retired-transition-to-a-new-method-of-internet-access\/
  */
@@ -4919,6 +5198,8 @@ export type BastionSku = string;
 
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
+  /** The SKU of the managed cluster NAT Gateway. Defaults to 'StandardV2' where available in the region, otherwise 'Standard'. */
+  sku?: ManagedClusterNATGatewaySku;
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
   managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
   /** The effective outbound IP resources of the cluster NAT gateway. */
@@ -4939,6 +5220,7 @@ export function managedClusterNATGatewayProfileSerializer(
   item: ManagedClusterNATGatewayProfile,
 ): any {
   return {
+    sku: item["sku"],
     managedOutboundIPProfile: !item["managedOutboundIPProfile"]
       ? item["managedOutboundIPProfile"]
       : managedClusterManagedOutboundIPProfileSerializer(item["managedOutboundIPProfile"]),
@@ -4956,6 +5238,7 @@ export function managedClusterNATGatewayProfileDeserializer(
   item: any,
 ): ManagedClusterNATGatewayProfile {
   return {
+    sku: item["sku"],
     managedOutboundIPProfile: !item["managedOutboundIPProfile"]
       ? item["managedOutboundIPProfile"]
       : managedClusterManagedOutboundIPProfileDeserializer(item["managedOutboundIPProfile"]),
@@ -4971,6 +5254,24 @@ export function managedClusterNATGatewayProfileDeserializer(
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
   };
 }
+
+/** The SKU of a managed cluster NAT Gateway. */
+export enum KnownManagedClusterNATGatewaySku {
+  /** Use a Standard SKU NAT Gateway. */
+  Standard = "Standard",
+  /** Use a StandardV2 SKU NAT Gateway. This is the default for new clusters in regions where it is available. */
+  StandardV2 = "StandardV2",
+}
+
+/**
+ * The SKU of a managed cluster NAT Gateway. \
+ * {@link KnownManagedClusterNATGatewaySku} can be used interchangeably with ManagedClusterNATGatewaySku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Use a Standard SKU NAT Gateway. \
+ * **StandardV2**: Use a StandardV2 SKU NAT Gateway. This is the default for new clusters in regions where it is available.
+ */
+export type ManagedClusterNATGatewaySku = string;
 
 /** Profile of the managed outbound IP resources of the managed cluster. */
 export interface ManagedClusterManagedOutboundIPProfile {
@@ -6678,7 +6979,7 @@ export type AddonAutoscaling = string;
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
   metrics?: ManagedClusterAzureMonitorProfileMetrics;
-  /** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
+  /** Set this to enable and configure Azure Monitor Container Insights for the cluster, which collects Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
   containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
   /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
@@ -6800,7 +7101,7 @@ export function managedClusterAzureMonitorProfileMetricsControlPlaneDeserializer
   };
 }
 
-/** Azure Monitor Container Insights Profile for Kubernetes Events, Inventory and Container stdout & stderr logs etc. See aka.ms/AzureMonitorContainerInsights for an overview. */
+/** Azure Monitor Container Insights profile. Represents the configuration for collecting Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
 export interface ManagedClusterAzureMonitorProfileContainerInsights {
   /** Indicates if Azure Monitor Container Insights Logs Addon is enabled or not. */
   enabled?: boolean;
@@ -6808,11 +7109,9 @@ export interface ManagedClusterAzureMonitorProfileContainerInsights {
   logAnalyticsWorkspaceResourceId?: string;
   /** The syslog host port. If not specified, the default port is 28330. */
   syslogPort?: number;
-  /** Indicates whether custom metrics collection has to be disabled or not. If not specified the default is false. No custom metrics will be emitted if this field is false but the container insights enabled field is false */
-  disableCustomMetrics?: boolean;
-  /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false. No prometheus metrics will be emitted if this field is false but the container insights enabled field is false */
+  /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false i.e. the prometheus scraping is enabled. */
   disablePrometheusMetricsScraping?: boolean;
-  /** Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. */
+  /** Configures container network logs ingestion with Azure Monitor. The log types ingested are controlled by the associated CRD; if unspecified, defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
   containerNetworkLogs?: ContainerNetworkLogs;
 }
 
@@ -6823,7 +7122,6 @@ export function managedClusterAzureMonitorProfileContainerInsightsSerializer(
     enabled: item["enabled"],
     logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
     syslogPort: item["syslogPort"],
-    disableCustomMetrics: item["disableCustomMetrics"],
     disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
     containerNetworkLogs: item["containerNetworkLogs"],
   };
@@ -6836,13 +7134,12 @@ export function managedClusterAzureMonitorProfileContainerInsightsDeserializer(
     enabled: item["enabled"],
     logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
     syslogPort: item["syslogPort"],
-    disableCustomMetrics: item["disableCustomMetrics"],
     disablePrometheusMetricsScraping: item["disablePrometheusMetricsScraping"],
     containerNetworkLogs: item["containerNetworkLogs"],
   };
 }
 
-/** Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. */
+/** Allowed values for container network logs ingestion with Azure Monitor. When `Enabled`, the specific log types ingested are controlled by the associated CRD; defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
 export enum KnownContainerNetworkLogs {
   /** Azure monitor ingestion of container network logs is disabled */
   Disabled = "Disabled",
@@ -6851,7 +7148,7 @@ export enum KnownContainerNetworkLogs {
 }
 
 /**
- * Configures container network logs ingestion with Azure Monitor. Which network logs to ingest is controlled by the CRD found in the following links. No network logs are ingested by default. More information on container network logs can be found at https://aka.ms/ContainerNetworkLogsDoc. More information on configuring container network log can be found at https://aka.ms/acns/howtoenablecnl. If not specified, the default is Disabled. \
+ * Allowed values for container network logs ingestion with Azure Monitor. When `Enabled`, the specific log types ingested are controlled by the associated CRD; defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. \
  * {@link KnownContainerNetworkLogs} can be used interchangeably with ContainerNetworkLogs,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -6864,9 +7161,9 @@ export type ContainerNetworkLogs = string;
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
   /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
-  /** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
-  /** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+  /** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
   openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
 }
 
@@ -6934,13 +7231,13 @@ export function managedClusterAzureMonitorProfileAppMonitoringAutoInstrumentatio
   };
 }
 
-/** Application Monitoring Open Telemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
-  /** Indicates if Application Monitoring Open Telemetry Metrics is enabled or not. */
+  /** Indicates if Application Monitoring OpenTelemetry Metrics is enabled or not. */
   enabled?: boolean;
-  /** The host port for Open Telemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
+  /** The host port for OpenTelemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
   httpPort?: number;
-  /** The host port for Open Telemetry GRPC metrics. If not specified, the default port is 28334. */
+  /** The host port for OpenTelemetry GRPC metrics. If not specified, the default port is 28334. */
   grpcPort?: number;
 }
 
@@ -6960,13 +7257,13 @@ export function managedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetri
   };
 }
 
-/** Application Monitoring Open Telemetry Logs and Traces Profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
+/** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
-  /** Indicates if Application Monitoring Open Telemetry Logs and traces is enabled or not. */
+  /** Indicates if Application Monitoring OpenTelemetry Logs and traces is enabled or not. */
   enabled?: boolean;
-  /** The host port for Open Telemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
+  /** The host port for OpenTelemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
   httpPort?: number;
-  /** The host port for Open Telemetry GRPC logs and traces. If not specified, the default port is 28332. */
+  /** The host port for OpenTelemetry GRPC logs and traces. If not specified, the default port is 28332. */
   grpcPort?: number;
 }
 
@@ -9665,6 +9962,8 @@ export interface MachineProperties {
   readonly status?: MachineStatus;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
   localDNSProfile?: LocalDNSProfile;
+  /** The Capacity Reservation Group to provide virtual machines from a reserved group of Machines */
+  capacityReservation?: CapacityReservation;
 }
 
 export function machinePropertiesSerializer(item: MachineProperties): any {
@@ -9692,6 +9991,9 @@ export function machinePropertiesSerializer(item: MachineProperties): any {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileSerializer(item["localDNSProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationSerializer(item["capacityReservation"]),
   };
 }
 
@@ -9729,6 +10031,9 @@ export function machinePropertiesDeserializer(item: any): MachineProperties {
     localDNSProfile: !item["localDNSProfile"]
       ? item["localDNSProfile"]
       : localDNSProfileDeserializer(item["localDNSProfile"]),
+    capacityReservation: !item["capacityReservation"]
+      ? item["capacityReservation"]
+      : capacityReservationDeserializer(item["capacityReservation"]),
   };
 }
 
@@ -10097,6 +10402,44 @@ export enum KnownVmState {
  * **Deleted**: The virtual machine has been deleted by the user or due to spot eviction.
  */
 export type VmState = string;
+
+/** The Capacity Reservation to provide virtual machines from a reserved group of Machines */
+export interface CapacityReservation {
+  /** The Capacity Reservation Group to provide virtual machines from a reserved group of Machines */
+  capacityReservationGroup?: CapacityReservationGroup;
+}
+
+export function capacityReservationSerializer(item: CapacityReservation): any {
+  return {
+    capacityReservationGroup: !item["capacityReservationGroup"]
+      ? item["capacityReservationGroup"]
+      : capacityReservationGroupSerializer(item["capacityReservationGroup"]),
+  };
+}
+
+export function capacityReservationDeserializer(item: any): CapacityReservation {
+  return {
+    capacityReservationGroup: !item["capacityReservationGroup"]
+      ? item["capacityReservationGroup"]
+      : capacityReservationGroupDeserializer(item["capacityReservationGroup"]),
+  };
+}
+
+/** The Capacity Reservation Group to provide virtual machines from a reserved group of Machines */
+export interface CapacityReservationGroup {
+  /** The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines from a reserved group of Machines. This is of the form: '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}' Customers use it to create a Machine with a specified CRG. For more information see [Capacity Reservation](aka.ms/CapacityReservation) */
+  id?: string;
+}
+
+export function capacityReservationGroupSerializer(item: CapacityReservationGroup): any {
+  return { id: item["id"] };
+}
+
+export function capacityReservationGroupDeserializer(item: any): CapacityReservationGroup {
+  return {
+    id: item["id"],
+  };
+}
 
 /** The response of a Machine list operation. */
 export interface _MachineListResult {
@@ -11217,6 +11560,18 @@ export interface JWTAuthenticatorProperties {
   claimMappings: JWTAuthenticatorClaimMappings;
   /** The rules that are applied to the mapped user before completing authentication. All the expressions must evaluate to true for validation to succeed. */
   userValidationRules?: JWTAuthenticatorValidationRule[];
+  /**
+   * PEM-encoded CA certificate bundle used to validate the connection when fetching discovery information. Use this for issuer endpoints that use private certificate authorities
+   * or environments where TLS inspection is performed.
+   *
+   * The bundle must contain only CERTIFICATE PEM blocks, up to 10 CA certificates, and must be no larger than 20 KB in total. Include all CA certificates needed to validate
+   * the issuer endpoint's TLS certificate. Certificate revocation checking is not supported.
+   *
+   * If provided, only these CAs are trusted instead of the well-known root CAs.
+   * If not provided and the managed cluster's properties.securityProfile.customCATrustCertificates is set, those certificates will be used instead. Otherwise, only the well-known
+   * root CAs are trusted.
+   */
+  certificateAuthorityBundle?: string;
 }
 
 export function jwtAuthenticatorPropertiesSerializer(item: JWTAuthenticatorProperties): any {
@@ -11229,6 +11584,7 @@ export function jwtAuthenticatorPropertiesSerializer(item: JWTAuthenticatorPrope
     userValidationRules: !item["userValidationRules"]
       ? item["userValidationRules"]
       : jwtAuthenticatorValidationRuleArraySerializer(item["userValidationRules"]),
+    certificateAuthorityBundle: item["certificateAuthorityBundle"],
   };
 }
 
@@ -11243,6 +11599,7 @@ export function jwtAuthenticatorPropertiesDeserializer(item: any): JWTAuthentica
     userValidationRules: !item["userValidationRules"]
       ? item["userValidationRules"]
       : jwtAuthenticatorValidationRuleArrayDeserializer(item["userValidationRules"]),
+    certificateAuthorityBundle: item["certificateAuthorityBundle"],
   };
 }
 
@@ -11829,6 +12186,29 @@ export function alertConfigurationArrayDeserializer(result: Array<AlertConfigura
   });
 }
 
+/** The operations list. It contains an URL link to get the next set of results. */
+export interface _OperationStatusResultList {
+  /** The OperationStatusResult items on this page */
+  value: OperationStatusResult[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationStatusResultListDeserializer(item: any): _OperationStatusResultList {
+  return {
+    value: operationStatusResultArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
+  });
+}
+
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
@@ -11849,6 +12229,10 @@ export interface OperationStatusResult {
   error?: ErrorDetail;
   /** Fully qualified ID of the resource against which the original async operation was started. */
   readonly resourceId?: string;
+  /** The type of the operation. */
+  readonly operationType?: string;
+  /** The type of the suboperation. */
+  readonly subOperationType?: string;
 }
 
 export function operationStatusResultDeserializer(item: any): OperationStatusResult {
@@ -11864,29 +12248,8 @@ export function operationStatusResultDeserializer(item: any): OperationStatusRes
       : operationStatusResultArrayDeserializer(item["operations"]),
     error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
-  };
-}
-
-export function operationStatusResultArrayDeserializer(
-  result: Array<OperationStatusResult>,
-): any[] {
-  return result.map((item) => {
-    return operationStatusResultDeserializer(item);
-  });
-}
-
-/** The operations list. It contains an URL link to get the next set of results. */
-export interface _OperationStatusResultList {
-  /** The OperationStatusResult items on this page */
-  value: OperationStatusResult[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _operationStatusResultListDeserializer(item: any): _OperationStatusResultList {
-  return {
-    value: operationStatusResultArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
+    operationType: item["operationType"],
+    subOperationType: item["subOperationType"],
   };
 }
 
@@ -12408,8 +12771,10 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-05-01 API version. */
   V20260501 = "2026-05-01",
-  /** The 2026-05-02-preview API version. */
-  V20260502Preview = "2026-05-02-preview",
+  /** The 2026-06-01 API version. */
+  V20260601 = "2026-06-01",
+  /** The 2026-06-02-preview API version. */
+  V20260602Preview = "2026-06-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -12692,6 +13057,7 @@ export function _managedClusterPropertiesSerializer(item: ManagedCluster): any {
     enableRBAC: item["enableRbac"],
     supportPlan: item["supportPlan"],
     enableFIPS: item["enableFips"],
+    enableNodeHardening: item["enableNodeHardening"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
@@ -12817,6 +13183,7 @@ export function _managedClusterPropertiesDeserializer(item: any) {
     enableRbac: item["enableRBAC"],
     supportPlan: item["supportPlan"],
     enableFips: item["enableFIPS"],
+    enableNodeHardening: item["enableNodeHardening"],
     enableNamespaceResources: item["enableNamespaceResources"],
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
