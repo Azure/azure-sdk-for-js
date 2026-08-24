@@ -3,23 +3,23 @@
 
 import type { AzureMachineLearningServicesManagementContext as Client } from "../index.js";
 import type {
-  PartialMinimalTrackedResourceWithSku,
-  _SkuResourceArmPaginatedResult,
-  SkuResource,
   OnlineDeployment,
+  PartialMinimalTrackedResourceWithSku,
   _OnlineDeploymentTrackedResourceArmPaginatedResult,
   DeploymentLogsRequest,
   DeploymentLogs,
+  _SkuResourceArmPaginatedResult,
+  SkuResource,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  partialMinimalTrackedResourceWithSkuSerializer,
-  _skuResourceArmPaginatedResultDeserializer,
   onlineDeploymentSerializer,
   onlineDeploymentDeserializer,
+  partialMinimalTrackedResourceWithSkuSerializer,
   _onlineDeploymentTrackedResourceArmPaginatedResultDeserializer,
   deploymentLogsRequestSerializer,
   deploymentLogsDeserializer,
+  _skuResourceArmPaginatedResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -54,7 +54,7 @@ export function _listSkusSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       count: options?.count,
       "%24skip": options?.skip,
     },
@@ -106,11 +106,7 @@ export function listSkus(
       ),
     _listSkusDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -131,7 +127,7 @@ export function _getLogsSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +191,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24orderBy": options?.orderBy,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -239,11 +235,7 @@ export function list(
     () => _listSend(context, resourceGroupName, workspaceName, endpointName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -263,7 +255,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -308,7 +300,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -329,7 +321,7 @@ export function _updateSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -381,7 +373,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OnlineDeployment>, OnlineDeployment>;
 }
 
@@ -402,7 +394,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,7 +448,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OnlineDeployment>, OnlineDeployment>;
 }
 
@@ -476,7 +468,7 @@ export function _getSend(
       workspaceName: workspaceName,
       endpointName: endpointName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

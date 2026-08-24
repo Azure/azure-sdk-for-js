@@ -3,16 +3,11 @@
 
 import type { AzureMachineLearningServicesManagementContext } from "../../api/azureMachineLearningServicesManagementContext.js";
 import {
-  resize,
-  getAllowedResizeSizes,
-  updateIdleShutdownSetting,
   restart,
   stop,
   start,
-  updateDataMounts,
   listKeys,
   listNodes,
-  updateCustomServices,
   list,
   $delete,
   update,
@@ -20,16 +15,11 @@ import {
   get,
 } from "../../api/computeOperations/operations.js";
 import type {
-  ComputeOperationsResizeOptionalParams,
-  ComputeOperationsGetAllowedResizeSizesOptionalParams,
-  ComputeOperationsUpdateIdleShutdownSettingOptionalParams,
   ComputeOperationsRestartOptionalParams,
   ComputeOperationsStopOptionalParams,
   ComputeOperationsStartOptionalParams,
-  ComputeOperationsUpdateDataMountsOptionalParams,
   ComputeOperationsListKeysOptionalParams,
   ComputeOperationsListNodesOptionalParams,
-  ComputeOperationsUpdateCustomServicesOptionalParams,
   ComputeOperationsListOptionalParams,
   ComputeOperationsDeleteOptionalParams,
   ComputeOperationsUpdateOptionalParams,
@@ -38,14 +28,9 @@ import type {
 } from "../../api/computeOperations/options.js";
 import type {
   ComputeResource,
-  CustomService,
-  ComputeInstanceDataMount,
   ClusterUpdateParameters,
   AmlComputeNodeInformation,
   ComputeSecretsUnion,
-  IdleShutdownSetting,
-  VirtualMachineSizeListResult,
-  ResizeSchema,
   UnderlyingResourceAction,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -55,45 +40,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ComputeOperations operations. */
 export interface ComputeOperationsOperations {
-  /** Updates the size of a Compute Instance. */
-  resize: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    parameters: ResizeSchema,
-    options?: ComputeOperationsResizeOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use resize instead */
-  beginResize: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    parameters: ResizeSchema,
-    options?: ComputeOperationsResizeOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use resize instead */
-  beginResizeAndWait: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    parameters: ResizeSchema,
-    options?: ComputeOperationsResizeOptionalParams,
-  ) => Promise<void>;
-  /** Returns supported virtual machine sizes for resize. */
-  getAllowedResizeSizes: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    options?: ComputeOperationsGetAllowedResizeSizesOptionalParams,
-  ) => Promise<VirtualMachineSizeListResult>;
-  /** Updates the idle shutdown setting of a compute instance. */
-  updateIdleShutdownSetting: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    parameters: IdleShutdownSetting,
-    options?: ComputeOperationsUpdateIdleShutdownSettingOptionalParams,
-  ) => Promise<void>;
   /** Posts a restart action to a compute instance */
   restart: (
     resourceGroupName: string,
@@ -157,14 +103,6 @@ export interface ComputeOperationsOperations {
     computeName: string,
     options?: ComputeOperationsStartOptionalParams,
   ) => Promise<void>;
-  /** Update Data Mounts of a Machine Learning compute. */
-  updateDataMounts: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    dataMounts: ComputeInstanceDataMount[],
-    options?: ComputeOperationsUpdateDataMountsOptionalParams,
-  ) => Promise<void>;
   /** Gets secrets related to Machine Learning compute (storage keys, service credentials, etc). */
   listKeys: (
     resourceGroupName: string,
@@ -179,14 +117,6 @@ export interface ComputeOperationsOperations {
     computeName: string,
     options?: ComputeOperationsListNodesOptionalParams,
   ) => PagedAsyncIterableIterator<AmlComputeNodeInformation>;
-  /** Updates the custom services list. The list of custom services provided shall be overwritten. */
-  updateCustomServices: (
-    resourceGroupName: string,
-    workspaceName: string,
-    computeName: string,
-    customServices: CustomService[],
-    options?: ComputeOperationsUpdateCustomServicesOptionalParams,
-  ) => Promise<void>;
   /** Gets computes in specified workspace. */
   list: (
     resourceGroupName: string,
@@ -276,68 +206,6 @@ export interface ComputeOperationsOperations {
 
 function _getComputeOperations(context: AzureMachineLearningServicesManagementContext) {
   return {
-    resize: (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      parameters: ResizeSchema,
-      options?: ComputeOperationsResizeOptionalParams,
-    ) => resize(context, resourceGroupName, workspaceName, computeName, parameters, options),
-    beginResize: async (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      parameters: ResizeSchema,
-      options?: ComputeOperationsResizeOptionalParams,
-    ) => {
-      const poller = resize(
-        context,
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        parameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginResizeAndWait: async (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      parameters: ResizeSchema,
-      options?: ComputeOperationsResizeOptionalParams,
-    ) => {
-      return await resize(
-        context,
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        parameters,
-        options,
-      );
-    },
-    getAllowedResizeSizes: (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      options?: ComputeOperationsGetAllowedResizeSizesOptionalParams,
-    ) => getAllowedResizeSizes(context, resourceGroupName, workspaceName, computeName, options),
-    updateIdleShutdownSetting: (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      parameters: IdleShutdownSetting,
-      options?: ComputeOperationsUpdateIdleShutdownSettingOptionalParams,
-    ) =>
-      updateIdleShutdownSetting(
-        context,
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        parameters,
-        options,
-      ),
     restart: (
       resourceGroupName: string,
       workspaceName: string,
@@ -410,14 +278,6 @@ function _getComputeOperations(context: AzureMachineLearningServicesManagementCo
     ) => {
       return await start(context, resourceGroupName, workspaceName, computeName, options);
     },
-    updateDataMounts: (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      dataMounts: ComputeInstanceDataMount[],
-      options?: ComputeOperationsUpdateDataMountsOptionalParams,
-    ) =>
-      updateDataMounts(context, resourceGroupName, workspaceName, computeName, dataMounts, options),
     listKeys: (
       resourceGroupName: string,
       workspaceName: string,
@@ -430,21 +290,6 @@ function _getComputeOperations(context: AzureMachineLearningServicesManagementCo
       computeName: string,
       options?: ComputeOperationsListNodesOptionalParams,
     ) => listNodes(context, resourceGroupName, workspaceName, computeName, options),
-    updateCustomServices: (
-      resourceGroupName: string,
-      workspaceName: string,
-      computeName: string,
-      customServices: CustomService[],
-      options?: ComputeOperationsUpdateCustomServicesOptionalParams,
-    ) =>
-      updateCustomServices(
-        context,
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        customServices,
-        options,
-      ),
     list: (
       resourceGroupName: string,
       workspaceName: string,
