@@ -2,7 +2,31 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Constants.js";
+import {
+  ONE_SETTINGS_BACKOFF_BASE_MS,
+  ONE_SETTINGS_CHANGE_URL,
+  ONE_SETTINGS_CONFIG_URL,
+  ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
+  ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS,
+  ONE_SETTINGS_NODEJS_TARGETING,
+  ONE_SETTINGS_RETRYABLE_STATUS_CODES,
+} from "../Declarations/Constants.js";
+import type { OneSettingsResponse } from "./utils.js";
+import { makeOneSettingsRequest } from "./utils.js";
+import { ConfigurationWorker } from "./configurationWorker.js";
+
+interface ConfigurationState {
+  etag?: string;
+  refreshIntervalMs: number;
+  settings: Readonly<Record<string, unknown>>;
+}
+
+function createInitialState(): ConfigurationState {
+  return {
+    refreshIntervalMs: ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
+    settings: {},
+  };
+}
 
 /**
  * Callback invoked with the latest settings whenever OneSettings reports a configuration change.
@@ -19,15 +43,16 @@ export type ConfigurationChangeCallback = (
 /**
  * Singleton that owns the OneSettings control-plane state and change-detection logic.
  *
- * It holds the list of registered change callbacks and, once change detection is implemented,
- * the last ETag and cached settings. Use {@link ConfigurationManager.getInstance} rather than
- * constructing this directly.
+ * It holds the list of registered change callbacks, the last ETag, and cached settings. Use
+ * {@link ConfigurationManager.getInstance} rather than constructing this directly.
  * @internal
  */
 export class ConfigurationManager {
   private static instance: ConfigurationManager | undefined;
   private callbacks: ConfigurationChangeCallback[] = [];
-  private initialized = false;
+  private worker: ConfigurationWorker | undefined;
+  private state = createInitialState();
+  private backoffAttempts = 0;
 
   /**
    * Use {@link ConfigurationManager.getInstance} to obtain the singleton instance.
@@ -49,19 +74,35 @@ export class ConfigurationManager {
    * constructor, since only the first call has any effect.
    */
   public initialize(): void {
-    if (this.initialized) {
+    if (this.worker) {
       return;
     }
-    // TODO(onesettings): create and start the ConfigurationWorker that periodically calls
-    // `getConfigurationAndRefreshInterval` and reschedules itself using the returned interval.
-    this.initialized = true;
+    this.worker = new ConfigurationWorker((abortSignal) =>
+      this.getConfigurationAndRefreshInterval(abortSignal),
+    );
+  }
+
+  /**
+   * Stop OneSettings polling and release registered callbacks. Idempotent and safe to restart with
+   * a later {@link initialize} call.
+   */
+  public shutdown(): void {
+    this.worker?.shutdown();
+    this.worker = undefined;
+    this.callbacks = [];
   }
 
   /**
    * Register a callback to be invoked whenever OneSettings reports a configuration change.
+   * If settings are already cached, they are replayed immediately to the new callback.
    */
   public registerCallback(callback: ConfigurationChangeCallback): void {
     this.callbacks.push(callback);
+    if (Object.keys(this.state.settings).length > 0) {
+      // A callback may register after the last configuration change, so replay the cache now rather
+      // than leaving the consumer stale until another change occurs (which may never happen).
+      this.invokeCallback(callback, this.state.settings);
+    }
   }
 
   /**
@@ -70,14 +111,7 @@ export class ConfigurationManager {
    */
   protected notifyCallbacks(settings: Readonly<Record<string, unknown>>): void {
     for (const callback of [...this.callbacks]) {
-      try {
-        // `try/catch` handles synchronous throws; `.catch` handles rejections from async callbacks.
-        Promise.resolve(callback(settings)).catch((error) => {
-          diag.debug("OneSettings configuration callback failed:", error);
-        });
-      } catch (error) {
-        diag.debug("OneSettings configuration callback failed:", error);
-      }
+      this.invokeCallback(callback, settings);
     }
   }
 
@@ -85,10 +119,117 @@ export class ConfigurationManager {
    * Poll OneSettings once (change detection + optional config fetch), update the cached state,
    * notify callbacks on change, and return the next refresh interval in milliseconds.
    */
-  public async getConfigurationAndRefreshInterval(): Promise<number> {
-    // TODO(onesettings): implement change detection against the CHANGE (e2) endpoint, fetch the
-    // CONFIG (e1) payload on a new ETag, update the cached ETag/settings/refresh interval, call
-    // `notifyCallbacks`, and apply exponential backoff on transient errors.
-    return ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS;
+  public async getConfigurationAndRefreshInterval(abortSignal?: AbortSignal): Promise<number> {
+    const headers: Record<string, string> = {
+      "x-ms-onesetinterval": String(Math.floor(this.state.refreshIntervalMs / (60 * 1000))),
+    };
+    if (this.state.etag) {
+      headers["If-None-Match"] = this.state.etag;
+    }
+
+    const changeResponse = await makeOneSettingsRequest(
+      ONE_SETTINGS_CHANGE_URL,
+      ONE_SETTINGS_NODEJS_TARGETING,
+      headers,
+      abortSignal,
+    );
+    if (abortSignal?.aborted) {
+      return this.state.refreshIntervalMs;
+    }
+
+    if (this.isTransientError(changeResponse)) {
+      this.backoffAttempts += 1;
+      const backoffIntervalMs = Math.min(
+        ONE_SETTINGS_BACKOFF_BASE_MS * 2 ** (this.backoffAttempts - 1),
+        ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS,
+      );
+      diag.debug(
+        `OneSettings change detection failed transiently; retrying in ${backoffIntervalMs}ms`,
+      );
+      return backoffIntervalMs;
+    }
+
+    this.backoffAttempts = 0;
+
+    if (changeResponse.statusCode === 304) {
+      this.state = {
+        ...this.state,
+        etag: changeResponse.etag ?? this.state.etag,
+        refreshIntervalMs: changeResponse.refreshIntervalMs,
+      };
+      return this.state.refreshIntervalMs;
+    }
+
+    if (changeResponse.statusCode !== 200) {
+      diag.debug(
+        `OneSettings change detection returned non-retryable status ${changeResponse.statusCode}`,
+      );
+      return ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS;
+    }
+
+    const configResponse = await makeOneSettingsRequest(
+      ONE_SETTINGS_CONFIG_URL,
+      ONE_SETTINGS_NODEJS_TARGETING,
+      {},
+      abortSignal,
+    );
+    if (abortSignal?.aborted) {
+      return this.state.refreshIntervalMs;
+    }
+    if (configResponse.statusCode !== 200 || Object.keys(configResponse.settings).length === 0) {
+      diag.debug(
+        `OneSettings configuration fetch did not return settings (status ${configResponse.statusCode})`,
+      );
+      this.state = {
+        ...this.state,
+        refreshIntervalMs: changeResponse.refreshIntervalMs,
+      };
+      return this.state.refreshIntervalMs;
+    }
+
+    const settings = Object.freeze({ ...configResponse.settings });
+    this.state = {
+      etag: changeResponse.etag ?? this.state.etag,
+      refreshIntervalMs: changeResponse.refreshIntervalMs,
+      settings,
+    };
+    this.notifyCallbacks(settings);
+    return this.state.refreshIntervalMs;
+  }
+
+  /**
+   * Return a snapshot of the currently cached settings.
+   */
+  public getSettings(): Readonly<Record<string, unknown>> {
+    return { ...this.state.settings };
+  }
+
+  /**
+   * Reset cached state and callbacks. Intended for test isolation.
+   */
+  public reset(): void {
+    this.shutdown();
+    this.state = createInitialState();
+    this.backoffAttempts = 0;
+  }
+
+  private isTransientError(response: OneSettingsResponse): boolean {
+    return (
+      response.hasException || ONE_SETTINGS_RETRYABLE_STATUS_CODES.includes(response.statusCode)
+    );
+  }
+
+  private invokeCallback(
+    callback: ConfigurationChangeCallback,
+    settings: Readonly<Record<string, unknown>>,
+  ): void {
+    try {
+      // `try/catch` handles synchronous throws; `.catch` handles rejections from async callbacks.
+      Promise.resolve(callback(settings)).catch((error) => {
+        diag.debug("OneSettings configuration callback failed:", error);
+      });
+    } catch (error) {
+      diag.debug("OneSettings configuration callback failed:", error);
+    }
   }
 }
