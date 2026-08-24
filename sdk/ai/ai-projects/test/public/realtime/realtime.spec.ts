@@ -217,23 +217,19 @@ describe("AIProjectClient realtime", () => {
     const factory = new MockWebSocketFactory();
     const states: VoiceAgentConnectionState[] = [];
     const connection = await createClient(factory).realtime.connect("support-agent", {
-      agentSessionId: "session-1",
       store: false,
       agentVersionOverride: "2",
-      structuredInputs: { customer: "Ada" },
       onConnectionStateChange: (state) => states.push(state),
     });
 
     const connectOptions = factory.transport.connectOptions;
     assert.ok(connectOptions);
     const url = new URL(connectOptions.url);
-    assert.equal(url.searchParams.get("agent_session_id"), "session-1");
     assert.equal(url.searchParams.get("store"), "false");
     assert.equal(url.searchParams.get("x-agent-version-override"), "2");
     assert.deepEqual(connectOptions.protocols, ["realtime"]);
     assert.equal(connectOptions.headers.authorization, "Bearer test-token");
     assert.equal(connectOptions.headers["foundry-features"], "VoiceAgents=V1Preview");
-    assert.equal(connectOptions.headers["x-ms-voice-structured-inputs"], '{"customer":"Ada"}');
     assert.deepEqual(states, [
       VoiceAgentConnectionState.Connecting,
       VoiceAgentConnectionState.Connected,

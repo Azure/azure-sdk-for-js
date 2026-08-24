@@ -5293,12 +5293,10 @@ export class VoiceAgentRealtimeClient {
 // @public
 export interface VoiceAgentRealtimeClientConnectOptions {
     abortSignal?: AbortSignalLike;
-    agentSessionId?: string;
     agentVersionOverride?: string;
     connectionTimeoutInMs?: number;
     onConnectionStateChange?: VoiceAgentConnectionStateChangedHandler;
     store?: boolean;
-    structuredInputs?: Record<string, unknown>;
 }
 
 // @public

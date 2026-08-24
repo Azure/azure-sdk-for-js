@@ -2,6 +2,10 @@
 
 ## 2.4.1 (Unreleased)
 
+### Breaking Changes
+
+- Removed `agentSessionId` and `structuredInputs` from `VoiceAgentRealtimeClientConnectOptions` to match the simplified Voice Agent WebSocket handshake.
+
 ### Features Added
 
 - Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
