@@ -1,4 +1,32 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/managedRuleSets/index.ts",
+    "../src/api/edgeNodes/index.ts",
+    "../src/api/resourceUsageOperations/index.ts",
+    "../src/api/policies/index.ts",
+    "../src/api/logAnalytics/index.ts",
+    "../src/api/afdProfiles/index.ts",
+    "../src/api/afdCustomDomains/index.ts",
+    "../src/api/customDomains/index.ts",
+    "../src/api/originGroups/index.ts",
+    "../src/api/origins/index.ts",
+    "../src/api/endpoints/index.ts",
+    "../src/api/secrets/index.ts",
+    "../src/api/securityPolicies/index.ts",
+    "../src/api/rules/index.ts",
+    "../src/api/ruleSets/index.ts",
+    "../src/api/routes/index.ts",
+    "../src/api/afdOrigins/index.ts",
+    "../src/api/afdOriginGroups/index.ts",
+    "../src/api/afdEndpoints/index.ts",
+    "../src/api/profiles/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }
