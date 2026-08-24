@@ -468,6 +468,27 @@ describe("BaseSender", () => {
       },
     );
 
+    it("should not propagate an internal Statsbeat redirect back through the manager", async () => {
+      const location = "https://newlocation.com";
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: false,
+        exporterOptions: {},
+        isStatsbeatSender: true,
+      });
+      sender.sendMock
+        .mockRejectedValueOnce(createRedirectError(307, location))
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 });
+
+      const result = await sender.exportEnvelopes([{ name: "statsbeat", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(location);
+      expect(mockStatsbeatManager.updateEndpoint).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+    });
+
     it("should handle circular redirects", async () => {
       sender.sendMock.mockRejectedValue(createRedirectError(307, "https://newlocation.com"));
 

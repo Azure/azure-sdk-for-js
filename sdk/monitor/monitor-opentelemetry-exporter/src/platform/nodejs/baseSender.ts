@@ -684,7 +684,9 @@ export abstract class BaseSender {
         }
         return this.buildExportResult({ code: ExportResultCode.FAILED, error: refusalError });
       }
-      await this.statsbeatManager.updateEndpoint(location);
+      if (!this.isStatsbeatSender) {
+        await this.statsbeatManager.updateEndpoint(location);
+      }
       return this.exportEnvelopes(envelopes, true, redirectCount);
     };
 
