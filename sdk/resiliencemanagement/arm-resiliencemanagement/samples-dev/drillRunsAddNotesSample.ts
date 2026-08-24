@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this enables the user to add notes on this Drill Run.
  *
  * @summary this enables the user to add notes on this Drill Run.
- * x-ms-original-file: 2026-04-01-preview/DrillRuns_AddNotes_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRuns_AddNotes_MaximumSet_Gen.json
  */
 async function drillRunsAddNotesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

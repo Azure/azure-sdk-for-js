@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a GoalTemplate
  *
  * @summary create a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function goalTemplatesCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function goalTemplatesCreateOrUpdateMaximumSet() {
  * This sample demonstrates how to create a GoalTemplate
  *
  * @summary create a GoalTemplate
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function goalTemplatesCreateOrUpdateMinimumSet() {
   const credential = new DefaultAzureCredential();

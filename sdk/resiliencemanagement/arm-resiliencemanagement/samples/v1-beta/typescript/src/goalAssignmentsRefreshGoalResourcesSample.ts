@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the goal resources under a goal assignment. This operation scans for new resources under the scope of the assignment.
  *
  * @summary refreshes the goal resources under a goal assignment. This operation scans for new resources under the scope of the assignment.
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_RefreshGoalResources_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_RefreshGoalResources_MaximumSet_Gen.json
  */
 async function goalAssignmentsRefreshGoalResourcesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

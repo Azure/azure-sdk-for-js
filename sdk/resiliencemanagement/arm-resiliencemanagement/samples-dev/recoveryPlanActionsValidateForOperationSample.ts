@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this action checks if the recovery orchestration plan is eligible for operations like failover and reprotect, ensuring it meets the necessary criteria.
  *
  * @summary this action checks if the recovery orchestration plan is eligible for operations like failover and reprotect, ensuring it meets the necessary criteria.
- * x-ms-original-file: 2026-04-01-preview/RecoveryPlanActions_ValidateForOperation_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryPlanActions_ValidateForOperation_MaximumSet_Gen.json
  */
 async function recoveryPlanActionsValidateForOperationMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

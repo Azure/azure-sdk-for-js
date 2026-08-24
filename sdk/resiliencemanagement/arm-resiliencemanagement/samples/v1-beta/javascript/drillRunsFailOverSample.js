@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this initiates a new Failover operation on this Drill Run.
  *
  * @summary this initiates a new Failover operation on this Drill Run.
- * x-ms-original-file: 2026-04-01-preview/DrillRuns_FailOver_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/DrillRuns_FailOver_MaximumSet_Gen.json
  */
 async function drillRunsFailOverMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -19,11 +19,13 @@ async function drillRunsFailOverMaximumSet() {
     "drill1",
     "ca92602e-53bf-43d2-ae62-d3fc940474b3",
     {
-      failoverProperties: {
-        failoverDirection: "FromSpecificLocations",
-        failoverRequestProperties: { sourceLocations: ["westus"] },
+      body: {
+        failoverProperties: {
+          failoverDirection: "FromSpecificLocations",
+          failoverRequestProperties: { sourceLocations: ["westus"] },
+        },
+        autoFailover: "Enable",
       },
-      autoFailover: "Enable",
     },
   );
 }

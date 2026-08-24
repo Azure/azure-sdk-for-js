@@ -5,23 +5,28 @@ import type { AzureResilienceManagementContext as Client } from "../index.js";
 import type {
   DrillRun,
   _DrillRunListResult,
-  DrillRunFailoverRequest,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
+  ListReportDownloadUrlResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   drillRunDeserializer,
   _drillRunListResultDeserializer,
   drillRunFailoverRequestSerializer,
+  drillRunReprotectRequestSerializer,
   drillRunAddNotesRequestSerializer,
   markAsCompleteRequestSerializer,
+  listReportDownloadUrlRequestSerializer,
+  listReportDownloadUrlResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  DrillRunsListReportDownloadUrlOptionalParams,
+  DrillRunsGenerateReportOptionalParams,
   DrillRunsMarkAsCompleteOptionalParams,
   DrillRunsResumeOptionalParams,
   DrillRunsAddNotesOptionalParams,
@@ -33,6 +38,130 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listReportDownloadUrlSend(
+  context: Client,
+  serviceGroupName: string,
+  drillName: string,
+  drillRunName: string,
+  options: DrillRunsListReportDownloadUrlOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/listReportDownloadUrl{?api%2Dversion}",
+    {
+      serviceGroupName: serviceGroupName,
+      drillName: drillName,
+      drillRunName: drillRunName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.body ? options?.body : listReportDownloadUrlRequestSerializer(options?.body),
+  });
+}
+
+export async function _listReportDownloadUrlDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ListReportDownloadUrlResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return listReportDownloadUrlResponseDeserializer(result.body);
+}
+
+/** This returns a short-lived, read-only URL to download the report for this Drill Run. The URL expires at the returned expiryTimestamp and grants access to that single report only. */
+export async function listReportDownloadUrl(
+  context: Client,
+  serviceGroupName: string,
+  drillName: string,
+  drillRunName: string,
+  options: DrillRunsListReportDownloadUrlOptionalParams = { requestOptions: {} },
+): Promise<ListReportDownloadUrlResponse> {
+  const result = await _listReportDownloadUrlSend(
+    context,
+    serviceGroupName,
+    drillName,
+    drillRunName,
+    options,
+  );
+  return _listReportDownloadUrlDeserialize(result);
+}
+
+export function _generateReportSend(
+  context: Client,
+  serviceGroupName: string,
+  operationId: string,
+  drillName: string,
+  drillRunName: string,
+  options: DrillRunsGenerateReportOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/generateReport{?api%2Dversion}",
+    {
+      serviceGroupName: serviceGroupName,
+      drillName: drillName,
+      drillRunName: drillRunName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _generateReportDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** This generates, or regenerates, the report for this Drill Run. The action is idempotent and is safe to call at any time: a call that arrives while a generation is already running joins it, and a call made after a failed attempt retries it. A report that has been finalized is never regenerated. */
+export function generateReport(
+  context: Client,
+  serviceGroupName: string,
+  operationId: string,
+  drillName: string,
+  drillRunName: string,
+  options: DrillRunsGenerateReportOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _generateReportDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _generateReportSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _markAsCompleteSend(
   context: Client,
@@ -49,7 +178,7 @@ export function _markAsCompleteSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +234,7 @@ export function markAsComplete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -123,7 +252,7 @@ export function _resumeSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +297,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -187,7 +316,7 @@ export function _addNotesSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,7 +364,7 @@ export function addNotes(
     getInitialResponse: () =>
       _addNotesSend(context, serviceGroupName, operationId, drillName, drillRunName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -253,7 +382,7 @@ export function _reprotectSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -261,11 +390,13 @@ export function _reprotectSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: {
       "operation-id": operationId,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
+    body: !options?.body ? options?.body : drillRunReprotectRequestSerializer(options?.body),
   });
 }
 
@@ -298,7 +429,7 @@ export function reprotect(
     getInitialResponse: () =>
       _reprotectSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -308,7 +439,6 @@ export function _failOverSend(
   operationId: string,
   drillName: string,
   drillRunName: string,
-  body: DrillRunFailoverRequest,
   options: DrillRunsFailOverOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -317,7 +447,7 @@ export function _failOverSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +461,7 @@ export function _failOverSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: drillRunFailoverRequestSerializer(body),
+    body: !options?.body ? options?.body : drillRunFailoverRequestSerializer(options?.body),
   });
 }
 
@@ -356,16 +486,15 @@ export function failOver(
   operationId: string,
   drillName: string,
   drillRunName: string,
-  body: DrillRunFailoverRequest,
   options: DrillRunsFailOverOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _failOverDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _failOverSend(context, serviceGroupName, operationId, drillName, drillRunName, body, options),
+      _failOverSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -380,7 +509,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       drillName: drillName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,7 +552,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-31-preview",
     },
   );
 }
@@ -441,7 +570,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

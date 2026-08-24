@@ -9,6 +9,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeUsagePlans,
 } from "./api/usagePlans/operations.js";
 import {
+  _generateReportDeserialize,
   _markAsCompleteDeserialize,
   _resumeDeserialize,
   _addNotesDeserialize,
@@ -144,6 +145,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureResilienceManagement/usagePlans/{usagePlanName}":
     { deserializer: _createOrUpdateDeserializeUsagePlans, expectedStatuses: ["200", "201", "202"] },
+  "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/generateReport":
+    { deserializer: _generateReportDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/markAsComplete":
     { deserializer: _markAsCompleteDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.AzureResilienceManagement/drills/{drillName}/drillRuns/{drillRunName}/resume":

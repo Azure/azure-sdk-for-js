@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list GoalTemplate resources by tenant
  *
  * @summary list GoalTemplate resources by tenant
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_List_MaximumSet_Gen.json
  */
 async function goalTemplatesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function goalTemplatesListMaximumSet(): Promise<void> {
  * This sample demonstrates how to list GoalTemplate resources by tenant
  *
  * @summary list GoalTemplate resources by tenant
- * x-ms-original-file: 2026-04-01-preview/GoalTemplates_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalTemplates_List_MinimumSet_Gen.json
  */
 async function goalTemplatesListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

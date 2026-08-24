@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this action triggers the failover commit operation on the recovery orchestration plan for the qualified resources.
  *
  * @summary this action triggers the failover commit operation on the recovery orchestration plan for the qualified resources.
- * x-ms-original-file: 2026-04-01-preview/RecoveryPlanActions_FailoverCommit_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/RecoveryPlanActions_FailoverCommit_MaximumSet_Gen.json
  */
 async function recoveryPlanActionsFailoverCommitMaximumSet() {
   const credential = new DefaultAzureCredential();

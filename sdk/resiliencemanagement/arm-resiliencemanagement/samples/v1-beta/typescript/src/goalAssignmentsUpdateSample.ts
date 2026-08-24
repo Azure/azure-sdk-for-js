@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a GoalAssignment
  *
  * @summary update a GoalAssignment
- * x-ms-original-file: 2026-04-01-preview/GoalAssignments_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-08-31-preview/GoalAssignments_Update_MaximumSet_Gen.json
  */
 async function goalAssignmentsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
