@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Playwright workspace resource synchronously.
  *
  * @summary updates a Playwright workspace resource synchronously.
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_Update.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_Update.json
  */
 async function playwrightWorkspacesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
