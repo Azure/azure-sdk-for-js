@@ -127,6 +127,7 @@ describe("Knowledge", { timeout: 20_000 }, () => {
       async () => {
         let started = false;
         let completed = false;
+        let eventCount = 0;
         const activities = new Set<number>();
 
         for await (const event of await knowledgeRetrievalClient.retrieveStream({
@@ -134,6 +135,11 @@ describe("Knowledge", { timeout: 20_000 }, () => {
           includeActivity: true,
           retrievalReasoningEffort: { kind: "minimal" },
         })) {
+          eventCount += 1;
+          console.log(
+            `[stream event ${eventCount}] ${event.event}\n${JSON.stringify(event.data, null, 2)}`,
+          );
+
           if (event.event === "retrieval.started") {
             started = true;
           } else if (event.event === "activity.started") {
@@ -153,6 +159,8 @@ describe("Knowledge", { timeout: 20_000 }, () => {
             throw new Error(event.data.error.message ?? "Streaming retrieval failed");
           }
         }
+
+        console.log(`[stream complete] ${eventCount} events received`);
 
         assert.isTrue(started);
         assert.isTrue(completed);
