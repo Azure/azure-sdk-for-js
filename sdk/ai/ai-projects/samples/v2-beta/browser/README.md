@@ -8,18 +8,19 @@ Vite plugin supplies Azure CLI authentication for local development.
 
 ## Prerequisites
 
-| Input                           | Required | Default                          | Purpose                                                                                                                                      |
-| ------------------------------- | -------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Node.js 22 or later             | Yes      | None                             | Runs Vite and the loopback-only token endpoint.                                                                                              |
-| Project endpoint in the UI      | Yes      | `VITE_FOUNDRY_PROJECT_ENDPOINT`  | Foundry project endpoint, for example `https://<resource>.services.ai.azure.com/api/projects/<project>`.                                     |
-| Voice agent selection           | No       | Preferred or first enabled agent | **Load agents** lists enabled agents from the project. The configured preference is selected when found; otherwise the first agent is used.  |
-| `VITE_FOUNDRY_PROJECT_ENDPOINT` | No       | Empty                            | Optional project-endpoint prefill for the UI.                                                                                                |
-| `VITE_FOUNDRY_VOICE_AGENT_NAME` | No       | First enabled agent              | Optional preferred agent selection after the list is loaded.                                                                                 |
-| Azure CLI login                 | Yes      | None                             | Run `az login` as a user with project access, such as the Foundry User role. The Vite plugin uses this session through `AzureCliCredential`. |
-| Agent PCM output                | No       | Agent setting                    | Enables streamed audio playback. The app reads the configured PCM sample rate; if the output is not PCM, it requests text output only.       |
-| Browser microphone permission   | No       | Denied                           | Required only to use **Start microphone**. Text messages and response audio playback do not require microphone access.                       |
+| Input                              | Required | Default                          | Purpose                                                                                                                                      |
+| ---------------------------------- | -------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Node.js 22 or later                | Yes      | None                             | Runs Vite and the loopback-only token endpoint.                                                                                              |
+| Project endpoint in the UI         | Yes      | `VITE_FOUNDRY_PROJECT_ENDPOINT`  | Foundry project endpoint, for example `https://<resource>.services.ai.azure.com/api/projects/<project>`.                                     |
+| Voice agent selection              | No       | Preferred or first enabled agent | **Load agents** lists enabled agents from the project. The configured preference is selected when found; otherwise the first agent is used.  |
+| `VITE_FOUNDRY_PROJECT_ENDPOINT`    | No       | Empty                            | Optional project-endpoint prefill for the UI.                                                                                                |
+| `VITE_FOUNDRY_VOICE_AGENT_NAME`    | No       | First enabled agent              | Optional preferred agent selection after the list is loaded.                                                                                 |
+| `VITE_FOUNDRY_CLIENT_REFERENCE_EC` | No       | `false`                          | Prefills the client-reference echo cancellation checkbox.                                                                                    |
+| Azure CLI login                    | Yes      | None                             | Run `az login` as a user with project access, such as the Foundry User role. The Vite plugin uses this session through `AzureCliCredential`. |
+| Agent PCM output                   | No       | Agent setting                    | Enables streamed audio playback. The app reads the configured PCM sample rate; if the output is not PCM, it requests text output only.       |
+| Browser microphone permission      | No       | Denied                           | Required only to use **Start microphone**. Text messages and response audio playback do not require microphone access.                       |
 
-The project endpoint is the only required value entered in the UI. Both
+The project endpoint is the only required value entered in the UI. All
 `VITE_FOUNDRY_*` variables are optional conveniences. No SPA client ID, tenant ID,
 client secret, API key, raw access token, or direct Voice Agent WebSocket URL is an input to this
 sample.
@@ -53,12 +54,13 @@ npm run dev
 Open `http://127.0.0.1:5173/`, enter the project endpoint, and select **Load agents**. The sample
 lists enabled voice agents and preselects the configured preference or the first result. **Connect**
 then reuses the Azure CLI session, verifies the selected agent through the management REST API, and
-connects its voice WebSocket directly using Microsoft Entra subprotocol authentication. The
-microphone requires browser permission and sends mono 24 kHz PCM16 audio with server-side voice
-activity detection.
+connects its voice WebSocket directly using Microsoft Entra subprotocol authentication. Enable
+**Client-reference echo cancellation** before connecting to send interleaved stereo PCM16: channel 0
+is microphone input and channel 1 is the agent audio tapped from the browser's rendered playback.
+When the option is off, the microphone sends the existing mono 24 kHz PCM16 stream.
 Capture and playback follow the [VoiceLive basic web voice assistant](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voicelive/ai-voicelive/samples/basic-web-voice-assistant)
-audio pattern: request a 24 kHz capture context, convert microphone samples to mono PCM16, play
-response chunks sequentially, and clear queued output when a response is replaced or interrupted.
+audio pattern: request a capture context, convert audio to 24 kHz PCM16, play response chunks
+sequentially, and clear queued output when a response is replaced or interrupted.
 The conversation follows new streamed phrases while the reader remains near the bottom; scrolling
 up pauses that behavior until the reader returns to the latest messages.
 **Clear chat** removes only the messages rendered in the browser and resets the transcript viewport;
@@ -81,6 +83,32 @@ recording metadata. For Foundry-managed storage, it retrieves the WAV with
 Audio is optional and finalized after the session ends, so an unavailable or not-yet-ready recording
 does not prevent text from loading. BYOS metadata is shown, but its bytes must be downloaded from the
 customer storage account with customer credentials because the Foundry route does not proxy them.
+
+## Client-reference echo cancellation
+
+When enabled, the sample sends a narrow `session.update` immediately after the WebSocket connects and
+before microphone capture starts:
+
+```json
+{
+  "type": "realtime",
+  "audio": {
+    "input": {
+      "format": { "type": "audio/pcm", "rate": 24000 },
+      "echo_cancellation": {
+        "type": "server_echo_cancellation",
+        "reference_source": "client",
+        "channels": 2
+      }
+    }
+  }
+}
+```
+
+The microphone and playback tap share one Web Audio context so each uploaded frame is aligned as
+`[microphone, rendered playback reference]`. Browser-provided echo cancellation and noise suppression
+are disabled in this mode to avoid applying echo cancellation twice. The selected agent must produce
+PCM audio; the sample rejects client-reference mode for non-PCM output.
 
 ## Management APIs
 
