@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const providerMocks = vi.hoisted(() => {
   const network = {
     shutdown: vi.fn().mockResolvedValue(undefined),
+    updateEndpoint: vi.fn().mockResolvedValue(undefined),
     countSuccess: vi.fn(),
     countFailure: vi.fn(),
     countRetry: vi.fn(),
@@ -16,6 +17,7 @@ const providerMocks = vi.hoisted(() => {
   };
   const longInterval = {
     shutdown: vi.fn().mockResolvedValue(undefined),
+    updateEndpoint: vi.fn().mockResolvedValue(undefined),
   };
   return {
     network,
@@ -204,6 +206,29 @@ describe("StatsbeatManager", () => {
     expect(providerMocks.network.countException).toHaveBeenCalledWith(error);
     expect(providerMocks.network.countReadFailure).toHaveBeenCalledOnce();
     expect(providerMocks.network.countWriteFailure).toHaveBeenCalledOnce();
+  });
+
+  it("updates active providers and preserves the endpoint for restart", async () => {
+    const manager = StatsbeatManager.getInstance();
+    const endpointUrl = "https://northeurope-0.in.applicationinsights.azure.com";
+    manager.initialize(options);
+
+    await manager.updateEndpoint(endpointUrl);
+
+    expect(providerMocks.network.updateEndpoint).toHaveBeenCalledWith(endpointUrl);
+    expect(providerMocks.longInterval.updateEndpoint).toHaveBeenCalledWith(endpointUrl);
+
+    await manager.shutdown();
+    manager.initialize();
+
+    expect(providerMocks.getNetworkInstance).toHaveBeenLastCalledWith({
+      ...options,
+      endpointUrl,
+    });
+    expect(providerMocks.getLongIntervalInstance).toHaveBeenLastCalledWith({
+      ...options,
+      endpointUrl,
+    });
   });
 
   it("keeps global Statsbeat active when an exporter shuts down", async () => {

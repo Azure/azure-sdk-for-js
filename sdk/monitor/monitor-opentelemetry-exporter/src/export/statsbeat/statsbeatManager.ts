@@ -100,6 +100,16 @@ export class StatsbeatManager {
     this.networkMetrics?.countWriteFailure();
   }
 
+  public async updateEndpoint(endpointUrl: string): Promise<void> {
+    if (this.options) {
+      this.options = { ...this.options, endpointUrl };
+    }
+    await Promise.all([
+      this.networkMetrics?.updateEndpoint(endpointUrl),
+      this.longIntervalMetrics?.updateEndpoint(endpointUrl),
+    ]);
+  }
+
   /** @internal */
   public get networkStatsbeatMetrics(): NetworkStatsbeatMetrics | undefined {
     return this.networkMetrics;
