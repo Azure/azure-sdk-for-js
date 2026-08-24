@@ -1,38 +1,38 @@
 # Release History
 
-## 13.1.0-beta.2 (Unreleased)
+## 13.1.0-beta.2 (2026-08-27)
 
 ### Features Added
 
-- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added stored `queryHints`, request-time `queryHintOverrides`, query-hint processing diagnostics, served-image diagnostics, and Search-owned `citationUrl` values on supported indexed references. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added Work IQ bring-your-own Microsoft Entra application parameters and a separate `queryWorkIQSourceAuthorization` user assertion option. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added server-driven `search`, `pageSize`, and `searchType` listing options and continuation across indexes, aliases, synonym maps, indexers, data sources, skillsets, knowledge bases, knowledge sources, files, and index statistics. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added activity start/completion timestamps, structured activity `model` metadata, Work IQ sensitivity-label metadata, `maxVectorIndexSizePerIndexInBytes`, and GPT-5.6 SOL/Terra/Luna model names. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Exported all concrete activity/reference union members, query-hint/image-serving helpers, known activity/reference enums, File/MCP request types, and other new August model types from the package root. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Added `logicalReasoningEffort` to `KnowledgeBaseAgenticReasoningActivityRecord` as an additive post-cut preview field; it is not used in August samples. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Regenerated from the `2026-08-01-preview` Search service API at commit `c195a3fe73b28cd90bf8a302944b2c0ec3d80def`.
+- Added typed server-sent event retrieval through `KnowledgeRetrievalClient.retrieveStream`, including typed start/activity/answer/reference/error/completion events and `200`/`206` completion status values.
+- Added File knowledge source CORS options, multipart upload and in-place update APIs, relative-path/custom metadata, prefix-filtered paging, and read-only parsing/extraction modes selected by the service.
+- Added `auto` retrieval reasoning, knowledge base `retrieveDefaults` and metadata-only `tags`, per-source `resultsProcessing`/`neverQuerySource`, and private ingestion `networkAccessMode`.
+- Added stored `queryHints`, request-time `queryHintOverrides`, query-hint processing diagnostics, served-image diagnostics, and Search-owned `citationUrl` values on supported indexed references.
+- Added Work IQ bring-your-own Microsoft Entra application parameters and a separate `queryWorkIQSourceAuthorization` user assertion option.
+- Added server-driven `search`, `pageSize`, and `searchType` listing options and continuation across indexes, aliases, synonym maps, indexers, data sources, skillsets, knowledge bases, knowledge sources, files, and index statistics.
+- Added activity start/completion timestamps, structured activity `model` metadata, Work IQ sensitivity-label metadata, `maxVectorIndexSizePerIndexInBytes`, and GPT-5.6 SOL/Terra/Luna model names.
+- Exported all concrete activity/reference union members, query-hint/image-serving helpers, known activity/reference enums, File/MCP request types, and other new August model types from the package root.
+- Added `logicalReasoningEffort` to `KnowledgeBaseAgenticReasoningActivityRecord` as an additive post-cut preview field; it is not used in August samples.
 
 ### Breaking Changes
 
-- `WorkIQKnowledgeSource.workIQParameters` is now required. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Renamed activity `elapsedInMs` to `elapsedMs`, replaced activity `modelName` with structured `model`, and renamed indexer status `totalSynchronizations` to `totalSynchronization`. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- `WorkIQKnowledgeSource.workIQParameters` is now required.
+- Renamed the root convenience property `McpServerKnowledgeSourceParameters.serverURL` to `serverUrl`; the raw protocol subpath retains the generated wire-oriented name.
+- Removed preview offset listing options (`top`, `skip`, and `count`) in favor of server-driven cursor pagination.
+- Removed `WorkIQAttribution`/`KnowledgeBaseWorkIQReference.attributions` and `McpServerToolInclusionMode`; use Work IQ sensitivity metadata and `resultsProcessing` respectively.
+- Renamed activity `elapsedInMs` to `elapsedMs`, replaced activity `modelName` with structured `model`, and renamed indexer status `totalSynchronizations` to `totalSynchronization`.
+- `KnowledgeBaseActivityRecordModel.modelName`, `KnowledgeBaseStreamErrorEvent.error`, `ServedImage.imagePath`, and `ServedImage.sizeBytes` are now required.
 
 ### Bugs Fixed
 
-- Fixed `SearchIndexerClient.resetDocuments` so `dataSourceDocumentIds` is forwarded to the service. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Fixed continuation for every generated paged operation by reading the deserialized `nextLink`/`odataNextLink` property instead of its wire name. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
-- Fixed convenience conversions that dropped query hints, ingestion settings, and generated resource names from indexed knowledge sources. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Fixed `SearchIndexerClient.resetDocuments` so `dataSourceDocumentIds` is forwarded to the service.
+- Fixed continuation for every generated paged operation by reading the deserialized `nextLink`/`odataNextLink` property instead of its wire name.
+- Fixed convenience conversions that dropped query hints, ingestion settings, and generated resource names from indexed knowledge sources.
 
 ### Other Changes
 
-- Expanded README snippets and TypeScript/JavaScript samples for File lifecycle, query hints, private ingestion, retrieval defaults/controls/citations, Work IQ BYO Entra authentication, typed streaming, cursor pagination, service limits, and knowledge base tags. [#39459](https://github.com/Azure/azure-sdk-for-js/pull/39459)
+- Expanded README snippets and TypeScript/JavaScript samples for File lifecycle, query hints, private ingestion, retrieval defaults/controls/citations, Work IQ BYO Entra authentication, typed streaming, cursor pagination, service limits, and knowledge base tags.
 
 ## 13.1.0-beta.1 (2026-06-01)
 
