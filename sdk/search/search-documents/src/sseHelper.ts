@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { StreamableMethod } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
 import type { EventMessage } from "@azure/core-sse";
 import { createSseStream } from "@azure/core-sse";
 import { Buffer } from "node:buffer";
 import type { IncomingMessage } from "node:http";
+import { createSseError } from "./sseError.js";
 
 /**
  * Issues the given streamable request and exposes the server-sent event response as an async
@@ -19,7 +19,7 @@ export async function getSseStream(
 
   if (response.status !== "200") {
     if (!response.body) {
-      throw createRestError(response);
+      throw createSseError(response);
     }
 
     const chunks: Buffer[] = [];
@@ -27,17 +27,11 @@ export async function getSseStream(
       chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const body = Buffer.concat(chunks).toString("utf8");
-    let parsedError: unknown;
-    try {
-      parsedError = JSON.parse(body);
-    } catch {
-      throw createRestError(body, { ...response, body });
-    }
-    throw createRestError({ ...response, body: parsedError });
+    throw createSseError(response, body);
   }
 
   if (!response.body) {
-    throw createRestError(response);
+    throw createSseError(response);
   }
 
   return createSseStream(response.body as IncomingMessage);
