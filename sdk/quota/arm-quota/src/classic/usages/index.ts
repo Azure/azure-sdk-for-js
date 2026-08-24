@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, get } from "../../api/usages/operations.js";
-import { UsagesListOptionalParams, UsagesGetOptionalParams } from "../../api/usages/options.js";
-import { CurrentUsagesBase } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  UsagesListOptionalParams,
+  UsagesGetOptionalParams,
+} from "../../api/usages/options.js";
+import type { CurrentUsagesBase } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usages operations. */
 export interface UsagesOperations {

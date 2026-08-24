@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import {
   list,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/groupQuotaSubscriptions/operations.js";
-import {
+import type {
   GroupQuotaSubscriptionsListOptionalParams,
   GroupQuotaSubscriptionsDeleteOptionalParams,
   GroupQuotaSubscriptionsUpdateOptionalParams,
   GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
   GroupQuotaSubscriptionsGetOptionalParams,
 } from "../../api/groupQuotaSubscriptions/options.js";
-import { GroupQuotaSubscriptionId } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GroupQuotaSubscriptionId } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotaSubscriptions operations. */
 export interface GroupQuotaSubscriptionsOperations {

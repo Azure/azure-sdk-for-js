@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { update, createOrUpdate, get } from "../../api/groupQuotaLocationSettings/operations.js";
-import {
+import type {
   GroupQuotaLocationSettingsUpdateOptionalParams,
   GroupQuotaLocationSettingsCreateOrUpdateOptionalParams,
   GroupQuotaLocationSettingsGetOptionalParams,
 } from "../../api/groupQuotaLocationSettings/options.js";
-import { GroupQuotasEnforcementStatus } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GroupQuotasEnforcementStatus } from "../../models/models.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotaLocationSettings operations. */
 export interface GroupQuotaLocationSettingsOperations {

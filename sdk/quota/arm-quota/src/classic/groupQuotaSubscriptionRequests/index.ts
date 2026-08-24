@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, get } from "../../api/groupQuotaSubscriptionRequests/operations.js";
-import {
+import type {
   GroupQuotaSubscriptionRequestsListOptionalParams,
   GroupQuotaSubscriptionRequestsGetOptionalParams,
 } from "../../api/groupQuotaSubscriptionRequests/options.js";
-import { GroupQuotaSubscriptionRequestStatus } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GroupQuotaSubscriptionRequestStatus } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GroupQuotaSubscriptionRequests operations. */
 export interface GroupQuotaSubscriptionRequestsOperations {

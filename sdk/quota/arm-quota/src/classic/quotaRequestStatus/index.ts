@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, get } from "../../api/quotaRequestStatus/operations.js";
-import {
+import type {
   QuotaRequestStatusListOptionalParams,
   QuotaRequestStatusGetOptionalParams,
 } from "../../api/quotaRequestStatus/options.js";
-import { QuotaRequestDetails } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { QuotaRequestDetails } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QuotaRequestStatus operations. */
 export interface QuotaRequestStatusOperations {

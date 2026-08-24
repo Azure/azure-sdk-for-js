@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { cancel, list, $delete, createOrUpdate, get } from "../../api/quotaTransfers/operations.js";
-import {
+import type {
   QuotaTransfersCancelOptionalParams,
   QuotaTransfersListOptionalParams,
   QuotaTransfersDeleteOptionalParams,
   QuotaTransfersCreateOrUpdateOptionalParams,
   QuotaTransfersGetOptionalParams,
 } from "../../api/quotaTransfers/options.js";
-import { QuotaTransfer } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { QuotaTransfer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a QuotaTransfers operations. */
 export interface QuotaTransfersOperations {

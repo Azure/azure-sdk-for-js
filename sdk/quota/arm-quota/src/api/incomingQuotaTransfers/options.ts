@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   IncomingQuotaTransferApproveRequest,
   IncomingQuotaTransferRejectRequest,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface IncomingQuotaTransfersRejectOptionalParams extends OperationOptions {

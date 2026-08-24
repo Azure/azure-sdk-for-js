@@ -1,26 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext as Client } from "../index.js";
+import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
+import type { CurrentUsagesBase, _UsagesLimits } from "../../models/models.js";
 import {
   exceptionResponseDeserializer,
-  CurrentUsagesBase,
   currentUsagesBaseDeserializer,
-  _UsagesLimits,
   _usagesLimitsDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { UsagesListOptionalParams, UsagesGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { UsagesListOptionalParams, UsagesGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,

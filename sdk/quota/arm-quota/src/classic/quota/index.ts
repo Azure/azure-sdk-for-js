@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, update, createOrUpdate, get } from "../../api/quota/operations.js";
-import {
+import type {
   QuotaListOptionalParams,
   QuotaUpdateOptionalParams,
   QuotaCreateOrUpdateOptionalParams,
   QuotaGetOptionalParams,
 } from "../../api/quota/options.js";
-import { CurrentQuotaLimitBase } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CurrentQuotaLimitBase } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Quota operations. */
 export interface QuotaOperations {

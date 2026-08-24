@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { get, update, list } from "../../api/groupQuotaLimitsRequest/operations.js";
-import {
+import type {
   GroupQuotaLimitsRequestGetOptionalParams,
   GroupQuotaLimitsRequestUpdateOptionalParams,
   GroupQuotaLimitsRequestListOptionalParams,
 } from "../../api/groupQuotaLimitsRequest/options.js";
-import { SubmittedResourceRequestStatus, GroupQuotaLimitList } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SubmittedResourceRequestStatus, GroupQuotaLimitList } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotaLimitsRequest operations. */
 export interface GroupQuotaLimitsRequestOperations {

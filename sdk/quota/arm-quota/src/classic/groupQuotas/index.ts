@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/groupQuotas/operations.js";
-import {
+import type {
   GroupQuotasListOptionalParams,
   GroupQuotasDeleteOptionalParams,
   GroupQuotasUpdateOptionalParams,
   GroupQuotasCreateOrUpdateOptionalParams,
   GroupQuotasGetOptionalParams,
 } from "../../api/groupQuotas/options.js";
-import { GroupQuotasEntity } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GroupQuotasEntity } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GroupQuotas operations. */
 export interface GroupQuotasOperations {

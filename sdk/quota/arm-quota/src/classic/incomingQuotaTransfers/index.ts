@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
+import type { AzureQuotaExtensionAPIContext } from "../../api/azureQuotaExtensionAPIContext.js";
 import {
   reject,
   approve,
@@ -9,16 +9,16 @@ import {
   list,
   get,
 } from "../../api/incomingQuotaTransfers/operations.js";
-import {
+import type {
   IncomingQuotaTransfersRejectOptionalParams,
   IncomingQuotaTransfersApproveOptionalParams,
   IncomingQuotaTransfersListBySubscriptionOptionalParams,
   IncomingQuotaTransfersListOptionalParams,
   IncomingQuotaTransfersGetOptionalParams,
 } from "../../api/incomingQuotaTransfers/options.js";
-import { IncomingQuotaTransfer } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { IncomingQuotaTransfer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IncomingQuotaTransfers operations. */
 export interface IncomingQuotaTransfersOperations {
