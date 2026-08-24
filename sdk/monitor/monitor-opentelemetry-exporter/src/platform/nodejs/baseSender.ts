@@ -229,7 +229,7 @@ export abstract class BaseSender {
         }
       } else {
         // Failed -- not retriable
-        if (this.statsbeatManager.networkStatsbeatMetrics && !this.isStatsbeatSender) {
+        if (!this.isStatsbeatSender) {
           if (statusCode) {
             this.statsbeatManager.countFailure(duration, statusCode);
             this.customerSDKStatsMetrics?.countDroppedItems(envelopes, statusCode);

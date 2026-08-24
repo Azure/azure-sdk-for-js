@@ -412,6 +412,19 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.FAILED);
     });
 
+    it("should preserve the failure status when Network Statsbeat is inactive", async () => {
+      mockStatsbeatManager.networkStatsbeatMetrics = undefined;
+      sender.sendMock.mockResolvedValue({ statusCode: 400 });
+      const envelopes = [{ name: "test", time: new Date() }];
+
+      const result = await sender.exportEnvelopes(envelopes);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(mockStatsbeatManager.countFailure).toHaveBeenCalledWith(expect.any(Number), 400);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
+      expect(sender.getStatsbeatFailureCount()).toBe(0);
+    });
+
     it("should count retry when retriable status code has no result", async () => {
       sender.sendMock.mockResolvedValue({ statusCode: 503 });
 
