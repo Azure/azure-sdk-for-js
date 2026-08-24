@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all workspace manager assignments for the Sentinel workspace manager.
  *
  * @summary get all workspace manager assignments for the Sentinel workspace manager.
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/GetAllWorkspaceManagerAssignments.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/GetAllWorkspaceManagerAssignments.json
  */
 async function getAllWorkspaceManagerAssignmentsForTheSentinelWorkspaceManager(): Promise<void> {
   const credential = new DefaultAzureCredential();

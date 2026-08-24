@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all file imports.
  *
  * @summary gets all file imports.
- * x-ms-original-file: 2025-07-01-preview/fileImports/GetFileImports.json
+ * x-ms-original-file: 2025-10-01-preview/fileImports/GetFileImports.json
  */
 async function getAllFileImports() {
   const credential = new DefaultAzureCredential();

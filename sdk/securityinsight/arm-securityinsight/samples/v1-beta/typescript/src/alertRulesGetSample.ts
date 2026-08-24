@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the alert rule.
  *
  * @summary gets the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/GetFusionAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/GetFusionAlertRule.json
  */
 async function getAFusionAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAFusionAlertRule(): Promise<void> {
  * This sample demonstrates how to gets the alert rule.
  *
  * @summary gets the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function getAMicrosoftSecurityIncidentCreationRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function getAMicrosoftSecurityIncidentCreationRule(): Promise<void> {
  * This sample demonstrates how to gets the alert rule.
  *
  * @summary gets the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/GetNrtAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/GetNrtAlertRule.json
  */
 async function getAnNrtAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function getAnNrtAlertRule(): Promise<void> {
  * This sample demonstrates how to gets the alert rule.
  *
  * @summary gets the alert rule.
- * x-ms-original-file: 2025-07-01-preview/alertRules/GetScheduledAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/alertRules/GetScheduledAlertRule.json
  */
 async function getAScheduledAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

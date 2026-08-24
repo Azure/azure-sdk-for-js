@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all Microsoft Sentinel billing statistics.
  *
  * @summary gets all Microsoft Sentinel billing statistics.
- * x-ms-original-file: 2025-07-01-preview/billingStatistics/GetAllBillingStatistics.json
+ * x-ms-original-file: 2025-10-01-preview/billingStatistics/GetAllBillingStatistics.json
  */
 async function getAllMicrosoftSentinelBillingStatistics() {
   const credential = new DefaultAzureCredential();

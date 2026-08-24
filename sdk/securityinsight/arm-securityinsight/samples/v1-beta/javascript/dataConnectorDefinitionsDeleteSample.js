@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the data connector definition.
  *
  * @summary delete the data connector definition.
- * x-ms-original-file: 2025-07-01-preview/dataConnectorDefinitions/DeleteDataConnectorDefinitionById.json
+ * x-ms-original-file: 2025-10-01-preview/dataConnectorDefinitions/DeleteDataConnectorDefinitionById.json
  */
 async function deleteDataConnectorDefinition() {
   const credential = new DefaultAzureCredential();

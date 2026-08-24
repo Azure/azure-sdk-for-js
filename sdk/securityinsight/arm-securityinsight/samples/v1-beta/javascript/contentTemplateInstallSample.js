@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to install a template.
  *
  * @summary install a template.
- * x-ms-original-file: 2025-07-01-preview/contentTemplates/InstallTemplate.json
+ * x-ms-original-file: 2025-10-01-preview/contentTemplates/InstallTemplate.json
  */
 async function getATemplate() {
   const credential = new DefaultAzureCredential();

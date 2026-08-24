@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all actions of alert rule.
  *
  * @summary gets all actions of alert rule.
- * x-ms-original-file: 2025-07-01-preview/actions/GetAllActionsByAlertRule.json
+ * x-ms-original-file: 2025-10-01-preview/actions/GetAllActionsByAlertRule.json
  */
 async function getAllActionsOfAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

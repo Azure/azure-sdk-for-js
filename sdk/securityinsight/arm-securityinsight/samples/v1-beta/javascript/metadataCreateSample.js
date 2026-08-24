@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Metadata.
  *
  * @summary create a Metadata.
- * x-ms-original-file: 2025-07-01-preview/metadata/PutMetadata.json
+ * x-ms-original-file: 2025-10-01-preview/metadata/PutMetadata.json
  */
 async function createOrUpdateFullMetadata() {
   const credential = new DefaultAzureCredential();
@@ -76,7 +76,7 @@ async function createOrUpdateFullMetadata() {
  * This sample demonstrates how to create a Metadata.
  *
  * @summary create a Metadata.
- * x-ms-original-file: 2025-07-01-preview/metadata/PutMetadataMinimal.json
+ * x-ms-original-file: 2025-10-01-preview/metadata/PutMetadataMinimal.json
  */
 async function createOrUpdateMinimalMetadata() {
   const credential = new DefaultAzureCredential();

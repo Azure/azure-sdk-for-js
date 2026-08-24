@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list of all the settings
  *
  * @summary list of all the settings
- * x-ms-original-file: 2025-07-01-preview/settings/GetAllSettings.json
+ * x-ms-original-file: 2025-10-01-preview/settings/GetAllSettings.json
  */
 async function getAllSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

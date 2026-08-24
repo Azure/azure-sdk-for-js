@@ -30,7 +30,7 @@ export function _uninstallSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       packageId: packageId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -86,7 +86,7 @@ export function _installSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       packageId: packageId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

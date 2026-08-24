@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Sentinel onboarding state
  *
  * @summary create Sentinel onboarding state
- * x-ms-original-file: 2025-07-01-preview/onboardingStates/CreateSentinelOnboardingState.json
+ * x-ms-original-file: 2025-10-01-preview/onboardingStates/CreateSentinelOnboardingState.json
  */
 async function createSentinelOnboardingState() {
   const credential = new DefaultAzureCredential();
