@@ -61,14 +61,10 @@ export interface VoiceAgentRealtimeClientOptions {
 
 /** Options for connecting the realtime client to a voice agent. */
 export interface VoiceAgentRealtimeClientConnectOptions {
-  /** Identifier used to correlate the voice session. */
-  agentSessionId?: string;
   /** Overrides whether the conversation created by this session is persisted. */
   store?: boolean;
   /** Selects a specific immutable agent version. */
   agentVersionOverride?: string;
-  /** Values used to render the agent's structured prompt inputs. */
-  structuredInputs?: Record<string, unknown>;
   /** Overrides the client connection timeout in milliseconds. */
   connectionTimeoutInMs?: number;
   /** Cancels the connection attempt. */
@@ -294,7 +290,7 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
           this.connectOptions,
         ),
         protocols: ["realtime"],
-        headers: buildHeaders(token, this.clientOptions, this.connectOptions),
+        headers: buildHeaders(token, this.clientOptions),
         connectionTimeoutInMs:
           this.connectOptions.connectionTimeoutInMs ?? this.clientOptions.connectionTimeoutInMs,
         abortSignal: this.connectOptions.abortSignal,
@@ -580,9 +576,6 @@ function buildWebSocketUrl(
   url.protocol = "wss:";
   url.pathname = `${url.pathname.replace(/\/$/, "")}/agents/${encodeURIComponent(agentName)}/endpoint/protocols/voice`;
   url.searchParams.set("api-version", apiVersion);
-  if (options.agentSessionId) {
-    url.searchParams.set("agent_session_id", options.agentSessionId);
-  }
   if (options.store !== undefined) {
     url.searchParams.set("store", String(options.store));
   }
@@ -595,7 +588,6 @@ function buildWebSocketUrl(
 function buildHeaders(
   token: string,
   clientOptions: VoiceAgentRealtimeClientOptions,
-  connectOptions: VoiceAgentRealtimeClientConnectOptions,
 ): Record<string, string> {
   const sdkUserAgent = `azsdk-js-ai-projects/${SDK_VERSION}`;
   const headers: Record<string, string> = {
@@ -606,9 +598,6 @@ function buildHeaders(
       ? `${clientOptions.userAgentPrefix} ${sdkUserAgent}`
       : sdkUserAgent,
   };
-  if (connectOptions.structuredInputs) {
-    headers["x-ms-voice-structured-inputs"] = JSON.stringify(connectOptions.structuredInputs);
-  }
   return headers;
 }
 

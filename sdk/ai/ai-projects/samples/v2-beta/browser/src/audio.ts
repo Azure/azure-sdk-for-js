@@ -3,16 +3,25 @@
 
 const targetSampleRate = 24_000;
 
+export interface AudioReferenceSource {
+  context: AudioContext;
+  node: AudioNode;
+}
+
 export class MicrophoneCapture {
   private context?: AudioContext;
+  private ownsContext = false;
   private stream?: MediaStream;
   private processor?: ScriptProcessorNode;
   private source?: MediaStreamAudioSourceNode;
+  private merger?: ChannelMergerNode;
+  private referenceNode?: AudioNode;
   private silentOutput?: GainNode;
 
   public async start(
     onAudio: (audio: Uint8Array) => void,
     onLevel: (level: number) => void,
+    reference?: AudioReferenceSource,
   ): Promise<void> {
     if (this.processor) {
       return;
@@ -22,25 +31,44 @@ export class MicrophoneCapture {
       audio: {
         channelCount: 1,
         sampleRate: targetSampleRate,
-        echoCancellation: true,
-        noiseSuppression: true,
+        echoCancellation: reference === undefined,
+        noiseSuppression: reference === undefined,
       },
     });
-    this.context = createCaptureAudioContext();
+    this.context = reference?.context ?? createCaptureAudioContext();
+    this.ownsContext = reference === undefined;
     await this.context.resume();
     this.source = this.context.createMediaStreamSource(this.stream);
-    this.processor = this.context.createScriptProcessor(4096, 1, 1);
+    this.processor = this.context.createScriptProcessor(4096, reference ? 2 : 1, 1);
     this.silentOutput = this.context.createGain();
     this.silentOutput.gain.value = 0;
 
     this.processor.onaudioprocess = (event) => {
-      const input = event.inputBuffer.getChannelData(0);
-      onLevel(calculateLevel(input));
-      const resampled = resample(input, this.context!.sampleRate, targetSampleRate);
-      onAudio(toPcm16(resampled));
+      const microphone = event.inputBuffer.getChannelData(0);
+      onLevel(calculateLevel(microphone));
+      const resampledMicrophone = resample(microphone, this.context!.sampleRate, targetSampleRate);
+      if (reference) {
+        const renderedPlayback = event.inputBuffer.getChannelData(1);
+        const resampledReference = resample(
+          renderedPlayback,
+          this.context!.sampleRate,
+          targetSampleRate,
+        );
+        onAudio(toInterleavedPcm16(resampledMicrophone, resampledReference));
+      } else {
+        onAudio(toPcm16(resampledMicrophone));
+      }
     };
 
-    this.source.connect(this.processor);
+    if (reference) {
+      this.referenceNode = reference.node;
+      this.merger = this.context.createChannelMerger(2);
+      this.source.connect(this.merger, 0, 0);
+      this.referenceNode.connect(this.merger, 0, 1);
+      this.merger.connect(this.processor);
+    } else {
+      this.source.connect(this.processor);
+    }
     this.processor.connect(this.silentOutput);
     this.silentOutput.connect(this.context.destination);
   }
@@ -48,14 +76,23 @@ export class MicrophoneCapture {
   public async stop(): Promise<void> {
     this.processor?.disconnect();
     this.source?.disconnect();
+    if (this.referenceNode && this.merger) {
+      this.referenceNode.disconnect(this.merger);
+    }
+    this.merger?.disconnect();
     this.silentOutput?.disconnect();
     this.stream?.getTracks().forEach((track) => track.stop());
-    await this.context?.close();
+    if (this.ownsContext) {
+      await this.context?.close();
+    }
     this.processor = undefined;
     this.source = undefined;
+    this.merger = undefined;
+    this.referenceNode = undefined;
     this.silentOutput = undefined;
     this.stream = undefined;
     this.context = undefined;
+    this.ownsContext = false;
   }
 
   public get active(): boolean {
@@ -65,6 +102,7 @@ export class MicrophoneCapture {
 
 export class PcmAudioPlayer {
   private context?: AudioContext;
+  private output?: GainNode;
   private currentSource?: AudioBufferSourceNode;
   private readonly queue: AudioBuffer[] = [];
 
@@ -74,28 +112,42 @@ export class PcmAudioPlayer {
     this.sampleRate = sampleRate;
   }
 
+  public async getReferenceSource(): Promise<AudioReferenceSource> {
+    const context = await this.ensureContext();
+    return { context, node: this.output! };
+  }
+
   public async enqueue(bytes: Uint8Array): Promise<void> {
     if (bytes.byteLength < 2) {
       return;
     }
-    this.context ??= new AudioContext();
-    await this.context.resume();
+    const context = await this.ensureContext();
     const samples = pcm16ToFloat(bytes);
-    const audioBuffer = this.context.createBuffer(1, samples.length, this.sampleRate);
+    const audioBuffer = context.createBuffer(1, samples.length, this.sampleRate);
     audioBuffer.copyToChannel(samples, 0);
     this.queue.push(audioBuffer);
     this.playNext();
   }
 
+  private async ensureContext(): Promise<AudioContext> {
+    if (!this.context) {
+      this.context = new AudioContext();
+      this.output = this.context.createGain();
+      this.output.connect(this.context.destination);
+    }
+    await this.context.resume();
+    return this.context;
+  }
+
   private playNext(): void {
-    if (!this.context || this.currentSource || this.queue.length === 0) {
+    if (!this.context || !this.output || this.currentSource || this.queue.length === 0) {
       return;
     }
 
     const audioBuffer = this.queue.shift()!;
     const source = this.context.createBufferSource();
     source.buffer = audioBuffer;
-    source.connect(this.context.destination);
+    source.connect(this.output);
     this.currentSource = source;
     source.addEventListener(
       "ended",
@@ -126,7 +178,9 @@ export class PcmAudioPlayer {
 
   public async dispose(): Promise<void> {
     this.stop();
+    this.output?.disconnect();
     await this.context?.close();
+    this.output = undefined;
     this.context = undefined;
   }
 }
@@ -171,6 +225,22 @@ function toPcm16(samples: Float32Array): Uint8Array {
     view.setInt16(index * 2, sample < 0 ? sample * 0x8000 : sample * 0x7fff, true);
   }
   return output;
+}
+
+function toInterleavedPcm16(microphone: Float32Array, renderedPlayback: Float32Array): Uint8Array {
+  const sampleCount = Math.min(microphone.length, renderedPlayback.length);
+  const output = new Uint8Array(sampleCount * 4);
+  const view = new DataView(output.buffer);
+  for (let index = 0; index < sampleCount; index++) {
+    writePcm16(view, index * 4, microphone[index]);
+    writePcm16(view, index * 4 + 2, renderedPlayback[index]);
+  }
+  return output;
+}
+
+function writePcm16(view: DataView, offset: number, value: number): void {
+  const sample = Math.max(-1, Math.min(1, value));
+  view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7fff, true);
 }
 
 function pcm16ToFloat(bytes: Uint8Array): Float32Array<ArrayBuffer> {

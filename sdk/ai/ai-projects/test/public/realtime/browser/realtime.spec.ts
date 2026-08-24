@@ -78,9 +78,7 @@ describe("AIProjectClient browser realtime", () => {
 
   it("sends bearer auth as a WebSocket subprotocol and other headers as query parameters", async () => {
     const connection = await createClient().realtime.connect("browser-agent", {
-      agentSessionId: "session-1",
       store: false,
-      structuredInputs: { customer: "Ada" },
     });
     const socket = getSocket();
     const url = new URL(socket.url);
@@ -90,14 +88,10 @@ describe("AIProjectClient browser realtime", () => {
       "/api/projects/browser-project/agents/browser-agent/endpoint/protocols/voice",
     );
     expect(url.searchParams.get("api-version")).toBe("v1");
-    expect(url.searchParams.get("agent_session_id")).toBe("session-1");
     expect(url.searchParams.get("store")).toBe("false");
     expect(url.searchParams.has("authorization")).toBe(false);
     expect(url.searchParams.get("foundry_features")).toBe("VoiceAgents=V1Preview");
     expect(socket.url).toContain("foundry_features=VoiceAgents=V1Preview");
-    expect(url.searchParams.get("h-x-ms-voice-structured-inputs")).toBe(
-      JSON.stringify({ customer: "Ada" }),
-    );
     expect(url.searchParams.has("user-agent")).toBe(false);
     expect(socket.protocols).toEqual(["realtime", "authorization.bearer.browser-test-token"]);
 

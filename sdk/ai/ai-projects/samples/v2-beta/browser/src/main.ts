@@ -34,6 +34,7 @@ class VoiceAgentConsole {
   private managementEditorAction?: ManagementEditorAction;
   private pendingManagementAction?: () => Promise<void>;
   private microphoneSend = Promise.resolve();
+  private clientReferenceEcActive = false;
   private manuallyDisconnecting = false;
   private pendingToolOutput = false;
   private assistantText = "";
@@ -49,6 +50,7 @@ class VoiceAgentConsole {
   private readonly endpointInput = element<HTMLInputElement>("endpoint");
   private readonly agentSelect = element<HTMLSelectElement>("agentName");
   private readonly loadAgentsButton = element<HTMLButtonElement>("loadAgentsButton");
+  private readonly clientReferenceEc = element<HTMLInputElement>("clientReferenceEc");
   private readonly conversationIdInput = element<HTMLInputElement>("conversationId");
   private readonly conversationIdDisplay = element<HTMLElement>("conversationIdDisplay");
   private readonly fetchConversationButton = element<HTMLButtonElement>("fetchConversationButton");
@@ -108,6 +110,8 @@ class VoiceAgentConsole {
 
   public constructor() {
     this.endpointInput.value = import.meta.env["VITE_FOUNDRY_PROJECT_ENDPOINT"]?.trim() ?? "";
+    this.clientReferenceEc.checked =
+      import.meta.env["VITE_FOUNDRY_CLIENT_REFERENCE_EC"]?.trim().toLowerCase() === "true";
     this.resetAgentOptions();
     this.managementVersionsPanel.after(this.managementEditor);
     this.form.addEventListener("submit", (event) => {
@@ -202,8 +206,7 @@ class VoiceAgentConsole {
     window.addEventListener("beforeunload", () => {
       this.clearConversationAudio();
       void this.connection?.dispose();
-      void this.microphone.stop();
-      void this.player.dispose();
+      void this.microphone.stop().then(() => this.player.dispose());
     });
   }
 
@@ -720,6 +723,10 @@ class VoiceAgentConsole {
       const outputFormat = definition.audio?.output?.format;
       const outputIsPcm = outputFormat === undefined || outputFormat.type === "audio/pcm";
       const outputRate = outputFormat?.rate ?? 24_000;
+      this.clientReferenceEcActive = this.clientReferenceEc.checked;
+      if (this.clientReferenceEcActive && !outputIsPcm) {
+        throw new Error("Client-reference echo cancellation requires PCM agent audio output.");
+      }
       this.player.setSampleRate(outputRate);
       this.renderAgent(
         agent.name,
@@ -742,6 +749,17 @@ class VoiceAgentConsole {
         audio: {
           input: {
             format: { type: "audio/pcm", rate: 24_000 },
+            echo_cancellation: this.clientReferenceEcActive
+              ? {
+                  type: "server_echo_cancellation",
+                  reference_source: "client",
+                  channels: 2,
+                }
+              : {
+                  type: "server_echo_cancellation",
+                  reference_source: "server",
+                  channels: 1,
+                },
             turn_detection: {
               type: "server_vad",
               create_response: true,
@@ -763,6 +781,11 @@ class VoiceAgentConsole {
       this.setConnected(true);
       this.recordEvent("Agent verified over REST");
       this.recordEvent("Voice WebSocket connected");
+      this.recordEvent(
+        this.clientReferenceEcActive
+          ? "Client-reference echo cancellation enabled (stereo mic/reference)"
+          : "Server-reference echo cancellation enabled (mono mic)",
+      );
     } catch (error) {
       this.showError(error);
       await this.disconnect();
@@ -780,6 +803,7 @@ class VoiceAgentConsole {
     await this.player.dispose();
     const connection = this.connection;
     this.connection = undefined;
+    this.clientReferenceEcActive = false;
     if (connection) {
       try {
         await connection.dispose();
@@ -819,6 +843,9 @@ class VoiceAgentConsole {
     }
 
     try {
+      const reference = this.clientReferenceEcActive
+        ? await this.player.getReferenceSource()
+        : undefined;
       await this.microphone.start(
         (audio) => {
           const connection = this.connection;
@@ -832,6 +859,7 @@ class VoiceAgentConsole {
         (level) => {
           this.microphoneLevel.style.transform = `scaleX(${level})`;
         },
+        reference,
       );
       this.microphoneButton.textContent = "Stop microphone";
       this.microphoneButton.classList.add("active");
@@ -1143,6 +1171,7 @@ class VoiceAgentConsole {
     this.endpointInput.disabled = busy || connected;
     this.agentSelect.disabled = busy || connected || this.agentSelect.options.length <= 1;
     this.loadAgentsButton.disabled = busy || connected || !this.endpointInput.value.trim();
+    this.clientReferenceEc.disabled = busy || connected;
     this.conversationIdInput.disabled = busy || connected;
     this.fetchConversationButton.disabled =
       busy || connected || !this.agentSelect.value || !this.conversationIdInput.value.trim();
