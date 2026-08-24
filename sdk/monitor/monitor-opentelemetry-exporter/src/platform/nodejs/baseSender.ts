@@ -402,21 +402,25 @@ export abstract class BaseSender {
   private incrementStatsbeatFailure(): void {
     this.statsbeatFailureCount++;
     if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
-      this.shutdownStatsbeat();
+      this.shutdownInternalStatsbeat();
     }
+  }
+
+  private shutdownInternalStatsbeat(): void {
+    void this.statsbeatManager.shutdown().catch((error) => {
+      diag.warn("Failed to shut down internal Statsbeat metrics:", error);
+    });
+    this.statsbeatFailureCount = 0;
   }
 
   /**
    * Shutdown statsbeat metrics
    */
   private shutdownStatsbeat(): void {
-    void this.statsbeatManager.shutdown().catch((error) => {
-      diag.warn("Failed to shut down internal Statsbeat metrics:", error);
-    });
+    this.shutdownInternalStatsbeat();
     if (this.customerSDKStatsMetrics) {
       this.customerSDKStatsMetrics.shutdown();
     }
-    this.statsbeatFailureCount = 0;
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
