@@ -9,14 +9,15 @@ import { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "../../api/vo
 export interface VoiceAgentWebSocketOperations {
   /**
    * Connects to a voice agent over WebSocket. The client must send an HTTP GET with `Upgrade: websocket`
-   * headers. The optional `realtime` subprotocol is the only accepted subprotocol value.
+   * headers. The optional `realtime` subprotocol is the only accepted subprotocol value. Supply the
+   * `VoiceAgents=V1Preview` opt-in through either the `Foundry-Features` header or the `foundry_features`
+   * query parameter.
    *
    * If the target agent is disabled, the HTTP WebSocket handshake fails before the `101 Switching Protocols`
    * upgrade. The service returns `409 Conflict` using the shared Foundry `ApiErrorResponse` shape with
    * `error.code = agent_disabled`. This failure is terminal until the caller enables the agent.
    */
   connectVoiceAgent: (
-    foundryFeatures: "VoiceAgents=V1Preview",
     agentName: string,
     options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams,
   ) => Promise<void>;
@@ -25,10 +26,9 @@ export interface VoiceAgentWebSocketOperations {
 function _getVoiceAgentWebSocket(context: AIProjectContext) {
   return {
     connectVoiceAgent: (
-      foundryFeatures: "VoiceAgents=V1Preview",
       agentName: string,
       options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams,
-    ) => connectVoiceAgent(context, foundryFeatures, agentName, options),
+    ) => connectVoiceAgent(context, agentName, options),
   };
 }
 
