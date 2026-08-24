@@ -73,11 +73,19 @@ describe("knowledge retrieval stream HTTP transport", () => {
       request,
       status: 404,
       headers: request.headers,
-      bodyAsText: JSON.stringify({ error: { code: "NotFound" } }),
+      readableStreamBody: Readable.from([
+        Buffer.from(
+          JSON.stringify({ error: { code: "NotFound", message: "Knowledge base not found" } }),
+        ),
+      ]),
     }));
 
     await expect(
       client.retrieveStream({ intents: [{ type: "semantic", search: "status" }] }),
-    ).rejects.toMatchObject({ statusCode: 404 });
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      code: "NotFound",
+      message: "Knowledge base not found",
+    });
   });
 });

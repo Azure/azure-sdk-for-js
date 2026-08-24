@@ -5,6 +5,7 @@ import type { StreamableMethod } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
 import type { EventMessage } from "@azure/core-sse";
 import { createSseStream } from "@azure/core-sse";
+import { Buffer } from "node:buffer";
 import type { IncomingMessage } from "node:http";
 
 /**
@@ -16,7 +17,26 @@ export async function getSseStream(
 ): Promise<AsyncIterable<EventMessage>> {
   const response = await streamableMethod.asNodeStream();
 
-  if (response.status !== "200" || !response.body) {
+  if (response.status !== "200") {
+    if (!response.body) {
+      throw createRestError(response);
+    }
+
+    const chunks: Buffer[] = [];
+    for await (const chunk of response.body) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    const body = Buffer.concat(chunks).toString("utf8");
+    let parsedError: unknown;
+    try {
+      parsedError = JSON.parse(body);
+    } catch {
+      throw createRestError(body, { ...response, body });
+    }
+    throw createRestError({ ...response, body: parsedError });
+  }
+
+  if (!response.body) {
     throw createRestError(response);
   }
 

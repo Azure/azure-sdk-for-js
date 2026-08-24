@@ -254,51 +254,49 @@ export async function* deserializeRetrievalStream(
       continue;
     }
 
-    const data = JSON.parse(event.data);
-
     switch (event.event) {
       case "retrieval.started":
         yield {
           event: "retrieval.started",
-          data: knowledgeBaseRetrievalStartedEventDeserializer(data),
+          data: knowledgeBaseRetrievalStartedEventDeserializer(JSON.parse(event.data)),
         };
         break;
       case "activity.started":
         yield {
           event: "activity.started",
-          data: knowledgeBaseActivityStartedEventDeserializer(data),
+          data: knowledgeBaseActivityStartedEventDeserializer(JSON.parse(event.data)),
         };
         break;
       case "activity.completed":
         yield {
           event: "activity.completed",
-          data: knowledgeBaseActivityRecordUnionDeserializer(data),
+          data: knowledgeBaseActivityRecordUnionDeserializer(JSON.parse(event.data)),
         };
         break;
       case "answer.completed":
         yield {
           event: "answer.completed",
-          data: knowledgeBaseAnswerCompletedEventDeserializer(data),
+          data: knowledgeBaseAnswerCompletedEventDeserializer(JSON.parse(event.data)),
         };
         break;
       case "references.completed":
         yield {
           event: "references.completed",
-          data: knowledgeBaseReferenceUnionArrayDeserializer(data),
+          data: knowledgeBaseReferenceUnionArrayDeserializer(JSON.parse(event.data)),
         };
         break;
       case "error":
         yield {
           event: "error",
-          data: knowledgeBaseStreamErrorEventDeserializer(data),
+          data: knowledgeBaseStreamErrorEventDeserializer(JSON.parse(event.data)),
         };
-        break;
+        return;
       case "response.completed":
         yield {
           event: "response.completed",
-          data: knowledgeBaseResponseCompletedEventDeserializer(data),
+          data: knowledgeBaseResponseCompletedEventDeserializer(JSON.parse(event.data)),
         };
-        break;
+        return;
       default:
         logger.warning(`Received unknown knowledge retrieval stream event "${event.event}"`);
         break;

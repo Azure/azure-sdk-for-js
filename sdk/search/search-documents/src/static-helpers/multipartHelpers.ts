@@ -14,7 +14,7 @@ export function createFilePartDescriptor(
   fileInput: any,
   defaultContentType?: string,
 ): any {
-  if (fileInput.contents) {
+  if (fileInput != null && typeof fileInput === "object" && "contents" in fileInput) {
     return {
       name: partName,
       body: fileInput.contents,

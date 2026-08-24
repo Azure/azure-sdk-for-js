@@ -128,34 +128,56 @@ describe("knowledge retrieval stream", () => {
     assert.equal(events[1].event === "references.completed" ? events[1].data.length : 0, 1);
   });
 
-  it("deserializes terminal response and error events", async () => {
-    const events = await collect([
-      {
+  it.each([
+    {
+      name: "response.completed",
+      terminalEvent: {
         event: "response.completed",
         data: JSON.stringify({
           statusCode: 206,
           response: { response: [{ role: "assistant", content: [] }] },
         }),
       },
-      {
+    },
+    {
+      name: "error",
+      terminalEvent: {
         event: "error",
         data: JSON.stringify({ error: { code: "Failed", message: "retrieval failed" } }),
       },
-    ]);
+    },
+  ])("stops and closes the source after $name", async ({ terminalEvent }) => {
+    let sourceClosed = false;
+    let eventAfterTerminalRead = false;
 
-    assert.equal(events[0].event, "response.completed");
-    assert.equal(events[0].event === "response.completed" ? events[0].data.statusCode : 0, 206);
-    assert.equal(events[1].event, "error");
-    assert.equal(
-      events[1].event === "error" ? events[1].data.error.message : undefined,
-      "retrieval failed",
-    );
+    async function* source(): AsyncIterable<{ event: string; data: string }> {
+      try {
+        yield terminalEvent;
+        eventAfterTerminalRead = true;
+        yield {
+          event: "retrieval.started",
+          data: JSON.stringify({ requestId: "unexpected" }),
+        };
+      } finally {
+        sourceClosed = true;
+      }
+    }
+
+    const events: KnowledgeBaseRetrievalStreamEvent[] = [];
+    for await (const event of deserializeRetrievalStream(source())) {
+      events.push(event);
+    }
+
+    assert.equal(events.length, 1);
+    assert.equal(events[0].event, terminalEvent.event);
+    assert.isFalse(eventAfterTerminalRead);
+    assert.isTrue(sourceClosed);
   });
 
   it("skips empty payloads and ignores unknown events", async () => {
     const events = await collect([
       { event: "end", data: "" },
-      { event: "some.future.event", data: "{}" },
+      { event: "some.future.event", data: "not-json" },
     ]);
     assert.isEmpty(events);
   });
