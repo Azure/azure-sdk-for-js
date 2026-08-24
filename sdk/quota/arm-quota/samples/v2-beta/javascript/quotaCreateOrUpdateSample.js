@@ -18,8 +18,8 @@ async function quotasPutRequestForCompute() {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     "standardFSv2Family",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus",
     {
       properties: {
         name: { value: "standardFSv2Family" },
@@ -44,8 +44,8 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource() {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus",
     "TotalLowPriorityCores",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus",
     {
       properties: {
         name: { value: "TotalLowPriorityCores" },
@@ -71,8 +71,8 @@ async function quotasPutRequestForNetwork() {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     "MinPublicIpInterNetworkPrefixLength",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     {
       properties: {
         name: { value: "MinPublicIpInterNetworkPrefixLength" },
@@ -98,8 +98,8 @@ async function quotasPutRequestForNetworkStandardSkuPublicIpAddressesResource() 
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.createOrUpdate(
-    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     "StandardSkuPublicIpAddresses",
+    "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
     {
       properties: {
         name: { value: "StandardSkuPublicIpAddresses" },
