@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Added support for normalizing package-local `customHeaders` aliases. [#39593](https://github.com/Azure/azure-sdk-for-js/issues/39593)
+
 ### Other Changes
 
 ## 2.8.0 (2026-07-13)
