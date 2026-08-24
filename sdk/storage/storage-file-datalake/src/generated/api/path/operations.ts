@@ -1026,7 +1026,7 @@ export function _deletePathSend(
 }
 
 export async function _deletePathDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
