@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const client = new DeviceRegistrySoftwareUpdateClient(
-      "<endpoint>",
+      "<endpoint-hostname>",
       new DefaultAzureCredential(),
     );
   });
@@ -19,7 +19,18 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new DeviceRegistrySoftwareUpdateClient("<endpoint>", credential);
+    const client = new DeviceRegistrySoftwareUpdateClient("<endpoint-hostname>", credential);
+  });
+
+  it("ReadmeSampleListProviders", async () => {
+    const client = new DeviceRegistrySoftwareUpdateClient(
+      "<endpoint-hostname>",
+      new DefaultAzureCredential(),
+    );
+
+    for await (const provider of client.softwareUpdate.listProviders()) {
+      console.log(provider);
+    }
   });
 
   it("SetLogLevel", async () => {

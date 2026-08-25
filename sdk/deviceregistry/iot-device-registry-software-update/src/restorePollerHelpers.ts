@@ -16,6 +16,7 @@ import {
   ResourceLocationConfig,
 } from "@azure/core-lro";
 
+/** Options used when restoring a long-running operation poller from serialized state. */
 export interface RestorePollerOptions<
   TResult,
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,

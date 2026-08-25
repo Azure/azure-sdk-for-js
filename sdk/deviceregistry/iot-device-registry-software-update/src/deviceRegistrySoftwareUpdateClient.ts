@@ -19,6 +19,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DeviceRegistrySoftwareUpdateClientOptionalParams } from "./api/deviceRegistrySoftwareUpdateContext.js";
 
+/** Client for managing software updates and device classes in Software Update for Device Registry. */
 export class DeviceRegistrySoftwareUpdateClient {
   private _client: DeviceRegistrySoftwareUpdateContext;
   /** The pipeline used by this client to make requests */

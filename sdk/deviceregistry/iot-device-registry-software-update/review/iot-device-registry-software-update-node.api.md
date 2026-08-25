@@ -63,7 +63,7 @@ export interface DeviceClassProperties {
     compatProperties: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export class DeviceRegistrySoftwareUpdateClient {
     constructor(endpointParam: string, credential: TokenCredential, options?: DeviceRegistrySoftwareUpdateClientOptionalParams);
     readonly deviceClasses: DeviceClassesOperations;
@@ -134,7 +134,7 @@ export { RestError }
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistrySoftwareUpdateClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
-// @public (undocumented)
+// @public
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
