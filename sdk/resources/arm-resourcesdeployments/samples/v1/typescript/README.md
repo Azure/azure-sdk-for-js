@@ -1,4 +1,4 @@
-# @azure/arm-resourcesdeployments client library samples for TypeScript (Beta)
+# @azure/arm-resourcesdeployments client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-resourcesdeployments in some common scenarios.
 
@@ -70,22 +70,22 @@ node dist/deploymentsCalculateTemplateHashSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deploymentscalculatetemplatehashsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCalculateTemplateHashSample.ts
-[deploymentscreateorupdateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCreateOrUpdateAtManagementGroupScopeSample.ts
-[deploymentscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCreateOrUpdateAtScopeSample.ts
-[deploymentscreateorupdateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCreateOrUpdateAtSubscriptionScopeSample.ts
-[deploymentscreateorupdateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCreateOrUpdateAtTenantScopeSample.ts
-[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsCreateOrUpdateSample.ts
-[deploymentsvalidateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsValidateAtManagementGroupScopeSample.ts
-[deploymentsvalidateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsValidateAtScopeSample.ts
-[deploymentsvalidateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsValidateAtSubscriptionScopeSample.ts
-[deploymentsvalidateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsValidateAtTenantScopeSample.ts
-[deploymentsvalidatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsValidateSample.ts
-[deploymentswhatifatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsWhatIfAtManagementGroupScopeSample.ts
-[deploymentswhatifatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsWhatIfAtSubscriptionScopeSample.ts
-[deploymentswhatifattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsWhatIfAtTenantScopeSample.ts
-[deploymentswhatifsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1-beta/typescript/src/deploymentsWhatIfSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeployments?view=azure-node-preview
+[deploymentscalculatetemplatehashsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCalculateTemplateHashSample.ts
+[deploymentscreateorupdateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCreateOrUpdateAtManagementGroupScopeSample.ts
+[deploymentscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCreateOrUpdateAtScopeSample.ts
+[deploymentscreateorupdateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCreateOrUpdateAtSubscriptionScopeSample.ts
+[deploymentscreateorupdateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCreateOrUpdateAtTenantScopeSample.ts
+[deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsCreateOrUpdateSample.ts
+[deploymentsvalidateatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsValidateAtManagementGroupScopeSample.ts
+[deploymentsvalidateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsValidateAtScopeSample.ts
+[deploymentsvalidateatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsValidateAtSubscriptionScopeSample.ts
+[deploymentsvalidateattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsValidateAtTenantScopeSample.ts
+[deploymentsvalidatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsValidateSample.ts
+[deploymentswhatifatmanagementgroupscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsWhatIfAtManagementGroupScopeSample.ts
+[deploymentswhatifatsubscriptionscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsWhatIfAtSubscriptionScopeSample.ts
+[deploymentswhatifattenantscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsWhatIfAtTenantScopeSample.ts
+[deploymentswhatifsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resourcesdeployments/samples/v1/typescript/src/deploymentsWhatIfSample.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeployments
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resourcesdeployments/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

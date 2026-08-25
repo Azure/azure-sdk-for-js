@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** Deployment information. */
 export interface DeploymentExtended extends ExtensionResource {
   /** Deployment properties. */
@@ -458,6 +459,7 @@ export enum KnownAliasPathAttributes {
  * **Modifiable**: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
  */
 export type AliasPathAttributes = string;
+
 /** The type of the alias. */
 export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 
