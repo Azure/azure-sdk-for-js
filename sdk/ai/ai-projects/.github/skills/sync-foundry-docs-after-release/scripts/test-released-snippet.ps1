@@ -29,6 +29,21 @@ if ($nodeMajor -lt 22) {
   throw "Node.js 22 or later is required; found $nodeVersion."
 }
 
+$packageDependenciesJson = & $npmCommand.Source view `
+  "@azure/ai-projects@$Version" dependencies --json `
+  --registry=https://packagefeedproxy.microsoft.io/npm/
+if ($LASTEXITCODE -ne 0) {
+  throw "Package metadata lookup failed with exit code $LASTEXITCODE."
+}
+$packageDependencies = (
+  $packageDependenciesJson -join [Environment]::NewLine
+) | ConvertFrom-Json -AsHashtable
+foreach ($dependencyName in @('@azure/identity', 'openai')) {
+  if (-not $packageDependencies.ContainsKey($dependencyName)) {
+    throw "@azure/ai-projects@$Version does not declare a $dependencyName dependency."
+  }
+}
+
 $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) (
   'ai-projects-doc-snippet-' + [guid]::NewGuid().ToString('N')
 )
@@ -46,9 +61,9 @@ try {
     type = 'module'
     dependencies = [ordered]@{
       '@azure/ai-projects' = $Version
-      '@azure/identity' = 'latest'
+      '@azure/identity' = $packageDependencies['@azure/identity']
       dotenv = 'latest'
-      openai = 'latest'
+      openai = $packageDependencies['openai']
     }
     devDependencies = [ordered]@{
       '@types/node' = 'latest'

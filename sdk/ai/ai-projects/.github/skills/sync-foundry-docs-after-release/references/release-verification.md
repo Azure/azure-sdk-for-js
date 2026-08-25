@@ -11,15 +11,16 @@ If npm exits nonzero or reports inability to reach npm/its registry (`EAI_AGAIN`
 `ENETUNREACH`, `ECONNRESET`, or `ETIMEDOUT`), retry only through:
 
 ```powershell
-npm view '@azure/ai-projects@latest' version `
+$latest = npm view '@azure/ai-projects@latest' version `
   --registry=https://packagefeedproxy.microsoft.io/npm/
 ```
 
-Use the resolved version unless the user explicitly requests a historical
-backfill. Otherwise stop when a supplied version differs from npm `latest`.
-Require stable semver, then set:
+If no version was supplied, set `$version = $latest`. For a historical
+backfill, keep the explicitly supplied version; otherwise stop when a supplied
+version differs from npm `latest`. Require stable semver, then set:
 
 ```powershell
+if (-not $version) { $version = $latest }
 $releaseTag = "@azure/ai-projects_$version"
 git rev-parse "refs/tags/$releaseTag"
 git show "${releaseTag}:sdk/ai/ai-projects/package.json"
