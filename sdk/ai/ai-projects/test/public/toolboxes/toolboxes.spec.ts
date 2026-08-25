@@ -113,4 +113,22 @@ describe("toolboxes - basic operations", () => {
     await projectsClient.toolboxes.delete(toolboxName);
     console.log(`Deleted toolbox: ${toolboxName}`);
   });
+
+  // TODO(A2AToolboxTool): unskip after recording added.
+  it.skip("should create a toolbox version holding a GA A2A tool", async function () {
+    const a2aTool: ToolboxToolUnion = {
+      type: "a2a",
+      base_url: "https://contoso.example.com/agents/support",
+      a2a_version: "1.0",
+    };
+
+    const version = await projectsClient.toolboxes.createVersion(toolboxName, [a2aTool], {
+      description: "Test toolbox with an A2A tool",
+    });
+    assert.equal(version.name, toolboxName);
+    assert.isTrue(version.tools.some((tool) => tool.type === "a2a"));
+
+    // Clean up
+    await projectsClient.toolboxes.delete(toolboxName);
+  });
 });
