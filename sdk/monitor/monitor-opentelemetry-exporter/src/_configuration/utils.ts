@@ -10,7 +10,10 @@ import {
   proxyPolicy,
 } from "@azure/core-rest-pipeline";
 import { diag } from "@opentelemetry/api";
-import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Constants.js";
+import {
+  ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS,
+  ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS,
+} from "../Declarations/Constants.js";
 
 /** Request timeout, in milliseconds, for a single OneSettings HTTP call. */
 const ONE_SETTINGS_REQUEST_TIMEOUT_MS = 10000;
@@ -65,6 +68,7 @@ export interface OneSettingsResponse {
  * @param url - The OneSettings endpoint URL.
  * @param query - Query parameters to append to the URL.
  * @param headers - HTTP headers to send, e.g. `If-None-Match` for ETag-based change detection.
+ * @param abortSignal - Signal used to cancel an active request during shutdown.
  * @returns A parsed {@link OneSettingsResponse}.
  * @internal
  */
@@ -72,6 +76,7 @@ export async function makeOneSettingsRequest(
   url: string,
   query: Record<string, string> = {},
   headers: Record<string, string> = {},
+  abortSignal?: AbortSignal,
 ): Promise<OneSettingsResponse> {
   try {
     const request = createPipelineRequest({
@@ -79,6 +84,7 @@ export async function makeOneSettingsRequest(
       method: "GET",
       headers: createHttpHeaders(headers),
       timeout: ONE_SETTINGS_REQUEST_TIMEOUT_MS,
+      abortSignal,
     });
     const { pipeline, httpClient } = getOneSettingsSender();
     const response = await pipeline.sendRequest(httpClient, request);
@@ -123,7 +129,7 @@ function parseOneSettingsResponse(response: PipelineResponse): OneSettingsRespon
     // convert to milliseconds. Reject anything else (non-integer, zero, negative, non-numeric).
     const minutes = Number(refreshIntervalHeader);
     if (Number.isInteger(minutes) && minutes > 0) {
-      refreshIntervalMs = minutes * 60 * 1000;
+      refreshIntervalMs = Math.min(minutes * 60 * 1000, ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS);
     } else {
       diag.debug(`Invalid OneSettings refresh interval header: ${refreshIntervalHeader}`);
     }

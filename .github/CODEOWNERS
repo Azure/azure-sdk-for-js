@@ -575,7 +575,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

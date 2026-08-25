@@ -119,6 +119,7 @@ export class HttpSender extends BaseSender {
    */
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
+    await super.shutdown();
   }
 
   /**
@@ -145,11 +146,11 @@ export class HttpSender extends BaseSender {
       return false;
     }
 
-    let currentHost = "";
+    let currentHost: string;
     try {
       currentHost = new url.URL(this.appInsightsClientOptions.host ?? "").host;
     } catch {
-      currentHost = "";
+      return false;
     }
 
     if (!isSameRegisteredDomain(currentHost, locUrl.host)) {
