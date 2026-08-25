@@ -88,14 +88,13 @@ To use this client library in the browser, first you need to use a bundler. For 
 ### List software update providers
 
 ```ts snippet:ReadmeSampleListProviders
-import { DefaultAzureCredential } from "@azure/identity";
 import { DeviceRegistrySoftwareUpdateClient } from "@azure/iot-device-registry-software-update";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new DeviceRegistrySoftwareUpdateClient(
   "<endpoint-hostname>",
   new DefaultAzureCredential(),
 );
-
 for await (const provider of client.softwareUpdate.listProviders()) {
   console.log(provider);
 }
