@@ -4226,6 +4226,7 @@ export class BlockBlobClient extends BlobClient {
               sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
               sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
               sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+              sourceIfTags: options.sourceConditions?.tagConditions,
               ifTags: options.conditions?.tagConditions,
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
