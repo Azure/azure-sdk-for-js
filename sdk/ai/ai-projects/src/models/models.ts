@@ -267,6 +267,8 @@ export interface HostedAgentDefinition extends AgentDefinition {
   code_configuration?: CodeConfiguration;
   /** Optional customer-supplied telemetry configuration for exporting container logs, traces, and metrics. */
   telemetry_config?: TelemetryConfig;
+  /** Optional session defaults (for example, the idle timeout) applied to sessions created for this agent version. */
+  session_configuration?: SessionConfiguration;
 }
 
 export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): any {
@@ -288,6 +290,9 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
     telemetry_config: !item["telemetry_config"]
       ? item["telemetry_config"]
       : telemetryConfigSerializer(item["telemetry_config"]),
+    session_configuration: !item["session_configuration"]
+      ? item["session_configuration"]
+      : sessionConfigurationSerializer(item["session_configuration"]),
   };
 }
 
@@ -312,6 +317,9 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     telemetry_config: !item["telemetry_config"]
       ? item["telemetry_config"]
       : telemetryConfigDeserializer(item["telemetry_config"]),
+    session_configuration: !item["session_configuration"]
+      ? item["session_configuration"]
+      : sessionConfigurationDeserializer(item["session_configuration"]),
   };
 }
 
@@ -355,8 +363,10 @@ export type ToolUnion =
   | AzureFunctionTool
   | CaptureStructuredOutputsTool
   | A2APreviewTool
+  | A2ATool
   | WorkIQPreviewTool
   | FabricIQPreviewTool
+  | WebIQPreviewTool
   | MemorySearchPreviewTool
   | CodeInterpreterTool
   | FileSearchTool
@@ -408,11 +418,17 @@ export function toolUnionSerializer(item: ToolUnion): any {
     case "a2a_preview":
       return a2APreviewToolSerializer(item as A2APreviewTool);
 
+    case "a2a":
+      return a2AToolSerializer(item as A2ATool);
+
     case "work_iq_preview":
       return workIQPreviewToolSerializer(item as WorkIQPreviewTool);
 
     case "fabric_iq_preview":
       return fabricIQPreviewToolSerializer(item as FabricIQPreviewTool);
+
+    case "web_iq_preview":
+      return webIQPreviewToolSerializer(item as WebIQPreviewTool);
 
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
@@ -502,11 +518,17 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "a2a_preview":
       return a2APreviewToolDeserializer(item as A2APreviewTool);
 
+    case "a2a":
+      return a2AToolDeserializer(item as A2ATool);
+
     case "work_iq_preview":
       return workIQPreviewToolDeserializer(item as WorkIQPreviewTool);
 
     case "fabric_iq_preview":
       return fabricIQPreviewToolDeserializer(item as FabricIQPreviewTool);
+
+    case "web_iq_preview":
+      return webIQPreviewToolDeserializer(item as WebIQPreviewTool);
 
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
@@ -591,6 +613,8 @@ export type ToolType =
   | "work_iq_preview"
   | "fabric_iq_preview"
   | "toolbox_search_preview"
+  | "web_iq_preview"
+  | "a2a"
   | "azure_ai_search"
   | "azure_function"
   | "bing_grounding"
@@ -1701,6 +1725,57 @@ export function a2APreviewToolDeserializer(item: any): A2APreviewTool {
   };
 }
 
+/** An agent implementing the A2A protocol. */
+export interface A2ATool extends Tool {
+  /** The type of the tool. Always `"a2a"`. */
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolSerializer(item: A2ATool): any {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+export function a2AToolDeserializer(item: any): A2ATool {
+  return {
+    type: item["type"],
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** Supported A2A protocol versions. */
+export type A2AProtocolVersion = "1.0";
+
 /** A WorkIQ server-side tool. */
 export interface WorkIQPreviewTool extends Tool {
   /** The object type, which is always 'work_iq_preview'. */
@@ -1828,6 +1903,55 @@ export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
         }),
     read_only: item["read_only"],
   };
+}
+
+/** A WebIQ server-side tool. */
+export interface WebIQPreviewTool extends Tool {
+  /** The object type, which is always 'web_iq_preview'. */
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolSerializer(item: WebIQPreviewTool): any {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+export function webIQPreviewToolDeserializer(item: any): WebIQPreviewTool {
+  return {
+    type: item["type"],
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
+  };
+}
+
+/** Alias for _WebIQPreviewToolRequireApproval */
+export type _WebIQPreviewToolRequireApproval = MCPToolRequireApproval | string;
+
+export function _webIQPreviewToolRequireApprovalSerializer(
+  item: _WebIQPreviewToolRequireApproval,
+): any {
+  return item;
+}
+
+export function _webIQPreviewToolRequireApprovalDeserializer(
+  item: any,
+): _WebIQPreviewToolRequireApproval {
+  return item;
 }
 
 /** A tool for integrating memories into the agent. */
@@ -4042,6 +4166,26 @@ export function otlpTelemetryEndpointDeserializer(item: any): OtlpTelemetryEndpo
 
 /** The transport protocol for telemetry export. */
 export type TelemetryTransportProtocol = "Http" | "Grpc";
+
+/** Session defaults applied to sessions created for a hosted agent version. */
+export interface SessionConfiguration {
+  /**
+   * The idle duration, in seconds, before a session's sandbox is suspended. Optional — when
+   * unset, the server default of 900 seconds is used. Must be between 300 and 3600 seconds
+   * (inclusive).
+   */
+  idle_timeout_seconds?: number;
+}
+
+export function sessionConfigurationSerializer(item: SessionConfiguration): any {
+  return { idle_timeout_seconds: item["idle_timeout_seconds"] };
+}
+
+export function sessionConfigurationDeserializer(item: any): SessionConfiguration {
+  return {
+    idle_timeout_seconds: item["idle_timeout_seconds"],
+  };
+}
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
@@ -7025,7 +7169,7 @@ export function toolboxToolUnionArrayDeserializer(result: Array<ToolboxToolUnion
 /** An abstract representation of a tool stored in a toolbox. */
 export interface ToolboxTool {
   /** The type of tool. */
-  /** The discriminator possible values: code_interpreter, file_search, web_search, mcp, azure_ai_search, openapi, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, toolbox_search_preview, toolbox_search */
+  /** The discriminator possible values: code_interpreter, file_search, web_search, mcp, azure_ai_search, openapi, a2a, a2a_preview, browser_automation_preview, reminder_preview, work_iq_preview, fabric_iq_preview, web_iq_preview, toolbox_search_preview, toolbox_search */
   type: ToolboxToolType;
   /** Optional user-defined name for this tool or configuration. */
   name?: string;
@@ -7069,11 +7213,13 @@ export type ToolboxToolUnion =
   | MCPToolboxTool
   | AzureAISearchToolboxTool
   | OpenApiToolboxTool
+  | A2AToolboxTool
   | A2APreviewToolboxTool
   | BrowserAutomationPreviewToolboxTool
   | ReminderPreviewToolboxTool
   | WorkIQPreviewToolboxTool
   | FabricIQPreviewToolboxTool
+  | WebIQPreviewToolboxTool
   | ToolboxSearchPreviewToolboxTool
   | ToolSearchToolboxTool
   | ToolboxTool;
@@ -7098,6 +7244,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
     case "openapi":
       return openApiToolboxToolSerializer(item as OpenApiToolboxTool);
 
+    case "a2a":
+      return a2AToolboxToolSerializer(item as A2AToolboxTool);
+
     case "a2a_preview":
       return a2APreviewToolboxToolSerializer(item as A2APreviewToolboxTool);
 
@@ -7114,6 +7263,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
 
     case "fabric_iq_preview":
       return fabricIQPreviewToolboxToolSerializer(item as FabricIQPreviewToolboxTool);
+
+    case "web_iq_preview":
+      return webIQPreviewToolboxToolSerializer(item as WebIQPreviewToolboxTool);
 
     case "toolbox_search_preview":
       return toolboxSearchPreviewToolboxToolSerializer(item as ToolboxSearchPreviewToolboxTool);
@@ -7146,6 +7298,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
     case "openapi":
       return openApiToolboxToolDeserializer(item as OpenApiToolboxTool);
 
+    case "a2a":
+      return a2AToolboxToolDeserializer(item as A2AToolboxTool);
+
     case "a2a_preview":
       return a2APreviewToolboxToolDeserializer(item as A2APreviewToolboxTool);
 
@@ -7162,6 +7317,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
 
     case "fabric_iq_preview":
       return fabricIQPreviewToolboxToolDeserializer(item as FabricIQPreviewToolboxTool);
+
+    case "web_iq_preview":
+      return webIQPreviewToolboxToolDeserializer(item as WebIQPreviewToolboxTool);
 
     case "toolbox_search_preview":
       return toolboxSearchPreviewToolboxToolDeserializer(item as ToolboxSearchPreviewToolboxTool);
@@ -7188,7 +7346,9 @@ export type ToolboxToolType =
   | "work_iq_preview"
   | "fabric_iq_preview"
   | "toolbox_search"
-  | "toolbox_search_preview";
+  | "toolbox_search_preview"
+  | "web_iq_preview"
+  | "a2a";
 
 /** A code interpreter tool stored in a toolbox. */
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
@@ -7532,6 +7692,63 @@ export function openApiToolboxToolDeserializer(item: any): OpenApiToolboxTool {
 }
 
 /** An A2A tool stored in a toolbox. */
+export interface A2AToolboxTool extends ToolboxTool {
+  type: "a2a";
+  /** Base URL of the agent. */
+  base_url?: string;
+  /**
+   * The path to the agent card relative to the `base_url`.
+   * If not provided, defaults to  `/.well-known/agent-card.json`
+   */
+  agent_card_path?: string;
+  /**
+   * The connection ID in the project for the A2A server.
+   * The connection stores authentication and other connection details needed to connect to the A2A server.
+   */
+  project_connection_id?: string;
+  /**
+   * When `true`, Foundry sends its credentials when fetching the remote
+   * agent's Agent Card. The service defaults to `false` if a value is not
+   * specified by the caller (anonymous fetch).
+   */
+  send_credentials_for_agent_card?: boolean;
+  /** The A2A protocol version supported by the agent. */
+  a2a_version: A2AProtocolVersion;
+}
+
+export function a2AToolboxToolSerializer(item: A2AToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+export function a2AToolboxToolDeserializer(item: any): A2AToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    base_url: item["base_url"],
+    agent_card_path: item["agent_card_path"],
+    project_connection_id: item["project_connection_id"],
+    send_credentials_for_agent_card: item["send_credentials_for_agent_card"],
+    a2a_version: item["a2a_version"],
+  };
+}
+
+/** An A2A tool stored in a toolbox. */
 export interface A2APreviewToolboxTool extends ToolboxTool {
   type: "a2a_preview";
   /** Base URL of the agent. */
@@ -7725,6 +7942,49 @@ export function fabricIQPreviewToolboxToolDeserializer(item: any): FabricIQPrevi
     require_approval: !item["require_approval"]
       ? item["require_approval"]
       : _fabricIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
+  };
+}
+
+/** A WebIQ tool stored in a toolbox. */
+export interface WebIQPreviewToolboxTool extends ToolboxTool {
+  type: "web_iq_preview";
+  /** The ID of the WebIQ project connection. */
+  project_connection_id: string;
+  /** The label of the WebIQ MCP server to connect to. When omitted, the service defaults to connection name extracted from project_connection_id. */
+  server_label?: string;
+  /** Whether the agent requires approval before executing actions. When omitted, the service defaults to "always". */
+  require_approval?: MCPToolRequireApproval | string;
+}
+
+export function webIQPreviewToolboxToolSerializer(item: WebIQPreviewToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalSerializer(item["require_approval"]),
+  };
+}
+
+export function webIQPreviewToolboxToolDeserializer(item: any): WebIQPreviewToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    project_connection_id: item["project_connection_id"],
+    server_label: item["server_label"],
+    require_approval: !item["require_approval"]
+      ? item["require_approval"]
+      : _webIQPreviewToolRequireApprovalDeserializer(item["require_approval"]),
   };
 }
 
