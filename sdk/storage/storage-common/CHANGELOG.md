@@ -1,8 +1,10 @@
 # Release History
 
-## 12.5.1 (Unreleased)
+## 12.6.0 (Unreleased)
 
 ### Features Added
+
+- add `buildStorageSharedKeyStringToSign` and `prepareSharedKeyHeaders`, which expose the Shared Key request signing steps for use by other Azure Storage client libraries
 
 ### Breaking Changes
 
