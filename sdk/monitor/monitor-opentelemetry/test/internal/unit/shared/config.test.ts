@@ -452,7 +452,15 @@ describe("OpenTelemetry Resource", () => {
 
   it("Azure VM resource attributes", async () => {
     vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
-    const config = new InternalConfig();
+    const originalEnv = process.env;
+    process.env = {};
+    const config = (() => {
+      try {
+        return new InternalConfig();
+      } finally {
+        process.env = originalEnv;
+      }
+    })();
     assert.isDefined(config);
 
     await vi.waitFor(() => {
