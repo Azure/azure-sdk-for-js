@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for exporting availability telemetry from OpenTelemetry log records with `microsoft.availability.*` attributes.
+
 ### Breaking Changes
 
 ### Bugs Fixed
