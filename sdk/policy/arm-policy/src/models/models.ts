@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+
 /** The policy assignment. */
 export interface PolicyAssignment extends ExtensionResource {
   /** The location of the policy assignment. Only required when utilizing managed identity. */
@@ -48,6 +48,8 @@ export interface PolicyAssignment extends ExtensionResource {
   assignmentType?: AssignmentType;
   /** The instance ID of the policy assignment. This ID only and always changes when the assignment is deleted and recreated. */
   readonly instanceId?: string;
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentSerializer(item: PolicyAssignment): any {
@@ -65,6 +67,7 @@ export function policyAssignmentSerializer(item: PolicyAssignment): any {
       "resourceSelectors",
       "overrides",
       "assignmentType",
+      "selfServeExemptionSettings",
     ])
       ? undefined
       : _policyAssignmentPropertiesSerializer(item),
@@ -123,6 +126,8 @@ export interface PolicyAssignmentProperties {
   assignmentType?: AssignmentType;
   /** The instance ID of the policy assignment. This ID only and always changes when the assignment is deleted and recreated. */
   readonly instanceId?: string;
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentPropertiesSerializer(item: PolicyAssignmentProperties): any {
@@ -149,6 +154,9 @@ export function policyAssignmentPropertiesSerializer(item: PolicyAssignmentPrope
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
     assignmentType: item["assignmentType"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -182,6 +190,9 @@ export function policyAssignmentPropertiesDeserializer(item: any): PolicyAssignm
       : overrideArrayDeserializer(item["overrides"]),
     assignmentType: item["assignmentType"],
     instanceId: item["instanceId"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsDeserializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -376,6 +387,10 @@ export enum KnownSelectorKind {
   ResourceWithoutLocation = "resourceWithoutLocation",
   /** The selector kind to filter policies by the policy definition reference ID. */
   PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
+  /** The selector kind to filter policies by the user principal ID. */
+  UserPrincipalId = "userPrincipalId",
+  /** The selector kind to filter policies by the security group membership ID. */
+  GroupPrincipalId = "groupPrincipalId",
 }
 
 /**
@@ -386,7 +401,9 @@ export enum KnownSelectorKind {
  * **resourceLocation**: The selector kind to filter policies by the resource location. \
  * **resourceType**: The selector kind to filter policies by the resource type. \
  * **resourceWithoutLocation**: The selector kind to filter policies by the resource without location. \
- * **policyDefinitionReferenceId**: The selector kind to filter policies by the policy definition reference ID.
+ * **policyDefinitionReferenceId**: The selector kind to filter policies by the policy definition reference ID. \
+ * **userPrincipalId**: The selector kind to filter policies by the user principal ID. \
+ * **groupPrincipalId**: The selector kind to filter policies by the security group membership ID.
  */
 export type SelectorKind = string;
 
@@ -472,6 +489,36 @@ export enum KnownAssignmentType {
  */
 export type AssignmentType = string;
 
+/** The self-serve exemption settings for a policy assignment. */
+export interface SelfServeExemptionSettings {
+  /** Indicates whether self-serve exemption is enabled. */
+  enabled?: boolean;
+  /** The policy definition reference IDs for self-serve exemption. */
+  policyDefinitionReferenceIds?: string[];
+}
+
+export function selfServeExemptionSettingsSerializer(item: SelfServeExemptionSettings): any {
+  return {
+    enabled: item["enabled"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function selfServeExemptionSettingsDeserializer(item: any): SelfServeExemptionSettings {
+  return {
+    enabled: item["enabled"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity. */
 export interface Identity {
   /** The principal ID of the resource identity.  This property will only be provided for a system assigned identity */
@@ -535,8 +582,8 @@ export interface UserAssignedIdentitiesValue {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesValueSerializer(item: UserAssignedIdentitiesValue): any {
-  return item;
+export function userAssignedIdentitiesValueSerializer(_item: UserAssignedIdentitiesValue): any {
+  return {};
 }
 
 export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
@@ -549,8 +596,8 @@ export function userAssignedIdentitiesValueDeserializer(item: any): UserAssigned
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -576,8 +623,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -719,11 +766,17 @@ export interface PolicyAssignmentUpdate {
   resourceSelectors?: ResourceSelector[];
   /** The policy property value override. */
   overrides?: Override[];
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentUpdateSerializer(item: PolicyAssignmentUpdate): any {
   return {
-    properties: areAllPropsUndefined(item, ["resourceSelectors", "overrides"])
+    properties: areAllPropsUndefined(item, [
+      "resourceSelectors",
+      "overrides",
+      "selfServeExemptionSettings",
+    ])
       ? undefined
       : _policyAssignmentUpdatePropertiesSerializer(item),
     location: item["location"],
@@ -737,6 +790,8 @@ export interface PolicyAssignmentUpdateProperties {
   resourceSelectors?: ResourceSelector[];
   /** The policy property value override. */
   overrides?: Override[];
+  /** The self-serve exemption settings for the policy assignment. */
+  selfServeExemptionSettings?: SelfServeExemptionSettings;
 }
 
 export function policyAssignmentUpdatePropertiesSerializer(
@@ -747,6 +802,9 @@ export function policyAssignmentUpdatePropertiesSerializer(
       ? item["resourceSelectors"]
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -774,6 +832,386 @@ export function policyAssignmentArraySerializer(result: Array<PolicyAssignment>)
 export function policyAssignmentArrayDeserializer(result: Array<PolicyAssignment>): any[] {
   return result.map((item) => {
     return policyAssignmentDeserializer(item);
+  });
+}
+
+/** The data policy manifest. */
+export interface DataPolicyManifest extends ProxyResource {
+  /** The list of namespaces for the data policy manifest. */
+  namespaces?: string[];
+  /** The policy mode of the data policy manifest. */
+  policyMode?: string;
+  /** A value indicating whether policy mode is allowed only in built-in definitions. */
+  isBuiltInOnly?: boolean;
+  /** An array of resource type aliases. */
+  resourceTypeAliases?: ResourceTypeAliases[];
+  /** The effect definition. */
+  effects?: DataEffect[];
+  /** The non-alias field accessor values that can be used in the policy rule. */
+  fieldValues?: string[];
+  /** The resource functions definition specified in the data manifest. */
+  resourceFunctions?: DataManifestResourceFunctionsDefinition;
+}
+
+export function dataPolicyManifestDeserializer(item: any): DataPolicyManifest {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _dataPolicyManifestPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The properties of the data policy manifest. */
+export interface DataPolicyManifestProperties {
+  /** The list of namespaces for the data policy manifest. */
+  namespaces?: string[];
+  /** The policy mode of the data policy manifest. */
+  policyMode?: string;
+  /** A value indicating whether policy mode is allowed only in built-in definitions. */
+  isBuiltInOnly?: boolean;
+  /** An array of resource type aliases. */
+  resourceTypeAliases?: ResourceTypeAliases[];
+  /** The effect definition. */
+  effects?: DataEffect[];
+  /** The non-alias field accessor values that can be used in the policy rule. */
+  fieldValues?: string[];
+  /** The standard resource functions (subscription and/or resourceGroup). */
+  standard?: string[];
+  /** An array of data manifest custom resource definitions. */
+  custom?: DataManifestCustomResourceFunctionDefinition[];
+}
+
+export function dataPolicyManifestPropertiesDeserializer(item: any): DataPolicyManifestProperties {
+  return {
+    namespaces: !item["namespaces"]
+      ? item["namespaces"]
+      : item["namespaces"].map((p: any) => {
+          return p;
+        }),
+    policyMode: item["policyMode"],
+    isBuiltInOnly: item["isBuiltInOnly"],
+    resourceTypeAliases: !item["resourceTypeAliases"]
+      ? item["resourceTypeAliases"]
+      : resourceTypeAliasesArrayDeserializer(item["resourceTypeAliases"]),
+    effects: !item["effects"] ? item["effects"] : dataEffectArrayDeserializer(item["effects"]),
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    ...(!item["resourceFunctions"]
+      ? item["resourceFunctions"]
+      : _dataPolicyManifestPropertiesResourceFunctionsDeserializer(item["resourceFunctions"])),
+  };
+}
+
+export function resourceTypeAliasesArrayDeserializer(result: Array<ResourceTypeAliases>): any[] {
+  return result.map((item) => {
+    return resourceTypeAliasesDeserializer(item);
+  });
+}
+
+/** The resource type aliases definition. */
+export interface ResourceTypeAliases {
+  /** The resource type name. */
+  resourceType?: string;
+  /** The aliases for property names. */
+  aliases?: Alias[];
+}
+
+export function resourceTypeAliasesDeserializer(item: any): ResourceTypeAliases {
+  return {
+    resourceType: item["resourceType"],
+    aliases: !item["aliases"] ? item["aliases"] : aliasArrayDeserializer(item["aliases"]),
+  };
+}
+
+export function aliasArrayDeserializer(result: Array<Alias>): any[] {
+  return result.map((item) => {
+    return aliasDeserializer(item);
+  });
+}
+
+/** The alias type. */
+export interface Alias {
+  /** The alias name. */
+  name?: string;
+  /** The paths for an alias. */
+  paths?: AliasPath[];
+  /** The type of the alias. */
+  type?: AliasType;
+  /** The default path for an alias. */
+  defaultPath?: string;
+  /** The default pattern for an alias. */
+  defaultPattern?: AliasPattern;
+  /** The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata. */
+  defaultMetadata?: AliasPathMetadata;
+}
+
+export function aliasDeserializer(item: any): Alias {
+  return {
+    name: item["name"],
+    paths: !item["paths"] ? item["paths"] : aliasPathArrayDeserializer(item["paths"]),
+    type: item["type"],
+    defaultPath: item["defaultPath"],
+    defaultPattern: !item["defaultPattern"]
+      ? item["defaultPattern"]
+      : aliasPatternDeserializer(item["defaultPattern"]),
+    defaultMetadata: !item["defaultMetadata"]
+      ? item["defaultMetadata"]
+      : aliasPathMetadataDeserializer(item["defaultMetadata"]),
+  };
+}
+
+export function aliasPathArrayDeserializer(result: Array<AliasPath>): any[] {
+  return result.map((item) => {
+    return aliasPathDeserializer(item);
+  });
+}
+
+/** The type of the paths for alias. */
+export interface AliasPath {
+  /** The path of an alias. */
+  path?: string;
+  /** The API versions. */
+  apiVersions?: string[];
+  /** The pattern for an alias path. */
+  pattern?: AliasPattern;
+  /** The metadata of the alias path. If missing, fall back to the default metadata of the alias. */
+  readonly metadata?: AliasPathMetadata;
+}
+
+export function aliasPathDeserializer(item: any): AliasPath {
+  return {
+    path: item["path"],
+    apiVersions: !item["apiVersions"]
+      ? item["apiVersions"]
+      : item["apiVersions"].map((p: any) => {
+          return p;
+        }),
+    pattern: !item["pattern"] ? item["pattern"] : aliasPatternDeserializer(item["pattern"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : aliasPathMetadataDeserializer(item["metadata"]),
+  };
+}
+
+/** The type of the pattern for an alias path. */
+export interface AliasPattern {
+  /** The alias pattern phrase. */
+  phrase?: string;
+  /** The alias pattern variable. */
+  variable?: string;
+  /** The pattern for an alias path. */
+  type?: AliasPatternType;
+}
+
+export function aliasPatternDeserializer(item: any): AliasPattern {
+  return {
+    phrase: item["phrase"],
+    variable: item["variable"],
+    type: item["type"],
+  };
+}
+
+/** The type of alias pattern. */
+export type AliasPatternType = "NotSpecified" | "Extract";
+
+/** The alias path metadata. */
+export interface AliasPathMetadata {
+  /** The type of the token that the alias path is referring to. */
+  type?: AliasPathTokenType;
+  /** The attributes of the token that the alias path is referring to. */
+  attributes?: AliasPathAttributes;
+}
+
+export function aliasPathMetadataDeserializer(item: any): AliasPathMetadata {
+  return {
+    type: item["type"],
+    attributes: item["attributes"],
+  };
+}
+
+/** The type of the token that the alias path is referring to. */
+export enum KnownAliasPathTokenType {
+  /** The token type is not specified. */
+  NotSpecified = "NotSpecified",
+  /** The token type can be anything. */
+  Any = "Any",
+  /** The token type is string. */
+  String = "String",
+  /** The token type is object. */
+  Object = "Object",
+  /** The token type is array. */
+  Array = "Array",
+  /** The token type is integer. */
+  Integer = "Integer",
+  /** The token type is number. */
+  Number = "Number",
+  /** The token type is boolean. */
+  Boolean = "Boolean",
+}
+
+/**
+ * The type of the token that the alias path is referring to. \
+ * {@link KnownAliasPathTokenType} can be used interchangeably with AliasPathTokenType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: The token type is not specified. \
+ * **Any**: The token type can be anything. \
+ * **String**: The token type is string. \
+ * **Object**: The token type is object. \
+ * **Array**: The token type is array. \
+ * **Integer**: The token type is integer. \
+ * **Number**: The token type is number. \
+ * **Boolean**: The token type is boolean.
+ */
+export type AliasPathTokenType = string;
+
+/** The attributes of the token that the alias path is referring to. */
+export enum KnownAliasPathAttributes {
+  /** The token that the alias path is referring to has no attributes. */
+  None = "None",
+  /** The token that the alias path is referring to is modifiable by policies with 'modify' effect. */
+  Modifiable = "Modifiable",
+}
+
+/**
+ * The attributes of the token that the alias path is referring to. \
+ * {@link KnownAliasPathAttributes} can be used interchangeably with AliasPathAttributes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The token that the alias path is referring to has no attributes. \
+ * **Modifiable**: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
+ */
+export type AliasPathAttributes = string;
+
+/** The type of the alias. */
+export type AliasType = "NotSpecified" | "PlainText" | "Mask";
+
+export function dataEffectArrayDeserializer(result: Array<DataEffect>): any[] {
+  return result.map((item) => {
+    return dataEffectDeserializer(item);
+  });
+}
+
+/** The data effect definition. */
+export interface DataEffect {
+  /** The data effect name. */
+  name?: string;
+  /** The data effect details schema. */
+  detailsSchema?: any;
+}
+
+export function dataEffectDeserializer(item: any): DataEffect {
+  return {
+    name: item["name"],
+    detailsSchema: item["detailsSchema"],
+  };
+}
+
+/** The resource functions supported by a manifest. */
+export interface DataManifestResourceFunctionsDefinition {
+  /** The standard resource functions (subscription and/or resourceGroup). */
+  standard?: string[];
+  /** An array of data manifest custom resource definitions. */
+  custom?: DataManifestCustomResourceFunctionDefinition[];
+}
+
+export function dataManifestResourceFunctionsDefinitionDeserializer(
+  item: any,
+): DataManifestResourceFunctionsDefinition {
+  return {
+    standard: !item["standard"]
+      ? item["standard"]
+      : item["standard"].map((p: any) => {
+          return p;
+        }),
+    custom: !item["custom"]
+      ? item["custom"]
+      : dataManifestCustomResourceFunctionDefinitionArrayDeserializer(item["custom"]),
+  };
+}
+
+export function dataManifestCustomResourceFunctionDefinitionArrayDeserializer(
+  result: Array<DataManifestCustomResourceFunctionDefinition>,
+): any[] {
+  return result.map((item) => {
+    return dataManifestCustomResourceFunctionDefinitionDeserializer(item);
+  });
+}
+
+/** The custom resource function definition. */
+export interface DataManifestCustomResourceFunctionDefinition {
+  /** The function name as it will appear in the policy rule. eg - 'vault'. */
+  name?: string;
+  /** The fully qualified control plane resource type that this function represents. eg - 'Microsoft.KeyVault/vaults'. */
+  fullyQualifiedResourceType?: string;
+  /** The top-level properties that can be selected on the function's output. eg - [ \"name\", \"location\" ] if vault().name and vault().location are supported. */
+  defaultProperties?: string[];
+  /** A value indicating whether the custom properties within the property bag are allowed. Needs api-version to be specified in the policy rule eg - vault('2019-06-01'). */
+  allowCustomProperties?: boolean;
+}
+
+export function dataManifestCustomResourceFunctionDefinitionDeserializer(
+  item: any,
+): DataManifestCustomResourceFunctionDefinition {
+  return {
+    name: item["name"],
+    fullyQualifiedResourceType: item["fullyQualifiedResourceType"],
+    defaultProperties: !item["defaultProperties"]
+      ? item["defaultProperties"]
+      : item["defaultProperties"].map((p: any) => {
+          return p;
+        }),
+    allowCustomProperties: item["allowCustomProperties"],
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a DataPolicyManifest list operation. */
+export interface _DataPolicyManifestListResult {
+  /** The DataPolicyManifest items on this page */
+  value: DataPolicyManifest[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _dataPolicyManifestListResultDeserializer(
+  item: any,
+): _DataPolicyManifestListResult {
+  return {
+    value: dataPolicyManifestArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function dataPolicyManifestArrayDeserializer(result: Array<DataPolicyManifest>): any[] {
+  return result.map((item) => {
+    return dataPolicyManifestDeserializer(item);
   });
 }
 
@@ -1143,24 +1581,6 @@ export function externalEvaluationEndpointSettingsDeserializer(
   };
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
 /** The response of a PolicyDefinition list operation. */
 export interface _PolicyDefinitionListResult {
   /** The PolicyDefinition items on this page */
@@ -1309,16 +1729,16 @@ export function policyDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicyDefinitionVersion list operation. */
-export interface _PolicyDefinitionVersionListResult {
+export interface PolicyDefinitionVersionListResult {
   /** The PolicyDefinitionVersion items on this page */
   value: PolicyDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policyDefinitionVersionListResultDeserializer(
+export function policyDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicyDefinitionVersionListResult {
+): PolicyDefinitionVersionListResult {
   return {
     value: policyDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1338,6 +1758,409 @@ export function policyDefinitionVersionArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return policyDefinitionVersionDeserializer(item);
+  });
+}
+
+/** The policy enrollment. */
+export interface PolicyEnrollment extends ExtensionResource {
+  /** The ETag for the policy enrollment. */
+  eTag?: string;
+  /** The ID of the policy assignment that is being enrolled. */
+  policyAssignmentId?: string;
+  /**
+   * The policy assignment instance ID associated with this enrollment.
+   * The value is set to the instance ID of the policy assignment the policyAssignmentId references when the enrollment is created or updated.
+   * The format is a GUID string.
+   */
+  readonly policyAssignmentInstanceId?: string;
+  /**
+   * The policy definition reference IDs for policy definitions in an assigned policy set definition.
+   * These IDs correspond to a subset of `policyDefinitions[*].policyDefinitionReferenceId` in the policy set definition.
+   * When specified and not empty, only the referenced policy definitions will be enrolled to. Otherwise, the entire policy set is enrolled to
+   */
+  policyDefinitionReferenceIds?: string[];
+  /** The display name of the policy enrollment. */
+  displayName?: string;
+  /** The description of the policy enrollment. */
+  description?: string;
+  /** The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentSerializer(item: PolicyEnrollment): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "policyAssignmentId",
+      "policyDefinitionReferenceIds",
+      "displayName",
+      "description",
+      "metadata",
+      "assignmentScopeValidation",
+      "resourceSelectors",
+    ])
+      ? undefined
+      : _policyEnrollmentPropertiesSerializer(item),
+    eTag: item["eTag"],
+  };
+}
+
+export function policyEnrollmentDeserializer(item: any): PolicyEnrollment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _policyEnrollmentPropertiesDeserializer(item["properties"])),
+    eTag: item["eTag"],
+  };
+}
+
+/** The policy enrollment properties. */
+export interface PolicyEnrollmentProperties {
+  /** The ID of the policy assignment that is being enrolled. */
+  policyAssignmentId: string;
+  /**
+   * The policy assignment instance ID associated with this enrollment.
+   * The value is set to the instance ID of the policy assignment the policyAssignmentId references when the enrollment is created or updated.
+   * The format is a GUID string.
+   */
+  readonly policyAssignmentInstanceId?: string;
+  /**
+   * The policy definition reference IDs for policy definitions in an assigned policy set definition.
+   * These IDs correspond to a subset of `policyDefinitions[*].policyDefinitionReferenceId` in the policy set definition.
+   * When specified and not empty, only the referenced policy definitions will be enrolled to. Otherwise, the entire policy set is enrolled to
+   */
+  policyDefinitionReferenceIds?: string[];
+  /** The display name of the policy enrollment. */
+  displayName?: string;
+  /** The description of the policy enrollment. */
+  description?: string;
+  /** The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentPropertiesSerializer(item: PolicyEnrollmentProperties): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function policyEnrollmentPropertiesDeserializer(item: any): PolicyEnrollmentProperties {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyAssignmentInstanceId: item["policyAssignmentInstanceId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+  };
+}
+
+/** The option to validate whether the exemption or enrollment is at or under the assignment scope. */
+export enum KnownAssignmentScopeValidation {
+  /** This option will validate the exemption is at or under the assignment scope. */
+  Default = "Default",
+  /** This option will bypass the validation the exemption scope is at or under the policy assignment scope. */
+  DoNotValidate = "DoNotValidate",
+}
+
+/**
+ * The option to validate whether the exemption or enrollment is at or under the assignment scope. \
+ * {@link KnownAssignmentScopeValidation} can be used interchangeably with AssignmentScopeValidation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: This option will validate the exemption is at or under the assignment scope. \
+ * **DoNotValidate**: This option will bypass the validation the exemption scope is at or under the policy assignment scope.
+ */
+export type AssignmentScopeValidation = string;
+
+/** The policy enrollment for Patch request. */
+export interface PolicyEnrollmentUpdate {
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentUpdateSerializer(item: PolicyEnrollmentUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, ["assignmentScopeValidation", "resourceSelectors"])
+      ? undefined
+      : _policyEnrollmentUpdatePropertiesSerializer(item),
+  };
+}
+
+/** The policy enrollment properties for Patch request. */
+export interface PolicyEnrollmentUpdateProperties {
+  /** The option whether to validate the enrollment is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+}
+
+export function policyEnrollmentUpdatePropertiesSerializer(
+  item: PolicyEnrollmentUpdateProperties,
+): any {
+  return {
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+/** The response of a PolicyEnrollment list operation. */
+export interface _PolicyEnrollmentListResult {
+  /** The PolicyEnrollment items on this page */
+  value: PolicyEnrollment[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _policyEnrollmentListResultDeserializer(item: any): _PolicyEnrollmentListResult {
+  return {
+    value: policyEnrollmentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function policyEnrollmentArraySerializer(result: Array<PolicyEnrollment>): any[] {
+  return result.map((item) => {
+    return policyEnrollmentSerializer(item);
+  });
+}
+
+export function policyEnrollmentArrayDeserializer(result: Array<PolicyEnrollment>): any[] {
+  return result.map((item) => {
+    return policyEnrollmentDeserializer(item);
+  });
+}
+
+/** The policy exemption. */
+export interface PolicyExemption extends ExtensionResource {
+  /** The ID of the policy assignment that is being exempted. */
+  policyAssignmentId?: string;
+  /** The policy definition reference ID list when the associated policy assignment is an assignment of a policy set definition. */
+  policyDefinitionReferenceIds?: string[];
+  /** The policy exemption category. Possible values are Waiver and Mitigated. */
+  exemptionCategory?: ExemptionCategory;
+  /** The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy exemption. */
+  expiresOn?: Date;
+  /** The display name of the policy exemption. */
+  displayName?: string;
+  /** The description of the policy exemption. */
+  description?: string;
+  /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+}
+
+export function policyExemptionSerializer(item: PolicyExemption): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "policyAssignmentId",
+      "policyDefinitionReferenceIds",
+      "exemptionCategory",
+      "expiresOn",
+      "displayName",
+      "description",
+      "metadata",
+      "resourceSelectors",
+      "assignmentScopeValidation",
+    ])
+      ? undefined
+      : _policyExemptionPropertiesSerializer(item),
+  };
+}
+
+export function policyExemptionDeserializer(item: any): PolicyExemption {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _policyExemptionPropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The policy exemption properties. */
+export interface PolicyExemptionProperties {
+  /** The ID of the policy assignment that is being exempted. */
+  policyAssignmentId: string;
+  /** The policy definition reference ID list when the associated policy assignment is an assignment of a policy set definition. */
+  policyDefinitionReferenceIds?: string[];
+  /** The policy exemption category. Possible values are Waiver and Mitigated. */
+  exemptionCategory: ExemptionCategory;
+  /** The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy exemption. */
+  expiresOn?: Date;
+  /** The display name of the policy exemption. */
+  displayName?: string;
+  /** The description of the policy exemption. */
+  description?: string;
+  /** The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: any;
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+}
+
+export function policyExemptionPropertiesSerializer(item: PolicyExemptionProperties): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
+export function policyExemptionPropertiesDeserializer(item: any): PolicyExemptionProperties {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
+/** The policy exemption category. Possible values are Waiver and Mitigated. */
+export enum KnownExemptionCategory {
+  /** This category of exemptions usually means the scope is not applicable for the policy. */
+  Waiver = "Waiver",
+  /** This category of exemptions usually means the mitigation actions have been applied to the scope. */
+  Mitigated = "Mitigated",
+}
+
+/**
+ * The policy exemption category. Possible values are Waiver and Mitigated. \
+ * {@link KnownExemptionCategory} can be used interchangeably with ExemptionCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Waiver**: This category of exemptions usually means the scope is not applicable for the policy. \
+ * **Mitigated**: This category of exemptions usually means the mitigation actions have been applied to the scope.
+ */
+export type ExemptionCategory = string;
+
+/** The policy exemption for Patch request. */
+export interface PolicyExemptionUpdate {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+}
+
+export function policyExemptionUpdateSerializer(item: PolicyExemptionUpdate): any {
+  return {
+    properties: areAllPropsUndefined(item, ["resourceSelectors", "assignmentScopeValidation"])
+      ? undefined
+      : _policyExemptionUpdatePropertiesSerializer(item),
+  };
+}
+
+/** The policy exemption properties for Patch request. */
+export interface PolicyExemptionUpdateProperties {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The option whether validate the exemption is at or under the assignment scope. */
+  assignmentScopeValidation?: AssignmentScopeValidation;
+}
+
+export function policyExemptionUpdatePropertiesSerializer(
+  item: PolicyExemptionUpdateProperties,
+): any {
+  return {
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
+/** The response of a PolicyExemption list operation. */
+export interface _PolicyExemptionListResult {
+  /** The PolicyExemption items on this page */
+  value: PolicyExemption[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _policyExemptionListResultDeserializer(item: any): _PolicyExemptionListResult {
+  return {
+    value: policyExemptionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function policyExemptionArraySerializer(result: Array<PolicyExemption>): any[] {
+  return result.map((item) => {
+    return policyExemptionSerializer(item);
+  });
+}
+
+export function policyExemptionArrayDeserializer(result: Array<PolicyExemption>): any[] {
+  return result.map((item) => {
+    return policyExemptionDeserializer(item);
   });
 }
 
@@ -1718,16 +2541,16 @@ export function policySetDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicySetDefinitionVersion list operation. */
-export interface _PolicySetDefinitionVersionListResult {
+export interface PolicySetDefinitionVersionListResult {
   /** The PolicySetDefinitionVersion items on this page */
   value: PolicySetDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policySetDefinitionVersionListResultDeserializer(
+export function policySetDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicySetDefinitionVersionListResult {
+): PolicySetDefinitionVersionListResult {
   return {
     value: policySetDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1747,6 +2570,217 @@ export function policySetDefinitionVersionArrayDeserializer(
 ): any[] {
   return result.map((item) => {
     return policySetDefinitionVersionDeserializer(item);
+  });
+}
+
+/** The variable. */
+export interface Variable extends ProxyResource {
+  /** Variable column definitions. */
+  columns?: PolicyVariableColumn[];
+}
+
+export function variableSerializer(item: Variable): any {
+  return {
+    properties: areAllPropsUndefined(item, ["columns"])
+      ? undefined
+      : _variablePropertiesSerializer(item),
+  };
+}
+
+export function variableDeserializer(item: any): Variable {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _variablePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The variable properties. */
+export interface PolicyVariableProperties {
+  /** Variable column definitions. */
+  columns: PolicyVariableColumn[];
+}
+
+export function policyVariablePropertiesSerializer(item: PolicyVariableProperties): any {
+  return { columns: policyVariableColumnArraySerializer(item["columns"]) };
+}
+
+export function policyVariablePropertiesDeserializer(item: any): PolicyVariableProperties {
+  return {
+    columns: policyVariableColumnArrayDeserializer(item["columns"]),
+  };
+}
+
+export function policyVariableColumnArraySerializer(result: Array<PolicyVariableColumn>): any[] {
+  return result.map((item) => {
+    return policyVariableColumnSerializer(item);
+  });
+}
+
+export function policyVariableColumnArrayDeserializer(result: Array<PolicyVariableColumn>): any[] {
+  return result.map((item) => {
+    return policyVariableColumnDeserializer(item);
+  });
+}
+
+/** The variable column. */
+export interface PolicyVariableColumn {
+  /** The name of this policy variable column. */
+  columnName: string;
+}
+
+export function policyVariableColumnSerializer(item: PolicyVariableColumn): any {
+  return { columnName: item["columnName"] };
+}
+
+export function policyVariableColumnDeserializer(item: any): PolicyVariableColumn {
+  return {
+    columnName: item["columnName"],
+  };
+}
+
+/** The response of a Variable list operation. */
+export interface _VariableListResult {
+  /** The Variable items on this page */
+  value: Variable[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _variableListResultDeserializer(item: any): _VariableListResult {
+  return {
+    value: variableArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function variableArraySerializer(result: Array<Variable>): any[] {
+  return result.map((item) => {
+    return variableSerializer(item);
+  });
+}
+
+export function variableArrayDeserializer(result: Array<Variable>): any[] {
+  return result.map((item) => {
+    return variableDeserializer(item);
+  });
+}
+
+/** The variable value. */
+export interface VariableValue extends ProxyResource {
+  /** Variable value column value array. */
+  values?: PolicyVariableValueColumnValue[];
+}
+
+export function variableValueSerializer(item: VariableValue): any {
+  return {
+    properties: areAllPropsUndefined(item, ["values"])
+      ? undefined
+      : _variableValuePropertiesSerializer(item),
+  };
+}
+
+export function variableValueDeserializer(item: any): VariableValue {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _variableValuePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** The variable value properties. */
+export interface PolicyVariableValueProperties {
+  /** Variable value column value array. */
+  values: PolicyVariableValueColumnValue[];
+}
+
+export function policyVariableValuePropertiesSerializer(item: PolicyVariableValueProperties): any {
+  return { values: policyVariableValueColumnValueArraySerializer(item["values"]) };
+}
+
+export function policyVariableValuePropertiesDeserializer(
+  item: any,
+): PolicyVariableValueProperties {
+  return {
+    values: policyVariableValueColumnValueArrayDeserializer(item["values"]),
+  };
+}
+
+export function policyVariableValueColumnValueArraySerializer(
+  result: Array<PolicyVariableValueColumnValue>,
+): any[] {
+  return result.map((item) => {
+    return policyVariableValueColumnValueSerializer(item);
+  });
+}
+
+export function policyVariableValueColumnValueArrayDeserializer(
+  result: Array<PolicyVariableValueColumnValue>,
+): any[] {
+  return result.map((item) => {
+    return policyVariableValueColumnValueDeserializer(item);
+  });
+}
+
+/** The name value tuple for this variable value column. */
+export interface PolicyVariableValueColumnValue {
+  /** Column name for the variable value */
+  columnName: string;
+  /** Column value for the variable value; this can be an integer, double, boolean, null or a string. */
+  columnValue: any;
+}
+
+export function policyVariableValueColumnValueSerializer(
+  item: PolicyVariableValueColumnValue,
+): any {
+  return { columnName: item["columnName"], columnValue: item["columnValue"] };
+}
+
+export function policyVariableValueColumnValueDeserializer(
+  item: any,
+): PolicyVariableValueColumnValue {
+  return {
+    columnName: item["columnName"],
+    columnValue: item["columnValue"],
+  };
+}
+
+/** The response of a VariableValue list operation. */
+export interface _VariableValueListResult {
+  /** The VariableValue items on this page */
+  value: VariableValue[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _variableValueListResultDeserializer(item: any): _VariableValueListResult {
+  return {
+    value: variableValueArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function variableValueArraySerializer(result: Array<VariableValue>): any[] {
+  return result.map((item) => {
+    return variableValueSerializer(item);
+  });
+}
+
+export function variableValueArrayDeserializer(result: Array<VariableValue>): any[] {
+  return result.map((item) => {
+    return variableValueDeserializer(item);
   });
 }
 
@@ -1783,6 +2817,8 @@ export function policyTokenOperationSerializer(item: PolicyTokenOperation): any 
 export interface PolicyTokenResponse {
   /** The result of the completed token acquisition operation. Possible values are Succeeded and Failed. */
   result?: PolicyTokenResult;
+  /** The external evaluation request details. */
+  requestDetails?: PolicyTokenEvaluatedRequestDetails;
   /** Status message with additional details about the token acquisition operation result. */
   message?: string;
   /** The date and time after which the client can try to acquire a token again in the case of retry-able failures. */
@@ -1802,6 +2838,9 @@ export interface PolicyTokenResponse {
 export function policyTokenResponseDeserializer(item: any): PolicyTokenResponse {
   return {
     result: item["result"],
+    requestDetails: !item["requestDetails"]
+      ? item["requestDetails"]
+      : policyTokenEvaluatedRequestDetailsDeserializer(item["requestDetails"]),
     message: item["message"],
     retryAfter: !item["retryAfter"] ? item["retryAfter"] : new Date(item["retryAfter"]),
     results: !item["results"]
@@ -1832,6 +2871,35 @@ export enum KnownPolicyTokenResult {
  */
 export type PolicyTokenResult = string;
 
+/** The policy token evaluated request details. */
+export interface PolicyTokenEvaluatedRequestDetails {
+  /** The request URI of the resource operation that is targeted by the issued token. */
+  uri: string;
+  /** The resource Id of the resource operation that is targeted by the issued token. */
+  resourceId: string;
+  /** The api-version of the resource operation that is targeted by the issued token. */
+  apiVersion: string;
+  /** The authorization action of the resource operation that is targeted by the issued token. */
+  authorizationAction: string;
+  /** The http method of the resource operation that is targeted by the issued token. */
+  httpMethod: string;
+  /** The hashed payload of the resource operation that is targeted by the issued token. */
+  contentHash: string;
+}
+
+export function policyTokenEvaluatedRequestDetailsDeserializer(
+  item: any,
+): PolicyTokenEvaluatedRequestDetails {
+  return {
+    uri: item["uri"],
+    resourceId: item["resourceId"],
+    apiVersion: item["apiVersion"],
+    authorizationAction: item["authorizationAction"],
+    httpMethod: item["httpMethod"],
+    contentHash: item["contentHash"],
+  };
+}
+
 export function externalEvaluationEndpointInvocationResultArrayDeserializer(
   result: Array<ExternalEvaluationEndpointInvocationResult>,
 ): any[] {
@@ -1846,12 +2914,20 @@ export interface ExternalEvaluationEndpointInvocationResult {
   policyInfo?: PolicyLogInfo;
   /** The result of the external endpoint. Possible values are Succeeded and Failed. */
   result?: ExternalEndpointResult;
+  /** The external evaluation endpoint kind. */
+  endpointKind?: string;
   /** The status message with additional details about the invocation result. */
   message?: string;
   /** The date and time after which a failed endpoint invocation can be retried. */
   retryAfter?: Date;
   /** The set of claims that will be attached to the policy token as an attestation for the result of the endpoint invocation. */
   claims?: any;
+  /** The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. */
+  policyAction?: PolicyAction;
+  /** The evaluation details returned by the policy evaluation engine. */
+  policyEvaluationDetails?: any;
+  /** The endpoint specific metadata. */
+  additionalInfo?: any;
   /** The expiration of the results. */
   expiration?: Date;
 }
@@ -1864,9 +2940,13 @@ export function externalEvaluationEndpointInvocationResultDeserializer(
       ? item["policyInfo"]
       : policyLogInfoDeserializer(item["policyInfo"]),
     result: item["result"],
+    endpointKind: item["endpointKind"],
     message: item["message"],
     retryAfter: !item["retryAfter"] ? item["retryAfter"] : new Date(item["retryAfter"]),
     claims: item["claims"],
+    policyAction: item["policyAction"],
+    policyEvaluationDetails: item["policyEvaluationDetails"],
+    additionalInfo: item["additionalInfo"],
     expiration: !item["expiration"] ? item["expiration"] : new Date(item["expiration"]),
   };
 }
@@ -1881,40 +2961,22 @@ export interface PolicyLogInfo {
   policyDefinitionReferenceId?: string;
   /** The policy set definition name. */
   policySetDefinitionName?: string;
-  /** The policy set definition display name. */
-  policySetDefinitionDisplayName?: string;
   /** The policy set definition version. */
   policySetDefinitionVersion?: string;
-  /** The policy set definition category. */
-  policySetDefinitionCategory?: string;
   /** The policy definition name. */
   policyDefinitionName?: string;
-  /** The policy definition display name. */
-  policyDefinitionDisplayName?: string;
   /** The policy definition version. */
   policyDefinitionVersion?: string;
   /** The policy definition action. */
   policyDefinitionEffect?: string;
-  /** An array of policy definition group names. */
-  policyDefinitionGroupNames?: string[];
   /** The policy assignment Id. */
   policyAssignmentId?: string;
   /** The policy assignment name. */
   policyAssignmentName?: string;
-  /** The policy assignment display name. */
-  policyAssignmentDisplayName?: string;
   /** The policy assignment version. */
   policyAssignmentVersion?: string;
   /** The policy assignment scope. */
   policyAssignmentScope?: string;
-  /** The resource location. */
-  resourceLocation?: string;
-  /** The management group ancestors. */
-  ancestors?: string;
-  /** The policy compliance reason code. */
-  complianceReasonCode?: string;
-  /** An array of policy exemption Ids. */
-  policyExemptionIds?: string[];
 }
 
 export function policyLogInfoDeserializer(item: any): PolicyLogInfo {
@@ -1923,31 +2985,14 @@ export function policyLogInfoDeserializer(item: any): PolicyLogInfo {
     policySetDefinitionId: item["policySetDefinitionId"],
     policyDefinitionReferenceId: item["policyDefinitionReferenceId"],
     policySetDefinitionName: item["policySetDefinitionName"],
-    policySetDefinitionDisplayName: item["policySetDefinitionDisplayName"],
     policySetDefinitionVersion: item["policySetDefinitionVersion"],
-    policySetDefinitionCategory: item["policySetDefinitionCategory"],
     policyDefinitionName: item["policyDefinitionName"],
-    policyDefinitionDisplayName: item["policyDefinitionDisplayName"],
     policyDefinitionVersion: item["policyDefinitionVersion"],
     policyDefinitionEffect: item["policyDefinitionEffect"],
-    policyDefinitionGroupNames: !item["policyDefinitionGroupNames"]
-      ? item["policyDefinitionGroupNames"]
-      : item["policyDefinitionGroupNames"].map((p: any) => {
-          return p;
-        }),
     policyAssignmentId: item["policyAssignmentId"],
     policyAssignmentName: item["policyAssignmentName"],
-    policyAssignmentDisplayName: item["policyAssignmentDisplayName"],
     policyAssignmentVersion: item["policyAssignmentVersion"],
     policyAssignmentScope: item["policyAssignmentScope"],
-    resourceLocation: item["resourceLocation"],
-    ancestors: item["ancestors"],
-    complianceReasonCode: item["complianceReasonCode"],
-    policyExemptionIds: !item["policyExemptionIds"]
-      ? item["policyExemptionIds"]
-      : item["policyExemptionIds"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -1969,10 +3014,49 @@ export enum KnownExternalEndpointResult {
  */
 export type ExternalEndpointResult = string;
 
-/** The available API versions. */
+/** The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. */
+export enum KnownPolicyAction {
+  /** The effective outcome of policy evaluation is unknown. */
+  Unknown = "Unknown",
+  /** The effective outcome of policy evaluation is to allow the request. */
+  Allow = "Allow",
+  /** The effective outcome of policy evaluation is to audit the request. */
+  Audit = "Audit",
+  /** The effective outcome of policy evaluation is to deny the request. */
+  Deny = "Deny",
+  /** The policy evaluation resulted in an error. */
+  Error = "Error",
+}
+
+/**
+ * The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. \
+ * {@link KnownPolicyAction} can be used interchangeably with PolicyAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The effective outcome of policy evaluation is unknown. \
+ * **Allow**: The effective outcome of policy evaluation is to allow the request. \
+ * **Audit**: The effective outcome of policy evaluation is to audit the request. \
+ * **Deny**: The effective outcome of policy evaluation is to deny the request. \
+ * **Error**: The policy evaluation resulted in an error.
+ */
+export type PolicyAction = string;
+
+/**
+ * The available API versions.
+ *
+ * The preview version (v2026_01_01_preview) includes everything from the latest
+ * stable version plus new preview-only resource types:
+ * - PolicyExemption, Variable, VariableValue (marked with
+ */
 export enum KnownVersions {
   /** The 2025-03-01 API version. */
   V20250301 = "2025-03-01",
+  /** The 2025-11-01 API version. */
+  V20251101 = "2025-11-01",
+  /** The 2025-12-01-preview API version. */
+  V20251201Preview = "2025-12-01-preview",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
 }
 
 export function _policyAssignmentPropertiesSerializer(item: PolicyAssignment): any {
@@ -1999,6 +3083,9 @@ export function _policyAssignmentPropertiesSerializer(item: PolicyAssignment): a
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
     assignmentType: item["assignmentType"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -2032,6 +3119,9 @@ export function _policyAssignmentPropertiesDeserializer(item: any) {
       : overrideArrayDeserializer(item["overrides"]),
     assignmentType: item["assignmentType"],
     instanceId: item["instanceId"],
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsDeserializer(item["selfServeExemptionSettings"]),
   };
 }
 
@@ -2041,6 +3131,46 @@ export function _policyAssignmentUpdatePropertiesSerializer(item: PolicyAssignme
       ? item["resourceSelectors"]
       : resourceSelectorArraySerializer(item["resourceSelectors"]),
     overrides: !item["overrides"] ? item["overrides"] : overrideArraySerializer(item["overrides"]),
+    selfServeExemptionSettings: !item["selfServeExemptionSettings"]
+      ? item["selfServeExemptionSettings"]
+      : selfServeExemptionSettingsSerializer(item["selfServeExemptionSettings"]),
+  };
+}
+
+export function _dataPolicyManifestPropertiesResourceFunctionsDeserializer(item: any) {
+  return {
+    standard: !item["standard"]
+      ? item["standard"]
+      : item["standard"].map((p: any) => {
+          return p;
+        }),
+    custom: !item["custom"]
+      ? item["custom"]
+      : dataManifestCustomResourceFunctionDefinitionArrayDeserializer(item["custom"]),
+  };
+}
+
+export function _dataPolicyManifestPropertiesDeserializer(item: any) {
+  return {
+    namespaces: !item["namespaces"]
+      ? item["namespaces"]
+      : item["namespaces"].map((p: any) => {
+          return p;
+        }),
+    policyMode: item["policyMode"],
+    isBuiltInOnly: item["isBuiltInOnly"],
+    resourceTypeAliases: !item["resourceTypeAliases"]
+      ? item["resourceTypeAliases"]
+      : resourceTypeAliasesArrayDeserializer(item["resourceTypeAliases"]),
+    effects: !item["effects"] ? item["effects"] : dataEffectArrayDeserializer(item["effects"]),
+    fieldValues: !item["fieldValues"]
+      ? item["fieldValues"]
+      : item["fieldValues"].map((p: any) => {
+          return p;
+        }),
+    resourceFunctions: !item["resourceFunctions"]
+      ? item["resourceFunctions"]
+      : dataManifestResourceFunctionsDefinitionDeserializer(item["resourceFunctions"]),
   };
 }
 
@@ -2134,6 +3264,101 @@ export function _policyDefinitionVersionPropertiesDeserializer(item: any) {
   };
 }
 
+export function _policyEnrollmentPropertiesSerializer(item: PolicyEnrollment): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyEnrollmentPropertiesDeserializer(item: any) {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyAssignmentInstanceId: item["policyAssignmentInstanceId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyEnrollmentUpdatePropertiesSerializer(item: PolicyEnrollmentUpdate): any {
+  return {
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+  };
+}
+
+export function _policyExemptionPropertiesSerializer(item: PolicyExemption): any {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
+export function _policyExemptionPropertiesDeserializer(item: any) {
+  return {
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionReferenceIds: !item["policyDefinitionReferenceIds"]
+      ? item["policyDefinitionReferenceIds"]
+      : item["policyDefinitionReferenceIds"].map((p: any) => {
+          return p;
+        }),
+    exemptionCategory: item["exemptionCategory"],
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    displayName: item["displayName"],
+    description: item["description"],
+    metadata: item["metadata"],
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArrayDeserializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
+export function _policyExemptionUpdatePropertiesSerializer(item: PolicyExemptionUpdate): any {
+  return {
+    resourceSelectors: !item["resourceSelectors"]
+      ? item["resourceSelectors"]
+      : resourceSelectorArraySerializer(item["resourceSelectors"]),
+    assignmentScopeValidation: item["assignmentScopeValidation"],
+  };
+}
+
 export function _policySetDefinitionPropertiesSerializer(item: PolicySetDefinition): any {
   return {
     policyType: item["policyType"],
@@ -2219,5 +3444,37 @@ export function _policySetDefinitionVersionPropertiesDeserializer(item: any) {
       ? item["policyDefinitionGroups"]
       : policyDefinitionGroupArrayDeserializer(item["policyDefinitionGroups"]),
     version: item["version"],
+  };
+}
+
+export function _variablePropertiesSerializer(item: Variable): any {
+  return {
+    columns: !item["columns"]
+      ? item["columns"]
+      : policyVariableColumnArraySerializer(item["columns"]),
+  };
+}
+
+export function _variablePropertiesDeserializer(item: any) {
+  return {
+    columns: !item["columns"]
+      ? item["columns"]
+      : policyVariableColumnArrayDeserializer(item["columns"]),
+  };
+}
+
+export function _variableValuePropertiesSerializer(item: VariableValue): any {
+  return {
+    values: !item["values"]
+      ? item["values"]
+      : policyVariableValueColumnValueArraySerializer(item["values"]),
+  };
+}
+
+export function _variableValuePropertiesDeserializer(item: any) {
+  return {
+    values: !item["values"]
+      ? item["values"]
+      : policyVariableValueColumnValueArrayDeserializer(item["values"]),
   };
 }
