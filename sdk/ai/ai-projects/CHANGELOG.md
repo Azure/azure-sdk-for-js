@@ -1,5 +1,17 @@
 # Release History
 
+## 2.6.0 (Unreleased)
+
+### Features Added
+
+- Add generally available agent-to-agent (A2A) tool support with the `A2ATool` (`type: "a2a"`) and `A2AToolboxTool` tools, configured with the `A2AProtocolVersion` the remote agent implements.
+- Add the Web IQ preview tool with `WebIQPreviewTool` and `WebIQPreviewToolboxTool`, letting an agent browse and retrieve information from the web through a Web IQ project connection.
+- Add `session_configuration` to `HostedAgentDefinition` so hosted agent versions can set the idle timeout applied to their sessions.
+
+### Other Changes
+
+- Add the `agents/tools/agentAgentToAgentGa.ts` and `agents/tools/agentWebIQ.ts` samples demonstrating the new tools.
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
