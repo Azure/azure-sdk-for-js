@@ -894,6 +894,24 @@ describe("logUtils.ts", () => {
       assert.strictEqual(envelope?.data?.baseType, "AvailabilityData");
     });
 
+    it("should give custom event telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        "microsoft.custom_event.name": "test-event",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Event");
+      assert.strictEqual(envelope?.data?.baseType, "EventData");
+      assert.strictEqual((envelope?.data?.baseData as TelemetryEventData).name, "test-event");
+    });
+
     it.each([
       {
         marker: "type",
