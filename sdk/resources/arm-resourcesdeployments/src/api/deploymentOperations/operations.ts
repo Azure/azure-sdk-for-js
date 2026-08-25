@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -79,7 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, deploymentName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -97,7 +97,7 @@ export function _getSend(
       deploymentName: deploymentName,
       operationId: operationId,
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -145,7 +145,7 @@ export function _listAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -185,7 +185,7 @@ export function listAtSubscriptionScope(
     () => _listAtSubscriptionScopeSend(context, deploymentName, options),
     _listAtSubscriptionScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -201,7 +201,7 @@ export function _getAtSubscriptionScopeSend(
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,7 +251,7 @@ export function _listAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -292,7 +292,7 @@ export function listAtManagementGroupScope(
     () => _listAtManagementGroupScopeSend(context, groupId, deploymentName, options),
     _listAtManagementGroupScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -309,7 +309,7 @@ export function _getAtManagementGroupScopeSend(
       groupId: groupId,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +364,7 @@ export function _listAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/operations{?api%2Dversion,%24top}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -404,7 +404,7 @@ export function listAtTenantScope(
     () => _listAtTenantScopeSend(context, deploymentName, options),
     _listAtTenantScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -419,7 +419,7 @@ export function _getAtTenantScopeSend(
     {
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -469,7 +469,7 @@ export function _listAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24top": options?.top,
     },
     {
@@ -510,7 +510,7 @@ export function listAtScope(
     () => _listAtScopeSend(context, scope, deploymentName, options),
     _listAtScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -527,7 +527,7 @@ export function _getAtScopeSend(
       scope: scope,
       deploymentName: deploymentName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the management group.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary returns changes that will be made by the deployment if executed at the scope of the management group.
  * x-ms-original-file: 2026-06-01/PostDeploymentWhatIfOnManagementGroup.json
  */
-async function predictTemplateChangesAtManagementGroupScope(): Promise<void> {
+async function predictTemplateChangesAtManagementGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentsClient(credential);
   const result = await client.deployments.whatIfAtManagementGroupScope(
@@ -28,7 +28,7 @@ async function predictTemplateChangesAtManagementGroupScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await predictTemplateChangesAtManagementGroupScope();
 }
 

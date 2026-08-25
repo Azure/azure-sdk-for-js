@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-resourcesdeployments",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A generated SDK for DeploymentsClient.",
   "engines": {
     "node": ">=22.0.0"

@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
  * @summary validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- * x-ms-original-file: 2026-06-01/PostDeploymentValidateOnTenant.json
+ * x-ms-original-file: 2026-06-01/PostDeploymentValidateOnSubscription.json
  */
-async function validatesATemplateAtTenantScope(): Promise<void> {
+async function validatesATemplateAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
-  const client = new DeploymentsClient(credential);
-  const result = await client.deployments.validateAtTenantScope("my-deployment", {
+  const subscriptionId = "00000000-0000-0000-0000-000000000001";
+  const client = new DeploymentsClient(credential, subscriptionId);
+  const result = await client.deployments.validateAtSubscriptionScope("my-deployment", {
     location: "eastus",
     properties: {
       mode: "Incremental",
@@ -24,8 +25,8 @@ async function validatesATemplateAtTenantScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await validatesATemplateAtTenantScope();
+async function main() {
+  await validatesATemplateAtSubscriptionScope();
 }
 
 main().catch(console.error);

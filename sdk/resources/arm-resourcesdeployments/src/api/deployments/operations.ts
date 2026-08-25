@@ -95,7 +95,7 @@ export function _calculateTemplateHashSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Resources/calculateTemplateHash{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +147,7 @@ export function _exportTemplateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -199,7 +199,7 @@ export function _whatIfSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +243,7 @@ export function whatIf(
     getInitialResponse: () =>
       _whatIfSend(context, resourceGroupName, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 }
 
@@ -260,7 +260,7 @@ export function _validateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -304,7 +304,7 @@ export function validate(
     getInitialResponse: () =>
       _validateSend(context, resourceGroupName, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 }
 
@@ -320,7 +320,7 @@ export function _cancelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +364,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -405,7 +405,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -421,7 +421,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -456,7 +456,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, deploymentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -473,7 +473,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -517,7 +517,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 }
 
@@ -533,7 +533,7 @@ export function _checkExistenceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,7 +581,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -628,7 +628,7 @@ export function _exportTemplateAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -677,7 +677,7 @@ export function _whatIfAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -724,7 +724,7 @@ export function whatIfAtSubscriptionScope(
       getInitialResponse: () =>
         _whatIfAtSubscriptionScopeSend(context, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 }
@@ -740,7 +740,7 @@ export function _validateAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -787,7 +787,7 @@ export function validateAtSubscriptionScope(
       getInitialResponse: () =>
         _validateAtSubscriptionScopeSend(context, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 }
@@ -802,7 +802,7 @@ export function _cancelAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -845,7 +845,7 @@ export function _listAtSubscriptionScopeSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments{?api%2Dversion,%24filter,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -885,7 +885,7 @@ export function listAtSubscriptionScope(
     () => _listAtSubscriptionScopeSend(context, options),
     _listAtSubscriptionScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -899,7 +899,7 @@ export function _deleteAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -939,7 +939,7 @@ export function deleteAtSubscriptionScope(
       abortSignal: options?.abortSignal,
       getInitialResponse: () => _deleteAtSubscriptionScopeSend(context, deploymentName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -955,7 +955,7 @@ export function _createOrUpdateAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1002,7 +1002,7 @@ export function createOrUpdateAtSubscriptionScope(
       getInitialResponse: () =>
         _createOrUpdateAtSubscriptionScopeSend(context, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 }
@@ -1017,7 +1017,7 @@ export function _checkExistenceAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1062,7 +1062,7 @@ export function _getAtSubscriptionScopeSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1111,7 +1111,7 @@ export function _exportTemplateAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1167,7 +1167,7 @@ export function _whatIfAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1215,7 +1215,7 @@ export function whatIfAtManagementGroupScope(
       getInitialResponse: () =>
         _whatIfAtManagementGroupScopeSend(context, groupId, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 }
@@ -1232,7 +1232,7 @@ export function _validateAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1280,7 +1280,7 @@ export function validateAtManagementGroupScope(
       getInitialResponse: () =>
         _validateAtManagementGroupScopeSend(context, groupId, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 }
@@ -1296,7 +1296,7 @@ export function _cancelAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1341,7 +1341,7 @@ export function _listAtManagementGroupScopeSend(
     "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments{?api%2Dversion,%24filter,%24top}",
     {
       groupId: groupId,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -1382,7 +1382,7 @@ export function listAtManagementGroupScope(
     () => _listAtManagementGroupScopeSend(context, groupId, options),
     _listAtManagementGroupScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -1397,7 +1397,7 @@ export function _deleteAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1439,7 +1439,7 @@ export function deleteAtManagementGroupScope(
       getInitialResponse: () =>
         _deleteAtManagementGroupScopeSend(context, groupId, deploymentName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1456,7 +1456,7 @@ export function _createOrUpdateAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1510,7 +1510,7 @@ export function createOrUpdateAtManagementGroupScope(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 }
@@ -1526,7 +1526,7 @@ export function _checkExistenceAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1578,7 +1578,7 @@ export function _getAtManagementGroupScopeSend(
     {
       groupId: groupId,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1624,7 +1624,7 @@ export function _listAtTenantScopeSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Resources/deployments{?api%2Dversion,%24filter,%24top}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -1664,7 +1664,7 @@ export function listAtTenantScope(
     () => _listAtTenantScopeSend(context, options),
     _listAtTenantScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -1677,7 +1677,7 @@ export function _exportTemplateAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1725,7 +1725,7 @@ export function _whatIfAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1768,7 +1768,7 @@ export function whatIfAtTenantScope(
     getInitialResponse: () =>
       _whatIfAtTenantScopeSend(context, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<WhatIfOperationResult>, WhatIfOperationResult>;
 }
 
@@ -1782,7 +1782,7 @@ export function _validateAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/validate{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1829,7 +1829,7 @@ export function validateAtTenantScope(
       getInitialResponse: () =>
         _validateAtTenantScopeSend(context, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 }
@@ -1843,7 +1843,7 @@ export function _cancelAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}/cancel{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1887,7 +1887,7 @@ export function _deleteAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1923,7 +1923,7 @@ export function deleteAtTenantScope(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteAtTenantScopeSend(context, deploymentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1937,7 +1937,7 @@ export function _createOrUpdateAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1984,7 +1984,7 @@ export function createOrUpdateAtTenantScope(
       getInitialResponse: () =>
         _createOrUpdateAtTenantScopeSend(context, deploymentName, parameters, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-04-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 }
@@ -1998,7 +1998,7 @@ export function _checkExistenceAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2042,7 +2042,7 @@ export function _getAtTenantScopeSend(
     "/providers/Microsoft.Resources/deployments/{deploymentName}{?api%2Dversion}",
     {
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2091,7 +2091,7 @@ export function _exportTemplateAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2142,7 +2142,7 @@ export function _validateAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2186,7 +2186,7 @@ export function validateAtScope(
     getInitialResponse: () =>
       _validateAtScopeSend(context, scope, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DeploymentValidateResult>, DeploymentValidateResult>;
 }
 
@@ -2201,7 +2201,7 @@ export function _cancelAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2244,7 +2244,7 @@ export function _listAtScopeSend(
     "/{+scope}/providers/Microsoft.Resources/deployments{?api%2Dversion,%24filter,%24top}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -2285,7 +2285,7 @@ export function listAtScope(
     () => _listAtScopeSend(context, scope, options),
     _listAtScopeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -2300,7 +2300,7 @@ export function _deleteAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2335,7 +2335,7 @@ export function deleteAtScope(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteAtScopeSend(context, scope, deploymentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -2351,7 +2351,7 @@ export function _createOrUpdateAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2395,7 +2395,7 @@ export function createOrUpdateAtScope(
     getInitialResponse: () =>
       _createOrUpdateAtScopeSend(context, scope, deploymentName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-04-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<DeploymentExtended>, DeploymentExtended>;
 }
 
@@ -2410,7 +2410,7 @@ export function _checkExistenceAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2457,7 +2457,7 @@ export function _getAtScopeSend(
     {
       scope: scope,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2025-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

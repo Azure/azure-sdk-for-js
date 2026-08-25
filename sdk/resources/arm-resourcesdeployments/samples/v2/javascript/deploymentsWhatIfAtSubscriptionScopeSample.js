@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeploymentsClient } = require("@azure/arm-resourcesdeployments");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to returns changes that will be made by the deployment if executed at the scope of the subscription.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary returns changes that will be made by the deployment if executed at the scope of the subscription.
  * x-ms-original-file: 2026-06-01/PostDeploymentWhatIfOnSubscription.json
  */
-async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
+async function predictTemplateChangesAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000001";
   const client = new DeploymentsClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await predictTemplateChangesAtSubscriptionScope();
 }
 
