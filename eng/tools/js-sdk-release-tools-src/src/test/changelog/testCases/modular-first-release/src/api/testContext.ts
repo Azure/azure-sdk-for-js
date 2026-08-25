@@ -25,7 +25,7 @@ export function createClient(
   credential: TokenCredential,
   subscriptionId: string,
   options: ClientOptionalParams = {},
-):Context {
+): Context {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-test/1.0.0-beta.1`;

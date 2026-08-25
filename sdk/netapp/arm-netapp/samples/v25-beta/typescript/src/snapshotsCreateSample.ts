@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create the specified snapshot within the given volume
  *
  * @summary create the specified snapshot within the given volume
- * x-ms-original-file: 2026-04-15-preview/Snapshots_Create.json
+ * x-ms-original-file: 2026-05-15-preview/Snapshots_Create.json
  */
 async function snapshotsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

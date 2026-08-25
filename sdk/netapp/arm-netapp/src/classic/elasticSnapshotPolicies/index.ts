@@ -72,7 +72,6 @@ export interface ElasticSnapshotPoliciesOperations {
     options?: ElasticSnapshotPoliciesGetOptionalParams,
   ) => Promise<ElasticSnapshotPolicy>;
 }
-
 function _getElasticSnapshotPolicies(context: NetAppManagementContext) {
   return {
     listElasticVolumes: (
@@ -114,7 +113,6 @@ function _getElasticSnapshotPolicies(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, snapshotPolicyName, options),
   };
 }
-
 export function _getElasticSnapshotPoliciesOperations(
   context: NetAppManagementContext,
 ): ElasticSnapshotPoliciesOperations {

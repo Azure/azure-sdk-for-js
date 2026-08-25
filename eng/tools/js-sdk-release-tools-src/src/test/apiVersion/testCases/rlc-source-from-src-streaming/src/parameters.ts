@@ -1,4 +1,4 @@
 export interface XQueryParamProperties {
-    /** Api Version */
-    "api-version": string;
+  /** Api Version */
+  "api-version": string;
 }

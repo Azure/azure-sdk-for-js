@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Elastic Volumes within the Elastic Capacity Pool
  *
  * @summary list all Elastic Volumes within the Elastic Capacity Pool
- * x-ms-original-file: 2026-04-15-preview/ElasticVolumes_ListByElasticPool.json
+ * x-ms-original-file: 2026-05-15-preview/ElasticVolumes_ListByElasticPool.json
  */
 async function elasticVolumesListByElasticPool() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get current subscription usage of the specific type
  *
  * @summary get current subscription usage of the specific type
- * x-ms-original-file: 2026-04-15-preview/Usages_Get.json
+ * x-ms-original-file: 2026-05-15-preview/Usages_Get.json
  */
 async function usagesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

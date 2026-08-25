@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified active directory configuration
  *
  * @summary patch the specified active directory configuration
- * x-ms-original-file: 2026-04-15-preview/ActiveDirectoryConfigs_Update.json
+ * x-ms-original-file: 2026-05-15-preview/ActiveDirectoryConfigs_Update.json
  */
 async function activeDirectoryConfigsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

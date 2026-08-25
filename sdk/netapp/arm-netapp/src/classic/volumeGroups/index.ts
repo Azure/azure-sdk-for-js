@@ -44,7 +44,6 @@ export interface VolumeGroupsOperations {
     options?: VolumeGroupsGetOptionalParams,
   ) => Promise<VolumeGroupDetails>;
 }
-
 function _getVolumeGroups(context: NetAppManagementContext) {
   return {
     listByNetAppAccount: (
@@ -73,7 +72,6 @@ function _getVolumeGroups(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, volumeGroupName, options),
   };
 }
-
 export function _getVolumeGroupsOperations(
   context: NetAppManagementContext,
 ): VolumeGroupsOperations {

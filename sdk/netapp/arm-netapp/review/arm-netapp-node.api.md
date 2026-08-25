@@ -2307,7 +2307,9 @@ export enum KnownVersions {
     V20260301 = "2026-03-01",
     V20260315Preview = "2026-03-15-preview",
     V20260401 = "2026-04-01",
-    V20260415Preview = "2026-04-15-preview"
+    V20260415Preview = "2026-04-15-preview",
+    V20260501 = "2026-05-01",
+    V20260515Preview = "2026-05-15-preview"
 }
 
 // @public
@@ -2428,10 +2430,15 @@ export interface LdapConfiguration {
     bindDN?: string;
     bindPasswordAkvConfig?: BindPasswordAkvConfig;
     certificateCNHost?: string | null;
+    dnsServers?: string[];
     domain?: string;
+    groupDN?: string;
     ldapOverTLS?: boolean;
+    ldapPort?: number;
     ldapServers?: string[];
+    netGroupDN?: string;
     serverCACertificate?: string;
+    userDN?: string;
 }
 
 // @public
@@ -2440,10 +2447,15 @@ export interface LdapConfigurationPatch {
     bindDN?: string;
     bindPasswordAkvConfig?: BindPasswordAkvConfigPatch;
     certificateCNHost?: string | null;
+    dnsServers?: string[];
     domain?: string;
+    groupDN?: string;
     ldapOverTLS?: boolean;
+    ldapPort?: number;
     ldapServers?: string[];
+    netGroupDN?: string;
     serverCACertificate?: string;
+    userDN?: string;
 }
 
 // @public

@@ -1,13 +1,17 @@
-import { expect, test } from 'vitest';
-import { extractExportAndGenerateChangelog } from '../../changelog/extractMetaData.js';
-import path from 'path';
-import { SDKType } from '../../common/types.js';
-import { describe } from 'node:test';
-import { tryReadNpmPackageChangelog } from '../../common/utils.js';
-import { removeSync, outputFileSync } from 'fs-extra';
-import { getFirstReleaseContent } from '../../common/changelog/modifyChangelogFileAndBumpVersion.js';
-import { DifferenceDetector, ApiViewOptions } from '../../changelog/v2/DifferenceDetector.js';
-import { ChangelogGenerator, ChangelogItemCategory, ChangelogItems } from '../../changelog/v2/ChangelogGenerator.js';
+import { expect, test } from "vitest";
+import { extractExportAndGenerateChangelog } from "../../changelog/extractMetaData.js";
+import path from "path";
+import { SDKType } from "../../common/types.js";
+import { describe } from "node:test";
+import { tryReadNpmPackageChangelog } from "../../common/utils.js";
+import { removeSync, outputFileSync } from "fs-extra";
+import { getFirstReleaseContent } from "../../common/changelog/modifyChangelogFileAndBumpVersion.js";
+import { DifferenceDetector, ApiViewOptions } from "../../changelog/v2/DifferenceDetector.js";
+import {
+  ChangelogGenerator,
+  ChangelogItemCategory,
+  ChangelogItems,
+} from "../../changelog/v2/ChangelogGenerator.js";
 
 const getItemsByCategory = (changelogItems: ChangelogItems, category: ChangelogItemCategory) => {
   const isBreakingChange = category >= 10000;
@@ -18,7 +22,7 @@ const getItemsByCategory = (changelogItems: ChangelogItems, category: ChangelogI
 
 const generateChangelogItems = async (
   baselineApiViewOptions: ApiViewOptions,
-  currentApiViewOptions: ApiViewOptions
+  currentApiViewOptions: ApiViewOptions,
 ) => {
   const detector = new DifferenceDetector(baselineApiViewOptions, currentApiViewOptions);
   const diff = await detector.detect();
@@ -27,61 +31,61 @@ const generateChangelogItems = async (
   return changelogItems;
 };
 
-describe('Change log for first release package', () => {
-  test('ModularClient -> firstGA', async () => {
-    const root = path.join(__dirname, 'testCases/modular-first-release/');
+describe("Change log for first release package", () => {
+  test("ModularClient -> firstGA", async () => {
+    const root = path.join(__dirname, "testCases/modular-first-release/");
     const content = getFirstReleaseContent(root, true);
     expect(content).toBe(
-      'This is the first stable release of the @azure/arm-test package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.'
+      "This is the first stable release of the @azure/arm-test package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.",
     );
   });
 
-  test('ModularClient -> firstBeta', async () => {
-    const root = path.join(__dirname, 'testCases/modular-first-release/');
+  test("ModularClient -> firstBeta", async () => {
+    const root = path.join(__dirname, "testCases/modular-first-release/");
     const content = getFirstReleaseContent(root, false);
     expect(content).toBe(
-      'This is the first preview release of the @azure/arm-test package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.'
+      "This is the first preview release of the @azure/arm-test package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.",
     );
   });
 
-  test('HLC -> firstGA', async () => {
-    const root = path.join(__dirname, 'testCases/hlc-first-release/');
+  test("HLC -> firstGA", async () => {
+    const root = path.join(__dirname, "testCases/hlc-first-release/");
     const content = getFirstReleaseContent(root, true);
     expect(content).toBe(
-      'The package of @azure/arm-test is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).'
+      "The package of @azure/arm-test is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).",
     );
   });
 
-  test('HLC -> firstBeta', async () => {
-    const root = path.join(__dirname, 'testCases/hlc-first-release/');
+  test("HLC -> firstBeta", async () => {
+    const root = path.join(__dirname, "testCases/hlc-first-release/");
     const content = getFirstReleaseContent(root, false);
     expect(content).toBe(
-      'The package of @azure/arm-test is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).'
+      "The package of @azure/arm-test is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).",
     );
   });
 
-  test('RLC -> firstGA', async () => {
-    const root = path.join(__dirname, 'testCases/rlc-first-release/');
+  test("RLC -> firstGA", async () => {
+    const root = path.join(__dirname, "testCases/rlc-first-release/");
     const content = getFirstReleaseContent(root, true);
-    expect(content).toBe('This is the first stable version with the package of @azure-rest/test');
+    expect(content).toBe("This is the first stable version with the package of @azure-rest/test");
   });
 
-  test('RLC -> firstBeta', async () => {
-    const root = path.join(__dirname, 'testCases/rlc-first-release/');
+  test("RLC -> firstBeta", async () => {
+    const root = path.join(__dirname, "testCases/rlc-first-release/");
     const content = getFirstReleaseContent(root, false);
-    expect(content).toBe('Initial release of the @azure-rest/test package');
+    expect(content).toBe("Initial release of the @azure-rest/test package");
   });
 });
 
-describe('Breaking change detection', () => {
-  test('HLC -> Modular: Rename', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.1.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.1.new.modular.api.md');
+describe("Breaking change detection", () => {
+  test("HLC -> Modular: Rename", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.1.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.1.new.modular.api.md");
     const changelog = await extractExportAndGenerateChangelog(
       oldViewPath,
       newViewPath,
       SDKType.HighLevelClient,
-      SDKType.ModularClient
+      SDKType.ModularClient,
     );
 
     expect(changelog.addedOperationGroup.length).toBe(0);
@@ -91,19 +95,21 @@ describe('Breaking change detection', () => {
     expect(changelog.removedOperation.length).toBe(1);
 
     expect(changelog.addedOperation[0].line).toBe(
-      'Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW'
+      "Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW",
     );
-    expect(changelog.removedOperation[0].line).toBe('Removed operation DataProductsCatalogs.listByResourceGroup');
+    expect(changelog.removedOperation[0].line).toBe(
+      "Removed operation DataProductsCatalogs.listByResourceGroup",
+    );
   });
 
-  test('HLC -> HLC: Change Op', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.2.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.2.new.hlc.api.md');
+  test("HLC -> HLC: Change Op", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.2.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.2.new.hlc.api.md");
     const changelog = await extractExportAndGenerateChangelog(
       oldViewPath,
       newViewPath,
       SDKType.HighLevelClient,
-      SDKType.HighLevelClient
+      SDKType.HighLevelClient,
     );
 
     expect(changelog.addedOperationGroup.length).toBe(0);
@@ -112,18 +118,18 @@ describe('Breaking change detection', () => {
     expect(changelog.addedOperation.length).toBe(1);
     expect(changelog.removedOperation.length).toBe(1);
 
-    expect(changelog.addedOperation[0].line).toBe('Added operation DataProductsCatalogs.get_NEW');
-    expect(changelog.removedOperation[0].line).toBe('Removed operation DataProductsCatalogs.get');
+    expect(changelog.addedOperation[0].line).toBe("Added operation DataProductsCatalogs.get_NEW");
+    expect(changelog.removedOperation[0].line).toBe("Removed operation DataProductsCatalogs.get");
   });
 
-  test('Modular -> Modular: Change Op', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.3.old.modular.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.3.new.modular.api.md');
+  test("Modular -> Modular: Change Op", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.3.old.modular.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.3.new.modular.api.md");
     const changelog = await extractExportAndGenerateChangelog(
       oldViewPath,
       newViewPath,
       SDKType.ModularClient,
-      SDKType.ModularClient
+      SDKType.ModularClient,
     );
 
     expect(changelog.addedOperationGroup.length).toBe(0);
@@ -133,21 +139,21 @@ describe('Breaking change detection', () => {
     expect(changelog.removedOperation.length).toBe(1);
 
     expect(changelog.addedOperation[0].line).toBe(
-      'Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW'
+      "Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW",
     );
     expect(changelog.removedOperation[0].line).toBe(
-      'Removed operation DataProductsCatalogsOperations.listByResourceGroup'
+      "Removed operation DataProductsCatalogsOperations.listByResourceGroup",
     );
   });
 
-  test('HLC -> HLC: Operation Group Add/Remove/ChangeSig', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.4.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.4.new.hlc.api.md');
+  test("HLC -> HLC: Operation Group Add/Remove/ChangeSig", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.4.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.4.new.hlc.api.md");
     const changelog = await extractExportAndGenerateChangelog(
       oldViewPath,
       newViewPath,
       SDKType.HighLevelClient,
-      SDKType.HighLevelClient
+      SDKType.HighLevelClient,
     );
 
     expect(changelog.addedOperationGroup.length).toBe(1);
@@ -158,10 +164,14 @@ describe('Breaking change detection', () => {
 
     expect(changelog.operationSignatureChange.length).toBe(1);
 
-    expect(changelog.addedOperationGroup[0].line).toBe('Added operation group DataProductsCatalogs_add');
-    expect(changelog.removedOperationGroup[0].line).toBe('Removed operation group DataProductsCatalogs_remove');
+    expect(changelog.addedOperationGroup[0].line).toBe(
+      "Added operation group DataProductsCatalogs_add",
+    );
+    expect(changelog.removedOperationGroup[0].line).toBe(
+      "Removed operation group DataProductsCatalogs_remove",
+    );
     expect(changelog.operationSignatureChange[0].line).toBe(
-      'Operation DataProductsCatalogs_sig_change.get has a new signature'
+      "Operation DataProductsCatalogs_sig_change.get has a new signature",
     );
   });
 
@@ -172,7 +182,7 @@ describe('Breaking change detection', () => {
       oldViewPath,
       newViewPath,
       SDKType.RestLevelClient,
-      SDKType.RestLevelClient
+      SDKType.RestLevelClient,
     );
     expect(changelog.displayChangeLog()).toBe(
       `### Features Added
@@ -196,156 +206,196 @@ describe('Breaking change detection', () => {
   - Function funcParameterType has a new signature
   - Removed function overload "export function isUnexpected(response: C | D): response is A;"
   - Removed Type Alias typesRemove
-  - Type alias "typesChange" has been changed`
+  - Type alias "typesChange" has been changed`,
     );
   });
 });
 
-describe('Changelog reading', () => {
+describe("Changelog reading", () => {
   test("Read changelog that doesn't exist", () => {
-    const content = tryReadNpmPackageChangelog('./do/not/exist/CHANGELOG.md');
-    expect(content).toBe('');
+    const content = tryReadNpmPackageChangelog("./do/not/exist/CHANGELOG.md");
+    expect(content).toBe("");
   });
 
-  test('Read changelog that exists', () => {
-    const changelogPath = path.join('CHANGELOG.md');
+  test("Read changelog that exists", () => {
+    const changelogPath = path.join("CHANGELOG.md");
     try {
-      outputFileSync(changelogPath, 'aaa', 'utf-8');
+      outputFileSync(changelogPath, "aaa", "utf-8");
       const content = tryReadNpmPackageChangelog(changelogPath);
-      expect(content).toBe('aaa');
+      expect(content).toBe("aaa");
     } finally {
       removeSync(changelogPath);
     }
   });
 });
 
-describe('Breaking change detection for v2 (compared to v1)', () => {
-  test('HLC -> Modular: Rename', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.1.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.1.new.modular.api.md');
+describe("Breaking change detection for v2 (compared to v1)", () => {
+  test("HLC -> Modular: Rename", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.1.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.1.new.modular.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.HighLevelClient },
-      { path: newViewPath, sdkType: SDKType.ModularClient }
+      { path: newViewPath, sdkType: SDKType.ModularClient },
     );
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded).length).toBe(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved).length).toBe(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded).length,
+    ).toBe(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved).length,
+    ).toBe(0);
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded).length).toBe(1);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved).length).toBe(1);
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved).length).toBe(
+      1,
+    );
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)[0]).toBe(
-      'Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW'
+      "Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW",
     );
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)[0]).toBe(
-      'Removed operation DataProductsCatalogs.listByResourceGroup'
+      "Removed operation DataProductsCatalogs.listByResourceGroup",
     );
   });
 
-  test('HLC -> HLC: Change Op', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.2.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.2.new.hlc.api.md');
+  test("HLC -> HLC: Change Op", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.2.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.2.new.hlc.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.HighLevelClient },
-      { path: newViewPath, sdkType: SDKType.HighLevelClient }
+      { path: newViewPath, sdkType: SDKType.HighLevelClient },
     );
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)).toHaveLength(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded),
+    ).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved),
+    ).toHaveLength(0);
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(1);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(1);
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(
+      1,
+    );
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(
+      1,
+    );
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)[0]).toBe(
-      'Added operation DataProductsCatalogs.get_NEW'
+      "Added operation DataProductsCatalogs.get_NEW",
     );
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)[0]).toBe(
-      'Removed operation DataProductsCatalogs.get'
+      "Removed operation DataProductsCatalogs.get",
     );
   });
 
-  test('Modular -> Modular: Change Op', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.3.old.modular.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.3.new.modular.api.md');
+  test("Modular -> Modular: Change Op", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.3.old.modular.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.3.new.modular.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.ModularClient },
-      { path: newViewPath, sdkType: SDKType.ModularClient }
+      { path: newViewPath, sdkType: SDKType.ModularClient },
     );
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)).toHaveLength(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded),
+    ).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved),
+    ).toHaveLength(0);
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(1);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(1);
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(
+      1,
+    );
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(
+      1,
+    );
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)[0]).toBe(
-      'Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW'
+      "Added operation DataProductsCatalogsOperations.listByResourceGroup_NEW",
     );
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)[0]).toBe(
-      'Removed operation DataProductsCatalogsOperations.listByResourceGroup'
+      "Removed operation DataProductsCatalogsOperations.listByResourceGroup",
     );
   });
 
-  test('HLC -> HLC: Operation Group Add/Remove/ChangeSig', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.4.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.4.new.hlc.api.md');
+  test("HLC -> HLC: Operation Group Add/Remove/ChangeSig", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.4.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.4.new.hlc.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.HighLevelClient },
-      { path: newViewPath, sdkType: SDKType.HighLevelClient }
+      { path: newViewPath, sdkType: SDKType.HighLevelClient },
     );
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)).toHaveLength(1);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)).toHaveLength(1);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded),
+    ).toHaveLength(1);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved),
+    ).toHaveLength(1);
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(0);
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded)).toHaveLength(
+      0,
+    );
+    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved)).toHaveLength(
+      0,
+    );
 
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationSignatureChanged)).toHaveLength(1);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationSignatureChanged),
+    ).toHaveLength(1);
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)[0]).toBe(
-      'Added operation group DataProductsCatalogs_add'
+      "Added operation group DataProductsCatalogs_add",
     );
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)[0]).toBe(
-      'Removed operation group DataProductsCatalogs_remove'
+      "Removed operation group DataProductsCatalogs_remove",
     );
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationSignatureChanged)[0]).toBe(
-      'Operation DataProductsCatalogs_sig_change.get has a new signature'
-    );
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationSignatureChanged)[0],
+    ).toBe("Operation DataProductsCatalogs_sig_change.get has a new signature");
   });
 
-  test('HLC -> Modular: name collision - Organization and OrganizationOperations both renamed without conflict', async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.5.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.5.new.modular.api.md');
+  test("HLC -> Modular: name collision - Organization and OrganizationOperations both renamed without conflict", async () => {
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.5.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.5.new.modular.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.HighLevelClient },
-      { path: newViewPath, sdkType: SDKType.ModularClient }
+      { path: newViewPath, sdkType: SDKType.ModularClient },
     );
 
     // Old `Organization` → new `OrganizationOperations`
     // Old `OrganizationOperations` → new `OrganizationOperationsOperations`
     // Neither should appear as a removed operation group.
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)).toHaveLength(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved),
+    ).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded),
+    ).toHaveLength(0);
   });
 
   test("HLC -> Modular: 'Operations' maps to 'OperationsOperations'; 'XOperations' stays when 'XOperationsOperations' absent", async () => {
-    const oldViewPath = path.join(__dirname, 'testCases/operationGroups.6.old.hlc.api.md');
-    const newViewPath = path.join(__dirname, 'testCases/operationGroups.6.new.modular.api.md');
+    const oldViewPath = path.join(__dirname, "testCases/operationGroups.6.old.hlc.api.md");
+    const newViewPath = path.join(__dirname, "testCases/operationGroups.6.new.modular.api.md");
 
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.HighLevelClient },
-      { path: newViewPath, sdkType: SDKType.ModularClient }
+      { path: newViewPath, sdkType: SDKType.ModularClient },
     );
 
     // Old `Operations` → new `OperationsOperations` (target exists)
     // Old `PrivateEndpointConnectionOperations` stays as-is (target `PrivateEndpointConnectionOperationsOperations` absent)
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved)).toHaveLength(0);
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded)).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved),
+    ).toHaveLength(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded),
+    ).toHaveLength(0);
   });
 
   test("Patch RLC -> RLC's basic breaking changes", async () => {
@@ -353,7 +403,7 @@ describe('Breaking change detection for v2 (compared to v1)', () => {
     const newViewPath = path.join(__dirname, `testCases/patch.1.new.rlc.api.md`);
     const changelogItems = await generateChangelogItems(
       { path: oldViewPath, sdkType: SDKType.RestLevelClient },
-      { path: newViewPath, sdkType: SDKType.RestLevelClient }
+      { path: newViewPath, sdkType: SDKType.RestLevelClient },
     );
 
     const expectedNewFeatures = [
@@ -390,9 +440,9 @@ describe('Breaking change detection for v2 (compared to v1)', () => {
   });
 });
 
-describe('Breaking change detection v2', () => {
-  describe('General Detection (Based on Modular Client)', () => {
-    test('Operation Group Added', async () => {
+describe("Breaking change detection v2", () => {
+  describe("General Detection (Based on Modular Client)", () => {
+    test("Operation Group Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -418,14 +468,14 @@ export interface DataProductsCatalogs_added_Operations {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added operation group DataProductsCatalogs_added_Operations');
+      expect(items[0]).toBe("Added operation group DataProductsCatalogs_added_Operations");
     });
 
-    test('Operation Group Removed', async () => {
+    test("Operation Group Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -452,14 +502,14 @@ export interface DataProductsCatalogs_removed_Operations {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationGroupRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed operation group DataProductsCatalogs_removed_Operations');
+      expect(items[0]).toBe("Removed operation group DataProductsCatalogs_removed_Operations");
     });
 
-    test('Operation Added', async () => {
+    test("Operation Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -485,14 +535,14 @@ export interface DataProductsCatalogsOperations {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added operation DataProductsCatalogsOperations.list');
+      expect(items[0]).toBe("Added operation DataProductsCatalogsOperations.list");
     });
 
-    test('Operation Removed', async () => {
+    test("Operation Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -518,14 +568,14 @@ export interface DataProductsCatalogsOperations {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed operation DataProductsCatalogsOperations.list');
+      expect(items[0]).toBe("Removed operation DataProductsCatalogsOperations.list");
     });
 
-    test('Operation Signature Changed', async () => {
+    test("Operation Signature Changed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -550,14 +600,17 @@ export interface DataProductsCatalogsOperations {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationSignatureChanged);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.OperationSignatureChanged,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Operation DataProductsCatalogsOperations.get has a new signature');
+      expect(items[0]).toBe("Operation DataProductsCatalogsOperations.get has a new signature");
     });
 
-    test('Model Added', async () => {
+    test("Model Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -580,14 +633,14 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added Interface DataProduct');
+      expect(items[0]).toBe("Added Interface DataProduct");
     });
 
-    test('Model Removed', async () => {
+    test("Model Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -610,14 +663,14 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed Interface DataProduct');
+      expect(items[0]).toBe("Removed Interface DataProduct");
     });
 
-    test('Model Optional Property Added', async () => {
+    test("Model Optional Property Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -645,14 +698,17 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelOptionalPropertyAdded);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelOptionalPropertyAdded,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Interface DataProduct has a new optional parameter description');
+      expect(items[0]).toBe("Interface DataProduct has a new optional parameter description");
     });
 
-    test('Model Required Property Added', async () => {
+    test("Model Required Property Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -680,14 +736,17 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelRequiredPropertyAdded);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelRequiredPropertyAdded,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Interface DataProduct has a new required parameter version');
+      expect(items[0]).toBe("Interface DataProduct has a new required parameter version");
     });
 
-    test('Model Property Removed', async () => {
+    test("Model Property Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -715,14 +774,14 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Interface DataProduct no longer has parameter description');
+      expect(items[0]).toBe("Interface DataProduct no longer has parameter description");
     });
 
-    test('Model Property Type Changed', async () => {
+    test("Model Property Type Changed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -747,14 +806,19 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyTypeChanged);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelPropertyTypeChanged,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Type of parameter version of interface DataProduct is changed from string to number');
+      expect(items[0]).toBe(
+        "Type of parameter version of interface DataProduct is changed from string to number",
+      );
     });
 
-    test('Model Property Type Changed From TS Record to JS Dictionary Type', async () => {
+    test("Model Property Type Changed From TS Record to JS Dictionary Type", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -785,13 +849,16 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyTypeChanged);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelPropertyTypeChanged,
+      );
       expect(items).toHaveLength(0);
     });
 
-    test('Model Property Type Changed From JS Dictionary Type to TS Record', async () => {
+    test("Model Property Type Changed From JS Dictionary Type to TS Record", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -822,17 +889,20 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const count = [...changelogItems.breakingChanges.keys()].flatMap(
-        (b) => changelogItems.breakingChanges.get(b) ?? []
+        (b) => changelogItems.breakingChanges.get(b) ?? [],
       ).length;
       expect(count).toBe(0);
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyTypeChanged);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelPropertyTypeChanged,
+      );
       expect(items).toHaveLength(0);
     });
 
-    test('Model Property Optional To Required', async () => {
+    test("Model Property Optional To Required", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -861,14 +931,17 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyOptionalToRequired);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelPropertyOptionalToRequired,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Parameter description of interface DataProduct is now required');
+      expect(items[0]).toBe("Parameter description of interface DataProduct is now required");
     });
 
-    test('Model Property Required To Optional', async () => {
+    test("Model Property Required To Optional", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -897,14 +970,17 @@ export interface DataProduct {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyRequiredToOptional);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ModelPropertyRequiredToOptional,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Parameter description of interface DataProduct is now optional');
+      expect(items[0]).toBe("Parameter description of interface DataProduct is now optional");
     });
 
-    test('Class Added', async () => {
+    test("Class Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -926,14 +1002,14 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added Class DataProductClient');
+      expect(items[0]).toBe("Added Class DataProductClient");
     });
 
-    test('Class Removed', async () => {
+    test("Class Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -955,14 +1031,14 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Deleted Class DataProductClient');
+      expect(items[0]).toBe("Deleted Class DataProductClient");
     });
 
-    test('Class Changed', async () => {
+    test("Class Changed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -989,14 +1065,14 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassChanged);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Class DataProductClient has a new signature');
+      expect(items[0]).toBe("Class DataProductClient has a new signature");
     });
 
-    test('Class constructor added', async () => {
+    test("Class constructor added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1024,13 +1100,13 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassChanged);
       expect(items).toHaveLength(0);
     });
 
-    test('Class Property Removed', async () => {
+    test("Class Property Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1058,14 +1134,14 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassPropertyRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Class DataProductClient no longer has parameter analytics');
+      expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
     });
 
-    test('Class Property Removed should still be detected when $host is ignored', async () => {
+    test("Class Property Removed should still be detected when $host is ignored", async () => {
       // Real HLC baseline: $host, apiVersion, subscriptionId? are class properties
       // (they are also accessible via ResourceManagementClientOptionalParams).
       // tagsOperations is the operation group that gets renamed to `tags` in Modular — the breaking change under test.
@@ -1119,14 +1195,16 @@ export interface ResourceManagementClientOptionalParams extends ClientOptions {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassPropertyRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Class ResourceManagementClient no longer has parameter tagsOperations');
+      expect(items[0]).toBe(
+        "Class ResourceManagementClient no longer has parameter tagsOperations",
+      );
     });
 
-    test('Class Property Removed that remains a constructor parameter is filtered regardless of SDK type', async () => {
+    test("Class Property Removed that remains a constructor parameter is filtered regardless of SDK type", async () => {
       // The HLC -> Modular guard was removed from filterClassPropertiesMovedToInternals,
       // so properties that are still accessible via constructor signatures are filtered
       // for ANY transition. This case uses Modular -> Modular to prove the filtering is
@@ -1172,14 +1250,14 @@ export interface DataProductClientOptionalParams extends ClientOptions {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassPropertyRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Class DataProductClient no longer has parameter analytics');
+      expect(items[0]).toBe("Class DataProductClient no longer has parameter analytics");
     });
 
-    test('Class Property Optional To Required', async () => {
+    test("Class Property Optional To Required", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1206,14 +1284,17 @@ export class DataProductClient {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassPropertyOptionalToRequired);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ClassPropertyOptionalToRequired,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Parameter version of class DataProductClient is now required');
+      expect(items[0]).toBe("Parameter version of class DataProductClient is now required");
     });
 
-    test('New method added to class should be reported as OperationAdded, not ClassConstructorAdded', async () => {
+    test("New method added to class should be reported as OperationAdded, not ClassConstructorAdded", async () => {
       // Regression test: HLC->Modular migration adds new methods (e.g. getAdooAuthInfo) directly
       // on the client class. These must NOT appear as "has a new constructor" messages.
       const baselineApiView = `
@@ -1257,20 +1338,26 @@ export interface DeveloperHubServiceClientOptionalParams {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
 
       // The new method must appear as a feature (OperationAdded), not a constructor
-      const constructorAddedItems = getItemsByCategory(changelogItems, ChangelogItemCategory.ClassConstructorAdded);
-      const operationAddedItems = getItemsByCategory(changelogItems, ChangelogItemCategory.OperationAdded);
+      const constructorAddedItems = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.ClassConstructorAdded,
+      );
+      const operationAddedItems = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.OperationAdded,
+      );
 
       // Must not produce any "has a new constructor" entry for getAdooAuthInfo
-      expect(constructorAddedItems.some((msg) => msg.includes('getAdooAuthInfo'))).toBe(false);
+      expect(constructorAddedItems.some((msg) => msg.includes("getAdooAuthInfo"))).toBe(false);
       // Must produce an OperationAdded entry for getAdooAuthInfo
-      expect(operationAddedItems.some((msg) => msg.includes('getAdooAuthInfo'))).toBe(true);
+      expect(operationAddedItems.some((msg) => msg.includes("getAdooAuthInfo"))).toBe(true);
     });
 
-    test('Type Alias Added', async () => {
+    test("Type Alias Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -1289,14 +1376,14 @@ export type DataProductStatus = "Active" | "Inactive" | "Pending";
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.TypeAliasAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added Type Alias DataProductStatus');
+      expect(items[0]).toBe("Added Type Alias DataProductStatus");
     });
 
-    test('Type Alias Removed', async () => {
+    test("Type Alias Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1315,14 +1402,14 @@ export type DataProductStatus = "Active" | "Inactive" | "Pending";
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.TypeAliasRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed Type Alias DataProductStatus');
+      expect(items[0]).toBe("Removed Type Alias DataProductStatus");
     });
 
-    test('Type Alias Type Changed', async () => {
+    test("Type Alias Type Changed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1343,14 +1430,14 @@ export type DataProductStatus = "Running" | "Stopped";
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.TypeAliasTypeChanged);
       expect(items).toHaveLength(1);
       expect(items[0]).toBe('Type alias "DataProductStatus" has been changed');
     });
 
-    test('Enum Added', async () => {
+    test("Enum Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -1373,14 +1460,14 @@ export enum DataProductType {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.EnumAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added Enum DataProductType');
+      expect(items[0]).toBe("Added Enum DataProductType");
     });
 
-    test('Enum Removed', async () => {
+    test("Enum Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1403,14 +1490,14 @@ export enum DataProductType {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.EnumRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed Enum DataProductType');
+      expect(items[0]).toBe("Removed Enum DataProductType");
     });
 
-    test('Enum Value Added', async () => {
+    test("Enum Value Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1438,14 +1525,14 @@ export enum DataProductType {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.EnumMemberAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Enum DataProductType has a new value RealTime');
+      expect(items[0]).toBe("Enum DataProductType has a new value RealTime");
     });
 
-    test('Enum Value Removed', async () => {
+    test("Enum Value Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1473,14 +1560,14 @@ export enum DataProductType {
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.EnumMemberRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Enum DataProductType no longer has value RealTime');
+      expect(items[0]).toBe("Enum DataProductType no longer has value RealTime");
     });
 
-    test('Function Added', async () => {
+    test("Function Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 \`\`\`
@@ -1499,14 +1586,14 @@ export function createDataProduct(name: string, type: DataProductType): DataProd
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.FunctionAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Added function createDataProduct');
+      expect(items[0]).toBe("Added function createDataProduct");
     });
 
-    test('Function Removed', async () => {
+    test("Function Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1525,14 +1612,14 @@ export function createDataProduct(name: string, type: DataProductType): DataProd
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.FunctionRemoved);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe('Removed function createDataProduct');
+      expect(items[0]).toBe("Removed function createDataProduct");
     });
 
-    test('Function Overload Added', async () => {
+    test("Function Overload Added", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1554,14 +1641,16 @@ export function processData(data: number): number;
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
       const items = getItemsByCategory(changelogItems, ChangelogItemCategory.FunctionOverloadAdded);
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe(`Added function overload "export function processData(data: number): number;"`);
+      expect(items[0]).toBe(
+        `Added function overload "export function processData(data: number): number;"`,
+      );
     });
 
-    test('Function Overload Removed', async () => {
+    test("Function Overload Removed", async () => {
       const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1583,21 +1672,26 @@ export function processData(data: string): string;
         {
           apiView: currentApiView,
           sdkType: SDKType.ModularClient,
-        }
+        },
       );
-      const items = getItemsByCategory(changelogItems, ChangelogItemCategory.FunctionOverloadRemoved);
+      const items = getItemsByCategory(
+        changelogItems,
+        ChangelogItemCategory.FunctionOverloadRemoved,
+      );
       expect(items).toHaveLength(1);
-      expect(items[0]).toBe(`Removed function overload "export function processData(data: number): number;"`);
+      expect(items[0]).toBe(
+        `Removed function overload "export function processData(data: number): number;"`,
+      );
     });
   });
 
   // TODO: add tests
 });
 
-describe('Breaking change detection from high level client to modular client', () => {});
+describe("Breaking change detection from high level client to modular client", () => {});
 
-describe('Generic Interface Detection', () => {
-  test('should not detect breaking change for renamed generic interface with same structure', async () => {
+describe("Generic Interface Detection", () => {
+  test("should not detect breaking change for renamed generic interface with same structure", async () => {
     const baselineApiView = `
 \`\`\` ts
 // @public
@@ -1626,7 +1720,7 @@ export interface GenericInterfaceNameChange<T> {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
 
     expect(getItemsByCategory(changelogItems, ChangelogItemCategory.ModelRemoved).length).toBe(1);
@@ -1634,18 +1728,18 @@ export interface GenericInterfaceNameChange<T> {
 
     // Verify breaking changes detected
     const totalBreakingChanges = [...changelogItems.breakingChanges.keys()].flatMap(
-      (category) => changelogItems.breakingChanges.get(category) ?? []
+      (category) => changelogItems.breakingChanges.get(category) ?? [],
     ).length;
     expect(totalBreakingChanges).toBe(1);
 
     // Verify new features detected
     const totalNewFeatures = [...changelogItems.features.keys()].flatMap(
-      (category) => changelogItems.features.get(category) ?? []
+      (category) => changelogItems.features.get(category) ?? [],
     ).length;
     expect(totalNewFeatures).toBe(1);
   });
 
-  test('should just ignore inner changes', async () => {
+  test("should just ignore inner changes", async () => {
     const baselineApiView = `
 \`\`\` ts
 // @public
@@ -1674,31 +1768,33 @@ export interface GenericInterface<T> {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
-    expect(getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyTypeChanged).length).toBe(0);
+    expect(
+      getItemsByCategory(changelogItems, ChangelogItemCategory.ModelPropertyTypeChanged).length,
+    ).toBe(0);
   });
 });
 
-describe('Changelog reading', () => {
+describe("Changelog reading", () => {
   test("Read changelog that doesn't exist", () => {
-    const content = tryReadNpmPackageChangelog('./do/not/exist/CHANGELOG.md');
-    expect(content).toBe('');
+    const content = tryReadNpmPackageChangelog("./do/not/exist/CHANGELOG.md");
+    expect(content).toBe("");
   });
 
-  test('Read changelog that exists', () => {
-    const changelogPath = path.join('CHANGELOG.md');
+  test("Read changelog that exists", () => {
+    const changelogPath = path.join("CHANGELOG.md");
     try {
-      outputFileSync(changelogPath, 'aaa', 'utf-8');
+      outputFileSync(changelogPath, "aaa", "utf-8");
       const content = tryReadNpmPackageChangelog(changelogPath);
-      expect(content).toBe('aaa');
+      expect(content).toBe("aaa");
     } finally {
       removeSync(changelogPath);
     }
   });
 });
 
-describe('Should Be Ignored Due to Not Exposed', () => {
+describe("Should Be Ignored Due to Not Exposed", () => {
   const getActualChangelogItems = (map: Map<ChangelogItemCategory, string[]>) => {
     const items: string[] = [];
     map.forEach((value) => items.push(...value));
@@ -1731,7 +1827,7 @@ export interface DataProductDataProductNextOptionalParams {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1763,7 +1859,7 @@ export interface DataProductHeaders {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1797,7 +1893,7 @@ export interface DataProductResult {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1808,7 +1904,7 @@ export interface DataProductResult {
     expect(actualBreakingChanges).toHaveLength(0);
   });
 
-  test('Removed function getContinuationToken', async () => {
+  test("Removed function getContinuationToken", async () => {
     const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1827,7 +1923,7 @@ export function getContinuationToken(name: string, type: DataProductType): DataP
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1857,7 +1953,7 @@ export type DataProductResponse = "Active" | "Inactive" | "Pending";
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1868,7 +1964,7 @@ export type DataProductResponse = "Active" | "Inactive" | "Pending";
     expect(actualBreakingChanges).toHaveLength(0);
   });
 
-  test('Interface with ignored target names - property remove', async () => {
+  test("Interface with ignored target names - property remove", async () => {
     const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1896,7 +1992,7 @@ export interface DataProduct {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);
@@ -1907,7 +2003,7 @@ export interface DataProduct {
     expect(actualBreakingChanges).toHaveLength(0);
   });
 
-  test('Class with ignored target names - property remove', async () => {
+  test("Class with ignored target names - property remove", async () => {
     const baselineApiView = `
 \`\`\`ts
 // @public
@@ -1935,7 +2031,7 @@ export class DataProductClient {
       {
         apiView: currentApiView,
         sdkType: SDKType.ModularClient,
-      }
+      },
     );
     // Verify no feature changes detected
     const actualFeatures = getActualChangelogItems(changelogItems.features);

@@ -6,10 +6,10 @@ import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:
 import { stat } from "node:fs/promises";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { createPrinter } from "../../util/printer.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
-import { spawnSync } from "node:child_process";
-import { isWindows } from "../../util/platform.ts";
+import { spawnSync } from "@azure/core-process";
 
 const log = createPrinter("build-test");
 
@@ -65,11 +65,6 @@ async function findAndRunTypeScriptConfig(
   );
   return false;
 }
-
-const DOT_BIN_PATH = path.resolve(import.meta.dirname, "..", "..", "..", "node_modules", ".bin");
-const commandPath = isWindows()
-  ? path.join(DOT_BIN_PATH, "tsc.CMD")
-  : path.join(DOT_BIN_PATH, "tsc");
 
 export default leafCommand(commandInfo, async (options) => {
   const browserTest = options["browser-test"];
@@ -139,24 +134,23 @@ export default leafCommand(commandInfo, async (options) => {
   return true;
 });
 
-async function runTypeScript(tsConfig: string): Promise<boolean> {
-  log.info(`Running TypeScript build: ${commandPath} -b ${tsConfig}`);
-  // Pass the executable and arguments separately so a checkout path containing
-  // spaces is not word-split by the shell. Only use a shell on Windows, where
-  // launching a `.CMD` requires it (matching the vendored-command launcher).
-  const res = spawnSync(commandPath, ["-b", tsConfig], {
+export async function runTypeScript(tsConfig: string): Promise<boolean> {
+  const typeScriptCli = resolveNodeModuleBin("typescript", "tsc", process.cwd());
+  const res = spawnSync(process.execPath, ["--", typeScriptCli, "-b", tsConfig], {
     stdio: "inherit",
-    shell: isWindows(),
     cwd: process.cwd(),
   });
 
   if (res.error) {
-    log.error(`Failed to start TypeScript compilation for ${tsConfig}:`, res.error);
+    log.error(`Failed to run the TypeScript compiler for ${tsConfig}: ${res.error.message}`);
     return false;
   }
 
   if (res.status || res.signal) {
-    log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
+    const detail = res.signal ? `signal ${res.signal}` : `exit code ${res.status}`;
+    log.error(
+      `TypeScript compilation failed for ${tsConfig} (${detail}). See the tsc errors above.`,
+    );
     return false;
   }
 

@@ -20,7 +20,6 @@
     // "removeComments": true,                      /* Do not emit comments to output. */
     // "noEmit": true,                              /* Do not emit outputs. */
     "importHelpers": true /* Import emit helpers from 'tslib'. */,
-    "downlevelIteration": true /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */,
     // "isolatedModules": true,                     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
     /* Strict Type-Checking Options */
@@ -67,6 +66,10 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["src/test/**/testCases/**", "vitest.config.ts"],
+  "exclude": [
+    "src/test/**/testCases/**",
+    "src/breaking-change-detector/misc/**",
+    "vitest.config.ts"
+  ],
   "include": ["src/**/*"]
 }

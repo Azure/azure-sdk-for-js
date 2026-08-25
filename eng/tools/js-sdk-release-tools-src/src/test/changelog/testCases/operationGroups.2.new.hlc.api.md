@@ -5,7 +5,10 @@
 ```ts
 // @public (undocumented)
 export interface DataProductsCatalogs {
-    get_NEW(resourceGroupName: string, options?: DataProductsCatalogsGetOptionalParams): Promise<DataProductsCatalogsGetResponse>;
+  get_NEW(
+    resourceGroupName: string,
+    options?: DataProductsCatalogsGetOptionalParams,
+  ): Promise<DataProductsCatalogsGetResponse>;
 }
 
 // (No @packageDocumentation comment for this package)

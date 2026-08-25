@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete snapshot policy
  *
  * @summary delete snapshot policy
- * x-ms-original-file: 2026-04-15-preview/SnapshotPolicies_Delete.json
+ * x-ms-original-file: 2026-05-15-preview/SnapshotPolicies_Delete.json
  */
 async function snapshotPoliciesDelete() {
   const credential = new DefaultAzureCredential();

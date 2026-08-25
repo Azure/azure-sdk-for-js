@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of scenario definitions.
  *
  * @summary get a list of scenario definitions.
- * x-ms-original-file: 2026-05-01-preview/ScenarioConfigurations_ListAll.json
+ * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_ListAll.json
  */
 async function getAListOfScenarioConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

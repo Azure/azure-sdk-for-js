@@ -8,6 +8,5 @@ export interface VmFamiliesListBySubscriptionLocationResourceOptionalParams exte
   /** The filter to apply to the list operation. Filter can be applied to the 'category' property. Example: $filter=category eq 'generalPurposeCategory'. */
   filter?: string;
 }
-
 /** Optional parameters. */
 export interface VmFamiliesGetOptionalParams extends OperationOptions {}

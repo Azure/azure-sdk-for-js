@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
@@ -787,7 +787,10 @@ export interface VolumeProperties {
   readonly encrypted?: boolean;
   /** Application specific placement rules for the particular volume */
   placementRules?: PlacementKeyValuePairs[];
-  /** Flag indicating whether subvolume operations are enabled on the volume */
+  /**
+   * Flag indicating whether subvolume operations are enabled on the volume
+   * Deprecated. Subvolume operations and this flag will be removed in a future API version.
+   */
   enableSubvolumes?: EnableSubvolumes;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
   readonly provisionedAvailabilityZone?: string | null;
@@ -1776,7 +1779,10 @@ export enum KnownAvsDataStore {
  */
 export type AvsDataStore = string;
 
-/** Flag indicating whether subvolume operations are enabled on the volume */
+/**
+ * Flag indicating whether subvolume operations are enabled on the volume
+ * Deprecated. This type will be removed in a future API version.
+ */
 export enum KnownEnableSubvolumes {
   /** subvolumes are enabled */
   Enabled = "Enabled",
@@ -1785,7 +1791,8 @@ export enum KnownEnableSubvolumes {
 }
 
 /**
- * Flag indicating whether subvolume operations are enabled on the volume \
+ * Flag indicating whether subvolume operations are enabled on the volume
+ * Deprecated. This type will be removed in a future API version. \
  * {@link KnownEnableSubvolumes} can be used interchangeably with EnableSubvolumes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -8257,6 +8264,16 @@ export interface LdapConfiguration {
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
   certificateCNHost?: string | null;
+  /** List of DNS server IPv4 addresses for resolving the CN host certificate. This parameter is used when LDAP over TLS is enabled. */
+  dnsServers?: string[];
+  /** Port number for LDAP communication. Default is 389 for LDAP. */
+  ldapPort?: number;
+  /** This specifies the user DN (Distinguished Name), which overrides the base DN for user lookups. */
+  userDN?: string;
+  /** This specifies the group DN (Distinguished Name), which overrides the base DN for group lookups. */
+  groupDN?: string;
+  /** This specifies the netgroup DN (Distinguished Name), which overrides the base DN for netgroup lookups. */
+  netGroupDN?: string;
   /** The authentication level to use when binding to the LDAP server, defaults to Anonymous. */
   bindAuthenticationLevel?: BindAuthenticationLevel;
   /** The distinguished name (DN) to bind as when performing LDAP operations. */
@@ -8276,6 +8293,15 @@ export function ldapConfigurationSerializer(item: LdapConfiguration): any {
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    ldapPort: item["ldapPort"],
+    userDN: item["userDN"],
+    groupDN: item["groupDN"],
+    netGroupDN: item["netGroupDN"],
     bindAuthenticationLevel: item["bindAuthenticationLevel"],
     bindDN: item["bindDN"],
     bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
@@ -8295,6 +8321,15 @@ export function ldapConfigurationDeserializer(item: any): LdapConfiguration {
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    ldapPort: item["ldapPort"],
+    userDN: item["userDN"],
+    groupDN: item["groupDN"],
+    netGroupDN: item["netGroupDN"],
     bindAuthenticationLevel: item["bindAuthenticationLevel"],
     bindDN: item["bindDN"],
     bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
@@ -8454,6 +8489,16 @@ export interface LdapConfigurationPatch {
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
   certificateCNHost?: string | null;
+  /** List of DNS server IPv4 addresses for resolving the CN host certificate. This parameter is used when LDAP over TLS is enabled. */
+  dnsServers?: string[];
+  /** Port number for LDAP communication. Default is 389 for LDAP. */
+  ldapPort?: number;
+  /** This specifies the user DN (Distinguished Name), which overrides the base DN for user lookups. */
+  userDN?: string;
+  /** This specifies the group DN (Distinguished Name), which overrides the base DN for group lookups. */
+  groupDN?: string;
+  /** This specifies the netgroup DN (Distinguished Name), which overrides the base DN for netgroup lookups. */
+  netGroupDN?: string;
   /** The authentication level to use when binding to the LDAP server, defaults to Anonymous. */
   bindAuthenticationLevel?: BindAuthenticationLevel;
   /** The distinguished name (DN) to bind as when performing LDAP operations. */
@@ -8473,6 +8518,15 @@ export function ldapConfigurationPatchSerializer(item: LdapConfigurationPatch): 
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    dnsServers: !item["dnsServers"]
+      ? item["dnsServers"]
+      : item["dnsServers"].map((p: any) => {
+          return p;
+        }),
+    ldapPort: item["ldapPort"],
+    userDN: item["userDN"],
+    groupDN: item["groupDN"],
+    netGroupDN: item["netGroupDN"],
     bindAuthenticationLevel: item["bindAuthenticationLevel"],
     bindDN: item["bindDN"],
     bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
@@ -8864,7 +8918,10 @@ export function backupRestoreFilesSerializer(item: BackupRestoreFiles): any {
   };
 }
 
-/** Subvolume Information properties */
+/**
+ * Subvolume Information properties
+ * Deprecated. This resource type will be removed in a future API version.
+ */
 export interface SubvolumeInfo extends ProxyResource {
   /** Subvolume Properties */
   properties?: SubvolumeProperties;
@@ -9395,4 +9452,8 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-04-15-preview API version. */
   V20260415Preview = "2026-04-15-preview",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-05-15-preview API version. */
+  V20260515Preview = "2026-05-15-preview",
 }

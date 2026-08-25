@@ -104,7 +104,6 @@ export interface AccountsOperations {
     options?: AccountsGetOptionalParams,
   ) => Promise<NetAppAccount>;
 }
-
 function _getAccounts(context: NetAppManagementContext) {
   return {
     refreshLdapBindPassword: (
@@ -157,7 +156,6 @@ function _getAccounts(context: NetAppManagementContext) {
       get(context, resourceGroupName, accountName, options),
   };
 }
-
 export function _getAccountsOperations(context: NetAppManagementContext): AccountsOperations {
   return {
     ..._getAccounts(context),

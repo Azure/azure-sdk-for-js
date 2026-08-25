@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified NetApp Elastic Account
  *
  * @summary patch the specified NetApp Elastic Account
- * x-ms-original-file: 2026-04-15-preview/ElasticAccounts_Update.json
+ * x-ms-original-file: 2026-05-15-preview/ElasticAccounts_Update.json
  */
 async function elasticAccountsUpdate() {
   const credential = new DefaultAzureCredential();

@@ -3188,6 +3188,22 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   immutabilityPolicy?: BlobImmutabilityPolicy;
 
   /**
+   * An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
+
+  /**
    * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
@@ -5641,11 +5657,10 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobListPageRangesSegmentOptions = {},
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeItemSegments(
       offset,
       count,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);
@@ -5903,12 +5918,11 @@ export class PageBlobClient extends BlobClient {
     prevSnapshotOrUrl: string,
     options?: PageBlobListPageRangesDiffSegmentOptions,
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
       offset,
       count,
       prevSnapshotOrUrl,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);

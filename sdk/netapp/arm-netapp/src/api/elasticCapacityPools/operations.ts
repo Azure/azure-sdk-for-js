@@ -54,7 +54,7 @@ export function _checkVolumeFilePathAvailabilitySend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,6 @@ export async function _checkVolumeFilePathAvailabilityDeserialize(
 
   return checkElasticResourceAvailabilityResponseDeserializer(result.body);
 }
-
 /** Check if an Elastic Volume file path is available within the given Elastic Capacity Pool. */
 export async function checkVolumeFilePathAvailability(
   context: Client,
@@ -121,7 +120,7 @@ export function _changeZoneSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +149,6 @@ export async function _changeZoneDeserialize(
 
   return elasticCapacityPoolDeserializer(result.body);
 }
-
 /** Moves pool to another zone */
 export function changeZone(
   context: Client,
@@ -166,7 +164,7 @@ export function changeZone(
     getInitialResponse: () =>
       _changeZoneSend(context, resourceGroupName, accountName, poolName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
 }
 
@@ -182,7 +180,7 @@ export function _listByElasticAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +207,6 @@ export async function _listByElasticAccountDeserialize(
 
   return _elasticCapacityPoolListResultDeserializer(result.body);
 }
-
 /** List and describe all NetApp Elastic Capacity Pools in the Elastic NetApp Account. */
 export function listByElasticAccount(
   context: Client,
@@ -225,7 +222,7 @@ export function listByElasticAccount(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -244,7 +241,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -266,7 +263,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete the specified NetApp Elastic Capacity Pool */
 export function $delete(
   context: Client,
@@ -281,7 +277,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -300,7 +296,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -329,7 +325,6 @@ export async function _updateDeserialize(
 
   return elasticCapacityPoolDeserializer(result.body);
 }
-
 /** Patch the specified NetApp Elastic Capacity Pool */
 export function update(
   context: Client,
@@ -345,7 +340,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
 }
 
@@ -364,7 +359,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,7 +388,6 @@ export async function _createOrUpdateDeserialize(
 
   return elasticCapacityPoolDeserializer(result.body);
 }
-
 /** Create or update the specified NetApp Elastic Capacity Pool within the resource group and NetApp Elastic Account */
 export function createOrUpdate(
   context: Client,
@@ -409,7 +403,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, accountName, poolName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ElasticCapacityPool>, ElasticCapacityPool>;
 }
 
@@ -427,7 +421,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,7 +446,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<El
 
   return elasticCapacityPoolDeserializer(result.body);
 }
-
 /** Get the NetApp Elastic Capacity Pool */
 export async function get(
   context: Client,

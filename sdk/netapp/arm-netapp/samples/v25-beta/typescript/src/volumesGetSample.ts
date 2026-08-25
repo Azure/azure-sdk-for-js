@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the details of the specified volume
  *
  * @summary get the details of the specified volume
- * x-ms-original-file: 2026-04-15-preview/Volumes_ExtraLargeVolumes_Get.json
+ * x-ms-original-file: 2026-05-15-preview/Volumes_ExtraLargeVolumes_Get.json
  */
 async function volumesExtralargeVolumeGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function volumesExtralargeVolumeGet(): Promise<void> {
  * This sample demonstrates how to get the details of the specified volume
  *
  * @summary get the details of the specified volume
- * x-ms-original-file: 2026-04-15-preview/Volumes_Get.json
+ * x-ms-original-file: 2026-05-15-preview/Volumes_Get.json
  */
 async function volumesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

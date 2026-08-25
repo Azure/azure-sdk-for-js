@@ -45,7 +45,7 @@ export function _clearSuspectsSend(
       poolName: poolName,
       volumeName: volumeName,
       ransomwareReportName: ransomwareReportName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,7 +71,6 @@ export async function _clearSuspectsDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /**
  * Clear ransomware suspects for the given Advanced Ransomware Protection report. You should evaluate the report to determine whether the activity is acceptable (false positive) or whether an attack seems malicious.
  * ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data",
@@ -101,7 +100,7 @@ export function clearSuspects(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -121,7 +120,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,7 +147,6 @@ export async function _listDeserialize(
 
   return _ransomwareReportsListDeserializer(result.body);
 }
-
 /**
  * List all ransomware reports for the volume
  * Returns a list of the Advanced Ransomware Protection (ARP) reports for the volume.
@@ -171,7 +169,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -194,7 +192,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       ransomwareReportName: ransomwareReportName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -219,7 +217,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ra
 
   return ransomwareReportDeserializer(result.body);
 }
-
 /**
  * Get details of the specified ransomware report (ARP)
  * ARP reports are created with a list of suspected files when it detects any combination of high data entropy, abnormal volume activity with data encryption, and unusual file extensions.

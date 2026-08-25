@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified Elastic Policy
  *
  * @summary delete the specified Elastic Policy
- * x-ms-original-file: 2026-04-15-preview/ElasticBackupPolicies_Delete.json
+ * x-ms-original-file: 2026-05-15-preview/ElasticBackupPolicies_Delete.json
  */
 async function elasticBackupPoliciesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

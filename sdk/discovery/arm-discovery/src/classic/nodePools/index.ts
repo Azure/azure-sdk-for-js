@@ -29,11 +29,6 @@ export interface NodePoolsOperations {
     options?: NodePoolsListBySupercomputerOptionalParams,
   ) => PagedAsyncIterableIterator<NodePool>;
   /** Delete a NodePool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     supercomputerName: string,
@@ -64,7 +59,6 @@ export interface NodePoolsOperations {
     options?: NodePoolsGetOptionalParams,
   ) => Promise<NodePool>;
 }
-
 function _getNodePools(context: DiscoveryContext) {
   return {
     listBySupercomputer: (
@@ -108,7 +102,6 @@ function _getNodePools(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, supercomputerName, nodePoolName, options),
   };
 }
-
 export function _getNodePoolsOperations(context: DiscoveryContext): NodePoolsOperations {
   return {
     ..._getNodePools(context),

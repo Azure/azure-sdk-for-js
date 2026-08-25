@@ -42,7 +42,7 @@ export function _listSend(
       networkManagerName: networkManagerName,
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -94,7 +94,7 @@ export function list(
       ),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -116,7 +116,7 @@ export function _$deleteSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       force: options?.force,
     },
     {
@@ -164,7 +164,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -187,7 +187,7 @@ export function _createOrUpdateSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,7 +259,7 @@ export function _getSend(
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
       ruleName: ruleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

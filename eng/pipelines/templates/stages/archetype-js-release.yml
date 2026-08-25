@@ -82,18 +82,15 @@ stages:
                 steps:
                   - checkout: self
                   - download: current
+                  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
                   - template: /eng/common/pipelines/templates/steps/retain-run.yml
                   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
                     parameters:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
-                  - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-                    parameters:
-                      npmrcPath: $(Agent.TempDirectory)/create-release-tag/.npmrc
-                      registryUrl: '$(PublicDevOpsRegistry)'
                   - script: >
-                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install --userconfig=$(Agent.TempDirectory)/create-release-tag/.npmrc `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
+                      ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
                   - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                     parameters:
@@ -116,7 +113,6 @@ stages:
                       ReleaseSha: $(Build.SourceVersion)
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
-                      NpmConfigUserConfig: $(Agent.TempDirectory)/create-release-tag/.npmrc
                       AuthToken: ''
 
               - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
