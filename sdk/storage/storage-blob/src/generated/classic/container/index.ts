@@ -15,12 +15,13 @@ import {
   acquireLease,
   findBlobsByTags,
   submitBatch,
+  createSession,
   rename,
   restore,
   setAccessPolicy,
   getAccessPolicy,
   setMetadata,
-  $delete,
+  deleteContainer,
   getProperties,
   create,
 } from "../../api/container/operations.js";
@@ -37,6 +38,7 @@ import {
   ContainerAcquireLeaseOptionalParams,
   ContainerFindBlobsByTagsOptionalParams,
   ContainerSubmitBatchOptionalParams,
+  ContainerCreateSessionOptionalParams,
   ContainerRenameOptionalParams,
   ContainerRestoreOptionalParams,
   ContainerSetAccessPolicyOptionalParams,
@@ -53,6 +55,8 @@ import {
   PublicAccessType,
   FilterBlobSegment,
   SignedIdentifiers,
+  CreateSessionConfiguration,
+  CreateSessionResponse,
   ListBlobsResponse,
   ListBlobsHierarchicalResponse,
   SkuName,
@@ -347,6 +351,29 @@ export interface ContainerOperations {
         { requestId?: string; version: string; contentType: "multipart/mixed" }
       >
   >;
+  /** The Create Session operation enables users to create a session scoped to a container. */
+  createSession: (
+    createSessionConfiguration: CreateSessionConfiguration,
+    options?: ContainerCreateSessionOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & CreateSessionResponse &
+      StorageCompatResponseInfo<
+        CreateSessionResponse,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Renames the specified existing container. */
   rename: (
     sourceContainerName: string,
@@ -451,12 +478,7 @@ export interface ContainerOperations {
     >
   >;
   /** Deletes the specified container. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteContainer: (
     options?: ContainerDeleteOptionalParams,
   ) => Promise<
     {
@@ -534,6 +556,7 @@ export interface ContainerOperations {
     >
   >;
 }
+
 function _getContainer(context: BlobContext) {
   return {
     getAccountInfo: (options?: ContainerGetAccountInfoOptionalParams) =>
@@ -570,6 +593,10 @@ function _getContainer(context: BlobContext) {
       body: string,
       options?: ContainerSubmitBatchOptionalParams,
     ) => submitBatch(context, contentType, contentLength, body, options),
+    createSession: (
+      createSessionConfiguration: CreateSessionConfiguration,
+      options?: ContainerCreateSessionOptionalParams,
+    ) => createSession(context, createSessionConfiguration, options),
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>
       rename(context, sourceContainerName, options),
     restore: (options?: ContainerRestoreOptionalParams) => restore(context, options),
@@ -578,12 +605,13 @@ function _getContainer(context: BlobContext) {
     getAccessPolicy: (options?: ContainerGetAccessPolicyOptionalParams) =>
       getAccessPolicy(context, options),
     setMetadata: (options?: ContainerSetMetadataOptionalParams) => setMetadata(context, options),
-    delete: (options?: ContainerDeleteOptionalParams) => $delete(context, options),
+    deleteContainer: (options?: ContainerDeleteOptionalParams) => deleteContainer(context, options),
     getProperties: (options?: ContainerGetPropertiesOptionalParams) =>
       getProperties(context, options),
     create: (options?: ContainerCreateOptionalParams) => create(context, options),
   };
 }
+
 export function _getContainerOperations(context: BlobContext): ContainerOperations {
   return {
     ..._getContainer(context),

@@ -7,7 +7,6 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { NodeReadableStream } from "@azure-rest/core-client";
 import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import {
@@ -18,6 +17,7 @@ import {
   deserializeXmlObject,
   XmlSerializedObject,
 } from "../static-helpers/serialization/xml-helpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /** The blob service properties. */
@@ -1432,10 +1432,13 @@ export function containerPropertiesXmlObjectDeserializer(
 
 /** The lease status. */
 export type LeaseStatus = "unlocked" | "locked";
+
 /** The lease state. */
 export type LeaseState = "available" | "leased" | "expired" | "breaking" | "broken";
+
 /** The lease duration. */
 export type LeaseDuration = "infinite" | "fixed";
+
 /** The public access type. */
 export type PublicAccessType = "blob" | "container";
 
@@ -2087,6 +2090,136 @@ export function accessPolicyXmlObjectDeserializer(
     },
   ];
   return deserializeXmlObject<AccessPolicy>(xmlObject, properties);
+}
+
+/** The configuration used to create a session. */
+export interface CreateSessionConfiguration {
+  /** The type of authentication required to create the session. The only type currently supported is HMAC. */
+  authenticationType: AuthenticationType;
+}
+
+export function createSessionConfigurationSerializer(item: CreateSessionConfiguration): any {
+  return { authenticationType: item["authenticationType"] };
+}
+
+export function createSessionConfigurationXmlSerializer(item: CreateSessionConfiguration): string {
+  const properties: XmlPropertyMetadata[] = [
+    {
+      propertyName: "authenticationType",
+      xmlOptions: { name: "AuthenticationType" },
+      type: "primitive",
+    },
+  ];
+  return serializeToXml(item, properties, "CreateSessionRequest");
+}
+
+/** The type of authentication required to create the session. The only type currently supported is HMAC. */
+export type AuthenticationType = "HMAC";
+
+/** The response of the Create Session API. */
+export interface CreateSessionResponse {
+  /** A unique identifier for the created session. */
+  id?: string;
+  /** The time when the session will expire. */
+  expiration?: Date;
+  /** The type of authentication required to create the session. The only type currently supported is HMAC. */
+  authenticationType?: AuthenticationType;
+  /** The credentials used to authorize subsequent requests in the session. */
+  credentials?: SessionCredentials;
+}
+
+export function createSessionResponseDeserializer(item: any): CreateSessionResponse {
+  return {
+    id: item["id"],
+    expiration: !item["expiration"] ? item["expiration"] : new Date(item["expiration"]),
+    authenticationType: item["authenticationType"],
+    credentials: !item["credentials"]
+      ? item["credentials"]
+      : sessionCredentialsDeserializer(item["credentials"]),
+  };
+}
+
+export function createSessionResponseXmlDeserializer(xmlString: string): CreateSessionResponse {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "id",
+      xmlOptions: { name: "Id" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "expiration",
+      xmlOptions: { name: "Expiration" },
+      type: "date",
+      dateEncoding: "rfc7231",
+    },
+    {
+      propertyName: "authenticationType",
+      xmlOptions: { name: "AuthenticationType" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "credentials",
+      xmlOptions: { name: "Credentials" },
+      type: "object",
+      deserializer: sessionCredentialsXmlObjectDeserializer,
+    },
+  ];
+  return deserializeFromXml<CreateSessionResponse>(xmlString, properties, "CreateSessionResult");
+}
+
+/** The credentials associated with a session. */
+export interface SessionCredentials {
+  /** An opaque token used to authorize subsequent requests in the session. Must be treated as a security credential. */
+  sessionToken?: string;
+  /** Only returned when AuthenticationType is HMAC. A symmetric encryption key used to sign requests in the session using the Shared Key protocol. */
+  sessionKey?: string;
+}
+
+export function sessionCredentialsDeserializer(item: any): SessionCredentials {
+  return {
+    sessionToken: item["sessionToken"],
+    sessionKey: item["sessionKey"],
+  };
+}
+
+export function sessionCredentialsXmlDeserializer(xmlString: string): SessionCredentials {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "sessionToken",
+      xmlOptions: { name: "SessionToken" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionKey",
+      xmlOptions: { name: "SessionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeFromXml<SessionCredentials>(xmlString, properties, "Credentials");
+}
+
+export function sessionCredentialsXmlObjectDeserializer(
+  xmlObject: Record<string, unknown>,
+): SessionCredentials {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "sessionToken",
+      xmlOptions: { name: "SessionToken" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "sessionKey",
+      xmlOptions: { name: "SessionKey" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+  ];
+  return deserializeXmlObject<SessionCredentials>(xmlObject, properties);
 }
 
 /** The result of the List Blobs API. */
@@ -3049,8 +3182,10 @@ export function blobPropertiesXmlObjectDeserializer(
 
 /** The blob type. */
 export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+
 /** The copy status. */
 export type CopyStatus = "pending" | "success" | "failed" | "aborted";
+
 /** The access tiers. */
 export type AccessTier =
   | "P4"
@@ -3070,14 +3205,17 @@ export type AccessTier =
   | "Premium"
   | "Cold"
   | "Smart";
+
 /** The archive status. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
   | "rehydrate-pending-to-cool"
   | "rehydrate-pending-to-cold"
   | "rehydrate-pending-to-smart";
+
 /** The priority of the rehydrate operation. */
 export type RehydratePriority = "High" | "Standard";
+
 /** The immutability policy mode. */
 export type ImmutabilityPolicyMode = "mutable" | "locked" | "unlocked";
 
@@ -3999,6 +4137,7 @@ export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknow
 
 /** Specifies what additional information should be returned as part of the list operation. */
 export type ListContainersIncludeType = "metadata" | "deleted" | "system";
+
 /** The account SKU. */
 export type SkuName =
   | "Standard_LRS"
@@ -4009,11 +4148,14 @@ export type SkuName =
   | "Standard_GZRS"
   | "Premium_ZRS"
   | "Standard_RAGZRS";
+
 /** The account kind. */
 export type AccountKind =
   "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
+
 /** Specifies what type of blobs should be returned as part of the filter operation. */
 export type FilterBlobsIncludeItem = "none" | "versions";
+
 /** Specifies additional datasets to include when listing blobs in a container. */
 export type ListBlobsIncludeItem =
   | "copy"
@@ -4026,23 +4168,32 @@ export type ListBlobsIncludeItem =
   | "immutabilitypolicy"
   | "legalhold"
   | "deletedwithversions";
+
 /** The algorithm used to produce the encryption key hash. */
 export type EncryptionAlgorithmType = "AES256";
+
 /** Specifies the delete behavior of blob snapshots. */
 export type DeleteSnapshotsOptionType = "only" | "include";
+
 /** The type of blob deletions. */
 export type BlobDeleteType = "Permanent";
+
 /** The blob expiry options. */
 export type BlobExpiryOptions = "NeverExpire" | "RelativeToCreation" | "RelativeToNow" | "Absolute";
+
 /** The blob copy source tags types. */
 export type BlobCopySourceTags = "REPLACE" | "COPY";
+
 /** The file share token intent types. */
 export type FileShareTokenIntent = "backup";
+
 /** The block list types. */
 export type BlockListType = "committed" | "uncommitted" | "all";
+
 /** The premium page blob access tier types. */
 export type PremiumPageBlobAccessTier =
   "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80";
+
 /** The sequence number actions. */
 export type SequenceNumberActionType = "increment" | "max" | "update";
 

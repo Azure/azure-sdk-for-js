@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/storage-blob/package.json" with { type: "json" };
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -23,7 +24,7 @@ export function createBlob(
 ): BlobContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-storage-blob/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-storage-blob/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

@@ -1524,7 +1524,7 @@ export class BlobClient extends StorageClient {
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
       return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(
         adjustResponse(
-          await this.blobContext.delete({
+          await this.blobContext.deleteBlob({
             abortSignal: options.abortSignal,
             deleteSnapshots: options.deleteSnapshots,
             ...options.conditions,

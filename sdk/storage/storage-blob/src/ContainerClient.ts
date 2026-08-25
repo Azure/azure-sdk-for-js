@@ -1106,7 +1106,7 @@ export class ContainerClient extends StorageClient {
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
       return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
         adjustResponse(
-          await this.containerContext.delete({
+          await this.containerContext.deleteContainer({
             abortSignal: options.abortSignal,
             ...options.conditions,
             ...updatedOptions,

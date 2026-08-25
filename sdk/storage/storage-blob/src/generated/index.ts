@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 export { BlobClient } from "./blobClient.js";
 export type {
@@ -33,6 +33,10 @@ export type {
   SignedIdentifiers,
   SignedIdentifier,
   AccessPolicy,
+  CreateSessionConfiguration,
+  AuthenticationType,
+  CreateSessionResponse,
+  SessionCredentials,
   ListBlobsResponse,
   BlobItem,
   BlobName,
@@ -138,6 +142,7 @@ export type {
   ContainerAcquireLeaseOptionalParams,
   ContainerFindBlobsByTagsOptionalParams,
   ContainerSubmitBatchOptionalParams,
+  ContainerCreateSessionOptionalParams,
   ContainerRenameOptionalParams,
   ContainerRestoreOptionalParams,
   ContainerSetAccessPolicyOptionalParams,

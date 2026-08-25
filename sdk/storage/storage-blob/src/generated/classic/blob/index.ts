@@ -23,7 +23,7 @@ import {
   setProperties,
   setExpiry,
   undelete,
-  $delete,
+  deleteBlob,
   getProperties,
   download,
 } from "../../api/blob/operations.js";
@@ -176,7 +176,7 @@ export interface BlobOperations {
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;
@@ -191,7 +191,7 @@ export interface BlobOperations {
         copyId?: string;
         copyStatus?: "success";
         contentMD5: Uint8Array;
-        xMsContentCrc64?: Uint8Array;
+        contentCrc64?: Uint8Array;
         encryptionScope?: string;
         date: Date;
         version: string;
@@ -541,12 +541,7 @@ export interface BlobOperations {
     >
   >;
   /** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteBlob: (
     options?: BlobDeleteOptionalParams,
   ) => Promise<
     {
@@ -597,7 +592,7 @@ export interface BlobOperations {
       accessTier?: string;
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
-      accessTierChangedOn?: Date;
+      accessTierChangeTime?: Date;
       smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
@@ -649,7 +644,7 @@ export interface BlobOperations {
         accessTier?: string;
         accessTierInferred?: boolean;
         archiveStatus?: ArchiveStatus;
-        accessTierChangedOn?: Date;
+        accessTierChangeTime?: Date;
         smartAccessTier?: string;
         versionId: string;
         isCurrentVersion?: boolean;
@@ -718,7 +713,7 @@ export interface BlobOperations {
       structuredContentLength?: number;
       accessTier?: string;
       accessTierInferred?: boolean;
-      accessTierChangedOn?: Date;
+      accessTierChangeTime?: Date;
       smartAccessTier?: string;
       version: string;
       contentType: "application/octet-stream";
@@ -771,7 +766,7 @@ export interface BlobOperations {
           structuredContentLength?: number;
           accessTier?: string;
           accessTierInferred?: boolean;
-          accessTierChangedOn?: Date;
+          accessTierChangeTime?: Date;
           smartAccessTier?: string;
           version: string;
           contentType: "application/octet-stream";
@@ -779,6 +774,7 @@ export interface BlobOperations {
       >
   >;
 }
+
 function _getBlob(context: BlobContext) {
   return {
     setTags: (tags: BlobTags, options?: BlobSetTagsOptionalParams) =>
@@ -819,11 +815,12 @@ function _getBlob(context: BlobContext) {
     setExpiry: (expiryOptions: BlobExpiryOptions, options?: BlobSetExpiryOptionalParams) =>
       setExpiry(context, expiryOptions, options),
     undelete: (options?: BlobUndeleteOptionalParams) => undelete(context, options),
-    delete: (options?: BlobDeleteOptionalParams) => $delete(context, options),
+    deleteBlob: (options?: BlobDeleteOptionalParams) => deleteBlob(context, options),
     getProperties: (options?: BlobGetPropertiesOptionalParams) => getProperties(context, options),
     download: (options?: BlobDownloadOptionalParams) => download(context, options),
   };
 }
+
 export function _getBlobOperations(context: BlobContext): BlobOperations {
   return {
     ..._getBlob(context),

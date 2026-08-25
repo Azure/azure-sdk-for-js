@@ -216,6 +216,7 @@ export interface ServiceOperations {
     >
   >;
 }
+
 function _getService(context: BlobContext) {
   return {
     findBlobsByTags: (filterExpression: string, options?: ServiceFindBlobsByTagsOptionalParams) =>
@@ -242,6 +243,7 @@ function _getService(context: BlobContext) {
     ) => setProperties(context, storageServiceProperties, options),
   };
 }
+
 export function _getServiceOperations(context: BlobContext): ServiceOperations {
   return {
     ..._getService(context),

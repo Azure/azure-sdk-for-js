@@ -22,7 +22,7 @@ export {
   setProperties,
   setExpiry,
   undelete,
-  $delete,
+  deleteBlob,
   getProperties,
   download,
 } from "./operations.js";

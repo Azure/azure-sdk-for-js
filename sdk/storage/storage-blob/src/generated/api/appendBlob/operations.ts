@@ -142,6 +142,7 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Seals the append blob to make it read-only. */
 export async function seal(
   context: Client,
@@ -327,7 +328,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  xMsContentCrc64?: Uint8Array;
+  contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -345,7 +346,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    xMsContentCrc64:
+    contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -413,6 +414,7 @@ export function _appendBlockFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads a new block of data from the specified URL to the end of an append blob. */
 export async function appendBlockFromUrl(
   context: Client,
@@ -424,7 +426,7 @@ export async function appendBlockFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    xMsContentCrc64?: Uint8Array;
+    contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -440,7 +442,7 @@ export async function appendBlockFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -577,7 +579,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
-  xMsContentCrc64?: Uint8Array;
+  contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
   isServerEncrypted?: boolean;
@@ -596,7 +598,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    xMsContentCrc64:
+    contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -669,6 +671,7 @@ export function _appendBlockDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Uploads a new block of data to the end of an append blob. */
 export async function appendBlock(
   context: Client,
@@ -680,7 +683,7 @@ export async function appendBlock(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
-    xMsContentCrc64?: Uint8Array;
+    contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
     isServerEncrypted?: boolean;
@@ -697,7 +700,7 @@ export async function appendBlock(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      xMsContentCrc64?: Uint8Array;
+      contentCrc64?: Uint8Array;
       blobAppendOffset?: string;
       blobCommittedBlockCount?: number;
       isServerEncrypted?: boolean;
@@ -905,6 +908,7 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
+
 /** Creates a new append blob. */
 export async function create(
   context: Client,
