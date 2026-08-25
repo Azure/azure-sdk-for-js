@@ -169,9 +169,25 @@ describe("Sample: createAnalyzerWithLabels", () => {
     );
     console.log(`Analyzer '${testAnalyzerId}' created successfully`);
 
-    // Verify field schema
+    // ========== Analyzer creation verification ==========
+    //  (labeled-data variant). All values here are defined by
+    // this test itself in the create payload above, so they are portable across
+    // environments. This test bails early in playback (no SAS URL), so these assertions
+    // are effectively live-only.
+
+    // Verify analyzer config (all values sent in the create payload).
+    assert.ok(result.config, "Analyzer config should not be null");
+    assert.strictEqual(result.config?.enableLayout, true, "config.enableLayout should be true");
+    assert.strictEqual(result.config?.enableOcr, true, "config.enableOcr should be true");
+
+    // Verify field schema.
     assert.ok(result.fieldSchema, "Field schema should not be null");
     assert.equal(result.fieldSchema!.name, "receipt_schema", "Field schema name should match");
+    assert.strictEqual(
+      result.fieldSchema!.description,
+      "Schema for receipt extraction with items",
+      "Field schema description should match",
+    );
     if (result.fieldSchema!.fields) {
       const fieldCount = Object.keys(result.fieldSchema!.fields).length;
       assert.equal(fieldCount, 3, "Should have 3 fields (MerchantName, Items, TotalPrice)");
@@ -180,6 +196,52 @@ describe("Sample: createAnalyzerWithLabels", () => {
       assert.ok(result.fieldSchema!.fields["TotalPrice"], "TotalPrice field should exist");
       console.log(`Field schema verified: ${fieldCount} fields`);
     }
+
+    // Verify individual field types/methods (sample-defined values).
+    const merchantName = result.fieldSchema!.fields.MerchantName;
+    assert.strictEqual(merchantName?.type, "string", "MerchantName should be string type");
+    assert.strictEqual(merchantName?.method, "extract", "MerchantName should use extract method");
+    assert.ok(merchantName?.description, "MerchantName should have a description");
+
+    const items = result.fieldSchema!.fields.Items;
+    assert.strictEqual(items?.type, "array", "Items should be array type");
+    assert.strictEqual(items?.method, "generate", "Items should use generate method");
+    assert.ok(items?.description, "Items should have a description");
+
+    // Verify nested item definition (Items array element schema).
+    assert.ok(items?.itemDefinition, "Items should have itemDefinition");
+    assert.strictEqual(
+      items?.itemDefinition?.type,
+      "object",
+      "Items.itemDefinition should be object type",
+    );
+    assert.ok(items?.itemDefinition?.properties, "Items.itemDefinition should have properties");
+    const itemProps = items?.itemDefinition?.properties ?? {};
+    assert.strictEqual(
+      Object.keys(itemProps).length,
+      3,
+      "Items.itemDefinition should have 3 properties (Quantity, Name, Price)",
+    );
+    assert.strictEqual(itemProps.Quantity?.type, "string", "Quantity should be string type");
+    assert.strictEqual(itemProps.Quantity?.method, "extract", "Quantity should use extract method");
+    assert.strictEqual(itemProps.Name?.type, "string", "Name should be string type");
+    assert.strictEqual(itemProps.Name?.method, "extract", "Name should use extract method");
+    assert.strictEqual(itemProps.Price?.type, "string", "Price should be string type");
+    assert.strictEqual(itemProps.Price?.method, "extract", "Price should use extract method");
+
+    const totalPrice = result.fieldSchema!.fields.TotalPrice;
+    assert.strictEqual(totalPrice?.type, "string", "TotalPrice should be string type");
+    assert.strictEqual(totalPrice?.method, "extract", "TotalPrice should use extract method");
+    assert.ok(totalPrice?.description, "TotalPrice should have a description");
+
+    // Verify models mapping (both keys are sent by the sample).
+    assert.ok(result.models, "Models should not be null");
+    assert.ok(result.models?.completion, "Should contain 'completion' model mapping");
+    assert.strictEqual(
+      result.models?.embedding,
+      "text-embedding-3-large",
+      "Embedding model should match the sample-defined 'text-embedding-3-large'",
+    );
 
     // Verify knowledge sources
     assert.ok(result.knowledgeSources, "Knowledge sources should not be null");

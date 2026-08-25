@@ -273,11 +273,6 @@ export interface AgentsOperations {
    * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
    * associated sessions are cascade-deleted along with the agent and its versions.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
   /**
    * Updates the agent from a manifest by adding a new version if there are any changes to the agent definition.

@@ -27,7 +27,9 @@ import { updateChangelogResult } from "../../common/packageResultUtils.js";
 import { formatSdk, updateSnippets, lintFix, customizeCodes } from "../../common/devToolUtils.js";
 import { ensurePnpmInstalled } from "../../common/rushUtils.js";
 import { RunMode } from "../../common/types.js";
-import { exists } from "fs-extra";
+import fsExtra from "fs-extra";
+
+const { exists } = fsExtra;
 
 export async function generateRLCInPipeline(options: {
   sdkRepo: string;

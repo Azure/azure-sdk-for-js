@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Workspace resource.
  *
  * @summary get a Workspace resource.
- * x-ms-original-file: 2026-05-01-preview/Workspaces_Get.json
+ * x-ms-original-file: 2026-08-01-preview/Workspaces_Get.json
  */
 async function getAWorkspaceInAResourceGroup() {
   const credential = new DefaultAzureCredential();

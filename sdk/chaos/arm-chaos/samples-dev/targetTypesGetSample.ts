@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Target Type resources for given location.
  *
  * @summary get a Target Type resources for given location.
- * x-ms-original-file: 2026-05-01-preview/TargetTypes_Get.json
+ * x-ms-original-file: 2026-08-01-preview/TargetTypes_Get.json
  */
 async function getATargetTypeForWestus2Location(): Promise<void> {
   const credential = new DefaultAzureCredential();

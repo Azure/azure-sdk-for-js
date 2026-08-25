@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Capability resource that extends a Target resource.
  *
  * @summary create or update a Capability resource that extends a Target resource.
- * x-ms-original-file: 2026-05-01-preview/Capabilities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/Capabilities_CreateOrUpdate.json
  */
 async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource() {
   const credential = new DefaultAzureCredential();

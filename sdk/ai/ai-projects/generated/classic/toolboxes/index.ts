@@ -34,11 +34,6 @@ export interface ToolboxesOperations {
     options?: DeleteVersionOptionalParams,
   ) => Promise<void>;
   /** Removes the specified toolbox along with all of its versions. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (name: string, options?: ToolboxesDeleteOptionalParams) => Promise<void>;
   /** Updates the toolbox's default version pointer to the specified version. */
   update: (

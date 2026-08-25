@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,7 @@ export function list(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listSend(context, resourceGroupName, virtualWANName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VpnServerConfigurationsResponse>,
     VpnServerConfigurationsResponse

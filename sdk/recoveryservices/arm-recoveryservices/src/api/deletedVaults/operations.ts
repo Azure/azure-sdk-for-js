@@ -44,7 +44,7 @@ export function _getOperationStatusSend(
       location: location,
       deletedVaultName: deletedVaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,7 @@ export function _undeleteSend(
       subscriptionId: context.subscriptionId,
       location: location,
       deletedVaultName: deletedVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +144,7 @@ export function undelete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _undeleteSend(context, location, deletedVaultName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +160,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       deletedVaultName: deletedVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,7 +207,7 @@ export function _listBySubscriptionIdSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,6 +246,6 @@ export function listBySubscriptionId(
     () => _listBySubscriptionIdSend(context, location, options),
     _listBySubscriptionIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }

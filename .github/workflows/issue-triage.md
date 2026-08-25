@@ -28,6 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 tools:
+  bash: false
   web-fetch:
   github:
     toolsets: [issues, repos]
@@ -49,6 +50,10 @@ safe-outputs:
     target: "*"
   remove-labels:
     max: 7
+    target: "*"
+  set-issue-type:
+    allowed: [Bug, Feature, Task]
+    max: 1
     target: "*"
   add-comment:
     max: 2
@@ -79,7 +84,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9
+          uses: actions/github-script@v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:
@@ -252,11 +257,22 @@ Note: The gh-aw runtime provides additional baseline defenses including the XPIA
 
 Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
-- For `assign_to_user` and `close_issue`: pass it as `issue_number`
+- For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
 Retrieve the issue using the `get_issue` tool
 
-Record the issue's current labels. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
+Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
+
+### Issue Type Classification
+
+Classify the issue before proceeding to Step 2 so label-based early exits do not leave it untyped
+
+- If the issue already has a non-empty issue type, preserve it and continue to Step 2 without calling `set_issue_type`
+- Otherwise, select exactly one type from the issue title and body:
+  - `Bug`: A defect, regression, error, or other incorrect behavior in existing functionality
+  - `Feature`: A request for new or expanded functionality, including support for a new API, service capability, or scenario
+  - `Task`: A question, documentation request, maintenance chore, investigation, tracking item, or any issue that cannot be confidently classified as `Bug` or `Feature`
+- Call `set_issue_type` exactly once with the target `issue_number` and the selected `issue_type`
 
 ## Step 2: Customer Evaluation
 

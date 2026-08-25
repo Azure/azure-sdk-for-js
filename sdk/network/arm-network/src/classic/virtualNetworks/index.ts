@@ -3,6 +3,7 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
+  moveIpConfigurations,
   listDdosProtectionStatus,
   listUsage,
   checkIPAddressAvailability,
@@ -14,6 +15,7 @@ import {
   get,
 } from "../../api/virtualNetworks/operations.js";
 import type {
+  VirtualNetworksMoveIpConfigurationsOptionalParams,
   VirtualNetworksListDdosProtectionStatusOptionalParams,
   VirtualNetworksListUsageOptionalParams,
   VirtualNetworksCheckIPAddressAvailabilityOptionalParams,
@@ -30,6 +32,7 @@ import type {
   PublicIpDdosProtectionStatusResult,
   IPAddressAvailabilityResult,
   VirtualNetworkUsage,
+  MoveIpConfigurationsRequest,
 } from "../../models/microsoft/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -38,6 +41,27 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworks operations. */
 export interface VirtualNetworksOperations {
+  /** Move IP configurations from one virtual network to another. */
+  moveIpConfigurations: (
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    body: MoveIpConfigurationsRequest,
+    options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use moveIpConfigurations instead */
+  beginMoveIpConfigurations: (
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    body: MoveIpConfigurationsRequest,
+    options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use moveIpConfigurations instead */
+  beginMoveIpConfigurationsAndWait: (
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    body: MoveIpConfigurationsRequest,
+    options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+  ) => Promise<void>;
   /** Gets the Ddos Protection Status of all IP Addresses under the Virtual Network */
   listDdosProtectionStatus: (
     resourceGroupName: string,
@@ -128,6 +152,42 @@ export interface VirtualNetworksOperations {
 
 function _getVirtualNetworks(context: NetworkManagementContext) {
   return {
+    moveIpConfigurations: (
+      resourceGroupName: string,
+      virtualNetworkName: string,
+      body: MoveIpConfigurationsRequest,
+      options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+    ) => moveIpConfigurations(context, resourceGroupName, virtualNetworkName, body, options),
+    beginMoveIpConfigurations: async (
+      resourceGroupName: string,
+      virtualNetworkName: string,
+      body: MoveIpConfigurationsRequest,
+      options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+    ) => {
+      const poller = moveIpConfigurations(
+        context,
+        resourceGroupName,
+        virtualNetworkName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginMoveIpConfigurationsAndWait: async (
+      resourceGroupName: string,
+      virtualNetworkName: string,
+      body: MoveIpConfigurationsRequest,
+      options?: VirtualNetworksMoveIpConfigurationsOptionalParams,
+    ) => {
+      return await moveIpConfigurations(
+        context,
+        resourceGroupName,
+        virtualNetworkName,
+        body,
+        options,
+      );
+    },
     listDdosProtectionStatus: (
       resourceGroupName: string,
       virtualNetworkName: string,
