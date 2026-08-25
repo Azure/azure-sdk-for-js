@@ -1207,16 +1207,18 @@ export class BlobServiceClient extends StorageClient {
             },
           ),
         );
+        const newValue = uint8ArrayToString(original.value, "base64");
         const transformed = {
           ...original,
           _response: original._response,
-          value: uint8ArrayToString(original.value, "base64"),
+          value: newValue,
         };
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
         >(transformed);
+        response._response.parsedBody.value = newValue;
 
         const userDelegationKey = {
           signedObjectId: response.signedObjectId,
