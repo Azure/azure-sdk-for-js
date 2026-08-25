@@ -7,7 +7,7 @@ export function serializeRecord(
   serializer?: (item: any) => any,
 ): Record<string, any> {
   const propertiesToExclude = excludes ?? [];
-  const res: any = {};
+  const res: Record<string, any> = Object.create(null);
   for (const key of Object.keys(item)) {
     if (propertiesToExclude.includes(key) || item[key] === undefined) {
       continue;
