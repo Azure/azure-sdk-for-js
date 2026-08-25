@@ -74,17 +74,40 @@ export function resolveTagToCommit(tag) {
 }
 
 /**
+ * Fetches the exact release tag into the local object database without fetching all tags.
+ *
+ * @param {string} tag - the git tag to fetch
+ * @throws {Error} if git fetch fails
+ */
+function fetchTag(tag) {
+  const baseDir = getBaseDir();
+  const result = spawnGitWithOutput(
+    baseDir,
+    "fetch",
+    "--no-tags",
+    "--depth=1",
+    REMOTE_URL,
+    `refs/tags/${tag}`,
+  );
+
+  if (result.status !== 0) {
+    throw new Error(`git fetch failed with exit code ${result.status}: ${result.stderr.trim()}`);
+  }
+}
+
+/**
  * Returns a list of files modified since the given git tag within a package directory.
- * Resolves the tag to a commit hash via git ls-remote before diffing, since CI
- * environments may not have remote tags fetched locally.
+ * Resolves and fetches the tag before diffing, since CI environments may not
+ * have remote tags or their objects available locally.
  *
  * @param {string} tag - the git tag to diff against
  * @param {string} packageDir - absolute path to the package directory
  * @returns {string[]} list of modified file paths (relative to repo root)
- * @throws {Error} if the tag cannot be resolved or git diff fails
+ * @throws {Error} if the tag cannot be resolved or fetched, or git diff fails
  */
 export function getModifiedFilesSinceTag(tag, packageDir) {
   const commitHash = resolveTagToCommit(tag);
+  fetchTag(tag);
 
   const baseDir = getBaseDir();
   const relativePackageDir = path.relative(baseDir, packageDir).split(path.sep).join("/");
