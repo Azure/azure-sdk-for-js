@@ -202,6 +202,10 @@ describe("Library/TraceHandler", () => {
       handler = new TraceHandler(_config, metricHandler);
       const processor = handler.getBatchSpanProcessor();
 
+      assert.strictEqual(process.env.OTEL_BSP_MAX_QUEUE_SIZE, "4096");
+      assert.strictEqual(process.env.OTEL_BSP_MAX_EXPORT_BATCH_SIZE, "1024");
+      assert.strictEqual(process.env.OTEL_BSP_SCHEDULE_DELAY, "2500");
+      assert.strictEqual(process.env.OTEL_BSP_EXPORT_TIMEOUT, "15000");
       assert.propertyVal(processor, "_maxQueueSize", 4096);
       assert.propertyVal(processor, "_maxExportBatchSize", 1024);
       assert.propertyVal(processor, "_scheduledDelayMillis", 2500);
