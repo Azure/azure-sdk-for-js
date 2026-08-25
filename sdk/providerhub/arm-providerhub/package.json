@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-providerhub",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for ProviderHubClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -54,6 +54,20 @@
       "require": {
         "types": "./dist/commonjs/api/resourceActions/index.d.ts",
         "default": "./dist/commonjs/api/resourceActions/index.js"
+      }
+    },
+    "./api/manifests": {
+      "browser": {
+        "types": "./dist/browser/api/manifests/index.d.ts",
+        "default": "./dist/browser/api/manifests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/manifests/index.d.ts",
+        "default": "./dist/esm/api/manifests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/manifests/index.d.ts",
+        "default": "./dist/commonjs/api/manifests/index.js"
       }
     },
     "./api/providerMonitorSettings": {
@@ -244,11 +258,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },

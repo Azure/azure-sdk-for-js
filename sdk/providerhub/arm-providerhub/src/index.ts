@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -32,6 +33,7 @@ export type {
   Intent,
   AuthorizationActionMapping,
   LinkedAccessCheck,
+  LinkedAccessCheckOptions,
   LoggingRule,
   LoggingDirections,
   LoggingDetails,
@@ -57,7 +59,9 @@ export type {
   LinkedOperationRule,
   LinkedOperation,
   LinkedAction,
-  ManifestResourceDeletionPolicy,
+  ResourceDeletionPolicy,
+  ResourceDeletionPolicyAndProperties,
+  ResourceDeletionPolicyProperties,
   QuotaRule,
   QuotaPolicy,
   LocationQuotaRule,
@@ -133,6 +137,7 @@ export type {
   LocalizedOperationDisplayDefinitionSv,
   LocalizedOperationDisplayDefinitionZhHans,
   LocalizedOperationDisplayDefinitionZhHant,
+  LocalizedOperationDisplayDefinitionQpsPloc,
   ProxyResource,
   Resource,
   SystemData,
@@ -167,7 +172,13 @@ export type {
   ResourceTypeRegistrationPropertiesRequestHeaderOptions,
   ResourceTypeRegistrationPropertiesTemplateDeploymentOptions,
   ResourceTypeRegistrationPropertiesResourceMovePolicy,
-  ResourceDeletionPolicy,
+  RPaaSResourceDeletionPolicy,
+  ResourceTypeManagedResourceGroupConfiguration,
+  ManagedResourceGroupDenyAssignmentConfiguration,
+  PrivateEndpointConfiguration,
+  GroupConnectivityInformation,
+  WriteLockConfiguration,
+  WriteLockState,
   ResourceConcurrencyControlOption,
   Policy,
   ResourceTypeRegistrationPropertiesResourceGraphConfiguration,
@@ -196,6 +207,7 @@ export type {
   ResourceTypeRegistrationPropertiesResourceManagementOptions,
   ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport,
   SupportedOperations,
+  ActionConfiguration,
   DeleteDependency,
   ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport,
   ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement,
@@ -204,6 +216,8 @@ export type {
   FrontdoorRequestMode,
   ResourceSubType,
   ResourceTypeRegistrationKind,
+  ManifestCheckinSpecification,
+  ManifestCheckinOption,
   TrafficRegions,
   ProviderRegistration,
   ProviderRegistrationProperties,
@@ -253,6 +267,7 @@ export type {
   ExtendedErrorInfo,
   TypedErrorInfo,
   CustomRolloutStatusManifestCheckinStatus,
+  AppliedManifestInfo,
   DefaultRollout,
   DefaultRolloutProperties,
   DefaultRolloutPropertiesSpecification,
@@ -309,6 +324,8 @@ export type {
   ProviderMonitorSetting,
   ProviderMonitorSettingProperties,
   TrackedResource,
+  ManifestInfo,
+  ManifestInfoProperties,
   ResourceManagementAction,
   ResourceManagementEntity,
 } from "./models/index.js";
@@ -320,6 +337,7 @@ export {
   KnownCrossTenantTokenValidation,
   KnownResourceValidation,
   KnownIntent,
+  KnownLinkedAccessCheckOptions,
   KnownLoggingDirections,
   KnownLoggingDetails,
   KnownThrottlingMetricType,
@@ -330,7 +348,7 @@ export {
   KnownResourceTypeExtendedLocationPolicy,
   KnownLinkedOperation,
   KnownLinkedAction,
-  KnownManifestResourceDeletionPolicy,
+  KnownResourceDeletionPolicy,
   KnownQuotaPolicy,
   KnownNotificationType,
   KnownSkipNotifications,
@@ -355,7 +373,8 @@ export {
   KnownExtensionCategory,
   KnownEndpointTypeResourceType,
   KnownDataBoundary,
-  KnownResourceDeletionPolicy,
+  KnownRPaaSResourceDeletionPolicy,
+  KnownWriteLockState,
   KnownPolicy,
   KnownResourceTypeCategory,
   KnownPolicyExecutionType,
@@ -368,6 +387,7 @@ export {
   KnownFrontdoorRequestMode,
   KnownResourceSubType,
   KnownResourceTypeRegistrationKind,
+  KnownManifestCheckinOption,
   KnownProviderRegistrationKind,
   KnownSubscriptionTransitioningState,
   KnownSubscriptionNotificationOperation,
@@ -412,6 +432,10 @@ export type {
   DefaultRolloutsCreateOrUpdateOptionalParams,
   DefaultRolloutsGetOptionalParams,
 } from "./api/defaultRollouts/index.js";
+export type {
+  ManifestsCreateOrUpdateOptionalParams,
+  ManifestsGetOptionalParams,
+} from "./api/manifests/index.js";
 export type {
   NewRegionFrontloadReleaseGenerateManifestOptionalParams,
   NewRegionFrontloadReleaseStopOptionalParams,
@@ -474,6 +498,7 @@ export type {
   AuthorizedApplicationsOperations,
   CustomRolloutsOperations,
   DefaultRolloutsOperations,
+  ManifestsOperations,
   NewRegionFrontloadReleaseOperations,
   NotificationRegistrationsOperations,
   OperationsOperations,
@@ -486,3 +511,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

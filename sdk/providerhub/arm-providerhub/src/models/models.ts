@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** model interface ResourceProviderManifest */
 export interface ResourceProviderManifest {
   /** The provider authentication. */
@@ -51,6 +52,8 @@ export interface ResourceProviderManifest {
   linkedNotificationRules?: FanoutLinkedNotificationRule[];
   /** The resource provider authorization rules. */
   resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
+  /** The token auth configuration. */
+  tokenAuthConfiguration?: TokenAuthConfiguration;
 }
 
 export function resourceProviderManifestDeserializer(item: any): ResourceProviderManifest {
@@ -108,6 +111,9 @@ export function resourceProviderManifestDeserializer(item: any): ResourceProvide
     resourceProviderAuthorizationRules: !item["resourceProviderAuthorizationRules"]
       ? item["resourceProviderAuthorizationRules"]
       : resourceProviderAuthorizationRulesDeserializer(item["resourceProviderAuthorizationRules"]),
+    tokenAuthConfiguration: !item["tokenAuthConfiguration"]
+      ? item["tokenAuthConfiguration"]
+      : tokenAuthConfigurationDeserializer(item["tokenAuthConfiguration"]),
   };
 }
 
@@ -357,6 +363,8 @@ export enum KnownResourceProviderType {
   TenantOnly = "TenantOnly",
   /** AuthorizationFree */
   AuthorizationFree = "AuthorizationFree",
+  /** The resource provider has been decommissioned. */
+  Decommissioned = "Decommissioned",
 }
 
 /**
@@ -371,7 +379,8 @@ export enum KnownResourceProviderType {
  * **RegistrationFree** \
  * **LegacyRegistrationRequired** \
  * **TenantOnly** \
- * **AuthorizationFree**
+ * **AuthorizationFree** \
+ * **Decommissioned**: The resource provider has been decommissioned.
  */
 export type ResourceProviderType = string;
 
@@ -459,7 +468,9 @@ export interface ResourceType {
   /** The linked operation rules. */
   linkedOperationRules?: LinkedOperationRule[];
   /** The resource deletion policy. */
-  resourceDeletionPolicy?: ManifestResourceDeletionPolicy;
+  resourceDeletionPolicy?: ResourceDeletionPolicy;
+  /** List of resource deletion policies added. */
+  resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
   /** The quota rule. */
   quotaRule?: QuotaRule;
   /** The notifications. */
@@ -541,6 +552,9 @@ export function resourceTypeDeserializer(item: any): ResourceType {
       ? item["linkedOperationRules"]
       : linkedOperationRuleArrayDeserializer(item["linkedOperationRules"]),
     resourceDeletionPolicy: item["resourceDeletionPolicy"],
+    resourceDeletionPolicies: !item["resourceDeletionPolicies"]
+      ? item["resourceDeletionPolicies"]
+      : resourceDeletionPolicyAndPropertiesArrayDeserializer(item["resourceDeletionPolicies"]),
     quotaRule: !item["quotaRule"] ? item["quotaRule"] : quotaRuleDeserializer(item["quotaRule"]),
     notifications: !item["notifications"]
       ? item["notifications"]
@@ -787,6 +801,8 @@ export interface LinkedAccessCheck {
   linkedActionVerb?: string;
   /** The linked type. */
   linkedType?: string;
+  /** The options for the linked access check. */
+  readonly options?: LinkedAccessCheckOptions;
 }
 
 export function linkedAccessCheckSerializer(item: LinkedAccessCheck): any {
@@ -806,8 +822,27 @@ export function linkedAccessCheckDeserializer(item: any): LinkedAccessCheck {
     linkedAction: item["linkedAction"],
     linkedActionVerb: item["linkedActionVerb"],
     linkedType: item["linkedType"],
+    options: item["options"],
   };
 }
+
+/** The options for the linked access check. */
+export enum KnownLinkedAccessCheckOptions {
+  /** Default value. */
+  NotSpecified = "NotSpecified",
+  /** Ignore the linked access check when the linked type is an empty string. */
+  IgnoreEmptyStringLinkedType = "IgnoreEmptyStringLinkedType",
+}
+
+/**
+ * The options for the linked access check. \
+ * {@link KnownLinkedAccessCheckOptions} can be used interchangeably with LinkedAccessCheckOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified**: Default value. \
+ * **IgnoreEmptyStringLinkedType**: Ignore the linked access check when the linked type is an empty string.
+ */
+export type LinkedAccessCheckOptions = string;
 
 export function loggingRuleArraySerializer(result: Array<LoggingRule>): any[] {
   return result.map((item) => {
@@ -1009,10 +1044,17 @@ export interface ThrottlingMetric {
   limit: number;
   /** The interval. */
   interval?: string;
+  /** The bucket size. */
+  bucketSize?: string;
 }
 
 export function throttlingMetricSerializer(item: ThrottlingMetric): any {
-  return { type: item["type"], limit: item["limit"], interval: item["interval"] };
+  return {
+    type: item["type"],
+    limit: item["limit"],
+    interval: item["interval"],
+    bucketSize: item["bucketSize"],
+  };
 }
 
 export function throttlingMetricDeserializer(item: any): ThrottlingMetric {
@@ -1020,6 +1062,7 @@ export function throttlingMetricDeserializer(item: any): ThrottlingMetric {
     type: item["type"],
     limit: item["limit"],
     interval: item["interval"],
+    bucketSize: item["bucketSize"],
   };
 }
 
@@ -1178,8 +1221,9 @@ export enum KnownEndpointType {
  * **TestInProduction**
  */
 export type EndpointType = string;
+
 /** The marketplace type. */
-export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store";
+export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store" | "ProviderHub";
 
 /** The identity management. */
 export interface ResourceTypeIdentityManagement extends IdentityManagement {}
@@ -1538,25 +1582,100 @@ export enum KnownLinkedAction {
 export type LinkedAction = string;
 
 /** The resource deletion policy. */
-export enum KnownManifestResourceDeletionPolicy {
+export enum KnownResourceDeletionPolicy {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** Cascade */
   Cascade = "Cascade",
   /** Force */
   Force = "Force",
+  /** Soft delete deletion policy. */
+  SoftDelete = "SoftDelete",
 }
 
 /**
  * The resource deletion policy. \
- * {@link KnownManifestResourceDeletionPolicy} can be used interchangeably with ManifestResourceDeletionPolicy,
+ * {@link KnownResourceDeletionPolicy} can be used interchangeably with ResourceDeletionPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **NotSpecified** \
  * **Cascade** \
- * **Force**
+ * **Force** \
+ * **SoftDelete**: Soft delete deletion policy.
  */
-export type ManifestResourceDeletionPolicy = string;
+export type ResourceDeletionPolicy = string;
+
+export function resourceDeletionPolicyAndPropertiesArraySerializer(
+  result: Array<ResourceDeletionPolicyAndProperties>,
+): any[] {
+  return result.map((item) => {
+    return resourceDeletionPolicyAndPropertiesSerializer(item);
+  });
+}
+
+export function resourceDeletionPolicyAndPropertiesArrayDeserializer(
+  result: Array<ResourceDeletionPolicyAndProperties>,
+): any[] {
+  return result.map((item) => {
+    return resourceDeletionPolicyAndPropertiesDeserializer(item);
+  });
+}
+
+/** The individual resource deletion policy. */
+export interface ResourceDeletionPolicyAndProperties {
+  /** The resource deletion policy name. */
+  policyName?: ResourceDeletionPolicy;
+  /** The resource deletion policy properties. */
+  properties?: ResourceDeletionPolicyProperties;
+}
+
+export function resourceDeletionPolicyAndPropertiesSerializer(
+  item: ResourceDeletionPolicyAndProperties,
+): any {
+  return {
+    policyName: item["policyName"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceDeletionPolicyPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function resourceDeletionPolicyAndPropertiesDeserializer(
+  item: any,
+): ResourceDeletionPolicyAndProperties {
+  return {
+    policyName: item["policyName"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : resourceDeletionPolicyPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The resource deletion policy properties. */
+export interface ResourceDeletionPolicyProperties {
+  /** The minimum retention time. */
+  minimumRetentionTime?: string;
+  /** The maximum retention time. */
+  maximumRetentionTime?: string;
+}
+
+export function resourceDeletionPolicyPropertiesSerializer(
+  item: ResourceDeletionPolicyProperties,
+): any {
+  return {
+    minimumRetentionTime: item["minimumRetentionTime"],
+    maximumRetentionTime: item["maximumRetentionTime"],
+  };
+}
+
+export function resourceDeletionPolicyPropertiesDeserializer(
+  item: any,
+): ResourceDeletionPolicyProperties {
+  return {
+    minimumRetentionTime: item["minimumRetentionTime"],
+    maximumRetentionTime: item["maximumRetentionTime"],
+  };
+}
 
 /** model interface QuotaRule */
 export interface QuotaRule {
@@ -1926,6 +2045,11 @@ export function resourceProviderManifestManagementDeserializer(
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2501,6 +2625,8 @@ export interface ResourceProviderManagement {
   pcCode?: string;
   /** The profit center program id for the subscription. */
   profitCenterProgramId?: string;
+  /** List of feature management owners. */
+  featureManagementOwners?: string[];
 }
 
 export function resourceProviderManagementSerializer(item: ResourceProviderManagement): any {
@@ -2552,6 +2678,11 @@ export function resourceProviderManagementSerializer(item: ResourceProviderManag
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2604,6 +2735,11 @@ export function resourceProviderManagementDeserializer(item: any): ResourceProvi
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2855,6 +2991,13 @@ export function checkinManifestParamsSerializer(item: CheckinManifestParams): an
   };
 }
 
+export function checkinManifestParamsDeserializer(item: any): CheckinManifestParams {
+  return {
+    environment: item["environment"],
+    baselineArmManifestLocation: item["baselineArmManifestLocation"],
+  };
+}
+
 /** model interface CheckinManifestInfo */
 export interface CheckinManifestInfo {
   /** Whether the manifest is checked in. */
@@ -3083,6 +3226,8 @@ export interface LocalizedOperationDefinition {
   display: LocalizedOperationDefinitionDisplay;
   /** The action type. */
   actionType?: OperationActionType;
+  /** Anything */
+  properties?: any;
 }
 
 export function localizedOperationDefinitionSerializer(item: LocalizedOperationDefinition): any {
@@ -3092,6 +3237,7 @@ export function localizedOperationDefinitionSerializer(item: LocalizedOperationD
     origin: item["origin"],
     display: localizedOperationDefinitionDisplaySerializer(item["display"]),
     actionType: item["actionType"],
+    properties: item["properties"],
   };
 }
 
@@ -3102,6 +3248,7 @@ export function localizedOperationDefinitionDeserializer(item: any): LocalizedOp
     origin: item["origin"],
     display: localizedOperationDefinitionDisplayDeserializer(item["display"]),
     actionType: item["actionType"],
+    properties: item["properties"],
   };
 }
 
@@ -3138,6 +3285,9 @@ export function localizedOperationDefinitionDisplaySerializer(
     zhHant: !item["zhHant"]
       ? item["zhHant"]
       : localizedOperationDisplayDefinitionZhHantSerializer(item["zhHant"]),
+    qpsPloc: !item["qpsPloc"]
+      ? item["qpsPloc"]
+      : localizedOperationDisplayDefinitionQpsPlocSerializer(item["qpsPloc"]),
   };
 }
 
@@ -3171,6 +3321,9 @@ export function localizedOperationDefinitionDisplayDeserializer(
     zhHant: !item["zhHant"]
       ? item["zhHant"]
       : localizedOperationDisplayDefinitionZhHantDeserializer(item["zhHant"]),
+    qpsPloc: !item["qpsPloc"]
+      ? item["qpsPloc"]
+      : localizedOperationDisplayDefinitionQpsPlocDeserializer(item["qpsPloc"]),
   };
 }
 
@@ -3212,6 +3365,8 @@ export interface LocalizedOperationDisplayDefinition {
   zhHans?: LocalizedOperationDisplayDefinitionZhHans;
   /** Display information of the operation for zh-Hant locale. */
   zhHant?: LocalizedOperationDisplayDefinitionZhHant;
+  /** Display information of the operation for qps-Ploc pseudo locale. */
+  qpsPloc?: LocalizedOperationDisplayDefinitionQpsPloc;
 }
 
 export function localizedOperationDisplayDefinitionSerializer(
@@ -3244,6 +3399,9 @@ export function localizedOperationDisplayDefinitionSerializer(
     zhHant: !item["zhHant"]
       ? item["zhHant"]
       : localizedOperationDisplayDefinitionZhHantSerializer(item["zhHant"]),
+    qpsPloc: !item["qpsPloc"]
+      ? item["qpsPloc"]
+      : localizedOperationDisplayDefinitionQpsPlocSerializer(item["qpsPloc"]),
   };
 }
 
@@ -3277,6 +3435,9 @@ export function localizedOperationDisplayDefinitionDeserializer(
     zhHant: !item["zhHant"]
       ? item["zhHant"]
       : localizedOperationDisplayDefinitionZhHantDeserializer(item["zhHant"]),
+    qpsPloc: !item["qpsPloc"]
+      ? item["qpsPloc"]
+      : localizedOperationDisplayDefinitionQpsPlocDeserializer(item["qpsPloc"]),
   };
 }
 
@@ -3730,6 +3891,31 @@ export function localizedOperationDisplayDefinitionZhHantDeserializer(
   };
 }
 
+/** Display information of the operation for qps-Ploc pseudo locale. */
+export interface LocalizedOperationDisplayDefinitionQpsPloc extends OperationsDisplayDefinition {}
+
+export function localizedOperationDisplayDefinitionQpsPlocSerializer(
+  item: LocalizedOperationDisplayDefinitionQpsPloc,
+): any {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+export function localizedOperationDisplayDefinitionQpsPlocDeserializer(
+  item: any,
+): LocalizedOperationDisplayDefinitionQpsPloc {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -3938,6 +4124,10 @@ export function customRolloutPropertiesSpecificationSerializer(
     resourceTypeRegistrations: !item["resourceTypeRegistrations"]
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArraySerializer(item["resourceTypeRegistrations"]),
+    rolloutId: item["rolloutId"],
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -3964,6 +4154,10 @@ export function customRolloutPropertiesSpecificationDeserializer(
     resourceTypeRegistrations: !item["resourceTypeRegistrations"]
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArrayDeserializer(item["resourceTypeRegistrations"]),
+    rolloutId: item["rolloutId"],
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -3983,6 +4177,9 @@ export function customRolloutPropertiesStatusSerializer(item: CustomRolloutPrope
     manifestCheckinStatus: !item["manifestCheckinStatus"]
       ? item["manifestCheckinStatus"]
       : customRolloutStatusManifestCheckinStatusSerializer(item["manifestCheckinStatus"]),
+    completedRegionsInfo: !item["completedRegionsInfo"]
+      ? item["completedRegionsInfo"]
+      : appliedManifestInfoArraySerializer(item["completedRegionsInfo"]),
   };
 }
 
@@ -4001,6 +4198,9 @@ export function customRolloutPropertiesStatusDeserializer(
     manifestCheckinStatus: !item["manifestCheckinStatus"]
       ? item["manifestCheckinStatus"]
       : customRolloutStatusManifestCheckinStatusDeserializer(item["manifestCheckinStatus"]),
+    completedRegionsInfo: !item["completedRegionsInfo"]
+      ? item["completedRegionsInfo"]
+      : appliedManifestInfoArrayDeserializer(item["completedRegionsInfo"]),
   };
 }
 
@@ -4020,6 +4220,10 @@ export interface CustomRolloutSpecification {
   providerRegistration?: CustomRolloutSpecificationProviderRegistration;
   /** The resource type registrations. */
   resourceTypeRegistrations?: ResourceTypeRegistration[];
+  /** The rollout id. */
+  rolloutId?: string;
+  /** The manifest checkin specification. */
+  manifestCheckinSpecification?: ManifestCheckinSpecification;
 }
 
 export function customRolloutSpecificationSerializer(item: CustomRolloutSpecification): any {
@@ -4043,6 +4247,10 @@ export function customRolloutSpecificationSerializer(item: CustomRolloutSpecific
     resourceTypeRegistrations: !item["resourceTypeRegistrations"]
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArraySerializer(item["resourceTypeRegistrations"]),
+    rolloutId: item["rolloutId"],
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -4067,6 +4275,10 @@ export function customRolloutSpecificationDeserializer(item: any): CustomRollout
     resourceTypeRegistrations: !item["resourceTypeRegistrations"]
       ? item["resourceTypeRegistrations"]
       : resourceTypeRegistrationArrayDeserializer(item["resourceTypeRegistrations"]),
+    rolloutId: item["rolloutId"],
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -4261,7 +4473,17 @@ export interface ResourceTypeRegistrationProperties {
   /** The resource move policy. */
   resourceMovePolicy?: ResourceTypeRegistrationPropertiesResourceMovePolicy;
   /** The resource deletion policy. */
-  resourceDeletionPolicy?: ResourceDeletionPolicy;
+  resourceDeletionPolicy?: RPaaSResourceDeletionPolicy;
+  /** List of resource deletion policies added. */
+  resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
+  /** The managed resource group configuration. */
+  managedResourceGroupConfiguration?: ResourceTypeManagedResourceGroupConfiguration;
+  /** The private endpoint configuration. */
+  privateEndpointConfiguration?: PrivateEndpointConfiguration;
+  /** The write lock configuration. */
+  writeLock?: WriteLockConfiguration;
+  /** Indicates whether super scale is enabled. */
+  superScaleEnabled?: boolean;
   /** The resource concurrency control options. */
   resourceConcurrencyControlOptions?: Record<string, ResourceConcurrencyControlOption>;
   /** The resource graph configuration. */
@@ -4384,7 +4606,7 @@ export function resourceTypeRegistrationPropertiesSerializer(
     linkedAccessChecks: !item["linkedAccessChecks"]
       ? item["linkedAccessChecks"]
       : linkedAccessCheckArraySerializer(item["linkedAccessChecks"]),
-    defaultApiVersion: item["defaultApiVersion"] ?? "2024-09-01",
+    defaultApiVersion: item["defaultApiVersion"],
     loggingRules: !item["loggingRules"]
       ? item["loggingRules"]
       : loggingRuleArraySerializer(item["loggingRules"]),
@@ -4445,6 +4667,21 @@ export function resourceTypeRegistrationPropertiesSerializer(
       ? item["resourceMovePolicy"]
       : resourceTypeRegistrationPropertiesResourceMovePolicySerializer(item["resourceMovePolicy"]),
     resourceDeletionPolicy: item["resourceDeletionPolicy"],
+    resourceDeletionPolicies: !item["resourceDeletionPolicies"]
+      ? item["resourceDeletionPolicies"]
+      : resourceDeletionPolicyAndPropertiesArraySerializer(item["resourceDeletionPolicies"]),
+    managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
+      ? item["managedResourceGroupConfiguration"]
+      : resourceTypeManagedResourceGroupConfigurationSerializer(
+          item["managedResourceGroupConfiguration"],
+        ),
+    privateEndpointConfiguration: !item["privateEndpointConfiguration"]
+      ? item["privateEndpointConfiguration"]
+      : privateEndpointConfigurationSerializer(item["privateEndpointConfiguration"]),
+    writeLock: !item["writeLock"]
+      ? item["writeLock"]
+      : writeLockConfigurationSerializer(item["writeLock"]),
+    superScaleEnabled: item["superScaleEnabled"],
     resourceConcurrencyControlOptions: !item["resourceConcurrencyControlOptions"]
       ? item["resourceConcurrencyControlOptions"]
       : resourceConcurrencyControlOptionRecordSerializer(item["resourceConcurrencyControlOptions"]),
@@ -4667,6 +4904,21 @@ export function resourceTypeRegistrationPropertiesDeserializer(
           item["resourceMovePolicy"],
         ),
     resourceDeletionPolicy: item["resourceDeletionPolicy"],
+    resourceDeletionPolicies: !item["resourceDeletionPolicies"]
+      ? item["resourceDeletionPolicies"]
+      : resourceDeletionPolicyAndPropertiesArrayDeserializer(item["resourceDeletionPolicies"]),
+    managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
+      ? item["managedResourceGroupConfiguration"]
+      : resourceTypeManagedResourceGroupConfigurationDeserializer(
+          item["managedResourceGroupConfiguration"],
+        ),
+    privateEndpointConfiguration: !item["privateEndpointConfiguration"]
+      ? item["privateEndpointConfiguration"]
+      : privateEndpointConfigurationDeserializer(item["privateEndpointConfiguration"]),
+    writeLock: !item["writeLock"]
+      ? item["writeLock"]
+      : writeLockConfigurationDeserializer(item["writeLock"]),
+    superScaleEnabled: item["superScaleEnabled"],
     resourceConcurrencyControlOptions: !item["resourceConcurrencyControlOptions"]
       ? item["resourceConcurrencyControlOptions"]
       : resourceConcurrencyControlOptionRecordDeserializer(
@@ -4914,7 +5166,7 @@ export function resourceTypeEndpointSerializer(item: ResourceTypeEndpoint): any 
       : tokenAuthConfigurationSerializer(item["tokenAuthConfiguration"]),
     skuLink: item["skuLink"],
     endpointUri: item["endpointUri"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -5093,6 +5345,8 @@ export enum KnownExtensionCategory {
   BestMatchOperationBegin = "BestMatchOperationBegin",
   /** SubscriptionLifecycleNotificationDeletion */
   SubscriptionLifecycleNotificationDeletion = "SubscriptionLifecycleNotificationDeletion",
+  /** Resource billing notification extension category. */
+  ResourceBillingNotification = "ResourceBillingNotification",
 }
 
 /** Type of ExtensionCategory */
@@ -5414,25 +5668,229 @@ export function resourceTypeRegistrationPropertiesResourceMovePolicyDeserializer
 }
 
 /** The resource deletion policy. */
-export enum KnownResourceDeletionPolicy {
+export enum KnownRPaaSResourceDeletionPolicy {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** CascadeDeleteAll */
   CascadeDeleteAll = "CascadeDeleteAll",
   /** CascadeDeleteProxyOnlyChildren */
   CascadeDeleteProxyOnlyChildren = "CascadeDeleteProxyOnlyChildren",
+  /** Cascade deletion policy. */
+  Cascade = "Cascade",
+  /** Force deletion policy. */
+  Force = "Force",
 }
 
 /**
  * The resource deletion policy. \
- * {@link KnownResourceDeletionPolicy} can be used interchangeably with ResourceDeletionPolicy,
+ * {@link KnownRPaaSResourceDeletionPolicy} can be used interchangeably with RPaaSResourceDeletionPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **NotSpecified** \
  * **CascadeDeleteAll** \
- * **CascadeDeleteProxyOnlyChildren**
+ * **CascadeDeleteProxyOnlyChildren** \
+ * **Cascade**: Cascade deletion policy. \
+ * **Force**: Force deletion policy.
  */
-export type ResourceDeletionPolicy = string;
+export type RPaaSResourceDeletionPolicy = string;
+
+/** The managed resource group configuration for the resource type. */
+export interface ResourceTypeManagedResourceGroupConfiguration {
+  /** Indicates whether the managed resource group configuration is enabled. */
+  enabled?: boolean;
+  /** The resource group location override. */
+  resourceGroupLocationOverride?: string;
+  /** The application ids. */
+  applicationIds?: string[];
+  /** The deny assignment configuration. */
+  denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration;
+}
+
+export function resourceTypeManagedResourceGroupConfigurationSerializer(
+  item: ResourceTypeManagedResourceGroupConfiguration,
+): any {
+  return {
+    enabled: item["enabled"],
+    resourceGroupLocationOverride: item["resourceGroupLocationOverride"],
+    applicationIds: !item["applicationIds"]
+      ? item["applicationIds"]
+      : item["applicationIds"].map((p: any) => {
+          return p;
+        }),
+    denyAssignmentConfiguration: !item["denyAssignmentConfiguration"]
+      ? item["denyAssignmentConfiguration"]
+      : managedResourceGroupDenyAssignmentConfigurationSerializer(
+          item["denyAssignmentConfiguration"],
+        ),
+  };
+}
+
+export function resourceTypeManagedResourceGroupConfigurationDeserializer(
+  item: any,
+): ResourceTypeManagedResourceGroupConfiguration {
+  return {
+    enabled: item["enabled"],
+    resourceGroupLocationOverride: item["resourceGroupLocationOverride"],
+    applicationIds: !item["applicationIds"]
+      ? item["applicationIds"]
+      : item["applicationIds"].map((p: any) => {
+          return p;
+        }),
+    denyAssignmentConfiguration: !item["denyAssignmentConfiguration"]
+      ? item["denyAssignmentConfiguration"]
+      : managedResourceGroupDenyAssignmentConfigurationDeserializer(
+          item["denyAssignmentConfiguration"],
+        ),
+  };
+}
+
+/** The deny assignment configuration for the managed resource group. */
+export interface ManagedResourceGroupDenyAssignmentConfiguration {
+  /** Indicates whether the deny assignment configuration is enabled. */
+  enabled?: boolean;
+  /** The actions excluded from the deny assignment. */
+  notActions?: string[];
+}
+
+export function managedResourceGroupDenyAssignmentConfigurationSerializer(
+  item: ManagedResourceGroupDenyAssignmentConfiguration,
+): any {
+  return {
+    enabled: item["enabled"],
+    notActions: !item["notActions"]
+      ? item["notActions"]
+      : item["notActions"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function managedResourceGroupDenyAssignmentConfigurationDeserializer(
+  item: any,
+): ManagedResourceGroupDenyAssignmentConfiguration {
+  return {
+    enabled: item["enabled"],
+    notActions: !item["notActions"]
+      ? item["notActions"]
+      : item["notActions"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The private endpoint configuration. */
+export interface PrivateEndpointConfiguration {
+  /** The first api version that support private endpoint. */
+  minApiVersion: string;
+  /** The list of group connectivity information. */
+  groupConnectivityInformation: GroupConnectivityInformation[];
+}
+
+export function privateEndpointConfigurationSerializer(item: PrivateEndpointConfiguration): any {
+  return {
+    minApiVersion: item["minApiVersion"],
+    groupConnectivityInformation: groupConnectivityInformationArraySerializer(
+      item["groupConnectivityInformation"],
+    ),
+  };
+}
+
+export function privateEndpointConfigurationDeserializer(item: any): PrivateEndpointConfiguration {
+  return {
+    minApiVersion: item["minApiVersion"],
+    groupConnectivityInformation: groupConnectivityInformationArrayDeserializer(
+      item["groupConnectivityInformation"],
+    ),
+  };
+}
+
+export function groupConnectivityInformationArraySerializer(
+  result: Array<GroupConnectivityInformation>,
+): any[] {
+  return result.map((item) => {
+    return groupConnectivityInformationSerializer(item);
+  });
+}
+
+export function groupConnectivityInformationArrayDeserializer(
+  result: Array<GroupConnectivityInformation>,
+): any[] {
+  return result.map((item) => {
+    return groupConnectivityInformationDeserializer(item);
+  });
+}
+
+/** model interface GroupConnectivityInformation */
+export interface GroupConnectivityInformation {
+  /** The group id. */
+  groupId: string;
+  /** List of required members for the group id. */
+  requiredMembers: string[];
+  /** List of required zone names for the group id. */
+  requiredZoneNames: string[];
+  /** The redirect map id. */
+  redirectMapId?: string;
+}
+
+export function groupConnectivityInformationSerializer(item: GroupConnectivityInformation): any {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: item["requiredMembers"].map((p: any) => {
+      return p;
+    }),
+    requiredZoneNames: item["requiredZoneNames"].map((p: any) => {
+      return p;
+    }),
+    redirectMapId: item["redirectMapId"],
+  };
+}
+
+export function groupConnectivityInformationDeserializer(item: any): GroupConnectivityInformation {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: item["requiredMembers"].map((p: any) => {
+      return p;
+    }),
+    requiredZoneNames: item["requiredZoneNames"].map((p: any) => {
+      return p;
+    }),
+    redirectMapId: item["redirectMapId"],
+  };
+}
+
+/** The write lock configuration. */
+export interface WriteLockConfiguration {
+  /** The state of write lock feature. The feature will ensure a deterministic sequence of write-operation within and across the verbs. Also the feature will ensure that the semantics of synchronous and long-running operations are honored. */
+  state?: WriteLockState;
+}
+
+export function writeLockConfigurationSerializer(item: WriteLockConfiguration): any {
+  return { state: item["state"] };
+}
+
+export function writeLockConfigurationDeserializer(item: any): WriteLockConfiguration {
+  return {
+    state: item["state"],
+  };
+}
+
+/** The state of the write lock feature. */
+export enum KnownWriteLockState {
+  /** The write lock feature is disabled. The write-operations on the resource will follow the last-write-wins semantics when the write lock feature is disabled. */
+  Disabled = "Disabled",
+  /** The write lock feature is enabled. Ensures that only one write-operation i.e., PUT, PATCH and DELETE, is allowed on a resource at any given time. Other concurrent write-operations, if any, will be rejected until the lock on the resource is released by the ongoing write-operation. The feature overrides the 'resourceConcurrencyControlOptions'. */
+  Enabled = "Enabled",
+}
+
+/**
+ * The state of the write lock feature. \
+ * {@link KnownWriteLockState} can be used interchangeably with WriteLockState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: The write lock feature is disabled. The write-operations on the resource will follow the last-write-wins semantics when the write lock feature is disabled. \
+ * **Enabled**: The write lock feature is enabled. Ensures that only one write-operation i.e., PUT, PATCH and DELETE, is allowed on a resource at any given time. Other concurrent write-operations, if any, will be rejected until the lock on the resource is released by the ongoing write-operation. The feature overrides the 'resourceConcurrencyControlOptions'.
+ */
+export type WriteLockState = string;
 
 export function resourceConcurrencyControlOptionRecordSerializer(
   item: Record<string, ResourceConcurrencyControlOption>,
@@ -5498,7 +5956,7 @@ export interface ResourceTypeRegistrationPropertiesResourceGraphConfiguration ex
 export function resourceTypeRegistrationPropertiesResourceGraphConfigurationSerializer(
   item: ResourceTypeRegistrationPropertiesResourceGraphConfiguration,
 ): any {
-  return { enabled: item["enabled"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { enabled: item["enabled"], apiVersion: item["apiVersion"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceGraphConfigurationDeserializer(
@@ -5564,6 +6022,11 @@ export function resourceTypeRegistrationPropertiesManagementSerializer(
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5618,6 +6081,11 @@ export function resourceTypeRegistrationPropertiesManagementDeserializer(
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -5850,7 +6318,7 @@ export interface ApiProfile {
 }
 
 export function apiProfileSerializer(item: ApiProfile): any {
-  return { profileVersion: item["profileVersion"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { profileVersion: item["profileVersion"], apiVersion: item["apiVersion"] };
 }
 
 export function apiProfileDeserializer(item: any): ApiProfile {
@@ -6179,12 +6647,35 @@ export function resourceTypeRegistrationPropertiesResourceManagementOptionsDeser
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport {
   /** Supported operations. */
   supportedOperations?: SupportedOperations;
+  /** The maximum batch size. */
+  maxBatchSize?: number;
+  /** Batch contract version. */
+  batchContractVersion?: string;
+  /** The maximum nested batch size. */
+  maxNestedBatchSize?: number;
+  /** The required features. */
+  requiredFeatures?: string[];
+  /** Action Configurations. */
+  actionConfigurations?: ActionConfiguration[];
 }
 
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportSerializer(
   item: ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport,
 ): any {
-  return { supportedOperations: item["supportedOperations"] };
+  return {
+    supportedOperations: item["supportedOperations"],
+    maxBatchSize: item["maxBatchSize"],
+    batchContractVersion: item["batchContractVersion"],
+    maxNestedBatchSize: item["maxNestedBatchSize"],
+    requiredFeatures: !item["requiredFeatures"]
+      ? item["requiredFeatures"]
+      : item["requiredFeatures"].map((p: any) => {
+          return p;
+        }),
+    actionConfigurations: !item["actionConfigurations"]
+      ? item["actionConfigurations"]
+      : actionConfigurationArraySerializer(item["actionConfigurations"]),
+  };
 }
 
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportDeserializer(
@@ -6192,6 +6683,17 @@ export function resourceTypeRegistrationPropertiesResourceManagementOptionsBatch
 ): ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport {
   return {
     supportedOperations: item["supportedOperations"],
+    maxBatchSize: item["maxBatchSize"],
+    batchContractVersion: item["batchContractVersion"],
+    maxNestedBatchSize: item["maxNestedBatchSize"],
+    requiredFeatures: !item["requiredFeatures"]
+      ? item["requiredFeatures"]
+      : item["requiredFeatures"].map((p: any) => {
+          return p;
+        }),
+    actionConfigurations: !item["actionConfigurations"]
+      ? item["actionConfigurations"]
+      : actionConfigurationArrayDeserializer(item["actionConfigurations"]),
   };
 }
 
@@ -6215,6 +6717,37 @@ export enum KnownSupportedOperations {
  * **Delete**
  */
 export type SupportedOperations = string;
+
+export function actionConfigurationArraySerializer(result: Array<ActionConfiguration>): any[] {
+  return result.map((item) => {
+    return actionConfigurationSerializer(item);
+  });
+}
+
+export function actionConfigurationArrayDeserializer(result: Array<ActionConfiguration>): any[] {
+  return result.map((item) => {
+    return actionConfigurationDeserializer(item);
+  });
+}
+
+/** Batch action configuration. */
+export interface ActionConfiguration {
+  /** Authorization action. */
+  authorizationAction?: string;
+  /** The maximum batch size. */
+  maxBatchSize?: number;
+}
+
+export function actionConfigurationSerializer(item: ActionConfiguration): any {
+  return { authorizationAction: item["authorizationAction"], maxBatchSize: item["maxBatchSize"] };
+}
+
+export function actionConfigurationDeserializer(item: any): ActionConfiguration {
+  return {
+    authorizationAction: item["authorizationAction"],
+    maxBatchSize: item["maxBatchSize"],
+  };
+}
 
 export function deleteDependencyArraySerializer(result: Array<DeleteDependency>): any[] {
   return result.map((item) => {
@@ -6271,7 +6804,7 @@ export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsNest
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupportSerializer(
   item: ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport,
 ): any {
-  return { minimumApiVersion: item["minimumApiVersion"] ?? "2024-09-01" };
+  return { minimumApiVersion: item["minimumApiVersion"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupportDeserializer(
@@ -6291,7 +6824,7 @@ export interface ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeMa
 export function resourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagementSerializer(
   item: ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement,
 ): any {
-  return { commonApiVersionsMergeMode: item["commonApiVersionsMergeMode"] ?? "2024-09-01" };
+  return { commonApiVersionsMergeMode: item["commonApiVersionsMergeMode"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagementDeserializer(
@@ -6397,6 +6930,50 @@ export enum KnownResourceTypeRegistrationKind {
  */
 export type ResourceTypeRegistrationKind = string;
 
+/** The manifest checkin specification. */
+export interface ManifestCheckinSpecification {
+  /** The manifest checkin option. */
+  manifestCheckinOption?: ManifestCheckinOption;
+  /** The manifest checkin params. */
+  manifestCheckinParams?: CheckinManifestParams;
+}
+
+export function manifestCheckinSpecificationSerializer(item: ManifestCheckinSpecification): any {
+  return {
+    manifestCheckinOption: item["manifestCheckinOption"],
+    manifestCheckinParams: !item["manifestCheckinParams"]
+      ? item["manifestCheckinParams"]
+      : checkinManifestParamsSerializer(item["manifestCheckinParams"]),
+  };
+}
+
+export function manifestCheckinSpecificationDeserializer(item: any): ManifestCheckinSpecification {
+  return {
+    manifestCheckinOption: item["manifestCheckinOption"],
+    manifestCheckinParams: !item["manifestCheckinParams"]
+      ? item["manifestCheckinParams"]
+      : checkinManifestParamsDeserializer(item["manifestCheckinParams"]),
+  };
+}
+
+/** The manifest checkin option. */
+export enum KnownManifestCheckinOption {
+  /** Attempt an automatic manifest checkin as part of the rollout. */
+  AttemptAutomaticManifestCheckin = "AttemptAutomaticManifestCheckin",
+  /** Do not attempt an automatic manifest checkin as part of the rollout. */
+  DoNotAttemptAutomaticManifestCheckin = "DoNotAttemptAutomaticManifestCheckin",
+}
+
+/**
+ * The manifest checkin option. \
+ * {@link KnownManifestCheckinOption} can be used interchangeably with ManifestCheckinOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AttemptAutomaticManifestCheckin**: Attempt an automatic manifest checkin as part of the rollout. \
+ * **DoNotAttemptAutomaticManifestCheckin**: Do not attempt an automatic manifest checkin as part of the rollout.
+ */
+export type ManifestCheckinOption = string;
+
 /** model interface TrafficRegions */
 export interface TrafficRegions {
   regions?: string[];
@@ -6465,6 +7042,10 @@ export interface ProviderRegistrationProperties extends ResourceProviderManifest
   privateResourceProviderConfiguration?: ProviderRegistrationPropertiesPrivateResourceProviderConfiguration;
   /** The token auth configuration. */
   tokenAuthConfiguration?: TokenAuthConfiguration;
+  /** The on behalf of subscription id for the resource provider. */
+  oboSubscriptionId?: string;
+  /** Indicates whether automatic registration for the preset resource types is enabled or disabled. */
+  enablePresetResourceTypes?: boolean;
 }
 
 export function providerRegistrationPropertiesSerializer(
@@ -6578,6 +7159,8 @@ export function providerRegistrationPropertiesSerializer(
     tokenAuthConfiguration: !item["tokenAuthConfiguration"]
       ? item["tokenAuthConfiguration"]
       : tokenAuthConfigurationSerializer(item["tokenAuthConfiguration"]),
+    oboSubscriptionId: item["oboSubscriptionId"],
+    enablePresetResourceTypes: item["enablePresetResourceTypes"],
   };
 }
 
@@ -6695,6 +7278,8 @@ export function providerRegistrationPropertiesDeserializer(
     tokenAuthConfiguration: !item["tokenAuthConfiguration"]
       ? item["tokenAuthConfiguration"]
       : tokenAuthConfigurationDeserializer(item["tokenAuthConfiguration"]),
+    oboSubscriptionId: item["oboSubscriptionId"],
+    enablePresetResourceTypes: item["enablePresetResourceTypes"],
   };
 }
 
@@ -7535,6 +8120,11 @@ export function resourceProviderManifestPropertiesManagementSerializer(
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -7589,6 +8179,11 @@ export function resourceProviderManifestPropertiesManagementDeserializer(
         }),
     pcCode: item["pcCode"],
     profitCenterProgramId: item["profitCenterProgramId"],
+    featureManagementOwners: !item["featureManagementOwners"]
+      ? item["featureManagementOwners"]
+      : item["featureManagementOwners"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -8209,7 +8804,7 @@ export interface ResourceGraphConfiguration {
 }
 
 export function resourceGraphConfigurationSerializer(item: ResourceGraphConfiguration): any {
-  return { enabled: item["enabled"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { enabled: item["enabled"], apiVersion: item["apiVersion"] };
 }
 
 export function resourceGraphConfigurationDeserializer(item: any): ResourceGraphConfiguration {
@@ -8227,6 +8822,8 @@ export interface CustomRolloutStatus {
   failedOrSkippedRegions?: Record<string, ExtendedErrorInfo>;
   /** The manifest checkin status. */
   manifestCheckinStatus?: CustomRolloutStatusManifestCheckinStatus;
+  /** Information about the manifests applied to the completed regions. */
+  completedRegionsInfo?: AppliedManifestInfo[];
 }
 
 export function customRolloutStatusSerializer(item: CustomRolloutStatus): any {
@@ -8242,6 +8839,9 @@ export function customRolloutStatusSerializer(item: CustomRolloutStatus): any {
     manifestCheckinStatus: !item["manifestCheckinStatus"]
       ? item["manifestCheckinStatus"]
       : customRolloutStatusManifestCheckinStatusSerializer(item["manifestCheckinStatus"]),
+    completedRegionsInfo: !item["completedRegionsInfo"]
+      ? item["completedRegionsInfo"]
+      : appliedManifestInfoArraySerializer(item["completedRegionsInfo"]),
   };
 }
 
@@ -8258,6 +8858,9 @@ export function customRolloutStatusDeserializer(item: any): CustomRolloutStatus 
     manifestCheckinStatus: !item["manifestCheckinStatus"]
       ? item["manifestCheckinStatus"]
       : customRolloutStatusManifestCheckinStatusDeserializer(item["manifestCheckinStatus"]),
+    completedRegionsInfo: !item["completedRegionsInfo"]
+      ? item["completedRegionsInfo"]
+      : appliedManifestInfoArrayDeserializer(item["completedRegionsInfo"]),
   };
 }
 
@@ -8389,6 +8992,52 @@ export function customRolloutStatusManifestCheckinStatusDeserializer(
   };
 }
 
+export function appliedManifestInfoArraySerializer(result: Array<AppliedManifestInfo>): any[] {
+  return result.map((item) => {
+    return appliedManifestInfoSerializer(item);
+  });
+}
+
+export function appliedManifestInfoArrayDeserializer(result: Array<AppliedManifestInfo>): any[] {
+  return result.map((item) => {
+    return appliedManifestInfoDeserializer(item);
+  });
+}
+
+/** Information about a manifest applied to a region. */
+export interface AppliedManifestInfo {
+  /** Region to which the manifest was applied. */
+  region?: string;
+  /** Time at which the manifest was applied. */
+  manifestAppliedAt?: Date;
+  /** Commit id of previous manifest. */
+  previousCommitId?: string;
+  /** Commit id of manifest being applied. */
+  appliedCommitId?: string;
+}
+
+export function appliedManifestInfoSerializer(item: AppliedManifestInfo): any {
+  return {
+    region: item["region"],
+    manifestAppliedAt: !item["manifestAppliedAt"]
+      ? item["manifestAppliedAt"]
+      : item["manifestAppliedAt"].toISOString(),
+    previousCommitId: item["previousCommitId"],
+    appliedCommitId: item["appliedCommitId"],
+  };
+}
+
+export function appliedManifestInfoDeserializer(item: any): AppliedManifestInfo {
+  return {
+    region: item["region"],
+    manifestAppliedAt: !item["manifestAppliedAt"]
+      ? item["manifestAppliedAt"]
+      : new Date(item["manifestAppliedAt"]),
+    previousCommitId: item["previousCommitId"],
+    appliedCommitId: item["appliedCommitId"],
+  };
+}
+
 /** Paged collection of CustomRollout items */
 export interface _CustomRolloutArrayResponseWithContinuation {
   /** The CustomRollout items on this page */
@@ -8516,6 +9165,9 @@ export function defaultRolloutPropertiesSpecificationSerializer(
     autoProvisionConfig: !item["autoProvisionConfig"]
       ? item["autoProvisionConfig"]
       : defaultRolloutSpecificationAutoProvisionConfigSerializer(item["autoProvisionConfig"]),
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -8557,6 +9209,9 @@ export function defaultRolloutPropertiesSpecificationDeserializer(
     autoProvisionConfig: !item["autoProvisionConfig"]
       ? item["autoProvisionConfig"]
       : defaultRolloutSpecificationAutoProvisionConfigDeserializer(item["autoProvisionConfig"]),
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -8631,6 +9286,8 @@ export interface DefaultRolloutSpecification {
   resourceTypeRegistrations?: ResourceTypeRegistration[];
   /** The auto provisioning config. */
   autoProvisionConfig?: DefaultRolloutSpecificationAutoProvisionConfig;
+  /** The manifest checkin specification. */
+  manifestCheckinSpecification?: ManifestCheckinSpecification;
 }
 
 export function defaultRolloutSpecificationSerializer(item: DefaultRolloutSpecification): any {
@@ -8665,6 +9322,9 @@ export function defaultRolloutSpecificationSerializer(item: DefaultRolloutSpecif
     autoProvisionConfig: !item["autoProvisionConfig"]
       ? item["autoProvisionConfig"]
       : defaultRolloutSpecificationAutoProvisionConfigSerializer(item["autoProvisionConfig"]),
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationSerializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -8704,6 +9364,9 @@ export function defaultRolloutSpecificationDeserializer(item: any): DefaultRollo
     autoProvisionConfig: !item["autoProvisionConfig"]
       ? item["autoProvisionConfig"]
       : defaultRolloutSpecificationAutoProvisionConfigDeserializer(item["autoProvisionConfig"]),
+    manifestCheckinSpecification: !item["manifestCheckinSpecification"]
+      ? item["manifestCheckinSpecification"]
+      : manifestCheckinSpecificationDeserializer(item["manifestCheckinSpecification"]),
   };
 }
 
@@ -9371,7 +10034,7 @@ export function frontloadPayloadPropertiesOverrideEndpointLevelFieldsSerializer(
       item["dstsConfiguration"],
     ),
     skuLink: item["skuLink"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: item["zones"].map((p: any) => {
       return p;
     }),
@@ -9440,7 +10103,7 @@ export function resourceTypeEndpointBaseSerializer(item: ResourceTypeEndpointBas
       item["dstsConfiguration"],
     ),
     skuLink: item["skuLink"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: item["zones"].map((p: any) => {
       return p;
     }),
@@ -10291,6 +10954,8 @@ export interface ApplicationDataAuthorization {
   role: Role;
   /** The resource types from the defined resource types in the provider namespace that the application can access. If no resource types are specified and the role is service owner, the default is * which is all resource types */
   resourceTypes?: string[];
+  /** Exclude application id from 'providerAuthorizations' section of manifest? */
+  excludeApplicationIdFromManifest?: boolean;
 }
 
 export function applicationDataAuthorizationSerializer(item: ApplicationDataAuthorization): any {
@@ -10301,6 +10966,7 @@ export function applicationDataAuthorizationSerializer(item: ApplicationDataAuth
       : item["resourceTypes"].map((p: any) => {
           return p;
         }),
+    excludeApplicationIdFromManifest: item["excludeApplicationIdFromManifest"],
   };
 }
 
@@ -10312,6 +10978,7 @@ export function applicationDataAuthorizationDeserializer(item: any): Application
       : item["resourceTypes"].map((p: any) => {
           return p;
         }),
+    excludeApplicationIdFromManifest: item["excludeApplicationIdFromManifest"],
   };
 }
 
@@ -10477,6 +11144,56 @@ export function providerMonitorSettingArrayDeserializer(
   });
 }
 
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface ManifestInfo extends ProxyResource {
+  /** The manifest properties. */
+  properties?: ManifestInfoProperties;
+}
+
+export function manifestInfoSerializer(item: ManifestInfo): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : manifestInfoPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function manifestInfoDeserializer(item: any): ManifestInfo {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : manifestInfoPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The manifest properties. */
+export interface ManifestInfoProperties {
+  /** The manifest. */
+  manifest?: string;
+  /** The URI the manifest content is read from when the manifest is not supplied inline. */
+  manifestUri?: string;
+  /** The manifest commit identifier. */
+  readonly commitId?: string;
+}
+
+export function manifestInfoPropertiesSerializer(item: ManifestInfoProperties): any {
+  return { manifest: item["manifest"], manifestUri: item["manifestUri"] };
+}
+
+export function manifestInfoPropertiesDeserializer(item: any): ManifestInfoProperties {
+  return {
+    manifest: item["manifest"],
+    manifestUri: item["manifestUri"],
+    commitId: item["commitId"],
+  };
+}
+
 /** model interface ResourceManagementAction */
 export interface ResourceManagementAction {
   /** resource management action content. */
@@ -10523,4 +11240,6 @@ export function resourceManagementEntitySerializer(item: ResourceManagementEntit
 export enum KnownVersions {
   /** The 2024-09-01 API version. */
   V20240901 = "2024-09-01",
+  /** The 2025-10-01 API version. */
+  V20251001 = "2025-10-01",
 }

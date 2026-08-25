@@ -4,14 +4,22 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface ActionConfiguration {
+    authorizationAction?: string;
+    maxBatchSize?: number;
+}
 
 // @public
 export interface AdditionalAuthorization {
@@ -50,6 +58,7 @@ export interface ApiProfile {
 
 // @public
 export interface ApplicationDataAuthorization {
+    excludeApplicationIdFromManifest?: boolean;
     resourceTypes?: string[];
     role: Role;
 }
@@ -58,6 +67,14 @@ export interface ApplicationDataAuthorization {
 export interface ApplicationProviderAuthorization {
     managedByRoleDefinitionId?: string;
     roleDefinitionId?: string;
+}
+
+// @public
+export interface AppliedManifestInfo {
+    appliedCommitId?: string;
+    manifestAppliedAt?: Date;
+    previousCommitId?: string;
+    region?: string;
 }
 
 // @public
@@ -237,10 +254,12 @@ export interface CustomRolloutsOperations {
 export interface CustomRolloutSpecification {
     autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig;
     canary?: CustomRolloutSpecificationCanary;
+    manifestCheckinSpecification?: ManifestCheckinSpecification;
     providerRegistration?: CustomRolloutSpecificationProviderRegistration;
     refreshSubscriptionRegistration?: boolean;
     releaseScopes?: string[];
     resourceTypeRegistrations?: ResourceTypeRegistration[];
+    rolloutId?: string;
     skipReleaseScopeValidation?: boolean;
 }
 
@@ -267,6 +286,7 @@ export interface CustomRolloutsStopOptionalParams extends OperationOptions {
 // @public
 export interface CustomRolloutStatus {
     completedRegions?: string[];
+    completedRegionsInfo?: AppliedManifestInfo[];
     failedOrSkippedRegions?: Record<string, ExtendedErrorInfo>;
     manifestCheckinStatus?: CustomRolloutStatusManifestCheckinStatus;
 }
@@ -331,6 +351,7 @@ export interface DefaultRolloutSpecification {
     expeditedRollout?: DefaultRolloutSpecificationExpeditedRollout;
     highTraffic?: DefaultRolloutSpecificationHighTraffic;
     lowTraffic?: DefaultRolloutSpecificationLowTraffic;
+    manifestCheckinSpecification?: ManifestCheckinSpecification;
     mediumTraffic?: DefaultRolloutSpecificationMediumTraffic;
     providerRegistration?: DefaultRolloutSpecificationProviderRegistration;
     resourceTypeRegistrations?: ResourceTypeRegistration[];
@@ -542,6 +563,14 @@ export interface GenerateManifestOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GroupConnectivityInformation {
+    groupId: string;
+    redirectMapId?: string;
+    requiredMembers: string[];
+    requiredZoneNames: string[];
+}
+
+// @public
 export interface IdentityManagement {
     type?: IdentityManagementTypes;
 }
@@ -559,6 +588,8 @@ export type IdentityManagementTypes = string;
 
 // @public
 export type Intent = string;
+
+export { isRestError }
 
 // @public
 export enum KnownAdditionalOptions {
@@ -679,6 +710,7 @@ export enum KnownExtendedLocationType {
 export enum KnownExtensionCategory {
     BestMatchOperationBegin = "BestMatchOperationBegin",
     NotSpecified = "NotSpecified",
+    ResourceBillingNotification = "ResourceBillingNotification",
     ResourceCreationBegin = "ResourceCreationBegin",
     ResourceCreationCompleted = "ResourceCreationCompleted",
     ResourceCreationValidate = "ResourceCreationValidate",
@@ -754,6 +786,12 @@ export enum KnownLegacyOperation {
 }
 
 // @public
+export enum KnownLinkedAccessCheckOptions {
+    IgnoreEmptyStringLinkedType = "IgnoreEmptyStringLinkedType",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownLinkedAction {
     Blocked = "Blocked",
     Enabled = "Enabled",
@@ -782,10 +820,9 @@ export enum KnownLoggingDirections {
 }
 
 // @public
-export enum KnownManifestResourceDeletionPolicy {
-    Cascade = "Cascade",
-    Force = "Force",
-    NotSpecified = "NotSpecified"
+export enum KnownManifestCheckinOption {
+    AttemptAutomaticManifestCheckin = "AttemptAutomaticManifestCheckin",
+    DoNotAttemptAutomaticManifestCheckin = "DoNotAttemptAutomaticManifestCheckin"
 }
 
 // @public
@@ -916,9 +953,10 @@ export enum KnownRegionality {
 
 // @public
 export enum KnownResourceDeletionPolicy {
-    CascadeDeleteAll = "CascadeDeleteAll",
-    CascadeDeleteProxyOnlyChildren = "CascadeDeleteProxyOnlyChildren",
-    NotSpecified = "NotSpecified"
+    Cascade = "Cascade",
+    Force = "Force",
+    NotSpecified = "NotSpecified",
+    SoftDelete = "SoftDelete"
 }
 
 // @public
@@ -931,6 +969,7 @@ export enum KnownResourceProviderCapabilitiesEffect {
 // @public
 export enum KnownResourceProviderType {
     AuthorizationFree = "AuthorizationFree",
+    Decommissioned = "Decommissioned",
     External = "External",
     Hidden = "Hidden",
     Internal = "Internal",
@@ -1002,6 +1041,15 @@ export enum KnownRoutingType {
     ProxyOnly = "ProxyOnly",
     ServiceFanout = "ServiceFanout",
     Tenant = "Tenant"
+}
+
+// @public
+export enum KnownRPaaSResourceDeletionPolicy {
+    Cascade = "Cascade",
+    CascadeDeleteAll = "CascadeDeleteAll",
+    CascadeDeleteProxyOnlyChildren = "CascadeDeleteProxyOnlyChildren",
+    Force = "Force",
+    NotSpecified = "NotSpecified"
 }
 
 // @public
@@ -1142,7 +1190,14 @@ export enum KnownTrafficRegionCategory {
 
 // @public
 export enum KnownVersions {
-    V20240901 = "2024-09-01"
+    V20240901 = "2024-09-01",
+    V20251001 = "2025-10-01"
+}
+
+// @public
+export enum KnownWriteLockState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1167,7 +1222,11 @@ export interface LinkedAccessCheck {
     linkedActionVerb?: string;
     linkedProperty?: string;
     linkedType?: string;
+    readonly options?: LinkedAccessCheckOptions;
 }
+
+// @public
+export type LinkedAccessCheckOptions = string;
 
 // @public
 export type LinkedAction = string;
@@ -1198,6 +1257,7 @@ export interface LocalizedOperationDefinition {
     isDataAction?: boolean;
     name: string;
     origin?: OperationOrigins;
+    properties?: any;
 }
 
 // @public
@@ -1220,6 +1280,7 @@ export interface LocalizedOperationDisplayDefinition {
     pl?: LocalizedOperationDisplayDefinitionPl;
     ptBR?: LocalizedOperationDisplayDefinitionPtBR;
     ptPT?: LocalizedOperationDisplayDefinitionPtPT;
+    qpsPloc?: LocalizedOperationDisplayDefinitionQpsPloc;
     ru?: LocalizedOperationDisplayDefinitionRu;
     sv?: LocalizedOperationDisplayDefinitionSv;
     zhHans?: LocalizedOperationDisplayDefinitionZhHans;
@@ -1283,6 +1344,10 @@ export interface LocalizedOperationDisplayDefinitionPtPT extends OperationsDispl
 }
 
 // @public
+export interface LocalizedOperationDisplayDefinitionQpsPloc extends OperationsDisplayDefinition {
+}
+
+// @public
 export interface LocalizedOperationDisplayDefinitionRu extends OperationsDisplayDefinition {
 }
 
@@ -1330,15 +1395,53 @@ export interface LoggingRuleHiddenPropertyPaths extends LoggingHiddenPropertyPat
 }
 
 // @public
+export interface ManagedResourceGroupDenyAssignmentConfiguration {
+    enabled?: boolean;
+    notActions?: string[];
+}
+
+// @public
+export type ManifestCheckinOption = string;
+
+// @public
+export interface ManifestCheckinSpecification {
+    manifestCheckinOption?: ManifestCheckinOption;
+    manifestCheckinParams?: CheckinManifestParams;
+}
+
+// @public
+export interface ManifestInfo extends ProxyResource {
+    properties?: ManifestInfoProperties;
+}
+
+// @public
+export interface ManifestInfoProperties {
+    readonly commitId?: string;
+    manifest?: string;
+    manifestUri?: string;
+}
+
+// @public
 export interface ManifestLevelPropertyBag {
     resourceHydrationAccounts?: ResourceHydrationAccount[];
 }
 
 // @public
-export type ManifestResourceDeletionPolicy = string;
+export interface ManifestsCreateOrUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
-export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store";
+export interface ManifestsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManifestsOperations {
+    createOrUpdate: (providerNamespace: string, environment: string, properties: ManifestInfo, options?: ManifestsCreateOrUpdateOptionalParams) => Promise<ManifestInfo>;
+    get: (providerNamespace: string, environment: string, options?: ManifestsGetOptionalParams) => Promise<ManifestInfo>;
+}
+
+// @public
+export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store" | "ProviderHub";
 
 // @public
 export type MessageScope = string;
@@ -1494,7 +1597,7 @@ export interface OperationsOperations {
     createOrUpdate: (providerNamespace: string, operationsPutContent: OperationsPutContent, options?: OperationsCreateOrUpdateOptionalParams) => Promise<OperationsPutContent>;
     delete: (providerNamespace: string, options?: OperationsDeleteOptionalParams) => Promise<void>;
     list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDefinition>;
-    listByProviderRegistration: (providerNamespace: string, options?: OperationsListByProviderRegistrationOptionalParams) => Promise<OperationsDefinition[]>;
+    listByProviderRegistration: (providerNamespace: string, options?: OperationsListByProviderRegistrationOptionalParams) => Promise<OperationsPutContent>;
 }
 
 // @public
@@ -1535,6 +1638,12 @@ export type PolicyExecutionType = string;
 export type PreflightOption = string;
 
 // @public
+export interface PrivateEndpointConfiguration {
+    groupConnectivityInformation: GroupConnectivityInformation[];
+    minApiVersion: string;
+}
+
+// @public
 export interface PrivateResourceProviderConfiguration {
     allowedSubscriptions?: string[];
 }
@@ -1548,6 +1657,7 @@ export class ProviderHubClient {
     readonly customRollouts: CustomRolloutsOperations;
     readonly defaultRollouts: DefaultRolloutsOperations;
     generateManifest(providerNamespace: string, options?: GenerateManifestOptionalParams): Promise<ResourceProviderManifest>;
+    readonly manifests: ManifestsOperations;
     readonly newRegionFrontloadRelease: NewRegionFrontloadReleaseOperations;
     readonly notificationRegistrations: NotificationRegistrationsOperations;
     readonly operations: OperationsOperations;
@@ -1641,6 +1751,8 @@ export type ProviderRegistrationKind = string;
 
 // @public
 export interface ProviderRegistrationProperties extends ResourceProviderManifestProperties {
+    enablePresetResourceTypes?: boolean;
+    oboSubscriptionId?: string;
     privateResourceProviderConfiguration?: ProviderRegistrationPropertiesPrivateResourceProviderConfiguration;
     providerHubMetadata?: ProviderRegistrationPropertiesProviderHubMetadata;
     readonly provisioningState?: ProvisioningState;
@@ -1761,6 +1873,18 @@ export interface ResourceConcurrencyControlOption {
 export type ResourceDeletionPolicy = string;
 
 // @public
+export interface ResourceDeletionPolicyAndProperties {
+    policyName?: ResourceDeletionPolicy;
+    properties?: ResourceDeletionPolicyProperties;
+}
+
+// @public
+export interface ResourceDeletionPolicyProperties {
+    maximumRetentionTime?: string;
+    minimumRetentionTime?: string;
+}
+
+// @public
 export interface ResourceGraphConfiguration {
     apiVersion?: string;
     enabled?: boolean;
@@ -1856,6 +1980,7 @@ export interface ResourceProviderManagement {
     errorResponseMessageOptions?: ResourceProviderManagementErrorResponseMessageOptions;
     expeditedRolloutMetadata?: ResourceProviderManagementExpeditedRolloutMetadata;
     expeditedRolloutSubmitters?: string[];
+    featureManagementOwners?: string[];
     incidentContactEmail?: string;
     incidentRoutingService?: string;
     incidentRoutingTeam?: string;
@@ -1902,6 +2027,7 @@ export interface ResourceProviderManifest {
     resourceTypes?: ResourceType[];
     serviceName?: string;
     services?: ResourceProviderService[];
+    tokenAuthConfiguration?: TokenAuthConfiguration;
 }
 
 // @public
@@ -2036,7 +2162,8 @@ export interface ResourceType {
     quotaRule?: QuotaRule;
     requestHeaderOptions?: ResourceTypeRequestHeaderOptions;
     requiredFeatures?: string[];
-    resourceDeletionPolicy?: ManifestResourceDeletionPolicy;
+    resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
+    resourceDeletionPolicy?: ResourceDeletionPolicy;
     resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
     resourceValidation?: ResourceValidation;
     routingType?: RoutingType;
@@ -2133,6 +2260,14 @@ export interface ResourceTypeIdentityManagement extends IdentityManagement {
 }
 
 // @public
+export interface ResourceTypeManagedResourceGroupConfiguration {
+    applicationIds?: string[];
+    denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration;
+    enabled?: boolean;
+    resourceGroupLocationOverride?: string;
+}
+
+// @public
 export interface ResourceTypeOnBehalfOfToken {
     actionName?: string;
     lifeTime?: string;
@@ -2188,6 +2323,7 @@ export interface ResourceTypeRegistrationProperties {
     linkedNotificationRules?: LinkedNotificationRule[];
     linkedOperationRules?: LinkedOperationRule[];
     loggingRules?: LoggingRule[];
+    managedResourceGroupConfiguration?: ResourceTypeManagedResourceGroupConfiguration;
     management?: ResourceTypeRegistrationPropertiesManagement;
     manifestLink?: string;
     marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
@@ -2197,6 +2333,7 @@ export interface ResourceTypeRegistrationProperties {
     onBehalfOfTokens?: ResourceTypeOnBehalfOfToken;
     openApiConfiguration?: OpenApiConfiguration;
     policyExecutionType?: PolicyExecutionType;
+    privateEndpointConfiguration?: PrivateEndpointConfiguration;
     readonly provisioningState?: ProvisioningState;
     quotaRule?: QuotaRule;
     regionality?: Regionality;
@@ -2204,7 +2341,8 @@ export interface ResourceTypeRegistrationProperties {
     requiredFeatures?: string[];
     resourceCache?: ResourceTypeRegistrationPropertiesResourceCache;
     resourceConcurrencyControlOptions?: Record<string, ResourceConcurrencyControlOption>;
-    resourceDeletionPolicy?: ResourceDeletionPolicy;
+    resourceDeletionPolicies?: ResourceDeletionPolicyAndProperties[];
+    resourceDeletionPolicy?: RPaaSResourceDeletionPolicy;
     resourceGraphConfiguration?: ResourceTypeRegistrationPropertiesResourceGraphConfiguration;
     resourceManagementOptions?: ResourceTypeRegistrationPropertiesResourceManagementOptions;
     resourceMovePolicy?: ResourceTypeRegistrationPropertiesResourceMovePolicy;
@@ -2219,12 +2357,14 @@ export interface ResourceTypeRegistrationProperties {
     skuLink?: string;
     subscriptionLifecycleNotificationSpecifications?: ResourceTypeRegistrationPropertiesSubscriptionLifecycleNotificationSpecifications;
     subscriptionStateRules?: SubscriptionStateRule[];
+    superScaleEnabled?: boolean;
     supportsTags?: boolean;
     swaggerSpecifications?: SwaggerSpecification[];
     templateDeploymentOptions?: ResourceTypeRegistrationPropertiesTemplateDeploymentOptions;
     templateDeploymentPolicy?: ResourceTypeRegistrationPropertiesTemplateDeploymentPolicy;
     throttlingRules?: ThrottlingRule[];
     tokenAuthConfiguration?: TokenAuthConfiguration;
+    writeLock?: WriteLockConfiguration;
 }
 
 // @public
@@ -2299,6 +2439,11 @@ export interface ResourceTypeRegistrationPropertiesResourceManagementOptions {
 
 // @public
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport {
+    actionConfigurations?: ActionConfiguration[];
+    batchContractVersion?: string;
+    maxBatchSize?: number;
+    maxNestedBatchSize?: number;
+    requiredFeatures?: string[];
     supportedOperations?: SupportedOperations;
 }
 
@@ -2381,6 +2526,8 @@ export interface ResourceTypeTemplateDeploymentPolicy extends TemplateDeployment
 // @public
 export type ResourceValidation = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ProviderHubClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -2402,6 +2549,9 @@ export interface RolloutStatusBase {
 
 // @public
 export type RoutingType = string;
+
+// @public
+export type RPaaSResourceDeletionPolicy = string;
 
 // @public
 export type ServerFailureResponseMessageType = string;
@@ -2670,6 +2820,7 @@ export interface ThirdPartyProviderAuthorization {
 
 // @public
 export interface ThrottlingMetric {
+    bucketSize?: string;
     interval?: string;
     limit: number;
     type: ThrottlingMetricType;
@@ -2718,6 +2869,14 @@ export interface TypedErrorInfo {
     readonly info?: any;
     type: string;
 }
+
+// @public
+export interface WriteLockConfiguration {
+    state?: WriteLockState;
+}
+
+// @public
+export type WriteLockState = string;
 
 // (No @packageDocumentation comment for this package)
 
