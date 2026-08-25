@@ -80,6 +80,20 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
     });
 
+    it("should set batchSpanProcessorOptions when provided in options", () => {
+      const options: AzureMonitorOpenTelemetryOptions = {
+        batchSpanProcessorOptions: {
+          maxQueueSize: 8192,
+          maxExportBatchSize: 1024,
+        },
+      };
+      const config = new InternalConfig(options);
+      expect(config.batchSpanProcessorOptions).toEqual({
+        maxQueueSize: 8192,
+        maxExportBatchSize: 1024,
+      });
+    });
+
     it("JSON config values take precedence over others", () => {
       const jsonOptions = {
         azureMonitorExporterOptions: {

@@ -413,5 +413,28 @@ describe("Library/TraceHandler", () => {
       expect(span.isRecording()).toBe(true);
       span.end();
     });
+
+    it("should respect batchSpanProcessorOptions in TraceHandler", () => {
+      _config.batchSpanProcessorOptions = {
+        maxQueueSize: 5000,
+        maxExportBatchSize: 1024,
+        scheduledDelayMillis: 2000,
+        exportTimeoutMillis: 15000,
+      };
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      // Note: The assertions below access private internal fields of BatchSpanProcessor
+      // from @opentelemetry/sdk-trace-base. These field names are not part of the public
+      // OTel API contract and may change across minor SDK version upgrades. If this test
+      // begins to fail or silently return undefined, check for field renames in the
+      // upstream @opentelemetry/sdk-trace-base changelog.
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      const bsp = handler.getBatchSpanProcessor() as any;
+      expect(bsp["_maxQueueSize"]).toBe(5000);
+      expect(bsp["_maxExportBatchSize"]).toBe(1024);
+      expect(bsp["_scheduledDelayMillis"]).toBe(2000);
+      expect(bsp["_exportTimeoutMillis"]).toBe(15000);
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    });
   });
 });
