@@ -31175,7 +31175,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.5.0
+        specifier: ^12.6.0
         version: link:../storage-common
       apache-arrow:
         specifier: ^21.1.0

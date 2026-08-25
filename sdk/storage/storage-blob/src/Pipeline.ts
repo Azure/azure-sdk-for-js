@@ -32,6 +32,7 @@ import {
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
+import { storageSessionAuthenticationPolicy } from "./policies/StorageSessionAuthenticationPolicy.js";
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-common";
 import {
@@ -184,6 +185,39 @@ export class Pipeline implements PipelineLike {
 }
 
 /**
+ * Determines when blob requests are authenticated with a session token instead of a bearer token.
+ */
+export type SessionMode = "auto" | "disabled" | "enabled";
+
+/**
+ * Options for configuring session token authentication for blob operations.
+ *
+ * Session authentication currently applies only to blob download requests made with a
+ * `TokenCredential`.
+ */
+export interface SessionOptions {
+  /**
+   * The session authentication mode. Defaults to `auto`, whose behavior is determined by the
+   * client library and may change in future releases.
+   */
+  mode?: SessionMode;
+  /**
+   * The account name used to sign requests within a session. Optional; by default the account
+   * name is derived from the request URL. Set this explicitly when using a custom endpoint URL
+   * from which the account name cannot be derived.
+   */
+  accountName?: string;
+}
+
+/**
+ * Resolves `auto` to the behavior this release ships. Sessions are off by default for now, and
+ * this is the single place to flip that.
+ */
+function resolveSessionMode(mode: SessionMode | undefined): Exclude<SessionMode, "auto"> {
+  return mode === undefined || mode === "auto" ? "disabled" : mode;
+}
+
+/**
  * Options interface for the {@link newPipeline} function.
  */
 export interface StoragePipelineOptions {
@@ -212,6 +246,10 @@ export interface StoragePipelineOptions {
    * By default, audience 'https://storage.azure.com/.default' will be used.
    */
   audience?: string | string[];
+  /**
+   * Configures session token authentication for blob operations.
+   */
+  sessionOptions?: SessionOptions;
 }
 
 /**
@@ -304,12 +342,22 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     }
     const credential = getCredentialFromPipeline(pipeline);
     if (isTokenCredential(credential)) {
+      const bearerPolicy = bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: restOptions.audience ?? StorageOAuthScopes,
+        challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
+      });
+
       corePipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential,
-          scopes: restOptions.audience ?? StorageOAuthScopes,
-          challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
-        }),
+        resolveSessionMode(restOptions.sessionOptions?.mode) === "enabled"
+          ? storageSessionAuthenticationPolicy({
+              bearerPolicy,
+              credential,
+              // Full options, not restOptions: the client that issues Create Session must keep
+              // the caller's httpClient, which is destructured out above.
+              clientOptions: pipeline.options as StoragePipelineOptions,
+            })
+          : bearerPolicy,
         { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
