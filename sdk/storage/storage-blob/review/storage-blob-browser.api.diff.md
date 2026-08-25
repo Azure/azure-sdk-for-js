@@ -646,7 +646,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3273,21 +2983,19 @@
+@@ -3264,21 +2974,19 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -672,7 +672,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3306,16 +3014,14 @@
+@@ -3296,16 +3004,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }
