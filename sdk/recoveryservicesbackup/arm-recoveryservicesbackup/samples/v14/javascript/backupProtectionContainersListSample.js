@@ -1,0 +1,54 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to lists the containers registered to Recovery Services Vault.
+ *
+ * @summary lists the containers registered to Recovery Services Vault.
+ * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_List.json
+ */
+async function listBackupProtectionContainers() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.backupProtectionContainers.list("testVault", "testRg", {
+    filter: "backupManagementType eq 'AzureWorkload'",
+  })) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to lists the containers registered to Recovery Services Vault.
+ *
+ * @summary lists the containers registered to Recovery Services Vault.
+ * x-ms-original-file: 2026-07-01/AzureStorage/ProtectionContainers_List_WithAccessType.json
+ */
+async function listBackupProtectionContainersWithAccessType() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new RecoveryServicesBackupClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.backupProtectionContainers.list(
+    "swaggertestvault",
+    "SwaggerTestRg",
+    { filter: "backupManagementType eq 'AzureStorage'" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listBackupProtectionContainers();
+  await listBackupProtectionContainersWithAccessType();
+}
+
+main().catch(console.error);

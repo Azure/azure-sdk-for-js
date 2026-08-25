@@ -2,27 +2,32 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Extract additional features like charts, hyperlinks, formulas, and annotations.
+ * @summary Extract additional features like charts, hyperlinks, formulas, annotations, and signatures.
  *
  * This sample demonstrates how to extract additional features from documents such as charts,
- * hyperlinks, formulas, and annotations using the prebuilt-documentSearch analyzer.
+ * hyperlinks, formulas, annotations, and signatures using the `prebuilt-documentSearch` analyzer.
  *
- * The prebuilt-documentSearch analyzer has the following configurations enabled by default:
- * - ReturnDetails: true - Returns detailed information about document elements
- * - EnableOcr: true - Performs OCR on documents
- * - EnableLayout: true - Extracts layout information (tables, figures, hyperlinks, annotations)
- * - EnableFormula: true - Extracts mathematical formulas from documents
- * - EnableFigureDescription: true - Generates descriptions for figures
- * - EnableFigureAnalysis: true - Analyzes figures including charts
- * - ChartFormat: "chartjs" - Chart figures are returned in Chart.js format
- * - TableFormat: "html" - Tables are returned in HTML format
- * - AnnotationFormat: "markdown" - Annotations are returned in markdown format
+ * ## About analysis configs
  *
- * These configs enable extraction of:
- * - Charts: Enabled by EnableFigureAnalysis - Chart figures with Chart.js configuration
- * - Hyperlinks: Enabled by EnableLayout - URLs and links found in the document
- * - Formulas: Enabled by EnableFormula - Mathematical formulas in LaTeX format
- * - Annotations: Enabled by EnableLayout - PDF annotations, comments, and markup
+ * The `prebuilt-documentSearch` analyzer has the following configurations enabled by default:
+ * - **returnDetails**: `true` — Returns detailed information about document elements
+ * - **enableOcr**: `true` — Performs OCR on documents
+ * - **enableLayout**: `true` — Extracts layout information (tables, figures, hyperlinks, annotations)
+ * - **enableFormula**: `true` — Extracts mathematical formulas from documents
+ * - **enableFigureDescription**: `true` — Generates descriptions for figures
+ * - **enableFigureAnalysis**: `true` — Analyzes figures including charts
+ * - **chartFormat**: `"chartjs"` — Chart figures are returned in Chart.js format
+ * - **tableFormat**: `"html"` — Tables are returned in HTML format
+ * - **annotationFormat**: `"markdown"` — Annotations are returned in markdown format
+ *
+ * The following code demonstrates extraction of features enabled by these configs:
+ * - **Charts**: Enabled by `enableFigureAnalysis` — Chart figures with Chart.js configuration
+ * - **Hyperlinks**: Enabled by `enableLayout` — URLs and links found in the document
+ * - **Formulas**: Enabled by `enableFormula` — Mathematical formulas in LaTeX format
+ * - **Annotations**: Enabled by `enableLayout` — PDF annotations, comments, and markup
+ * - **Signatures**: Enabled by `enableLayout` with detailed output — Signature regions and metadata (**available only in `2026-06-01-preview`**)
+ *
+ * For custom analyzers, you can configure these options in `ContentAnalyzerConfig` when creating the analyzer.
  *
  * @azsdk-weight 81
  */
@@ -148,6 +153,21 @@ export async function main(): Promise<void> {
     }
   } else {
     console.log("\nNo annotations found in the document.");
+  }
+
+  // Extract signatures (preview) — requires EnableLayout + returnDetails
+  if (documentContent.signatures && documentContent.signatures.length > 0) {
+    console.log(`\nFound ${documentContent.signatures.length} signature(s)`);
+    for (const signature of documentContent.signatures) {
+      console.log(`  Signature ID: ${signature.id}`);
+      console.log(`    Role: ${signature.role ?? "(not available)"}`);
+      console.log(`    Source: ${signature.source ?? "(not available)"}`);
+      if (signature.span) {
+        console.log(`    Span: offset=${signature.span.offset}, length=${signature.span.length}`);
+      }
+    }
+  } else {
+    console.log("\nNo signatures found in the document.");
   }
 }
 

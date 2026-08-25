@@ -5,7 +5,7 @@
 # Orphaned paths
 ################
 
-/** @xirzec @jeremymeng @Azure/azure-sdk-eng
+/** @Azure/azure-sdk-for-js-core @Azure/azure-sdk-eng
 
 ################
 # Misc.
@@ -307,7 +307,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
+/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -575,7 +575,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -732,7 +732,7 @@
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
+/sdk/migrationdiscoverysap/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao @JialinHuang803

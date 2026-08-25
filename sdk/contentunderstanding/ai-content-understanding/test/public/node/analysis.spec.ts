@@ -5,14 +5,15 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder } from "../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../src/index.js";
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { assert, beforeEach, afterEach, it } from "vitest";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { EnvVarKeys } from "../../utils/constants.js";
+import { forEachServiceVersion } from "../../utils/multiVersion.js";
 import fs from "node:fs";
 import { getSampleFilePath } from "./samples/sampleTestUtils.js";
 
-describe("ContentUnderstandingClient - Analysis", () => {
+forEachServiceVersion("ContentUnderstandingClient - Analysis", ({ apiVersion }) => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
   let testAnalyzerId: string;
@@ -31,7 +32,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     client = new ContentUnderstandingClient(
       endpoint,
       key ? new AzureKeyCredential(key) : createTestCredential(),
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion }),
     );
     testAnalyzerId = "prebuilt-documentSearch";
   });

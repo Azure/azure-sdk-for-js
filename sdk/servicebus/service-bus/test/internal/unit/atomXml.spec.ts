@@ -16,6 +16,7 @@ import {
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildTopicOptions,
+  buildTopicRuntimeProperties,
   TopicResourceSerializer,
 } from "../../../src/serializers/topicResourceSerializer.js";
 import {
@@ -1362,5 +1363,46 @@ describe("ATOM Serializers", () => {
         }
       });
     });
+  });
+});
+
+describe("buildTopicRuntimeProperties", () => {
+  const countDetails = {
+    [Constants.XML_METADATA_MARKER]: {
+      "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+    },
+    "d2p1:ScheduledMessageCount": "0",
+  };
+
+  it("maps SqlFilterCount and CorrelationFilterCount from the raw runtime response", () => {
+    const props = buildTopicRuntimeProperties({
+      [Constants.TOPIC_NAME]: "my-topic",
+      [Constants.SUBSCRIPTION_COUNT]: "2",
+      [Constants.SQL_FILTER_COUNT]: "7",
+      [Constants.CORRELATION_FILTER_COUNT]: "9",
+      [Constants.CREATED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.UPDATED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.ACCESSED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.COUNT_DETAILS]: countDetails,
+    });
+    assert.equal(props.subscriptionCount, 2);
+    assert.equal(props.sqlFilterCount, 7);
+    assert.equal(props.correlationFilterCount, 9);
+  });
+
+  it("leaves filter counts undefined when the elements are absent", () => {
+    // A service region that has not yet deployed the topic filter-count feature
+    // omits the elements entirely; the counts must be undefined, like subscriptionCount.
+    const props = buildTopicRuntimeProperties({
+      [Constants.TOPIC_NAME]: "my-topic",
+      [Constants.SUBSCRIPTION_COUNT]: "1",
+      [Constants.CREATED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.UPDATED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.ACCESSED_AT]: "2026-01-01T00:00:00Z",
+      [Constants.COUNT_DETAILS]: countDetails,
+    });
+    assert.equal(props.subscriptionCount, 1);
+    assert.equal(props.sqlFilterCount, undefined);
+    assert.equal(props.correlationFilterCount, undefined);
   });
 });

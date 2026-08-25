@@ -1,38 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext as Client } from "../index.js";
+import type { NetworkCloudContext as Client } from "../index.js";
+import type { OperationStatusResult, Console, _ConsoleList } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OperationStatusResult,
   operationStatusResultDeserializer,
-  Console,
   consoleSerializer,
   consoleDeserializer,
   consolePatchParametersSerializer,
-  _ConsoleList,
   _consoleListDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConsolesListByVirtualMachineOptionalParams,
   ConsolesDeleteOptionalParams,
   ConsolesUpdateOptionalParams,
   ConsolesCreateOrUpdateOptionalParams,
   ConsolesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByVirtualMachineSend(
   context: Client,
@@ -46,7 +38,7 @@ export function _listByVirtualMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -66,7 +58,9 @@ export async function _listByVirtualMachineDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -86,11 +80,7 @@ export function listByVirtualMachine(
     () => _listByVirtualMachineSend(context, resourceGroupName, virtualMachineName, options),
     _listByVirtualMachineDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -108,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +120,9 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -152,7 +144,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualMachineName, consoleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -170,7 +162,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,9 +177,9 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: !options["consoleUpdateParameters"]
-      ? options["consoleUpdateParameters"]
-      : consolePatchParametersSerializer(options["consoleUpdateParameters"]),
+    body: !options?.consoleUpdateParameters
+      ? options?.consoleUpdateParameters
+      : consolePatchParametersSerializer(options?.consoleUpdateParameters),
   });
 }
 
@@ -195,7 +187,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -217,7 +211,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, virtualMachineName, consoleName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Console>, Console>;
 }
 
@@ -236,7 +230,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,7 +253,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -289,7 +285,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<Console>, Console>;
 }
 
@@ -307,7 +303,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -323,7 +319,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

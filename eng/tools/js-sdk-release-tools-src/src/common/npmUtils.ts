@@ -76,7 +76,7 @@ function executeCommand(
   command: string,
   maxRetries = 3,
   retryDelayMs = 1000,
-): shell.ShellString | null {
+): { code: number; stdout: string; stderr: string } | null {
   const currentRepo = shell.pwd().stdout.trim();
   logger.info(`Executing git command in repo: ${currentRepo}`);
   logger.info(`Executing command with retry mode (max attempts: ${maxRetries}): ${command}`);

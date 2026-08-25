@@ -94,7 +94,6 @@ export interface PrivateLinkScopesOperations {
     options?: PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
   ) => Promise<PrivateLinkScopeValidationDetails>;
 }
-
 function _getPrivateLinkScopes(context: HybridComputeManagementContext) {
   return {
     getValidationDetails: (
@@ -152,7 +151,6 @@ function _getPrivateLinkScopes(context: HybridComputeManagementContext) {
     ) => getValidationDetailsForMachine(context, resourceGroupName, machineName, options),
   };
 }
-
 export function _getPrivateLinkScopesOperations(
   context: HybridComputeManagementContext,
 ): PrivateLinkScopesOperations {
