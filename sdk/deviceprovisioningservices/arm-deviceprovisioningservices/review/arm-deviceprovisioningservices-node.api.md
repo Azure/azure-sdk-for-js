@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -34,6 +36,11 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface CertificateListDescription {
+    value?: CertificateResponse[];
+}
 
 // @public
 export interface CertificateProperties {
@@ -62,16 +69,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export type DeviceRegistryNamespaceAuthenticationType = string;
-
-// @public
-export interface DeviceRegistryNamespaceDescription {
-    authenticationType: DeviceRegistryNamespaceAuthenticationType;
-    resourceId: string;
-    selectedUserAssignedIdentityResourceId?: string;
-}
 
 // @public
 export interface DpsCertificateCreateOrUpdateOptionalParams extends OperationOptions {
@@ -117,7 +114,7 @@ export interface DpsCertificateOperations {
     delete: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateDeleteOptionalParams) => Promise<void>;
     generateVerificationCode: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams) => Promise<VerificationCodeResponse>;
     get: (certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGetOptionalParams) => Promise<CertificateResponse>;
-    list: (resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateListOptionalParams) => PagedAsyncIterableIterator<CertificateResponse>;
+    list: (resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateListOptionalParams) => Promise<CertificateListDescription>;
     verifyCertificate: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams) => Promise<CertificateResponse>;
 }
 
@@ -182,6 +179,7 @@ export interface GroupIdInformationProperties {
 
 // @public (undocumented)
 export class IotDpsClient {
+    constructor(credential: TokenCredential, options?: IotDpsClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: IotDpsClientOptionalParams);
     readonly dpsCertificate: DpsCertificateOperations;
     readonly iotDpsResource: IotDpsResourceOperations;
@@ -200,7 +198,7 @@ export interface IotDpsPropertiesDescription {
     allocationPolicy?: AllocationPolicy;
     authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
     readonly deviceProvisioningHostName?: string;
-    deviceRegistryNamespace?: DeviceRegistryNamespaceDescription;
+    disableLocalAuth?: boolean;
     enableDataResidency?: boolean;
     readonly idScope?: string;
     iotHubs?: IotHubDefinitionDescription[];
@@ -297,7 +295,7 @@ export interface IotDpsResourceOperations {
     listKeys: (provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListKeysOptionalParams) => PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
     listKeysForKeyName: (provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: IotDpsResourceListKeysForKeyNameOptionalParams) => Promise<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
     listPrivateEndpointConnections: (resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams) => Promise<PrivateEndpointConnection[]>;
-    listPrivateLinkResources: (resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<GroupIdInformation>;
+    listPrivateLinkResources: (resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResources>;
     listValidSkus: (provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListValidSkusOptionalParams) => PagedAsyncIterableIterator<IotDpsSkuDefinition>;
     update: (resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams) => PollerLike<OperationState<ProvisioningServiceDescription>, ProvisioningServiceDescription>;
 }
@@ -323,12 +321,18 @@ export interface IotDpsSkuInfo {
 }
 
 // @public
+export type IotHubAuthenticationType = string;
+
+// @public
 export interface IotHubDefinitionDescription {
     allocationWeight?: number;
     applyAllocationPolicy?: boolean;
-    connectionString: string;
+    authenticationType?: IotHubAuthenticationType;
+    connectionString?: string;
+    hostName?: string;
     location: string;
     readonly name?: string;
+    selectedUserAssignedIdentityResourceId?: string;
 }
 
 // @public
@@ -344,6 +348,8 @@ export interface IpFilterRule {
 
 // @public
 export type IpFilterTargetType = "all" | "serviceApi" | "deviceApi";
+
+export { isRestError }
 
 // @public
 export enum KnownAccessRightsDescription {
@@ -377,14 +383,15 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownDeviceRegistryNamespaceAuthenticationType {
-    SystemAssigned = "SystemAssigned",
-    UserAssigned = "UserAssigned"
+export enum KnownIotDpsSku {
+    S1 = "S1"
 }
 
 // @public
-export enum KnownIotDpsSku {
-    S1 = "S1"
+export enum KnownIotHubAuthenticationType {
+    KeyBased = "KeyBased",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -433,7 +440,7 @@ export enum KnownState {
 
 // @public
 export enum KnownVersions {
-    V20250201Preview = "2025-02-01-preview"
+    V20260831 = "2026-08-31"
 }
 
 // @public
@@ -510,6 +517,11 @@ export interface PrivateEndpointConnectionProperties {
 }
 
 // @public
+export interface PrivateLinkResources {
+    value?: GroupIdInformation[];
+}
+
+// @public
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description: string;
@@ -543,6 +555,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IotDpsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

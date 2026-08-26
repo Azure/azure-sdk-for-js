@@ -4,7 +4,7 @@
 import type { IotDpsContext as Client } from "../index.js";
 import type {
   CertificateResponse,
-  _CertificateListDescription,
+  CertificateListDescription,
   VerificationCodeResponse,
   VerificationCodeRequest,
 } from "../../models/models.js";
@@ -12,12 +12,10 @@ import {
   errorDetailsDeserializer,
   certificateResponseSerializer,
   certificateResponseDeserializer,
-  _certificateListDescriptionDeserializer,
+  certificateListDescriptionDeserializer,
   verificationCodeResponseDeserializer,
   verificationCodeRequestSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   DpsCertificateVerifyCertificateOptionalParams,
@@ -38,9 +36,7 @@ export function _verifyCertificateSend(
   resourceGroupName: string,
   provisioningServiceName: string,
   request: VerificationCodeRequest,
-  options: DpsCertificateVerifyCertificateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DpsCertificateVerifyCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify{?api%2Dversion,certificate.name,certificate.rawBytes,certificate.isVerified,certificate.purpose,certificate.created,certificate.lastUpdated,certificate.hasPrivateKey,certificate.nonce}",
@@ -49,7 +45,7 @@ export function _verifyCertificateSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -73,7 +69,7 @@ export function _verifyCertificateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "If-Match": ifMatch,
+      "if-match": ifMatch,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -87,7 +83,10 @@ export async function _verifyCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -102,9 +101,7 @@ export async function verifyCertificate(
   resourceGroupName: string,
   provisioningServiceName: string,
   request: VerificationCodeRequest,
-  options: DpsCertificateVerifyCertificateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DpsCertificateVerifyCertificateOptionalParams = { requestOptions: {} },
 ): Promise<CertificateResponse> {
   const result = await _verifyCertificateSend(
     context,
@@ -124,9 +121,7 @@ export function _generateVerificationCodeSend(
   ifMatch: string,
   resourceGroupName: string,
   provisioningServiceName: string,
-  options: DpsCertificateGenerateVerificationCodeOptionalParams = {
-    requestOptions: {},
-  },
+  options: DpsCertificateGenerateVerificationCodeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode{?api%2Dversion,certificate.name,certificate.rawBytes,certificate.isVerified,certificate.purpose,certificate.created,certificate.lastUpdated,certificate.hasPrivateKey,certificate.nonce}",
@@ -135,7 +130,7 @@ export function _generateVerificationCodeSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -158,7 +153,7 @@ export function _generateVerificationCodeSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "If-Match": ifMatch,
+      "if-match": ifMatch,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -171,7 +166,10 @@ export async function _generateVerificationCodeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -185,9 +183,7 @@ export async function generateVerificationCode(
   ifMatch: string,
   resourceGroupName: string,
   provisioningServiceName: string,
-  options: DpsCertificateGenerateVerificationCodeOptionalParams = {
-    requestOptions: {},
-  },
+  options: DpsCertificateGenerateVerificationCodeOptionalParams = { requestOptions: {} },
 ): Promise<VerificationCodeResponse> {
   const result = await _generateVerificationCodeSend(
     context,
@@ -212,7 +208,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -220,40 +216,35 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_CertificateListDescription> {
+): Promise<CertificateListDescription> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _certificateListDescriptionDeserializer(result.body);
+  return certificateListDescriptionDeserializer(result.body);
 }
 
 /** Get all the certificates tied to the provisioning service. */
-export function list(
+export async function list(
   context: Client,
   resourceGroupName: string,
   provisioningServiceName: string,
   options: DpsCertificateListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<CertificateResponse> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, resourceGroupName, provisioningServiceName, options),
-    _listDeserialize,
-    ["200"],
-    { itemName: "value" },
-  );
+): Promise<CertificateListDescription> {
+  const result = await _listSend(context, resourceGroupName, provisioningServiceName, options);
+  return _listDeserialize(result);
 }
 
 export function _$deleteSend(
@@ -271,7 +262,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
       "certificate.name": options?.certificateName,
       "certificate.rawBytes": !options?.certificateRawBytes
         ? options?.certificateRawBytes
@@ -293,7 +284,7 @@ export function _$deleteSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "If-Match": ifMatch, ...options.requestOptions?.headers },
+    headers: { "if-match": ifMatch, ...options.requestOptions?.headers },
   });
 }
 
@@ -301,7 +292,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -309,11 +303,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the specified certificate associated with the Provisioning Service */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -348,7 +337,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,7 +347,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -372,7 +361,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -413,7 +405,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       provisioningServiceName: provisioningServiceName,
       certificateName: certificateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-08-31",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +414,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.ifMatch !== undefined ? { "If-Match": options?.ifMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -433,7 +425,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ce
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailsDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailsDeserializer(result.body);
+    }
+
     throw error;
   }
 
