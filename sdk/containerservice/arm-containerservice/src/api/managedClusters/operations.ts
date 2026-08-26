@@ -14,12 +14,7 @@ import type {
   RunCommandResult,
   _OutboundEnvironmentEndpointCollection,
   OutboundEnvironmentEndpoint,
-  RebalanceLoadBalancersRequestBody,
   ManagedClusterUpgradeProfile,
-  GuardrailsAvailableVersion,
-  _GuardrailsAvailableVersionsList,
-  SafeguardsAvailableVersion,
-  _SafeguardsAvailableVersionsList,
   MeshRevisionProfile,
   _MeshRevisionProfileList,
   MeshUpgradeProfile,
@@ -39,12 +34,7 @@ import {
   runCommandRequestSerializer,
   runCommandResultDeserializer,
   _outboundEnvironmentEndpointCollectionDeserializer,
-  rebalanceLoadBalancersRequestBodySerializer,
   managedClusterUpgradeProfileDeserializer,
-  guardrailsAvailableVersionDeserializer,
-  _guardrailsAvailableVersionsListDeserializer,
-  safeguardsAvailableVersionDeserializer,
-  _safeguardsAvailableVersionsListDeserializer,
   meshRevisionProfileDeserializer,
   _meshRevisionProfileListDeserializer,
   meshUpgradeProfileDeserializer,
@@ -61,12 +51,7 @@ import type {
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
-  ManagedClustersListSafeguardsVersionsOptionalParams,
-  ManagedClustersGetSafeguardsVersionsOptionalParams,
-  ManagedClustersListGuardrailsVersionsOptionalParams,
-  ManagedClustersGetGuardrailsVersionsOptionalParams,
   ManagedClustersGetUpgradeProfileOptionalParams,
-  ManagedClustersRebalanceLoadBalancersOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersRunCommandOptionalParams,
@@ -102,7 +87,7 @@ export function _listKubernetesVersionsSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,6 +114,7 @@ export async function _listKubernetesVersionsDeserialize(
 
   return kubernetesVersionListResultDeserializer(result.body);
 }
+
 /** Contains extra metadata on the version, including supported patch versions, capabilities, available upgrades, and details on preview status of the version */
 export async function listKubernetesVersions(
   context: Client,
@@ -151,7 +137,7 @@ export function _listMeshUpgradeProfilesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,6 +164,7 @@ export async function _listMeshUpgradeProfilesDeserialize(
 
   return _meshUpgradeProfileListDeserializer(result.body);
 }
+
 /** Lists available upgrades for all service meshes in a specific cluster. */
 export function listMeshUpgradeProfiles(
   context: Client,
@@ -190,11 +177,7 @@ export function listMeshUpgradeProfiles(
     () => _listMeshUpgradeProfilesSend(context, resourceGroupName, resourceName, options),
     _listMeshUpgradeProfilesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -212,7 +195,7 @@ export function _getMeshUpgradeProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       mode: mode,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,6 +222,7 @@ export async function _getMeshUpgradeProfileDeserialize(
 
   return meshUpgradeProfileDeserializer(result.body);
 }
+
 /** Gets available upgrades for a service mesh in a cluster. */
 export async function getMeshUpgradeProfile(
   context: Client,
@@ -267,7 +251,7 @@ export function _listMeshRevisionProfilesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,6 +278,7 @@ export async function _listMeshRevisionProfilesDeserialize(
 
   return _meshRevisionProfileListDeserializer(result.body);
 }
+
 /** Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades */
 export function listMeshRevisionProfiles(
   context: Client,
@@ -305,11 +290,7 @@ export function listMeshRevisionProfiles(
     () => _listMeshRevisionProfilesSend(context, location, options),
     _listMeshRevisionProfilesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -325,7 +306,7 @@ export function _getMeshRevisionProfileSend(
       subscriptionId: context.subscriptionId,
       location: location,
       mode: mode,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -352,6 +333,7 @@ export async function _getMeshRevisionProfileDeserialize(
 
   return meshRevisionProfileDeserializer(result.body);
 }
+
 /** Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades */
 export async function getMeshRevisionProfile(
   context: Client,
@@ -361,218 +343,6 @@ export async function getMeshRevisionProfile(
 ): Promise<MeshRevisionProfile> {
   const result = await _getMeshRevisionProfileSend(context, location, mode, options);
   return _getMeshRevisionProfileDeserialize(result);
-}
-
-export function _listSafeguardsVersionsSend(
-  context: Client,
-  location: string,
-  options: ManagedClustersListSafeguardsVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listSafeguardsVersionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_SafeguardsAvailableVersionsList> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _safeguardsAvailableVersionsListDeserializer(result.body);
-}
-/** Contains list of Safeguards version along with its support info and whether it is a default version. */
-export function listSafeguardsVersions(
-  context: Client,
-  location: string,
-  options: ManagedClustersListSafeguardsVersionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<SafeguardsAvailableVersion> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSafeguardsVersionsSend(context, location, options),
-    _listSafeguardsVersionsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
-  );
-}
-
-export function _getSafeguardsVersionsSend(
-  context: Client,
-  location: string,
-  version: string,
-  options: ManagedClustersGetSafeguardsVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/safeguardsVersions/{version}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      location: location,
-      version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getSafeguardsVersionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SafeguardsAvailableVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return safeguardsAvailableVersionDeserializer(result.body);
-}
-/** Contains Safeguards version along with its support info and whether it is a default version. */
-export async function getSafeguardsVersions(
-  context: Client,
-  location: string,
-  version: string,
-  options: ManagedClustersGetSafeguardsVersionsOptionalParams = { requestOptions: {} },
-): Promise<SafeguardsAvailableVersion> {
-  const result = await _getSafeguardsVersionsSend(context, location, version, options);
-  return _getSafeguardsVersionsDeserialize(result);
-}
-
-export function _listGuardrailsVersionsSend(
-  context: Client,
-  location: string,
-  options: ManagedClustersListGuardrailsVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listGuardrailsVersionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_GuardrailsAvailableVersionsList> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _guardrailsAvailableVersionsListDeserializer(result.body);
-}
-/** Contains list of Guardrails version along with its support info and whether it is a default version. */
-export function listGuardrailsVersions(
-  context: Client,
-  location: string,
-  options: ManagedClustersListGuardrailsVersionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<GuardrailsAvailableVersion> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listGuardrailsVersionsSend(context, location, options),
-    _listGuardrailsVersionsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
-  );
-}
-
-export function _getGuardrailsVersionsSend(
-  context: Client,
-  location: string,
-  version: string,
-  options: ManagedClustersGetGuardrailsVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/guardrailsVersions/{version}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      location: location,
-      version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getGuardrailsVersionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<GuardrailsAvailableVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return guardrailsAvailableVersionDeserializer(result.body);
-}
-/** Contains Guardrails version along with its support info and whether it is a default version. */
-export async function getGuardrailsVersions(
-  context: Client,
-  location: string,
-  version: string,
-  options: ManagedClustersGetGuardrailsVersionsOptionalParams = { requestOptions: {} },
-): Promise<GuardrailsAvailableVersion> {
-  const result = await _getGuardrailsVersionsSend(context, location, version, options);
-  return _getGuardrailsVersionsDeserialize(result);
 }
 
 export function _getUpgradeProfileSend(
@@ -587,7 +357,7 @@ export function _getUpgradeProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -614,6 +384,7 @@ export async function _getUpgradeProfileDeserialize(
 
   return managedClusterUpgradeProfileDeserializer(result.body);
 }
+
 /** Gets the upgrade profile of a managed cluster. */
 export async function getUpgradeProfile(
   context: Client,
@@ -623,70 +394,6 @@ export async function getUpgradeProfile(
 ): Promise<ManagedClusterUpgradeProfile> {
   const result = await _getUpgradeProfileSend(context, resourceGroupName, resourceName, options);
   return _getUpgradeProfileDeserialize(result);
-}
-
-export function _rebalanceLoadBalancersSend(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  parameters: RebalanceLoadBalancersRequestBody,
-  options: ManagedClustersRebalanceLoadBalancersOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: rebalanceLoadBalancersRequestBodySerializer(parameters),
-  });
-}
-
-export async function _rebalanceLoadBalancersDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-/** Rebalance nodes across specific load balancers. */
-export function rebalanceLoadBalancers(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  parameters: RebalanceLoadBalancersRequestBody,
-  options: ManagedClustersRebalanceLoadBalancersOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _rebalanceLoadBalancersDeserialize,
-    ["202", "204", "200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _rebalanceLoadBalancersSend(context, resourceGroupName, resourceName, parameters, options),
-      resourceLocationConfig: "azure-async-operation",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
-  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listOutboundNetworkDependenciesEndpointsSend(
@@ -703,7 +410,7 @@ export function _listOutboundNetworkDependenciesEndpointsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -730,6 +437,7 @@ export async function _listOutboundNetworkDependenciesEndpointsDeserialize(
 
   return _outboundEnvironmentEndpointCollectionDeserializer(result.body);
 }
+
 /** Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint. */
 export function listOutboundNetworkDependenciesEndpoints(
   context: Client,
@@ -750,11 +458,7 @@ export function listOutboundNetworkDependenciesEndpoints(
       ),
     _listOutboundNetworkDependenciesEndpointsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -772,7 +476,7 @@ export function _getCommandResultSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       commandId: commandId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -803,6 +507,7 @@ export async function _getCommandResultDeserialize(
 
   return runCommandResultDeserializer(result.body);
 }
+
 /** Gets the results of a command which has been run on the Managed Cluster. */
 export async function getCommandResult(
   context: Client,
@@ -834,7 +539,7 @@ export function _runCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -863,6 +568,7 @@ export async function _runCommandDeserialize(
 
   return runCommandResultDeserializer(result.body);
 }
+
 /** AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview). */
 export function runCommand(
   context: Client,
@@ -877,7 +583,7 @@ export function runCommand(
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, resourceName, requestPayload, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -893,7 +599,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -915,6 +621,7 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
 
   return;
 }
+
 /** See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster. */
 export function start(
   context: Client,
@@ -927,7 +634,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -943,7 +650,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -965,6 +672,7 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
 
   return;
 }
+
 /** This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A cluster does not accrue charges while it is stopped. See [stopping a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a cluster. */
 export function stop(
   context: Client,
@@ -977,7 +685,7 @@ export function stop(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _stopSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -993,7 +701,7 @@ export function _rotateServiceAccountSigningKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1017,6 +725,7 @@ export async function _rotateServiceAccountSigningKeysDeserialize(
 
   return;
 }
+
 /** Rotates the service account signing keys of a managed cluster. */
 export function rotateServiceAccountSigningKeys(
   context: Client,
@@ -1034,7 +743,7 @@ export function rotateServiceAccountSigningKeys(
       getInitialResponse: () =>
         _rotateServiceAccountSigningKeysSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1051,7 +760,7 @@ export function _abortLatestOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1075,6 +784,7 @@ export async function _abortLatestOperationDeserialize(
 
   return;
 }
+
 /** Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned. */
 export function abortLatestOperation(
   context: Client,
@@ -1092,7 +802,7 @@ export function abortLatestOperation(
       getInitialResponse: () =>
         _abortLatestOperationSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1109,7 +819,7 @@ export function _rotateClusterCertificatesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1133,6 +843,7 @@ export async function _rotateClusterCertificatesDeserialize(
 
   return;
 }
+
 /** See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates. */
 export function rotateClusterCertificates(
   context: Client,
@@ -1150,7 +861,7 @@ export function rotateClusterCertificates(
       getInitialResponse: () =>
         _rotateClusterCertificatesSend(context, resourceGroupName, resourceName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1168,7 +879,7 @@ export function _resetAADProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1194,6 +905,7 @@ export async function _resetAADProfileDeserialize(result: PathUncheckedResponse)
 
   return;
 }
+
 /** **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD. */
 export function resetAADProfile(
   context: Client,
@@ -1208,7 +920,7 @@ export function resetAADProfile(
     getInitialResponse: () =>
       _resetAADProfileSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1225,7 +937,7 @@ export function _resetServicePrincipalProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1253,6 +965,7 @@ export async function _resetServicePrincipalProfileDeserialize(
 
   return;
 }
+
 /** This action cannot be performed on a cluster that is not using a service principal */
 export function resetServicePrincipalProfile(
   context: Client,
@@ -1277,7 +990,7 @@ export function resetServicePrincipalProfile(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1296,7 +1009,7 @@ export function _listClusterMonitoringUserCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "server%2Dfqdn": options?.serverFqdn,
     },
     {
@@ -1324,6 +1037,7 @@ export async function _listClusterMonitoringUserCredentialsDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the cluster monitoring user credentials of a managed cluster. */
 export async function listClusterMonitoringUserCredentials(
   context: Client,
@@ -1354,7 +1068,7 @@ export function _listClusterUserCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "server%2Dfqdn": options?.serverFqdn,
       format: options?.format,
     },
@@ -1383,6 +1097,7 @@ export async function _listClusterUserCredentialsDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the user credentials of a managed cluster. */
 export async function listClusterUserCredentials(
   context: Client,
@@ -1411,7 +1126,7 @@ export function _listClusterAdminCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "server%2Dfqdn": options?.serverFqdn,
     },
     {
@@ -1439,6 +1154,7 @@ export async function _listClusterAdminCredentialsDeserialize(
 
   return credentialResultsDeserializer(result.body);
 }
+
 /** Lists the admin credentials of a managed cluster. */
 export async function listClusterAdminCredentials(
   context: Client,
@@ -1469,7 +1185,7 @@ export function _getAccessProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1496,6 +1212,7 @@ export async function _getAccessProfileDeserialize(
 
   return managedClusterAccessProfileDeserializer(result.body);
 }
+
 /** **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) . */
 export async function getAccessProfile(
   context: Client,
@@ -1522,7 +1239,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1549,6 +1266,7 @@ export async function _listDeserialize(
 
   return _managedClusterListResultDeserializer(result.body);
 }
+
 /** Gets a list of managed clusters in the specified subscription. */
 export function list(
   context: Client,
@@ -1559,11 +1277,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -1577,7 +1291,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1604,6 +1318,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _managedClusterListResultDeserializer(result.body);
 }
+
 /** Lists managed clusters in the specified subscription and resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -1615,11 +1330,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -1630,13 +1341,12 @@ export function _$deleteSend(
   options: ManagedClustersDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}{?api%2Dversion,ignore%2Dpod%2Ddisruption%2Dbudget}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
-      "ignore%2Dpod%2Ddisruption%2Dbudget": options?.ignorePodDisruptionBudget,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1664,6 +1374,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a managed cluster. */
 export function $delete(
   context: Client,
@@ -1676,7 +1387,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1693,7 +1404,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1726,6 +1437,7 @@ export async function _updateTagsDeserialize(
 
   return managedClusterDeserializer(result.body);
 }
+
 /** Updates tags on a managed cluster. */
 export function updateTags(
   context: Client,
@@ -1740,7 +1452,7 @@ export function updateTags(
     getInitialResponse: () =>
       _updateTagsSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
@@ -1757,7 +1469,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1791,6 +1503,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedClusterDeserializer(result.body);
 }
+
 /** Creates or updates a managed cluster. */
 export function createOrUpdate(
   context: Client,
@@ -1805,7 +1518,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, resourceName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
@@ -1821,7 +1534,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1846,6 +1559,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return managedClusterDeserializer(result.body);
 }
+
 /** Gets a managed cluster. */
 export async function get(
   context: Client,

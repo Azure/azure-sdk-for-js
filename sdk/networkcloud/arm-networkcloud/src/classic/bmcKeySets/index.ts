@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   listByCluster,
   $delete,
@@ -9,17 +9,18 @@ import {
   createOrUpdate,
   get,
 } from "../../api/bmcKeySets/operations.js";
-import {
+import type {
   BmcKeySetsListByClusterOptionalParams,
   BmcKeySetsDeleteOptionalParams,
   BmcKeySetsUpdateOptionalParams,
   BmcKeySetsCreateOrUpdateOptionalParams,
   BmcKeySetsGetOptionalParams,
 } from "../../api/bmcKeySets/options.js";
-import { OperationStatusResult, BmcKeySet } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OperationStatusResult, BmcKeySet } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BmcKeySets operations. */
 export interface BmcKeySetsOperations {
