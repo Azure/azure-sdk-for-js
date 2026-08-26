@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for exporting finite numeric entries from the `microsoft.custom_measurements` span and log attribute as Breeze measurements. [Telemetry Collection Spec #887](https://github.com/aep-health-and-standards/Telemetry-Collection-Spec/pull/887)
+
 ### Breaking Changes
 
 ### Bugs Fixed

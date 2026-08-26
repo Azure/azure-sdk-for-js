@@ -12,6 +12,7 @@ import type {
 } from "../generated/index.js";
 import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
 import {
+  createCustomMeasurements,
   createTagsFromResource,
   hrTimeToDate,
   isSyntheticSource,
@@ -34,6 +35,7 @@ import {
   ApplicationInsightsAvailabilityName,
   ApplicationInsightsBaseType,
   ApplicationInsightsCustomEventName,
+  ApplicationInsightsCustomMeasurements,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -95,7 +97,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = eventData;
-    measurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements = {
+      ...getLegacyApplicationInsightsMeasurements(log),
+      ...measurements,
+    };
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
@@ -115,7 +120,13 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       // Failed to parse log
       return;
     }
-    measurements = getLegacyApplicationInsightsMeasurements(log);
+    const legacyMeasurements = getLegacyApplicationInsightsMeasurements(log);
+    measurements =
+      baseType === ApplicationInsightsExceptionBaseType ||
+      baseType === ApplicationInsightsMessageBaseType ||
+      baseType === ApplicationInsightsEventBaseType
+        ? { ...legacyMeasurements, ...measurements }
+        : legacyMeasurements;
     baseData = legacyBaseData;
   }
   // Truncate properties
@@ -183,12 +194,13 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
-  const measurements: Measurements = {};
+  const measurements = createCustomMeasurements(log.attributes);
   const properties: { [propertyName: string]: string } = {};
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
       // Avoid duplication ignoring fields already mapped.
       if (!(
+        key === ApplicationInsightsCustomMeasurements ||
         key.startsWith("_MS.") ||
         key.startsWith("microsoft") ||
         legacySemanticValues.includes(key) ||

@@ -47,6 +47,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 import {
+  createCustomMeasurements,
   createTagsFromResource,
   getDependencyTarget,
   getUrl,
@@ -68,6 +69,7 @@ import {
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
+  ApplicationInsightsCustomMeasurements,
   DEFAULT_BREEZE_DATA_VERSION,
   DependencyTypes,
   MicrosoftClientIp,
@@ -169,6 +171,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         // We need to not ignore the _MS.ProcessedByMetricExtractors key as it's used to identify standard metrics
         !(
+          key === ApplicationInsightsCustomMeasurements ||
           (key.startsWith("_MS.") && !internalMicrosoftAttributes.includes(key as any)) ||
           (key.startsWith("microsoft.") && !allowedMicrosoftAttributes.includes(key)) ||
           legacySemanticValues.includes(key) ||
@@ -185,7 +188,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
 
 function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
   const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
-  const measurements: Measurements = {};
+  const measurements = createCustomMeasurements(span.attributes);
 
   const links: MSLink[] = span.links.map((link: Link) => ({
     operation_Id: link.context.traceId,
@@ -419,7 +422,10 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     }
   }
   baseData.properties = truncateCustomDimensions(properties);
-  baseData.measurements = measurements;
+  baseData.measurements = {
+    ...measurements,
+    ...baseData.measurements,
+  };
 
   return {
     name,
@@ -448,6 +454,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
+      const measurements = createCustomMeasurements(event.attributes);
 
       const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
@@ -490,6 +497,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: truncateCustomDimensions(properties),
+          measurements,
         };
         baseData = exceptionData;
       } else {
@@ -500,6 +508,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: truncateCustomDimensions(properties),
+          measurements,
         };
         baseData = messageData;
       }

@@ -37,6 +37,9 @@ import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+} from "../../src/utils/constants/applicationinsights.js";
 
 const context = getInstance();
 
@@ -176,6 +179,27 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should route custom measurements on logs to measurements", () => {
+      testLogRecord.body = "Test message";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [ApplicationInsightsCustomMeasurements]:
+          '{"itemsProcessed":42,"queueDepth":7}',
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as MessageData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        itemsProcessed: 42,
+        queueDepth: 7,
+      });
+      assert.deepStrictEqual(baseData.properties, {
+        "extra.attribute": "foo",
+      });
     });
 
     it("should serialize complex objects in message body as JSON", () => {
@@ -617,6 +641,7 @@ describe("logUtils.ts", () => {
       };
       testLogRecord.attributes = {
         "_MS.baseType": "PageViewData",
+        [ApplicationInsightsCustomMeasurements]: '{"ignoredMeasurement":42}',
         "extra.attribute": "foo",
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
         [SEMATTRS_HTTP_CLIENT_IP]: "127.0.0.1",
@@ -757,6 +782,33 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should merge custom measurements with legacy custom event measurements", () => {
+      testLogRecord.attributes = {
+        "microsoft.custom_event.name": "testing name",
+        [ApplicationInsightsCustomMeasurements]: {
+          attributeMeasurement: 42,
+          sharedMeasurement: 2,
+        },
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = {
+        measurements: {
+          legacyMeasurement: 7,
+          sharedMeasurement: 1,
+        },
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const baseData = envelope?.data?.baseData as TelemetryEventData;
+
+      assert.deepStrictEqual(baseData.measurements, {
+        legacyMeasurement: 7,
+        sharedMeasurement: 2,
+        attributeMeasurement: 42,
+      });
+      assert.isUndefined(baseData.properties?.[ApplicationInsightsCustomMeasurements]);
     });
   });
 
