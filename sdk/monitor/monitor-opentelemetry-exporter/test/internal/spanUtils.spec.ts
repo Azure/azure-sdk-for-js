@@ -16,6 +16,8 @@ import {
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_HTTP_ROUTE,
@@ -1617,8 +1619,8 @@ describe("spanUtils.ts", () => {
         [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
       });
       span.addEvent("exception", {
-        [SEMATTRS_EXCEPTION_TYPE]: "Error",
-        [SEMATTRS_EXCEPTION_MESSAGE]: "test error",
+        [ATTR_EXCEPTION_TYPE]: "Error",
+        [ATTR_EXCEPTION_MESSAGE]: "test error",
         [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42}',
       });
       span.end();
@@ -1626,10 +1628,12 @@ describe("spanUtils.ts", () => {
       const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
 
       assert.strictEqual(envelopes.length, 2);
-      assert.deepStrictEqual(envelopes[0].data?.baseData?.measurements, {
+      const messageData = envelopes[0].data?.baseData as MessageData;
+      const exceptionData = envelopes[1].data?.baseData as TelemetryExceptionData;
+      assert.deepStrictEqual(messageData.measurements, {
         itemsProcessed: 42,
       });
-      assert.deepStrictEqual(envelopes[1].data?.baseData?.measurements, {
+      assert.deepStrictEqual(exceptionData.measurements, {
         itemsProcessed: 42,
       });
     });
