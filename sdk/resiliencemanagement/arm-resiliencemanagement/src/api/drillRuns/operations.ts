@@ -7,7 +7,7 @@ import type {
   _DrillRunListResult,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
-  ListReportDownloadUrlResponse,
+  ListReportDownloadUrlRequest,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -18,7 +18,6 @@ import {
   drillRunAddNotesRequestSerializer,
   markAsCompleteRequestSerializer,
   listReportDownloadUrlRequestSerializer,
-  listReportDownloadUrlResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -42,8 +41,10 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 export function _listReportDownloadUrlSend(
   context: Client,
   serviceGroupName: string,
+  operationId: string,
   drillName: string,
   drillRunName: string,
+  body: ListReportDownloadUrlRequest,
   options: DrillRunsListReportDownloadUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -61,15 +62,19 @@ export function _listReportDownloadUrlSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.body ? options?.body : listReportDownloadUrlRequestSerializer(options?.body),
+    headers: {
+      "operation-id": operationId,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: listReportDownloadUrlRequestSerializer(body),
   });
 }
 
 export async function _listReportDownloadUrlDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListReportDownloadUrlResponse> {
-  const expectedStatuses = ["200"];
+): Promise<void> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -79,25 +84,35 @@ export async function _listReportDownloadUrlDeserialize(
     throw error;
   }
 
-  return listReportDownloadUrlResponseDeserializer(result.body);
+  return;
 }
 
 /** This returns a short-lived, read-only URL to download the report for this Drill Run. The URL expires at the returned expiryTimestamp and grants access to that single report only. */
-export async function listReportDownloadUrl(
+export function listReportDownloadUrl(
   context: Client,
   serviceGroupName: string,
+  operationId: string,
   drillName: string,
   drillRunName: string,
+  body: ListReportDownloadUrlRequest,
   options: DrillRunsListReportDownloadUrlOptionalParams = { requestOptions: {} },
-): Promise<ListReportDownloadUrlResponse> {
-  const result = await _listReportDownloadUrlSend(
-    context,
-    serviceGroupName,
-    drillName,
-    drillRunName,
-    options,
-  );
-  return _listReportDownloadUrlDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _listReportDownloadUrlDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _listReportDownloadUrlSend(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _generateReportSend(

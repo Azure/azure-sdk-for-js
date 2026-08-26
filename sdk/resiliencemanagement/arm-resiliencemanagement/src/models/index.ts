@@ -192,7 +192,6 @@ export type {
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
   ListReportDownloadUrlRequest,
-  ListReportDownloadUrlResponse,
   DrillRunResource,
   UnifiedResilienceItem,
   UnifiedResilienceItemProperties,

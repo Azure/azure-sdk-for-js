@@ -13,13 +13,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function drillRunsListReportDownloadUrlMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.drillRuns.listReportDownloadUrl(
+  await client.drillRuns.listReportDownloadUrl(
     "sampleServiceGroupName",
+    "3f2b1c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
     "drill1",
     "ca92602e-53bf-43d2-ae62-d3fc940474b3",
-    { body: { format: "Html" } },
+    { format: "Html" },
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {

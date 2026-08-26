@@ -5518,28 +5518,6 @@ export function listReportDownloadUrlRequestSerializer(item: ListReportDownloadU
   return { format: item["format"] };
 }
 
-/** Response containing a short-lived, read-only download URL for a Drill Run report. */
-export interface ListReportDownloadUrlResponse {
-  /** Format of the report the download URL refers to. */
-  readonly format?: DrillReportFormat;
-  /** Short-lived, read-only URL to download the report. */
-  readonly downloadUrl?: string;
-  /** Timestamp at which the download URL expires. */
-  readonly expiryTimestamp?: Date;
-}
-
-export function listReportDownloadUrlResponseDeserializer(
-  item: any,
-): ListReportDownloadUrlResponse {
-  return {
-    format: item["format"],
-    downloadUrl: item["downloadUrl"],
-    expiryTimestamp: !item["expiryTimestamp"]
-      ? item["expiryTimestamp"]
-      : new Date(item["expiryTimestamp"]),
-  };
-}
-
 /** Represents a Drill Run job resource in the Azure Resilience Management provider namespace. */
 export interface DrillRunResource extends ProxyResource {
   /** The resource-specific properties for this resource. */

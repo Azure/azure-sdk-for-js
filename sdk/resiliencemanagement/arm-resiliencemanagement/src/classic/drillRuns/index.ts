@@ -28,7 +28,7 @@ import type {
   DrillRun,
   DrillRunAddNotesRequest,
   MarkAsCompleteRequest,
-  ListReportDownloadUrlResponse,
+  ListReportDownloadUrlRequest,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -40,10 +40,30 @@ export interface DrillRunsOperations {
   /** This returns a short-lived, read-only URL to download the report for this Drill Run. The URL expires at the returned expiryTimestamp and grants access to that single report only. */
   listReportDownloadUrl: (
     serviceGroupName: string,
+    operationId: string,
     drillName: string,
     drillRunName: string,
+    body: ListReportDownloadUrlRequest,
     options?: DrillRunsListReportDownloadUrlOptionalParams,
-  ) => Promise<ListReportDownloadUrlResponse>;
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use listReportDownloadUrl instead */
+  beginListReportDownloadUrl: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    body: ListReportDownloadUrlRequest,
+    options?: DrillRunsListReportDownloadUrlOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use listReportDownloadUrl instead */
+  beginListReportDownloadUrlAndWait: (
+    serviceGroupName: string,
+    operationId: string,
+    drillName: string,
+    drillRunName: string,
+    body: ListReportDownloadUrlRequest,
+    options?: DrillRunsListReportDownloadUrlOptionalParams,
+  ) => Promise<void>;
   /** This generates, or regenerates, the report for this Drill Run. The action is idempotent and is safe to call at any time: a call that arrives while a generation is already running joins it, and a call made after a failed attempt retries it. A report that has been finalized is never regenerated. */
   generateReport: (
     serviceGroupName: string,
@@ -213,10 +233,59 @@ function _getDrillRuns(context: AzureResilienceManagementContext) {
   return {
     listReportDownloadUrl: (
       serviceGroupName: string,
+      operationId: string,
       drillName: string,
       drillRunName: string,
+      body: ListReportDownloadUrlRequest,
       options?: DrillRunsListReportDownloadUrlOptionalParams,
-    ) => listReportDownloadUrl(context, serviceGroupName, drillName, drillRunName, options),
+    ) =>
+      listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      ),
+    beginListReportDownloadUrl: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      body: ListReportDownloadUrlRequest,
+      options?: DrillRunsListReportDownloadUrlOptionalParams,
+    ) => {
+      const poller = listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginListReportDownloadUrlAndWait: async (
+      serviceGroupName: string,
+      operationId: string,
+      drillName: string,
+      drillRunName: string,
+      body: ListReportDownloadUrlRequest,
+      options?: DrillRunsListReportDownloadUrlOptionalParams,
+    ) => {
+      return await listReportDownloadUrl(
+        context,
+        serviceGroupName,
+        operationId,
+        drillName,
+        drillRunName,
+        body,
+        options,
+      );
+    },
     generateReport: (
       serviceGroupName: string,
       operationId: string,

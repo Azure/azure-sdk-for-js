@@ -1,11 +1,13 @@
 # Release History
 
-## 1.0.0-beta.2 (2026-08-24)
+## 1.0.0-beta.2 (2026-08-26)
 Compared with version 1.0.0-beta.1
 
 ### Features Added
   - Added operation DrillRunsOperations.beginGenerateReport
   - Added operation DrillRunsOperations.beginGenerateReportAndWait
+  - Added operation DrillRunsOperations.beginListReportDownloadUrl
+  - Added operation DrillRunsOperations.beginListReportDownloadUrlAndWait
   - Added operation DrillRunsOperations.generateReport
   - Added operation DrillRunsOperations.listReportDownloadUrl
   - Added Interface DrillReportSummary
@@ -14,7 +16,6 @@ Compared with version 1.0.0-beta.1
   - Added Interface DrillRunsListReportDownloadUrlOptionalParams
   - Added Interface HealthModelMonitoringProperties
   - Added Interface ListReportDownloadUrlRequest
-  - Added Interface ListReportDownloadUrlResponse
   - Added Interface ReportStageStatus
   - Added Interface ResiliencyProperties
   - Added Interface ResourceCrossZoneVmRecoveryProtectionSetting
