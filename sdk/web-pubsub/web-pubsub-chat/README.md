@@ -89,7 +89,7 @@ Chat resources include an `etag` value. Pass that value through an operation's `
 Create user and room roles, create a human user and a room, and then add the user to the room.
 
 ```ts snippet:ReadmeSampleSetUpChatResources
-import { WebPubSubChatServiceClient, ChatPermissions } from "@azure/web-pubsub-chat";
+import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new WebPubSubChatServiceClient(
@@ -102,10 +102,10 @@ const roomRoleName = "room.contoso_member";
 const userId = "alice";
 const roomId = "general";
 await client.createOrReplaceRole(userRoleName, {
-  permissions: [ChatPermissions.UserCreateRoom],
+  permissions: [KnownChatPermission.UserCreateRoom],
 });
 await client.createOrReplaceRole(roomRoleName, {
-  permissions: [ChatPermissions.RoomPublishMessage, ChatPermissions.RoomHistory],
+  permissions: [KnownChatPermission.RoomPublishMessage, KnownChatPermission.RoomHistory],
 });
 await client.createOrReplaceUser(userId, {
   kind: "Human",
@@ -115,6 +115,112 @@ await client.createOrReplaceUser(userId, {
 const room = await client.createOrReplaceRoom(roomId, { title: "General" });
 await client.createOrReplaceRoomMember(roomId, userId, { roleName: roomRoleName });
 console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+```
+
+### Use built-in roles and known permissions
+
+Use `BuiltInChatRole` when assigning a service-defined role and `KnownChatPermission` when creating a custom role. Permission strings outside the known values are also accepted for forward compatibility.
+
+```ts snippet:ReadmeSampleUseBuiltInRolesAndKnownPermissions
+import {
+  WebPubSubChatServiceClient,
+  BuiltInChatRole,
+  KnownChatPermission,
+} from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+await client.createOrReplaceUser("alice", {
+  kind: "Human",
+  nickname: "Alice",
+  roleName: BuiltInChatRole.UserNormal,
+});
+await client.createOrReplaceRole("room.moderator", {
+  permissions: [
+    KnownChatPermission.RoomHistory,
+    KnownChatPermission.RoomRemoveUser,
+    KnownChatPermission.RoomPublishMessage,
+  ],
+});
+```
+
+### Manage roles
+
+Create a custom role, retrieve it, list the roles in the hub, and delete the custom role when finished.
+
+```ts snippet:ReadmeSampleManageRoles
+import { WebPubSubChatServiceClient, KnownChatPermission } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const roleName = "user.contoso_member";
+try {
+  const role = await client.createOrReplaceRole(roleName, {
+    permissions: [KnownChatPermission.UserCreateRoom, KnownChatPermission.UserFetchAllRooms],
+  });
+  console.log(`Created role: ${role.name}`);
+  const fetchedRole = await client.getRole(roleName);
+  console.log(`Fetched role: ${fetchedRole.name}`);
+  for await (const listedRole of client.listRoles()) {
+    console.log(`Role: ${listedRole.name}`);
+  }
+} finally {
+  await client.deleteRole(roleName);
+}
+```
+
+### Manage a room
+
+Create a room, retrieve its current state, and delete it.
+
+```ts snippet:ReadmeSampleManageRoom
+import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const roomId = "general";
+const room = await client.createOrReplaceRoom(roomId, { title: "General" });
+console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+const fetchedRoom = await client.getRoom(roomId);
+console.log(`Fetched room: ${fetchedRoom.id}, title: ${fetchedRoom.title}`);
+await client.deleteRoom(roomId);
+```
+
+### Manage a user
+
+Create a user with a built-in role, retrieve the profile, and delete it.
+
+```ts snippet:ReadmeSampleManageUser
+import { WebPubSubChatServiceClient, BuiltInChatRole } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new WebPubSubChatServiceClient(
+  "<endpoint>",
+  new DefaultAzureCredential(),
+  "<hubName>",
+);
+const userId = "alice";
+const user = await client.createOrReplaceUser(userId, {
+  kind: "Human",
+  nickname: "Alice",
+  roleName: BuiltInChatRole.UserNormal,
+});
+console.log(`Created user: ${user.id}, nickname: ${user.nickname}`);
+const fetchedUser = await client.getUser(userId);
+console.log(`Fetched user: ${fetchedUser.id}, nickname: ${fetchedUser.nickname}`);
+await client.deleteUser(userId);
 ```
 
 ### List messages in a conversation
@@ -164,7 +270,6 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
 
 ## Contributing
 

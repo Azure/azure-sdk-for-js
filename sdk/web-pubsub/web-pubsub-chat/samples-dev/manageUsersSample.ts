@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChatRoles, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { BuiltInChatRole, WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,7 +21,7 @@ async function manageUsers(): Promise<void> {
   const user = await client.createOrReplaceUser(userId, {
     kind: "Human",
     nickname: "Alice",
-    roleName: ChatRoles.UserNormal,
+    roleName: BuiltInChatRole.UserNormal,
   });
   console.log(`Created user: ${user.id}, nickname: ${user.nickname}, kind: ${user.kind}`);
 
