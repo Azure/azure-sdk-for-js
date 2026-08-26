@@ -377,6 +377,7 @@ Compared with version 8.1.0
   - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
   - Interface RaiPolicyProperties no longer has parameter customTopics
   - Type alias "ConnectionPropertiesV2Union" has been changed
+  - Compared with 9.0.0-beta.3, operation `Computes.update` and interface `ComputesUpdateOptionalParams` have been removed; use `Computes.createOrUpdate` instead.
 
 ## 9.0.0-beta.3 (2026-06-30)
 Compared with version 8.1.0
