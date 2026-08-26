@@ -65,6 +65,7 @@ exceptions:
   - dependency: "jsonwebtoken"
     packages:
       - "@azure/web-pubsub"
+      - "@azure/web-pubsub-chat"
   - dependency: "jsrsasign"
     packages:
       - "@azure/attestation"
