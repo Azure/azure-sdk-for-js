@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/postgresql-auth-js-beta",
+  "name": "@azure-samples/postgresql-auth-js",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure PostgreSQL Entra ID authentication client library samples for JavaScript (Beta)",
+  "description": "Azure PostgreSQL Entra ID authentication client library samples for JavaScript",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -12,7 +12,7 @@
     "directory": "sdk/postgresql/postgresql-auth"
   },
   "dependencies": {
-    "@azure/postgresql-auth": "next",
+    "@azure/postgresql-auth": "latest",
     "@azure/identity": "^4.0.1",
     "dotenv": "latest",
     "pg": "^8.0.0",
