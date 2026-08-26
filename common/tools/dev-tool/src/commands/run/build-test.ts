@@ -135,7 +135,7 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 export async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const typeScriptCli = resolveNodeModuleBin("typescript", "tsc", process.cwd());
+  const typeScriptCli = resolveNodeModuleBin("typescript", ["tsc6", "tsc"], process.cwd());
   const res = spawnSync(process.execPath, ["--", typeScriptCli, "-b", tsConfig], {
     stdio: "inherit",
     cwd: process.cwd(),

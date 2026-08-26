@@ -11,6 +11,10 @@ vi.mock("node:child_process", () => ({
   spawnSync: vi.fn(),
 }));
 
+vi.mock("../src/util/nodeCli.ts", () => ({
+  resolveNodeModuleBin: vi.fn(() => "/fake/path/to/tsc"),
+}));
+
 function makeConfig(overrides: Partial<Config> = {}): Config {
   return {
     compilerOptions: {},
