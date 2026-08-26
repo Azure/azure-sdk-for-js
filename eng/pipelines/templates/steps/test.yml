@@ -56,7 +56,7 @@ steps:
       Write-Host "Filesystem usage after browser tests:"
       df -h / /mnt
     displayName: "Report disk usage after browser tests (Linux)"
-    condition: and(succeededOrFailed(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
+    condition: and(always(),eq(variables['Agent.OS'], 'Linux'),eq(variables['TestType'], 'browser'))
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
