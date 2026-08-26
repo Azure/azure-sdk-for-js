@@ -58,6 +58,7 @@ import type {
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  encodePathParameter,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -112,13 +113,6 @@ import { wrapPoller } from "./internal/lroShim.js";
 import { appConfigurationApiVersion, packageVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
-
-function encodePathParameter(value: string): string {
-  return encodeURIComponent(value).replace(
-    /[!'()*]/g,
-    (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`,
-  );
-}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
