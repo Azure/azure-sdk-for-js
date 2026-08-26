@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createCustomMeasurements,
-  truncateCustomDimensions,
-} from "../../src/utils/common.js";
-import {
-  ApplicationInsightsCustomMeasurements,
-} from "../../src/utils/constants/applicationinsights.js";
+import { createCustomMeasurements, truncateCustomDimensions } from "../../src/utils/common.js";
+import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
 import { CUSTOM_DIMENSIONS_GENAI_KEYS } from "../../src/Declarations/Constants.js";
 import { MaxPropertyLengths } from "../../src/types.js";
 import { describe, it, assert } from "vitest";

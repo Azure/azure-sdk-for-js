@@ -174,8 +174,7 @@ describe("spanUtils.ts", () => {
         const span = tracer.startSpan("span-with-custom-measurements", { kind });
         span.setAttributes({
           "extra.attribute": "foo",
-          [ApplicationInsightsCustomMeasurements]:
-            '{"itemsProcessed":42,"queueDepth":7}',
+          [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
         });
         span.end();
 

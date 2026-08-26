@@ -37,9 +37,7 @@ import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
-import {
-  ApplicationInsightsCustomMeasurements,
-} from "../../src/utils/constants/applicationinsights.js";
+import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
 
 const context = getInstance();
 
@@ -185,8 +183,7 @@ describe("logUtils.ts", () => {
       testLogRecord.body = "Test message";
       testLogRecord.attributes = {
         "extra.attribute": "foo",
-        [ApplicationInsightsCustomMeasurements]:
-          '{"itemsProcessed":42,"queueDepth":7}',
+        [ApplicationInsightsCustomMeasurements]: '{"itemsProcessed":42,"queueDepth":7}',
         [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
       };
 
