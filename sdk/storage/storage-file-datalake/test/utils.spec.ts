@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
+  adjustResponse,
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   setUploadChecksumParameters,
 } from "../src/utils/utils.common.js";
+import { addStorageCompatResponse } from "../src/generated/static-helpers/storageCompatResponse.js";
+import type { FullOperationResponse } from "@azure-rest/core-client";
 import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {
@@ -32,6 +35,33 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().accountName is different than expected.",
     );
   }
+
+  it("preserves the parsed body before flattening response headers", () => {
+    const parsedBody = { etag: "body-etag", value: "body-value" };
+    const parsedHeaders = { etag: "header-etag", requestId: "request-id" };
+    const rawResponse = {
+      request: createPipelineRequest({ url: "https://example.com" }),
+      status: 200,
+      headers: createHttpHeaders({ "x-ms-request-id": "request-id" }),
+      bodyAsText: "response body",
+    } as FullOperationResponse;
+
+    const result = addStorageCompatResponse(rawResponse, parsedBody, parsedHeaders);
+
+    assert.equal(result.etag, "header-etag");
+    assert.deepEqual(result._response.parsedBody, {
+      etag: "body-etag",
+      value: "body-value",
+    });
+    assert.notStrictEqual(result._response.parsedBody, result);
+
+    const adjustedResult = adjustResponse(result);
+    assert.equal(adjustedResult._response.status, 200);
+    assert.equal(adjustedResult._response.headers.get("x-ms-request-id"), "request-id");
+    assert.equal(adjustedResult._response.bodyAsText, "response body");
+    assert.deepEqual(adjustedResult._response.parsedBody, parsedBody);
+    assert.notProperty(adjustedResult._response, "rawResponse");
+  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
