@@ -1031,13 +1031,13 @@ importers:
         version: 7.0.6
       openai:
         specifier: ^6.16.0
-        version: 6.49.0(ws@8.21.3)(zod@4.4.3)
+        version: 6.49.0(ws@8.21.1)(zod@4.4.3)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
       ws:
         specifier: ^8.18.3
-        version: 8.21.3
+        version: 8.21.1
     devDependencies:
       '@azure-rest/ai-inference':
         specifier: ^1.0.0-beta.6
@@ -40503,7 +40503,6 @@ packages:
 
   openai@6.49.0:
     resolution: {integrity: sha1-bp95jhRpNe042VW0PVfWeWzuXms=}
-    hasBin: true
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
