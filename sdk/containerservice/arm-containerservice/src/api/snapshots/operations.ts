@@ -32,7 +32,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _listDeserialize(
 
   return _snapshotListResultDeserializer(result.body);
 }
+
 /** Gets a list of snapshots in the specified subscription. */
 export function list(
   context: Client,
@@ -69,11 +70,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -87,7 +84,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,6 +111,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _snapshotListResultDeserializer(result.body);
 }
+
 /** Lists snapshots in the specified subscription and resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -125,11 +123,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -145,7 +139,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -167,6 +161,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a snapshot. */
 export async function $delete(
   context: Client,
@@ -191,7 +186,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,6 +213,7 @@ export async function _updateTagsDeserialize(result: PathUncheckedResponse): Pro
 
   return snapshotDeserializer(result.body);
 }
+
 /** Updates tags on a snapshot. */
 export async function updateTags(
   context: Client,
@@ -249,7 +245,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -276,6 +272,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return snapshotDeserializer(result.body);
 }
+
 /** Creates or updates a snapshot. */
 export async function createOrUpdate(
   context: Client,
@@ -306,7 +303,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,6 +328,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
 
   return snapshotDeserializer(result.body);
 }
+
 /** Gets a snapshot. */
 export async function get(
   context: Client,
