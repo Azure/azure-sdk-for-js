@@ -53,7 +53,7 @@ export interface BlockBlobOperations {
       contentLanguage: string;
       blobSequenceNumber: number;
       blobType?: BlobType;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       copyCompletionTime?: Date;
       copyStatusDescription?: string;
       copyId?: string;
@@ -89,7 +89,7 @@ export interface BlockBlobOperations {
           contentLanguage: string;
           blobSequenceNumber: number;
           blobType?: BlobType;
-          contentCrc64?: Uint8Array;
+          xMsContentCrc64?: Uint8Array;
           copyCompletionTime?: Date;
           copyStatusDescription?: string;
           copyId?: string;
@@ -151,7 +151,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -166,7 +166,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -187,7 +187,7 @@ export interface BlockBlobOperations {
   ) => Promise<
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -199,7 +199,7 @@ export interface BlockBlobOperations {
       undefined,
       {
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
         encryptionScope?: string;
@@ -219,7 +219,7 @@ export interface BlockBlobOperations {
   ) => Promise<
     {
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
       encryptionScope?: string;
@@ -232,7 +232,7 @@ export interface BlockBlobOperations {
       undefined,
       {
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
         encryptionScope?: string;
@@ -253,7 +253,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -268,7 +268,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;
@@ -290,7 +290,7 @@ export interface BlockBlobOperations {
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -306,7 +306,7 @@ export interface BlockBlobOperations {
         etag: string;
         lastModified: Date;
         contentMD5: Uint8Array;
-        contentCrc64?: Uint8Array;
+        xMsContentCrc64?: Uint8Array;
         versionId: string;
         isServerEncrypted?: boolean;
         encryptionKeySha256?: string;

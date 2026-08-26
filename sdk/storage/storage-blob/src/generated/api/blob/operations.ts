@@ -876,7 +876,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   copyId?: string;
   copyStatus?: "success";
   contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
+  xMsContentCrc64?: Uint8Array;
   encryptionScope?: string;
   date: Date;
   version: string;
@@ -896,7 +896,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
-    contentCrc64:
+    xMsContentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
         ? result.headers["x-ms-content-crc64"]
@@ -958,7 +958,7 @@ export async function copyFromUrl(
     copyId?: string;
     copyStatus?: "success";
     contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
+    xMsContentCrc64?: Uint8Array;
     encryptionScope?: string;
     date: Date;
     version: string;
@@ -973,7 +973,7 @@ export async function copyFromUrl(
       copyId?: string;
       copyStatus?: "success";
       contentMD5: Uint8Array;
-      contentCrc64?: Uint8Array;
+      xMsContentCrc64?: Uint8Array;
       encryptionScope?: string;
       date: Date;
       version: string;
@@ -3466,7 +3466,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   accessTier?: string;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
-  accessTierChangeTime?: Date;
+  accessTierChangedOn?: Date;
   smartAccessTier?: string;
   versionId: string;
   isCurrentVersion?: boolean;
@@ -3586,7 +3586,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         ? result.headers["x-ms-access-tier-inferred"]
         : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
     archiveStatus: result.headers["x-ms-archive-status"] as any,
-    accessTierChangeTime:
+    accessTierChangedOn:
       result.headers["x-ms-access-tier-change-time"] === undefined ||
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
@@ -3708,7 +3708,7 @@ export async function getProperties(
     accessTier?: string;
     accessTierInferred?: boolean;
     archiveStatus?: ArchiveStatus;
-    accessTierChangeTime?: Date;
+    accessTierChangedOn?: Date;
     smartAccessTier?: string;
     versionId: string;
     isCurrentVersion?: boolean;
@@ -3760,7 +3760,7 @@ export async function getProperties(
       accessTier?: string;
       accessTierInferred?: boolean;
       archiveStatus?: ArchiveStatus;
-      accessTierChangeTime?: Date;
+      accessTierChangedOn?: Date;
       smartAccessTier?: string;
       versionId: string;
       isCurrentVersion?: boolean;
@@ -3923,7 +3923,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   structuredContentLength?: number;
   accessTier?: string;
   accessTierInferred?: boolean;
-  accessTierChangeTime?: Date;
+  accessTierChangedOn?: Date;
   smartAccessTier?: string;
   version: string;
   contentType: "application/octet-stream";
@@ -4081,7 +4081,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-access-tier-inferred"] === null
         ? result.headers["x-ms-access-tier-inferred"]
         : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
-    accessTierChangeTime:
+    accessTierChangedOn:
       result.headers["x-ms-access-tier-change-time"] === undefined ||
       result.headers["x-ms-access-tier-change-time"] === null
         ? result.headers["x-ms-access-tier-change-time"]
@@ -4170,7 +4170,7 @@ export async function download(
     structuredContentLength?: number;
     accessTier?: string;
     accessTierInferred?: boolean;
-    accessTierChangeTime?: Date;
+    accessTierChangedOn?: Date;
     smartAccessTier?: string;
     version: string;
     contentType: "application/octet-stream";
@@ -4223,7 +4223,7 @@ export async function download(
         structuredContentLength?: number;
         accessTier?: string;
         accessTierInferred?: boolean;
-        accessTierChangeTime?: Date;
+        accessTierChangedOn?: Date;
         smartAccessTier?: string;
         version: string;
         contentType: "application/octet-stream";
