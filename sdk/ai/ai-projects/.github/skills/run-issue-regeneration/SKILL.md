@@ -23,6 +23,8 @@ Do not derive either input from the issue title. Do not infer, shorten, or silen
 From the repository root:
 
 ```bash
+npm --prefix eng/common/tsp-client ci
+export PATH="$PWD/eng/common/tsp-client/node_modules/.bin:$PATH"
 pnpm install --filter @azure/ai-projects...
 pnpm turbo build --filter=@azure/ai-projects... --token 1
 ```

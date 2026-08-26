@@ -55,7 +55,6 @@ export interface CapabilitiesOperations {
     options?: CapabilitiesGetOptionalParams,
   ) => Promise<Capability>;
 }
-
 function _getCapabilities(context: ChaosManagementContext) {
   return {
     list: (
@@ -136,7 +135,6 @@ function _getCapabilities(context: ChaosManagementContext) {
       ),
   };
 }
-
 export function _getCapabilitiesOperations(
   context: ChaosManagementContext,
 ): CapabilitiesOperations {

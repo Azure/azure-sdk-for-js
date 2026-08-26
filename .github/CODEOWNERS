@@ -307,7 +307,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
+/sdk/storage/    @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -575,7 +575,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -732,7 +732,7 @@
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
-/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
+/sdk/migrationdiscoverysap/arm-migrationdiscoverysap/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao @JialinHuang803
@@ -1817,7 +1817,6 @@ sdk/containerservice/arm-containerserviceaimanager/ @qiaozha @MaryGao @JialinHua
 /eng/tools @Azure/azure-sdk-for-js-core
 
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
-/eng/tools/js-sdk-release-tools-src @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

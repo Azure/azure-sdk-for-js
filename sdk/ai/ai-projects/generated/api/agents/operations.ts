@@ -43,7 +43,6 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "../../static-helpers/serialization/get-binary-stream-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   AgentsDeleteSessionFileOptionalParams,
@@ -79,6 +78,7 @@ import {
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
+  getBinaryStreamResponse,
 } from "@azure-rest/core-client";
 
 export function _deleteSessionFileSend(
@@ -1359,11 +1359,6 @@ export async function _$deleteDeserialize(
  * Deletes an agent. For hosted agents, if any version has active sessions, the request
  * is rejected with HTTP 409 unless `force` is set to true. When force is true, all
  * associated sessions are cascade-deleted along with the agent and its versions.
- */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
  */
 export async function $delete(
   context: Client,
