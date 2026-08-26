@@ -137,7 +137,7 @@ export interface ComputesOperations {
     computeName: string,
     resource: Compute,
     options?: ComputesCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Compute>, Compute>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
@@ -145,7 +145,7 @@ export interface ComputesOperations {
     computeName: string,
     resource: Compute,
     options?: ComputesCreateOrUpdateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  ) => Promise<SimplePollerLike<OperationState<Compute>, Compute>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
@@ -153,7 +153,7 @@ export interface ComputesOperations {
     computeName: string,
     resource: Compute,
     options?: ComputesCreateOrUpdateOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<Compute>;
   /** Gets the specified compute associated with the Cognitive Services account. */
   get: (
     resourceGroupName: string,

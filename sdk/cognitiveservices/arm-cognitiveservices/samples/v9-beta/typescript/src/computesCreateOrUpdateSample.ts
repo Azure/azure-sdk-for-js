@@ -14,16 +14,22 @@ async function putCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
-  await client.computes.createOrUpdate("rgcognitiveservices", "myAccount", "myCompute", {
-    properties: {
-      computeType: "Cluster",
-      location: "eastus",
-      pools: [
-        { name: "default", vmPriority: "Regular", instanceType: "Standard_DS3_v2", nodeCount: 2 },
-      ],
+  const result = await client.computes.createOrUpdate(
+    "rgcognitiveservices",
+    "myAccount",
+    "myCompute",
+    {
+      properties: {
+        computeType: "Cluster",
+        location: "eastus",
+        pools: [
+          { name: "default", vmPriority: "Regular", instanceType: "Standard_DS3_v2", nodeCount: 2 },
+        ],
+      },
+      identity: { type: "None" },
     },
-    identity: { type: "None" },
-  });
+  );
+  console.log(result);
 }
 
 /**
@@ -36,27 +42,33 @@ async function putContainerInstanceCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
-  await client.computes.createOrUpdate("rgcognitiveservices", "myAccount", "myContainerInstance", {
-    properties: {
-      computeType: "ContainerInstance",
-      location: "eastus",
-      targetClusterId:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.CognitiveServices/accounts/myAccount/computes/myCluster",
-      imageLink: "mcr.microsoft.com/azureml/curated/pytorch-gpu:latest",
-      idleTimeBeforeShutdown: "PT30M",
-      sshSettings: {
-        sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQ...",
-        adminEnabled: true,
+  const result = await client.computes.createOrUpdate(
+    "rgcognitiveservices",
+    "myAccount",
+    "myContainerInstance",
+    {
+      properties: {
+        computeType: "ContainerInstance",
+        location: "eastus",
+        targetClusterId:
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.CognitiveServices/accounts/myAccount/computes/myCluster",
+        imageLink: "mcr.microsoft.com/azureml/curated/pytorch-gpu:latest",
+        idleTimeBeforeShutdown: "PT30M",
+        sshSettings: {
+          sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQ...",
+          adminEnabled: true,
+        },
+      },
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
+            {},
+        },
       },
     },
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rgcognitiveservices/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity":
-          {},
-      },
-    },
-  });
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

@@ -344,7 +344,7 @@ export function _createOrUpdateSend(
   });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Compute> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -355,7 +355,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return;
+  return computeDeserializer(result.body);
 }
 
 /** Creates or updates a compute associated with the Cognitive Services account. */
@@ -366,7 +366,7 @@ export function createOrUpdate(
   computeName: string,
   resource: Compute,
   options: ComputesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<Compute>, Compute> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -374,7 +374,7 @@ export function createOrUpdate(
       _createOrUpdateSend(context, resourceGroupName, accountName, computeName, resource, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2026-07-15-preview",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<Compute>, Compute>;
 }
 
 export function _getSend(

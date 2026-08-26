@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.4 (2026-08-20)
+## 9.0.0-beta.4 (2026-08-26)
 Compared with version 8.1.0
 
 ### Features Added

@@ -1134,9 +1134,9 @@ export interface ComputesListOptionalParams extends OperationOptions {
 // @public
 export interface ComputesOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Compute>, Compute>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => Promise<void>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => Promise<Compute>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, accountName: string, computeName: string, options?: ComputesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -1153,7 +1153,7 @@ export interface ComputesOperations {
     beginStop: (resourceGroupName: string, accountName: string, computeName: string, options?: ComputesStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginStopAndWait: (resourceGroupName: string, accountName: string, computeName: string, options?: ComputesStopOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, computeName: string, resource: Compute, options?: ComputesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Compute>, Compute>;
     delete: (resourceGroupName: string, accountName: string, computeName: string, options?: ComputesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, computeName: string, options?: ComputesGetOptionalParams) => Promise<Compute>;
     list: (resourceGroupName: string, accountName: string, options?: ComputesListOptionalParams) => PagedAsyncIterableIterator<Compute>;
