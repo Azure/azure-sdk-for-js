@@ -14140,6 +14140,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
+      '@typescript/native':
+        specifier: npm:typescript@^7.0.2
+        version: typescript@7.0.2
       '@vitest/browser-playwright':
         specifier: catalog:testing
         version: 4.1.10(playwright@1.62.1)(vite@7.3.3(@types/node@22.20.1)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)

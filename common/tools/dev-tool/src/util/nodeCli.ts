@@ -9,30 +9,22 @@ const NODE_SHEBANG = /^#!\s*(?:(?:\S*[\\/])?env(?:\s+-S)?\s+)?(?:\S*[\\/])?node(
 
 export function resolveNodeModuleBin(
   packageName: string,
-  binName: string | string[],
+  binName: string,
   cwd: string = process.cwd(),
 ): string {
-  const binCandidates = Array.isArray(binName) ? binName : [binName];
   const requireFromCwd = createRequire(path.join(cwd, "package.json"));
   const packageJsonPath = requireFromCwd.resolve(`${packageName}/package.json`);
   const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
     bin?: string | Record<string, string>;
   };
-  const bin = packageJson.bin;
   const relativeBin =
-    typeof bin === "string"
-      ? bin
-      : binCandidates.map((candidate) => bin?.[candidate]).find(Boolean);
+    typeof packageJson.bin === "string" ? packageJson.bin : packageJson.bin?.[binName];
   if (!relativeBin) {
-    throw new Error(
-      `Package ${packageName} does not declare the ${binCandidates.join(" or ")} executable.`,
-    );
+    throw new Error(`Package ${packageName} does not declare the ${binName} executable.`);
   }
   const executablePath = path.resolve(path.dirname(packageJsonPath), relativeBin);
   if (!existsSync(executablePath)) {
-    throw new Error(
-      `The ${binCandidates.join(" or ")} executable declared by ${packageName} could not be found.`,
-    );
+    throw new Error(`The ${binName} executable declared by ${packageName} could not be found.`);
   }
   return executablePath;
 }

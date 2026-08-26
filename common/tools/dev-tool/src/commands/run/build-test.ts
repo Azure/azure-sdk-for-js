@@ -134,8 +134,32 @@ export default leafCommand(commandInfo, async (options) => {
   return true;
 });
 
+/**
+ * Resolves the TypeScript 7 `tsc` executable.
+ *
+ * Packages that also need the TypeScript 6 JS API alias `typescript` to
+ * `@typescript/typescript6` (whose executable is `tsc6`) and add the native
+ * TypeScript 7 compiler as `@typescript/native`. Packages that consume
+ * TypeScript 7 directly get it from the `typescript` catalog entry. Prefer the
+ * native compiler and fall back to `typescript` so both layouts resolve `tsc`.
+ */
+function resolveTypeScriptCli(cwd: string): string {
+  for (const packageName of ["@typescript/native", "typescript"]) {
+    try {
+      return resolveNodeModuleBin(packageName, "tsc", cwd);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "MODULE_NOT_FOUND") {
+        throw error;
+      }
+    }
+  }
+  throw new Error(
+    `Unable to resolve the "tsc" executable from "@typescript/native" or "typescript" in ${cwd}.`,
+  );
+}
+
 export async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const typeScriptCli = resolveNodeModuleBin("typescript", ["tsc6", "tsc"], process.cwd());
+  const typeScriptCli = resolveTypeScriptCli(process.cwd());
   const res = spawnSync(process.execPath, ["--", typeScriptCli, "-b", tsConfig], {
     stdio: "inherit",
     cwd: process.cwd(),
