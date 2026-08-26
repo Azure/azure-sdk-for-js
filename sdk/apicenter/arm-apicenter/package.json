@@ -34,7 +34,7 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
+    "@azure/logger": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

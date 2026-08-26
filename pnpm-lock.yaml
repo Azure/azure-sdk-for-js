@@ -746,7 +746,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -1374,7 +1374,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -1438,7 +1438,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -1584,7 +1584,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -2192,7 +2192,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
@@ -4192,7 +4192,7 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
