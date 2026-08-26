@@ -12,6 +12,7 @@
 
 ### Other Changes
 
+- Refactored internal Network and Long Interval Statsbeat lifecycle management behind a process-global manager. [#39693](https://github.com/Azure/azure-sdk-for-js/pull/39693)
 - Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
 - Centralized native process execution and hardened Windows system executable
   resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)

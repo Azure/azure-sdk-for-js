@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 export {
+  restart,
+  stop,
+  start,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -10,6 +13,9 @@ export {
   get,
 } from "./operations.js";
 export type {
+  HorizonDbClustersRestartOptionalParams,
+  HorizonDbClustersStopOptionalParams,
+  HorizonDbClustersStartOptionalParams,
   HorizonDbClustersListBySubscriptionOptionalParams,
   HorizonDbClustersListByResourceGroupOptionalParams,
   HorizonDbClustersDeleteOptionalParams,
