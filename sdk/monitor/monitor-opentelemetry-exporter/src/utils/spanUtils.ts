@@ -455,6 +455,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
       const measurements = createCustomMeasurements(event.attributes);
+      const measurementFields = Object.keys(measurements).length > 0 ? { measurements } : {};
 
       const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
@@ -497,7 +498,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: truncateCustomDimensions(properties),
-          measurements,
+          ...measurementFields,
         };
         baseData = exceptionData;
       } else {
@@ -508,7 +509,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: truncateCustomDimensions(properties),
-          measurements,
+          ...measurementFields,
         };
         baseData = messageData;
       }
