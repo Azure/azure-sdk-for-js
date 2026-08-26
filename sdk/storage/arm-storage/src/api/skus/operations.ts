@@ -22,7 +22,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the advanced platform metrics rule for the storage account.
  *
  * @summary create or update the advanced platform metrics rule for the storage account.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_AllContainers.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_AllContainers.json
  */
 async function advancedPlatformMetricsRulesCreateOrUpdateAllContainersCreateAdvancedPlatformMetricsRuleWithAllContainersFilter() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function advancedPlatformMetricsRulesCreateOrUpdateAllContainersCreateAdva
  * This sample demonstrates how to create or update the advanced platform metrics rule for the storage account.
  *
  * @summary create or update the advanced platform metrics rule for the storage account.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_ContainerList.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_ContainerList.json
  */
 async function advancedPlatformMetricsRulesCreateOrUpdateContainerListCreateAdvancedPlatformMetricsRuleWithContainerListFilter() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function advancedPlatformMetricsRulesCreateOrUpdateContainerListCreateAdva
  * This sample demonstrates how to create or update the advanced platform metrics rule for the storage account.
  *
  * @summary create or update the advanced platform metrics rule for the storage account.
- * x-ms-original-file: 2026-04-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_ContainerPrefix.json
+ * x-ms-original-file: 2026-06-01/AdvancedPlatformMetricsCRUD/AdvancedPlatformMetricsRules_CreateOrUpdate_ContainerPrefix.json
  */
 async function advancedPlatformMetricsRulesCreateOrUpdateContainerPrefixCreateAdvancedPlatformMetricsRuleWithContainerPrefixFilter() {
   const credential = new DefaultAzureCredential();
