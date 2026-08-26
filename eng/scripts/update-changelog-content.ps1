@@ -3,8 +3,8 @@
 .SYNOPSIS
     Updates the CHANGELOG.md for a specific Azure SDK package.
 .DESCRIPTION
-    This script updates the CHANGELOG.md file by invoking the update-changelog-content 
-    command from @azure-tools/js-sdk-release-tools.
+  This script updates the CHANGELOG.md file by invoking the update-changelog-content
+  command from the internal local source tool under eng/tools/js-sdk-release-tools.
     
     The script validates the package path and runs the changelog update tool.
 .PARAMETER SdkRepoPath
@@ -19,7 +19,7 @@
     
     Updates the CHANGELOG.md for the arm-storage package.
 .NOTES
-    - Requires js-sdk-release-tools to be installed in eng/tools/js-sdk-release-tools.
+  - Uses the internal source tool in eng/tools/js-sdk-release-tools.
     - The tool will analyze git history and package changes to update the changelog.
 #>
 [CmdletBinding()]
@@ -46,21 +46,25 @@ try {
 
   Push-Location $SdkRepoPath
   
-  # Install js-sdk-release-tools if needed
+  # Use the local internal source tree instead of a published package.
   $releaseToolsPath = "eng\tools\js-sdk-release-tools"
   if (-not (Test-Path $releaseToolsPath)) {
     throw "Release tools path does not exist: $releaseToolsPath"
   }
   
-  Write-Host "Installing js-sdk-release-tools dependencies..." -ForegroundColor Cyan
+  Write-Host "Installing local js-sdk-release-tools dependencies..." -ForegroundColor Cyan
   Invoke-LoggedCommand "npm --prefix $releaseToolsPath ci"
+  Write-Host ""
+
+  Write-Host "Building local js-sdk-release-tools..." -ForegroundColor Cyan
+  Invoke-LoggedCommand "npm --prefix $releaseToolsPath run build"
   Write-Host ""
   
  
   # Run the update-changelog command using npm exec
   Write-Host "Updating CHANGELOG.md..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog -- --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
+  $command = "npm --prefix $releaseToolsPath exec --no -- update-changelog --sdkRepoPath `"$SdkRepoPath`" --packagePath `"$PackagePath`""
   Invoke-LoggedCommand $command
   
   Write-Host ""

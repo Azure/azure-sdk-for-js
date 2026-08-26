@@ -21,7 +21,7 @@ When the preceding `regenerate-from-typespec` skill produced `temp/typespec-comm
 
 - The working-tree diff: `git diff -- sdk/ai/ai-projects/src sdk/ai/ai-projects/generated`.
 - `temp/typespec-commit-descriptions.md` from `regenerate-from-typespec` — upstream commit subjects and bodies for the old-exclusive/new-inclusive TypeSpec range.
-- [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md) — protected files, additions-only models, `foundryFeatures` rule, `BetaEvaluatorsOperations.list` rule.
+- [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md) — protected files, additions-only models, `$delete` preservation, `foundryFeatures` rule, `BetaEvaluatorsOperations.list` rule.
 
 The canonical copy of the workarounds doc is [scripts/post-emitter-workarounds.md](../../../scripts/post-emitter-workarounds.md). If it has been updated, prefer it over the bundled reference.
 
@@ -225,6 +225,13 @@ From [references/post-emitter-workarounds.md](./references/post-emitter-workarou
   Get-ChildItem -Recurse -File src -Include *.ts |
     Select-String -Pattern 'api%2Dversion' -SimpleMatch
   ```
+- **Preserve customized `$delete` operation names.** If a resource-delete operation that is `$delete` in the committed `src/` baseline is emitted under a model-specific name such as `deleteSchedule`, `deleteRoutine`, or `deleteEvaluationTaxonomy`, do not propagate that rename from `generated/` into `src/`. Keep `$delete` as the exported operation, keep its helpers named `_$deleteSend` and `_$deleteDeserialize`, and export `$delete` from the area's `src/api/.../index.ts`. In the corresponding `src/classic/.../index.ts`, import and call `$delete` while exposing only the existing `delete` method. Do not add a `delete<Model>` method or turn `delete` into a deprecated alias. Leave `generated/` unchanged because it records emitter output.
+  ```powershell
+  # Candidates introduced by the emitter; compare each with the committed src baseline.
+  git diff HEAD -- generated/api | Select-String '^\+\s*export async function delete[A-Z]'
+  # Model-specific replacements must not be added to customized source.
+  git diff HEAD -- src | Select-String '^\+.*\bdelete[A-Z]\w*'
+  ```
 - **`foundryFeatures` must NEVER be a positional method parameter** — but it IS allowed as a property on an `*Options` / `*OptionalParams` class (i.e. as a member of the options bag). Concretely:
   - **Allowed** — `foundryFeatures?: "Foo=V1Preview"` declared as a field on `BetaSkillsListOptionalParams`, then accessed via `options?.foundryFeatures`. The emitter does this by default for many list operations and it is fine.
   - **NOT allowed** — `foundryFeatures` appearing as a positional parameter on a method or `*Send` helper, e.g. `function _$deleteSend(context, name, foundryFeatures, options)` or `delete: (name, foundryFeatures, options) => ...`. If the emitter introduced this, revert to the prior signature and instantiate `foundryFeatures` as a local `const` inside the method body before sending it over the wire.
@@ -306,8 +313,6 @@ If `dev-tool` or one of its workspace dependencies is missing because a prior in
 ```powershell
 pnpm install --filter @azure/ai-projects...
 ```
-
-If the repository's configured Azure Artifacts feed returns `401`, do not change or print credentials. After confirming the required packages are public or local workspace packages, retry the same filtered install with `--registry=https://registry.npmjs.org/`. Avoid an unfiltered `pnpm install` during post-emitter work: it can remove existing module directories before a feed failure and leave `dev-tool` only partially installed.
 
 Then regenerate the API report and confirm the new public surface is present in it:
 
