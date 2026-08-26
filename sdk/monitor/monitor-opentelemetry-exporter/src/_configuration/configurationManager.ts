@@ -13,6 +13,7 @@ import {
 } from "../Declarations/Constants.js";
 import type { OneSettingsResponse } from "./utils.js";
 import { makeOneSettingsRequest } from "./utils.js";
+import { ConfigurationWorker } from "./configurationWorker.js";
 
 interface ConfigurationState {
   etag?: string;
@@ -49,7 +50,7 @@ export type ConfigurationChangeCallback = (
 export class ConfigurationManager {
   private static instance: ConfigurationManager | undefined;
   private callbacks: ConfigurationChangeCallback[] = [];
-  private initialized = false;
+  private worker: ConfigurationWorker | undefined;
   private state = createInitialState();
   private backoffAttempts = 0;
 
@@ -73,12 +74,22 @@ export class ConfigurationManager {
    * constructor, since only the first call has any effect.
    */
   public initialize(): void {
-    if (this.initialized) {
+    if (this.worker) {
       return;
     }
-    // TODO(onesettings): create and start the ConfigurationWorker that periodically calls
-    // `getConfigurationAndRefreshInterval` and reschedules itself using the returned interval.
-    this.initialized = true;
+    this.worker = new ConfigurationWorker((abortSignal) =>
+      this.getConfigurationAndRefreshInterval(abortSignal),
+    );
+  }
+
+  /**
+   * Stop OneSettings polling and release registered callbacks. Idempotent and safe to restart with
+   * a later {@link initialize} call.
+   */
+  public shutdown(): void {
+    this.worker?.shutdown();
+    this.worker = undefined;
+    this.callbacks = [];
   }
 
   /**
@@ -108,7 +119,7 @@ export class ConfigurationManager {
    * Poll OneSettings once (change detection + optional config fetch), update the cached state,
    * notify callbacks on change, and return the next refresh interval in milliseconds.
    */
-  public async getConfigurationAndRefreshInterval(): Promise<number> {
+  public async getConfigurationAndRefreshInterval(abortSignal?: AbortSignal): Promise<number> {
     const headers: Record<string, string> = {
       "x-ms-onesetinterval": String(Math.floor(this.state.refreshIntervalMs / (60 * 1000))),
     };
@@ -120,7 +131,11 @@ export class ConfigurationManager {
       ONE_SETTINGS_CHANGE_URL,
       ONE_SETTINGS_NODEJS_TARGETING,
       headers,
+      abortSignal,
     );
+    if (abortSignal?.aborted) {
+      return this.state.refreshIntervalMs;
+    }
 
     if (this.isTransientError(changeResponse)) {
       this.backoffAttempts += 1;
@@ -155,7 +170,12 @@ export class ConfigurationManager {
     const configResponse = await makeOneSettingsRequest(
       ONE_SETTINGS_CONFIG_URL,
       ONE_SETTINGS_NODEJS_TARGETING,
+      {},
+      abortSignal,
     );
+    if (abortSignal?.aborted) {
+      return this.state.refreshIntervalMs;
+    }
     if (configResponse.statusCode !== 200 || Object.keys(configResponse.settings).length === 0) {
       diag.debug(
         `OneSettings configuration fetch did not return settings (status ${configResponse.statusCode})`,
@@ -185,11 +205,10 @@ export class ConfigurationManager {
   }
 
   /**
-   * Reset cached state and callbacks. Intended for test isolation until worker shutdown is added.
+   * Reset cached state and callbacks. Intended for test isolation.
    */
   public reset(): void {
-    this.callbacks = [];
-    this.initialized = false;
+    this.shutdown();
     this.state = createInitialState();
     this.backoffAttempts = 0;
   }
