@@ -331,7 +331,7 @@ export interface SkuMixPlacementCapacityProfile {
   capacityType: SkuMixPlacementCapacityType;
   /** The priority of the VMs to allocate. */
   priority: SkuMixPlacementPriority;
-  /** Required when priority is Spot. Contains spot-specific configuration. */
+  /** Contains spot-specific configuration. */
   spotPriorityProfile?: SkuMixPlacementSpotPriorityProfile;
   /** The allocation strategy for determining the optimal SKU split. */
   allocationStrategy?: SkuMixPlacementAllocationStrategy;
@@ -395,7 +395,7 @@ export enum KnownSkuMixPlacementPriority {
  */
 export type SkuMixPlacementPriority = string;
 
-/** Spot priority configuration. Required when priority is Spot. */
+/** Spot priority configuration. */
 export interface SkuMixPlacementSpotPriorityProfile {
   /** Maximum price per VM the customer is willing to pay. Default: -1 (no price restriction). */
   maxPricePerVm?: number;
