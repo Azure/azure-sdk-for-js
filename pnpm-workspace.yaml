@@ -3,6 +3,10 @@ packages:
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
+  - eng/tools/eng-package-utils
+  - eng/tools/versioning
+  - eng/tools/dependency-testing
+  - eng/tools/analyze-deps
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'

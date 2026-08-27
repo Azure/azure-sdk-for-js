@@ -30,16 +30,8 @@ steps:
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      npm ci
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    workingDirectory: ./eng/tools/eng-package-utils
-    displayName: Install eng-package-utils dependencies
-
-  - script: |
-      npm ci
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    workingDirectory: ./eng/tools/versioning
-    displayName: Install versioning tool dependencies
+      pnpm install
+    displayName: "Install repository dependencies"
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
@@ -55,11 +47,6 @@ steps:
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - script: |
-      pnpm install
-    condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
-    displayName: "Install library dependencies"
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
