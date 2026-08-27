@@ -278,6 +278,9 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsGenerateAgentOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;

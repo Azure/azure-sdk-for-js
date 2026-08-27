@@ -1,5 +1,5 @@
 directory: specification/ai-foundry/data-plane/Foundry/src/sdk-python-js-azure-ai-projects
-commit: d6916788d5941fb7afdd90bf683b16141877f8c8
+commit: 082ad463a99be5faba7626fb2f24f348f5923587
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
   - specification/ai-foundry/data-plane/Foundry/src/agents
@@ -29,4 +29,5 @@ additionalDirectories:
   - specification/ai-foundry/data-plane/Foundry/src/skills
   - specification/ai-foundry/data-plane/Foundry/src/toolboxes
   - specification/ai-foundry/data-plane/Foundry/src/tools
+  - specification/ai-foundry/data-plane/Foundry/src/voice-agents
   - specification/ai-foundry/data-plane/Foundry/src/sdk-common/error.default.tsp
