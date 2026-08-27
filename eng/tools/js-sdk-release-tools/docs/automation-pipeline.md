@@ -98,8 +98,8 @@ CLI Entry (autoGenerateInPipeline.ts)
   │       ├── tsp-client init code generation
   │       ├── buildPackage:
   │       │   ├── pnpm install
+  │       │   ├── customize (root `generated/`)
   │       │   ├── lint fix (Release/Local)
-  │       │   ├── customize (Data Plane)
   │       │   ├── turbo build
   │       │   ├── extract ApiView info
   │       │   ├── test package
@@ -321,8 +321,8 @@ There are two generation paths based on the source: **TypeSpec project** or **Sw
 | Sub-step             | Required    | Command / Operation                                                                               | Code Link           |
 | -------------------- | ----------- | ------------------------------------------------------------------------------------------------- | ------------------- |
 | pnpm install         | ✅ Required | `pnpm install`                                                                                    | [rushUtils.ts#L127] |
-| Lint fix             | ⚠️ Optional | `npm run lint:fix` — only in `Release` / `Local` mode                                             | [rushUtils.ts#L139] |
-| Apply custom code    | ⚠️ Optional | `dev-tool customization apply -s ./generated -t ./src` — packages with root-level `generated/`    | [rushUtils.ts#L146] |
+| Apply custom code    | ⚠️ Optional | `dev-tool customization apply -s ./generated -t ./src` — packages with root-level `generated/`    | [rushUtils.ts#L139] |
+| Lint fix             | ⚠️ Optional | `npm run lint:fix` — only in `Release` / `Local` mode                                             | [rushUtils.ts#L142] |
 | turbo build          | ✅ Required | `pnpm turbo build --filter {packageName}... --token 1` (build errors are warnings for Data Plane) | [rushUtils.ts#L150] |
 | Extract ApiView info | ✅ Required | Find `temp/**/*-node.api.json` or `temp/**/*.api.json`                                            | [rushUtils.ts#L157] |
 | Test package         | ⚠️ Optional | `pnpm run test:node` — `TEST_MODE=record`; failure does not block                                 | [rushUtils.ts#L169] |

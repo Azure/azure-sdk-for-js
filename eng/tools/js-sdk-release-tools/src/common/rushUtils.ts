@@ -106,13 +106,14 @@ export async function buildPackage(
   let buildStatus = `succeeded`;
   await installDependencies();
 
+  await customizeCodes(packageDirectory);
+
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
     await lintFix(packageDirectory);
   }
 
   logger.info(`Start to build package '${name}'.`);
   const modularSDKType = getModularSDKType(packageDirectory);
-  await customizeCodes(packageDirectory);
   let errorAsWarning = false;
   if (modularSDKType === ModularSDKType.DataPlane) {
     errorAsWarning = true;
