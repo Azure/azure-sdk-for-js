@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-migrate",
-  "version": "1.0.0-beta.1",
+  "version": "3.0.0-beta.1",
   "description": "A generated SDK for MigrateClient.",
   "engines": {
     "node": ">=22.0.0"
