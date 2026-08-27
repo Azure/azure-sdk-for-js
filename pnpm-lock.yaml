@@ -472,6 +472,33 @@ importers:
         specifier: ^4.0.0
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@7.3.3(@types/node@22.20.1)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
 
+  eng/tools/ci-runner:
+    devDependencies:
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 10.0.1(eslint@10.8.1)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.1
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.10(vitest@4.1.10)
+      eslint:
+        specifier: 'catalog:'
+        version: 10.8.1
+      globals:
+        specifier: ^17.11.0
+        version: 17.11.0
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.6
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@7.3.3(@types/node@22.20.1)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
+
   sdk/advisor/arm-advisor:
     dependencies:
       '@azure-rest/core-client':
@@ -39701,6 +39728,10 @@ packages:
     resolution: {integrity: sha1-fEdhKZ1BwysHVxWkzh7eeJf/cqg=}
     engines: {node: '>=18'}
 
+  globals@17.11.0:
+    resolution: {integrity: sha1-1kNIW7MCINd1HlEc9PaMc9OHDYc=}
+    engines: {node: '>=18'}
+
   globalthis@1.0.4:
     resolution: {integrity: sha1-dDDtOpddl7+1m8zkH1yruvplEjY=}
     engines: {node: '>= 0.4'}
@@ -46943,6 +46974,8 @@ snapshots:
   globals@14.0.0: {}
 
   globals@15.15.0: {}
+
+  globals@17.11.0: {}
 
   globalthis@1.0.4:
     dependencies:
