@@ -13,6 +13,7 @@ Fixed a bug where the client options are ignored when passed along with an AAD c
 
 ### Other Changes
 
+- Replaced the deprecated `jsrsasign` dependency with maintained isomorphic cryptography implementations. [#39762](https://github.com/Azure/azure-sdk-for-js/issues/39762)
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31433](https://github.com/Azure/azure-sdk-for-js/pull/31433)
 
 ## 1.0.0 (2021-08-10)

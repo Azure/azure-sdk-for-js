@@ -7,10 +7,13 @@ import {
   getIsolatedSigningKey,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils.js";
+import {
+  certificateToDer,
+  createRSAKey,
+  createX509Certificate,
+  generateSha1Hash,
+} from "../utils/cryptoUtils.js";
 import { KnownCertificateModification } from "../../src/generated/index.js";
-/// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
@@ -58,12 +61,12 @@ describe("PolicyManagementTests ", () => {
     const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();
-    const [rsaKey2] = createRSAKey();
+    const [rsaKey2] = createRSAKey(1);
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
       adminClient.addPolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
-    ).rejects.toThrow("can't find PEM header");
+    ).rejects.toThrow("Invalid PEM encoded certificate");
 
     await expect(
       adminClient.addPolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
@@ -74,12 +77,12 @@ describe("PolicyManagementTests ", () => {
     const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();
-    const [rsaKey2] = createRSAKey();
+    const [rsaKey2] = createRSAKey(1);
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
       adminClient.removePolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
-    ).rejects.toThrow("can't find PEM header");
+    ).rejects.toThrow("Invalid PEM encoded certificate");
 
     await expect(
       adminClient.removePolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
@@ -96,11 +99,9 @@ describe("PolicyManagementTests ", () => {
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
 
-    // Decode the PEM encoded certificate for validation later.
-    const cert = new jsrsasign.X509();
-    cert.readCertPEM(rsaCertificate);
-
-    const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
+    const expectedThumbprint = byteArrayToHex(
+      generateSha1Hash(certificateToDer(rsaCertificate)),
+    ).toUpperCase();
 
     {
       // Add a new signing certificate.
