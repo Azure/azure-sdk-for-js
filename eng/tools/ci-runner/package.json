@@ -6,7 +6,7 @@
   "private": true,
   "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
-    "build": "pnpm typecheck",
+    "build": "pnpm run format && pnpm run lint && pnpm run typecheck && pnpm run test",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{js,mjs,json,md}\"",
