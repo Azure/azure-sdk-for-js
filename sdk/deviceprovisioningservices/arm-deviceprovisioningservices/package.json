@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-deviceprovisioningservices",
-  "version": "1.0.0",
+  "version": "6.0.0",
   "description": "A generated SDK for IotDpsClient.",
   "engines": {
     "node": ">=22.0.0"
