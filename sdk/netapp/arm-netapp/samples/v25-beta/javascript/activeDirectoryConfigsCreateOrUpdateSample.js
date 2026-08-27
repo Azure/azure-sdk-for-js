@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the specified active directory configuration
  *
  * @summary create or update the specified active directory configuration
- * x-ms-original-file: 2026-04-15-preview/ActiveDirectoryConfigs_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/ActiveDirectoryConfigs_CreateOrUpdate.json
  */
 async function activeDirectoryConfigsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

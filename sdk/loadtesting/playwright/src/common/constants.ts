@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ProcessCommand } from "./types.js";
+
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
   SCOPE: "https://management.core.windows.net/.default",
@@ -36,10 +38,10 @@ export const ServiceEnvironmentVariable = {
 };
 
 export const GitHubActionsConstants = {
-  GIT_VERSION_COMMAND: "git --version",
-  GIT_REV_PARSE: "git rev-parse --is-inside-work-tree",
-  GIT_COMMIT_MESSAGE_COMMAND: 'git log -1 --pretty=format:"%s"',
-};
+  GIT_VERSION_COMMAND: { command: "git", args: ["--version"] },
+  GIT_REV_PARSE: { command: "git", args: ["rev-parse", "--is-inside-work-tree"] },
+  GIT_COMMIT_MESSAGE_COMMAND: { command: "git", args: ["log", "-1", "--pretty=format:%s"] },
+} satisfies Record<string, ProcessCommand>;
 
 export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 30000,

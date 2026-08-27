@@ -9,6 +9,9 @@ import type {
   NetworkVirtualApplianceInstanceIds,
   NetworkVirtualApplianceBootDiagnosticParameters,
   NetworkVirtualApplianceInstanceId,
+  NetworkVirtualAppliancePrepareMigrationRequest,
+  NetworkVirtualApplianceExecuteMigrationRequest,
+  NetworkVirtualApplianceCommitMigrationRequest,
 } from "../../models/microsoft/network/models.js";
 import {
   tagsObjectSerializer,
@@ -18,6 +21,9 @@ import {
   networkVirtualApplianceInstanceIdsDeserializer,
   networkVirtualApplianceBootDiagnosticParametersSerializer,
   networkVirtualApplianceInstanceIdDeserializer,
+  networkVirtualAppliancePrepareMigrationRequestSerializer,
+  networkVirtualApplianceExecuteMigrationRequestSerializer,
+  networkVirtualApplianceCommitMigrationRequestSerializer,
 } from "../../models/microsoft/network/models.js";
 import type { _NetworkVirtualApplianceListResult } from "../../models/models.js";
 import { _networkVirtualApplianceListResultDeserializer } from "../../models/models.js";
@@ -26,6 +32,10 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  NetworkVirtualAppliancesAbortMigrationOptionalParams,
+  NetworkVirtualAppliancesCommitMigrationOptionalParams,
+  NetworkVirtualAppliancesExecuteMigrationOptionalParams,
+  NetworkVirtualAppliancesPrepareMigrationOptionalParams,
   NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
   NetworkVirtualAppliancesReimageOptionalParams,
   NetworkVirtualAppliancesRestartOptionalParams,
@@ -40,6 +50,232 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _abortMigrationSend(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  options: NetworkVirtualAppliancesAbortMigrationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/abortMigration{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkVirtualApplianceName: networkVirtualApplianceName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _abortMigrationDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Aborts an in-progress migration of the specified Network Virtual Appliance and rolls back to the previous state. */
+export function abortMigration(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  options: NetworkVirtualAppliancesAbortMigrationOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _abortMigrationDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _abortMigrationSend(context, resourceGroupName, networkVirtualApplianceName, options),
+    resourceLocationConfig: "location",
+    apiVersion: "2025-09-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _commitMigrationSend(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualApplianceCommitMigrationRequest,
+  options: NetworkVirtualAppliancesCommitMigrationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/commitMigration{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkVirtualApplianceName: networkVirtualApplianceName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: networkVirtualApplianceCommitMigrationRequestSerializer(body),
+  });
+}
+
+export async function _commitMigrationDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Commits the migration of the specified Network Virtual Appliance. This finalizes a previously executed migration workflow. */
+export function commitMigration(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualApplianceCommitMigrationRequest,
+  options: NetworkVirtualAppliancesCommitMigrationOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _commitMigrationDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _commitMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: "2025-09-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _executeMigrationSend(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualApplianceExecuteMigrationRequest,
+  options: NetworkVirtualAppliancesExecuteMigrationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/executeMigration{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkVirtualApplianceName: networkVirtualApplianceName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: networkVirtualApplianceExecuteMigrationRequestSerializer(body),
+  });
+}
+
+export async function _executeMigrationDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Executes the migration of the specified Network Virtual Appliance. This step performs the migration workflow that was previously prepared. */
+export function executeMigration(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualApplianceExecuteMigrationRequest,
+  options: NetworkVirtualAppliancesExecuteMigrationOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _executeMigrationDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _executeMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: "2025-09-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _prepareMigrationSend(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualAppliancePrepareMigrationRequest,
+  options: NetworkVirtualAppliancesPrepareMigrationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/prepareMigration{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkVirtualApplianceName: networkVirtualApplianceName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: networkVirtualAppliancePrepareMigrationRequestSerializer(body),
+  });
+}
+
+export async function _prepareMigrationDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Prepares the migration of the specified Network Virtual Appliance. This is the first step of a migration workflow, such as migrating to a new OS version or to the new internal load balancer architecture. */
+export function prepareMigration(
+  context: Client,
+  resourceGroupName: string,
+  networkVirtualApplianceName: string,
+  body: NetworkVirtualAppliancePrepareMigrationRequest,
+  options: NetworkVirtualAppliancesPrepareMigrationOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _prepareMigrationDeserialize, ["202", "204", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _prepareMigrationSend(context, resourceGroupName, networkVirtualApplianceName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: "2025-09-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
 export function _getBootDiagnosticLogsSend(
   context: Client,
   resourceGroupName: string,
@@ -53,7 +289,7 @@ export function _getBootDiagnosticLogsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +342,7 @@ export function getBootDiagnosticLogs(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceId>,
     NetworkVirtualApplianceInstanceId
@@ -125,7 +361,7 @@ export function _reimageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +409,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceIds>,
     NetworkVirtualApplianceInstanceIds
@@ -192,7 +428,7 @@ export function _restartSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +476,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<NetworkVirtualApplianceInstanceIds>,
     NetworkVirtualApplianceInstanceIds
@@ -255,7 +491,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -293,7 +529,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -307,7 +543,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -346,7 +582,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -362,7 +598,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -398,7 +634,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkVirtualApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -415,7 +651,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,7 +712,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -526,7 +762,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<NetworkVirtualAppliance>, NetworkVirtualAppliance>;
 }
 
@@ -542,7 +778,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkVirtualApplianceName: networkVirtualApplianceName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24expand": options?.expand,
     },
     {

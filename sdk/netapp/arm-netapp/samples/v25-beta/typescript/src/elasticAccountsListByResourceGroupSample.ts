@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list and describe all NetApp elastic accounts in the resource group.
  *
  * @summary list and describe all NetApp elastic accounts in the resource group.
- * x-ms-original-file: 2026-04-15-preview/ElasticAccounts_ListByResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticAccounts_ListByResourceGroup.json
  */
 async function elasticAccountsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

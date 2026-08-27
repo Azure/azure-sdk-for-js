@@ -79,7 +79,7 @@ export function _checkDnsNameAvailabilitySend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       domainNameLabel: domainNameLabel,
     },
     {
@@ -134,7 +134,7 @@ export function _generatevirtualwanvpnserverconfigurationvpnprofileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +190,7 @@ export function generatevirtualwanvpnserverconfigurationvpnprofile(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<VpnProfileResponse>, VpnProfileResponse>;
 }
@@ -207,7 +207,7 @@ export function _supportedSecurityProvidersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,7 +264,7 @@ export function _listNetworkManagerEffectiveSecurityAdminRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
     },
     {
@@ -328,7 +328,7 @@ export function _listNetworkManagerEffectiveConnectivityConfigurationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
     },
     {
@@ -392,7 +392,7 @@ export function _listActiveSecurityAdminRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
     },
     {
@@ -454,7 +454,7 @@ export function _listActiveConnectivityConfigurationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
     },
     {
@@ -513,7 +513,7 @@ export function _expressRouteProviderPortSend(
     {
       subscriptionId: context.subscriptionId,
       providerport: providerport,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -564,7 +564,7 @@ export function _disconnectActiveSessionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -614,7 +614,7 @@ export function disconnectActiveSessions(
       ),
     _disconnectActiveSessionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -630,7 +630,7 @@ export function _getActiveSessionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -675,7 +675,7 @@ export function getActiveSessions(
       getInitialResponse: () =>
         _getActiveSessionsSend(context, resourceGroupName, bastionHostName, options),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -684,7 +684,7 @@ export function getActiveSessions(
     async () => await initialPagingPoller,
     _getActiveSessionsDeserialize,
     ["200", "202", "201"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -701,7 +701,7 @@ export function _getBastionShareableLinkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -751,7 +751,7 @@ export function getBastionShareableLink(
       ),
     _getBastionShareableLinkDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -768,7 +768,7 @@ export function _deleteBastionShareableLinkByTokenSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -821,7 +821,7 @@ export function deleteBastionShareableLinkByToken(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -839,7 +839,7 @@ export function _deleteBastionShareableLinkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -892,7 +892,7 @@ export function deleteBastionShareableLink(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -910,7 +910,7 @@ export function _putBastionShareableLinkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bastionHostName: bastionHostName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -964,7 +964,7 @@ export function putBastionShareableLink(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<PathUncheckedResponse>, PathUncheckedResponse>;
 
@@ -973,6 +973,6 @@ export function putBastionShareableLink(
     async () => await initialPagingPoller,
     _putBastionShareableLinkDeserialize,
     ["200", "202", "201"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }

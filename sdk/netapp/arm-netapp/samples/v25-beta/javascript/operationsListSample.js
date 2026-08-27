@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2026-04-15-preview/OperationList.json
+ * x-ms-original-file: 2026-06-15-preview/OperationList.json
  */
 async function operationList() {
   const credential = new DefaultAzureCredential();

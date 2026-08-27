@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified NetApp Elastic Capacity Pool
  *
  * @summary delete the specified NetApp Elastic Capacity Pool
- * x-ms-original-file: 2026-04-15-preview/ElasticCapacityPools_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticCapacityPools_Delete.json
  */
 async function elasticCapacityPoolsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

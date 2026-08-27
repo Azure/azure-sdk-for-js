@@ -5,15 +5,17 @@
  * @summary Retrieve result files (such as keyframe images) from a video analysis operation.
  *
  * This sample demonstrates how to retrieve result files (such as keyframe images) from a
- * video analysis operation using the getResultFile API.
+ * video analysis operation using the `getResultFile` API.
  *
- * When analyzing video content, the Content Understanding service can generate result files:
- * - Keyframe images: Extracted frames from the video at specific timestamps
- * - Other result files: Additional files generated during analysis
+ * ## About result files
  *
- * The getResultFile API allows you to retrieve these files using:
- * - Operation ID: Extracted from the analysis operation
- * - File path: The path to the specific result file (e.g., "keyframes/{frameTimeMs}")
+ * When analyzing video content, the Content Understanding service can generate result files such as:
+ * - **Keyframe images**: Extracted frames from the video at specific timestamps
+ * - **Other result files**: Additional files generated during analysis
+ *
+ * The `getResultFile` API allows you to retrieve these files using:
+ * - **Operation ID**: Extracted from the analysis operation
+ * - **File path**: The path to the specific result file. Keyframes are accessed with paths like `keyframes/733` and `keyframes/9000`, following the `keyframes/{frameTimeMs}` pattern.
  */
 
 import "dotenv/config";

@@ -4,6 +4,7 @@
 import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByLocation,
+  migrateVMAvailabilityZone,
   scaleOut,
   start,
   listSkus,
@@ -32,6 +33,7 @@ import {
 } from "../../api/virtualMachineScaleSets/operations.js";
 import type {
   VirtualMachineScaleSetsListByLocationOptionalParams,
+  VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
   VirtualMachineScaleSetsScaleOutOptionalParams,
   VirtualMachineScaleSetsStartOptionalParams,
   VirtualMachineScaleSetsListSkusOptionalParams,
@@ -69,6 +71,7 @@ import type {
   OrchestrationServiceStateInput,
   VirtualMachineScaleSetSku,
   VMScaleSetScaleOutInput,
+  MigrateVMAvailabilityZoneInput,
 } from "../../models/compute/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -82,6 +85,27 @@ export interface VirtualMachineScaleSetsOperations {
     location: string,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+  /** Migrates one or more virtual machines in a VM scale set to an availability zone. */
+  migrateVMAvailabilityZone: (
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    body: MigrateVMAvailabilityZoneInput,
+    options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use migrateVMAvailabilityZone instead */
+  beginMigrateVMAvailabilityZone: (
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    body: MigrateVMAvailabilityZoneInput,
+    options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use migrateVMAvailabilityZone instead */
+  beginMigrateVMAvailabilityZoneAndWait: (
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    body: MigrateVMAvailabilityZoneInput,
+    options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+  ) => Promise<void>;
   /** Scales out one or more virtual machines in a VM scale set. */
   scaleOut: (
     resourceGroupName: string,
@@ -454,13 +478,48 @@ export interface VirtualMachineScaleSetsOperations {
     options?: VirtualMachineScaleSetsGetOptionalParams,
   ) => Promise<VirtualMachineScaleSet>;
 }
-
 function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
   return {
     listByLocation: (
       location: string,
       options?: VirtualMachineScaleSetsListByLocationOptionalParams,
     ) => listByLocation(context, location, options),
+    migrateVMAvailabilityZone: (
+      resourceGroupName: string,
+      vmScaleSetName: string,
+      body: MigrateVMAvailabilityZoneInput,
+      options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+    ) => migrateVMAvailabilityZone(context, resourceGroupName, vmScaleSetName, body, options),
+    beginMigrateVMAvailabilityZone: async (
+      resourceGroupName: string,
+      vmScaleSetName: string,
+      body: MigrateVMAvailabilityZoneInput,
+      options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+    ) => {
+      const poller = migrateVMAvailabilityZone(
+        context,
+        resourceGroupName,
+        vmScaleSetName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginMigrateVMAvailabilityZoneAndWait: async (
+      resourceGroupName: string,
+      vmScaleSetName: string,
+      body: MigrateVMAvailabilityZoneInput,
+      options?: VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams,
+    ) => {
+      return await migrateVMAvailabilityZone(
+        context,
+        resourceGroupName,
+        vmScaleSetName,
+        body,
+        options,
+      );
+    },
     scaleOut: (
       resourceGroupName: string,
       vmScaleSetName: string,
@@ -930,7 +989,6 @@ function _getVirtualMachineScaleSets(context: ComputeManagementContext) {
     ) => get(context, resourceGroupName, vmScaleSetName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetsOperations {

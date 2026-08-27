@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list and describe all Elastic Backup Policies in the elastic account.
  *
  * @summary list and describe all Elastic Backup Policies in the elastic account.
- * x-ms-original-file: 2026-04-15-preview/ElasticBackupPolicies_List.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupPolicies_List.json
  */
 async function elasticBackupPoliciesListByElasticAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

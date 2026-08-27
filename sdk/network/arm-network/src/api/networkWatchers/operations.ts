@@ -31,6 +31,9 @@ import type {
   AvailableProvidersList,
   NetworkConfigurationDiagnosticParameters,
   NetworkConfigurationDiagnosticResponse,
+  ConnectionAnalyzer,
+  _ConnectionAnalyzerListResult,
+  ConnectionAnalyzerQueryStatusResult,
 } from "../../models/microsoft/network/models.js";
 import {
   tagsObjectSerializer,
@@ -58,12 +61,22 @@ import {
   availableProvidersListDeserializer,
   networkConfigurationDiagnosticParametersSerializer,
   networkConfigurationDiagnosticResponseDeserializer,
+  connectionAnalyzerSerializer,
+  connectionAnalyzerDeserializer,
+  _connectionAnalyzerListResultDeserializer,
+  connectionAnalyzerQueryStatusResultDeserializer,
 } from "../../models/microsoft/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  NetworkWatchersConnectionAnalyzersQueryOptionalParams,
+  NetworkWatchersConnectionAnalyzersListOptionalParams,
+  NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams,
+  NetworkWatchersConnectionAnalyzersDeleteOptionalParams,
+  NetworkWatchersConnectionAnalyzersGetOptionalParams,
+  NetworkWatchersConnectionAnalyzersCreateOptionalParams,
   NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
   NetworkWatchersListAvailableProvidersOptionalParams,
   NetworkWatchersGetAzureReachabilityReportOptionalParams,
@@ -87,6 +100,408 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _connectionAnalyzersQuerySend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersQueryOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}/query{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      connectionAnalyzerName: connectionAnalyzerName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _connectionAnalyzersQueryDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConnectionAnalyzerQueryStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return connectionAnalyzerQueryStatusResultDeserializer(result.body);
+}
+
+/** Queries the specified connection analyzer for diagnostic results. */
+export function connectionAnalyzersQuery(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersQueryOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<ConnectionAnalyzerQueryStatusResult>,
+  ConnectionAnalyzerQueryStatusResult
+> {
+  return getLongRunningPoller(
+    context,
+    _connectionAnalyzersQueryDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _connectionAnalyzersQuerySend(
+          context,
+          resourceGroupName,
+          networkWatcherName,
+          connectionAnalyzerName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: "2025-09-01",
+    },
+  ) as PollerLike<
+    OperationState<ConnectionAnalyzerQueryStatusResult>,
+    ConnectionAnalyzerQueryStatusResult
+  >;
+}
+
+export function _connectionAnalyzersListSend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  options: NetworkWatchersConnectionAnalyzersListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _connectionAnalyzersListDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ConnectionAnalyzerListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _connectionAnalyzerListResultDeserializer(result.body);
+}
+
+/** Lists all connection analyzers in the specified network watcher. */
+export function connectionAnalyzersList(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  options: NetworkWatchersConnectionAnalyzersListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ConnectionAnalyzer> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _connectionAnalyzersListSend(context, resourceGroupName, networkWatcherName, options),
+    _connectionAnalyzersListDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
+  );
+}
+
+export function _connectionAnalyzersUpdateTagsSend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  body: TagsObject,
+  options: NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      connectionAnalyzerName: connectionAnalyzerName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: tagsObjectSerializer(body),
+  });
+}
+
+export async function _connectionAnalyzersUpdateTagsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConnectionAnalyzer> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return connectionAnalyzerDeserializer(result.body);
+}
+
+/** Updates the tags of the specified connection analyzer. */
+export async function connectionAnalyzersUpdateTags(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  body: TagsObject,
+  options: NetworkWatchersConnectionAnalyzersUpdateTagsOptionalParams = { requestOptions: {} },
+): Promise<ConnectionAnalyzer> {
+  const result = await _connectionAnalyzersUpdateTagsSend(
+    context,
+    resourceGroupName,
+    networkWatcherName,
+    connectionAnalyzerName,
+    body,
+    options,
+  );
+  return _connectionAnalyzersUpdateTagsDeserialize(result);
+}
+
+export function _connectionAnalyzersDeleteSend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      connectionAnalyzerName: connectionAnalyzerName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _connectionAnalyzersDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes the specified connection analyzer. */
+export function connectionAnalyzersDelete(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _connectionAnalyzersDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _connectionAnalyzersDeleteSend(
+          context,
+          resourceGroupName,
+          networkWatcherName,
+          connectionAnalyzerName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: "2025-09-01",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
+
+export function _connectionAnalyzersGetSend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      connectionAnalyzerName: connectionAnalyzerName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _connectionAnalyzersGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConnectionAnalyzer> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return connectionAnalyzerDeserializer(result.body);
+}
+
+/** Gets the specified connection analyzer by name. */
+export async function connectionAnalyzersGet(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  options: NetworkWatchersConnectionAnalyzersGetOptionalParams = { requestOptions: {} },
+): Promise<ConnectionAnalyzer> {
+  const result = await _connectionAnalyzersGetSend(
+    context,
+    resourceGroupName,
+    networkWatcherName,
+    connectionAnalyzerName,
+    options,
+  );
+  return _connectionAnalyzersGetDeserialize(result);
+}
+
+export function _connectionAnalyzersCreateSend(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  body: ConnectionAnalyzer,
+  options: NetworkWatchersConnectionAnalyzersCreateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkWatcherName: networkWatcherName,
+      connectionAnalyzerName: connectionAnalyzerName,
+      "api%2Dversion": "2025-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: connectionAnalyzerSerializer(body),
+  });
+}
+
+export async function _connectionAnalyzersCreateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConnectionAnalyzer> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return connectionAnalyzerDeserializer(result.body);
+}
+
+/** Creates or updates a connection analyzer in the specified network watcher. */
+export function connectionAnalyzersCreate(
+  context: Client,
+  resourceGroupName: string,
+  networkWatcherName: string,
+  connectionAnalyzerName: string,
+  body: ConnectionAnalyzer,
+  options: NetworkWatchersConnectionAnalyzersCreateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<ConnectionAnalyzer>, ConnectionAnalyzer> {
+  return getLongRunningPoller(
+    context,
+    _connectionAnalyzersCreateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _connectionAnalyzersCreateSend(
+          context,
+          resourceGroupName,
+          networkWatcherName,
+          connectionAnalyzerName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: "2025-09-01",
+    },
+  ) as PollerLike<OperationState<ConnectionAnalyzer>, ConnectionAnalyzer>;
+}
+
 export function _getNetworkConfigurationDiagnosticSend(
   context: Client,
   resourceGroupName: string,
@@ -100,7 +515,7 @@ export function _getNetworkConfigurationDiagnosticSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -157,7 +572,7 @@ export function getNetworkConfigurationDiagnostic(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<
     OperationState<NetworkConfigurationDiagnosticResponse>,
@@ -178,7 +593,7 @@ export function _listAvailableProvidersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +643,7 @@ export function listAvailableProviders(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<AvailableProvidersList>, AvailableProvidersList>;
 }
 
@@ -245,7 +660,7 @@ export function _getAzureReachabilityReportSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -299,7 +714,7 @@ export function getAzureReachabilityReport(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<AzureReachabilityReport>, AzureReachabilityReport>;
 }
@@ -317,7 +732,7 @@ export function _checkConnectivitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -361,7 +776,7 @@ export function checkConnectivity(
     getInitialResponse: () =>
       _checkConnectivitySend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ConnectivityInformation>, ConnectivityInformation>;
 }
 
@@ -378,7 +793,7 @@ export function _getFlowLogStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +837,7 @@ export function getFlowLogStatus(
     getInitialResponse: () =>
       _getFlowLogStatusSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<FlowLogInformation>, FlowLogInformation>;
 }
 
@@ -439,7 +854,7 @@ export function _setFlowLogConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -489,7 +904,7 @@ export function setFlowLogConfiguration(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<FlowLogInformation>, FlowLogInformation>;
 }
 
@@ -506,7 +921,7 @@ export function _getTroubleshootingResultSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,7 +975,7 @@ export function getTroubleshootingResult(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-07-01",
+      apiVersion: "2025-09-01",
     },
   ) as PollerLike<OperationState<TroubleshootingResult>, TroubleshootingResult>;
 }
@@ -578,7 +993,7 @@ export function _getTroubleshootingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -622,7 +1037,7 @@ export function getTroubleshooting(
     getInitialResponse: () =>
       _getTroubleshootingSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<TroubleshootingResult>, TroubleshootingResult>;
 }
 
@@ -639,7 +1054,7 @@ export function _getVMSecurityRulesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -683,7 +1098,7 @@ export function getVMSecurityRules(
     getInitialResponse: () =>
       _getVMSecurityRulesSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<SecurityGroupViewResult>, SecurityGroupViewResult>;
 }
 
@@ -700,7 +1115,7 @@ export function _getNextHopSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -744,7 +1159,7 @@ export function getNextHop(
     getInitialResponse: () =>
       _getNextHopSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<NextHopResult>, NextHopResult>;
 }
 
@@ -761,7 +1176,7 @@ export function _verifyIPFlowSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -805,7 +1220,7 @@ export function verifyIPFlow(
     getInitialResponse: () =>
       _verifyIPFlowSend(context, resourceGroupName, networkWatcherName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VerificationIPFlowResult>, VerificationIPFlowResult>;
 }
 
@@ -822,7 +1237,7 @@ export function _getTopologySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -876,7 +1291,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -914,7 +1329,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -928,7 +1343,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -967,7 +1382,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -983,7 +1398,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1018,7 +1433,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkWatcherName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1035,7 +1450,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1096,7 +1511,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1156,7 +1571,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkWatcherName: networkWatcherName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -38,7 +38,7 @@ export function _listByVpnGatewaySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,7 @@ export function listByVpnGateway(
     () => _listByVpnGatewaySend(context, resourceGroupName, gatewayName, options),
     _listByVpnGatewayDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -96,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       natRuleName: natRuleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, gatewayName, natRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       natRuleName: natRuleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<VpnGatewayNatRule>, VpnGatewayNatRule>;
 }
 
@@ -222,7 +222,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       gatewayName: gatewayName,
       natRuleName: natRuleName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

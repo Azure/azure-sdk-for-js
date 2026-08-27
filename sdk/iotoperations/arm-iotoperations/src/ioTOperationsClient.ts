@@ -47,14 +47,7 @@ export class IoTOperationsClient {
     subscriptionId: string,
     options: IoTOperationsClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createIoTOperations(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createIoTOperations(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.akriService = _getAkriServiceOperations(this._client);
     this.akriConnector = _getAkriConnectorOperations(this._client);

@@ -10,30 +10,27 @@ export interface ScenarioConfigurationsFixResourcePermissionsOptionalParams exte
   updateIntervalInMs?: number;
   body?: FixResourcePermissionsRequest;
 }
-
 /** Optional parameters. */
 export interface ScenarioConfigurationsValidateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
-export interface ScenarioConfigurationsExecuteOptionalParams extends OperationOptions {}
-
+export interface ScenarioConfigurationsExecuteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 /** Optional parameters. */
 export interface ScenarioConfigurationsListAllOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface ScenarioConfigurationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ScenarioConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface ScenarioConfigurationsGetOptionalParams extends OperationOptions {}

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a ElasticBackup
  *
  * @summary delete a ElasticBackup
- * x-ms-original-file: 2026-04-15-preview/ElasticBackups_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackups_Delete.json
  */
 async function elasticBackupsDelete() {
   const credential = new DefaultAzureCredential();

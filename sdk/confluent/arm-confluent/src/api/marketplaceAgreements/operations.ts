@@ -30,7 +30,7 @@ export function _createSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -40,9 +40,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"]
-      ? options["body"]
-      : confluentAgreementResourceSerializer(options["body"]),
+    body: !options?.body ? options?.body : confluentAgreementResourceSerializer(options?.body),
   });
 }
 
@@ -52,14 +50,15 @@ export async function _createDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return confluentAgreementResourceDeserializer(result.body);
 }
-
 /** Create Confluent Marketplace agreement in the subscription. */
 export async function create(
   context: Client,
@@ -77,7 +76,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-18-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,14 +94,15 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _confluentAgreementResourceListResponseDeserializer(result.body);
 }
-
 /** List Confluent marketplace agreements in the subscription. */
 export function list(
   context: Client,
@@ -116,7 +116,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-18-preview",
+      apiVersion: context.apiVersion ?? "2026-06-02-preview",
     },
   );
 }

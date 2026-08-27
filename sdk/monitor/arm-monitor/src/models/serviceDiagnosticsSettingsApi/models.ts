@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { RetentionPolicy } from "../microsoft/common/models.js";
-import {
-  retentionPolicySerializer,
-  retentionPolicyDeserializer,
-} from "../microsoft/common/models.js";
-import type { MetricSettings } from "../microsoft/insightsCombinedClient/models.js";
-import {
-  metricSettingsArraySerializer,
-  metricSettingsArrayDeserializer,
-} from "../microsoft/insightsCombinedClient/models.js";
-import type { ExtensionResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { MetricSettings, LogSettings } from "../diagnosticsSettings/models.js";
+import {
+  metricSettingsArraySerializer,
+  metricSettingsArrayDeserializer,
+  logSettingsArraySerializer,
+  logSettingsArrayDeserializer,
+} from "../diagnosticsSettings/models.js";
+import type { ExtensionResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Description of a service diagnostic setting */
 export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
   /** Resource location */
@@ -115,48 +112,6 @@ export function serviceDiagnosticSettingsDeserializer(item: any): ServiceDiagnos
     metrics: !item["metrics"] ? item["metrics"] : metricSettingsArrayDeserializer(item["metrics"]),
     logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer(item["logs"]),
     workspaceId: item["workspaceId"],
-  };
-}
-
-export function logSettingsArraySerializer(result: Array<LogSettings>): any[] {
-  return result.map((item) => {
-    return logSettingsSerializer(item);
-  });
-}
-
-export function logSettingsArrayDeserializer(result: Array<LogSettings>): any[] {
-  return result.map((item) => {
-    return logSettingsDeserializer(item);
-  });
-}
-
-/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log. */
-export interface LogSettings {
-  /** Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
-  category?: string;
-  /** a value indicating whether this log is enabled. */
-  enabled: boolean;
-  /** the retention policy for this log. */
-  retentionPolicy?: RetentionPolicy;
-}
-
-export function logSettingsSerializer(item: LogSettings): any {
-  return {
-    category: item["category"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : retentionPolicySerializer(item["retentionPolicy"]),
-  };
-}
-
-export function logSettingsDeserializer(item: any): LogSettings {
-  return {
-    category: item["category"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 

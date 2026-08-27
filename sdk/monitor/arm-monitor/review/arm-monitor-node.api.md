@@ -36,7 +36,6 @@ export interface AccessModeSettingsExclusion {
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -46,7 +45,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -560,6 +558,9 @@ export interface BaselinesOperations {
 }
 
 // @public
+export type CategoryType = string;
+
+// @public
 export interface ColumnDefinition {
     name?: string;
     type?: KnownColumnDefinitionType;
@@ -621,6 +622,11 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type CriterionType = string;
@@ -935,6 +941,11 @@ export interface DataCollectionRulesUpdateOptionalParams extends OperationOption
 }
 
 // @public
+export interface DataContainer {
+    workspace: WorkspaceInfo;
+}
+
+// @public
 export interface DataFlow {
     builtInTransform?: string;
     captureOverflow?: boolean;
@@ -977,6 +988,9 @@ export interface DataSourcesSpecDataImports extends DataImportSources {
 }
 
 // @public
+export type DataStatus = string;
+
+// @public
 export interface DestinationsSpec {
     azureDataExplorer?: AdxDestination[];
     azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
@@ -992,6 +1006,82 @@ export interface DestinationsSpec {
 
 // @public
 export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {
+}
+
+// @public
+export interface DiagnosticSettings {
+    eventHubAuthorizationRuleId?: string;
+    eventHubName?: string;
+    logAnalyticsDestinationType?: string;
+    logs?: LogSettings[];
+    marketplacePartnerId?: string;
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
+}
+
+// @public
+export interface DiagnosticSettingsCategory {
+    categoryGroups?: string[];
+    categoryType?: CategoryType;
+}
+
+// @public
+export interface DiagnosticSettingsCategoryGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsCategoryListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsCategoryOperations {
+    get: (resourceUri: string, name: string, options?: DiagnosticSettingsCategoryGetOptionalParams) => Promise<DiagnosticSettingsCategoryResource>;
+    list: (resourceUri: string, options?: DiagnosticSettingsCategoryListOptionalParams) => PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource>;
+}
+
+// @public
+export interface DiagnosticSettingsCategoryResource extends ExtensionResource {
+    categoryGroups?: string[];
+    categoryType?: CategoryType;
+}
+
+// @public
+export interface DiagnosticSettingsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiagnosticSettingsOperations {
+    createOrUpdate: (resourceUri: string, name: string, parameters: DiagnosticSettingsResource, options?: DiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<DiagnosticSettingsResource>;
+    delete: (resourceUri: string, name: string, options?: DiagnosticSettingsDeleteOptionalParams) => Promise<void>;
+    get: (resourceUri: string, name: string, options?: DiagnosticSettingsGetOptionalParams) => Promise<DiagnosticSettingsResource>;
+    list: (resourceUri: string, options?: DiagnosticSettingsListOptionalParams) => PagedAsyncIterableIterator<DiagnosticSettingsResource>;
+}
+
+// @public
+export interface DiagnosticSettingsResource extends ExtensionResource {
+    eventHubAuthorizationRuleId?: string;
+    eventHubName?: string;
+    logAnalyticsDestinationType?: string;
+    logs?: LogSettings[];
+    marketplacePartnerId?: string;
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
 }
 
 // @public
@@ -1094,6 +1184,12 @@ export interface ErrorDetail {
 export interface ErrorDetailAdditionalInfoItem {
     info?: Record<string, any>;
     type?: string;
+}
+
+// @public
+export interface ErrorModel {
+    code: string;
+    message?: string;
 }
 
 // @public
@@ -1223,6 +1319,10 @@ export interface FailoverConfigurationSpec {
 }
 
 // @public
+export interface GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface HttpRequestInfo {
     clientIpAddress?: string;
     clientRequestId?: string;
@@ -1348,6 +1448,12 @@ export enum KnownBaselineSensitivity {
 }
 
 // @public
+export enum KnownCategoryType {
+    Logs = "Logs",
+    Metrics = "Metrics"
+}
+
+// @public
 export type KnownColumnDefinitionType = string;
 
 // @public
@@ -1391,6 +1497,12 @@ export type KnownDataCollectionRuleResourceKind = string;
 
 // @public
 export type KnownDataFlowStreams = string;
+
+// @public
+export enum KnownDataStatus {
+    NotPresent = "notPresent",
+    Present = "present"
+}
 
 // @public
 export enum KnownDimensionOperator {
@@ -1766,6 +1878,13 @@ export enum KnownOdatatype {
 }
 
 // @public
+export enum KnownOnboardingStatus {
+    NotOnboarded = "notOnboarded",
+    Onboarded = "onboarded",
+    Unknown = "unknown"
+}
+
+// @public
 export enum KnownOperator {
     Equals = "Equals",
     GreaterThan = "GreaterThan",
@@ -1997,6 +2116,7 @@ export interface LogProfilesUpdateOptionalParams extends OperationOptions {
 // @public
 export interface LogSettings {
     category?: string;
+    categoryGroup?: string;
     enabled: boolean;
     retentionPolicy?: RetentionPolicy;
 }
@@ -2460,10 +2580,18 @@ export class MonitorClient {
     readonly alertRuleIncidents: AlertRuleIncidentsOperations;
     readonly autoscaleSettings: AutoscaleSettingsOperations;
     readonly baselines: BaselinesOperations;
+    // @deprecated (undocumented)
+    beginCreateNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<SimplePollerLike<OperationState<TenantActionGroupTestNotificationDetailsResponse>, TenantActionGroupTestNotificationDetailsResponse>>;
+    // @deprecated (undocumented)
+    beginCreateNotificationsAtTenantActionGroupResourceLevelAndWait(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<TenantActionGroupTestNotificationDetailsResponse>;
+    createNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): PollerLike<OperationState<TenantActionGroupTestNotificationDetailsResponse>, TenantActionGroupTestNotificationDetailsResponse>;
     readonly dataCollectionEndpoints: DataCollectionEndpointsOperations;
     readonly dataCollectionRuleAssociations: DataCollectionRuleAssociationsOperations;
     readonly dataCollectionRules: DataCollectionRulesOperations;
+    readonly diagnosticSettings: DiagnosticSettingsOperations;
+    readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
     readonly eventCategories: EventCategoriesOperations;
+    getTestNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, notificationId: string, xMsClientTenantId: string, options?: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<TenantActionGroupTestNotificationDetailsResponse>;
     readonly logProfiles: LogProfilesOperations;
     readonly metricAlerts: MetricAlertsOperations;
     readonly metricAlertsStatus: MetricAlertsStatusOperations;
@@ -2480,7 +2608,9 @@ export class MonitorClient {
     readonly scheduledQueryRule: ScheduledQueryRuleOperations;
     readonly scheduledQueryRules: ScheduledQueryRulesOperations;
     readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
+    readonly tenantActionGroups: TenantActionGroupsOperations;
     readonly tenantActivityLogs: TenantActivityLogsOperations;
+    readonly vMInsights: vMInsightsOperations;
 }
 
 // @public
@@ -2537,20 +2667,15 @@ export interface NetworkSecurityPerimeter {
 
 // @public
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-    // (undocumented)
     properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -2585,6 +2710,9 @@ export interface NotificationRequestBody {
 
 // @public
 export type Odatatype = string;
+
+// @public
+export type OnboardingStatus = string;
 
 // @public
 export interface OperationStatus {
@@ -2750,6 +2878,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -2762,6 +2891,7 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -2956,7 +3086,6 @@ export interface PromQLCriteria extends MetricAlertCriteria {
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -3024,7 +3153,6 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
@@ -3052,6 +3180,11 @@ interface Response_2 {
     value: Metric[];
 }
 export { Response_2 as Response }
+
+// @public
+export interface ResponseWithError {
+    error: ErrorModel;
+}
 
 export { RestError }
 
@@ -3490,6 +3623,93 @@ export interface TagsResource {
 }
 
 // @public
+export interface TenantActionGroup {
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    emailReceivers?: EmailReceiver[];
+    enabled: boolean;
+    groupShortName: string;
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: TenantActionGroupWebhookReceiver[];
+}
+
+// @public
+export interface TenantActionGroupActionDetail {
+    mechanismType?: string;
+    message?: string;
+    name?: string;
+    sendTime?: string;
+    status?: string;
+    subState?: string;
+}
+
+// @public
+export interface TenantActionGroupPatchBody {
+    enabled?: boolean;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface TenantActionGroupResource extends TrackedResource {
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    emailReceivers?: EmailReceiver[];
+    enabled?: boolean;
+    groupShortName?: string;
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: TenantActionGroupWebhookReceiver[];
+}
+
+// @public
+export interface TenantActionGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsListByManagementGroupIdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsOperations {
+    createOrUpdate: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, actionGroup: TenantActionGroupResource, options?: TenantActionGroupsCreateOrUpdateOptionalParams) => Promise<TenantActionGroupResource>;
+    delete: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, options?: TenantActionGroupsDeleteOptionalParams) => Promise<void>;
+    get: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, options?: TenantActionGroupsGetOptionalParams) => Promise<TenantActionGroupResource>;
+    listByManagementGroupId: (managementGroupId: string, xMsClientTenantId: string, options?: TenantActionGroupsListByManagementGroupIdOptionalParams) => PagedAsyncIterableIterator<TenantActionGroupResource>;
+    update: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, tenantActionGroupPatch: TenantActionGroupPatchBody, options?: TenantActionGroupsUpdateOptionalParams) => Promise<TenantActionGroupResource>;
+}
+
+// @public
+export interface TenantActionGroupsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupTestNotificationDetailsResponse {
+    actionDetails?: TenantActionGroupActionDetail[];
+    completedTime?: string;
+    context?: Context;
+    createdTime?: string;
+    state: string;
+}
+
+// @public
+export interface TenantActionGroupWebhookReceiver {
+    identifierUri?: string;
+    name: string;
+    objectId?: string;
+    serviceUri: string;
+    tenantId?: string;
+    useAadAuth?: boolean;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
 export interface TenantActivityLogsListOptionalParams extends OperationOptions {
     filter?: string;
     select?: string;
@@ -3498,6 +3718,16 @@ export interface TenantActivityLogsListOptionalParams extends OperationOptions {
 // @public
 export interface TenantActivityLogsOperations {
     list: (options?: TenantActivityLogsListOptionalParams) => PagedAsyncIterableIterator<EventData>;
+}
+
+// @public
+export interface TenantNotificationRequestBody {
+    alertType: string;
+    azureAppPushReceivers?: AzureAppPushReceiver[];
+    emailReceivers?: EmailReceiver[];
+    smsReceivers?: SmsReceiver[];
+    voiceReceivers?: VoiceReceiver[];
+    webhookReceivers?: TenantActionGroupWebhookReceiver[];
 }
 
 // @public
@@ -3556,6 +3786,31 @@ export interface UserIdentityProperties {
 }
 
 // @public
+export interface vMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface VMInsightsOnboardingStatus extends ExtensionResource {
+    data?: DataContainer[];
+    dataStatus?: DataStatus;
+    onboardingStatus?: OnboardingStatus;
+    resourceId?: string;
+}
+
+// @public
+export interface VMInsightsOnboardingStatusProperties {
+    data?: DataContainer[];
+    dataStatus: DataStatus;
+    onboardingStatus: OnboardingStatus;
+    resourceId: string;
+}
+
+// @public
+export interface vMInsightsOperations {
+    getOnboardingStatus: (resourceUri: string, options?: vMInsightsGetOnboardingStatusOptionalParams) => Promise<VMInsightsOnboardingStatus>;
+}
+
+// @public
 export interface VoiceReceiver {
     countryCode: string;
     name: string;
@@ -3601,6 +3856,18 @@ export interface WindowsFirewallLogsDataSource {
     name?: string;
     profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
     streams: string[];
+}
+
+// @public
+export interface WorkspaceInfo {
+    customerId: string;
+    id: string;
+    location: string;
+}
+
+// @public
+export interface WorkspaceInfoProperties {
+    customerId: string;
 }
 
 // (No @packageDocumentation comment for this package)

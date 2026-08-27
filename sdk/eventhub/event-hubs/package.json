@@ -106,7 +106,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/keyvault-secrets": "^4.9.0",
-    "@rollup/plugin-inject": "catalog:testing",
     "@types/chai-as-promised": "catalog:testing",
     "@types/debug": "^4.1.12",
     "@types/node": "catalog:",

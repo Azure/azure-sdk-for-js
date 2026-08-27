@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to performs an adhoc replication transfer on a volume with volumeType Migration
  *
  * @summary performs an adhoc replication transfer on a volume with volumeType Migration
- * x-ms-original-file: 2026-04-15-preview/Volumes_PerformReplicationTransfer.json
+ * x-ms-original-file: 2026-06-15-preview/Volumes_PerformReplicationTransfer.json
  */
 async function volumesPerformReplicationTransfer() {
   const credential = new DefaultAzureCredential();

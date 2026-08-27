@@ -38,7 +38,7 @@ export function _listByVaultSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       backupVaultName: backupVaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -82,7 +82,7 @@ export function listByVault(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -103,7 +103,7 @@ export function _$deleteSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, backupVaultName, backupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +162,7 @@ export function _updateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -235,7 +235,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +289,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<ElasticBackup>, ElasticBackup>;
 }
 
@@ -309,7 +309,7 @@ export function _getSend(
       accountName: accountName,
       backupVaultName: backupVaultName,
       backupName: backupName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

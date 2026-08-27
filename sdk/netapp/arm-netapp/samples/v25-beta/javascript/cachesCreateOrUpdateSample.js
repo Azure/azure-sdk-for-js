@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update the specified Cache within the Capacity Pool
  *
  * @summary create or update the specified Cache within the Capacity Pool
- * x-ms-original-file: 2026-04-15-preview/Caches_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/Caches_CreateOrUpdate.json
  */
 async function cachesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

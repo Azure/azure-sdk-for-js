@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified elastic volume
  *
  * @summary patch the specified elastic volume
- * x-ms-original-file: 2026-04-15-preview/ElasticVolumes_Update.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticVolumes_Update.json
  */
 async function elasticVolumesUpdate() {
   const credential = new DefaultAzureCredential();

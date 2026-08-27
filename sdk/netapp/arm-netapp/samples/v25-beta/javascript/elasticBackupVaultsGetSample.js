@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the Elastic Backup Vault
  *
  * @summary get the Elastic Backup Vault
- * x-ms-original-file: 2026-04-15-preview/ElasticBackupVaults_Get.json
+ * x-ms-original-file: 2026-06-15-preview/ElasticBackupVaults_Get.json
  */
 async function elasticBackupVaultsGet() {
   const credential = new DefaultAzureCredential();
