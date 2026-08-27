@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to attach resources to the scheduled action so they are included in future occurrences.
+ * This sample demonstrates how to adds resources to the specified scheduled action.
  *
- * @summary attach resources to the scheduled action so they are included in future occurrences.
+ * @summary adds resources to the specified scheduled action.
  * x-ms-original-file: 2026-08-06-preview/ScheduledActions_AttachResources_MaximumSet_Gen.json
  */
-async function scheduledActionsAttachResourcesMaximumSet() {
+async function addResourcesToAScheduledAction() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -18,7 +18,14 @@ async function scheduledActionsAttachResourcesMaximumSet() {
     resources: [
       {
         resourceId:
-          "/subscriptions/1d04e8f1-ee04-4056-b0b2-718f5bb45b04/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachines/myVm",
+          "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm",
+        notificationSettings: [
+          { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
+        ],
+      },
+      {
+        resourceId:
+          "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm2",
         notificationSettings: [
           { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
         ],
@@ -29,7 +36,7 @@ async function scheduledActionsAttachResourcesMaximumSet() {
 }
 
 async function main() {
-  await scheduledActionsAttachResourcesMaximumSet();
+  await addResourcesToAScheduledAction();
 }
 
 main().catch(console.error);

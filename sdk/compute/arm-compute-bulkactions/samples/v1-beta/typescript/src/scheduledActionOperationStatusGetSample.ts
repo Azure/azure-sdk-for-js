@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint.
+ * This sample demonstrates how to gets the status of the specified scheduled action operation.
  *
- * @summary get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint.
+ * @summary gets the status of the specified scheduled action operation.
  * x-ms-original-file: 2026-08-06-preview/ScheduledActionOperationStatus_Get_MaximumSet_Gen.json
  */
-async function scheduledActionOperationStatusGetMaximumSet(): Promise<void> {
+async function getScheduledActionOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function scheduledActionOperationStatusGetMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await scheduledActionOperationStatusGetMaximumSet();
+  await getScheduledActionOperationStatus();
 }
 
 main().catch(console.error);

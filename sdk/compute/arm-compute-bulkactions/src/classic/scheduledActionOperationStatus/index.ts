@@ -8,7 +8,7 @@ import type { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a ScheduledActionOperationStatus operations. */
 export interface ScheduledActionOperationStatusOperations {
-  /** Get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint. */
+  /** Gets the status of the specified scheduled action operation. */
   get: (
     location: string,
     operationId: string,

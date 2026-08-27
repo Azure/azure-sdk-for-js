@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to a synchronous resource action.
+ * This sample demonstrates how to updates resource-specific settings for the specified scheduled action.
  *
- * @summary a synchronous resource action.
+ * @summary updates resource-specific settings for the specified scheduled action.
  * x-ms-original-file: 2026-08-06-preview/ScheduledActions_PatchResources_MaximumSet_Gen.json
  */
-async function scheduledActionsPatchResourcesMaximumSet(): Promise<void> {
+async function updateResourceSettingsForAScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -18,7 +18,14 @@ async function scheduledActionsPatchResourcesMaximumSet(): Promise<void> {
     resources: [
       {
         resourceId:
-          "/subscriptions/1d04e8f1-ee04-4056-b0b2-718f5bb45b04/resourceGroups/myRg/providers/Microsoft.Compute/virtualMachines/myVm",
+          "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm",
+        notificationSettings: [
+          { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
+        ],
+      },
+      {
+        resourceId:
+          "/subscriptions/CB26D7CB-3E27-465F-99C8-EAF7A4118245/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/myVm2",
         notificationSettings: [
           { destination: "admin@contoso.com", type: "Email", language: "en-us", disabled: true },
         ],
@@ -29,7 +36,7 @@ async function scheduledActionsPatchResourcesMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsPatchResourcesMaximumSet();
+  await updateResourceSettingsForAScheduledAction();
 }
 
 main().catch(console.error);

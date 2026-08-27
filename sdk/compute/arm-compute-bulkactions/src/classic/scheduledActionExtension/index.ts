@@ -9,7 +9,7 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a ScheduledActionExtension operations. */
 export interface ScheduledActionExtensionOperations {
-  /** List ScheduledActionResources resources by parent */
+  /** Lists scheduled actions associated with the specified VM. */
   listByVms: (
     resourceUri: string,
     options?: ScheduledActionExtensionListByVmsOptionalParams,

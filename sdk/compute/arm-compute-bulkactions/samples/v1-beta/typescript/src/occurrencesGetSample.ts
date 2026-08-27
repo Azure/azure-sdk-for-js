@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a Occurrence
+ * This sample demonstrates how to gets the specified occurrence.
  *
- * @summary get a Occurrence
+ * @summary gets the specified occurrence.
  * x-ms-original-file: 2026-08-06-preview/Occurrences_Get_MaximumSet_Gen.json
  */
-async function occurrencesGetMaximumSet(): Promise<void> {
+async function getAScheduledActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function occurrencesGetMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await occurrencesGetMaximumSet();
+  await getAScheduledActionOccurrence();
 }
 
 main().catch(console.error);

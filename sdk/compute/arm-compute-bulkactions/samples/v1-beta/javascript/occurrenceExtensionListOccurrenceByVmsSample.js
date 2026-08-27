@@ -5,12 +5,12 @@ const { ComputeClient } = require("@azure/arm-compute-bulkactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list OccurrenceExtensionResource resources by parent
+ * This sample demonstrates how to lists scheduled action occurrences associated with the specified VM.
  *
- * @summary list OccurrenceExtensionResource resources by parent
+ * @summary lists scheduled action occurrences associated with the specified VM.
  * x-ms-original-file: 2026-08-06-preview/OccurrenceExtension_ListOccurrenceByVms_MaximumSet_Gen.json
  */
-async function occurrenceExtensionListOccurrenceByVmsMaximumSetGeneratedByMaximumSetRule() {
+async function listScheduledActionOccurrencesForAComputeResource() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeClient(credential);
   const resArray = new Array();
@@ -24,7 +24,7 @@ async function occurrenceExtensionListOccurrenceByVmsMaximumSetGeneratedByMaximu
 }
 
 async function main() {
-  await occurrenceExtensionListOccurrenceByVmsMaximumSetGeneratedByMaximumSetRule();
+  await listScheduledActionOccurrencesForAComputeResource();
 }
 
 main().catch(console.error);

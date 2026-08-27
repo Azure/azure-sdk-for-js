@@ -52,7 +52,7 @@ export async function _getDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Get the status of a ScheduledActions asynchronous operation. Both the `Azure-AsyncOperation` and `Location` headers returned by long-running operations point at this endpoint. */
+/** Gets the status of the specified scheduled action operation. */
 export async function get(
   context: Client,
   location: string,

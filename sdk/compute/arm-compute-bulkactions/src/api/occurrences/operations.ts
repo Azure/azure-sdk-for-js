@@ -80,7 +80,7 @@ export async function _delayDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Delay the occurrence to a later time. */
+/** Delays the specified occurrence for the specified resource IDs. */
 export function delay(
   context: Client,
   resourceGroupName: string,
@@ -144,7 +144,7 @@ export async function _cancelDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Cancel the occurrence so its pending operations do not run. */
+/** Cancels the specified occurrence for the specified resource IDs. */
 export function cancel(
   context: Client,
   resourceGroupName: string,
@@ -205,7 +205,7 @@ export async function _listResourcesDeserialize(
   return _occurrenceResourceListResponseDeserializer(result.body);
 }
 
-/** List resources attached to Scheduled Actions for the given occurrence */
+/** Lists resources for the specified occurrence. */
 export function listResources(
   context: Client,
   resourceGroupName: string,
@@ -267,7 +267,7 @@ export async function _listByScheduledActionDeserialize(
   return _occurrenceListResultDeserializer(result.body);
 }
 
-/** List Occurrence resources by ScheduledAction */
+/** Lists occurrences for the specified scheduled action. */
 export function listByScheduledAction(
   context: Client,
   resourceGroupName: string,
@@ -327,7 +327,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Oc
   return occurrenceDeserializer(result.body);
 }
 
-/** Get a Occurrence */
+/** Gets the specified occurrence. */
 export async function get(
   context: Client,
   resourceGroupName: string,

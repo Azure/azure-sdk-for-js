@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2026-08-21)
+## 1.0.0-beta.3 (2026-08-27)
 Compared with version 1.0.0-beta.1
 
 ### Features Added

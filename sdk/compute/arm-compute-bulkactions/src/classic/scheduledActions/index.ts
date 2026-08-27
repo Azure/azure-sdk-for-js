@@ -50,88 +50,88 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
-  /** Trigger a manual occurrence of the scheduled action immediately, outside its normal schedule. */
+  /** Runs the specified scheduled action immediately. */
   triggerManualOccurrence: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ) => PollerLike<OperationState<Occurrence>, Occurrence>;
-  /** Cancel the next scheduled occurrence of the scheduled action. */
+  /** Cancels the next occurrence of the specified scheduled action. */
   cancelNextOccurrence: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: CancelOccurrenceRequest,
     options?: ScheduledActionsCancelNextOccurrenceOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Enable a previously disabled scheduled action so its future occurrences run. */
+  /** Enables the specified scheduled action so new occurrences run. */
   enable: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsEnableOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Disable the scheduled action so its future occurrences do not run. */
+  /** Disables the specified scheduled action so future occurrences do not run. */
   disable: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsDisableOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** A synchronous resource action. */
+  /** Updates resource-specific settings for the specified scheduled action. */
   patchResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourcePatchRequest,
     options?: ScheduledActionsPatchResourcesOptionalParams,
   ) => Promise<ResourceOperationResponse>;
-  /** Detach resources from the scheduled action so they are excluded from future occurrences. */
+  /** Removes resources from the specified scheduled action. */
   detachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourceDetachRequest,
     options?: ScheduledActionsDetachResourcesOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Attach resources to the scheduled action so they are included in future occurrences. */
+  /** Adds resources to the specified scheduled action. */
   attachResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     body: ResourceAttachRequest,
     options?: ScheduledActionsAttachResourcesOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** List resources attached to Scheduled Actions */
+  /** Lists resources associated with the specified scheduled action. */
   listResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsListResourcesOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledActionResource>;
-  /** List ScheduledAction resources by subscription ID */
+  /** Lists scheduled actions in the specified subscription. */
   listBySubscription: (
     options?: ScheduledActionsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledAction>;
-  /** List ScheduledAction resources by resource group */
+  /** Lists scheduled actions in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: ScheduledActionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduledAction>;
-  /** Delete a ScheduledAction */
+  /** Deletes the specified scheduled action. */
   delete: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: ScheduledActionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update a ScheduledAction */
+  /** Updates the specified scheduled action. */
   update: (
     resourceGroupName: string,
     scheduledActionName: string,
     properties: ScheduledActionUpdate,
     options?: ScheduledActionsUpdateOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Create a ScheduledAction */
+  /** Creates or updates a scheduled action. */
   createOrUpdate: (
     resourceGroupName: string,
     scheduledActionName: string,
     resource: ScheduledAction,
     options?: ScheduledActionsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
-  /** Get a ScheduledAction */
+  /** Gets the specified scheduled action. */
   get: (
     resourceGroupName: string,
     scheduledActionName: string,

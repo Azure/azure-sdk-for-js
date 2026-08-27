@@ -28,7 +28,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Occurrences operations. */
 export interface OccurrencesOperations {
-  /** Delay the occurrence to a later time. */
+  /** Delays the specified occurrence for the specified resource IDs. */
   delay: (
     resourceGroupName: string,
     scheduledActionName: string,
@@ -36,7 +36,7 @@ export interface OccurrencesOperations {
     body: DelayRequest,
     options?: OccurrencesDelayOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** Cancel the occurrence so its pending operations do not run. */
+  /** Cancels the specified occurrence for the specified resource IDs. */
   cancel: (
     resourceGroupName: string,
     scheduledActionName: string,
@@ -44,20 +44,20 @@ export interface OccurrencesOperations {
     body: CancelOccurrenceRequest,
     options?: OccurrencesCancelOptionalParams,
   ) => PollerLike<OperationState<ResourceOperationResponse>, ResourceOperationResponse>;
-  /** List resources attached to Scheduled Actions for the given occurrence */
+  /** Lists resources for the specified occurrence. */
   listResources: (
     resourceGroupName: string,
     scheduledActionName: string,
     occurrenceId: string,
     options?: OccurrencesListResourcesOptionalParams,
   ) => PagedAsyncIterableIterator<OccurrenceResource>;
-  /** List Occurrence resources by ScheduledAction */
+  /** Lists occurrences for the specified scheduled action. */
   listByScheduledAction: (
     resourceGroupName: string,
     scheduledActionName: string,
     options?: OccurrencesListByScheduledActionOptionalParams,
   ) => PagedAsyncIterableIterator<Occurrence>;
-  /** Get a Occurrence */
+  /** Gets the specified occurrence. */
   get: (
     resourceGroupName: string,
     scheduledActionName: string,

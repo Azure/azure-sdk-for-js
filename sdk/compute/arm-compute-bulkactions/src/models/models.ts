@@ -234,24 +234,24 @@ export function executionParametersDeserializer(item: any): ExecutionParameters 
   };
 }
 
-/** The preferences customers can select to optimize their requests to ScheduledActions */
+/** The preferred optimization goal for scheduled action operations. */
 export enum KnownOptimizationPreference {
-  /** Optimize while considering cost savings */
+  /** Prioritizes cost savings. */
   Cost = "Cost",
-  /** Optimize while considering availability of resources */
+  /** Prioritizes resource availability. */
   Availability = "Availability",
-  /** Optimize while considering a balance of cost and availability */
+  /** Balances cost savings and resource availability. */
   CostAvailabilityBalanced = "CostAvailabilityBalanced",
 }
 
 /**
- * The preferences customers can select to optimize their requests to ScheduledActions \
+ * The preferred optimization goal for scheduled action operations. \
  * {@link KnownOptimizationPreference} can be used interchangeably with OptimizationPreference,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Cost**: Optimize while considering cost savings \
- * **Availability**: Optimize while considering availability of resources \
- * **CostAvailabilityBalanced**: Optimize while considering a balance of cost and availability
+ * **Cost**: Prioritizes cost savings. \
+ * **Availability**: Prioritizes resource availability. \
+ * **CostAvailabilityBalanced**: Balances cost savings and resource availability.
  */
 export type OptimizationPreference = string;
 
@@ -6117,7 +6117,7 @@ export function locationBasedBulkCreateCustomArrayDeserializer(
   });
 }
 
-/** The scheduled action resource */
+/** A recurring action that operates on specified compute resources. */
 export interface ScheduledAction extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: ScheduledActionProperties;
@@ -6151,23 +6151,23 @@ export function scheduledActionDeserializer(item: any): ScheduledAction {
   };
 }
 
-/** Scheduled action properties */
+/** Configuration and status of a scheduled action. */
 export interface ScheduledActionProperties {
-  /** The type of resource the scheduled action is targeting */
+  /** The type of compute resource targeted by the action. */
   resourceType: ResourceType;
-  /** The action the scheduled action should perform in the resources */
+  /** The operation performed on the targeted resources. */
   actionType: ScheduledActionType;
-  /** The time which the scheduled action is supposed to start running */
+  /** The date and time, including UTC offset, when the schedule becomes active. */
   startTime: string;
-  /** The time when the scheduled action is supposed to stop scheduling */
+  /** The date and time, including UTC offset, after which no new occurrences are scheduled. */
   endTime?: string;
-  /** The schedule the scheduled action is supposed to follow */
+  /** The recurring schedule. */
   schedule: ScheduledActionsSchedule;
-  /** The notification settings for the scheduled action */
+  /** Notification settings that apply to the scheduled action. */
   notificationSettings: NotificationProperties[];
-  /** Tell if the scheduled action is disabled or not */
+  /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
-  /** The status of the last provisioning operation performed on the resource. */
+  /** Read-only. The provisioning state of the scheduled action. */
   readonly provisioningState?: ScheduledActionsProvisioningState;
 }
 
@@ -6196,60 +6196,60 @@ export function scheduledActionPropertiesDeserializer(item: any): ScheduledActio
   };
 }
 
-/** The type of resource being targeted */
+/** The type of compute resource targeted by the scheduled action. */
 export enum KnownResourceType {
-  /** Resources defined are Virtual Machines */
+  /** Azure virtual machines. */
   VirtualMachine = "VirtualMachine",
-  /** Resources defined are Virtual Machines Scale Sets */
+  /** Azure Virtual Machine Scale Sets. */
   VirtualMachineScaleSet = "VirtualMachineScaleSet",
 }
 
 /**
- * The type of resource being targeted \
+ * The type of compute resource targeted by the scheduled action. \
  * {@link KnownResourceType} can be used interchangeably with ResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **VirtualMachine**: Resources defined are Virtual Machines \
- * **VirtualMachineScaleSet**: Resources defined are Virtual Machines Scale Sets
+ * **VirtualMachine**: Azure virtual machines. \
+ * **VirtualMachineScaleSet**: Azure Virtual Machine Scale Sets.
  */
 export type ResourceType = string;
 
-/** Specify which action user wants to be performed on the resources */
+/** The operation performed by the scheduled action. */
 export enum KnownScheduledActionType {
-  /** Perform a start action on the specified resources */
+  /** Starts the targeted resources. */
   Start = "Start",
-  /** Perform a deallocate action on the specified resources */
+  /** Deallocates the targeted resources. */
   Deallocate = "Deallocate",
-  /** Perform hibernate and deallocate on the specified resources */
+  /** Hibernates the targeted resources. */
   Hibernate = "Hibernate",
 }
 
 /**
- * Specify which action user wants to be performed on the resources \
+ * The operation performed by the scheduled action. \
  * {@link KnownScheduledActionType} can be used interchangeably with ScheduledActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Start**: Perform a start action on the specified resources \
- * **Deallocate**: Perform a deallocate action on the specified resources \
- * **Hibernate**: Perform hibernate and deallocate on the specified resources
+ * **Start**: Starts the targeted resources. \
+ * **Deallocate**: Deallocates the targeted resources. \
+ * **Hibernate**: Hibernates the targeted resources.
  */
 export type ScheduledActionType = string;
 
-/** Specify the schedule in which the scheduled action is supposed to follow */
+/** The recurring schedule for a scheduled action. */
 export interface ScheduledActionsSchedule {
-  /** The time the scheduled action is supposed to run on */
+  /** The local time of day when the scheduled action runs. */
   scheduledTime: string;
-  /** The timezone the scheduled time is specified on */
+  /** The time zone used to interpret the scheduled time. */
   timeZone: string;
-  /** The week days the scheduled action is supposed to run on. If empty, it means it will run on every week day. */
+  /** The days of the week when the action runs. An empty array means every day of the week. */
   requestedWeekDays?: WeekDay[];
-  /** The months the scheduled action is supposed to run on. If empty, it means it will run on every month. */
+  /** The months when the action runs. An empty array means every month. */
   requestedMonths?: Month[];
-  /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
+  /** The calendar days when the action runs. An empty array means every day of the month. */
   requestedDaysOfTheMonth?: number[];
-  /** The execution parameters the scheduled action is supposed to follow */
+  /** Settings that control operation execution and retries. */
   executionParameters?: ScheduledActionsExecutionParameters;
-  /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
+  /** How the scheduled time is interpreted. The default is `InitiateAt`. */
   deadlineType?: ScheduledActionsDeadlineType;
 }
 
@@ -6305,98 +6305,98 @@ export function scheduledActionsScheduleDeserializer(item: any): ScheduledAction
   };
 }
 
-/** Representation of the possible selection of days in a week in a gregorian calendar */
+/** A day of the week on which the scheduled action can run. */
 export enum KnownWeekDay {
-  /** Monday weekday. */
+  /** The scheduled action can run on Monday. */
   Monday = "Monday",
-  /** Tuesday weekday. */
+  /** The scheduled action can run on Tuesday. */
   Tuesday = "Tuesday",
-  /** Wednesday weekday. */
+  /** The scheduled action can run on Wednesday. */
   Wednesday = "Wednesday",
-  /** Thursday weekday. */
+  /** The scheduled action can run on Thursday. */
   Thursday = "Thursday",
-  /** Friday weekday. */
+  /** The scheduled action can run on Friday. */
   Friday = "Friday",
-  /** Saturday weekday. */
+  /** The scheduled action can run on Saturday. */
   Saturday = "Saturday",
-  /** Sunday weekday. */
+  /** The scheduled action can run on Sunday. */
   Sunday = "Sunday",
-  /** All week days */
+  /** Every day of the week. */
   All = "All",
 }
 
 /**
- * Representation of the possible selection of days in a week in a gregorian calendar \
+ * A day of the week on which the scheduled action can run. \
  * {@link KnownWeekDay} can be used interchangeably with WeekDay,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Monday**: Monday weekday. \
- * **Tuesday**: Tuesday weekday. \
- * **Wednesday**: Wednesday weekday. \
- * **Thursday**: Thursday weekday. \
- * **Friday**: Friday weekday. \
- * **Saturday**: Saturday weekday. \
- * **Sunday**: Sunday weekday. \
- * **All**: All week days
+ * **Monday**: The scheduled action can run on Monday. \
+ * **Tuesday**: The scheduled action can run on Tuesday. \
+ * **Wednesday**: The scheduled action can run on Wednesday. \
+ * **Thursday**: The scheduled action can run on Thursday. \
+ * **Friday**: The scheduled action can run on Friday. \
+ * **Saturday**: The scheduled action can run on Saturday. \
+ * **Sunday**: The scheduled action can run on Sunday. \
+ * **All**: Every day of the week.
  */
 export type WeekDay = string;
 
-/** Representation of the months available selection in a gregorian calendar */
+/** A month in which the scheduled action can run. */
 export enum KnownMonth {
-  /** The January month. */
+  /** The scheduled action can run in January. */
   January = "January",
-  /** The February month. */
+  /** The scheduled action can run in February. */
   February = "February",
-  /** The March month. */
+  /** The scheduled action can run in March. */
   March = "March",
-  /** The April month. */
+  /** The scheduled action can run in April. */
   April = "April",
-  /** The May month. */
+  /** The scheduled action can run in May. */
   May = "May",
-  /** The June month. */
+  /** The scheduled action can run in June. */
   June = "June",
-  /** The July month. */
+  /** The scheduled action can run in July. */
   July = "July",
-  /** The August month. */
+  /** The scheduled action can run in August. */
   August = "August",
-  /** The September month. */
+  /** The scheduled action can run in September. */
   September = "September",
-  /** The October month. */
+  /** The scheduled action can run in October. */
   October = "October",
-  /** The November month. */
+  /** The scheduled action can run in November. */
   November = "November",
-  /** The December month. */
+  /** The scheduled action can run in December. */
   December = "December",
-  /** All months */
+  /** Every month. */
   All = "All",
 }
 
 /**
- * Representation of the months available selection in a gregorian calendar \
+ * A month in which the scheduled action can run. \
  * {@link KnownMonth} can be used interchangeably with Month,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **January**: The January month. \
- * **February**: The February month. \
- * **March**: The March month. \
- * **April**: The April month. \
- * **May**: The May month. \
- * **June**: The June month. \
- * **July**: The July month. \
- * **August**: The August month. \
- * **September**: The September month. \
- * **October**: The October month. \
- * **November**: The November month. \
- * **December**: The December month. \
- * **All**: All months
+ * **January**: The scheduled action can run in January. \
+ * **February**: The scheduled action can run in February. \
+ * **March**: The scheduled action can run in March. \
+ * **April**: The scheduled action can run in April. \
+ * **May**: The scheduled action can run in May. \
+ * **June**: The scheduled action can run in June. \
+ * **July**: The scheduled action can run in July. \
+ * **August**: The scheduled action can run in August. \
+ * **September**: The scheduled action can run in September. \
+ * **October**: The scheduled action can run in October. \
+ * **November**: The scheduled action can run in November. \
+ * **December**: The scheduled action can run in December. \
+ * **All**: Every month.
  */
 export type Month = string;
 
-/** The execution parameters the scheduled action is supposed to follow */
+/** Settings that control how the scheduled action operation is executed. */
 export interface ScheduledActionsExecutionParameters {
-  /** Details that could optimize the user's request */
+  /** The preferred optimization goal. */
   optimizationPreference?: OptimizationPreference;
-  /** Retry policy the user can pass */
+  /** The retry settings for failed resource operations. */
   retryPolicy?: ScheduledActionsRetryPolicy;
 }
 
@@ -6422,13 +6422,13 @@ export function scheduledActionsExecutionParametersDeserializer(
   };
 }
 
-/** Retry policy the scheduled action can pass */
+/** Retry settings for a scheduled action operation. */
 export interface ScheduledActionsRetryPolicy {
-  /** Retry count for the request */
+  /** The maximum number of retry attempts. */
   retryCount?: number;
-  /** Retry window in minutes for the request */
+  /** The time window, in minutes, during which retries can occur. */
   retryWindowInMinutes?: number;
-  /** Action to take on failure */
+  /** The resource operation to retry after a failure. */
   onFailureAction?: ScheduledActionsResourceOperationType;
 }
 
@@ -6448,54 +6448,54 @@ export function scheduledActionsRetryPolicyDeserializer(item: any): ScheduledAct
   };
 }
 
-/** The resource operation to take on a scheduled-action failure. */
+/** The operation to retry when a scheduled action fails. */
 export enum KnownScheduledActionsResourceOperationType {
-  /** The default value for this enum type */
+  /** The operation is not specified. */
   Unknown = "Unknown",
-  /** Start operations on the resources */
+  /** Starts the resources. */
   Start = "Start",
-  /** Deallocate operations on the resources */
+  /** Deallocates the resources. */
   Deallocate = "Deallocate",
-  /** Hibernate operations on the resources */
+  /** Hibernates the resources. */
   Hibernate = "Hibernate",
-  /** Create operations on the resources */
+  /** Creates the resources. */
   Create = "Create",
-  /** Delete operations on the resources */
+  /** Deletes the resources. */
   Delete = "Delete",
 }
 
 /**
- * The resource operation to take on a scheduled-action failure. \
+ * The operation to retry when a scheduled action fails. \
  * {@link KnownScheduledActionsResourceOperationType} can be used interchangeably with ScheduledActionsResourceOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown**: The default value for this enum type \
- * **Start**: Start operations on the resources \
- * **Deallocate**: Deallocate operations on the resources \
- * **Hibernate**: Hibernate operations on the resources \
- * **Create**: Create operations on the resources \
- * **Delete**: Delete operations on the resources
+ * **Unknown**: The operation is not specified. \
+ * **Start**: Starts the resources. \
+ * **Deallocate**: Deallocates the resources. \
+ * **Hibernate**: Hibernates the resources. \
+ * **Create**: Creates the resources. \
+ * **Delete**: Deletes the resources.
  */
 export type ScheduledActionsResourceOperationType = string;
 
-/** The type of deadline the scheduled action follows for its schedule. */
+/** How the scheduled time is interpreted for the resource operation. */
 export enum KnownScheduledActionsDeadlineType {
-  /** Default value of Unknown. */
+  /** The deadline type is not specified. */
   Unknown = "Unknown",
-  /** Initiate the operation at the given deadline. */
+  /** Starts the operation at the scheduled time. */
   InitiateAt = "InitiateAt",
-  /** Complete the operation by the given deadline. */
+  /** Completes the operation by the scheduled time. */
   CompleteBy = "CompleteBy",
 }
 
 /**
- * The type of deadline the scheduled action follows for its schedule. \
+ * How the scheduled time is interpreted for the resource operation. \
  * {@link KnownScheduledActionsDeadlineType} can be used interchangeably with ScheduledActionsDeadlineType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown**: Default value of Unknown. \
- * **InitiateAt**: Initiate the operation at the given deadline. \
- * **CompleteBy**: Complete the operation by the given deadline.
+ * **Unknown**: The deadline type is not specified. \
+ * **InitiateAt**: Starts the operation at the scheduled time. \
+ * **CompleteBy**: Completes the operation by the scheduled time.
  */
 export type ScheduledActionsDeadlineType = string;
 
@@ -6515,15 +6515,15 @@ export function notificationPropertiesArrayDeserializer(
   });
 }
 
-/** The information about notifications to be send to about upcoming operations. */
+/** Settings for notifications about upcoming scheduled action operations. */
 export interface NotificationProperties {
-  /** Where the notification should be sent. For email, it should follow email format. */
+  /** The notification destination. For email notifications, specify a valid email address. */
   destination: string;
-  /** Type of notification to be sent. */
+  /** The notification delivery method. */
   type: NotificationType;
-  /** The language the notification should be sent on. */
+  /** The language used for the notification. */
   language: Language;
-  /** Tells if the notification is enabled or not. */
+  /** If true, notifications to this destination are disabled. */
   disabled?: boolean;
 }
 
@@ -6545,37 +6545,37 @@ export function notificationPropertiesDeserializer(item: any): NotificationPrope
   };
 }
 
-/** The type of notification supported */
+/** The delivery method for scheduled action notifications. */
 export enum KnownNotificationType {
-  /** Notify through e-mail */
+  /** Sends notifications by email. */
   Email = "Email",
 }
 
 /**
- * The type of notification supported \
+ * The delivery method for scheduled action notifications. \
  * {@link KnownNotificationType} can be used interchangeably with NotificationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Email**: Notify through e-mail
+ * **Email**: Sends notifications by email.
  */
 export type NotificationType = string;
 
-/** The notification languages currently supported */
+/** The language used for scheduled action notifications. */
 export enum KnownLanguage {
-  /** American english language */
+  /** English (United States). */
   EnUs = "en-us",
 }
 
 /**
- * The notification languages currently supported \
+ * The language used for scheduled action notifications. \
  * {@link KnownLanguage} can be used interchangeably with Language,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **en-us**: American english language
+ * **en-us**: English (United States).
  */
 export type Language = string;
 
-/** Provisioning state of the scheduled action resource. */
+/** The provisioning state of the scheduled action. */
 export enum KnownScheduledActionsProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
@@ -6583,19 +6583,19 @@ export enum KnownScheduledActionsProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Resource is being deleted. */
+  /** The scheduled action is being deleted. */
   Deleting = "Deleting",
 }
 
 /**
- * Provisioning state of the scheduled action resource. \
+ * The provisioning state of the scheduled action. \
  * {@link KnownScheduledActionsProvisioningState} can be used interchangeably with ScheduledActionsProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
- * **Deleting**: Resource is being deleted.
+ * **Deleting**: The scheduled action is being deleted.
  */
 export type ScheduledActionsProvisioningState = string;
 
@@ -6645,19 +6645,19 @@ export function scheduledActionUpdateSerializer(item: ScheduledActionUpdate): an
 
 /** The updatable properties of the ScheduledAction. */
 export interface ScheduledActionUpdateProperties {
-  /** The type of resource the scheduled action is targeting */
+  /** The type of compute resource targeted by the action. */
   resourceType?: ResourceType;
-  /** The action the scheduled action should perform in the resources */
+  /** The operation performed on the targeted resources. */
   actionType?: ScheduledActionType;
-  /** The time which the scheduled action is supposed to start running */
+  /** The date and time, including UTC offset, when the schedule becomes active. */
   startTime?: string;
-  /** The time when the scheduled action is supposed to stop scheduling */
+  /** The date and time, including UTC offset, after which no new occurrences are scheduled. */
   endTime?: string;
-  /** The schedule the scheduled action is supposed to follow */
+  /** Changes to the recurring schedule. */
   schedule?: ScheduledActionsScheduleUpdate;
-  /** The notification settings for the scheduled action */
+  /** Notification settings that apply to the scheduled action. */
   notificationSettings?: NotificationProperties[];
-  /** Tell if the scheduled action is disabled or not */
+  /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
 }
 
@@ -6679,21 +6679,21 @@ export function scheduledActionUpdatePropertiesSerializer(
   };
 }
 
-/** Schedule properties for update (PATCH). All properties are optional so individual fields can be patched (merge semantics); omitting a property preserves the current value. */
+/** Schedule changes for a scheduled action. Omitted properties keep their current values. */
 export interface ScheduledActionsScheduleUpdate {
-  /** The time the scheduled action is supposed to run on */
+  /** The local time of day when the scheduled action runs. */
   scheduledTime?: string;
-  /** The timezone the scheduled time is specified on */
+  /** The time zone used to interpret the scheduled time. */
   timeZone?: string;
-  /** The week days the scheduled action is supposed to run on. If empty, it means it will run on every week day. */
+  /** The days of the week when the action runs. An empty array means every day of the week. */
   requestedWeekDays?: WeekDay[];
-  /** The months the scheduled action is supposed to run on. If empty, it means it will run on every month. */
+  /** The months when the action runs. An empty array means every month. */
   requestedMonths?: Month[];
-  /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
+  /** The calendar days when the action runs. An empty array means every day of the month. */
   requestedDaysOfTheMonth?: number[];
-  /** The execution parameters the scheduled action is supposed to follow */
+  /** Settings that control operation execution and retries. */
   executionParameters?: ScheduledActionsExecutionParameters;
-  /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
+  /** How the scheduled time is interpreted. The default is `InitiateAt`. */
   deadlineType?: ScheduledActionsDeadlineType;
 }
 
@@ -6752,9 +6752,9 @@ export function scheduledActionArrayDeserializer(result: Array<ScheduledAction>)
   });
 }
 
-/** Paged collection of ScheduledActionResource items */
+/** A paged list of compute resources associated with a scheduled action. */
 export interface _ResourceListResponse {
-  /** The ScheduledActionResource items on this page */
+  /** The compute resources associated with the scheduled action. */
   value: ScheduledActionResource[];
   /** The link to the next page of items */
   nextLink?: string;
@@ -6775,20 +6775,17 @@ export function scheduledActionResourceArrayDeserializer(
   });
 }
 
-/** Represents an scheduled action resource metadata. */
+/** A compute resource associated with a scheduled action. */
 export interface ScheduledActionResource {
-  /** The name of the resource */
+  /** Read-only. The name of the association resource. */
   readonly name: string;
-  /** The compute RP resource id of the resource in the scheduled actions scope. */
+  /** Read-only. The Azure resource ID of the association resource. */
   readonly id: string;
-  /** The type of resource */
+  /** Read-only. The Azure resource type of the associated resource. */
   readonly type?: string;
-  /**
-   * The ARM Id of the resource.
-   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-   */
+  /** The Azure resource ID of the targeted virtual machine. */
   resourceId: string;
-  /** The desired notification settings for the specified resource. */
+  /** Notification settings that apply only to this resource. */
   notificationSettings?: NotificationProperties[];
 }
 
@@ -6804,9 +6801,9 @@ export function scheduledActionResourceDeserializer(item: any): ScheduledActionR
   };
 }
 
-/** Request model to attach a list of scheduled action resources. */
+/** Resources to attach to a scheduled action. */
 export interface ResourceAttachRequest {
-  /** List of resources to be attached/patched */
+  /** The list of resources to attach to the scheduled action. */
   resources: ScheduledActionResourceInput[];
 }
 
@@ -6822,14 +6819,11 @@ export function scheduledActionResourceInputArraySerializer(
   });
 }
 
-/** Represents the writable fields of a scheduled action resource used in attach and patch requests. */
+/** A compute resource to add to or update in a scheduled action. */
 export interface ScheduledActionResourceInput {
-  /**
-   * The ARM Id of the resource.
-   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-   */
+  /** The Azure resource ID of the targeted virtual machine. */
   resourceId: string;
-  /** The desired notification settings for the specified resource. */
+  /** Notification settings that apply only to this resource. */
   notificationSettings?: NotificationProperties[];
 }
 
@@ -6842,11 +6836,11 @@ export function scheduledActionResourceInputSerializer(item: ScheduledActionReso
   };
 }
 
-/** The response from scheduled action resource requests, which contains the status of each resource */
+/** Results of a scheduled action operation for targeted resources. */
 export interface ResourceOperationResponse {
-  /** The total number of resources operated on */
+  /** The number of resources included in the operation. */
   totalResources: number;
-  /** The resource status of for each resource */
+  /** The operation result for each resource. */
   resourcesStatuses: ResourceStatus[];
 }
 
@@ -6863,13 +6857,13 @@ export function resourceStatusArrayDeserializer(result: Array<ResourceStatus>): 
   });
 }
 
-/** The status of a resource after a resource level operation was performed */
+/** Current status for a targeted resource in a scheduled action occurrence. */
 export interface ResourceStatus {
-  /** The arm identifier of the resource */
+  /** The Azure resource ID of the targeted resource. */
   resourceId: string;
-  /** The state the resource is currently on */
+  /** The result of the operation for the resource. */
   status: ResourceOperationStatus;
-  /** Errors encountered while trying to perform */
+  /** Error details when the operation fails for the resource. */
   error?: ErrorModel;
 }
 
@@ -6881,27 +6875,27 @@ export function resourceStatusDeserializer(item: any): ResourceStatus {
   };
 }
 
-/** The state the resource is on after the resource operation is applied */
+/** Current status of an operation for the specific occurrence and resource */
 export enum KnownResourceOperationStatus {
-  /** The resource operation was successful */
+  /** The operation completed successfully for the resource. */
   Succeeded = "Succeeded",
-  /** The resource operation has failed. */
+  /** The operation failed for the resource. */
   Failed = "Failed",
 }
 
 /**
- * The state the resource is on after the resource operation is applied \
+ * Current status of an operation for the specific occurrence and resource \
  * {@link KnownResourceOperationStatus} can be used interchangeably with ResourceOperationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**: The resource operation was successful \
- * **Failed**: The resource operation has failed.
+ * **Succeeded**: The operation completed successfully for the resource. \
+ * **Failed**: The operation failed for the resource.
  */
 export type ResourceOperationStatus = string;
 
-/** Request model to detach a list of scheduled action resources. */
+/** Resources to remove from a scheduled action. */
 export interface ResourceDetachRequest {
-  /** List of resources to be detached */
+  /** The Azure resource IDs of the resources to remove. */
   resources: string[];
 }
 
@@ -6913,9 +6907,9 @@ export function resourceDetachRequestSerializer(item: ResourceDetachRequest): an
   };
 }
 
-/** Request model perform a resource operation in a list of resources */
+/** Resource-specific settings to update in a scheduled action. */
 export interface ResourcePatchRequest {
-  /** The list of resources we watch to patch */
+  /** The resources and notification settings to update. */
   resources: ScheduledActionResourceInput[];
 }
 
@@ -6923,9 +6917,9 @@ export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any 
   return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
 }
 
-/** The request to cancel an occurrence. */
+/** Request body for canceling a scheduled action occurrence. */
 export interface CancelOccurrenceRequest {
-  /** The resources the cancellation should act on. If no resource is passed in the list, Scheduled Action will cancel the occurrence for all resources. */
+  /** The resources for which operations should be canceled. An empty array cancels all operations for all resources for the occurrence. */
   resourceIds: string[];
 }
 
@@ -6937,7 +6931,7 @@ export function cancelOccurrenceRequestSerializer(item: CancelOccurrenceRequest)
   };
 }
 
-/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+/** One scheduled execution of a scheduled action. */
 export interface Occurrence extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: OccurrenceProperties;
@@ -6957,13 +6951,13 @@ export function occurrenceDeserializer(item: any): Occurrence {
   };
 }
 
-/** Properties for an occurrence */
+/** Properties of a scheduled action occurrence. */
 export interface OccurrenceProperties {
-  /** The time the occurrence is scheduled for. This value can be changed by calling the delay API */
+  /** Read-only. The UTC date and time when the occurrence is scheduled to run. */
   readonly scheduledTime: Date;
-  /** The result for occurrences that achieved a terminal state */
+  /** Read-only. The result summary after the occurrence reaches a final state. */
   readonly resultSummary: OccurrenceResultSummary;
-  /** The aggregated provisioning state of the occurrence */
+  /** Read-only. The current state of the occurrence. */
   readonly provisioningState?: OccurrenceState;
 }
 
@@ -6975,11 +6969,11 @@ export function occurrencePropertiesDeserializer(item: any): OccurrencePropertie
   };
 }
 
-/** The summarized provisioning result of an occurrence */
+/** Summary of results for a scheduled action occurrence. */
 export interface OccurrenceResultSummary {
-  /** The total number of resources that the occurrence was supposed to act on. */
+  /** The number of resources targeted by the occurrence. */
   total: number;
-  /** The summarized status of the resources. */
+  /** Resource counts grouped by result code. */
   statuses: ResourceResultSummary[];
 }
 
@@ -6998,13 +6992,13 @@ export function resourceResultSummaryArrayDeserializer(
   });
 }
 
-/** The status of the resources */
+/** Summary of operation results across targeted resources. */
 export interface ResourceResultSummary {
-  /** The error code for those resources. In case of success, code is populated with Success. */
+  /** The result code shared by the resources in this group. A successful result uses `Success`. */
   code: string;
-  /** The number of resources that the code applies to. */
+  /** The number of resources with this result code. */
   count: number;
-  /** The error details for the resources. Not populated on success cases. */
+  /** Error details for failed resources. This property is omitted for successful results. */
   errorDetails?: ErrorModel;
 }
 
@@ -7016,36 +7010,36 @@ export function resourceResultSummaryDeserializer(item: any): ResourceResultSumm
   };
 }
 
-/** The state the occurrence is at a given time */
+/** The current state of a scheduled action occurrence. */
 export enum KnownOccurrenceState {
-  /** The occurrence was created */
+  /** The occurrence has been created. */
   Created = "Created",
-  /** The occurrence is being rescheduled */
+  /** The scheduled time for the occurrence is being updated. */
   Rescheduling = "Rescheduling",
-  /** The occurrence has been scheduled */
+  /** The occurrence has been scheduled. */
   Scheduled = "Scheduled",
-  /** The occurrence has successfully ran */
+  /** The occurrence operations completed successfully. */
   Succeeded = "Succeeded",
-  /** The occurrence has failed during its scheduling */
+  /** One or more of the occurrence operations failed. */
   Failed = "Failed",
-  /** The occurrence is going through cancellation */
+  /** Cancellation of the occurrence is in progress. */
   Cancelling = "Cancelling",
-  /** The occurrence has been canceled */
+  /** The occurrence was canceled. */
   Canceled = "Canceled",
 }
 
 /**
- * The state the occurrence is at a given time \
+ * The current state of a scheduled action occurrence. \
  * {@link KnownOccurrenceState} can be used interchangeably with OccurrenceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Created**: The occurrence was created \
- * **Rescheduling**: The occurrence is being rescheduled \
- * **Scheduled**: The occurrence has been scheduled \
- * **Succeeded**: The occurrence has successfully ran \
- * **Failed**: The occurrence has failed during its scheduling \
- * **Cancelling**: The occurrence is going through cancellation \
- * **Canceled**: The occurrence has been canceled
+ * **Created**: The occurrence has been created. \
+ * **Rescheduling**: The scheduled time for the occurrence is being updated. \
+ * **Scheduled**: The occurrence has been scheduled. \
+ * **Succeeded**: The occurrence operations completed successfully. \
+ * **Failed**: One or more of the occurrence operations failed. \
+ * **Cancelling**: Cancellation of the occurrence is in progress. \
+ * **Canceled**: The occurrence was canceled.
  */
 export type OccurrenceState = string;
 
@@ -7074,7 +7068,7 @@ export function scheduledActionResourcesArrayDeserializer(
   });
 }
 
-/** The scheduled action extension */
+/** A scheduled action associated with a specific compute resource. */
 export interface ScheduledActionResources extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: ScheduledActionsExtensionProperties;
@@ -7094,25 +7088,25 @@ export function scheduledActionResourcesDeserializer(item: any): ScheduledAction
   };
 }
 
-/** Scheduled action extension properties */
+/** A scheduled action associated with a specific compute resource. */
 export interface ScheduledActionsExtensionProperties {
-  /** The type of resource the scheduled action is targeting */
+  /** The type of compute resource targeted by the action. */
   resourceType: ResourceType;
-  /** The action the scheduled action should perform in the resources */
+  /** The operation performed on the targeted resources. */
   actionType: ScheduledActionType;
-  /** The time which the scheduled action is supposed to start running */
+  /** The date and time, including UTC offset, when the schedule becomes active. */
   startTime: string;
-  /** The time when the scheduled action is supposed to stop scheduling */
+  /** The date and time, including UTC offset, after which no new occurrences are scheduled. */
   endTime?: string;
-  /** The schedule the scheduled action is supposed to follow */
+  /** The recurring schedule. */
   schedule: ScheduledActionsSchedule;
-  /** The notification settings for the scheduled action */
+  /** Notification settings that apply to the scheduled action. */
   notificationSettings: NotificationProperties[];
-  /** Tell if the scheduled action is disabled or not */
+  /** Indicates whether new occurrences are disabled. */
   disabled?: boolean;
-  /** The status of the last provisioning operation performed on the resource. */
+  /** Read-only. The provisioning state of the scheduled action. */
   readonly provisioningState?: ScheduledActionsProvisioningState;
-  /** The notification settings for the scheduled action at a resource level. Resource level notification settings are scope to specific resources only and submitted through attach requests. */
+  /** Read-only. Notification settings that apply only to the specified compute resource. */
   readonly resourceNotificationSettings?: NotificationProperties[];
 }
 
@@ -7169,7 +7163,7 @@ export function occurrenceArrayDeserializer(result: Array<Occurrence>): any[] {
   });
 }
 
-/** Paged collection of OccurrenceResource items */
+/** Paged list of resources included in a scheduled action occurrence. */
 export interface _OccurrenceResourceListResponse {
   /** The OccurrenceResource items on this page */
   value: OccurrenceResource[];
@@ -7192,26 +7186,23 @@ export function occurrenceResourceArrayDeserializer(result: Array<OccurrenceReso
   });
 }
 
-/** Represents an scheduled action resource metadata. */
+/** Scheduling and status details for a resource included in a scheduled action occurrence. */
 export interface OccurrenceResource {
-  /** The name of the resource */
+  /** Read-only. The name of the association resource. */
   readonly name: string;
-  /** The compute RP resource id of the resource in the scheduled actions scope. */
+  /** Read-only. The Azure resource ID of the association resource. */
   readonly id: string;
-  /** The type of resource */
+  /** Read-only. The Azure resource type of the associated resource. */
   readonly type?: string;
-  /**
-   * The ARM Id of the resource.
-   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-   */
+  /** The Azure resource ID of the targeted virtual machine. */
   resourceId: string;
-  /** The desired notification settings for the specified resource. */
+  /** Notification settings that apply only to this resource. */
   notificationSettings?: NotificationProperties[];
-  /** The time the occurrence is scheduled for the resource. */
+  /** Read-only. The UTC date and time when the operation is scheduled for this resource. */
   readonly scheduledTime: Date;
-  /** The current state of the resource */
+  /** Read-only. The current state of the operation for this resource. */
   readonly provisioningState?: OccurrenceResourceProvisioningState;
-  /** Error details for the resource. Only populated if resource is in failed state. */
+  /** Read-only. Error details when the operation fails for this resource. */
   readonly errorDetails?: ErrorModel;
 }
 
@@ -7266,11 +7257,11 @@ export enum KnownOccurrenceResourceProvisioningState {
  */
 export type OccurrenceResourceProvisioningState = string;
 
-/** Request to ask for a delay in an occurrence, delay should be set to client local time eg (PST) 2025-05-30T06:35:00-07:00 */
+/** Request body for delaying a scheduled action occurrence. */
 export interface DelayRequest {
-  /** The exact time to delay the operations to */
+  /** The new date and time for the occurrence, including the UTC offset. */
   delay: string;
-  /** The resources that should be delayed. If empty, the delay will apply to the all resources in the occurrence. */
+  /** The resources to delay. An empty array delays all resources in the occurrence. */
   resourceIds: string[];
 }
 
@@ -7308,7 +7299,7 @@ export function occurrenceExtensionResourceArrayDeserializer(
   });
 }
 
-/** The scheduled action extension */
+/** A scheduled action occurrence associated with a specific compute resource. */
 export interface OccurrenceExtensionResource extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: OccurrenceExtensionProperties;
@@ -7328,22 +7319,19 @@ export function occurrenceExtensionResourceDeserializer(item: any): OccurrenceEx
   };
 }
 
-/** The properties of the occurrence extension */
+/** An occurrence associated with a specific compute resource. */
 export interface OccurrenceExtensionProperties {
-  /**
-   * The ARM Id of the resource.
-   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
-   */
+  /** The Azure resource ID of the targeted virtual machine. */
   resourceId: string;
-  /** The desired notification settings for the specified resource. */
+  /** Notification settings that apply only to this resource. */
   notificationSettings?: NotificationProperties[];
-  /** The time the occurrence is scheduled for the resource. Specified in UTC. */
+  /** Read-only. The UTC date and time when the operation is scheduled for this resource. */
   readonly scheduledTime: Date;
-  /** The current state of the resource */
+  /** Read-only. The current state of the operation for this resource. */
   readonly provisioningState?: OccurrenceResourceProvisioningState;
-  /** Error details for the resource. Only populated if resource is in failed state. */
+  /** Read-only. Error details when the operation fails for this resource. */
   readonly errorDetails?: ErrorModel;
-  /** The arm identifier of the scheduled action the occurrence belongs to */
+  /** The Azure resource ID of the scheduled action that owns the occurrence. */
   scheduledActionId: string;
 }
 

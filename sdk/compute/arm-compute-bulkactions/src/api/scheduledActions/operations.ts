@@ -93,7 +93,7 @@ export async function _triggerManualOccurrenceDeserialize(
   return occurrenceDeserializer(result.body);
 }
 
-/** Trigger a manual occurrence of the scheduled action immediately, outside its normal schedule. */
+/** Runs the specified scheduled action immediately. */
 export function triggerManualOccurrence(
   context: Client,
   resourceGroupName: string,
@@ -153,7 +153,7 @@ export async function _cancelNextOccurrenceDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Cancel the next scheduled occurrence of the scheduled action. */
+/** Cancels the next occurrence of the specified scheduled action. */
 export function cancelNextOccurrence(
   context: Client,
   resourceGroupName: string,
@@ -206,7 +206,7 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Enable a previously disabled scheduled action so its future occurrences run. */
+/** Enables the specified scheduled action so new occurrences run. */
 export function enable(
   context: Client,
   resourceGroupName: string,
@@ -257,7 +257,7 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Disable the scheduled action so its future occurrences do not run. */
+/** Disables the specified scheduled action so future occurrences do not run. */
 export function disable(
   context: Client,
   resourceGroupName: string,
@@ -317,7 +317,7 @@ export async function _patchResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** A synchronous resource action. */
+/** Updates resource-specific settings for the specified scheduled action. */
 export async function patchResources(
   context: Client,
   resourceGroupName: string,
@@ -378,7 +378,7 @@ export async function _detachResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Detach resources from the scheduled action so they are excluded from future occurrences. */
+/** Removes resources from the specified scheduled action. */
 export function detachResources(
   context: Client,
   resourceGroupName: string,
@@ -439,7 +439,7 @@ export async function _attachResourcesDeserialize(
   return resourceOperationResponseDeserializer(result.body);
 }
 
-/** Attach resources to the scheduled action so they are included in future occurrences. */
+/** Adds resources to the specified scheduled action. */
 export function attachResources(
   context: Client,
   resourceGroupName: string,
@@ -497,7 +497,7 @@ export async function _listResourcesDeserialize(
   return _resourceListResponseDeserializer(result.body);
 }
 
-/** List resources attached to Scheduled Actions */
+/** Lists resources associated with the specified scheduled action. */
 export function listResources(
   context: Client,
   resourceGroupName: string,
@@ -553,7 +553,7 @@ export async function _listBySubscriptionDeserialize(
   return _scheduledActionListResultDeserializer(result.body);
 }
 
-/** List ScheduledAction resources by subscription ID */
+/** Lists scheduled actions in the specified subscription. */
 export function listBySubscription(
   context: Client,
   options: ScheduledActionsListBySubscriptionOptionalParams = { requestOptions: {} },
@@ -609,7 +609,7 @@ export async function _listByResourceGroupDeserialize(
   return _scheduledActionListResultDeserializer(result.body);
 }
 
-/** List ScheduledAction resources by resource group */
+/** Lists scheduled actions in the specified resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
@@ -663,7 +663,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a ScheduledAction */
+/** Deletes the specified scheduled action. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -721,7 +721,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Update a ScheduledAction */
+/** Updates the specified scheduled action. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -782,7 +782,7 @@ export async function _createOrUpdateDeserialize(
   return scheduledActionDeserializer(result.body);
 }
 
-/** Create a ScheduledAction */
+/** Creates or updates a scheduled action. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -838,7 +838,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   return scheduledActionDeserializer(result.body);
 }
 
-/** Get a ScheduledAction */
+/** Gets the specified scheduled action. */
 export async function get(
   context: Client,
   resourceGroupName: string,
