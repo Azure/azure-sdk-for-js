@@ -11,7 +11,7 @@ describe.skip("generateAgent", function () {
   const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  it.skip("generates a voice agent", async function () {
+  it("generates a voice agent", async function () {
     const agent = await project.agents.generateAgent({
       kind: "voice",
       name: "voice-agent-test",
