@@ -65,7 +65,7 @@ export abstract class AzureMonitorBaseExporter {
         parsedConnectionString.instrumentationkey || this.instrumentationKey;
       this.endpointUrl = parsedConnectionString.ingestionendpoint?.trim() || this.endpointUrl;
       this.aadAudience = parsedConnectionString.aadaudience;
-      region = parsedConnectionString.location || getRegion(this.endpointUrl);
+      region = parsedConnectionString.location?.trim().toLowerCase() || getRegion(this.endpointUrl);
     }
 
     // Instrumentation key is required

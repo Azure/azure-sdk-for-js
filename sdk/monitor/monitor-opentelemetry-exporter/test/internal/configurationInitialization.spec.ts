@@ -58,6 +58,21 @@ describe("OneSettings exporter initialization", () => {
     });
   });
 
+  it.each(["WestUS", " WestUS "])(
+    "normalizes explicit connection string location %j",
+    (location) => {
+      new TestExporter({
+        connectionString:
+          `InstrumentationKey=${instrumentationKey};Location=${location};` +
+          "IngestionEndpoint=https://westus.in.applicationinsights.azure.com",
+      });
+
+      expect(configurationMocks.initialize).toHaveBeenCalledWith(
+        expect.objectContaining({ region: "westus" }),
+      );
+    },
+  );
+
   it("does not initialize OneSettings for the internal Statsbeat exporter", () => {
     new TestExporter(
       {
