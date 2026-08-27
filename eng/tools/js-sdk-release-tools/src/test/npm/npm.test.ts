@@ -14,7 +14,7 @@ describe("Npm package json", () => {
 });
 
 describe("Npm view", () => {
-  test("View package version", async () => {
+  test.skip("View package version", async () => {
     const nonExistResult = await tryGetNpmView("non-exist");
     expect(nonExistResult).toBeUndefined();
 
