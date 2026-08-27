@@ -30,6 +30,7 @@ import {
   updateAgentFromManifest,
   createAgentFromManifest,
   update,
+  generateAgent,
   create,
   get,
 } from "../../api/agents/operations.js";
@@ -60,6 +61,7 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
@@ -74,6 +76,7 @@ import type {
   AgentSessionResource,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -300,6 +303,14 @@ export interface AgentsOperations {
     definition: AgentDefinitionUnion,
     options?: AgentsUpdateOptionalParams,
   ): Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  generateAgent: (
+    body: GenerateAgentRequest,
+    options?: AgentsGenerateAgentOptionalParams,
+  ) => Promise<Agent>;
   /** Creates the agent. */
   create(
     name: string,
@@ -451,6 +462,8 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
         tracingConfig,
       );
     },
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) =>
+      generateAgent(context, body, options),
     create(
       name: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
