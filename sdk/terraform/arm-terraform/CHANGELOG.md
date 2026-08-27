@@ -51,9 +51,6 @@ Compared with version 1.0.0-beta.1
   - Enum KnownTargetProvider no longer has value azurerm
   - Enum KnownVersions no longer has value v2023_07_01_preview
 
-### Bugs Fixed
-  - Fixed default credential scopes for sovereign cloud settings. [#39751](https://github.com/Azure/azure-sdk-for-js/pull/39751)
-
     
 ## 1.0.0-beta.1 (2024-11-18)
 
