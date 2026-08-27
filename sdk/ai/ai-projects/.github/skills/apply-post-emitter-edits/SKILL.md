@@ -220,11 +220,6 @@ If the diff includes removals or renames you cannot easily isolate, restore the 
 
 From [references/post-emitter-workarounds.md](./references/post-emitter-workarounds.md):
 
-- **`api-version` string literals must not be URL-escaped in `src/`.** The JS TypeSpec emitter currently has a bug where the literal string `api-version` can be emitted as `api%2Dversion`. Replace any `api%2Dversion` instances in `src/` with `api-version`. Do not apply this correction under `generated/`; changing generated output before customization can create larger initial diffs in `src/` after the three-way merge.
-  ```powershell
-  Get-ChildItem -Recurse -File src -Include *.ts |
-    Select-String -Pattern 'api%2Dversion' -SimpleMatch
-  ```
 - **Preserve customized `$delete` operation names.** If a resource-delete operation that is `$delete` in the committed `src/` baseline is emitted under a model-specific name such as `deleteSchedule`, `deleteRoutine`, or `deleteEvaluationTaxonomy`, do not propagate that rename from `generated/` into `src/`. Keep `$delete` as the exported operation, keep its helpers named `_$deleteSend` and `_$deleteDeserialize`, and export `$delete` from the area's `src/api/.../index.ts`. In the corresponding `src/classic/.../index.ts`, import and call `$delete` while exposing only the existing `delete` method. Do not add a `delete<Model>` method or turn `delete` into a deprecated alias. Leave `generated/` unchanged because it records emitter output.
   ```powershell
   # Candidates introduced by the emitter; compare each with the committed src baseline.
