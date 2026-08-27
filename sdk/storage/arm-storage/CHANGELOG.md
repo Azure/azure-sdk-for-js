@@ -1,10 +1,11 @@
 # Release History
 
-## 20.2.0 (2026-08-26)
+## 20.2.0 (2026-08-27)
 
 ### Features Added
   - Added operation group ContextCacheContainersOperations
   - Added operation group ContextCachesOperations
+  - Added Interface ArmEncryption
   - Added Interface ContextCache
   - Added Interface ContextCacheContainer
   - Added Interface ContextCacheContainerProperties
@@ -25,7 +26,6 @@
   - Added Interface ContextCachesUpdateOptionalParams
   - Added Interface ContextCacheUpdate
   - Added Interface CustomerManagedKeyEncryption
-  - Added Interface Encryption_1
   - Added Interface KeyEncryptionKeyIdentity
   - Added Interface SystemAssignedServiceIdentity
   - Interface SasPolicy has a new optional parameter requireUserBoundUserDelegationSas

@@ -148,6 +148,12 @@ export type AllowedCopyScope = string;
 export type AllowedMethods = string;
 
 // @public
+export interface ArmEncryption {
+    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+    infrastructureEncryption?: InfrastructureEncryption;
+}
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -637,14 +643,14 @@ export interface ContextCacheContainerUpdate {
 export interface ContextCacheProperties {
     accountKind: ContextCacheAccountKind;
     description?: string;
-    encryption?: Encryption_1;
+    encryption?: ArmEncryption;
     readonly provisioningState?: ContextCacheProvisioningState;
 }
 
 // @public
 export interface ContextCachePropertiesUpdate {
     description?: string;
-    encryption?: Encryption_1;
+    encryption?: ArmEncryption;
 }
 
 // @public
@@ -905,12 +911,6 @@ export interface Encryption {
     keyVaultProperties?: KeyVaultProperties;
     requireInfrastructureEncryption?: boolean;
     services?: EncryptionServices;
-}
-
-// @public
-export interface Encryption_1 {
-    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
-    infrastructureEncryption?: InfrastructureEncryption;
 }
 
 // @public

@@ -8675,7 +8675,7 @@ export interface ContextCacheProperties {
   /** The status of the last operation. */
   readonly provisioningState?: ContextCacheProvisioningState;
   /** Encryption settings for the account. */
-  encryption?: Encryption_1;
+  encryption?: ArmEncryption;
 }
 
 export function contextCachePropertiesSerializer(item: ContextCacheProperties): any {
@@ -8684,7 +8684,7 @@ export function contextCachePropertiesSerializer(item: ContextCacheProperties): 
     description: item["description"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : encryptionSerializer_1(item["encryption"]),
+      : armEncryptionSerializer(item["encryption"]),
   };
 }
 
@@ -8695,7 +8695,7 @@ export function contextCachePropertiesDeserializer(item: any): ContextCachePrope
     provisioningState: item["provisioningState"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : encryptionDeserializer_1(item["encryption"]),
+      : armEncryptionDeserializer(item["encryption"]),
   };
 }
 
@@ -8754,14 +8754,14 @@ export enum KnownContextCacheProvisioningState {
 export type ContextCacheProvisioningState = string;
 
 /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
-export interface Encryption_1 {
+export interface ArmEncryption {
   /** Values are enabled and disabled. */
   infrastructureEncryption?: InfrastructureEncryption;
   /** All Customer-managed key encryption properties for the resource. */
   customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
 }
 
-export function encryptionSerializer_1(item: Encryption_1): any {
+export function armEncryptionSerializer(item: ArmEncryption): any {
   return {
     infrastructureEncryption: item["infrastructureEncryption"],
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
@@ -8770,7 +8770,7 @@ export function encryptionSerializer_1(item: Encryption_1): any {
   };
 }
 
-export function encryptionDeserializer_1(item: any): Encryption_1 {
+export function armEncryptionDeserializer(item: any): ArmEncryption {
   return {
     infrastructureEncryption: item["infrastructureEncryption"],
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
@@ -8943,7 +8943,7 @@ export interface ContextCachePropertiesUpdate {
   /** Account description. */
   description?: string;
   /** Encryption settings for the account. */
-  encryption?: Encryption_1;
+  encryption?: ArmEncryption;
 }
 
 export function contextCachePropertiesUpdateSerializer(item: ContextCachePropertiesUpdate): any {
@@ -8951,7 +8951,7 @@ export function contextCachePropertiesUpdateSerializer(item: ContextCachePropert
     description: item["description"],
     encryption: !item["encryption"]
       ? item["encryption"]
-      : encryptionSerializer_1(item["encryption"]),
+      : armEncryptionSerializer(item["encryption"]),
   };
 }
 

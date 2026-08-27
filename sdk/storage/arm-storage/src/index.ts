@@ -309,7 +309,7 @@ export type {
   ContextCacheProperties,
   ContextCacheAccountKind,
   ContextCacheProvisioningState,
-  Encryption_1,
+  ArmEncryption,
   InfrastructureEncryption,
   CustomerManagedKeyEncryption,
   KeyEncryptionKeyIdentity,
