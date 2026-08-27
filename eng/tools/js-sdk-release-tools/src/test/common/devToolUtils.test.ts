@@ -47,8 +47,8 @@ describe("customizeCodes", () => {
     );
   });
 
-  test("skips packages without a root-level generated folder", async () => {
-    const packageDirectory = path.join(__dirname, "testCases", "standard-package");
+  test("skips src/generated packages without a root-level generated folder", async () => {
+    const packageDirectory = path.join(__dirname, "testCases", "src-generated-package");
     vi.spyOn(fs, "existsSync").mockReturnValue(false);
     const { customizeCodes } = await import("../../common/devToolUtils.js");
 
