@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { connectVoiceAgent } from "../../api/voiceAgentWebSocket/operations.js";
-import { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "../../api/voiceAgentWebSocket/options.js";
+import type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "../../api/voiceAgentWebSocket/options.js";
 
 /** Interface representing a VoiceAgentWebSocket operations. */
 export interface VoiceAgentWebSocketOperations {

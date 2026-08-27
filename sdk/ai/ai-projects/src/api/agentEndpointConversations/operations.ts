@@ -3,31 +3,33 @@
 
 import type { AIProjectContext as Client } from "../index.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
-import {
-  apiErrorResponseDeserializer,
+import type {
   _AgentsPagedResultVoiceConversation,
-  _agentsPagedResultVoiceConversationDeserializer,
   VoiceConversation,
-  voiceConversationDeserializer,
   _AgentsPagedResultVoiceResponse,
-  _agentsPagedResultVoiceResponseDeserializer,
   VoiceResponse,
-  voiceResponseDeserializer,
-  realtimeConversationItemUnionDeserializer,
   RealtimeConversationItemUnion,
   _AgentsPagedResultRealtimeConversationItem,
-  _agentsPagedResultRealtimeConversationItemDeserializer,
   VoiceItemAudioResponse,
-  voiceItemAudioResponseDeserializer,
   VoiceRecordingResponse,
-  voiceRecordingResponseDeserializer,
   AgentEndpointConversationsGetAgentConversationAudioContentResponse,
   AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
+} from "../../models/models.js";
+import {
+  apiErrorResponseDeserializer,
+  _agentsPagedResultVoiceConversationDeserializer,
+  voiceConversationDeserializer,
+  _agentsPagedResultVoiceResponseDeserializer,
+  voiceResponseDeserializer,
+  realtimeConversationItemUnionDeserializer,
+  _agentsPagedResultRealtimeConversationItemDeserializer,
+  voiceItemAudioResponseDeserializer,
+  voiceRecordingResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
@@ -41,12 +43,8 @@ import {
   AgentEndpointConversationsGetAgentConversationOptionalParams,
   AgentEndpointConversationsListAgentConversationsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getAgentConversationAudioContentSend(
   context: Client,

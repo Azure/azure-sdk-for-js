@@ -16,7 +16,7 @@ import {
   getAgentConversation,
   listAgentConversations,
 } from "../../api/agentEndpointConversations/operations.js";
-import {
+import type {
   AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
   AgentEndpointConversationsGetAgentConversationAudioOptionalParams,
   AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
@@ -30,7 +30,7 @@ import {
   AgentEndpointConversationsGetAgentConversationOptionalParams,
   AgentEndpointConversationsListAgentConversationsOptionalParams,
 } from "../../api/agentEndpointConversations/options.js";
-import {
+import type {
   VoiceConversation,
   VoiceResponse,
   RealtimeConversationItemUnion,
