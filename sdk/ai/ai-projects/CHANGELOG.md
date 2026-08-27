@@ -2,10 +2,6 @@
 
 ## 2.6.0 (Unreleased)
 
-### Breaking Changes
-
-- Removed `agentSessionId` and `structuredInputs` from `VoiceAgentRealtimeClientConnectOptions` to match the simplified Voice Agent WebSocket handshake.
-
 ### Features Added
 
 - Added `voice` as a new `AgentKind`, letting voice agents be created and managed through the unified `project.agents` operations.
@@ -13,10 +9,6 @@
 - Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
 - Added optional client-reference echo cancellation to the browser Voice Agent sample, streaming interleaved microphone and rendered-playback PCM channels.
 - Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
-- Added `ShellToolboxTool` and its container environment and network policy models for storing shell tools in `project.toolboxes`.
-- Added `ActivityProtocolAccessBoundary` and the `access_boundaries` property on `ActivityProtocolConfiguration`.
-- Added `PublishApprovalStatus` and the `publish_approval_status` property on `AgentEndpointConfig`.
-- Added the `toolboxes/toolboxShellTool.ts` sample demonstrating a shell tool in an automatically provisioned toolbox container.
 
 ## 2.5.0 (2026-08-20)
 
