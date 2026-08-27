@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation retrieves the policy set definition in the given management group with the given name.
  *
  * @summary this operation retrieves the policy set definition in the given management group with the given name.
- * x-ms-original-file: 2026-01-01-preview/getPolicySetDefinitionAtManagementGroup.json
+ * x-ms-original-file: 2026-07-01/getPolicySetDefinitionAtManagementGroup.json
  */
 async function retrieveAPolicySetDefinitionAtManagementGroupLevel() {
   const credential = new DefaultAzureCredential();

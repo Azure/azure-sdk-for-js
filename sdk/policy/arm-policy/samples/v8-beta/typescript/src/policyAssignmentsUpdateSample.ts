@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2026-01-01-preview/updatePolicyAssignmentWithIdentity.json
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithIdentity.json
  */
 async function updateAPolicyAssignmentWithASystemAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function updateAPolicyAssignmentWithASystemAssignedIdentity(): Promise<voi
  * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2026-01-01-preview/updatePolicyAssignmentWithOverrides.json
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithOverrides.json
  */
 async function updateAPolicyAssignmentWithOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,28 @@ async function updateAPolicyAssignmentWithOverrides(): Promise<void> {
  * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2026-01-01-preview/updatePolicyAssignmentWithResourceSelectors.json
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithResourcePercentageSelector.json
+ */
+async function updateAPolicyAssignmentWithAResourcePercentageSelector(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new PolicyClient(credential);
+  const result = await client.policyAssignments.update(
+    "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+    "CostManagement",
+    {
+      resourceSelectors: [
+        { name: "SDPRollout", selectors: [{ kind: "resourcePercentage", progress: 80 }] },
+      ],
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+ *
+ * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithResourceSelectors.json
  */
 async function updateAPolicyAssignmentWithResourceSelectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -76,7 +97,7 @@ async function updateAPolicyAssignmentWithResourceSelectors(): Promise<void> {
  * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2026-01-01-preview/updatePolicyAssignmentWithSelfserveExemptionSettings.json
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithSelfserveExemptionSettings.json
  */
 async function updateAPolicyAssignmentWithSelfServeExemptionSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -93,7 +114,7 @@ async function updateAPolicyAssignmentWithSelfServeExemptionSettings(): Promise<
  * This sample demonstrates how to this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  *
  * @summary this operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
- * x-ms-original-file: 2026-01-01-preview/updatePolicyAssignmentWithUserAssignedIdentity.json
+ * x-ms-original-file: 2026-07-01/updatePolicyAssignmentWithUserAssignedIdentity.json
  */
 async function updateAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -118,6 +139,7 @@ async function updateAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void>
 async function main(): Promise<void> {
   await updateAPolicyAssignmentWithASystemAssignedIdentity();
   await updateAPolicyAssignmentWithOverrides();
+  await updateAPolicyAssignmentWithAResourcePercentageSelector();
   await updateAPolicyAssignmentWithResourceSelectors();
   await updateAPolicyAssignmentWithSelfServeExemptionSettings();
   await updateAPolicyAssignmentWithAUserAssignedIdentity();

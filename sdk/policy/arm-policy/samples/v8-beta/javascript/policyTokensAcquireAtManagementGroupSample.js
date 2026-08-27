@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation acquires a policy token in the given management group for the given request body.
  *
  * @summary this operation acquires a policy token in the given management group for the given request body.
- * x-ms-original-file: 2026-01-01-preview/acquirePolicyTokenAtManagementGroup.json
+ * x-ms-original-file: 2026-07-01/acquirePolicyTokenAtManagementGroup.json
  */
 async function acquireAPolicyTokenAtManagementGroupLevel() {
   const credential = new DefaultAzureCredential();

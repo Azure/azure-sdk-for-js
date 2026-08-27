@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation lists all the built-in policy definition versions for all built-in policy definitions.
  *
  * @summary this operation lists all the built-in policy definition versions for all built-in policy definitions.
- * x-ms-original-file: 2026-01-01-preview/listAllBuiltInPolicyDefinitionVersions.json
+ * x-ms-original-file: 2026-07-01/listAllBuiltInPolicyDefinitionVersions.json
  */
 async function listAllBuiltInPolicyDefinitionVersions() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation retrieves the built-in policy set definition with the given name.
  *
  * @summary this operation retrieves the built-in policy set definition with the given name.
- * x-ms-original-file: 2026-01-01-preview/getBuiltInPolicySetDefinition.json
+ * x-ms-original-file: 2026-07-01/getBuiltInPolicySetDefinition.json
  */
 async function retrieveABuiltInPolicySetDefinition() {
   const credential = new DefaultAzureCredential();

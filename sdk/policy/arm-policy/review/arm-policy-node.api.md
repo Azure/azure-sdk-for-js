@@ -55,9 +55,6 @@ export type AliasPatternType = "NotSpecified" | "Extract";
 export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 
 // @public
-export type AssignmentScopeValidation = string;
-
-// @public
 export type AssignmentType = string;
 
 // @public
@@ -69,6 +66,9 @@ export enum AzureClouds {
 
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ComplianceState = string;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -160,9 +160,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export type ExemptionCategory = string;
-
-// @public
 export interface ExtensionResource extends Resource {
 }
 
@@ -173,6 +170,7 @@ export type ExternalEndpointResult = string;
 export interface ExternalEvaluationEndpointInvocationResult {
     additionalInfo?: any;
     claims?: any;
+    complianceState?: ComplianceState;
     endpointKind?: string;
     expiration?: Date;
     message?: string;
@@ -226,17 +224,25 @@ export enum KnownAliasPathTokenType {
 }
 
 // @public
-export enum KnownAssignmentScopeValidation {
-    Default = "Default",
-    DoNotValidate = "DoNotValidate"
-}
-
-// @public
 export enum KnownAssignmentType {
     Custom = "Custom",
     NotSpecified = "NotSpecified",
     System = "System",
     SystemHidden = "SystemHidden"
+}
+
+// @public
+export enum KnownComplianceState {
+    Compliant = "Compliant",
+    Conflict = "Conflict",
+    Error = "Error",
+    Exempt = "Exempt",
+    NonCompliant = "NonCompliant",
+    NotApplicable = "NotApplicable",
+    NotSpecified = "NotSpecified",
+    Partial = "Partial",
+    Protected = "Protected",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -252,12 +258,6 @@ export enum KnownEnforcementMode {
     Default = "Default",
     DoNotEnforce = "DoNotEnforce",
     Enroll = "Enroll"
-}
-
-// @public
-export enum KnownExemptionCategory {
-    Mitigated = "Mitigated",
-    Waiver = "Waiver"
 }
 
 // @public
@@ -311,6 +311,7 @@ export enum KnownSelectorKind {
     GroupPrincipalId = "groupPrincipalId",
     PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
     ResourceLocation = "resourceLocation",
+    ResourceRolloutPercentage = "resourceRolloutPercentage",
     ResourceType = "resourceType",
     ResourceWithoutLocation = "resourceWithoutLocation",
     UserPrincipalId = "userPrincipalId"
@@ -320,8 +321,8 @@ export enum KnownSelectorKind {
 export enum KnownVersions {
     V20250301 = "2025-03-01",
     V20251101 = "2025-11-01",
-    V20251201Preview = "2025-12-01-preview",
-    V20260101Preview = "2026-01-01-preview"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
@@ -507,13 +508,9 @@ export class PolicyClient {
     readonly policyAssignments: PolicyAssignmentsOperations;
     readonly policyDefinitions: PolicyDefinitionsOperations;
     readonly policyDefinitionVersions: PolicyDefinitionVersionsOperations;
-    readonly policyEnrollments: PolicyEnrollmentsOperations;
-    readonly policyExemptions: PolicyExemptionsOperations;
     readonly policySetDefinitions: PolicySetDefinitionsOperations;
     readonly policySetDefinitionVersions: PolicySetDefinitionVersionsOperations;
     readonly policyTokens: PolicyTokensOperations;
-    readonly variables: VariablesOperations;
-    readonly variableValues: VariableValuesOperations;
 }
 
 // @public
@@ -732,177 +729,6 @@ export interface PolicyDefinitionVersionsOperations {
     listAllBuiltins: (options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams) => Promise<PolicyDefinitionVersionListResult>;
     listBuiltIn: (policyDefinitionName: string, options?: PolicyDefinitionVersionsListBuiltInOptionalParams) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
     listByManagementGroup: (managementGroupName: string, policyDefinitionName: string, options?: PolicyDefinitionVersionsListByManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyDefinitionVersion>;
-}
-
-// @public
-export interface PolicyEnrollment extends ExtensionResource {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    description?: string;
-    displayName?: string;
-    eTag?: string;
-    metadata?: any;
-    policyAssignmentId?: string;
-    readonly policyAssignmentInstanceId?: string;
-    policyDefinitionReferenceIds?: string[];
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyEnrollmentProperties {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    description?: string;
-    displayName?: string;
-    metadata?: any;
-    policyAssignmentId: string;
-    readonly policyAssignmentInstanceId?: string;
-    policyDefinitionReferenceIds?: string[];
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyEnrollmentsCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyEnrollmentsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyEnrollmentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyEnrollmentsListForManagementGroupOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyEnrollmentsListForResourceGroupOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyEnrollmentsListForResourceOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyEnrollmentsListOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyEnrollmentsOperations {
-    createOrUpdate: (scope: string, policyEnrollmentName: string, parameters: PolicyEnrollment, options?: PolicyEnrollmentsCreateOrUpdateOptionalParams) => Promise<PolicyEnrollment>;
-    delete: (scope: string, policyEnrollmentName: string, options?: PolicyEnrollmentsDeleteOptionalParams) => Promise<void>;
-    get: (scope: string, policyEnrollmentName: string, options?: PolicyEnrollmentsGetOptionalParams) => Promise<PolicyEnrollment>;
-    list: (options?: PolicyEnrollmentsListOptionalParams) => PagedAsyncIterableIterator<PolicyEnrollment>;
-    listForManagementGroup: (managementGroupId: string, options?: PolicyEnrollmentsListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyEnrollment>;
-    listForResource: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PolicyEnrollmentsListForResourceOptionalParams) => PagedAsyncIterableIterator<PolicyEnrollment>;
-    listForResourceGroup: (resourceGroupName: string, options?: PolicyEnrollmentsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyEnrollment>;
-    update: (scope: string, policyEnrollmentName: string, parameters: PolicyEnrollmentUpdate, options?: PolicyEnrollmentsUpdateOptionalParams) => Promise<PolicyEnrollment>;
-}
-
-// @public
-export interface PolicyEnrollmentsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyEnrollmentUpdate {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyEnrollmentUpdateProperties {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyExemption extends ExtensionResource {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    description?: string;
-    displayName?: string;
-    exemptionCategory?: ExemptionCategory;
-    expiresOn?: Date;
-    metadata?: any;
-    policyAssignmentId?: string;
-    policyDefinitionReferenceIds?: string[];
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyExemptionProperties {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    description?: string;
-    displayName?: string;
-    exemptionCategory: ExemptionCategory;
-    expiresOn?: Date;
-    metadata?: any;
-    policyAssignmentId: string;
-    policyDefinitionReferenceIds?: string[];
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyExemptionsCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyExemptionsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyExemptionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyExemptionsListForManagementGroupOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyExemptionsListForResourceGroupOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyExemptionsListForResourceOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyExemptionsListOptionalParams extends OperationOptions {
-    filter?: string;
-}
-
-// @public
-export interface PolicyExemptionsOperations {
-    createOrUpdate: (scope: string, policyExemptionName: string, parameters: PolicyExemption, options?: PolicyExemptionsCreateOrUpdateOptionalParams) => Promise<PolicyExemption>;
-    delete: (scope: string, policyExemptionName: string, options?: PolicyExemptionsDeleteOptionalParams) => Promise<void>;
-    get: (scope: string, policyExemptionName: string, options?: PolicyExemptionsGetOptionalParams) => Promise<PolicyExemption>;
-    list: (options?: PolicyExemptionsListOptionalParams) => PagedAsyncIterableIterator<PolicyExemption>;
-    listForManagementGroup: (managementGroupId: string, options?: PolicyExemptionsListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<PolicyExemption>;
-    listForResource: (resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PolicyExemptionsListForResourceOptionalParams) => PagedAsyncIterableIterator<PolicyExemption>;
-    listForResourceGroup: (resourceGroupName: string, options?: PolicyExemptionsListForResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyExemption>;
-    update: (scope: string, policyExemptionName: string, parameters: PolicyExemptionUpdate, options?: PolicyExemptionsUpdateOptionalParams) => Promise<PolicyExemption>;
-}
-
-// @public
-export interface PolicyExemptionsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyExemptionUpdate {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    resourceSelectors?: ResourceSelector[];
-}
-
-// @public
-export interface PolicyExemptionUpdateProperties {
-    assignmentScopeValidation?: AssignmentScopeValidation;
-    resourceSelectors?: ResourceSelector[];
 }
 
 // @public
@@ -1165,6 +991,10 @@ export interface PolicyTokensAcquireAtManagementGroupOptionalParams extends Oper
 }
 
 // @public
+export interface PolicyTokensAcquireAtResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface PolicyTokensAcquireOptionalParams extends OperationOptions {
 }
 
@@ -1172,31 +1002,11 @@ export interface PolicyTokensAcquireOptionalParams extends OperationOptions {
 export interface PolicyTokensOperations {
     acquire: (parameters: PolicyTokenRequest, options?: PolicyTokensAcquireOptionalParams) => Promise<PolicyTokenResponse>;
     acquireAtManagementGroup: (managementGroupName: string, parameters: PolicyTokenRequest, options?: PolicyTokensAcquireAtManagementGroupOptionalParams) => Promise<PolicyTokenResponse>;
+    acquireAtResourceGroup: (resourceGroupName: string, parameters: PolicyTokenRequest, options?: PolicyTokensAcquireAtResourceGroupOptionalParams) => Promise<PolicyTokenResponse>;
 }
 
 // @public
 export type PolicyType = string;
-
-// @public
-export interface PolicyVariableColumn {
-    columnName: string;
-}
-
-// @public
-export interface PolicyVariableProperties {
-    columns: PolicyVariableColumn[];
-}
-
-// @public
-export interface PolicyVariableValueColumnValue {
-    columnName: string;
-    columnValue: any;
-}
-
-// @public
-export interface PolicyVariableValueProperties {
-    values: PolicyVariableValueColumnValue[];
-}
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1232,6 +1042,7 @@ export interface Selector {
     in?: string[];
     kind?: SelectorKind;
     notIn?: string[];
+    progress?: number;
 }
 
 // @public
@@ -1257,104 +1068,6 @@ export interface SystemData {
 export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
-}
-
-// @public
-export interface Variable extends ProxyResource {
-    columns?: PolicyVariableColumn[];
-}
-
-// @public
-export interface VariablesCreateOrUpdateAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesDeleteAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesGetAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesListForManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariablesOperations {
-    createOrUpdate: (variableName: string, parameters: Variable, options?: VariablesCreateOrUpdateOptionalParams) => Promise<Variable>;
-    createOrUpdateAtManagementGroup: (managementGroupId: string, variableName: string, parameters: Variable, options?: VariablesCreateOrUpdateAtManagementGroupOptionalParams) => Promise<Variable>;
-    delete: (variableName: string, options?: VariablesDeleteOptionalParams) => Promise<void>;
-    deleteAtManagementGroup: (managementGroupId: string, variableName: string, options?: VariablesDeleteAtManagementGroupOptionalParams) => Promise<void>;
-    get: (variableName: string, options?: VariablesGetOptionalParams) => Promise<Variable>;
-    getAtManagementGroup: (managementGroupId: string, variableName: string, options?: VariablesGetAtManagementGroupOptionalParams) => Promise<Variable>;
-    list: (options?: VariablesListOptionalParams) => PagedAsyncIterableIterator<Variable>;
-    listForManagementGroup: (managementGroupId: string, options?: VariablesListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<Variable>;
-}
-
-// @public
-export interface VariableValue extends ProxyResource {
-    values?: PolicyVariableValueColumnValue[];
-}
-
-// @public
-export interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesDeleteAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesGetAtManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesListForManagementGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VariableValuesOperations {
-    createOrUpdate: (variableName: string, variableValueName: string, parameters: VariableValue, options?: VariableValuesCreateOrUpdateOptionalParams) => Promise<VariableValue>;
-    createOrUpdateAtManagementGroup: (managementGroupId: string, variableName: string, variableValueName: string, parameters: VariableValue, options?: VariableValuesCreateOrUpdateAtManagementGroupOptionalParams) => Promise<VariableValue>;
-    delete: (variableName: string, variableValueName: string, options?: VariableValuesDeleteOptionalParams) => Promise<void>;
-    deleteAtManagementGroup: (managementGroupId: string, variableName: string, variableValueName: string, options?: VariableValuesDeleteAtManagementGroupOptionalParams) => Promise<void>;
-    get: (variableName: string, variableValueName: string, options?: VariableValuesGetOptionalParams) => Promise<VariableValue>;
-    getAtManagementGroup: (managementGroupId: string, variableName: string, variableValueName: string, options?: VariableValuesGetAtManagementGroupOptionalParams) => Promise<VariableValue>;
-    list: (variableName: string, options?: VariableValuesListOptionalParams) => PagedAsyncIterableIterator<VariableValue>;
-    listForManagementGroup: (managementGroupId: string, variableName: string, options?: VariableValuesListForManagementGroupOptionalParams) => PagedAsyncIterableIterator<VariableValue>;
 }
 
 // (No @packageDocumentation comment for this package)

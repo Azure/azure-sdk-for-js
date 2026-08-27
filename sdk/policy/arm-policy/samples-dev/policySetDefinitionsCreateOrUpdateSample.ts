@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation creates or updates a policy set definition in the given subscription with the given name.
  *
  * @summary this operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicySetDefinition.json
+ * x-ms-original-file: 2026-07-01/createOrUpdatePolicySetDefinition.json
  */
 async function createOrUpdateAPolicySetDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function createOrUpdateAPolicySetDefinition(): Promise<void> {
  * This sample demonstrates how to this operation creates or updates a policy set definition in the given subscription with the given name.
  *
  * @summary this operation creates or updates a policy set definition in the given subscription with the given name.
- * x-ms-original-file: 2026-01-01-preview/createOrUpdatePolicySetDefinitionWithGroups.json
+ * x-ms-original-file: 2026-07-01/createOrUpdatePolicySetDefinitionWithGroups.json
  */
 async function createOrUpdateAPolicySetDefinitionWithGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

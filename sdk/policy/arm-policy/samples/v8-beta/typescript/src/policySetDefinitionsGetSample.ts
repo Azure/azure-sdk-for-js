@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation retrieves the policy set definition in the given subscription with the given name.
  *
  * @summary this operation retrieves the policy set definition in the given subscription with the given name.
- * x-ms-original-file: 2026-01-01-preview/getPolicySetDefinition.json
+ * x-ms-original-file: 2026-07-01/getPolicySetDefinition.json
  */
 async function retrieveAPolicySetDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
