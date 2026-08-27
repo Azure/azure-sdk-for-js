@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -539,19 +540,34 @@ export function skuMixPlacementVMSizeSerializer(item: SkuMixPlacementVMSize): an
 
 /** Sku Mix Placement API response. */
 export interface SkuMixPlacementResponse {
+  /**
+   * Unique identifier for this placement response, including responses that contain no placement choices.
+   * Replaces the per-choice id that was present on placementChoices in earlier API versions.
+   */
+  id: string;
   /** List of placement choice recommendations. */
   placementChoices: SkuMixPlacementDeploymentChoice[];
   /** Date/time until which the recommendations are valid. Callers should request fresh recommendations after this time. */
   validUntil?: Date;
   /** Indicates whether the response is a complete or partial fulfillment. */
   partialFulfillmentReason: SkuMixPlacementPartialFulfillmentReason;
+  /**
+   * Capacity availability for each requested (VM size, zone) combination, independent of the recommended
+   * placement. An entry is present for every requested combination, including those excluded by capacity
+   * or quota. Only returned for requests that describe instances by VM sizes.
+   */
+  capacityLimits?: SkuMixPlacementCapacityLimit[];
 }
 
 export function skuMixPlacementResponseDeserializer(item: any): SkuMixPlacementResponse {
   return {
+    id: item["id"],
     placementChoices: skuMixPlacementDeploymentChoiceArrayDeserializer(item["placementChoices"]),
     validUntil: !item["validUntil"] ? item["validUntil"] : new Date(item["validUntil"]),
     partialFulfillmentReason: item["partialFulfillmentReason"],
+    capacityLimits: !item["capacityLimits"]
+      ? item["capacityLimits"]
+      : skuMixPlacementCapacityLimitArrayDeserializer(item["capacityLimits"]),
   };
 }
 
@@ -565,8 +581,6 @@ export function skuMixPlacementDeploymentChoiceArrayDeserializer(
 
 /** A single deployment choice recommendation. */
 export interface SkuMixPlacementDeploymentChoice {
-  /** Unique identifier for this deployment choice. */
-  id: string;
   /** Placement score from 0 to 9 (inclusive). Higher is better. */
   score: number;
   /** The list of VM size / zone allocations that make up this deployment choice. */
@@ -577,7 +591,6 @@ export function skuMixPlacementDeploymentChoiceDeserializer(
   item: any,
 ): SkuMixPlacementDeploymentChoice {
   return {
-    id: item["id"],
     score: item["score"],
     skuSplit: skuMixPlacementItemArrayDeserializer(item["skuSplit"]),
   };
@@ -597,8 +610,6 @@ export interface SkuMixPlacementItem {
   priority: SkuMixPlacementPriority;
   /** Lower range of recommended allocation capacity. */
   capacity: number;
-  /** Upper range of recommended allocation capacity. */
-  capacityMax?: number;
   /** Logical zone (e.g. "1", "2", "3"). Omitted or empty for regional deployments. */
   zone?: string;
 }
@@ -608,7 +619,6 @@ export function skuMixPlacementItemDeserializer(item: any): SkuMixPlacementItem 
     name: item["name"],
     priority: item["priority"],
     capacity: item["capacity"],
-    capacityMax: item["capacityMax"],
     zone: item["zone"],
   };
 }
@@ -633,6 +643,69 @@ export enum KnownSkuMixPlacementPartialFulfillmentReason {
  * **InsufficientQuota**: Not enough quota was available.
  */
 export type SkuMixPlacementPartialFulfillmentReason = string;
+
+export function skuMixPlacementCapacityLimitArrayDeserializer(
+  result: Array<SkuMixPlacementCapacityLimit>,
+): any[] {
+  return result.map((item) => {
+    return skuMixPlacementCapacityLimitDeserializer(item);
+  });
+}
+
+/**
+ * Capacity availability for a single requested (VM size, zone) combination, independent of the
+ * recommended placement.
+ */
+export interface SkuMixPlacementCapacityLimit {
+  /** VM size name (e.g. Standard_D2s_v3). */
+  name: string;
+  /** Priority of this entry (Regular or Spot). */
+  priority: SkuMixPlacementPriority;
+  /** Logical zone (e.g. "1", "2", "3"). Omitted or empty for regional requests. */
+  zone?: string;
+  /**
+   * Upper bound, in VMs, on how much capacity can be allocated for this (VM size, zone): the smallest of
+   * the requested capacity, the available capacity, and the available quota, but never below the capacity
+   * already recommended for the slot. 0 when nothing is available.
+   */
+  limit: number;
+  /** Why the limit is below the requested capacity, or None when the request is fully available. */
+  reason: SkuMixPlacementCapacityLimitReason;
+}
+
+export function skuMixPlacementCapacityLimitDeserializer(item: any): SkuMixPlacementCapacityLimit {
+  return {
+    name: item["name"],
+    priority: item["priority"],
+    zone: item["zone"],
+    limit: item["limit"],
+    reason: item["reason"],
+  };
+}
+
+/** Reason the capacity limit for a (VM size, zone) is below the requested capacity. */
+export enum KnownSkuMixPlacementCapacityLimitReason {
+  /** The full requested capacity is available for this (VM size, zone). */
+  None = "None",
+  /** Allocable capacity bounded the limit below the requested capacity. */
+  InsufficientCapacity = "InsufficientCapacity",
+  /** Quota bounded the limit below the requested capacity. Takes precedence when both capacity and quota are insufficient. */
+  InsufficientQuota = "InsufficientQuota",
+  /** This VM size is not available in this zone for the subscription. */
+  SkuNotAvailable = "SkuNotAvailable",
+}
+
+/**
+ * Reason the capacity limit for a (VM size, zone) is below the requested capacity. \
+ * {@link KnownSkuMixPlacementCapacityLimitReason} can be used interchangeably with SkuMixPlacementCapacityLimitReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The full requested capacity is available for this (VM size, zone). \
+ * **InsufficientCapacity**: Allocable capacity bounded the limit below the requested capacity. \
+ * **InsufficientQuota**: Quota bounded the limit below the requested capacity. Takes precedence when both capacity and quota are insufficient. \
+ * **SkuNotAvailable**: This VM size is not available in this zone for the subscription.
+ */
+export type SkuMixPlacementCapacityLimitReason = string;
 
 /** Contains metadata of a diagnostic type */
 export interface ComputeDiagnosticBase extends ProxyResource {
@@ -793,4 +866,6 @@ export enum KnownVersions {
   V20250605 = "2025-06-05",
   /** The 2026-05-05-preview API version. */
   V20260505Preview = "2026-05-05-preview",
+  /** The 2026-09-05-preview API version. */
+  V20260905Preview = "2026-09-05-preview",
 }
