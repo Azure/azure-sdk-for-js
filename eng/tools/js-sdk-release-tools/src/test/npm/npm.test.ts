@@ -57,13 +57,13 @@ describe("Npm view", () => {
   });
 
   test("returns undefined when neither source has package information", async () => {
-    const errorSpy = vi.spyOn(logger, "error");
+    const warnSpy = vi.spyOn(logger, "warn");
     vi.mocked(fetch.json).mockRejectedValue(new Error("not found"));
 
     const result = await tryGetNpmView("non-exist");
 
     expect(result).toBeUndefined();
     expect(fetch.json).toHaveBeenCalledTimes(2);
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("from all sources"));
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("from all sources"));
   });
 });

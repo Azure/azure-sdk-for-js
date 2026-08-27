@@ -75,7 +75,7 @@ export async function tryGetNpmView(
     }
   }
 
-  logger.error(`[tryGetNpmView] Failed to fetch npm info for "${packageName}" from all sources`);
+  logger.warn(`[tryGetNpmView] Failed to fetch npm info for "${packageName}" from all sources`);
   return undefined;
 }
 
