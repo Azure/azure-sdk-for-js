@@ -5,7 +5,7 @@ import { logger } from "../logger.js";
 import pkgJson from "@azure/arm-terraform/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
-import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmDefaultScope, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
@@ -46,7 +46,10 @@ export function createAzureTerraform(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+      ...options.credentials,
+      scopes: options.credentials?.scopes ?? [
+        getArmDefaultScope(options.cloudSetting) ?? "https://management.azure.com/.default",
+      ],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);

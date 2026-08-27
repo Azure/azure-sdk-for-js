@@ -11,6 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
 import { AzureTerraformClient } from "../../src/azureTerraformClient.js";
+import { KnownVersions } from "../../src/index.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -30,7 +31,7 @@ describe("AzureTerraform test", () => {
     client = new AzureTerraformClient(
       credential,
       subscriptionId,
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({ apiVersion: KnownVersions.V20230701Preview }),
     );
   });
 

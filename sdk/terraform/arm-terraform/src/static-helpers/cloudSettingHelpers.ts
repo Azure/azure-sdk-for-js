@@ -40,3 +40,27 @@ export function getArmEndpoint(cloudSetting?: AzureSupportedClouds): string | un
     );
   }
 }
+
+/**
+ * Gets the Azure Resource Manager default credential scope for the specified cloud setting.
+ * @param cloudSetting - The Azure cloud environment setting. Use one of the AzureClouds enum values.
+ * @returns The ARM default credential scope for the specified cloud, or undefined if cloudSetting is undefined.
+ * @throws {Error} Throws an error if an unknown cloud setting is provided.
+ */
+export function getArmDefaultScope(cloudSetting?: AzureSupportedClouds): string | undefined {
+  if (cloudSetting === undefined) {
+    return undefined;
+  }
+  const cloudScopes: Record<keyof typeof AzureClouds, string> = {
+    AZURE_CHINA_CLOUD: "https://management.chinacloudapi.cn/.default",
+    AZURE_US_GOVERNMENT: "https://management.usgovcloudapi.net/.default",
+    AZURE_PUBLIC_CLOUD: "https://management.azure.com/.default",
+  };
+  if (cloudSetting in cloudScopes) {
+    return cloudScopes[cloudSetting];
+  } else {
+    throw new Error(
+      `Unknown cloud setting: ${cloudSetting}. Please refer to the enum AzureClouds for possible values.`,
+    );
+  }
+}
