@@ -1,5 +1,18 @@
 # Release History
 
+## 2.6.0 (Unreleased)
+
+### Features Added
+
+- Add `project.agents.generateAgent` and supporting voice agent, realtime event, and conversation models. [#39756](https://github.com/Azure/azure-sdk-for-js/issues/39756)
+- Add `A2ATool`, `WebIQPreviewTool`, and their toolbox counterparts. [#39756](https://github.com/Azure/azure-sdk-for-js/issues/39756)
+- Add `ShellToolboxTool` for configuring shell tools in toolboxes. [#39756](https://github.com/Azure/azure-sdk-for-js/issues/39756)
+- Add hosted-agent session defaults, activity protocol access boundaries, and agent endpoint publish approval status. [#39756](https://github.com/Azure/azure-sdk-for-js/issues/39756)
+
+### Other Changes
+
+- Add the `agents/generateVoiceAgent.ts` sample demonstrating voice agent generation. [#39756](https://github.com/Azure/azure-sdk-for-js/issues/39756)
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
