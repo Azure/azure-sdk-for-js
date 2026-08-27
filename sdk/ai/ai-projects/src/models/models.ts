@@ -6590,6 +6590,8 @@ export interface AgentEndpointConfig {
   protocol_configuration?: ProtocolConfiguration;
   /** The authorization schemes supported by the agent endpoint */
   authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
+  /** The Microsoft Agent Certification review status of the Microsoft 365 store title published for this agent. Server-populated and best-effort: it is absent when the status could not be determined, and an absent value must not be interpreted as the agent not being published. No value is terminal, because publishing a new version of an agent reuses the same store title and sends it back through review. */
+  readonly publish_approval_status?: PublishApprovalStatus;
 }
 
 export function agentEndpointConfigSerializer(item: AgentEndpointConfig): any {
@@ -6617,6 +6619,7 @@ export function agentEndpointConfigDeserializer(item: any): AgentEndpointConfig 
     authorization_schemes: !item["authorization_schemes"]
       ? item["authorization_schemes"]
       : agentEndpointAuthorizationSchemeUnionArrayDeserializer(item["authorization_schemes"]),
+    publish_approval_status: item["publish_approval_status"],
   };
 }
 
@@ -6786,6 +6789,8 @@ export function protocolConfigurationDeserializer(item: any): ProtocolConfigurat
 export interface ActivityProtocolConfiguration {
   /** Whether to enable the M365 public endpoint for the activity protocol. */
   enable_m365_public_endpoint?: boolean;
+  /** The access boundaries for the activity protocol. */
+  readonly access_boundaries?: ActivityProtocolAccessBoundary[];
 }
 
 export function activityProtocolConfigurationSerializer(item: ActivityProtocolConfiguration): any {
@@ -6797,8 +6802,34 @@ export function activityProtocolConfigurationDeserializer(
 ): ActivityProtocolConfiguration {
   return {
     enable_m365_public_endpoint: item["enable_m365_public_endpoint"],
+    access_boundaries: !item["access_boundaries"]
+      ? item["access_boundaries"]
+      : item["access_boundaries"].map((p: any) => {
+          return p;
+        }),
   };
 }
+
+/** An access boundary for the activity protocol. */
+export type ActivityProtocolAccessBoundary =
+  | "read.1on1.developers"
+  | "read.1on1.manager"
+  | "read.1on1.allowlisted"
+  | "read.1on1.tenant"
+  | "write.1on1.developers"
+  | "write.1on1.manager"
+  | "write.1on1.allowlisted"
+  | "write.1on1.tenant"
+  | "read.group.developers"
+  | "read.group.allowlisted"
+  | "read.group.manager-invited"
+  | "read.group.manager-present"
+  | "read.group.tenant"
+  | "write.group.developers"
+  | "write.group.allowlisted"
+  | "write.group.manager-invited"
+  | "write.group.manager-present"
+  | "write.group.tenant";
 
 /** Configuration specific to the responses protocol. */
 export interface ResponsesProtocolConfiguration {}
@@ -7031,6 +7062,10 @@ export function botServiceTenantAuthorizationSchemeDeserializer(
     type: item["type"],
   };
 }
+
+/** The Microsoft Agent Certification review status of the Microsoft 365 store title published for an agent. */
+export type PublishApprovalStatus =
+  "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
 
 /** model interface AgentCard */
 export interface AgentCard {
@@ -10396,6 +10431,7 @@ export type ToolboxToolUnion =
   | CodeInterpreterToolboxTool
   | FileSearchToolboxTool
   | WebSearchToolboxTool
+  | ShellToolboxTool
   | MCPToolboxTool
   | AzureAISearchToolboxTool
   | OpenApiToolboxTool
@@ -10418,6 +10454,9 @@ export function toolboxToolUnionSerializer(item: ToolboxToolUnion): any {
 
     case "web_search":
       return webSearchToolboxToolSerializer(item as WebSearchToolboxTool);
+
+    case "shell":
+      return shellToolboxToolSerializer(item as ShellToolboxTool);
 
     case "mcp":
       return mcpToolboxToolSerializer(item as MCPToolboxTool);
@@ -10467,6 +10506,9 @@ export function toolboxToolUnionDeserializer(item: any): ToolboxToolUnion {
     case "web_search":
       return webSearchToolboxToolDeserializer(item as WebSearchToolboxTool);
 
+    case "shell":
+      return shellToolboxToolDeserializer(item as ShellToolboxTool);
+
     case "mcp":
       return mcpToolboxToolDeserializer(item as MCPToolboxTool);
 
@@ -10509,6 +10551,7 @@ export type ToolboxToolType =
   | "code_interpreter"
   | "file_search"
   | "web_search"
+  | "shell"
   | "mcp"
   | "azure_ai_search"
   | "openapi"
@@ -10674,6 +10717,245 @@ export function webSearchToolboxToolDeserializer(item: any): WebSearchToolboxToo
     custom_search_configuration: !item["custom_search_configuration"]
       ? item["custom_search_configuration"]
       : webSearchConfigurationDeserializer(item["custom_search_configuration"]),
+  };
+}
+
+/** A shell tool stored in a toolbox. This model is additive to toolbox configuration and does not modify the OpenAI tool contract or existing toolbox tool definitions. */
+export interface ShellToolboxTool extends ToolboxTool {
+  /** The type of the tool. Always `shell`. */
+  type: "shell";
+  allowed_callers?: CallableToolAllowedCaller[];
+  /** The environment in which shell commands are executed. Specify an automatically provisioned container or an existing container. */
+  environment: ToolboxShellEnvironmentUnion;
+}
+
+export function shellToolboxToolSerializer(item: ShellToolboxTool): any {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordSerializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p: any) => {
+          return p;
+        }),
+    environment: toolboxShellEnvironmentUnionSerializer(item["environment"]),
+  };
+}
+
+export function shellToolboxToolDeserializer(item: any): ShellToolboxTool {
+  return {
+    type: item["type"],
+    name: item["name"],
+    description: item["description"],
+    tool_configs: !item["tool_configs"]
+      ? item["tool_configs"]
+      : toolConfigRecordDeserializer(item["tool_configs"]),
+    allowed_callers: !item["allowed_callers"]
+      ? item["allowed_callers"]
+      : item["allowed_callers"].map((p1: any) => {
+          return p1;
+        }),
+    environment: toolboxShellEnvironmentUnionDeserializer(item["environment"]),
+  };
+}
+
+/** An execution environment for a shell tool stored in a toolbox. This environment model is scoped to toolbox configuration and does not modify the OpenAI shell environment contract. */
+export interface ToolboxShellEnvironment {
+  /** The type of the shell execution environment. */
+  /** The discriminator possible values: container_auto, container_reference */
+  type: string;
+}
+
+export function toolboxShellEnvironmentSerializer(item: ToolboxShellEnvironment): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellEnvironmentDeserializer(item: any): ToolboxShellEnvironment {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolboxShellEnvironmentUnion */
+export type ToolboxShellEnvironmentUnion =
+  | ToolboxShellContainerAutoEnvironment
+  | ToolboxShellContainerReferenceEnvironment
+  | ToolboxShellEnvironment;
+
+export function toolboxShellEnvironmentUnionSerializer(item: ToolboxShellEnvironmentUnion): any {
+  switch (item.type) {
+    case "container_auto":
+      return toolboxShellContainerAutoEnvironmentSerializer(
+        item as ToolboxShellContainerAutoEnvironment,
+      );
+
+    case "container_reference":
+      return toolboxShellContainerReferenceEnvironmentSerializer(
+        item as ToolboxShellContainerReferenceEnvironment,
+      );
+
+    default:
+      return toolboxShellEnvironmentSerializer(item);
+  }
+}
+
+export function toolboxShellEnvironmentUnionDeserializer(item: any): ToolboxShellEnvironmentUnion {
+  switch (item["type"]) {
+    case "container_auto":
+      return toolboxShellContainerAutoEnvironmentDeserializer(
+        item as ToolboxShellContainerAutoEnvironment,
+      );
+
+    case "container_reference":
+      return toolboxShellContainerReferenceEnvironmentDeserializer(
+        item as ToolboxShellContainerReferenceEnvironment,
+      );
+
+    default:
+      return toolboxShellEnvironmentDeserializer(item);
+  }
+}
+
+/** An automatically provisioned container environment for a shell tool stored in a toolbox. */
+export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
+  /** The type of the shell execution environment. Always `container_auto`. */
+  type: "container_auto";
+  /** An optional list of uploaded files to make available to your code. */
+  file_ids?: string[];
+  memory_limit?: ContainerMemoryLimit;
+  /** An optional list of skills referenced by id or inline data. */
+  skills?: ContainerSkillUnion[];
+  /** The network access policy for the container. When omitted, the service defaults to disabled outbound network access. */
+  network_policy?: ToolboxShellNetworkPolicyUnion;
+}
+
+export function toolboxShellContainerAutoEnvironmentSerializer(
+  item: ToolboxShellContainerAutoEnvironment,
+): any {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+    memory_limit: item["memory_limit"],
+    skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : toolboxShellNetworkPolicyUnionSerializer(item["network_policy"]),
+  };
+}
+
+export function toolboxShellContainerAutoEnvironmentDeserializer(
+  item: any,
+): ToolboxShellContainerAutoEnvironment {
+  return {
+    type: item["type"],
+    file_ids: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+    memory_limit: item["memory_limit"],
+    skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
+    network_policy: !item["network_policy"]
+      ? item["network_policy"]
+      : toolboxShellNetworkPolicyUnionDeserializer(item["network_policy"]),
+  };
+}
+
+/** Network access policy for an automatically provisioned toolbox shell container. */
+export interface ToolboxShellNetworkPolicy {
+  /** The type of network access policy. */
+  /** The discriminator possible values: disabled */
+  type: string;
+}
+
+export function toolboxShellNetworkPolicySerializer(item: ToolboxShellNetworkPolicy): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellNetworkPolicyDeserializer(item: any): ToolboxShellNetworkPolicy {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for ToolboxShellNetworkPolicyUnion */
+export type ToolboxShellNetworkPolicyUnion =
+  ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
+
+export function toolboxShellNetworkPolicyUnionSerializer(
+  item: ToolboxShellNetworkPolicyUnion,
+): any {
+  switch (item.type) {
+    case "disabled":
+      return toolboxShellNetworkPolicyDisabledSerializer(item as ToolboxShellNetworkPolicyDisabled);
+
+    default:
+      return toolboxShellNetworkPolicySerializer(item);
+  }
+}
+
+export function toolboxShellNetworkPolicyUnionDeserializer(
+  item: any,
+): ToolboxShellNetworkPolicyUnion {
+  switch (item["type"]) {
+    case "disabled":
+      return toolboxShellNetworkPolicyDisabledDeserializer(
+        item as ToolboxShellNetworkPolicyDisabled,
+      );
+
+    default:
+      return toolboxShellNetworkPolicyDeserializer(item);
+  }
+}
+
+/** A network policy that disables outbound access from a toolbox shell container. */
+export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
+  /** The type of network access policy. Always `disabled`. */
+  type: "disabled";
+}
+
+export function toolboxShellNetworkPolicyDisabledSerializer(
+  item: ToolboxShellNetworkPolicyDisabled,
+): any {
+  return { type: item["type"] };
+}
+
+export function toolboxShellNetworkPolicyDisabledDeserializer(
+  item: any,
+): ToolboxShellNetworkPolicyDisabled {
+  return {
+    type: item["type"],
+  };
+}
+
+/** An existing container environment for a shell tool stored in a toolbox. */
+export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
+  /** The type of the shell execution environment. Always `container_reference`. */
+  type: "container_reference";
+  /** The ID of the referenced container. */
+  container_id: string;
+}
+
+export function toolboxShellContainerReferenceEnvironmentSerializer(
+  item: ToolboxShellContainerReferenceEnvironment,
+): any {
+  return { type: item["type"], container_id: item["container_id"] };
+}
+
+export function toolboxShellContainerReferenceEnvironmentDeserializer(
+  item: any,
+): ToolboxShellContainerReferenceEnvironment {
+  return {
+    type: item["type"],
+    container_id: item["container_id"],
   };
 }
 

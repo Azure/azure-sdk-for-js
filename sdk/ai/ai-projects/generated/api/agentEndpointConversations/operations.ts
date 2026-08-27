@@ -12,16 +12,16 @@ import {
   _agentsPagedResultVoiceResponseDeserializer,
   VoiceResponse,
   voiceResponseDeserializer,
-  VoiceConversationItem,
-  _AgentsPagedResultVoiceConversationItem,
-  _agentsPagedResultVoiceConversationItemDeserializer,
+  realtimeConversationItemUnionDeserializer,
+  RealtimeConversationItemUnion,
+  _AgentsPagedResultRealtimeConversationItem,
+  _agentsPagedResultRealtimeConversationItemDeserializer,
   VoiceItemAudioResponse,
   voiceItemAudioResponseDeserializer,
   VoiceRecordingResponse,
   voiceRecordingResponseDeserializer,
   AgentEndpointConversationsGetAgentConversationAudioContentResponse,
   AgentEndpointConversationsGetAgentConversationItemAudioContentResponse,
-  AgentEndpointConversationsGetAgentConversationItemResponse,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -404,7 +404,7 @@ export function _getAgentConversationItemSend(
 
 export async function _getAgentConversationItemDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
+): Promise<RealtimeConversationItemUnion> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -415,7 +415,7 @@ export async function _getAgentConversationItemDeserialize(
     throw error;
   }
 
-  return { body: result.body as any };
+  return realtimeConversationItemUnionDeserializer(result.body);
 }
 
 /**
@@ -434,7 +434,7 @@ export async function getAgentConversationItem(
   options: AgentEndpointConversationsGetAgentConversationItemOptionalParams = {
     requestOptions: {},
   },
-): Promise<AgentEndpointConversationsGetAgentConversationItemResponse> {
+): Promise<RealtimeConversationItemUnion> {
   const result = await _getAgentConversationItemSend(
     context,
     foundryFeatures,
@@ -484,7 +484,7 @@ export function _listAgentConversationItemsSend(
 
 export async function _listAgentConversationItemsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultVoiceConversationItem> {
+): Promise<_AgentsPagedResultRealtimeConversationItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -495,7 +495,7 @@ export async function _listAgentConversationItemsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultVoiceConversationItemDeserializer(result.body);
+  return _agentsPagedResultRealtimeConversationItemDeserializer(result.body);
 }
 
 /**
@@ -511,7 +511,7 @@ export function listAgentConversationItems(
   options: AgentEndpointConversationsListAgentConversationItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItem> {
+): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -562,7 +562,7 @@ export function _listAgentConversationResponseItemsSend(
 
 export async function _listAgentConversationResponseItemsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultVoiceConversationItem> {
+): Promise<_AgentsPagedResultRealtimeConversationItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -573,7 +573,7 @@ export async function _listAgentConversationResponseItemsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultVoiceConversationItemDeserializer(result.body);
+  return _agentsPagedResultRealtimeConversationItemDeserializer(result.body);
 }
 
 /**
@@ -591,7 +591,7 @@ export function listAgentConversationResponseItems(
   options: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VoiceConversationItem> {
+): PagedAsyncIterableIterator<RealtimeConversationItemUnion> {
   return buildPagedAsyncIterator(
     context,
     () =>

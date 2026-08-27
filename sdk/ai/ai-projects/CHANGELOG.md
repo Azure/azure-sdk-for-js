@@ -13,6 +13,10 @@
 - Added direct browser and React Native realtime connections using Microsoft Entra bearer credentials carried in the WebSocket subprotocol.
 - Added optional client-reference echo cancellation to the browser Voice Agent sample, streaming interleaved microphone and rendered-playback PCM channels.
 - Added `project.agentEndpointConversations` for inspecting and managing conversation history recorded by voice agents.
+- Added `ShellToolboxTool` and its container environment and network policy models for storing shell tools in `project.toolboxes`.
+- Added `ActivityProtocolAccessBoundary` and the `access_boundaries` property on `ActivityProtocolConfiguration`.
+- Added `PublishApprovalStatus` and the `publish_approval_status` property on `AgentEndpointConfig`.
+- Added the `toolboxes/toolboxShellTool.ts` sample demonstrating a shell tool in an automatically provisioned toolbox container.
 
 ### Bugs Fixed
 

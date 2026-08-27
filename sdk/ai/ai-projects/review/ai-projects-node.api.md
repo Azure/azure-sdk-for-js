@@ -41,7 +41,11 @@ export interface A2AProtocolConfiguration {
 }
 
 // @public
+export type ActivityProtocolAccessBoundary = "read.1on1.developers" | "read.1on1.manager" | "read.1on1.allowlisted" | "read.1on1.tenant" | "write.1on1.developers" | "write.1on1.manager" | "write.1on1.allowlisted" | "write.1on1.tenant" | "read.group.developers" | "read.group.allowlisted" | "read.group.manager-invited" | "read.group.manager-present" | "read.group.tenant" | "write.group.developers" | "write.group.allowlisted" | "write.group.manager-invited" | "write.group.manager-present" | "write.group.tenant";
+
+// @public
 export interface ActivityProtocolConfiguration {
+    readonly access_boundaries?: ActivityProtocolAccessBoundary[];
     enable_m365_public_endpoint?: boolean;
 }
 
@@ -145,6 +149,7 @@ export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | B
 export interface AgentEndpointConfig {
     authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
     protocol_configuration?: ProtocolConfiguration;
+    readonly publish_approval_status?: PublishApprovalStatus;
     version_selector?: VersionSelector;
 }
 
@@ -3688,6 +3693,9 @@ export interface ProtocolVersionRecord {
 }
 
 // @public
+export type PublishApprovalStatus = "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
+
+// @public
 export interface RaiConfig {
     rai_policy_name: string;
 }
@@ -4400,6 +4408,14 @@ export interface SharepointPreviewTool extends Tool {
 }
 
 // @public
+export interface ShellToolboxTool extends ToolboxTool {
+    // (undocumented)
+    allowed_callers?: CallableToolAllowedCaller[];
+    environment: ToolboxShellEnvironmentUnion;
+    type: "shell";
+}
+
+// @public
 export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOptions {
     question_types?: SimpleQnAFineTuningQuestionType[];
     type: "simple_qna";
@@ -4657,6 +4673,43 @@ export interface ToolboxSearchPreviewToolboxTool extends ToolboxTool {
 }
 
 // @public
+export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
+    file_ids?: string[];
+    // (undocumented)
+    memory_limit?: ContainerMemoryLimit;
+    network_policy?: ToolboxShellNetworkPolicyUnion;
+    skills?: ContainerSkillUnion[];
+    type: "container_auto";
+}
+
+// @public
+export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
+    container_id: string;
+    type: "container_reference";
+}
+
+// @public
+export interface ToolboxShellEnvironment {
+    type: string;
+}
+
+// @public
+export type ToolboxShellEnvironmentUnion = ToolboxShellContainerAutoEnvironment | ToolboxShellContainerReferenceEnvironment | ToolboxShellEnvironment;
+
+// @public
+export interface ToolboxShellNetworkPolicy {
+    type: string;
+}
+
+// @public
+export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
+    type: "disabled";
+}
+
+// @public
+export type ToolboxShellNetworkPolicyUnion = ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
+
+// @public
 export interface ToolboxSkill {
     type: string;
 }
@@ -4680,10 +4733,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "shell" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
