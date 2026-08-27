@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
  *
  * @summary perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_ChangeDisasterRecoveryConfiguration_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_ChangeDisasterRecoveryConfiguration_MaximumSet_Gen.json
  */
 async function performChangeDisasterRecoveryConfigurationActionOnAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function performChangeDisasterRecoveryConfigurationActionOnAutonomousDatab
  * This sample demonstrates how to perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
  *
  * @summary perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
- * x-ms-original-file: 2025-09-01/autonomousDatabase_changeDisasterRecoveryConfiguration.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_changeDisasterRecoveryConfiguration.json
  */
 async function autonomousDatabasesChangeDisasterRecoveryConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

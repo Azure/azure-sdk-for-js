@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to perform failover action on Autonomous Database
  *
  * @summary perform failover action on Autonomous Database
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_Failover_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_Failover_MaximumSet_Gen.json
  */
 async function performFailoverActionOnAutonomousDatabaseGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function performFailoverActionOnAutonomousDatabaseGeneratedByMaximumSetRul
  * This sample demonstrates how to perform failover action on Autonomous Database
  *
  * @summary perform failover action on Autonomous Database
- * x-ms-original-file: 2025-09-01/autonomousDatabase_failover.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_failover.json
  */
 async function autonomousDatabasesFailover() {
   const credential = new DefaultAzureCredential();

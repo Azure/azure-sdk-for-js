@@ -12,14 +12,14 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
-  type OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
-  type OracleSubscriptionsListActivationLinksOptionalParams,
-  type OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
-  type OracleSubscriptionsListCloudAccountDetailsOptionalParams,
-  type OracleSubscriptionsDeleteOptionalParams,
-  type OracleSubscriptionsUpdateOptionalParams,
-  type OracleSubscriptionsGetOptionalParams,
-  type OracleSubscriptionsCreateOrUpdateOptionalParams,
-  type OracleSubscriptionsListBySubscriptionOptionalParams,
+export type {
+  OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  OracleSubscriptionsListActivationLinksOptionalParams,
+  OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
+  OracleSubscriptionsListCloudAccountDetailsOptionalParams,
+  OracleSubscriptionsDeleteOptionalParams,
+  OracleSubscriptionsUpdateOptionalParams,
+  OracleSubscriptionsGetOptionalParams,
+  OracleSubscriptionsCreateOrUpdateOptionalParams,
+  OracleSubscriptionsListBySubscriptionOptionalParams,
 } from "./options.js";

@@ -61,7 +61,7 @@ import { _getVirtualNetworkAddressesOperations } from "./classic/virtualNetworkA
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
+export type { OracleDatabaseManagementClientOptionalParams } from "./api/oracleDatabaseManagementContext.js";
 
 export class OracleDatabaseManagementClient {
   private _client: OracleDatabaseManagementContext;
@@ -73,14 +73,7 @@ export class OracleDatabaseManagementClient {
     subscriptionId: string,
     options: OracleDatabaseManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createOracleDatabaseManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createOracleDatabaseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.dbVersions = _getDbVersionsOperations(this._client);
     this.dbSystems = _getDbSystemsOperations(this._client);

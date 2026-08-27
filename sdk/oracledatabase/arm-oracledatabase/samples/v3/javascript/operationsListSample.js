@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-09-01/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/Operations_List_MaximumSet_Gen.json
  */
 async function listOperationsGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -26,11 +26,11 @@ async function listOperationsGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-09-01/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/Operations_List_MinimumSet_Gen.json
  */
 async function listOperationsGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
@@ -44,11 +44,11 @@ async function listOperationsGeneratedByMinimumSetRule() {
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
- * x-ms-original-file: 2025-09-01/operations_list.json
+ * x-ms-original-file: 2025-11-01-preview/operations_list.json
  */
 async function operationsList() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {

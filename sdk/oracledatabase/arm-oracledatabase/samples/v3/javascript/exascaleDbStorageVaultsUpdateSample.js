@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a ExascaleDbStorageVault
  *
  * @summary update a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Update_MaximumSet_Gen.json
  */
 async function exascaleDbStorageVaultsUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function exascaleDbStorageVaultsUpdateMaximumSet() {
  * This sample demonstrates how to update a ExascaleDbStorageVault
  *
  * @summary update a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Update_MinimumSet_Gen.json
  */
 async function exascaleDbStorageVaultsUpdateMaximumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

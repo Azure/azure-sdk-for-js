@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -973,6 +975,7 @@ export interface DbSystemBaseProperties {
     clusterName?: string;
     computeCount?: number;
     computeModel?: ComputeModel;
+    dataCollectionOptions?: DataCollectionOptions;
     readonly dataStorageSizeInGbs?: number;
     dbSystemOptions?: DbSystemOptions;
     diskRedundancy?: DiskRedundancyType;
@@ -1665,6 +1668,8 @@ export type Intent = string;
 // @public
 export type IormLifecycleState = string;
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -2202,8 +2207,19 @@ export enum KnownTlsAuthenticationType {
 export enum KnownVersions {
     V20230901 = "2023-09-01",
     V20240601 = "2024-06-01",
+    V20240601Preview = "2024-06-01-preview",
+    V20240801Preview = "2024-08-01-preview",
+    V20241001Preview = "2024-10-01-preview",
+    V20241201Preview = "2024-12-01-preview",
+    V20250101Preview = "2025-01-01-preview",
     V20250301 = "2025-03-01",
-    V20250901 = "2025-09-01"
+    V20250401Preview = "2025-04-01-preview",
+    V20250601Preview = "2025-06-01-preview",
+    V20250701Preview = "2025-07-01-preview",
+    V20250801Preview = "2025-08-01-preview",
+    V20250815Preview = "2025-08-15-preview",
+    V20250901 = "2025-09-01",
+    V20251101Preview = "2025-11-01-preview"
 }
 
 // @public
@@ -2680,6 +2696,8 @@ export interface ResourceAnchorUpdate {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export interface RestoreAutonomousDatabaseDetails {

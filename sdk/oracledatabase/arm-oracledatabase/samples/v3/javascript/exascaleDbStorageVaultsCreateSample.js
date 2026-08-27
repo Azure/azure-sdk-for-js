@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a ExascaleDbStorageVault
  *
  * @summary create a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Create_MaximumSet_Gen.json
  */
 async function exascaleDbStorageVaultsCreateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -21,13 +21,7 @@ async function exascaleDbStorageVaultsCreateMaximumSet() {
         "kgqvxvtegzwyppegpvqxnlslvetbjlgveofcpjddenhbpocyzwtswaeaetqkipcxyhedsymuljalirryldlbviuvidhssyiwodacajjnbpkbvbvzwzsjctsidchalyjkievnivikwnnypaojcvhmokddstxwiqxmbfmbvglfimseguwyvibwzllggjtwejdfgezoeuvjjbsyfozswihydzuscjrqnklewongumiljeordhqlsclwlmftzdoey",
       displayName: "storagevault1",
       highCapacityDatabaseStorageInput: { totalSizeInGbs: 1 },
-      highCapacityDatabaseStorage: {
-        availableSizeInGbs: 4,
-        totalSizeInGbs: 12,
-      },
       timeZone: "hyjcftlal",
-      lifecycleState: "Provisioning",
-      ocid: "ocid1.autonomousdatabase.oc1..aaaaa3klq",
     },
     zones: ["npqjhyekyumfybqas"],
     tags: { key4521: "rrgotvwzckepkhgkbz" },
@@ -40,7 +34,7 @@ async function exascaleDbStorageVaultsCreateMaximumSet() {
  * This sample demonstrates how to create a ExascaleDbStorageVault
  *
  * @summary create a ExascaleDbStorageVault
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_Create_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_Create_MinimumSet_Gen.json
  */
 async function exascaleDbStorageVaultsCreateMaximumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

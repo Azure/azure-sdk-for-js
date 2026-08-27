@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +53,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -224,7 +231,9 @@ export function cloudExadataInfrastructureSerializer(item: CloudExadataInfrastru
 
 export function cloudExadataInfrastructureDeserializer(item: any): CloudExadataInfrastructure {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -826,7 +835,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -843,8 +854,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1192,8 +1203,8 @@ export type DbServerProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1273,7 +1284,9 @@ export function cloudVmClusterSerializer(item: CloudVmCluster): any {
 
 export function cloudVmClusterDeserializer(item: any): CloudVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1313,7 +1326,7 @@ export interface CloudVmClusterProperties {
   timeZone?: string;
   /** The OCID of the zone the cloud VM cluster is associated with. */
   zoneId?: string;
-  /** The hostname for the cloud VM cluster. */
+  /** The hostname for the cloud VM cluster. Hostname and domain combined length cannot exceed 112 characters. */
   hostname: string;
   /** The domain name for the cloud VM cluster. */
   domain?: string;
@@ -1553,10 +1566,7 @@ export interface FileSystemConfigurationDetails {
 export function fileSystemConfigurationDetailsSerializer(
   item: FileSystemConfigurationDetails,
 ): any {
-  return {
-    mountPoint: item["mountPoint"],
-    fileSystemSizeGb: item["fileSystemSizeGb"],
-  };
+  return { mountPoint: item["mountPoint"], fileSystemSizeGb: item["fileSystemSizeGb"] };
 }
 
 export function fileSystemConfigurationDetailsDeserializer(
@@ -2229,11 +2239,7 @@ export interface OracleSubscriptionProperties {
 }
 
 export function oracleSubscriptionPropertiesSerializer(item: OracleSubscriptionProperties): any {
-  return {
-    termUnit: item["termUnit"],
-    productCode: item["productCode"],
-    intent: item["intent"],
-  };
+  return { termUnit: item["termUnit"], productCode: item["productCode"], intent: item["intent"] };
 }
 
 export function oracleSubscriptionPropertiesDeserializer(item: any): OracleSubscriptionProperties {
@@ -3331,7 +3337,9 @@ export function autonomousDatabaseSerializer(item: AutonomousDatabase): any {
 
 export function autonomousDatabaseDeserializer(item: any): AutonomousDatabase {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3722,7 +3730,7 @@ export function autonomousDatabaseBasePropertiesUnionSerializer(
 export function autonomousDatabaseBasePropertiesUnionDeserializer(
   item: any,
 ): AutonomousDatabaseBasePropertiesUnion {
-  switch (item.dataBaseType) {
+  switch (item["dataBaseType"]) {
     case "Regular":
       return autonomousDatabasePropertiesDeserializer(item as AutonomousDatabaseProperties);
 
@@ -5692,10 +5700,7 @@ export interface AutonomousDatabaseBackupProperties {
 export function autonomousDatabaseBackupPropertiesSerializer(
   item: AutonomousDatabaseBackupProperties,
 ): any {
-  return {
-    displayName: item["displayName"],
-    retentionPeriodInDays: item["retentionPeriodInDays"],
-  };
+  return { displayName: item["displayName"], retentionPeriodInDays: item["retentionPeriodInDays"] };
 }
 
 export function autonomousDatabaseBackupPropertiesDeserializer(
@@ -6078,7 +6083,9 @@ export function exadbVmClusterSerializer(item: ExadbVmCluster): any {
 
 export function exadbVmClusterDeserializer(item: any): ExadbVmCluster {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6568,7 +6575,9 @@ export function exascaleDbStorageVaultSerializer(item: ExascaleDbStorageVault): 
 
 export function exascaleDbStorageVaultDeserializer(item: any): ExascaleDbStorageVault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6823,7 +6832,9 @@ export function networkAnchorSerializer(item: NetworkAnchor): any {
 
 export function networkAnchorDeserializer(item: any): NetworkAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -6947,10 +6958,7 @@ export interface DnsForwardingRule {
 }
 
 export function dnsForwardingRuleSerializer(item: DnsForwardingRule): any {
-  return {
-    domainNames: item["domainNames"],
-    forwardingIpAddress: item["forwardingIpAddress"],
-  };
+  return { domainNames: item["domainNames"], forwardingIpAddress: item["forwardingIpAddress"] };
 }
 
 export function dnsForwardingRuleDeserializer(item: any): DnsForwardingRule {
@@ -7050,7 +7058,9 @@ export function resourceAnchorSerializer(item: ResourceAnchor): any {
 
 export function resourceAnchorDeserializer(item: any): ResourceAnchor {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7072,8 +7082,8 @@ export interface ResourceAnchorProperties {
   readonly linkedCompartmentId?: string;
 }
 
-export function resourceAnchorPropertiesSerializer(item: ResourceAnchorProperties): any {
-  return item;
+export function resourceAnchorPropertiesSerializer(_item: ResourceAnchorProperties): any {
+  return {};
 }
 
 export function resourceAnchorPropertiesDeserializer(item: any): ResourceAnchorProperties {
@@ -7145,7 +7155,9 @@ export function dbSystemSerializer(item: DbSystem): any {
 
 export function dbSystemDeserializer(item: any): DbSystem {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -7202,6 +7214,9 @@ export function dbSystemPropertiesSerializer(item: DbSystemProperties): any {
     timeZone: item["timeZone"],
     computeModel: item["computeModel"],
     computeCount: item["computeCount"],
+    dataCollectionOptions: !item["dataCollectionOptions"]
+      ? item["dataCollectionOptions"]
+      : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
     databaseEdition: item["databaseEdition"],
     adminPassword: item["adminPassword"],
     dbVersion: item["dbVersion"],
@@ -7249,6 +7264,9 @@ export function dbSystemPropertiesDeserializer(item: any): DbSystemProperties {
     version: item["version"],
     computeModel: item["computeModel"],
     computeCount: item["computeCount"],
+    dataCollectionOptions: !item["dataCollectionOptions"]
+      ? item["dataCollectionOptions"]
+      : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
     databaseEdition: item["databaseEdition"],
     adminPassword: item["adminPassword"],
     dbVersion: item["dbVersion"],
@@ -7346,6 +7364,8 @@ export interface DbSystemBaseProperties {
   computeModel?: ComputeModel;
   /** The number of compute servers for the DB system. */
   computeCount?: number;
+  /** Indicates user preferences for the various diagnostic collection options for the Base DB. */
+  dataCollectionOptions?: DataCollectionOptions;
 }
 
 export function dbSystemBasePropertiesSerializer(item: DbSystemBaseProperties): any {
@@ -7372,6 +7392,9 @@ export function dbSystemBasePropertiesSerializer(item: DbSystemBaseProperties): 
     timeZone: item["timeZone"],
     computeModel: item["computeModel"],
     computeCount: item["computeCount"],
+    dataCollectionOptions: !item["dataCollectionOptions"]
+      ? item["dataCollectionOptions"]
+      : dataCollectionOptionsSerializer(item["dataCollectionOptions"]),
   };
 }
 
@@ -7415,6 +7438,9 @@ export function dbSystemBasePropertiesDeserializer(item: any): DbSystemBasePrope
     version: item["version"],
     computeModel: item["computeModel"],
     computeCount: item["computeCount"],
+    dataCollectionOptions: !item["dataCollectionOptions"]
+      ? item["dataCollectionOptions"]
+      : dataCollectionOptionsDeserializer(item["dataCollectionOptions"]),
   };
 }
 
@@ -7432,7 +7458,7 @@ export function dbSystemBasePropertiesUnionSerializer(item: DbSystemBaseProperti
 }
 
 export function dbSystemBasePropertiesUnionDeserializer(item: any): DbSystemBasePropertiesUnion {
-  switch (item.source) {
+  switch (item["source"]) {
     case "None":
       return dbSystemPropertiesDeserializer(item as DbSystemProperties);
 
@@ -7746,12 +7772,34 @@ export type ShapeFamilyType = string;
 export enum KnownVersions {
   /** 2023-09-01 */
   V20230901 = "2023-09-01",
+  /** 2024-06-01-preview */
+  V20240601Preview = "2024-06-01-preview",
   /** 2024-06-01 */
   V20240601 = "2024-06-01",
+  /** 2024-08-01-preview */
+  V20240801Preview = "2024-08-01-preview",
+  /** 2024-10-01-preview */
+  V20241001Preview = "2024-10-01-preview",
+  /** 2024-12-01-preview */
+  V20241201Preview = "2024-12-01-preview",
+  /** 2025-01-01-preview */
+  V20250101Preview = "2025-01-01-preview",
   /** 2025-03-01 */
   V20250301 = "2025-03-01",
+  /** 2025-04-01-preview */
+  V20250401Preview = "2025-04-01-preview",
+  /** 2025-06-01-preview */
+  V20250601Preview = "2025-06-01-preview",
+  /** 2025-07-01-preview */
+  V20250701Preview = "2025-07-01-preview",
+  /** 2025-08-01-preview */
+  V20250801Preview = "2025-08-01-preview",
+  /** 2025-08-15-preview */
+  V20250815Preview = "2025-08-15-preview",
   /** 2025-09-01 */
   V20250901 = "2025-09-01",
+  /** 2025-11-01-preview */
+  V20251101Preview = "2025-11-01-preview",
 }
 
 export function privateIpAddressPropertiesArrayDeserializer(

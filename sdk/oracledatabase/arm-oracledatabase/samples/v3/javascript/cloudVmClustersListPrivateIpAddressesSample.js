@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Private IP Addresses by the provided filter
  *
  * @summary list Private IP Addresses by the provided filter
- * x-ms-original-file: 2025-09-01/CloudVmClusters_ListPrivateIpAddresses_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_ListPrivateIpAddresses_MaximumSet_Gen.json
  */
 async function listPrivateIPAddressesForVMClusterGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listPrivateIPAddressesForVMClusterGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list Private IP Addresses by the provided filter
  *
  * @summary list Private IP Addresses by the provided filter
- * x-ms-original-file: 2025-09-01/CloudVmClusters_ListPrivateIpAddresses_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudVmClusters_ListPrivateIpAddresses_MinimumSet_Gen.json
  */
 async function listPrivateIPAddressesForVMClusterGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listPrivateIPAddressesForVMClusterGeneratedByMinimumSetRule() {
  * This sample demonstrates how to list Private IP Addresses by the provided filter
  *
  * @summary list Private IP Addresses by the provided filter
- * x-ms-original-file: 2025-09-01/vmClusters_listPrivateIpAddresses.json
+ * x-ms-original-file: 2025-11-01-preview/vmClusters_listPrivateIpAddresses.json
  */
 async function cloudVmClustersListPrivateIpAddresses() {
   const credential = new DefaultAzureCredential();

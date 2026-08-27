@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Activation Links
  *
  * @summary list Activation Links
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_ListActivationLinks_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_ListActivationLinks_MaximumSet_Gen.json
  */
 async function listActivationLinksForTheOracleSubscriptionGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function listActivationLinksForTheOracleSubscriptionGeneratedByMaximumSetR
  * This sample demonstrates how to list Activation Links
  *
  * @summary list Activation Links
- * x-ms-original-file: 2025-09-01/OracleSubscriptions_ListActivationLinks_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/OracleSubscriptions_ListActivationLinks_MinimumSet_Gen.json
  */
 async function listActivationLinksForTheOracleSubscriptionGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function listActivationLinksForTheOracleSubscriptionGeneratedByMinimumSetR
  * This sample demonstrates how to list Activation Links
  *
  * @summary list Activation Links
- * x-ms-original-file: 2025-09-01/oracleSubscriptions_listActivationLinks.json
+ * x-ms-original-file: 2025-11-01-preview/oracleSubscriptions_listActivationLinks.json
  */
 async function oracleSubscriptionsListActivationLinks() {
   const credential = new DefaultAzureCredential();

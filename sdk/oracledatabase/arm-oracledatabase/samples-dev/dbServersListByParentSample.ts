@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DbServer resources by CloudExadataInfrastructure
  *
  * @summary list DbServer resources by CloudExadataInfrastructure
- * x-ms-original-file: 2025-09-01/DbServers_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbServers_ListByParent_MaximumSet_Gen.json
  */
 async function listDbServersByExadataInfrastructureGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listDbServersByExadataInfrastructureGeneratedByMaximumSetRule(): 
  * This sample demonstrates how to list DbServer resources by CloudExadataInfrastructure
  *
  * @summary list DbServer resources by CloudExadataInfrastructure
- * x-ms-original-file: 2025-09-01/DbServers_ListByParent_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbServers_ListByParent_MinimumSet_Gen.json
  */
 async function listDbServersByExadataInfrastructureGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

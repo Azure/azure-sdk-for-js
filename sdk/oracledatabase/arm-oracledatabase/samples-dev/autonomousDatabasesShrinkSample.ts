@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation shrinks the current allocated storage down to the current actual used data storage.
  *
  * @summary this operation shrinks the current allocated storage down to the current actual used data storage.
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_Shrink_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_Shrink_MaximumSet_Gen.json
  */
 async function performShrinkActionOnAutonomousDatabaseGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

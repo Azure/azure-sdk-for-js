@@ -12,14 +12,14 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
-  type CloudVmClustersListPrivateIpAddressesOptionalParams,
-  type CloudVmClustersRemoveVmsOptionalParams,
-  type CloudVmClustersAddVmsOptionalParams,
-  type CloudVmClustersListByResourceGroupOptionalParams,
-  type CloudVmClustersDeleteOptionalParams,
-  type CloudVmClustersUpdateOptionalParams,
-  type CloudVmClustersGetOptionalParams,
-  type CloudVmClustersCreateOrUpdateOptionalParams,
-  type CloudVmClustersListBySubscriptionOptionalParams,
+export type {
+  CloudVmClustersListPrivateIpAddressesOptionalParams,
+  CloudVmClustersRemoveVmsOptionalParams,
+  CloudVmClustersAddVmsOptionalParams,
+  CloudVmClustersListByResourceGroupOptionalParams,
+  CloudVmClustersDeleteOptionalParams,
+  CloudVmClustersUpdateOptionalParams,
+  CloudVmClustersGetOptionalParams,
+  CloudVmClustersCreateOrUpdateOptionalParams,
+  CloudVmClustersListBySubscriptionOptionalParams,
 } from "./options.js";

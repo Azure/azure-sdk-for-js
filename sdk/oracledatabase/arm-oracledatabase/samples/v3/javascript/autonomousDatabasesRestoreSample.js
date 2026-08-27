@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restores an Autonomous Database based on the provided request parameters.
  *
  * @summary restores an Autonomous Database based on the provided request parameters.
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_Restore_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_Restore_MaximumSet_Gen.json
  */
 async function performRestoreActionOnAutonomousDatabaseGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function performRestoreActionOnAutonomousDatabaseGeneratedByMaximumSetRule
  * This sample demonstrates how to restores an Autonomous Database based on the provided request parameters.
  *
  * @summary restores an Autonomous Database based on the provided request parameters.
- * x-ms-original-file: 2025-09-01/autonomousDatabase_restore.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_restore.json
  */
 async function autonomousDatabasesRestore() {
   const credential = new DefaultAzureCredential();

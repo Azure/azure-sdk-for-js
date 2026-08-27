@@ -21,16 +21,14 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _listByLocationSend(
   context: Client,
   location: string,
-  options: AutonomousDatabaseVersionsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/locations/{location}/autonomousDbVersions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -38,10 +36,7 @@ export function _listByLocationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -51,7 +46,10 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -62,16 +60,18 @@ export async function _listByLocationDeserialize(
 export function listByLocation(
   context: Client,
   location: string,
-  options: AutonomousDatabaseVersionsListByLocationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AutonomousDatabaseVersionsListByLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AutonomousDbVersion> {
   return buildPagedAsyncIterator(
     context,
     () => _listByLocationSend(context, location, options),
     _listByLocationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    },
   );
 }
 
@@ -87,7 +87,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       autonomousdbversionsname: autonomousdbversionsname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,10 +95,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -106,7 +103,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Au
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

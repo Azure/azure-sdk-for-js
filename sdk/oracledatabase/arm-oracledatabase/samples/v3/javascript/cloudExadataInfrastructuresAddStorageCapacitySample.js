@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to perform add storage capacity on exadata infra
  *
  * @summary perform add storage capacity on exadata infra
- * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_AddStorageCapacity_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudExadataInfrastructures_AddStorageCapacity_MaximumSet_Gen.json
  */
 async function performAddStorageCapacityOnExadataInfraGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function performAddStorageCapacityOnExadataInfraGeneratedByMaximumSetRule(
  * This sample demonstrates how to perform add storage capacity on exadata infra
  *
  * @summary perform add storage capacity on exadata infra
- * x-ms-original-file: 2025-09-01/CloudExadataInfrastructures_AddStorageCapacity_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/CloudExadataInfrastructures_AddStorageCapacity_MinimumSet_Gen.json
  */
 async function performAddStorageCapacityOnExadataInfraGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function performAddStorageCapacityOnExadataInfraGeneratedByMinimumSetRule(
  * This sample demonstrates how to perform add storage capacity on exadata infra
  *
  * @summary perform add storage capacity on exadata infra
- * x-ms-original-file: 2025-09-01/exaInfra_addStorageCapacity.json
+ * x-ms-original-file: 2025-11-01-preview/exaInfra_addStorageCapacity.json
  */
 async function cloudExadataInfrastructuresAddStorageCapacity() {
   const credential = new DefaultAzureCredential();

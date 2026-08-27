@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ExascaleDbNode resources by ExadbVmCluster
  *
  * @summary list ExascaleDbNode resources by ExadbVmCluster
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbNodes_ListByParent_MaximumSet_Gen.json
  */
 async function exascaleDbNodesListByParentMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function exascaleDbNodesListByParentMaximumSet(): Promise<void> {
  * This sample demonstrates how to list ExascaleDbNode resources by ExadbVmCluster
  *
  * @summary list ExascaleDbNode resources by ExadbVmCluster
- * x-ms-original-file: 2025-09-01/ExascaleDbNodes_ListByParent_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbNodes_ListByParent_MinimumSet_Gen.json
  */
 async function exascaleDbNodesListByParentMaximumSetGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

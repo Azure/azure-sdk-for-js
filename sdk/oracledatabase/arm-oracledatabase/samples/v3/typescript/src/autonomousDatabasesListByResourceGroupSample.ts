@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AutonomousDatabase resources by resource group
  *
  * @summary list AutonomousDatabase resources by resource group
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function listAutonomousDatabaseByResourceGroupGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listAutonomousDatabaseByResourceGroupGeneratedByMaximumSetRule():
  * This sample demonstrates how to list AutonomousDatabase resources by resource group
  *
  * @summary list AutonomousDatabase resources by resource group
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function listAutonomousDatabaseByResourceGroupGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listAutonomousDatabaseByResourceGroupGeneratedByMinimumSetRule():
  * This sample demonstrates how to list AutonomousDatabase resources by resource group
  *
  * @summary list AutonomousDatabase resources by resource group
- * x-ms-original-file: 2025-09-01/autonomousDatabase_listByResourceGroup.json
+ * x-ms-original-file: 2025-11-01-preview/autonomousDatabase_listByResourceGroup.json
  */
 async function autonomousDatabasesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

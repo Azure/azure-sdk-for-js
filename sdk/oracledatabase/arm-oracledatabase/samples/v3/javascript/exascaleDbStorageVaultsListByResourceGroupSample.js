@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list ExascaleDbStorageVault resources by resource group
  *
  * @summary list ExascaleDbStorageVault resources by resource group
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function exascaleDbStorageVaultsListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function exascaleDbStorageVaultsListByResourceGroupMaximumSet() {
  * This sample demonstrates how to list ExascaleDbStorageVault resources by resource group
  *
  * @summary list ExascaleDbStorageVault resources by resource group
- * x-ms-original-file: 2025-09-01/ExascaleDbStorageVaults_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/ExascaleDbStorageVaults_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function exascaleDbStorageVaultsListByResourceGroupMaximumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

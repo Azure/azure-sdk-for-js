@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DbSystemShape resources by SubscriptionLocationResource
  *
  * @summary list DbSystemShape resources by SubscriptionLocationResource
- * x-ms-original-file: 2025-09-01/DbSystemShapes_ListByLocation_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbSystemShapes_ListByLocation_MaximumSet_Gen.json
  */
 async function listDbSystemShapesByLocationGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function listDbSystemShapesByLocationGeneratedByMaximumSetRule() {
  * This sample demonstrates how to list DbSystemShape resources by SubscriptionLocationResource
  *
  * @summary list DbSystemShape resources by SubscriptionLocationResource
- * x-ms-original-file: 2025-09-01/DbSystemShapes_ListByLocation_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/DbSystemShapes_ListByLocation_MinimumSet_Gen.json
  */
 async function listDbSystemShapesByLocationGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function listDbSystemShapesByLocationGeneratedByMinimumSetRule() {
  * This sample demonstrates how to list DbSystemShape resources by SubscriptionLocationResource
  *
  * @summary list DbSystemShape resources by SubscriptionLocationResource
- * x-ms-original-file: 2025-09-01/dbSystemShapes_listByLocation.json
+ * x-ms-original-file: 2025-11-01-preview/dbSystemShapes_listByLocation.json
  */
 async function dbSystemShapesListByLocation() {
   const credential = new DefaultAzureCredential();

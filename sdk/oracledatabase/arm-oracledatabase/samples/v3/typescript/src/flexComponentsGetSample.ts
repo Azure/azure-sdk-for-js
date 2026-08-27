@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FlexComponent
  *
  * @summary get a FlexComponent
- * x-ms-original-file: 2025-09-01/FlexComponents_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/FlexComponents_Get_MaximumSet_Gen.json
  */
 async function flexComponentsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

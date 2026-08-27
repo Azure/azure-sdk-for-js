@@ -1,14 +1,21 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.0 (2026-08-27)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Interface DbSystemBaseProperties has a new optional parameter dataCollectionOptions
+  - Interface DbSystemProperties has a new optional parameter dataCollectionOptions
+  - Enum KnownVersions has a new value V20240601Preview
+  - Enum KnownVersions has a new value V20240801Preview
+  - Enum KnownVersions has a new value V20241001Preview
+  - Enum KnownVersions has a new value V20241201Preview
+  - Enum KnownVersions has a new value V20250101Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250601Preview
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20250815Preview
+  - Enum KnownVersions has a new value V20251101Preview
 
 ## 3.0.0 (2025-09-25)
 

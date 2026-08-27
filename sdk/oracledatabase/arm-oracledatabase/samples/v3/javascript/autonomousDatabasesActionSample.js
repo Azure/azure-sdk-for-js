@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to perform Lifecycle Management Action on Autonomous Database
  *
  * @summary perform Lifecycle Management Action on Autonomous Database
- * x-ms-original-file: 2025-09-01/AutonomousDatabases_Action_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/AutonomousDatabases_Action_MaximumSet_Gen.json
  */
 async function autonomousDatabasesActionMaximumSet() {
   const credential = new DefaultAzureCredential();

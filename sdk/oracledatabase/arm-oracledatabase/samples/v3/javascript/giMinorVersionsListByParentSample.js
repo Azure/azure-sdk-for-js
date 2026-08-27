@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list GiMinorVersion resources by GiVersion
  *
  * @summary list GiMinorVersion resources by GiVersion
- * x-ms-original-file: 2025-09-01/GiMinorVersions_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/GiMinorVersions_ListByParent_MaximumSet_Gen.json
  */
 async function giMinorVersionsListByParentMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function giMinorVersionsListByParentMaximumSet() {
  * This sample demonstrates how to list GiMinorVersion resources by GiVersion
  *
  * @summary list GiMinorVersion resources by GiVersion
- * x-ms-original-file: 2025-09-01/GiMinorVersions_ListByParent_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-11-01-preview/GiMinorVersions_ListByParent_MinimumSet_Gen.json
  */
 async function giMinorVersionsListByParentMaximumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
