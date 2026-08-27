@@ -69,15 +69,34 @@ describe("OneSettings exporter initialization", () => {
     expect(configurationMocks.initialize).not.toHaveBeenCalled();
   });
 
-  it("extracts the region from an unstamped regional ingestion endpoint", () => {
+  it.each([
+    ["https://westus.in.applicationinsights.azure.com", "westus"],
+    ["https://westus-1.in.applicationinsights.azure.com", "westus"],
+    ["https://usgovvirginia.in.applicationinsights.azure.us", "usgovvirginia"],
+    ["https://chinaeast2-1.in.applicationinsights.azure.cn", "chinaeast2"],
+  ])("extracts the region from regional ingestion endpoint %s", (ingestionEndpoint, region) => {
     new TestExporter({
       connectionString:
-        `InstrumentationKey=${instrumentationKey};` +
-        "IngestionEndpoint=https://westus.in.applicationinsights.azure.com",
+        `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
     });
 
     expect(configurationMocks.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ region: "westus" }),
+      expect.objectContaining({ region }),
+    );
+  });
+
+  it.each([
+    "https://westus.in.applicationinsights.example.com",
+    "https://westus.in.applicationinsights.azure.com.example.com",
+    "https://prefix.westus.in.applicationinsights.azure.com",
+  ])("does not extract a region from unsupported endpoint %s", (ingestionEndpoint) => {
+    new TestExporter({
+      connectionString:
+        `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
+    });
+
+    expect(configurationMocks.initialize).toHaveBeenCalledWith(
+      expect.objectContaining({ region: "" }),
     );
   });
 });

@@ -5,6 +5,7 @@ import { diag } from "@opentelemetry/api";
 import { ConnectionStringParser } from "../utils/connectionStringParser.js";
 import type { AzureMonitorExporterOptions } from "../config.js";
 import {
+  ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS,
   DEFAULT_BREEZE_ENDPOINT,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_CONNECTION_STRING,
@@ -133,7 +134,16 @@ function getResourceProvider(): string {
 function getRegion(endpointUrl: string): string {
   try {
     const hostname = new URL(endpointUrl).hostname;
-    return /^([a-z0-9]+)(?:-\d+)?\.in\.applicationinsights\./i.exec(hostname)?.[1] ?? "";
+    const match = /^([a-z0-9]+)(?:-\d+)?\.in(\.applicationinsights\.[a-z.]+)$/i.exec(hostname);
+    if (
+      !match ||
+      !ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS.some((suffixGroup) =>
+        suffixGroup.includes(match[2].toLowerCase()),
+      )
+    ) {
+      return "";
+    }
+    return match[1];
   } catch {
     return "";
   }
