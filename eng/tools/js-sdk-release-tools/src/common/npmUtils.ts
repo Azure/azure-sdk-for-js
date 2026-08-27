@@ -49,18 +49,34 @@ export function getArtifactName(info: NpmPackageInfo) {
 export async function tryGetNpmView(
   packageName: string,
 ): Promise<{ [id: string]: unknown } | undefined> {
-  try {
-    logger.info(`[tryGetNpmView] Fetching npm registry info for: ${packageName}`);
-    const result = await fetch.json(`/${packageName}`, {
+  const sources = [
+    { name: "public npm", registry: "https://registry.npmjs.org/" },
+    {
+      name: "Azure SDK feed",
       registry:
         "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/",
-    });
-    logger.info(`[tryGetNpmView] Successfully fetched info for: ${packageName}`);
-    return result;
-  } catch (err) {
-    logger.error(`[tryGetNpmView] Failed to fetch npm info for "${packageName}": ${err}`);
-    return undefined;
+    },
+  ];
+
+  for (const source of sources) {
+    try {
+      logger.info(
+        `[tryGetNpmView] Fetching npm info for "${packageName}" from ${source.name} (${source.registry})`,
+      );
+      const result = await fetch.json(`/${packageName}`, { registry: source.registry });
+      logger.info(
+        `[tryGetNpmView] Successfully fetched npm info for "${packageName}" from ${source.name}`,
+      );
+      return result;
+    } catch (err) {
+      logger.warn(
+        `[tryGetNpmView] Failed to fetch npm info for "${packageName}" from ${source.name} (${source.registry}): ${err}`,
+      );
+    }
   }
+
+  logger.error(`[tryGetNpmView] Failed to fetch npm info for "${packageName}" from all sources`);
+  return undefined;
 }
 
 export interface NpmViewParameters {
