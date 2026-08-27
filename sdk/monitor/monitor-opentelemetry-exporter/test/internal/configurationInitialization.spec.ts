@@ -76,13 +76,10 @@ describe("OneSettings exporter initialization", () => {
     ["https://chinaeast2-1.in.applicationinsights.azure.cn", "chinaeast2"],
   ])("extracts the region from regional ingestion endpoint %s", (ingestionEndpoint, region) => {
     new TestExporter({
-      connectionString:
-        `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
+      connectionString: `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
     });
 
-    expect(configurationMocks.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ region }),
-    );
+    expect(configurationMocks.initialize).toHaveBeenCalledWith(expect.objectContaining({ region }));
   });
 
   it.each([
@@ -91,8 +88,7 @@ describe("OneSettings exporter initialization", () => {
     "https://prefix.westus.in.applicationinsights.azure.com",
   ])("does not extract a region from unsupported endpoint %s", (ingestionEndpoint) => {
     new TestExporter({
-      connectionString:
-        `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
+      connectionString: `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint}`,
     });
 
     expect(configurationMocks.initialize).toHaveBeenCalledWith(
