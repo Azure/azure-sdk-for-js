@@ -64,7 +64,7 @@ export function _resetConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +105,7 @@ export function resetConnection(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -121,7 +121,7 @@ export function _getIkeSasSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +165,7 @@ export function getIkeSas(
     getInitialResponse: () =>
       _getIkeSasSend(context, resourceGroupName, virtualNetworkGatewayConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewayConnectionsGetIkeSasResponse>,
     VirtualNetworkGatewayConnectionsGetIkeSasResponse
@@ -185,7 +185,7 @@ export function _stopPacketCaptureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -238,7 +238,7 @@ export function stopPacketCapture(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewayConnectionsStopPacketCaptureResponse>,
     VirtualNetworkGatewayConnectionsStopPacketCaptureResponse
@@ -259,7 +259,7 @@ export function _startPacketCaptureSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +314,7 @@ export function startPacketCapture(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewayConnectionsStartPacketCaptureResponse>,
     VirtualNetworkGatewayConnectionsStartPacketCaptureResponse
@@ -334,7 +334,7 @@ export function _resetSharedKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +384,7 @@ export function resetSharedKey(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ConnectionResetSharedKey>, ConnectionResetSharedKey>;
 }
 
@@ -400,7 +400,7 @@ export function _getSharedKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -457,7 +457,7 @@ export function _setSharedKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -507,7 +507,7 @@ export function setSharedKey(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<ConnectionSharedKey>, ConnectionSharedKey>;
 }
 
@@ -521,7 +521,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,7 +560,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -576,7 +576,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +612,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualNetworkGatewayConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -629,7 +629,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,7 +679,7 @@ export function updateTags(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewayConnection>,
     VirtualNetworkGatewayConnection
@@ -699,7 +699,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -749,7 +749,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-07-01",
+    apiVersion: "2025-09-01",
   }) as PollerLike<
     OperationState<VirtualNetworkGatewayConnection>,
     VirtualNetworkGatewayConnection
@@ -768,7 +768,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkGatewayConnectionName: virtualNetworkGatewayConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

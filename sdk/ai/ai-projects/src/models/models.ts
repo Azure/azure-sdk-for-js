@@ -82,6 +82,10 @@ export function _agentObjectVersionsDeserializer(item: any): _AgentObjectVersion
   };
 }
 
+/** Compatibility alias for the previous generated model name. */
+export type _AgentVersions = _AgentObjectVersions;
+export const _agentVersionsDeserializer = _agentObjectVersionsDeserializer;
+
 /** model interface AgentVersion */
 export interface AgentVersion {
   /**
@@ -2962,6 +2966,8 @@ export function comparisonFilterDeserializer(item: any): ComparisonFilter {
 
 /** Alias for _FileSearchToolFiltersValue */
 export type _FileSearchToolFiltersValue = string | number | boolean | (string | number)[];
+/** Compatibility alias for the previous generated model name. */
+export type FileSearchToolFiltersValue = _FileSearchToolFiltersValue;
 
 export function _fileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
   return item;
@@ -7764,6 +7770,8 @@ export function _sessionDirectoryListResponseDeserializer(
     entries: sessionDirectoryEntryArrayDeserializer(item["entries"]),
   };
 }
+
+export const sessionDirectoryListResponseDeserializer = _sessionDirectoryListResponseDeserializer;
 
 export function sessionDirectoryEntryArrayDeserializer(
   result: Array<SessionDirectoryEntry>,
@@ -15101,24 +15109,20 @@ export function routineDeserializer(item: any): Routine {
   };
 }
 
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultRoutine {
+/** A page of items with a URL cursor to the next page. */
+export interface _PagedResultWithNextLinkRoutine {
   /** The requested list of items. */
   data: Routine[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
-export function _agentsPagedResultRoutineDeserializer(item: any): _AgentsPagedResultRoutine {
+export function _pagedResultWithNextLinkRoutineDeserializer(
+  item: any,
+): _PagedResultWithNextLinkRoutine {
   return {
     data: routineArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -15128,24 +15132,20 @@ export function routineArrayDeserializer(result: Array<Routine>): any[] {
   });
 }
 
-/** The response data for a requested list of items. */
-export interface _AgentsPagedResultRoutineRun {
+/** A page of items with a URL cursor to the next page. */
+export interface _PagedResultWithNextLinkRoutineRun {
   /** The requested list of items. */
   data: RoutineRun[];
-  /** The first ID represented in this list. */
-  first_id?: string;
-  /** The last ID represented in this list. */
-  last_id?: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** The URL to fetch the next page of results, or absent if there are no additional pages. */
+  next_link?: string;
 }
 
-export function _agentsPagedResultRoutineRunDeserializer(item: any): _AgentsPagedResultRoutineRun {
+export function _pagedResultWithNextLinkRoutineRunDeserializer(
+  item: any,
+): _PagedResultWithNextLinkRoutineRun {
   return {
     data: routineRunArrayDeserializer(item["data"]),
-    first_id: item["first_id"],
-    last_id: item["last_id"],
-    has_more: item["has_more"],
+    next_link: item["next_link"],
   };
 }
 
@@ -16418,6 +16418,7 @@ export type DataGenerationJobOptionsUnion =
   | SimpleQnADataGenerationJobOptions
   | TracesDataGenerationJobOptions
   | TaskGenerationDataGenerationJobOptions
+  | SimulationSeedDataGenerationJobOptions
   | ToolUseFineTuningDataGenerationJobOptions
   | DataGenerationJobOptions;
 
@@ -16432,6 +16433,11 @@ export function dataGenerationJobOptionsUnionSerializer(item: DataGenerationJobO
     case "task_generation":
       return taskGenerationDataGenerationJobOptionsSerializer(
         item as TaskGenerationDataGenerationJobOptions,
+      );
+
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsSerializer(
+        item as SimulationSeedDataGenerationJobOptions,
       );
 
     case "tool_use":
@@ -16461,6 +16467,11 @@ export function dataGenerationJobOptionsUnionDeserializer(
         item as TaskGenerationDataGenerationJobOptions,
       );
 
+    case "simulation_seed":
+      return simulationSeedDataGenerationJobOptionsDeserializer(
+        item as SimulationSeedDataGenerationJobOptions,
+      );
+
     case "tool_use":
       return toolUseFineTuningDataGenerationJobOptionsDeserializer(
         item as ToolUseFineTuningDataGenerationJobOptions,
@@ -16472,7 +16483,8 @@ export function dataGenerationJobOptionsUnionDeserializer(
 }
 
 /** The supported data generation job types. */
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation";
+export type DataGenerationJobType =
+  "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
 
 /** LLM model options for data generation jobs. */
 export interface DataGenerationModelOptions {
@@ -16591,6 +16603,38 @@ export function taskGenerationDataGenerationJobOptionsSerializer(
 export function taskGenerationDataGenerationJobOptionsDeserializer(
   item: any,
 ): TaskGenerationDataGenerationJobOptions {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsDeserializer(item["model_options"]),
+  };
+}
+
+/** The options for a task generation data generation job. Use with multiturn evaluation scenarios and with prompt, file, or agent sources. Generated dataset rows include fields such as `id`, `category`, `test_case_description`, and `desired_num_turns`. */
+export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+  /** The data generation job type, which is SimulationSeed for this model. */
+  type: "simulation_seed";
+}
+
+export function simulationSeedDataGenerationJobOptionsSerializer(
+  item: SimulationSeedDataGenerationJobOptions,
+): any {
+  return {
+    type: item["type"],
+    max_samples: item["max_samples"],
+    train_split: item["train_split"],
+    model_options: !item["model_options"]
+      ? item["model_options"]
+      : dataGenerationModelOptionsSerializer(item["model_options"]),
+  };
+}
+
+export function simulationSeedDataGenerationJobOptionsDeserializer(
+  item: any,
+): SimulationSeedDataGenerationJobOptions {
   return {
     type: item["type"],
     max_samples: item["max_samples"],

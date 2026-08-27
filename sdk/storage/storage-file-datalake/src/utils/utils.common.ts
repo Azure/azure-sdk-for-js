@@ -759,7 +759,7 @@ export async function setUploadChecksumParameters(
   if (contentChecksumAlgorithm === "Customized") {
     if (parameters.pathHttpHeaders === undefined) {
       parameters.pathHttpHeaders = {
-        contentMD5: uploadOptions.transactionalContentMD5,
+        transactionalContentHash: uploadOptions.transactionalContentMD5,
       };
     } else {
       parameters.pathHttpHeaders.transactionalContentHash = uploadOptions.transactionalContentMD5;

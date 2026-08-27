@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Operation status object */
 export interface LocationOperationStatus {
   /** Operation resource Id */
@@ -1094,6 +1094,8 @@ export interface CloudEndpoint extends ProxyResource {
   lastOperationName?: string;
   /** Cloud endpoint change enumeration status */
   readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
+  /** The interval for enumerating changes on the cloud endpoint. */
+  changeEnumerationIntervalDays?: number;
 }
 
 export function cloudEndpointDeserializer(item: any): CloudEndpoint {
@@ -1132,6 +1134,8 @@ export interface CloudEndpointProperties {
   lastOperationName?: string;
   /** Cloud endpoint change enumeration status */
   readonly changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
+  /** The interval for enumerating changes on the cloud endpoint. */
+  changeEnumerationIntervalDays?: number;
 }
 
 export function cloudEndpointPropertiesDeserializer(item: any): CloudEndpointProperties {
@@ -1148,6 +1152,7 @@ export function cloudEndpointPropertiesDeserializer(item: any): CloudEndpointPro
     changeEnumerationStatus: !item["changeEnumerationStatus"]
       ? item["changeEnumerationStatus"]
       : cloudEndpointChangeEnumerationStatusDeserializer(item["changeEnumerationStatus"]),
+    changeEnumerationIntervalDays: item["changeEnumerationIntervalDays"],
   };
 }
 
@@ -1312,6 +1317,8 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
   storageAccountTenantId?: string;
   /** Friendly Name */
   friendlyName?: string;
+  /** The interval for enumerating changes on the cloud endpoint. */
+  changeEnumerationIntervalDays?: number;
 }
 
 export function cloudEndpointCreateParametersSerializer(item: CloudEndpointCreateParameters): any {
@@ -1321,6 +1328,7 @@ export function cloudEndpointCreateParametersSerializer(item: CloudEndpointCreat
       "azureFileShareName",
       "storageAccountTenantId",
       "friendlyName",
+      "changeEnumerationIntervalDays",
     ])
       ? undefined
       : _cloudEndpointCreateParametersPropertiesSerializer(item),
@@ -1337,6 +1345,8 @@ export interface CloudEndpointCreateParametersProperties {
   storageAccountTenantId?: string;
   /** Friendly Name */
   friendlyName?: string;
+  /** The interval for enumerating changes on the cloud endpoint. */
+  changeEnumerationIntervalDays?: number;
 }
 
 export function cloudEndpointCreateParametersPropertiesSerializer(
@@ -1347,7 +1357,32 @@ export function cloudEndpointCreateParametersPropertiesSerializer(
     azureFileShareName: item["azureFileShareName"],
     storageAccountTenantId: item["storageAccountTenantId"],
     friendlyName: item["friendlyName"],
+    changeEnumerationIntervalDays: item["changeEnumerationIntervalDays"],
   };
+}
+
+/** The parameters used when updating a cloud endpoint. */
+export interface CloudEndpointUpdateParameters {
+  /** The properties of the cloud endpoint. */
+  properties?: CloudEndpointUpdateProperties;
+}
+
+export function cloudEndpointUpdateParametersSerializer(item: CloudEndpointUpdateParameters): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : cloudEndpointUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** CloudEndpoint Update Properties object. */
+export interface CloudEndpointUpdateProperties {
+  /** The interval for enumerating changes on the cloud endpoint. */
+  changeEnumerationIntervalDays?: number;
+}
+
+export function cloudEndpointUpdatePropertiesSerializer(item: CloudEndpointUpdateProperties): any {
+  return { changeEnumerationIntervalDays: item["changeEnumerationIntervalDays"] };
 }
 
 /** Array of CloudEndpoint */
@@ -1931,6 +1966,28 @@ export interface ServerEndpointSyncActivityStatus {
   readonly syncMode?: ServerEndpointSyncMode;
   /** Session minutes remaining (if available) */
   readonly sessionMinutesRemaining?: number;
+  /** Remaining file count (if totals are final) */
+  readonly remainingFileCount?: number;
+  /** Remaining directory count (if totals are final) */
+  readonly remainingDirectoryCount?: number;
+  /** Remaining delete count (if totals are final) */
+  readonly remainingDeleteCount?: number;
+  /** Remaining logical size in bytes (if totals are final) */
+  readonly remainingLogicalSizeBytes?: number;
+  /** Whether the remaining counts are final */
+  readonly isRemainingFinal?: boolean;
+  /** Recent throughput in items per second */
+  readonly recentItemsPerSecond?: number;
+  /** Recent throughput in megabytes per second */
+  readonly recentMegabytesPerSecond?: number;
+  /** Path of large file currently in progress */
+  readonly inProgressLargeFilePath?: string;
+  /** Size in bytes of large file currently in progress */
+  readonly inProgressLargeFileSizeBytes?: number;
+  /** Percent complete (0-100) of large file currently in progress */
+  readonly inProgressLargeFilePercentComplete?: number;
+  /** Warning type (if any) */
+  readonly warning?: ServerEndpointSyncSessionWarningType;
 }
 
 export function serverEndpointSyncActivityStatusDeserializer(
@@ -1945,8 +2002,37 @@ export function serverEndpointSyncActivityStatusDeserializer(
     totalBytes: item["totalBytes"],
     syncMode: item["syncMode"],
     sessionMinutesRemaining: item["sessionMinutesRemaining"],
+    remainingFileCount: item["remainingFileCount"],
+    remainingDirectoryCount: item["remainingDirectoryCount"],
+    remainingDeleteCount: item["remainingDeleteCount"],
+    remainingLogicalSizeBytes: item["remainingLogicalSizeBytes"],
+    isRemainingFinal: item["isRemainingFinal"],
+    recentItemsPerSecond: item["recentItemsPerSecond"],
+    recentMegabytesPerSecond: item["recentMegabytesPerSecond"],
+    inProgressLargeFilePath: item["inProgressLargeFilePath"],
+    inProgressLargeFileSizeBytes: item["inProgressLargeFileSizeBytes"],
+    inProgressLargeFilePercentComplete: item["inProgressLargeFilePercentComplete"],
+    warning: item["warning"],
   };
 }
+
+/** Warning types for sync sessions. */
+export enum KnownServerEndpointSyncSessionWarningType {
+  /** No warning */
+  NoWarning = "NoWarning",
+  /** Sync is blocked by a large file */
+  BlockedByLargeFile = "BlockedByLargeFile",
+}
+
+/**
+ * Warning types for sync sessions. \
+ * {@link KnownServerEndpointSyncSessionWarningType} can be used interchangeably with ServerEndpointSyncSessionWarningType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoWarning**: No warning \
+ * **BlockedByLargeFile**: Sync is blocked by a large file
+ */
+export type ServerEndpointSyncSessionWarningType = string;
 
 /** Type of the Health state */
 export enum KnownServerEndpointOfflineDataTransferState {
@@ -3236,6 +3322,8 @@ export function operationStatusDeserializer(item: any): OperationStatus {
 export enum KnownVersions {
   /** The 2022-09-01 API version. */
   V20220901 = "2022-09-01",
+  /** The 2025-12-01 API version. */
+  V20251201 = "2025-12-01",
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
@@ -3316,6 +3404,7 @@ export function _cloudEndpointPropertiesDeserializer(item: any) {
     changeEnumerationStatus: !item["changeEnumerationStatus"]
       ? item["changeEnumerationStatus"]
       : cloudEndpointChangeEnumerationStatusDeserializer(item["changeEnumerationStatus"]),
+    changeEnumerationIntervalDays: item["changeEnumerationIntervalDays"],
   };
 }
 
@@ -3327,6 +3416,7 @@ export function _cloudEndpointCreateParametersPropertiesSerializer(
     azureFileShareName: item["azureFileShareName"],
     storageAccountTenantId: item["storageAccountTenantId"],
     friendlyName: item["friendlyName"],
+    changeEnumerationIntervalDays: item["changeEnumerationIntervalDays"],
   };
 }
 

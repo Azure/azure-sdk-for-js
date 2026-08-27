@@ -899,11 +899,11 @@ export interface BetaAgentsListOptimizationJobsOptionalParams extends OperationO
 
 // @public
 export interface BetaAgentsOperations {
-    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    createOptimizationJob: (job: OptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<OptimizationJobResult>;
+    cancelOptimizationJob: (jobId: string, options?: BetaAgentsCancelOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    createOptimizationJob: (job: AgentOptimizationJob, options?: BetaAgentsCreateOptimizationJobOptionalParams) => JobPoller<AgentOptimizationJobResult>;
     deleteOptimizationJob: (jobId: string, options?: BetaAgentsDeleteOptimizationJobOptionalParams) => Promise<void>;
-    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<OptimizationJob>;
-    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<OptimizationJobListItem>;
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) => Promise<AgentOptimizationJob>;
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) => PagedAsyncIterableIterator<AgentOptimizationJobListItem>;
 }
 
 // @public
@@ -1283,41 +1283,41 @@ export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptio
     action?: RoutineActionUnion;
     description?: string;
     enabled?: boolean;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     triggers?: Record<string, RoutineTriggerUnion>;
 }
 
 // @public
 export interface BetaRoutinesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDisableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesDispatchOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     payload?: RoutineDispatchPayloadUnion;
 }
 
 // @public
 export interface BetaRoutinesEnableOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
 }
 
 // @public
 export interface BetaRoutinesListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
     order?: string;
 }
@@ -1327,7 +1327,7 @@ export interface BetaRoutinesListRunsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     filter?: string;
-    foundryFeatures?: "Routines=V1Preview";
+    foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";
     limit?: number;
     order?: string;
 }
@@ -1923,7 +1923,7 @@ export interface DataGenerationJobOptions {
 }
 
 // @public
-export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | TaskGenerationDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
+export type DataGenerationJobOptionsUnion = SimpleQnADataGenerationJobOptions | TracesDataGenerationJobOptions | TaskGenerationDataGenerationJobOptions | SimulationSeedDataGenerationJobOptions | ToolUseFineTuningDataGenerationJobOptions | DataGenerationJobOptions;
 
 // @public
 export interface DataGenerationJobOutput {
@@ -1966,7 +1966,7 @@ export type DataGenerationJobSourceType = "prompt" | "agent" | "traces" | "file"
 export type DataGenerationJobSourceUnion = PromptDataGenerationJobSource | AgentDataGenerationJobSource | TracesDataGenerationJobSource | FileDataGenerationJobSource | DataGenerationJobSource;
 
 // @public
-export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation";
+export type DataGenerationJobType = "simple_qna" | "traces" | "tool_use" | "task_generation" | "simulation_seed";
 
 // @public
 export interface DataGenerationModelOptions {
@@ -4423,6 +4423,11 @@ export interface SimpleQnADataGenerationJobOptions extends DataGenerationJobOpti
 
 // @public
 export type SimpleQnAFineTuningQuestionType = "short_answer" | "long_answer";
+
+// @public
+export interface SimulationSeedDataGenerationJobOptions extends DataGenerationJobOptions {
+    type: "simulation_seed";
+}
 
 // @public
 export interface Skill {

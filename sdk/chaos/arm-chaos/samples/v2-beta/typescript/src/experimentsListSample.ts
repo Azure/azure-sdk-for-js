@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of Experiment resources in a resource group.
  *
  * @summary get a list of Experiment resources in a resource group.
- * x-ms-original-file: 2026-05-01-preview/Experiments_List.json
+ * x-ms-original-file: 2026-08-01-preview/Experiments_List.json
  */
 async function listAllExperimentsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

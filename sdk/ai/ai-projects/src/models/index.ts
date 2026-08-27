@@ -587,6 +587,7 @@ export type {
   SimpleQnAFineTuningQuestionType,
   TracesDataGenerationJobOptions,
   TaskGenerationDataGenerationJobOptions,
+  SimulationSeedDataGenerationJobOptions,
   ToolUseFineTuningDataGenerationJobOptions,
   DataGenerationJobScenario,
   DataGenerationJobOutputOptions,

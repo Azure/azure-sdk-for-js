@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the Interconnect Blocks in the specified resource group. Use the nextLink property in the response to get the next page of Interconnect Blocks.
  *
  * @summary lists all of the Interconnect Blocks in the specified resource group. Use the nextLink property in the response to get the next page of Interconnect Blocks.
- * x-ms-original-file: 2026-03-01/interconnectBlockExamples/InterconnectBlocks_ListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01/interconnectBlockExamples/InterconnectBlocks_ListByResourceGroup.json
  */
 async function listInterconnectBlocksInAResourceGroup() {
   const credential = new DefaultAzureCredential();
