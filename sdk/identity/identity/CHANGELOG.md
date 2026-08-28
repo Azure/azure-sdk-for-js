@@ -1,5 +1,11 @@
 # Release History
 
+## 4.13.3 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed `AzurePipelinesCredential` to avoid including unrelated internal request details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
+
 ## 4.14.0-beta.5 (2026-08-12)
 
 ### Other Changes
