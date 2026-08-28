@@ -47,7 +47,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     const result: PartitionRangeFilterResult = {
       rangeTokenPairs: [],
     };
-    let filteredRanges: PartitionKeyRange[] = [];
     let resumeRangeFound = false;
 
     if (continuationRanges && continuationRanges.length > 0) {
@@ -108,7 +107,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // If we couldn't find a specific resume point, include all ranges
     // This can happen with certain types of ORDER BY continuation tokens
     if (!resumeRangeFound) {
-      filteredRanges = [...targetRanges];
+      const filteredRanges = [...targetRanges];
       filteredRanges.forEach((range) => {
         result.rangeTokenPairs.push({
           range: range,
