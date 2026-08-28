@@ -18,7 +18,7 @@
     "VmInsightsOnboarding": "2018-11-27-preview",
     "DiagnosticsSettings": "2021-05-01-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "DataCollectionApi",
     "CrossLanguageDefinitionId": {
@@ -399,6 +399,7 @@
       "@azure/arm-monitor!KnownOnboardingStatus:enum": "VmInsightsOnboarding.OnboardingStatus",
       "@azure/arm-monitor!KnownDataStatus:enum": "VmInsightsOnboarding.DataStatus",
       "@azure/arm-monitor!KnownCategoryType:enum": "DiagnosticsSettings.CategoryType",
+      "@azure/arm-monitor!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
       "@azure/arm-monitor!OperationStatusStartTime:type": "PrivateLinkScopesApi.OperationStatus.startTime.anonymous",
       "@azure/arm-monitor!OperationStatusEndTime:type": "PrivateLinkScopesApi.OperationStatus.endTime.anonymous",
       "@azure/arm-monitor!OperationStatusError:type": "PrivateLinkScopesApi.OperationStatus.error.anonymous",

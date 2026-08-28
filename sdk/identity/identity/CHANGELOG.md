@@ -1,6 +1,6 @@
 # Release History
 
-## 4.14.0-beta.5 (Unreleased)
+## 4.14.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,16 @@
 
 ### Bugs Fixed
 
-- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#1512](https://github.com/microsoft/ApplicationInsights-node.js/issues/1512)
+### Other Changes
+
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
+## 4.14.0-beta.5 (2026-08-12)
 
 ### Other Changes
+
+- Bumped the minimum `@azure/msal-node` dependency to `^5.1.5` so installs no longer resolve older `5.1.x` versions that pull in the vulnerable `uuid@8.3.0` transitive dependency. [#39425](https://github.com/Azure/azure-sdk-for-js/pull/39425)
+- Replaced shell-based developer credential commands with safe, structured process execution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 
 ## 4.14.0-beta.4 (2026-06-08)
 

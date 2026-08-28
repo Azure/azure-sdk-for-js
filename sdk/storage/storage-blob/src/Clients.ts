@@ -2054,6 +2054,7 @@ export class BlobClient extends StorageClient {
           } catch (error: any) {
             throw new Error(
               `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`,
+              { cause: error },
             );
           }
         }
@@ -2184,7 +2185,9 @@ export class BlobClient extends StorageClient {
 
       return { blobName, containerName };
     } catch (error: any) {
-      throw new Error("Unable to extract blobName and containerName with provided information.");
+      throw new Error("Unable to extract blobName and containerName with provided information.", {
+        cause: error,
+      });
     }
   }
 
@@ -5657,11 +5660,10 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobListPageRangesSegmentOptions = {},
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeItemSegments(
       offset,
       count,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);
@@ -5919,12 +5921,11 @@ export class PageBlobClient extends BlobClient {
     prevSnapshotOrUrl: string,
     options?: PageBlobListPageRangesDiffSegmentOptions,
   ): AsyncIterableIterator<PageRangeInfo> {
-    let marker: string | undefined;
     for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
       offset,
       count,
       prevSnapshotOrUrl,
-      marker,
+      undefined,
       options,
     )) {
       yield* ExtractPageRangeInfoItems(getPageRangesSegment);

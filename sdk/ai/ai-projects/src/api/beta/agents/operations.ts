@@ -3,18 +3,22 @@
 
 import type { AIProjectContext as Client } from "../../index.js";
 import type {
-  OptimizationJob,
-  OptimizationJobListItem,
-  _AgentsPagedResultOptimizationJobListItem,
+  AgentOptimizationJob,
+  AgentOptimizationJobListItem,
+  AgentOptimizationJobResult,
+  _AgentsPagedResultAgentOptimizationJobListItem,
 } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  optimizationJobSerializer,
-  optimizationJobDeserializer,
-  _agentsPagedResultOptimizationJobListItemDeserializer,
+  agentOptimizationJobSerializer,
+  agentOptimizationJobDeserializer,
+  agentOptimizationJobResultDeserializer,
+  _agentsPagedResultAgentOptimizationJobListItemDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { JobPoller } from "../../../static-helpers/pollingHelpers.js";
+import { getJobPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   BetaAgentsDeleteOptimizationJobOptionalParams,
@@ -104,7 +108,7 @@ export function _cancelOptimizationJobSend(
 
 export async function _cancelOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -115,7 +119,7 @@ export async function _cancelOptimizationJobDeserialize(
     throw error;
   }
 
-  return optimizationJobDeserializer(result.body);
+  return agentOptimizationJobDeserializer(result.body);
 }
 
 /** Request cancellation of a running or queued job. Returns an error if the job is already in a terminal state. */
@@ -123,7 +127,7 @@ export async function cancelOptimizationJob(
   context: Client,
   jobId: string,
   options: BetaAgentsCancelOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const result = await _cancelOptimizationJobSend(context, jobId, options);
   return _cancelOptimizationJobDeserialize(result);
 }
@@ -159,7 +163,7 @@ export function _listOptimizationJobsSend(
 
 export async function _listOptimizationJobsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultOptimizationJobListItem> {
+): Promise<_AgentsPagedResultAgentOptimizationJobListItem> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -170,14 +174,14 @@ export async function _listOptimizationJobsDeserialize(
     throw error;
   }
 
-  return _agentsPagedResultOptimizationJobListItemDeserializer(result.body);
+  return _agentsPagedResultAgentOptimizationJobListItemDeserializer(result.body);
 }
 
 /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
 export function listOptimizationJobs(
   context: Client,
   options: BetaAgentsListOptimizationJobsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<OptimizationJobListItem> {
+): PagedAsyncIterableIterator<AgentOptimizationJobListItem> {
   return buildPagedAsyncIterator(
     context,
     () => _listOptimizationJobsSend(context, options),
@@ -214,7 +218,7 @@ export function _getOptimizationJobSend(
 
 export async function _getOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -225,7 +229,7 @@ export async function _getOptimizationJobDeserialize(
     throw error;
   }
 
-  return optimizationJobDeserializer(result.body);
+  return agentOptimizationJobDeserializer(result.body);
 }
 
 /** Get an optimization job by id. */
@@ -233,14 +237,14 @@ export async function getOptimizationJob(
   context: Client,
   jobId: string,
   options: BetaAgentsGetOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
+): Promise<AgentOptimizationJob> {
   const result = await _getOptimizationJobSend(context, jobId, options);
   return _getOptimizationJobDeserialize(result);
 }
 
 export function _createOptimizationJobSend(
   context: Client,
-  job: OptimizationJob,
+  job: AgentOptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "AgentsOptimization=V2Preview";
@@ -262,14 +266,14 @@ export function _createOptimizationJobSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: optimizationJobSerializer(job),
+    body: agentOptimizationJobSerializer(job),
   });
 }
 
 export async function _createOptimizationJobDeserialize(
   result: PathUncheckedResponse,
-): Promise<OptimizationJob> {
-  const expectedStatuses = ["201"];
+): Promise<AgentOptimizationJobResult> {
+  const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
@@ -279,15 +283,32 @@ export async function _createOptimizationJobDeserialize(
     throw error;
   }
 
-  return optimizationJobDeserializer(result.body);
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return agentOptimizationJobResultDeserializer(result.body.result);
 }
 
-/** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
-export async function createOptimizationJob(
+/** Create an optimization job. Returns the queued job. Honours `Operation-Id` for idempotent retry. */
+export function createOptimizationJob(
   context: Client,
-  job: OptimizationJob,
+  job: AgentOptimizationJob,
   options: BetaAgentsCreateOptimizationJobOptionalParams = { requestOptions: {} },
-): Promise<OptimizationJob> {
-  const result = await _createOptimizationJobSend(context, job, options);
-  return _createOptimizationJobDeserialize(result);
+): JobPoller<AgentOptimizationJobResult> {
+  // CUSTOMIZATION: SDK-IMPROVEMENT: `getJobPoller` exposes the queued job id on the poller state.
+  return getJobPoller(context, _createOptimizationJobDeserialize, ["201", "200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _createOptimizationJobSend(context, job, options),
+    resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "v1",
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "AgentsOptimization=V2Preview",
+    },
+  });
 }

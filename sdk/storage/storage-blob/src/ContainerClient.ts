@@ -1674,8 +1674,7 @@ export class ContainerClient extends StorageClient {
   private async *listItems(
     options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<BlobItem> {
-    let marker: string | undefined;
-    for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
+    for await (const listBlobsFlatSegmentResponse of this.listSegments(undefined, options)) {
       yield* listBlobsFlatSegmentResponse.segment.blobItems;
     }
   }
@@ -1869,10 +1868,9 @@ export class ContainerClient extends StorageClient {
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {},
   ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
-    let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
-      marker,
+      undefined,
       options,
     )) {
       const segment = listBlobsHierarchySegmentResponse.segment;
@@ -2172,10 +2170,9 @@ export class ContainerClient extends StorageClient {
     tagFilterSqlExpression: string,
     options: ContainerFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
-    let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
-      marker,
+      undefined,
       options,
     )) {
       yield* segment.blobs;
@@ -2357,7 +2354,9 @@ export class ContainerClient extends StorageClient {
 
       return containerName;
     } catch (error: any) {
-      throw new Error("Unable to extract containerName with provided information.");
+      throw new Error("Unable to extract containerName with provided information.", {
+        cause: error,
+      });
     }
   }
 

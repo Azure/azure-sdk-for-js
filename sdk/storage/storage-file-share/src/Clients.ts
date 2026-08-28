@@ -2452,9 +2452,8 @@ export class ShareDirectoryClient extends StorageClient {
       options.prefix = undefined;
     }
 
-    let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
-      marker,
+      undefined,
       options,
     )) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
@@ -2751,8 +2750,7 @@ export class ShareDirectoryClient extends StorageClient {
   private async *listHandleItems(
     options: DirectoryListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;
@@ -5745,6 +5743,7 @@ export class ShareFileClient extends StorageClient {
               `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
                 'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
                 `\t ${error.message}`,
+              { cause: error },
             );
           }
         }
@@ -6002,8 +6001,7 @@ export class ShareFileClient extends StorageClient {
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {},
   ): AsyncIterableIterator<HandleItem> {
-    let marker: string | undefined;
-    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+    for await (const listHandlesResponse of this.iterateHandleSegments(undefined, options)) {
       if (listHandlesResponse.handleList) {
         for (const handle of listHandlesResponse.handleList) {
           yield handle;

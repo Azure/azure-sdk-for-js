@@ -30,6 +30,7 @@ import type {
   TagsObject,
   ServiceGateway,
   ServiceGatewayUpdateAddressLocationsRequest,
+  ServiceGatewayActionOkResponseBody,
   ServiceGatewayUpdateServicesRequest,
   ServiceGatewayService,
   ServiceGatewayAddressLocationResponse,
@@ -65,21 +66,7 @@ export interface ServiceGatewaysOperations {
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateServicesRequest,
     options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use updateServices instead */
-  beginUpdateServices: (
-    resourceGroupName: string,
-    serviceGatewayName: string,
-    parameters: ServiceGatewayUpdateServicesRequest,
-    options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use updateServices instead */
-  beginUpdateServicesAndWait: (
-    resourceGroupName: string,
-    serviceGatewayName: string,
-    parameters: ServiceGatewayUpdateServicesRequest,
-    options?: ServiceGatewaysUpdateServicesOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<ServiceGatewayActionOkResponseBody>;
   /**
    * Creates or updates address locations within the service gateway.
    *
@@ -98,21 +85,7 @@ export interface ServiceGatewaysOperations {
     serviceGatewayName: string,
     parameters: ServiceGatewayUpdateAddressLocationsRequest,
     options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** @deprecated use updateAddressLocations instead */
-  beginUpdateAddressLocations: (
-    resourceGroupName: string,
-    serviceGatewayName: string,
-    parameters: ServiceGatewayUpdateAddressLocationsRequest,
-    options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
-  /** @deprecated use updateAddressLocations instead */
-  beginUpdateAddressLocationsAndWait: (
-    resourceGroupName: string,
-    serviceGatewayName: string,
-    parameters: ServiceGatewayUpdateAddressLocationsRequest,
-    options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<ServiceGatewayActionOkResponseBody>;
   /** Gets all the service gateways in a subscription. */
   listAll: (
     options?: ServiceGatewaysListAllOptionalParams,
@@ -194,36 +167,6 @@ function _getServiceGateways(context: NetworkManagementContext) {
       parameters: ServiceGatewayUpdateServicesRequest,
       options?: ServiceGatewaysUpdateServicesOptionalParams,
     ) => updateServices(context, resourceGroupName, serviceGatewayName, parameters, options),
-    beginUpdateServices: async (
-      resourceGroupName: string,
-      serviceGatewayName: string,
-      parameters: ServiceGatewayUpdateServicesRequest,
-      options?: ServiceGatewaysUpdateServicesOptionalParams,
-    ) => {
-      const poller = updateServices(
-        context,
-        resourceGroupName,
-        serviceGatewayName,
-        parameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateServicesAndWait: async (
-      resourceGroupName: string,
-      serviceGatewayName: string,
-      parameters: ServiceGatewayUpdateServicesRequest,
-      options?: ServiceGatewaysUpdateServicesOptionalParams,
-    ) => {
-      return await updateServices(
-        context,
-        resourceGroupName,
-        serviceGatewayName,
-        parameters,
-        options,
-      );
-    },
     updateAddressLocations: (
       resourceGroupName: string,
       serviceGatewayName: string,
@@ -231,36 +174,6 @@ function _getServiceGateways(context: NetworkManagementContext) {
       options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
     ) =>
       updateAddressLocations(context, resourceGroupName, serviceGatewayName, parameters, options),
-    beginUpdateAddressLocations: async (
-      resourceGroupName: string,
-      serviceGatewayName: string,
-      parameters: ServiceGatewayUpdateAddressLocationsRequest,
-      options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-    ) => {
-      const poller = updateAddressLocations(
-        context,
-        resourceGroupName,
-        serviceGatewayName,
-        parameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateAddressLocationsAndWait: async (
-      resourceGroupName: string,
-      serviceGatewayName: string,
-      parameters: ServiceGatewayUpdateAddressLocationsRequest,
-      options?: ServiceGatewaysUpdateAddressLocationsOptionalParams,
-    ) => {
-      return await updateAddressLocations(
-        context,
-        resourceGroupName,
-        serviceGatewayName,
-        parameters,
-        options,
-      );
-    },
     listAll: (options?: ServiceGatewaysListAllOptionalParams) => listAll(context, options),
     list: (resourceGroupName: string, options?: ServiceGatewaysListOptionalParams) =>
       list(context, resourceGroupName, options),

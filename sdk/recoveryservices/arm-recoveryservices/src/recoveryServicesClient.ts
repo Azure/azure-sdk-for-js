@@ -59,14 +59,7 @@ export class RecoveryServicesClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRecoveryServices(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRecoveryServices(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.recoveryServices = _getRecoveryServicesOperations(this._client);
     this.vaultExtendedInfo = _getVaultExtendedInfoOperations(this._client);
@@ -86,7 +79,7 @@ export class RecoveryServicesClient {
     vaultName: string,
     operationId: string,
     options: GetOperationResultOptionalParams = { requestOptions: {} },
-  ): Promise<Vault | undefined> {
+  ): Promise<Vault | void> {
     return getOperationResult(this._client, resourceGroupName, vaultName, operationId, options);
   }
 

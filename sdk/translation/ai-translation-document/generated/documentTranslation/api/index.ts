@@ -8,19 +8,19 @@ export type {
 export { createDocumentTranslation } from "./documentTranslationContext.js";
 export {
   getSupportedFormats,
-  getDocumentsStatus,
+  listDocumentStatuses,
   cancelTranslation,
   getTranslationStatus,
   getDocumentStatus,
-  getTranslationsStatus,
+  listTranslationStatuses,
   startTranslation,
 } from "./operations.js";
 export type {
   GetSupportedFormatsOptionalParams,
-  GetDocumentsStatusOptionalParams,
+  ListDocumentStatusesOptionalParams,
   CancelTranslationOptionalParams,
   GetTranslationStatusOptionalParams,
   GetDocumentStatusOptionalParams,
-  GetTranslationsStatusOptionalParams,
+  ListTranslationStatusesOptionalParams,
   StartTranslationOptionalParams,
 } from "./options.js";

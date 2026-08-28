@@ -21,7 +21,7 @@ export function _listAllSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Chaos/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -39,14 +39,15 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _operationListResultDeserializer(result.body);
 }
-
 /** List the operations for the provider */
 export function listAll(
   context: Client,
@@ -60,7 +61,7 @@ export function listAll(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

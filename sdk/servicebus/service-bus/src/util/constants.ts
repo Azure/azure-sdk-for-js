@@ -132,6 +132,20 @@ export const MESSAGE_COUNT = "MessageCount";
 export const SUBSCRIPTION_COUNT = "SubscriptionCount";
 
 /**
+ * The topic's SQL filter count.
+ *
+ * @internal
+ */
+export const SQL_FILTER_COUNT = "SqlFilterCount";
+
+/**
+ * The topic's correlation filter count.
+ *
+ * @internal
+ */
+export const CORRELATION_FILTER_COUNT = "CorrelationFilterCount";
+
+/**
  * The topic / subscription's count details.
  *
  * @internal
@@ -285,7 +299,7 @@ export const API_VERSION_QUERY_KEY = "api-version";
  *
  * @internal
  */
-export const CURRENT_API_VERSION = "2021-05";
+export const CURRENT_API_VERSION = "2024-05";
 
 /**
  * Constant representing the Odata Error 'message' property

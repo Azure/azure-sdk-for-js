@@ -8,7 +8,7 @@ import {
   AzureMonitorTraceExporter,
   RateLimitedSampler,
 } from "@azure/monitor-opentelemetry-exporter";
-import type { BufferConfig, Sampler } from "@opentelemetry/sdk-trace-base";
+import type { Sampler } from "@opentelemetry/sdk-trace-base";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type {
   HttpInstrumentationConfig,
@@ -65,13 +65,7 @@ export class TraceHandler {
       this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
     }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
-    const bufferConfig: BufferConfig = {
-      maxExportBatchSize: 512,
-      scheduledDelayMillis: 5000,
-      exportTimeoutMillis: 30000,
-      maxQueueSize: 2048,
-    };
-    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
+    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter);
     this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();

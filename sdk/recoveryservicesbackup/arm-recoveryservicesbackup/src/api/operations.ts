@@ -48,7 +48,7 @@ export function _moveRecoveryPointSend(
       containerName: containerName,
       protectedItemName: protectedItemName,
       recoveryPointId: recoveryPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,7 +65,9 @@ export async function _moveRecoveryPointDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -101,7 +103,7 @@ export function moveRecoveryPoint(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -119,7 +121,7 @@ export function _getOperationStatusSend(
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +139,9 @@ export async function _getOperationStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -176,7 +180,7 @@ export function _bmsTriggerDataMoveSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +197,9 @@ export async function _bmsTriggerDataMoveDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -215,7 +221,7 @@ export function bmsTriggerDataMove(
     getInitialResponse: () =>
       _bmsTriggerDataMoveSend(context, vaultName, resourceGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -232,7 +238,7 @@ export function _bmsPrepareDataMoveSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +255,9 @@ export async function _bmsPrepareDataMoveDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -271,6 +279,6 @@ export function bmsPrepareDataMove(
     getInitialResponse: () =>
       _bmsPrepareDataMoveSend(context, vaultName, resourceGroupName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-31-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }

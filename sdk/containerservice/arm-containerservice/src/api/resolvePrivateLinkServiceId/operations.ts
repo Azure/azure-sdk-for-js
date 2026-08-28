@@ -26,7 +26,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _postDeserialize(
 
   return privateLinkResourceDeserializer(result.body);
 }
+
 /** Gets the private link service ID for the specified managed cluster. */
 export async function post(
   context: Client,
