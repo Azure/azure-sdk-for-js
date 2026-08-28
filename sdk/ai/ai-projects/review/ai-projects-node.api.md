@@ -501,6 +501,13 @@ export interface AgentsOperations {
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
     generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    // Warning: (ae-forgotten-export) The symbol "Microsoft365PublishScope" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetMicrosoft365PackageOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetMicrosoft365PackageResponse" needs to be exported by the entry point index.d.ts
+    getMicrosoft365Package: (agentName: string, publishScope: Microsoft365PublishScope, options?: GetMicrosoft365PackageOptionalParams) => Promise<GetMicrosoft365PackageResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetMicrosoft365PublishDefaultsOptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Microsoft365PublishDefaults" needs to be exported by the entry point index.d.ts
+    getMicrosoft365PublishDefaults: (agentName: string, options?: GetMicrosoft365PublishDefaultsOptionalParams) => Promise<Microsoft365PublishDefaults>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
@@ -509,6 +516,9 @@ export interface AgentsOperations {
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
+    // Warning: (ae-forgotten-export) The symbol "PublishToMicrosoft365OptionalParams" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Microsoft365PublishResponse" needs to be exported by the entry point index.d.ts
+    publishToMicrosoft365: (agentName: string, publishScope: Microsoft365PublishScope, options?: PublishToMicrosoft365OptionalParams) => Promise<Microsoft365PublishResponse>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
@@ -1176,6 +1186,8 @@ export interface BetaRedTeamsOperations {
 // @public
 export interface BetaRoutinesCreateOrUpdateOptionalParams extends OperationOptions {
     action?: RoutineActionUnion;
+    // Warning: (ae-forgotten-export) The symbol "RoutineAuthorization" needs to be exported by the entry point index.d.ts
+    authorization?: RoutineAuthorization;
     description?: string;
     enabled?: boolean;
     foundryFeatures?: "Routines=V1Preview" | "Routines=V2Preview";

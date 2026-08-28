@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../index.js";
-import { apiErrorResponseDeserializer } from "../../models/models.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { AIProjectContext as Client } from "../../index.js";
+import { apiErrorResponseDeserializer } from "../../../models/models.js";
+import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
+import { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _connectVoiceAgentSend(
   context: Client,
   agentName: string,
-  options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}/endpoint/protocols/voice{?foundry_features,store,x%2Dagent%2Dversion%2Doverride,api%2Dversion}",
@@ -67,7 +71,7 @@ export async function _connectVoiceAgentDeserialize(result: PathUncheckedRespons
 export async function connectVoiceAgent(
   context: Client,
   agentName: string,
-  options: VoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
+  options: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _connectVoiceAgentSend(context, agentName, options);
   return _connectVoiceAgentDeserialize(result);

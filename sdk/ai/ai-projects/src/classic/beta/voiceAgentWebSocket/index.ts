@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import { connectVoiceAgent } from "../../api/voiceAgentWebSocket/operations.js";
-import type { VoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "../../api/voiceAgentWebSocket/options.js";
+import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import { connectVoiceAgent } from "../../../api/beta/voiceAgentWebSocket/operations.js";
+import { BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams } from "../../../api/beta/voiceAgentWebSocket/options.js";
 
-/** Interface representing a VoiceAgentWebSocket operations. */
-export interface VoiceAgentWebSocketOperations {
+/** Interface representing a BetaVoiceAgentWebSocket operations. */
+export interface BetaVoiceAgentWebSocketOperations {
   /**
    * Connects to a voice agent over WebSocket. The client must send an HTTP GET with `Upgrade: websocket`
    * headers. The optional `realtime` subprotocol is the only accepted subprotocol value. Supply the
@@ -19,23 +19,23 @@ export interface VoiceAgentWebSocketOperations {
    */
   connectVoiceAgent: (
     agentName: string,
-    options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams,
+    options?: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams,
   ) => Promise<void>;
 }
 
-function _getVoiceAgentWebSocket(context: AIProjectContext) {
+function _getBetaVoiceAgentWebSocket(context: AIProjectContext) {
   return {
     connectVoiceAgent: (
       agentName: string,
-      options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams,
+      options?: BetaVoiceAgentWebSocketConnectVoiceAgentOptionalParams,
     ) => connectVoiceAgent(context, agentName, options),
   };
 }
 
-export function _getVoiceAgentWebSocketOperations(
+export function _getBetaVoiceAgentWebSocketOperations(
   context: AIProjectContext,
-): VoiceAgentWebSocketOperations {
+): BetaVoiceAgentWebSocketOperations {
   return {
-    ..._getVoiceAgentWebSocket(context),
+    ..._getBetaVoiceAgentWebSocket(context),
   };
 }

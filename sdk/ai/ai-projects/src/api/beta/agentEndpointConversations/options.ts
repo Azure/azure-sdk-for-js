@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PageOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { PageOrder } from "../../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
+export interface BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -46,7 +46,7 @@ export interface AgentEndpointConversationsListAgentConversationItemsOptionalPar
 }
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
+export interface BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -72,10 +72,10 @@ export interface AgentEndpointConversationsListAgentConversationResponseItemsOpt
 }
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
+export interface BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -101,13 +101,13 @@ export interface AgentEndpointConversationsListAgentConversationResponsesOptiona
 }
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {}
+export interface BetaAgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
+export interface BetaAgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
