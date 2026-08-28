@@ -98,9 +98,11 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
   apiVersion?: string;
 
   /**
-   * The Audience to use for authentication with Azure Active Directory (AAD).
+   * The audience to use for authentication with Microsoft Entra ID.
    * {@link KnownAppConfigAudience} can be used interchangeably with audience.
-   * If not specified, the default audience will be set to Azure Public Cloud.
+   * If not specified, the audience is inferred from the App Configuration endpoint. If the
+   * endpoint does not contain a recognizable App Configuration domain, the audience defaults to
+   * Azure Public Cloud.
    */
   audience?: string;
 }
