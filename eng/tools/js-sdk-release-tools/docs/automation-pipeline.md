@@ -156,7 +156,7 @@ RLC packages are identified as `"sdk-type": "client"` without modular markers.
 | Run Mode                    | Cleanup Behavior              | Details                                                                                                                            |
 | --------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `Release` / `Local`         | **Skip cleanup (tool-level)** | The tool does not delete the package directory. Before writing new files, the emitter automatically empties the sources directory. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory and recreates it empty.                                                                       |
+| `SpecPullRequest` / `Batch` | **Conditional cleanup**       | Performs full cleanup for standard packages. Packages with root `generated/` skip cleanup to preserve merge-based customizations.  |
 
 > **Note on generation path**: The emitter behavior described below applies **only to the TypeSpec path** (Path A in §3.2). When RLC packages are generated from Swagger via autorest (Path B), the TypeSpec emitter is not involved — autorest directly overwrites files under `--output-folder` without the priority-based source directory selection described below.
 
@@ -216,17 +216,17 @@ When generating a brand-new package (no directory yet), or regenerating a packag
 | Run Mode                    | Cleanup Behavior              | Details                                                                                                                                             |
 | --------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Release` / `Local`         | **Skip cleanup (tool-level)** | Same as RLC: the tool does not delete the package directory; the emitter empties the sources directory. See §4.2 for the full file-level breakdown. |
-| `SpecPullRequest` / `Batch` | **Full cleanup**              | Removes the entire package directory.                                                                                                               |
+| `SpecPullRequest` / `Batch` | **Conditional cleanup**       | Performs full cleanup unless root `generated/` exists, in which case cleanup is skipped to preserve merge-based customizations.                     |
 
 ### 4.4 Summary Table
 
 | SDK Type          | Plane      | Source State        | `Release` / `Local`                             | `SpecPullRequest` / `Batch`                     |
 | ----------------- | ---------- | ------------------- | ----------------------------------------------- | ----------------------------------------------- |
 | `HighLevelClient` | Management | N/A                 | No cleanup (autorest overwrites files in-place) | No cleanup (autorest overwrites files in-place) |
-| `RestLevelClient` | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
+| `RestLevelClient` | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup; skip for root `generated/`        |
 | `ModularClient`   | Management | Converting from HLC | Partial: keep `test/`, `assets.json`            | Full cleanup                                    |
 | `ModularClient`   | Management | New or already MLC  | Skip (emitter handles)                          | Skip (emitter handles)                          |
-| `ModularClient`   | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup                                    |
+| `ModularClient`   | Data       | N/A                 | Skip (emitter cleans `src/`)                    | Full cleanup; skip for root `generated/`        |
 
 ---
 
