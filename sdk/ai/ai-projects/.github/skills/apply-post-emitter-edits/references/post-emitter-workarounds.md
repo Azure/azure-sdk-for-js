@@ -31,8 +31,6 @@ Merge guidelines for newly emitted code from the `./incoming` directory:
 
 - In `src/models/index.ts`, only accept **added** models. Unless otherwise instructed, do not change or delete existing models in this file. Same manual-propagation note as above applies.
 
-- Preserve customized `$delete` operation names. If a resource-delete operation that is `$delete` in the committed `src/` baseline is emitted under a model-specific name such as `deleteSchedule`, `deleteRoutine`, or `deleteEvaluationTaxonomy`, do not propagate that rename into `src/`. Keep `$delete`, `_$deleteSend`, and `_$deleteDeserialize` in the operation module; export `$delete` from the corresponding `src/api/.../index.ts`; and import and call `$delete` from `src/classic/.../index.ts` while exposing only the existing `delete` method. Do not add a `delete<Model>` method or deprecate `delete`. Leave `generated/` unchanged because it records emitter output.
-
 - `foundryFeatures` must **not** be a positional parameter for any method, internal or external facing. Instead, instantiate it locally to a default value before sending it over the wire. **However**, `foundryFeatures` IS allowed as a property on `*Options` / `*OptionalParams` interfaces (i.e. as a member of the options bag, e.g. `foundryFeatures?: "Skills=V1Preview"`). Only positional parameters are forbidden. Any changes making `foundryFeatures` a method parameter must be reverted to the local-const pattern.
 
 - **No changes to the `list` operation in `BetaEvaluatorsOperations` are permitted.** The emitter wants to create a `listLatestVersions` method instead of `list`, but that is not allowed. Revert the rename.
