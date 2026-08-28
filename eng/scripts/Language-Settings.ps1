@@ -410,18 +410,23 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
   if ($null -eq $ReleaseDate) {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  Confirm-NodeInstallation
-  $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
-  npm install -g $packageManager
-  if ($LASTEXITCODE -ne 0) {
-    throw "Failed to install $packageManager"
-  }
 
   Push-Location $RepoRoot
   try {
-    pnpm install
-    if ($LASTEXITCODE -ne 0) {
-      throw "pnpm install failed with exit code $LASTEXITCODE"
+    $toolsInitialized = Get-Variable -Name PackageVersionToolsInitialized -Scope Script -ValueOnly -ErrorAction SilentlyContinue
+    if ($toolsInitialized -ne $true) {
+      Confirm-NodeInstallation
+      $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
+      npm install -g $packageManager
+      if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install $packageManager"
+      }
+
+      pnpm install
+      if ($LASTEXITCODE -ne 0) {
+        throw "pnpm install failed with exit code $LASTEXITCODE"
+      }
+      $script:PackageVersionToolsInitialized = $true
     }
 
     $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
