@@ -5,6 +5,7 @@
  * This example shows how to use
  * [@opentelemetry/sdk-logs](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/sdk-logs)
  * to instrument a simple Node.js application.
+ * It also demonstrates how to associate custom measurements with logs.
  *
  * @summary use opentelemetry logs in a Node.js application.
  */
@@ -41,7 +42,13 @@ export async function main(): Promise<void> {
     severityNumber: SeverityNumber.INFO,
     severityText: "INFO",
     body: "test message",
-    attributes: { key: "value" },
+    attributes: {
+      key: "value",
+      "microsoft.custom_measurements": JSON.stringify({
+        itemsProcessed: 42,
+        queueDepth: 7,
+      }),
+    },
   });
 
   // flush and shutdown
