@@ -47,7 +47,7 @@ Once you are happy with your customizations, check everything in as normal (both
 
 ## Regeneration Workflow
 
-As the service specification changes, it will become necessary to update your library. Because the root-level `generated/` directory exists, the TypeScript emitter regenerates the source code into that directory instead of `src/`. Do not commit the regenerated changes before applying the customizations.
+As the service specification changes, it will become necessary to update your library. Because the root-level `generated/` directory exists, the TypeScript emitter regenerates the source code into that directory instead of `src/`. **DO NOT** commit the regenerated changes before applying the customizations.
 
 > **Note:** The customization tool relies on the committed version of `generated/` as the previous generated baseline.
 
