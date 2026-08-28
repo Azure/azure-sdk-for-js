@@ -18,6 +18,7 @@ import type {
   SessionDirectoryListResponse,
   SessionFileWriteResponse,
   SessionDirectoryEntry,
+  GenerateAgentRequest,
   AgentsDownloadSessionFileResponse,
   AgentsDownloadAgentCodeResponse,
 } from "../../models/models.js";
@@ -39,6 +40,7 @@ import {
   _agentsPagedResultAgentSessionResourceDeserializer,
   sessionFileWriteResponseDeserializer,
   sessionDirectoryListResponseDeserializer,
+  generateAgentRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -70,6 +72,7 @@ import type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateOptionalParams,
+  AgentsGenerateAgentOptionalParams,
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
@@ -1248,6 +1251,7 @@ export function _createVersionSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
     },
   });
 }
@@ -1594,6 +1598,62 @@ export async function update(
   return _updateDeserialize(result);
 }
 
+export function _generateAgentSend(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "VoiceAgents=V1Preview";
+  const path = expandUrlTemplate(
+    "/agents:generate{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: generateAgentRequestSerializer(body),
+  });
+}
+
+export async function _generateAgentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return agentDeserializer(result.body);
+}
+
+/**
+ * Generates and creates an agent from kind-specific high-level inputs.
+ * The generated definition remains fully editable through the standard agent versioning operations.
+ */
+export async function generateAgent(
+  context: Client,
+  body: GenerateAgentRequest,
+  options: AgentsGenerateAgentOptionalParams = { requestOptions: {} },
+): Promise<Agent> {
+  const result = await _generateAgentSend(context, body, options);
+  return _generateAgentDeserialize(result);
+}
+
 export function _createSend(
   context: Client,
   name: string,
@@ -1628,6 +1688,7 @@ export function _createSend(
       blueprint_reference: !options?.blueprintReference
         ? options?.blueprintReference
         : agentBlueprintReferenceUnionSerializer(options?.blueprintReference),
+      digital_worker_type: options?.digitalWorkerType,
       agent_endpoint: !options?.agentEndpoint
         ? options?.agentEndpoint
         : agentEndpointConfigSerializer(options?.agentEndpoint),

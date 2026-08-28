@@ -6,6 +6,7 @@ import {
   AgentKind,
   AgentBlueprintReferenceUnion,
   AgentEndpointConfig,
+  DigitalWorkerType,
   AgentCard,
   AgentDefinitionOptInKeys,
   PageOrder,
@@ -192,6 +193,8 @@ export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
 }
 
 /** Optional parameters. */
@@ -278,6 +281,9 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsGenerateAgentOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?: AgentDefinitionOptInKeys;
@@ -296,6 +302,8 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
   description?: string;
   /** The blueprint reference for the agent. */
   blueprintReference?: AgentBlueprintReferenceUnion;
+  /** (Preview) The type of digital worker (previously known as `autopilot`). If omitted, it is not a digital worker. */
+  digitalWorkerType?: DigitalWorkerType;
   /** An optional endpoint configuration. If not specified, a default endpoint configuration will be set for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */

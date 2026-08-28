@@ -40,7 +40,35 @@ export interface A2AProtocolConfiguration {
 }
 
 // @public
+export type A2AProtocolVersion = "1.0";
+
+// @public
+export interface A2ATool extends Tool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    type: "a2a";
+}
+
+// @public
+export interface A2AToolboxTool extends ToolboxTool {
+    a2a_version: A2AProtocolVersion;
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
+    // (undocumented)
+    type: "a2a";
+}
+
+// @public
+export type ActivityProtocolAccessBoundary = "read.1on1.developers" | "read.1on1.manager" | "read.1on1.allowlisted" | "read.1on1.tenant" | "write.1on1.developers" | "write.1on1.manager" | "write.1on1.allowlisted" | "write.1on1.tenant" | "read.group.developers" | "read.group.allowlisted" | "read.group.manager-invited" | "read.group.manager-present" | "read.group.tenant" | "write.group.developers" | "write.group.allowlisted" | "write.group.manager-invited" | "write.group.manager-present" | "write.group.tenant";
+
+// @public
 export interface ActivityProtocolConfiguration {
+    readonly access_boundaries?: ActivityProtocolAccessBoundary[];
     enable_m365_public_endpoint?: boolean;
 }
 
@@ -51,6 +79,7 @@ export interface Agent {
     agent_endpoint?: AgentEndpointConfig;
     readonly blueprint?: AgentIdentity;
     readonly blueprint_reference?: AgentBlueprintReferenceUnion;
+    digital_worker_type?: DigitalWorkerType;
     id: string;
     readonly instance_identity?: AgentIdentity;
     name: string;
@@ -118,10 +147,10 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview" | "VoiceAgents=V1Preview" | "DigitalWorker=V1Preview";
 
 // @public
-export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition;
+export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | VoiceAgentDefinition | AgentDefinition;
 
 // @public @deprecated (undocumented)
 export type AgentEndpoint = AgentEndpointConfig;
@@ -142,7 +171,100 @@ export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | B
 export interface AgentEndpointConfig {
     authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
     protocol_configuration?: ProtocolConfiguration;
+    readonly publish_approval_status?: PublishApprovalStatus;
     version_selector?: VersionSelector;
+}
+
+// @public
+export interface AgentEndpointConversationsDeleteAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type AgentEndpointConversationsGetAgentConversationAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export type AgentEndpointConversationsGetAgentConversationItemAudioContentResponse = {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeReadableStream;
+};
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationItemOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsGetAgentConversationResponseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationResponsesOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsListAgentConversationsOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface AgentEndpointConversationsOperations {
+    deleteAgentConversation: (agentName: string, conversationId: string, options?: AgentEndpointConversationsDeleteAgentConversationOptionalParams) => Promise<void>;
+    getAgentConversation: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationOptionalParams) => Promise<VoiceConversation>;
+    getAgentConversationAudio: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioOptionalParams) => Promise<VoiceRecordingResponse>;
+    getAgentConversationAudioContent: (agentName: string, conversationId: string, options?: AgentEndpointConversationsGetAgentConversationAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationAudioContentResponse>;
+    getAgentConversationItem: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemOptionalParams) => Promise<RealtimeConversationItemUnion>;
+    getAgentConversationItemAudio: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioOptionalParams) => Promise<VoiceItemAudioResponse>;
+    getAgentConversationItemAudioContent: (agentName: string, conversationId: string, itemId: string, options?: AgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams) => Promise<AgentEndpointConversationsGetAgentConversationItemAudioContentResponse>;
+    getAgentConversationResponse: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsGetAgentConversationResponseOptionalParams) => Promise<VoiceResponse>;
+    listAgentConversationItems: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponseItems: (agentName: string, conversationId: string, responseId: string, options?: AgentEndpointConversationsListAgentConversationResponseItemsOptionalParams) => PagedAsyncIterableIterator<RealtimeConversationItemUnion>;
+    listAgentConversationResponses: (agentName: string, conversationId: string, options?: AgentEndpointConversationsListAgentConversationResponsesOptionalParams) => PagedAsyncIterableIterator<VoiceResponse>;
+    listAgentConversations: (agentName: string, options?: AgentEndpointConversationsListAgentConversationsOptionalParams) => PagedAsyncIterableIterator<VoiceConversation>;
 }
 
 // @public
@@ -169,7 +291,7 @@ export interface AgentIdentity {
 export type AgentIdentityStatus = "active" | "disabled";
 
 // @public
-export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
+export type AgentKind = "prompt" | "hosted" | "workflow" | "external" | "voice";
 
 // @public
 export interface AgentOptimizationCandidate {
@@ -285,7 +407,7 @@ export interface AgentOptimizationReferenceDatasetInput extends AgentOptimizatio
 }
 
 // @public
-export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
+export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "voice" | "invocations_ws";
 
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
@@ -305,6 +427,7 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
     agentEndpoint?: AgentEndpointConfig;
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
     state?: AgentState;
@@ -323,6 +446,7 @@ export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOpti
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     blueprintReference?: AgentBlueprintReferenceUnion;
     description?: string;
+    digitalWorkerType?: DigitalWorkerType;
     foundryFeatures?: AgentDefinitionOptInKeys;
     metadata?: Record<string, string>;
 }
@@ -387,6 +511,10 @@ export interface AgentSessionResource {
 
 // @public
 export type AgentSessionStatus = "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
+
+// @public
+export interface AgentsGenerateAgentOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface AgentsGetOptionalParams extends OperationOptions {
@@ -454,6 +582,7 @@ export interface AgentsOperations {
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
     downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
+    generateAgent: (body: GenerateAgentRequest, options?: AgentsGenerateAgentOptionalParams) => Promise<Agent>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
@@ -1657,6 +1786,18 @@ export interface CreateSkillVersionFromFilesBody {
 }
 
 // @public
+export interface CreateTranscriptionResponseJsonUsage {
+    // (undocumented)
+    type: CreateTranscriptionResponseJsonUsageType;
+}
+
+// @public
+export type CreateTranscriptionResponseJsonUsageType = "tokens" | "duration";
+
+// @public
+export type CreateTranscriptionResponseJsonUsageUnion = TranscriptTextUsageTokens | TranscriptTextUsageDuration | CreateTranscriptionResponseJsonUsage;
+
+// @public
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 // @public
@@ -1975,6 +2116,9 @@ export type DeploymentType = "ModelDeployment";
 
 // @public
 export type DeploymentUnion = ModelDeployment | Deployment;
+
+// @public
+export type DigitalWorkerType = "m365";
 
 // @public
 export interface Dimension {
@@ -2414,7 +2558,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview";
+export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview" | "Routines=V1Preview" | "Routines=V2Preview" | "Skills=V1Preview" | "DataGenerationJobs=V1Preview" | "Models=V1Preview" | "AgentsOptimization=V2Preview" | "ModelRouterControls=V1Preview";
 
 // @public
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
@@ -2509,6 +2653,22 @@ export interface GenAITracingOptions {
 }
 
 // @public
+export type GenerateAgentRequest = GenerateVoiceAgentRequest;
+
+// @public
+export interface GenerateVoiceAgentRequest {
+    description?: string;
+    draft?: boolean;
+    goal?: string;
+    kind: "voice";
+    model?: string;
+    model_type?: VoiceModelType;
+    name: string;
+    tools?: VoiceAgentToolUnion[];
+    use_case?: string;
+}
+
+// @public
 export type GenerationWarningType = "input_quality";
 
 // @public
@@ -2544,6 +2704,7 @@ export interface HostedAgentDefinition extends AgentDefinition {
     kind: "hosted";
     memory: string;
     protocol_versions?: ProtocolVersionRecord[];
+    session_configuration?: SessionConfiguration;
     telemetry_config?: TelemetryConfig;
 }
 
@@ -2811,6 +2972,13 @@ export interface LocalSkillParam {
 }
 
 // @public
+export interface LogProbProperties {
+    bytes: number[];
+    logprob: number;
+    token: string;
+}
+
+// @public
 export interface LoraConfig {
     alpha?: number;
     dropout?: number;
@@ -2829,6 +2997,24 @@ export interface ManagedAgentIdentityBlueprintReference extends AgentBlueprintRe
 export interface ManagedAzureAISearchIndex extends Index {
     type: "ManagedAzureSearch";
     vectorStoreId: string;
+}
+
+// @public
+export interface MCPListToolsTool {
+    // (undocumented)
+    annotations?: MCPListToolsToolAnnotations;
+    // (undocumented)
+    description?: string;
+    input_schema: MCPListToolsToolInputSchema;
+    name: string;
+}
+
+// @public
+export interface MCPListToolsToolAnnotations {
+}
+
+// @public
+export interface MCPListToolsToolInputSchema {
 }
 
 // @public
@@ -3019,6 +3205,11 @@ export interface MemoryStoreUpdateResponse {
 export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
 
 // @public
+export interface Metadata {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
 export interface MicrosoftFabricPreviewTool extends Tool {
     fabric_dataagent_preview: FabricDataAgentToolParameters;
     type: "fabric_dataagent_preview";
@@ -3115,6 +3306,32 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 
 // @public
 export type NodeReadableStream = NodeJS.ReadableStream;
+
+// @public
+export interface OmitPropertiesRealtimeResponse {
+    conversation_id?: string;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    object?: "realtime.response";
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
+    usage?: RealtimeResponseUsage;
+}
+
+// @public
+export interface OmitPropertiesRealtimeResponse1 {
+    conversation_id?: string;
+    id?: string;
+    max_output_tokens?: number | "inf";
+    // (undocumented)
+    metadata?: Metadata;
+    object?: "realtime.response";
+    output_modalities?: ("text" | "audio")[];
+    status?: "completed" | "cancelled" | "failed" | "incomplete" | "in_progress";
+    status_details?: RealtimeResponseStatusDetails;
+    usage?: RealtimeResponseUsage;
+}
 
 // @public
 export interface OneTimeTrigger extends Trigger {
@@ -3284,6 +3501,11 @@ export interface PendingUploadResponse {
 export type PendingUploadType = "None" | "BlobReference" | "TemporaryBlobReference";
 
 // @public
+export interface PickPropertiesVoiceAgentAudioConfig {
+    output?: VoiceAgentAudioOutputConfig;
+}
+
+// @public
 export interface ProceduralMemoryItem extends MemoryItem {
     kind: "procedural";
 }
@@ -3359,6 +3581,9 @@ export interface ProtocolVersionRecord {
 }
 
 // @public
+export type PublishApprovalStatus = "not_published" | "pending" | "approved" | "rejected" | "no_approval_needed";
+
+// @public
 export interface RaiConfig {
     rai_policy_name: string;
 }
@@ -3372,6 +3597,800 @@ export interface RankingOptions {
     ranker?: RankerVersionType;
     score_threshold?: number;
 }
+
+// @public
+export interface RealtimeAudioFormats {
+    // (undocumented)
+    type: RealtimeAudioFormatsType;
+}
+
+// @public
+export interface RealtimeAudioFormatsAudioPcm extends RealtimeAudioFormats {
+    // (undocumented)
+    rate?: 24000;
+    // (undocumented)
+    type: "audio/pcm";
+}
+
+// @public
+export interface RealtimeAudioFormatsAudioPcma extends RealtimeAudioFormats {
+    // (undocumented)
+    type: "audio/pcma";
+}
+
+// @public
+export interface RealtimeAudioFormatsAudioPcmu extends RealtimeAudioFormats {
+    // (undocumented)
+    type: "audio/pcmu";
+}
+
+// @public
+export type RealtimeAudioFormatsType = "audio/pcm" | "audio/pcmu" | "audio/pcma";
+
+// @public
+export type RealtimeAudioFormatsUnion = RealtimeAudioFormatsAudioPcm | RealtimeAudioFormatsAudioPcmu | RealtimeAudioFormatsAudioPcma | RealtimeAudioFormats;
+
+// @public
+export interface RealtimeClientEvent {
+    // (undocumented)
+    type: RealtimeClientEventType;
+}
+
+// @public
+export interface RealtimeClientEventConversationItemCreate extends RealtimeClientEvent {
+    event_id?: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    previous_item_id?: string;
+    type: "conversation.item.create";
+}
+
+// @public
+export interface RealtimeClientEventConversationItemDelete extends RealtimeClientEvent {
+    event_id?: string;
+    item_id: string;
+    type: "conversation.item.delete";
+}
+
+// @public
+export interface RealtimeClientEventConversationItemRetrieve extends RealtimeClientEvent {
+    event_id?: string;
+    item_id: string;
+    type: "conversation.item.retrieve";
+}
+
+// @public
+export interface RealtimeClientEventConversationItemTruncate extends RealtimeClientEvent {
+    audio_end_ms: number;
+    content_index: number;
+    event_id?: string;
+    item_id: string;
+    type: "conversation.item.truncate";
+}
+
+// @public
+export interface RealtimeClientEventInputAudioBufferAppend extends RealtimeClientEvent {
+    audio: string;
+    event_id?: string;
+    type: "input_audio_buffer.append";
+}
+
+// @public
+export interface RealtimeClientEventInputAudioBufferClear extends RealtimeClientEvent {
+    event_id?: string;
+    type: "input_audio_buffer.clear";
+}
+
+// @public
+export interface RealtimeClientEventInputAudioBufferCommit extends RealtimeClientEvent {
+    event_id?: string;
+    type: "input_audio_buffer.commit";
+}
+
+// @public
+export interface RealtimeClientEventOutputAudioBufferClear extends RealtimeClientEvent {
+    event_id?: string;
+    type: "output_audio_buffer.clear";
+}
+
+// @public
+export interface RealtimeClientEventResponseCancel extends RealtimeClientEvent {
+    event_id?: string;
+    response_id?: string;
+    type: "response.cancel";
+}
+
+// @public
+export interface RealtimeClientEventResponseCreate extends RealtimeClientEvent {
+    event_id?: string;
+    // (undocumented)
+    response?: VoiceAgentResponseCreateParams;
+    type: "response.create";
+}
+
+// @public
+export type RealtimeClientEventType = "conversation.item.create" | "conversation.item.delete" | "conversation.item.retrieve" | "conversation.item.truncate" | "input_audio_buffer.append" | "input_audio_buffer.clear" | "output_audio_buffer.clear" | "input_audio_buffer.commit" | "response.cancel" | "response.create" | "session.update" | "session.avatar.connect";
+
+// @public
+export type RealtimeClientEventUnion = RealtimeClientEventConversationItemCreate | RealtimeClientEventConversationItemDelete | RealtimeClientEventConversationItemRetrieve | RealtimeClientEventConversationItemTruncate | RealtimeClientEventInputAudioBufferAppend | RealtimeClientEventInputAudioBufferClear | RealtimeClientEventOutputAudioBufferClear | RealtimeClientEventInputAudioBufferCommit | RealtimeClientEventResponseCancel | RealtimeClientEventResponseCreate | VoiceAgentClientEventSessionAvatarConnect | RealtimeClientEvent;
+
+// @public
+export interface RealtimeConversationItem {
+    // (undocumented)
+    type: RealtimeConversationItemType;
+}
+
+// @public
+export interface RealtimeConversationItemFunctionCall extends RealtimeConversationItem {
+    arguments: string;
+    call_id?: string;
+    readonly created_at?: Date;
+    id?: string;
+    name: string;
+    object?: "realtime.item";
+    readonly response_id?: string;
+    status?: "completed" | "incomplete" | "in_progress";
+    type: "function_call";
+}
+
+// @public
+export interface RealtimeConversationItemFunctionCallOutput extends RealtimeConversationItem {
+    call_id: string;
+    readonly created_at?: Date;
+    id?: string;
+    name?: string;
+    object?: "realtime.item";
+    output: string;
+    readonly response_id?: string;
+    status?: "completed" | "incomplete" | "in_progress";
+    type: "function_call_output";
+}
+
+// @public
+export type RealtimeConversationItemType = "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request";
+
+// @public
+export type RealtimeConversationItemUnion = RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | RealtimeConversationItem;
+
+// @public
+export interface RealtimeFunctionTool {
+    description?: string;
+    name?: string;
+    parameters?: RealtimeFunctionToolParameters;
+    type?: "function";
+}
+
+// @public
+export interface RealtimeFunctionToolParameters {
+}
+
+// @public
+export interface RealtimeMCPApprovalRequest extends RealtimeConversationItem {
+    arguments: string;
+    readonly created_at?: Date;
+    id: string;
+    name: string;
+    readonly response_id?: string;
+    server_label: string;
+    type: "mcp_approval_request";
+}
+
+// @public
+export interface RealtimeMCPApprovalResponse extends RealtimeConversationItem {
+    approval_request_id: string;
+    approve: boolean;
+    readonly created_at?: Date;
+    id: string;
+    // (undocumented)
+    reason?: string;
+    readonly response_id?: string;
+    type: "mcp_approval_response";
+}
+
+// @public
+export interface RealtimeMCPError {
+    // (undocumented)
+    type: RealtimeMcpErrorType;
+}
+
+// @public
+export type RealtimeMcpErrorType = "protocol_error" | "tool_execution_error" | "http_error";
+
+// @public
+export type RealtimeMCPErrorUnion = RealtimeMCPProtocolError | RealtimeMCPToolExecutionError | RealtimeMcphttpError | RealtimeMCPError;
+
+// @public
+export interface RealtimeMcphttpError extends RealtimeMCPError {
+    // (undocumented)
+    code: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    type: "http_error";
+}
+
+// @public
+export interface RealtimeMCPListTools extends RealtimeConversationItem {
+    readonly created_at?: Date;
+    id?: string;
+    readonly response_id?: string;
+    server_label: string;
+    tools: MCPListToolsTool[];
+    type: "mcp_list_tools";
+}
+
+// @public
+export interface RealtimeMCPProtocolError extends RealtimeMCPError {
+    // (undocumented)
+    code: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    type: "protocol_error";
+}
+
+// @public
+export interface RealtimeMCPToolCall extends RealtimeConversationItem {
+    // (undocumented)
+    approval_request_id?: string;
+    arguments: string;
+    readonly created_at?: Date;
+    // (undocumented)
+    error?: RealtimeMCPErrorUnion;
+    id: string;
+    name: string;
+    // (undocumented)
+    output?: string;
+    readonly response_id?: string;
+    server_label: string;
+    type: "mcp_call";
+}
+
+// @public
+export interface RealtimeMCPToolExecutionError extends RealtimeMCPError {
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    type: "tool_execution_error";
+}
+
+// @public
+export interface RealtimeReasoning {
+    // (undocumented)
+    effort?: RealtimeReasoningEffort;
+}
+
+// @public
+export type RealtimeReasoningEffort = "minimal" | "low" | "medium" | "high" | "xhigh";
+
+// @public
+export interface RealtimeResponseStatusDetails {
+    // (undocumented)
+    error?: RealtimeResponseStatusDetailsError;
+    // (undocumented)
+    reason?: "turn_detected" | "client_cancelled" | "max_output_tokens" | "content_filter";
+    // (undocumented)
+    type?: "completed" | "cancelled" | "failed" | "incomplete";
+}
+
+// @public
+export interface RealtimeResponseStatusDetailsError {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    type?: string;
+}
+
+// @public
+export interface RealtimeResponseUsage {
+    // (undocumented)
+    input_token_details?: RealtimeResponseUsageInputTokenDetails;
+    // (undocumented)
+    input_tokens?: number;
+    // (undocumented)
+    output_token_details?: RealtimeResponseUsageOutputTokenDetails;
+    // (undocumented)
+    output_tokens?: number;
+    // (undocumented)
+    total_tokens?: number;
+}
+
+// @public
+export interface RealtimeResponseUsageInputTokenDetails {
+    // (undocumented)
+    audio_tokens?: number;
+    // (undocumented)
+    cached_tokens?: number;
+    // (undocumented)
+    cached_tokens_details?: RealtimeResponseUsageInputTokenDetailsCachedTokensDetails;
+    // (undocumented)
+    image_tokens?: number;
+    // (undocumented)
+    text_tokens?: number;
+}
+
+// @public
+export interface RealtimeResponseUsageInputTokenDetailsCachedTokensDetails {
+    // (undocumented)
+    audio_tokens?: number;
+    // (undocumented)
+    image_tokens?: number;
+    // (undocumented)
+    text_tokens?: number;
+}
+
+// @public
+export interface RealtimeResponseUsageOutputTokenDetails {
+    // (undocumented)
+    audio_tokens?: number;
+    // (undocumented)
+    text_tokens?: number;
+}
+
+// @public
+export interface RealtimeServerEvent {
+    // (undocumented)
+    type: RealtimeServerEventType;
+}
+
+// @public
+export interface RealtimeServerEventConversationItemAdded extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    // (undocumented)
+    previous_item_id?: string;
+    type: "conversation.item.added";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemCreated extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    // (undocumented)
+    previous_item_id?: string;
+    type: "conversation.item.created";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemDeleted extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    type: "conversation.item.deleted";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemDone extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    // (undocumented)
+    previous_item_id?: string;
+    type: "conversation.item.done";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemInputAudioTranscriptionCompleted extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    // (undocumented)
+    logprobs?: LogProbProperties[];
+    phrases?: VoiceAgentTranscriptionPhrase[];
+    transcript: string;
+    type: "conversation.item.input_audio_transcription.completed";
+    usage: TranscriptTextUsageTokens | TranscriptTextUsageDuration;
+}
+
+// @public
+export interface RealtimeServerEventConversationItemInputAudioTranscriptionDelta extends RealtimeServerEvent {
+    content_index?: number;
+    delta?: string;
+    event_id: string;
+    item_id: string;
+    // (undocumented)
+    logprobs?: LogProbProperties[];
+    type: "conversation.item.input_audio_transcription.delta";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemInputAudioTranscriptionFailed extends RealtimeServerEvent {
+    content_index: number;
+    error: RealtimeServerEventConversationItemInputAudioTranscriptionFailedError;
+    event_id: string;
+    item_id: string;
+    type: "conversation.item.input_audio_transcription.failed";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemInputAudioTranscriptionFailedError {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message?: string;
+    // (undocumented)
+    param?: string;
+    // (undocumented)
+    type?: string;
+}
+
+// @public
+export interface RealtimeServerEventConversationItemInputAudioTranscriptionSegment extends RealtimeServerEvent {
+    content_index: number;
+    end: number;
+    event_id: string;
+    id: string;
+    item_id: string;
+    speaker: string;
+    start: number;
+    text: string;
+    type: "conversation.item.input_audio_transcription.segment";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemRetrieved extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    type: "conversation.item.retrieved";
+}
+
+// @public
+export interface RealtimeServerEventConversationItemTruncated extends RealtimeServerEvent {
+    audio_end_ms: number;
+    content_index: number;
+    event_id: string;
+    item?: RealtimeConversationItemUnion;
+    item_id: string;
+    type: "conversation.item.truncated";
+}
+
+// @public
+export interface RealtimeServerEventError {
+    error: RealtimeServerEventErrorError;
+    event_id: string;
+    type: "error";
+}
+
+// @public
+export interface RealtimeServerEventErrorError {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    event_id?: string;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    param?: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface RealtimeServerEventInputAudioBufferCleared extends RealtimeServerEvent {
+    event_id: string;
+    type: "input_audio_buffer.cleared";
+}
+
+// @public
+export interface RealtimeServerEventInputAudioBufferCommitted extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    // (undocumented)
+    previous_item_id?: string;
+    type: "input_audio_buffer.committed";
+}
+
+// @public
+export interface RealtimeServerEventInputAudioBufferSpeechStarted extends RealtimeServerEvent {
+    audio_start_ms: number;
+    event_id: string;
+    item_id: string;
+    type: "input_audio_buffer.speech_started";
+}
+
+// @public
+export interface RealtimeServerEventInputAudioBufferSpeechStopped extends RealtimeServerEvent {
+    audio_end_ms: number;
+    event_id: string;
+    item_id: string;
+    type: "input_audio_buffer.speech_stopped";
+}
+
+// @public
+export interface RealtimeServerEventInputAudioBufferTimeoutTriggered extends RealtimeServerEvent {
+    audio_end_ms: number;
+    audio_start_ms: number;
+    event_id: string;
+    item_id: string;
+    type: "input_audio_buffer.timeout_triggered";
+}
+
+// @public
+export interface RealtimeServerEventMCPListToolsCompleted extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    type: "mcp_list_tools.completed";
+}
+
+// @public
+export interface RealtimeServerEventMCPListToolsFailed extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    type: "mcp_list_tools.failed";
+}
+
+// @public
+export interface RealtimeServerEventMCPListToolsInProgress extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    type: "mcp_list_tools.in_progress";
+}
+
+// @public
+export interface RealtimeServerEventOutputAudioBufferCleared extends RealtimeServerEvent {
+    event_id: string;
+    response_id: string;
+    type: "output_audio_buffer.cleared";
+}
+
+// @public
+export interface RealtimeServerEventRateLimitsUpdated extends RealtimeServerEvent {
+    event_id: string;
+    rate_limits: RealtimeServerEventRateLimitsUpdatedRateLimits[];
+    type: "rate_limits.updated";
+}
+
+// @public
+export interface RealtimeServerEventRateLimitsUpdatedRateLimits {
+    // (undocumented)
+    limit?: number;
+    // (undocumented)
+    name?: "requests" | "tokens";
+    // (undocumented)
+    remaining?: number;
+    // (undocumented)
+    reset_seconds?: number;
+}
+
+// @public
+export interface RealtimeServerEventResponseAudioDelta extends RealtimeServerEvent {
+    content_index: number;
+    delta: Uint8Array;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.output_audio.delta";
+}
+
+// @public
+export interface RealtimeServerEventResponseAudioDone extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.output_audio.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseAudioTranscriptDelta extends RealtimeServerEvent {
+    content_index: number;
+    delta: string;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.output_audio_transcript.delta";
+}
+
+// @public
+export interface RealtimeServerEventResponseAudioTranscriptDone extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    transcript: string;
+    type: "response.output_audio_transcript.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseContentPartAdded extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    part: RealtimeServerEventResponseContentPartAddedPart;
+    response_id: string;
+    type: "response.content_part.added";
+}
+
+// @public
+export interface RealtimeServerEventResponseContentPartAddedPart {
+    // (undocumented)
+    audio?: string;
+    // (undocumented)
+    text?: string;
+    // (undocumented)
+    transcript?: string;
+    // (undocumented)
+    type?: "audio" | "text";
+}
+
+// @public
+export interface RealtimeServerEventResponseContentPartDone extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    part: RealtimeServerEventResponseContentPartDonePart;
+    response_id: string;
+    type: "response.content_part.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseContentPartDonePart {
+    // (undocumented)
+    audio?: string;
+    format?: RealtimeAudioFormatsUnion;
+    // (undocumented)
+    text?: string;
+    // (undocumented)
+    transcript?: string;
+    // (undocumented)
+    type?: "audio" | "text";
+}
+
+// @public
+export interface RealtimeServerEventResponseCreated extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    response: VoiceAgentRealtimeResponse;
+    type: "response.created";
+}
+
+// @public
+export interface RealtimeServerEventResponseDone extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    response: VoiceAgentRealtimeResponse;
+    type: "response.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseFunctionCallArgumentsDelta extends RealtimeServerEvent {
+    call_id: string;
+    delta: string;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.function_call_arguments.delta";
+}
+
+// @public
+export interface RealtimeServerEventResponseFunctionCallArgumentsDone extends RealtimeServerEvent {
+    arguments: string;
+    call_id: string;
+    event_id: string;
+    item_id: string;
+    name: string;
+    output_index: number;
+    response_id: string;
+    type: "response.function_call_arguments.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseMCPCallArgumentsDelta extends RealtimeServerEvent {
+    delta: string;
+    event_id: string;
+    item_id: string;
+    // (undocumented)
+    obfuscation?: string;
+    output_index: number;
+    response_id: string;
+    type: "response.mcp_call_arguments.delta";
+}
+
+// @public
+export interface RealtimeServerEventResponseMCPCallArgumentsDone extends RealtimeServerEvent {
+    arguments: string;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.mcp_call_arguments.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseMCPCallCompleted extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    type: "response.mcp_call.completed";
+}
+
+// @public
+export interface RealtimeServerEventResponseMCPCallFailed extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    type: "response.mcp_call.failed";
+}
+
+// @public
+export interface RealtimeServerEventResponseMCPCallInProgress extends RealtimeServerEvent {
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    type: "response.mcp_call.in_progress";
+}
+
+// @public
+export interface RealtimeServerEventResponseOutputItemAdded extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    output_index: number;
+    response_id: string;
+    type: "response.output_item.added";
+}
+
+// @public
+export interface RealtimeServerEventResponseOutputItemDone extends RealtimeServerEvent {
+    event_id: string;
+    // (undocumented)
+    item: RealtimeConversationItemUnion;
+    output_index: number;
+    response_id: string;
+    type: "response.output_item.done";
+}
+
+// @public
+export interface RealtimeServerEventResponseTextDelta extends RealtimeServerEvent {
+    content_index: number;
+    delta: string;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    type: "response.output_text.delta";
+}
+
+// @public
+export interface RealtimeServerEventResponseTextDone extends RealtimeServerEvent {
+    content_index: number;
+    event_id: string;
+    item_id: string;
+    output_index: number;
+    response_id: string;
+    text: string;
+    type: "response.output_text.done";
+}
+
+// @public
+export interface RealtimeServerEventSessionCreated extends RealtimeServerEvent {
+    conversation_id?: string;
+    event_id: string;
+    session: VoiceAgentSessionResponse;
+    type: "session.created";
+}
+
+// @public
+export interface RealtimeServerEventSessionUpdated extends RealtimeServerEvent {
+    event_id: string;
+    session: VoiceAgentSessionResponse;
+    type: "session.updated";
+}
+
+// @public
+export type RealtimeServerEventType = "conversation.created" | "conversation.item.created" | "conversation.item.deleted" | "conversation.item.input_audio_transcription.completed" | "conversation.item.input_audio_transcription.delta" | "conversation.item.input_audio_transcription.failed" | "conversation.item.retrieved" | "conversation.item.truncated" | "error" | "input_audio_buffer.cleared" | "input_audio_buffer.committed" | "input_audio_buffer.dtmf_event_received" | "input_audio_buffer.speech_started" | "input_audio_buffer.speech_stopped" | "rate_limits.updated" | "response.output_audio.delta" | "response.output_audio.done" | "response.output_audio_transcript.delta" | "response.output_audio_transcript.done" | "response.content_part.added" | "response.content_part.done" | "response.created" | "response.done" | "response.function_call_arguments.delta" | "response.function_call_arguments.done" | "response.output_item.added" | "response.output_item.done" | "response.output_text.delta" | "response.output_text.done" | "session.created" | "session.updated" | "output_audio_buffer.started" | "output_audio_buffer.stopped" | "output_audio_buffer.cleared" | "conversation.item.added" | "conversation.item.done" | "input_audio_buffer.timeout_triggered" | "conversation.item.input_audio_transcription.segment" | "mcp_list_tools.in_progress" | "mcp_list_tools.completed" | "mcp_list_tools.failed" | "response.mcp_call_arguments.delta" | "response.mcp_call_arguments.done" | "response.mcp_call.in_progress" | "response.mcp_call.completed" | "response.mcp_call.failed" | "warning" | "session.avatar.connecting" | "session.avatar.switch_to_speaking" | "session.avatar.switch_to_idle" | "response.audio_timestamp.delta" | "response.audio_timestamp.done" | "response.animation_blendshapes.delta" | "response.animation_blendshapes.done" | "response.animation_viseme.delta" | "response.animation_viseme.done" | "response.video.delta";
+
+// @public
+export type RealtimeServerEventUnion = RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | RealtimeServerEventSessionUpdated | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemDone | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | RealtimeServerEvent;
 
 // @public
 export interface Reasoning {
@@ -3637,6 +4656,11 @@ export type SearchContentType = "text" | "image";
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
+export interface SessionConfiguration {
+    idle_timeout_seconds?: number;
+}
+
+// @public
 export interface SessionDirectoryEntry {
     is_directory: boolean;
     modified_time: Date;
@@ -3677,6 +4701,14 @@ export interface SharepointGroundingToolParameters {
 export interface SharepointPreviewTool extends Tool {
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
     type: "sharepoint_grounding_preview";
+}
+
+// @public
+export interface ShellToolboxTool extends ToolboxTool {
+    // (undocumented)
+    allowed_callers?: CallableToolAllowedCaller[];
+    environment: ToolboxShellEnvironmentUnion;
+    type: "shell";
 }
 
 // @public
@@ -3958,6 +4990,43 @@ export interface ToolboxSearchPreviewToolboxTool extends ToolboxTool {
 }
 
 // @public
+export interface ToolboxShellContainerAutoEnvironment extends ToolboxShellEnvironment {
+    file_ids?: string[];
+    // (undocumented)
+    memory_limit?: ContainerMemoryLimit;
+    network_policy?: ToolboxShellNetworkPolicyUnion;
+    skills?: ContainerSkillUnion[];
+    type: "container_auto";
+}
+
+// @public
+export interface ToolboxShellContainerReferenceEnvironment extends ToolboxShellEnvironment {
+    container_id: string;
+    type: "container_reference";
+}
+
+// @public
+export interface ToolboxShellEnvironment {
+    type: string;
+}
+
+// @public
+export type ToolboxShellEnvironmentUnion = ToolboxShellContainerAutoEnvironment | ToolboxShellContainerReferenceEnvironment | ToolboxShellEnvironment;
+
+// @public
+export interface ToolboxShellNetworkPolicy {
+    type: string;
+}
+
+// @public
+export interface ToolboxShellNetworkPolicyDisabled extends ToolboxShellNetworkPolicy {
+    type: "disabled";
+}
+
+// @public
+export type ToolboxShellNetworkPolicyUnion = ToolboxShellNetworkPolicyDisabled | ToolboxShellNetworkPolicy;
+
+// @public
 export interface ToolboxSkill {
     type: string;
 }
@@ -3981,10 +5050,10 @@ export interface ToolboxTool {
 }
 
 // @public
-export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview";
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search" | "toolbox_search_preview" | "a2a" | "shell" | "web_iq_preview";
 
 // @public
-export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | ShellToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2AToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | WebIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolSearchToolboxTool | ToolboxTool;
 
 // @public
 export interface ToolboxVersionObject {
@@ -4063,6 +5132,9 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
 }
 
 // @public
+export type ToolChoiceOptions = "none" | "auto" | "required";
+
+// @public
 export interface ToolChoiceParam {
     // (undocumented)
     type: ToolChoiceParamType;
@@ -4122,10 +5194,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "programmatic_tool_calling" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "web_iq_preview" | "a2a" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | A2ATool | WorkIQPreviewTool | FabricIQPreviewTool | WebIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ProgrammaticToolCallingParam | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -4158,6 +5230,29 @@ export interface TracesEvaluatorGenerationJobSource extends EvaluatorGenerationJ
     end_time?: Date;
     start_time?: Date;
     type: "traces";
+}
+
+// @public
+export interface TranscriptTextUsageDuration extends CreateTranscriptionResponseJsonUsage {
+    seconds: number;
+    type: "duration";
+}
+
+// @public
+export interface TranscriptTextUsageTokens extends CreateTranscriptionResponseJsonUsage {
+    input_token_details?: TranscriptTextUsageTokensInputTokenDetails;
+    input_tokens: number;
+    output_tokens: number;
+    total_tokens: number;
+    type: "tokens";
+}
+
+// @public
+export interface TranscriptTextUsageTokensInputTokenDetails {
+    // (undocumented)
+    audio_tokens?: number;
+    // (undocumented)
+    text_tokens?: number;
 }
 
 // @public
@@ -4225,6 +5320,826 @@ export type VersionSelectionRuleUnion = FixedRatioVersionSelectionRule | Version
 export interface VersionSelector {
     // (undocumented)
     version_selection_rules: VersionSelectionRuleUnion[];
+}
+
+// @public
+export interface VoiceAgentAnimationConfig {
+    model_name?: string;
+    outputs?: VoiceAgentAnimationOutputType[];
+}
+
+// @public
+export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
+
+// @public
+export interface VoiceAgentAudioConfig {
+    input?: VoiceAgentAudioInputConfig;
+    output?: VoiceAgentAudioOutputConfig;
+}
+
+// @public
+export interface VoiceAgentAudioInputConfig {
+    echo_cancellation?: VoiceAgentEchoCancellation;
+    format?: RealtimeAudioFormatsUnion;
+    noise_reduction?: VoiceAgentNoiseReduction;
+    transcription?: VoiceAgentInputTranscription;
+    turn_detection?: VoiceAgentTurnDetectionConfigUnion;
+}
+
+// @public
+export interface VoiceAgentAudioOutputConfig {
+    custom_lexicon_url?: string;
+    custom_text_normalization_url?: string;
+    custom_voice_endpoint_id?: string;
+    format?: RealtimeAudioFormatsUnion;
+    output_audio_timestamp_types?: VoiceAgentAudioTimestampType[];
+    personal_voice_model?: string;
+    pitch?: string;
+    prefer_locales?: string[];
+    speed?: number;
+    style?: string;
+    voice?: string;
+    voice_locale?: string;
+    voice_temperature?: number;
+    voice_type?: VoiceType;
+    volume?: string;
+}
+
+// @public
+export type VoiceAgentAudioTimestampType = "word";
+
+// @public
+export interface VoiceAgentAvatarConfig {
+    character: string;
+    customized?: boolean;
+    model?: string;
+    output_audit_audio?: boolean;
+    output_protocol?: VoiceAgentAvatarOutputProtocol;
+    scene?: VoiceAgentAvatarScene;
+    style?: string;
+    type: VoiceAgentAvatarType;
+    video?: VoiceAgentAvatarVideoParams;
+}
+
+// @public
+export interface VoiceAgentAvatarIceServer {
+    // (undocumented)
+    credential?: string;
+    // (undocumented)
+    urls: string[];
+    // (undocumented)
+    username?: string;
+}
+
+// @public
+export type VoiceAgentAvatarOutputProtocol = "webrtc" | "websocket" | "websocket-binary";
+
+// @public
+export interface VoiceAgentAvatarScene {
+    // (undocumented)
+    amplitude?: number;
+    // (undocumented)
+    position_x?: number;
+    // (undocumented)
+    position_y?: number;
+    // (undocumented)
+    rotation_x?: number;
+    // (undocumented)
+    rotation_y?: number;
+    // (undocumented)
+    rotation_z?: number;
+    // (undocumented)
+    zoom?: number;
+}
+
+// @public
+export type VoiceAgentAvatarType = "video_avatar" | "photo_avatar";
+
+// @public
+export interface VoiceAgentAvatarVideoBackground {
+    // (undocumented)
+    color?: string;
+    // (undocumented)
+    image_url?: string;
+}
+
+// @public
+export interface VoiceAgentAvatarVideoCrop {
+    // (undocumented)
+    bottom_right: number[];
+    // (undocumented)
+    top_left: number[];
+}
+
+// @public
+export interface VoiceAgentAvatarVideoParams {
+    // (undocumented)
+    background?: VoiceAgentAvatarVideoBackground;
+    bitrate?: number;
+    // (undocumented)
+    crop?: VoiceAgentAvatarVideoCrop;
+    // (undocumented)
+    gop_size?: number;
+    // (undocumented)
+    resolution?: VoiceAgentAvatarVideoResolution;
+}
+
+// @public
+export interface VoiceAgentAvatarVideoResolution {
+    // (undocumented)
+    height: number;
+    // (undocumented)
+    width: number;
+}
+
+// @public
+export interface VoiceAgentAzureSemanticVadEnTurnDetection extends VoiceAgentTurnDetectionConfig {
+    create_response?: boolean;
+    end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+    idle_timeout_ms?: number;
+    interrupt_response?: boolean;
+    prefix_padding_ms?: number;
+    remove_filler_words?: boolean;
+    silence_duration_ms?: number;
+    speech_duration_ms?: number;
+    threshold?: number;
+    // (undocumented)
+    type: "azure_semantic_vad_en";
+}
+
+// @public
+export interface VoiceAgentAzureSemanticVadMultilingualTurnDetection extends VoiceAgentTurnDetectionConfig {
+    create_response?: boolean;
+    end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+    idle_timeout_ms?: number;
+    interrupt_response?: boolean;
+    languages?: string[];
+    prefix_padding_ms?: number;
+    remove_filler_words?: boolean;
+    silence_duration_ms?: number;
+    speech_duration_ms?: number;
+    threshold?: number;
+    // (undocumented)
+    type: "azure_semantic_vad_multilingual";
+}
+
+// @public
+export interface VoiceAgentAzureSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+    create_response?: boolean;
+    end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+    idle_timeout_ms?: number;
+    interrupt_response?: boolean;
+    languages?: string[];
+    prefix_padding_ms?: number;
+    remove_filler_words?: boolean;
+    silence_duration_ms?: number;
+    speech_duration_ms?: number;
+    threshold?: number;
+    // (undocumented)
+    type: "azure_semantic_vad";
+}
+
+// @public
+export type VoiceAgentClientEvent = RealtimeClientEventConversationItemCreate | RealtimeClientEventConversationItemDelete | RealtimeClientEventConversationItemRetrieve | RealtimeClientEventConversationItemTruncate | RealtimeClientEventInputAudioBufferAppend | RealtimeClientEventInputAudioBufferClear | RealtimeClientEventOutputAudioBufferClear | RealtimeClientEventInputAudioBufferCommit | RealtimeClientEventResponseCancel | RealtimeClientEventResponseCreate | VoiceAgentClientEventSessionUpdate | VoiceAgentClientEventSessionAvatarConnect;
+
+// @public
+export interface VoiceAgentClientEventSessionAvatarConnect extends RealtimeClientEvent {
+    client_sdp: string;
+    event_id?: string;
+    type: "session.avatar.connect";
+}
+
+// @public
+export interface VoiceAgentClientEventSessionUpdate {
+    event_id?: string;
+    session: VoiceAgentSessionUpdate;
+    type: "session.update";
+}
+
+// @public
+export interface VoiceAgentDefinition extends AgentDefinition {
+    audio?: VoiceAgentAudioConfig;
+    avatar?: VoiceAgentAvatarConfig;
+    greeting?: VoiceAgentGreetingConfigUnion;
+    include?: VoiceAgentSessionIncludeOption[];
+    instructions?: string;
+    interim_response?: VoiceAgentInterimResponseConfigUnion;
+    kind: "voice";
+    max_output_tokens?: VoiceAgentMaxOutputTokens;
+    model: string;
+    model_type: VoiceModelType;
+    output_modalities?: VoiceOutputModality[];
+    parallel_tool_calls?: boolean;
+    store?: boolean;
+    structured_inputs?: Record<string, StructuredInputDefinition>;
+    tool_choice?: VoiceAgentToolChoice;
+    tools?: VoiceAgentToolUnion[];
+}
+
+// @public
+export interface VoiceAgentEchoCancellation {
+    channels?: number;
+    reference_source?: VoiceAgentEchoCancellationReferenceSource;
+    type: "server_echo_cancellation";
+}
+
+// @public
+export type VoiceAgentEchoCancellationReferenceSource = "server" | "client";
+
+// @public
+export interface VoiceAgentEndOfUtteranceDetection {
+    model: VoiceAgentEndOfUtteranceDetectionModel;
+    threshold_level?: VoiceAgentEndOfUtteranceThresholdLevel;
+    timeout_ms?: number;
+}
+
+// @public
+export type VoiceAgentEndOfUtteranceDetectionModel = "semantic_detection_v1" | "semantic_detection_v1_en" | "semantic_detection_v1_multilingual" | "smart_end_of_turn_detection";
+
+// @public
+export type VoiceAgentEndOfUtteranceThresholdLevel = "low" | "medium" | "high" | "default";
+
+// @public
+export interface VoiceAgentFunctionTool extends VoiceAgentTool {
+    description?: string;
+    name: string;
+    parameters?: RealtimeFunctionToolParameters;
+    // (undocumented)
+    type: "function";
+}
+
+// @public
+export interface VoiceAgentGreetingConfig {
+    type: string;
+}
+
+// @public
+export type VoiceAgentGreetingConfigUnion = VoiceAgentTemplateGreetingConfig | VoiceAgentLlmGeneratedGreetingConfig | VoiceAgentGreetingConfig;
+
+// @public
+export interface VoiceAgentInputTranscription {
+    custom_speech?: Record<string, string>;
+    delay?: "minimal" | "low" | "medium" | "high" | "xhigh";
+    language?: string;
+    model: VoiceAgentInputTranscriptionModel;
+    phrase_list?: string[];
+    prompt?: string;
+}
+
+// @public
+export type VoiceAgentInputTranscriptionModel = "whisper-1" | "gpt-realtime-whisper" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "gpt-4o-transcribe-diarize" | "gpt-transcribe" | "gpt-live-transcribe" | "mai-transcribe" | "azure-speech";
+
+// @public
+export interface VoiceAgentInterimResponseConfig {
+    latency_threshold_ms?: number;
+    triggers?: VoiceAgentInterimResponseTrigger[];
+    type: string;
+}
+
+// @public
+export type VoiceAgentInterimResponseConfigUnion = VoiceAgentStaticInterimResponseConfig | VoiceAgentLlmInterimResponseConfig | VoiceAgentInterimResponseConfig;
+
+// @public
+export type VoiceAgentInterimResponseTrigger = "latency" | "tool";
+
+// @public
+export interface VoiceAgentLlmGeneratedGreetingConfig extends VoiceAgentGreetingConfig {
+    prompt: string;
+    tool_choice?: VoiceAgentToolChoice;
+    // (undocumented)
+    type: "llm_generated";
+}
+
+// @public
+export interface VoiceAgentLlmInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+    instructions?: string;
+    max_completion_tokens?: number;
+    model?: string;
+    // (undocumented)
+    type: "llm_interim_response";
+}
+
+// @public
+export type VoiceAgentMaxOutputTokens = number | "inf";
+
+// @public
+export interface VoiceAgentMcpTool extends VoiceAgentTool {
+    // (undocumented)
+    allowed_callers?: CallableToolAllowedCaller[];
+    // (undocumented)
+    allowed_tools?: string[] | MCPToolFilter;
+    authorization?: string;
+    defer_loading?: boolean;
+    // (undocumented)
+    headers?: Record<string, string>;
+    project_connection_id?: string;
+    // (undocumented)
+    require_approval?: MCPToolRequireApproval | "always" | "never";
+    response_scheduling?: VoiceAgentToolResponseScheduling;
+    server_description?: string;
+    server_label: string;
+    server_url?: string;
+    tool_configs?: Record<string, ToolConfig>;
+    // (undocumented)
+    type: "mcp";
+}
+
+// @public
+export interface VoiceAgentNoiseReduction {
+    type: VoiceAgentNoiseReductionType;
+}
+
+// @public
+export type VoiceAgentNoiseReductionType = "near_field" | "far_field" | "azure_deep_noise_suppression";
+
+// @public
+export interface VoiceAgentRealtimeResponse extends OmitPropertiesRealtimeResponse1 {
+    audio?: VoiceResponseAudio;
+    output?: RealtimeConversationItemUnion[];
+}
+
+// @public
+export interface VoiceAgentResponseCreateParams {
+    audio?: PickPropertiesVoiceAgentAudioConfig;
+    conversation?: "auto" | "none";
+    input?: RealtimeConversationItemUnion[];
+    instructions?: string;
+    interim_response?: VoiceAgentInterimResponseConfigUnion;
+    max_output_tokens?: number | "inf";
+    // (undocumented)
+    metadata?: Metadata;
+    output_modalities?: VoiceOutputModality[];
+    parallel_tool_calls?: boolean;
+    pre_generated_assistant_message?: RealtimeConversationItemUnion;
+    // (undocumented)
+    reasoning?: RealtimeReasoning;
+    tool_choice?: ToolChoiceOptions | ToolChoiceFunction | ToolChoiceMCP;
+    tools?: (RealtimeFunctionTool | MCPTool)[];
+}
+
+// @public
+export interface VoiceAgentSemanticVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+    // (undocumented)
+    create_response?: boolean;
+    // (undocumented)
+    eagerness?: "low" | "medium" | "high" | "auto";
+    // (undocumented)
+    interrupt_response?: boolean;
+    // (undocumented)
+    type: "semantic_vad";
+}
+
+// @public
+export type VoiceAgentServerEvent = RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemDone | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | RealtimeServerEventSessionUpdated | RealtimeServerEventError | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta;
+
+// @public
+export interface VoiceAgentServerEventResponseAnimationBlendshapesDelta extends RealtimeServerEvent {
+    // (undocumented)
+    content_index: number;
+    // (undocumented)
+    event_id: string;
+    frame_index: number;
+    frames: number[][];
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    type: "response.animation_blendshapes.delta";
+}
+
+// @public
+export interface VoiceAgentServerEventResponseAnimationBlendshapesDone extends RealtimeServerEvent {
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    type: "response.animation_blendshapes.done";
+}
+
+// @public
+export interface VoiceAgentServerEventResponseAnimationVisemeDelta extends RealtimeServerEvent {
+    // (undocumented)
+    audio_offset_ms: number;
+    // (undocumented)
+    content_index: number;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    type: "response.animation_viseme.delta";
+    // (undocumented)
+    viseme_id: number;
+}
+
+// @public
+export interface VoiceAgentServerEventResponseAnimationVisemeDone extends RealtimeServerEvent {
+    // (undocumented)
+    content_index: number;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    type: "response.animation_viseme.done";
+}
+
+// @public
+export interface VoiceAgentServerEventResponseAudioTimestampDelta extends RealtimeServerEvent {
+    // (undocumented)
+    audio_duration_ms: number;
+    // (undocumented)
+    audio_offset_ms: number;
+    // (undocumented)
+    content_index: number;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    timestamp_type: "word";
+    // (undocumented)
+    type: "response.audio_timestamp.delta";
+}
+
+// @public
+export interface VoiceAgentServerEventResponseAudioTimestampDone extends RealtimeServerEvent {
+    // (undocumented)
+    content_index: number;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    item_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    response_id: string;
+    // (undocumented)
+    type: "response.audio_timestamp.done";
+}
+
+// @public
+export interface VoiceAgentServerEventResponseVideoDelta extends RealtimeServerEvent {
+    // (undocumented)
+    codec: string;
+    delta: string;
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    output_index: number;
+    // (undocumented)
+    type: "response.video.delta";
+}
+
+// @public
+export interface VoiceAgentServerEventSessionAvatarConnecting extends RealtimeServerEvent {
+    // (undocumented)
+    event_id: string;
+    server_sdp: string;
+    // (undocumented)
+    type: "session.avatar.connecting";
+}
+
+// @public
+export interface VoiceAgentServerEventSessionAvatarSwitchToIdle extends RealtimeServerEvent {
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    turn_id?: string;
+    // (undocumented)
+    type: "session.avatar.switch_to_idle";
+}
+
+// @public
+export interface VoiceAgentServerEventSessionAvatarSwitchToSpeaking extends RealtimeServerEvent {
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    turn_id?: string;
+    // (undocumented)
+    type: "session.avatar.switch_to_speaking";
+}
+
+// @public
+export interface VoiceAgentServerEventWarning extends RealtimeServerEvent {
+    // (undocumented)
+    event_id: string;
+    // (undocumented)
+    type: "warning";
+    // (undocumented)
+    warning: VoiceAgentServerEventWarningDetails;
+}
+
+// @public
+export interface VoiceAgentServerEventWarningDetails {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    param?: string;
+}
+
+// @public
+export interface VoiceAgentServerVadTurnDetection extends VoiceAgentTurnDetectionConfig {
+    // (undocumented)
+    create_response?: boolean;
+    end_of_utterance_detection?: VoiceAgentEndOfUtteranceDetection;
+    // (undocumented)
+    idle_timeout_ms?: number;
+    // (undocumented)
+    interrupt_response?: boolean;
+    // (undocumented)
+    prefix_padding_ms?: number;
+    // (undocumented)
+    silence_duration_ms?: number;
+    speech_duration_ms?: number;
+    // (undocumented)
+    threshold?: number;
+    // (undocumented)
+    type: "server_vad";
+}
+
+// @public
+export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
+    // (undocumented)
+    ice_servers?: VoiceAgentAvatarIceServer[];
+}
+
+// @public
+export type VoiceAgentSessionIncludeOption = "item.input_audio_transcription.logprobs" | "item.input_audio_transcription.phrases" | "file_search_call.results";
+
+// @public
+export type VoiceAgentSessionResponse = VoiceAgentSessionResponseConfig;
+
+// @public
+export interface VoiceAgentSessionResponseConfig {
+    animation?: VoiceAgentAnimationConfig;
+    audio?: VoiceAgentAudioConfig;
+    avatar?: VoiceAgentSessionAvatarConfig;
+    expires_at?: Date;
+    greeting?: VoiceAgentGreetingConfigUnion;
+    id: string;
+    include?: VoiceAgentSessionIncludeOption[];
+    instructions?: string;
+    interim_response?: VoiceAgentInterimResponseConfigUnion;
+    max_output_tokens?: VoiceAgentMaxOutputTokens;
+    metadata?: Record<string, string>;
+    model: string;
+    object: "realtime.session";
+    output_modalities?: VoiceOutputModality[];
+    parallel_tool_calls?: boolean;
+    reasoning?: RealtimeReasoning;
+    temperature?: number;
+    tool_choice?: VoiceAgentToolChoice;
+    tools?: VoiceAgentToolUnion[];
+    type: "realtime";
+}
+
+// @public
+export type VoiceAgentSessionUpdate = VoiceAgentSessionUpdateConfig;
+
+// @public
+export interface VoiceAgentSessionUpdateConfig {
+    animation?: VoiceAgentAnimationConfig;
+    audio?: VoiceAgentAudioConfig;
+    avatar?: VoiceAgentSessionAvatarConfig;
+    greeting?: VoiceAgentGreetingConfigUnion;
+    include?: VoiceAgentSessionIncludeOption[];
+    instructions?: string;
+    interim_response?: VoiceAgentInterimResponseConfigUnion;
+    max_output_tokens?: VoiceAgentMaxOutputTokens;
+    metadata?: Record<string, string>;
+    output_modalities?: VoiceOutputModality[];
+    parallel_tool_calls?: boolean;
+    reasoning?: RealtimeReasoning;
+    temperature?: number;
+    tool_choice?: VoiceAgentToolChoice;
+    tools?: VoiceAgentToolUnion[];
+    type: "realtime";
+}
+
+// @public
+export interface VoiceAgentStaticInterimResponseConfig extends VoiceAgentInterimResponseConfig {
+    texts?: string[];
+    // (undocumented)
+    type: "static_interim_response";
+}
+
+// @public
+export interface VoiceAgentSystemTool extends VoiceAgentTool {
+    description?: string;
+    name: VoiceAgentSystemToolName;
+    type: "system";
+}
+
+// @public
+export type VoiceAgentSystemToolName = "end_conversation";
+
+// @public
+export interface VoiceAgentTemplateGreetingConfig extends VoiceAgentGreetingConfig {
+    text: string;
+    // (undocumented)
+    type: "template";
+}
+
+// @public
+export interface VoiceAgentTool {
+    type: string;
+}
+
+// @public
+export interface VoiceAgentToolboxTool extends VoiceAgentTool {
+    response_scheduling?: VoiceAgentToolResponseScheduling;
+    toolbox_name: string;
+    toolbox_version: string;
+    type: "toolbox";
+}
+
+// @public
+export type VoiceAgentToolChoice = "none" | "auto" | "required" | ToolChoiceFunction | ToolChoiceMCP;
+
+// @public
+export type VoiceAgentToolResponseScheduling = "silent" | "when_idle" | "interrupt" | "skip_if_busy";
+
+// @public
+export type VoiceAgentToolUnion = VoiceAgentFunctionTool | VoiceAgentMcpTool | VoiceAgentSystemTool | VoiceAgentToolboxTool | VoiceAgentTool;
+
+// @public
+export interface VoiceAgentTranscriptionPhrase {
+    confidence?: number;
+    duration_milliseconds: number;
+    locale?: string;
+    offset_milliseconds: number;
+    text: string;
+    words?: VoiceAgentTranscriptionWord[];
+}
+
+// @public
+export interface VoiceAgentTranscriptionWord {
+    duration_milliseconds: number;
+    offset_milliseconds: number;
+    text: string;
+}
+
+// @public
+export interface VoiceAgentTurnDetectionConfig {
+    auto_truncate?: boolean;
+    type: VoiceAgentTurnDetectionType;
+}
+
+// @public
+export type VoiceAgentTurnDetectionConfigUnion = VoiceAgentServerVadTurnDetection | VoiceAgentAzureSemanticVadTurnDetection | VoiceAgentAzureSemanticVadEnTurnDetection | VoiceAgentAzureSemanticVadMultilingualTurnDetection | VoiceAgentSemanticVadTurnDetection | VoiceAgentTurnDetectionConfig;
+
+// @public
+export type VoiceAgentTurnDetectionType = "server_vad" | "semantic_vad" | "azure_semantic_vad" | "azure_semantic_vad_en" | "azure_semantic_vad_multilingual";
+
+// @public
+export interface VoiceAgentWebSocketConnectVoiceAgentOptionalParams extends OperationOptions {
+    agentVersionOverride?: string;
+    foundryFeatures?: "VoiceAgents=V1Preview";
+    foundryFeaturesQuery?: "VoiceAgents=V1Preview";
+    store?: boolean;
+    websocketSubprotocol?: VoiceAgentWebSocketSubprotocol;
+}
+
+// @public
+export type VoiceAgentWebSocketMessage = VoiceAgentClientEvent | VoiceAgentServerEvent;
+
+// @public
+export interface VoiceAgentWebSocketOperations {
+    connectVoiceAgent: (agentName: string, options?: VoiceAgentWebSocketConnectVoiceAgentOptionalParams) => Promise<void>;
+}
+
+// @public
+export type VoiceAgentWebSocketSubprotocol = "realtime";
+
+// @public
+export type VoiceAudioCodec = "pcm16" | "pcmu" | "pcma";
+
+// @public
+export type VoiceAudioContainerFormat = "wav";
+
+// @public
+export type VoiceAudioRole = "user" | "agent";
+
+// @public
+export interface VoiceConversation {
+    completed_at?: Date;
+    created_at: Date;
+    id: string;
+    last_error?: ErrorModel;
+    metadata?: Record<string, string>;
+    object: "voice.conversation";
+    status: VoiceConversationStatus;
+    usage?: RealtimeResponseUsage;
+}
+
+// @public
+export type VoiceConversationStatus = "in_progress" | "completed" | "failed";
+
+// @public
+export interface VoiceItemAudioResponse {
+    blob_uri?: string;
+    channels?: number;
+    codec?: VoiceAudioCodec;
+    conversation_id: string;
+    duration_ms?: number;
+    format?: VoiceAudioContainerFormat;
+    item_id: string;
+    role?: VoiceAudioRole;
+    sample_rate?: number;
+    start_offset_ms?: number;
+}
+
+// @public
+export type VoiceModelType = "managed" | "self_deployed";
+
+// @public
+export type VoiceOutputModality = "text" | "audio" | "animation" | "avatar";
+
+// @public
+export interface VoiceRecordingChannelLayout {
+    left: "user";
+    right: "agent";
+}
+
+// @public
+export interface VoiceRecordingResponse {
+    blob_uri?: string;
+    channel_layout: VoiceRecordingChannelLayout;
+    channels: number;
+    conversation_id: string;
+    duration_ms: number;
+    format: VoiceAudioContainerFormat;
+    sample_rate: number;
+}
+
+// @public
+export interface VoiceResponse extends OmitPropertiesRealtimeResponse {
+    audio?: VoiceResponseAudio;
+    completed_at?: Date;
+    conversation_id: string;
+    created_at?: Date;
+    id: string;
+    metadata?: Record<string, string>;
+    output?: RealtimeConversationItemUnion[];
+    temperature?: number;
+}
+
+// @public
+export interface VoiceResponseAudio {
+    output?: VoiceResponseAudioOutput;
+}
+
+// @public
+export interface VoiceResponseAudioOutput {
+    format?: RealtimeAudioFormatsUnion;
+    voice?: string;
+    voice_locale?: string;
+    voice_type?: VoiceType;
+}
+
+// @public
+export type VoiceType = "openai" | "azure-standard" | "azure-custom" | "azure-personal" | "avatar-voice-sync" | "azure-realtime-native";
+
+// @public
+export interface WebIQPreviewTool extends Tool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    type: "web_iq_preview";
+}
+
+// @public
+export interface WebIQPreviewToolboxTool extends ToolboxTool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    // (undocumented)
+    type: "web_iq_preview";
 }
 
 // @public
