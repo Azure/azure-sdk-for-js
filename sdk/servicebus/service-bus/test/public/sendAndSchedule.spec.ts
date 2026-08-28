@@ -188,8 +188,8 @@ describe("Sender Tests", () => {
         timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
       };
 
-      let actualErrorCode = "";
-      let actualErr;
+      let actualErrorCode: string | undefined;
+      let actualErr: unknown;
       try {
         await sender.scheduleMessages(largeMessage, new Date(Date.now()));
         throw new Error("Test fail if reaching here.");
