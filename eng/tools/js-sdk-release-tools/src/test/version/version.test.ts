@@ -153,6 +153,135 @@ describe("Used Versions", async () => {
   });
 });
 
+describe("Skip deprecated versions when selecting comparison baseline (issue #15981)", () => {
+  const deprecatedMessage = "This version was published by mistake and has been deprecated.";
+
+  test("getNextBetaVersion falls back to the latest non-deprecated beta when the beta dist-tag is deprecated", () => {
+    const npmView = {
+      "dist-tags": { beta: "1.2.0-beta.1" },
+      time: {
+        "1.1.0-beta.1": "2025-06-01T00:00:00.000Z",
+        "1.1.0-beta.2": "2025-07-01T00:00:00.000Z",
+        "1.2.0-beta.1": "2025-08-21T00:00:00.000Z",
+      },
+      versions: {
+        "1.1.0-beta.1": { name: "@azure/arm-computeschedule", version: "1.1.0-beta.1" },
+        "1.1.0-beta.2": { name: "@azure/arm-computeschedule", version: "1.1.0-beta.2" },
+        "1.2.0-beta.1": {
+          name: "@azure/arm-computeschedule",
+          version: "1.2.0-beta.1",
+          deprecated: deprecatedMessage,
+        },
+      },
+    };
+    expect(getNextBetaVersion(npmView)).toBe("1.1.0-beta.2");
+  });
+
+  test("getNextBetaVersion keeps the deprecated beta when no non-deprecated beta exists", () => {
+    const npmView = {
+      "dist-tags": { beta: "1.2.0-beta.1" },
+      time: { "1.2.0-beta.1": "2025-08-21T00:00:00.000Z" },
+      versions: {
+        "1.2.0-beta.1": {
+          name: "@azure/arm-computeschedule",
+          version: "1.2.0-beta.1",
+          deprecated: deprecatedMessage,
+        },
+      },
+    };
+    expect(getNextBetaVersion(npmView)).toBe("1.2.0-beta.1");
+  });
+
+  test("getNextBetaVersion falls back to the latest non-deprecated next when the next dist-tag is a deprecated non-beta prerelease", () => {
+    const npmView = {
+      "dist-tags": { next: "1.0.0-next.2" },
+      time: {
+        "1.0.0-next.1": "2025-06-01T00:00:00.000Z",
+        "1.0.0-next.2": "2025-07-01T00:00:00.000Z",
+        "1.0.1-alpha.20260101.1": "2026-01-01T00:00:00.000Z",
+      },
+      versions: {
+        "1.0.0-next.1": { name: "@azure/arm-test", version: "1.0.0-next.1" },
+        "1.0.0-next.2": {
+          name: "@azure/arm-test",
+          version: "1.0.0-next.2",
+          deprecated: deprecatedMessage,
+        },
+        "1.0.1-alpha.20260101.1": {
+          name: "@azure/arm-test",
+          version: "1.0.1-alpha.20260101.1",
+        },
+      },
+    };
+    expect(getNextBetaVersion(npmView)).toBe("1.0.0-next.1");
+  });
+
+  test("getNextBetaVersion keeps the deprecated next when no non-deprecated preview exists", () => {
+    const npmView = {
+      "dist-tags": { next: "1.0.0-next.2" },
+      time: { "1.0.0-next.2": "2025-07-01T00:00:00.000Z" },
+      versions: {
+        "1.0.0-next.2": {
+          name: "@azure/arm-test",
+          version: "1.0.0-next.2",
+          deprecated: deprecatedMessage,
+        },
+      },
+    };
+    expect(getNextBetaVersion(npmView)).toBe("1.0.0-next.2");
+  });
+
+  test("getLatestStableVersion falls back to the latest non-deprecated GA when the latest dist-tag is deprecated", () => {
+    const npmView = {
+      "dist-tags": { latest: "1.2.0" },
+      time: {
+        "1.0.0": "2025-01-01T00:00:00.000Z",
+        "1.1.0": "2025-02-01T00:00:00.000Z",
+        "1.2.0": "2025-08-21T00:00:00.000Z",
+      },
+      versions: {
+        "1.0.0": { name: "@azure/arm-test", version: "1.0.0" },
+        "1.1.0": { name: "@azure/arm-test", version: "1.1.0" },
+        "1.2.0": { name: "@azure/arm-test", version: "1.2.0", deprecated: deprecatedMessage },
+      },
+    };
+    expect(getLatestStableVersion(npmView)).toBe("1.1.0");
+  });
+
+  test("getLatestStableVersion falls back to a non-deprecated beta when the only GA is deprecated", () => {
+    const npmView = {
+      "dist-tags": { latest: "1.0.0", beta: "1.1.0-beta.1" },
+      time: {
+        "1.0.0": "2025-08-21T00:00:00.000Z",
+        "1.1.0-beta.1": "2025-09-01T00:00:00.000Z",
+      },
+      versions: {
+        "1.0.0": { name: "@azure/arm-test", version: "1.0.0", deprecated: deprecatedMessage },
+        "1.1.0-beta.1": { name: "@azure/arm-test", version: "1.1.0-beta.1" },
+      },
+    };
+    expect(getLatestStableVersion(npmView)).toBe("1.1.0-beta.1");
+  });
+
+  test("no regression: non-deprecated dist-tag targets are returned unchanged even with a versions map", () => {
+    const npmView = {
+      "dist-tags": { latest: "2.0.0", beta: "2.1.0-beta.1" },
+      time: {
+        "1.0.0": "2025-01-01T00:00:00.000Z",
+        "2.0.0": "2025-06-01T00:00:00.000Z",
+        "2.1.0-beta.1": "2025-07-01T00:00:00.000Z",
+      },
+      versions: {
+        "1.0.0": { name: "@azure/arm-test", version: "1.0.0" },
+        "2.0.0": { name: "@azure/arm-test", version: "2.0.0" },
+        "2.1.0-beta.1": { name: "@azure/arm-test", version: "2.1.0-beta.1" },
+      },
+    };
+    expect(getLatestStableVersion(npmView)).toBe("2.0.0");
+    expect(getNextBetaVersion(npmView)).toBe("2.1.0-beta.1");
+  });
+});
+
 describe("shouldTreatAsFirstRelease", () => {
   // Scenario 1: Brand-new package, never published to npm
   test("returns true when npmViewResult is undefined (never published)", () => {
