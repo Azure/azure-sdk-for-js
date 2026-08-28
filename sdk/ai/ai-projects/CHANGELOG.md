@@ -1,5 +1,23 @@
 # Release History
 
+## 2.6.0 (Unreleased)
+
+### Features Added
+
+- Add `project.agents.getMicrosoft365PublishDefaults`, `project.agents.getMicrosoft365Package`, and `project.agents.publishToMicrosoft365` for Microsoft 365 / Teams publishing flows.
+- Add `project.beta.agentInsightMonitors` operations for creating monitors, running insights, listing insights, and updating insight status.
+- Add `RoutineAuthorization` and `RoutineDispatchIdentity` on beta routines to control dispatch identity.
+
+### Bugs Fixed
+
+- Keep `ErrorModel` on generated Agent Insights run error fields instead of introducing a standalone `ApiError` public model.
+- Restore `PagedAsyncIterableIterator` typing to use `@azure/core-paging` on new beta conversation and agent insight monitor surfaces.
+
+### Other Changes
+
+- Add `samples-dev/agents/agentMicrosoft365Publish.ts` demonstrating Microsoft 365 publish defaults, package generation, and publish flow.
+- Add `test/agentsMicrosoft365Publish.spec.ts` as skipped scaffold coverage for the new GA Microsoft 365 publish operations.
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
