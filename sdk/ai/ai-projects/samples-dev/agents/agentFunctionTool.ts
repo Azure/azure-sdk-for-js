@@ -50,7 +50,6 @@ function getHoroscope(sign: string): string {
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");
@@ -61,6 +60,8 @@ export async function main(): Promise<void> {
     tools: [funcTool],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+  const openAIClient = project.getOpenAIClient({ azureConfig: { allowPreview: true, agentName: agent.name } });
 
   // Prompt the model with tools defined
   console.log("\nGenerating initial response...");
@@ -73,9 +74,6 @@ export async function main(): Promise<void> {
           content: "What is my horoscope? I am an Aquarius.",
         },
       ],
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${response.output_text}`);
@@ -114,9 +112,6 @@ export async function main(): Promise<void> {
     {
       input: inputList,
       previous_response_id: response.id,
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
 
