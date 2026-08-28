@@ -1,4 +1,4 @@
-# Azure PostgreSQL Auth client library samples for TypeScript (Beta)
+# Azure PostgreSQL Auth client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure PostgreSQL Entra ID authentication in some common scenarios.
 
@@ -53,6 +53,6 @@ npx ts-node src/pgConnection.ts
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[pgconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/typescript/src/pgConnection.ts
-[sequelizeconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/typescript/src/sequelizeConnection.ts
+[pgconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1/typescript/src/pgConnection.ts
+[sequelizeconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1/typescript/src/sequelizeConnection.ts
 <!---[apiref]: https://learn.microsoft.com/javascript/api/@azure/postgresql-auth--->

@@ -1,4 +1,4 @@
-# Azure PostgreSQL Auth client library samples for JavaScript (Beta)
+# Azure PostgreSQL Auth client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure PostgreSQL Entra ID authentication in some common scenarios.
 
@@ -35,6 +35,6 @@ node pgConnection.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[pgconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/javascript/pgConnection.js
-[sequelizeconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1-beta/javascript/sequelizeConnection.js
+[pgconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1/javascript/pgConnection.js
+[sequelizeconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/postgresql-auth/samples/v1/javascript/sequelizeConnection.js
 <!---[apiref]: https://learn.microsoft.com/javascript/api/@azure/postgresql-auth--->
