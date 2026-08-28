@@ -522,6 +522,16 @@ describe("retry option defaults (Service Bus exponential backoff)", () => {
     assert.equal(result.maxRetryDelayInMs, 60000);
   });
 
+  it("preserves explicit delays when defaulting the mode", () => {
+    const result = getRetryOptionsWithServiceBusDefaults({
+      retryDelayInMs: 5000,
+      maxRetryDelayInMs: 12000,
+    });
+    assert.equal(result.mode, RetryMode.Exponential);
+    assert.equal(result.retryDelayInMs, 5000);
+    assert.equal(result.maxRetryDelayInMs, 12000);
+  });
+
   it("getRetryOptionsWithServiceBusDefaults preserves caller values and does not inject delays for an explicit mode", () => {
     const result = getRetryOptionsWithServiceBusDefaults({
       mode: RetryMode.Fixed,
