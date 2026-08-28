@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to exports the Terraform configuration of the specified resource(s).
  *
  * @summary exports the Terraform configuration of the specified resource(s).
- * x-ms-original-file: 2023-07-01-preview/ExportTerraform.json
+ * x-ms-original-file: 2026-09-01-preview/ExportTerraform.json
  */
 async function exportTerraform(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function exportTerraform(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportTerraform();
+  await exportTerraform();
 }
 
 main().catch(console.error);
