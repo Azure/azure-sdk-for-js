@@ -9,7 +9,7 @@
 ### Bugs Fixed
 
 - Fixed a bug that placed the App Configuration SDK identifier before custom User-Agent prefixes. [#39594](https://github.com/Azure/azure-sdk-for-js/issues/39594)
-- Fixed a bux that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
+- Fixed a bug that incorrectly truncated configuration setting keys containing reserved URL characters such as `?`. [#39670](https://github.com/Azure/azure-sdk-for-js/issues/39670)
 
 ### Other Changes
 
