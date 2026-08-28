@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
 ## 7.10.0-beta.5 (2026-08-21)
 
 ### Features Added

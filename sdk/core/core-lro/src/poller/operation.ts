@@ -21,7 +21,7 @@ export function deserializeState<TResult, TState extends OperationState<TResult>
   try {
     return JSON.parse(serializedState).state;
   } catch (e) {
-    throw new Error(`Unable to deserialize input state: ${serializedState}`);
+    throw new Error(`Unable to deserialize input state: ${serializedState}`, { cause: e });
   }
 }
 
