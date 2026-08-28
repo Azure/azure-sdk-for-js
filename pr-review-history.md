@@ -12,3 +12,4 @@
 ## PR #38015 @azure/arm-commerce 4.0.0-beta.4 - 1 issue (userAgentInfo version mismatch 1.0.0-beta.1 vs 4.0.0-beta.4); pnpm-lock conflict
 ## PR #38013 @azure/arm-containerservicefleet 2.1.0-beta.4 - clean; CI pending (ADO 6121881)
 ## PR #38228 @azure/arm-compute 24.0.0 (first-typespec-migration) - 1 tool issue (@azure/arm-network dropped from devDependencies causing all UnitTest failures)
+## PR #39752 @azure/arm-enclave 1.0.0-beta.1 -> 1.0.0 - 1 issue (userAgentInfo version mismatch)
