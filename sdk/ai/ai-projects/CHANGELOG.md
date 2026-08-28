@@ -1,5 +1,11 @@
 # Release History
 
+## 2.5.1 (Unreleased)
+
+### Other Changes
+
+- Removed a redundant tracing configuration assignment as part of restoring ESLint's `no-useless-assignment` rule. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+
 ## 2.5.0 (2026-08-20)
 
 ### Features Added
