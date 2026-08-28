@@ -2,9 +2,13 @@
 
 ## 2.5.1 (Unreleased)
 
-### Other Changes
+### Features Added
 
-- Removed a redundant token refresh scheduling assignment as part of restoring ESLint's `no-useless-assignment` rule. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 2.5.0 (2026-07-31)
 
