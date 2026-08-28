@@ -15,7 +15,7 @@ export {
 export type { TokenCredential } from "@azure/core-auth";
 export type { OperationOptions } from "@azure/core-client";
 export type { Delivery, WebSocketImpl } from "rhea-promise";
-export type { ServiceBusClientOptions } from "./constructorHelpers.js";
+export type { ServiceBusClientOptions, ServiceBusRetryOptions } from "./constructorHelpers.js";
 export type { CorrelationRuleFilter } from "./core/managementClient.js";
 export type {
   DeleteMessagesOptions,

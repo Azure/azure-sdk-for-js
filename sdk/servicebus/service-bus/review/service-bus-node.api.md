@@ -364,7 +364,7 @@ export class ServiceBusClient {
 export interface ServiceBusClientOptions {
     customEndpointAddress?: string;
     identifier?: string;
-    retryOptions?: RetryOptions;
+    retryOptions?: ServiceBusRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;
 }
@@ -530,6 +530,11 @@ export interface ServiceBusReceiverOptions {
     skipConvertingDate?: boolean;
     skipParsingBodyAsJson?: boolean;
     subQueueType?: "deadLetter" | "transferDeadLetter";
+}
+
+// @public
+export interface ServiceBusRetryOptions extends RetryOptions {
+    mode?: RetryMode;
 }
 
 // @public

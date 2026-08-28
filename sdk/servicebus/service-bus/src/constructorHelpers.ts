@@ -44,7 +44,7 @@ export interface ServiceBusClientOptions {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
-  retryOptions?: RetryOptions;
+  retryOptions?: ServiceBusRetryOptions;
   /**
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
@@ -53,6 +53,20 @@ export interface ServiceBusClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+}
+
+/**
+ * Service Bus-specific retry options.
+ *
+ * While this type is based on `@azure/core-amqp`'s {@link RetryOptions}, Service Bus
+ * defaults `mode` to `Exponential` when it is not provided.
+ */
+export interface ServiceBusRetryOptions extends RetryOptions {
+  /**
+   * Denotes which retry mode to apply. If undefined, `ServiceBusClient` defaults this
+   * to `Exponential`.
+   */
+  mode?: RetryMode;
 }
 
 // TODO: extract parseEndpoint and setCustomEndpointAddress into core-amqp
