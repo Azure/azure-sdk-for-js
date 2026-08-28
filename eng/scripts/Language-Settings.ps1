@@ -411,12 +411,10 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
   Confirm-NodeInstallation
-  if (!(Get-Command pnpm -ErrorAction SilentlyContinue)) {
-    $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
-    npm install -g $packageManager
-    if ($LASTEXITCODE -ne 0) {
-      throw "Failed to install $packageManager"
-    }
+  $packageManager = (Get-Content -Raw (Join-Path $RepoRoot "package.json") | ConvertFrom-Json).packageManager
+  npm install -g $packageManager
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to install $packageManager"
   }
 
   Push-Location $RepoRoot
