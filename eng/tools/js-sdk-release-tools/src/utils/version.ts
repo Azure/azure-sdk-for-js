@@ -88,11 +88,11 @@ export function getLatestStableVersion(npmViewResult: Record<string, unknown>) {
   const isLatestComparable =
     latestVersion && (!latestVersion.includes("-") || latestVersion.includes("beta"));
   if (isLatestComparable) return latestVersion;
-  if (betaVersion) return betaVersion;
   const latestPublishedStableVersion = getUsedVersions(npmViewResult)
     .filter((version) => valid(version) && prerelease(version) === null)
     .sort(rcompare)[0];
   if (latestPublishedStableVersion) return latestPublishedStableVersion;
+  if (betaVersion) return betaVersion;
   if (latestVersion) return latestVersion;
   logger.warn(`Failed to find latest or beta version found in dist-tags.`);
   return undefined;
