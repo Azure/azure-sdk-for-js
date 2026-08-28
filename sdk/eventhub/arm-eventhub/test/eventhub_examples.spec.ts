@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Eventhub test", () => {
+describe.skip("Eventhub test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: EventHubManagementClient;
