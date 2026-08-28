@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  getAgentConversationAudioContent,
+  getAgentConversationAudio,
+  getAgentConversationItemAudioContent,
+  getAgentConversationItemAudio,
+  getAgentConversationItem,
+  listAgentConversationItems,
+  listAgentConversationResponseItems,
+  getAgentConversationResponse,
+  listAgentConversationResponses,
+  deleteAgentConversation,
+  getAgentConversation,
+  listAgentConversations,
+} from "./operations.js";
+export type {
+  BetaAgentEndpointConversationsGetAgentConversationAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioContentOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemAudioOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationItemOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationItemsOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponseItemsOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationResponseOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationResponsesOptionalParams,
+  BetaAgentEndpointConversationsDeleteAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsGetAgentConversationOptionalParams,
+  BetaAgentEndpointConversationsListAgentConversationsOptionalParams,
+} from "./options.js";
