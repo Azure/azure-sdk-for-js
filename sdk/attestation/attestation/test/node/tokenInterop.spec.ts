@@ -59,10 +59,10 @@ describe("Attestation token Node interoperability", () => {
     ["RS256", createRSAKey],
     ["ES256", createECDSKey],
   ] as const) {
-    it(`produces ${algorithm} tokens accepted by Node crypto`, () => {
+    it(`produces ${algorithm} tokens accepted by Node crypto`, async () => {
       const [privateKey, publicKey] = createKey();
       const certificate = createX509Certificate(privateKey, publicKey, "certificate");
-      const token = AttestationTokenImpl.create({
+      const token = await AttestationTokenImpl.create({
         body: JSON.stringify({ source: "attestation" }),
         privateKey,
         certificate,
@@ -71,7 +71,7 @@ describe("Attestation token Node interoperability", () => {
       assert.isTrue(verifyTokenWithNode(token.serialize(), certificate, algorithm));
     });
 
-    it(`accepts ${algorithm} tokens produced by Node crypto`, () => {
+    it(`accepts ${algorithm} tokens produced by Node crypto`, async () => {
       const [privateKey, publicKey] = createKey();
       const certificate = createX509Certificate(privateKey, publicKey, "certificate");
       const token = new AttestationTokenImpl(
@@ -83,7 +83,7 @@ describe("Attestation token Node interoperability", () => {
         ),
       );
 
-      assert.deepEqual(token.getTokenProblems([{ certificates: [certificate] }]), []);
+      assert.deepEqual(await token.getTokenProblems([{ certificates: [certificate] }]), []);
     });
   }
 });

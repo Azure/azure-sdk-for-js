@@ -8,11 +8,11 @@ import { validateAttestationSigningKey } from "./jws.js";
  * @param privateKey - PEM encoded DER Encoded RSA or ECDS key.
  * @param certificate - PEM encoded DER encoded X.509 certificate.
  */
-export function verifyAttestationSigningKey(
+export async function verifyAttestationSigningKey(
   privateKey: string,
   certificate: string,
-): { certificate: string; privateKey: string } {
-  validateAttestationSigningKey(privateKey, certificate);
+): Promise<{ certificate: string; privateKey: string }> {
+  await validateAttestationSigningKey(privateKey, certificate);
   return { certificate: certificate, privateKey: privateKey };
 }
 

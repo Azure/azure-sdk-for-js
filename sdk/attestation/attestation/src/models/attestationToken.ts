@@ -110,7 +110,7 @@ export interface AttestationToken {
   getTokenProblems(
     possibleSigners?: AttestationSigner[],
     options?: AttestationTokenValidationOptions,
-  ): string[];
+  ): Promise<string[]>;
 
   /** ********* JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
 
@@ -277,16 +277,17 @@ export class AttestationTokenImpl implements AttestationToken {
    *
    * @param possibleSigners - the set of possible signers for this attestation token.
    * @param options - validation options
-   * @returns an array of string values. If there are no problems, returns an empty array.
+   * @returns a promise that resolves to an array of string values. If there are no problems,
+   * returns an empty array.
    */
-  public getTokenProblems(
+  public async getTokenProblems(
     possibleSigners?: AttestationSigner[],
     options: AttestationTokenValidationOptions = {
       validateExpirationTime: true,
       validateToken: true,
       validateNotBeforeTime: true,
     },
-  ): string[] {
+  ): Promise<string[]> {
     let problems = new Array<string>();
     if (!options.validateToken) {
       return problems;
@@ -296,14 +297,13 @@ export class AttestationTokenImpl implements AttestationToken {
     if (this.algorithm !== "none") {
       const signers = this.getCandidateSigners(possibleSigners);
 
-      signers.some((signer) => {
-        const isValid = verifyAttestationJws(this._token, this.certFromSigner(signer));
-
+      for (const signer of signers) {
+        const isValid = await verifyAttestationJws(this._token, this.certFromSigner(signer));
         if (isValid) {
           foundSigner = signer;
+          break;
         }
-        return isValid;
-      });
+      }
 
       if (foundSigner === undefined) {
         problems.push("Attestation Token is not properly signed.");
@@ -564,18 +564,18 @@ export class AttestationTokenImpl implements AttestationToken {
    * @param signer - Optional signing key used to sign the newly created token.
    * @returns an {@link AttestationToken | attestation token}
    */
-  public static create(params: {
+  public static async create(params: {
     body?: string;
     privateKey?: string;
     certificate?: string;
-  }): AttestationToken {
+  }): Promise<AttestationToken> {
     if ((!params.privateKey && params.certificate) || (params.privateKey && !params.certificate)) {
       throw new Error(
         "If privateKey is specified, certificate must also be provided. If certificate is provided, privateKey must also be provided.",
       );
     }
 
-    const encodedToken = createAttestationJws(
+    const encodedToken = await createAttestationJws(
       params.body ?? "",
       params.privateKey,
       params.certificate,

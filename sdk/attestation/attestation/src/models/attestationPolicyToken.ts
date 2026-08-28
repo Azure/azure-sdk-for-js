@@ -30,13 +30,14 @@ export interface AttestationPolicyToken extends AttestationToken {}
  *  is running in `AAD` mode, they are optional.
  *
  * @throws {@link Error} when the key in the certificate provided does not match the private key.
+ * @returns A promise that resolves to the newly created attestation policy token.
  */
-export function createAttestationPolicyToken(
+export async function createAttestationPolicyToken(
   policy: string,
   privateKey?: string,
   certificate?: string,
-): AttestationPolicyToken {
-  const token = AttestationTokenImpl.create({
+): Promise<AttestationPolicyToken> {
+  const token = await AttestationTokenImpl.create({
     body: new StoredAttestationPolicy(policy).serialize(),
     privateKey: privateKey,
     certificate: certificate,

@@ -141,7 +141,7 @@ describe("PolicyGetSetTests ", () => {
     if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
-    const signingKey = verifyAttestationSigningKey(rsaKey, rsaCertificate);
+    const signingKey = await verifyAttestationSigningKey(rsaKey, rsaCertificate);
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
 
@@ -176,7 +176,7 @@ describe("PolicyGetSetTests ", () => {
 
     assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
-    const expectedPolicy = createAttestationPolicyToken(
+    const expectedPolicy = await createAttestationPolicyToken(
       minimalPolicy,
       signer?.privateKey,
       signer?.certificate,

@@ -80,7 +80,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -142,7 +142,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);
@@ -207,7 +207,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
   console.log("Result of policy modification: ", setPolicyResult.body.policyResolution);
 
   // And verify that the policy received by the service was the one we sent.
-  const expectedPolicy = createAttestationPolicyToken(newPolicy, privateKey, certificate);
+  const expectedPolicy = await createAttestationPolicyToken(newPolicy, privateKey, certificate);
   const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
   console.log("Expected token hash: ", expectedHash);

@@ -10,17 +10,17 @@ describe("Attestation token cryptography in browser", () => {
     ["RS256", createRSAKey],
     ["ES256", createECDSKey],
   ] as const) {
-    it(`creates and validates ${algorithm} tokens`, () => {
+    it(`creates and validates ${algorithm} tokens`, async () => {
       const [privateKey, publicKey] = createKey();
       const certificate = createX509Certificate(privateKey, publicKey, "certificate");
-      const token = AttestationTokenImpl.create({
+      const token = await AttestationTokenImpl.create({
         body: JSON.stringify({ runtime: "browser" }),
         privateKey,
         certificate,
       });
 
       assert.equal(token.algorithm, algorithm);
-      assert.deepEqual(token.getTokenProblems([{ certificates: [certificate] }]), []);
+      assert.deepEqual(await token.getTokenProblems([{ certificates: [certificate] }]), []);
     });
   }
 });
