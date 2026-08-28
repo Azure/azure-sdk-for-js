@@ -10,16 +10,10 @@ export interface ServiceGatewaysListServicesOptionalParams extends OperationOpti
 export interface ServiceGatewaysListAddressLocationsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceGatewaysUpdateServicesOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface ServiceGatewaysUpdateServicesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServiceGatewaysUpdateAddressLocationsOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface ServiceGatewaysUpdateAddressLocationsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ServiceGatewaysListAllOptionalParams extends OperationOptions {}

@@ -29,7 +29,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,6 +54,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _machineListResultDeserializer(result.body);
 }
+
 /** Gets a list of machines in the specified agent pool. */
 export function list(
   context: Client,
@@ -67,7 +68,7 @@ export function list(
     () => _listSend(context, resourceGroupName, resourceName, agentPoolName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -87,7 +88,7 @@ export function _getSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,6 +113,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return machineDeserializer(result.body);
 }
+
 /** Get a specific machine in the specified agent pool. */
 export async function get(
   context: Client,

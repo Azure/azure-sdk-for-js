@@ -35,7 +35,7 @@ export function _listByManagedClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,6 +62,7 @@ export async function _listByManagedClusterDeserialize(
 
   return _identityBindingListResultDeserializer(result.body);
 }
+
 /** Gets a list of identity bindings in the specified managed cluster. */
 export function listByManagedCluster(
   context: Client,
@@ -74,7 +75,7 @@ export function listByManagedCluster(
     () => _listByManagedClusterSend(context, resourceGroupName, resourceName, options),
     _listByManagedClusterDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -92,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       identityBindingName: identityBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,6 +115,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes an identity binding in the specified managed cluster. */
 export function $delete(
   context: Client,
@@ -128,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, identityBindingName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       identityBindingName: identityBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,6 +178,7 @@ export async function _createOrUpdateDeserialize(
 
   return identityBindingDeserializer(result.body);
 }
+
 /** Creates or updates an identity binding in the specified managed cluster. */
 export function createOrUpdate(
   context: Client,
@@ -198,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<IdentityBinding>, IdentityBinding>;
 }
 
@@ -216,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       identityBindingName: identityBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -241,6 +244,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Id
 
   return identityBindingDeserializer(result.body);
 }
+
 /** Gets the specified Identity Binding. */
 export async function get(
   context: Client,

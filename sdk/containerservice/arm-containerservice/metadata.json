@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-05-01"
+    "Microsoft.ContainerService": "2026-06-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -17,6 +17,7 @@
       "@azure/arm-containerservice!AgentPoolNetworkProfile:interface": "Microsoft.ContainerService.AgentPoolNetworkProfile",
       "@azure/arm-containerservice!IPTag:interface": "Microsoft.ContainerService.IPTag",
       "@azure/arm-containerservice!PortRange:interface": "Microsoft.ContainerService.PortRange",
+      "@azure/arm-containerservice!DRANETProfile:interface": "Microsoft.ContainerService.DRANETProfile",
       "@azure/arm-containerservice!AgentPoolWindowsProfile:interface": "Microsoft.ContainerService.AgentPoolWindowsProfile",
       "@azure/arm-containerservice!AgentPoolSecurityProfile:interface": "Microsoft.ContainerService.AgentPoolSecurityProfile",
       "@azure/arm-containerservice!GPUProfile:interface": "Microsoft.ContainerService.GPUProfile",
@@ -79,6 +80,8 @@
       "@azure/arm-containerservice!ManagedClusterLoadBalancerProfileOutboundIPs:interface": "Microsoft.ContainerService.ManagedClusterLoadBalancerProfileOutboundIPs",
       "@azure/arm-containerservice!ManagedClusterNATGatewayProfile:interface": "Microsoft.ContainerService.ManagedClusterNATGatewayProfile",
       "@azure/arm-containerservice!ManagedClusterManagedOutboundIPProfile:interface": "Microsoft.ContainerService.ManagedClusterManagedOutboundIPProfile",
+      "@azure/arm-containerservice!ManagedClusterNATGatewayProfileOutboundIpPrefixes:interface": "Microsoft.ContainerService.ManagedClusterNATGatewayProfile.outboundIPPrefixes.anonymous",
+      "@azure/arm-containerservice!ManagedClusterNATGatewayProfileOutboundIPs:interface": "Microsoft.ContainerService.ManagedClusterNATGatewayProfile.outboundIPs.anonymous",
       "@azure/arm-containerservice!ManagedClusterStaticEgressGatewayProfile:interface": "Microsoft.ContainerService.ManagedClusterStaticEgressGatewayProfile",
       "@azure/arm-containerservice!ManagedClusterAADProfile:interface": "Microsoft.ContainerService.ManagedClusterAADProfile",
       "@azure/arm-containerservice!ManagedClusterAutoUpgradeProfile:interface": "Microsoft.ContainerService.ManagedClusterAutoUpgradeProfile",
@@ -114,8 +117,11 @@
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileMetrics",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileKubeStateMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileKubeStateMetrics",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileMetricsControlPlane:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileMetricsControlPlane",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileContainerInsights:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileContainerInsights",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoring:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoring",
       "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics",
+      "@azure/arm-containerservice!ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces:interface": "Microsoft.ContainerService.ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces",
       "@azure/arm-containerservice!ServiceMeshProfile:interface": "Microsoft.ContainerService.ServiceMeshProfile",
       "@azure/arm-containerservice!IstioServiceMesh:interface": "Microsoft.ContainerService.IstioServiceMesh",
       "@azure/arm-containerservice!IstioComponents:interface": "Microsoft.ContainerService.IstioComponents",
@@ -227,6 +233,7 @@
       "@azure/arm-containerservice!KnownScaleSetEvictionPolicy:enum": "Microsoft.ContainerService.ScaleSetEvictionPolicy",
       "@azure/arm-containerservice!KnownGPUInstanceProfile:enum": "Microsoft.ContainerService.GPUInstanceProfile",
       "@azure/arm-containerservice!KnownProtocol:enum": "Microsoft.ContainerService.Protocol",
+      "@azure/arm-containerservice!KnownDRANETMode:enum": "Microsoft.ContainerService.DRANETMode",
       "@azure/arm-containerservice!KnownAgentPoolSSHAccess:enum": "Microsoft.ContainerService.AgentPoolSSHAccess",
       "@azure/arm-containerservice!KnownGPUDriver:enum": "Microsoft.ContainerService.GPUDriver",
       "@azure/arm-containerservice!KnownLocalDNSMode:enum": "Microsoft.ContainerService.LocalDNSMode",
@@ -253,6 +260,7 @@
       "@azure/arm-containerservice!KnownOutboundType:enum": "Microsoft.ContainerService.OutboundType",
       "@azure/arm-containerservice!KnownLoadBalancerSku:enum": "Microsoft.ContainerService.LoadBalancerSku",
       "@azure/arm-containerservice!KnownBackendPoolType:enum": "Microsoft.ContainerService.BackendPoolType",
+      "@azure/arm-containerservice!KnownManagedClusterNATGatewaySku:enum": "Microsoft.ContainerService.ManagedClusterNATGatewaySku",
       "@azure/arm-containerservice!KnownIpFamily:enum": "Microsoft.ContainerService.IPFamily",
       "@azure/arm-containerservice!KnownUpgradeChannel:enum": "Microsoft.ContainerService.UpgradeChannel",
       "@azure/arm-containerservice!KnownNodeOSUpgradeChannel:enum": "Microsoft.ContainerService.NodeOSUpgradeChannel",
@@ -262,6 +270,7 @@
       "@azure/arm-containerservice!KnownNginxIngressControllerType:enum": "Microsoft.ContainerService.NginxIngressControllerType",
       "@azure/arm-containerservice!KnownManagedGatewayType:enum": "Microsoft.ContainerService.ManagedGatewayType",
       "@azure/arm-containerservice!KnownPublicNetworkAccess:enum": "Microsoft.ContainerService.PublicNetworkAccess",
+      "@azure/arm-containerservice!KnownContainerNetworkLogs:enum": "Microsoft.ContainerService.ContainerNetworkLogs",
       "@azure/arm-containerservice!KnownServiceMeshMode:enum": "Microsoft.ContainerService.ServiceMeshMode",
       "@azure/arm-containerservice!KnownIstioIngressGatewayMode:enum": "Microsoft.ContainerService.IstioIngressGatewayMode",
       "@azure/arm-containerservice!KnownProxyRedirectionMechanism:enum": "Microsoft.ContainerService.ProxyRedirectionMechanism",

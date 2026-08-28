@@ -34,7 +34,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -76,7 +76,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01" },
   );
 }
 
@@ -94,7 +94,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,7 +150,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       scopeConnectionName: scopeConnectionName,
-      "api%2Dversion": "2025-07-01",
+      "api%2Dversion": "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

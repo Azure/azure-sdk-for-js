@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2026-03-01/BrokerListener_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2026-07-01/BrokerListener_CreateOrUpdate_Complex.json
  */
 async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2026-03-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function brokerListenerCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -114,7 +114,7 @@ async function brokerListenerCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2026-03-01/BrokerListener_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2026-07-01/BrokerListener_CreateOrUpdate_Simple.json
  */
 async function brokerListenerCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();

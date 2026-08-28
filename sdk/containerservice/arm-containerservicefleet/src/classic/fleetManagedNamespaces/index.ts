@@ -59,7 +59,6 @@ export interface FleetManagedNamespacesOperations {
     options?: FleetManagedNamespacesGetOptionalParams,
   ) => Promise<FleetManagedNamespace>;
 }
-
 function _getFleetManagedNamespaces(context: ContainerServiceFleetContext) {
   return {
     update: (
@@ -103,7 +102,6 @@ function _getFleetManagedNamespaces(context: ContainerServiceFleetContext) {
     ) => get(context, resourceGroupName, fleetName, managedNamespaceName, options),
   };
 }
-
 export function _getFleetManagedNamespacesOperations(
   context: ContainerServiceFleetContext,
 ): FleetManagedNamespacesOperations {

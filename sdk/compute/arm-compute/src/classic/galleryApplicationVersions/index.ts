@@ -125,7 +125,6 @@ export interface GalleryApplicationVersionsOperations {
     options?: GalleryApplicationVersionsGetOptionalParams,
   ) => Promise<GalleryApplicationVersion>;
 }
-
 function _getGalleryApplicationVersions(context: ComputeManagementContext) {
   return {
     listByGalleryApplication: (
@@ -317,7 +316,6 @@ function _getGalleryApplicationVersions(context: ComputeManagementContext) {
       ),
   };
 }
-
 export function _getGalleryApplicationVersionsOperations(
   context: ComputeManagementContext,
 ): GalleryApplicationVersionsOperations {

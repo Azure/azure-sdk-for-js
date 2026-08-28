@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list VirtualMachine resources of a Launch mode Fleet.
  *
  * @summary list VirtualMachine resources of a Launch mode Fleet.
- * x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json
  */
 async function fleetsListVirtualMachinesMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

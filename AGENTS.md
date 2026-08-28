@@ -16,22 +16,23 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 
 ## Where to find guidance
 
-| Task / topic | Where to look |
-| --- | --- |
-| Build / test / lint / format / release a package | `.github/skills/sdk-workflow/SKILL.md` |
-| Add a feature to a package under `sdk/` | `.github/skills/find-package-skill/SKILL.md` (check the registry FIRST) |
-| Generate or regenerate SDK code from TypeSpec | `.github/skills/azsdk-common-generate-sdk-locally/SKILL.md` |
-| Release / publish a package | `.github/skills/azsdk-common-sdk-release/SKILL.md` |
-| Resolve APIView feedback | `.github/skills/azsdk-common-apiview-feedback-resolution/SKILL.md` |
-| Troubleshoot a CI / pipeline failure | `.github/skills/azsdk-common-pipeline-troubleshooting/SKILL.md` |
-| Create a new package-specific skill | `.github/skills/create-package-skill/SKILL.md` |
-| Code review (architecture, perf, security, deps, tests, docs, mgmt) | `.github/instructions/reviewer/*.instructions.md` |
-| Test framework, recorder lifecycle, asset-sync | `documentation/Quickstart-on-how-to-write-tests.md` |
-| TypeSpec / codegen workflow | `documentation/Generate-code-from-TypeSpec.md` |
-| Linting rules and troubleshooting | `documentation/linting.md` |
-| Dependency management | `documentation/dependency-management.md` |
-| Authoritative API design guidelines | https://azure.github.io/azure-sdk/typescript_design.html |
-| Other deep dives | `documentation/` (browse the directory) |
+| Task / topic                                                            | Where to look                                                                 |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Build / test / lint / format / release a package                        | `.github/skills/sdk-workflow/SKILL.md`                                        |
+| Add a feature to a package under `sdk/`                                 | `.github/skills/find-package-skill/SKILL.md` (check the registry FIRST)       |
+| Generate or regenerate SDK code from TypeSpec                           | `.github/skills/azsdk-common-generate-sdk-locally/SKILL.md`                   |
+| Release / publish a package                                             | `.github/skills/azsdk-common-sdk-release/SKILL.md`                            |
+| Resolve APIView feedback                                                | `.github/skills/azsdk-common-apiview-feedback-resolution/SKILL.md`            |
+| Troubleshoot a CI / pipeline failure                                    | `.github/skills/azsdk-common-pipeline-troubleshooting/SKILL.md`               |
+| Create a new package-specific skill                                     | `.github/skills/create-package-skill/SKILL.md`                                |
+| Copilot code review (CCR)                                               | `.github/skills/code-review/SKILL.md` (routes to canonical reviewer guidance) |
+| Review criteria (architecture, perf, security, deps, tests, docs, mgmt) | `.github/instructions/reviewer/*.instructions.md`                             |
+| Test framework, recorder lifecycle, asset-sync                          | `documentation/Quickstart-on-how-to-write-tests.md`                           |
+| TypeSpec / codegen workflow                                             | `documentation/Generate-code-from-TypeSpec.md`                                |
+| Linting rules and troubleshooting                                       | `documentation/linting.md`                                                    |
+| Dependency management                                                   | `documentation/dependency-management.md`                                      |
+| Authoritative API design guidelines                                     | https://azure.github.io/azure-sdk/typescript_design.html                      |
+| Other deep dives                                                        | `documentation/` (browse the directory)                                       |
 
 > **Before pushing any code change** — including changes outside `sdk/` — run
 > the checks defined by CI for the affected package locally. Package managers
@@ -70,6 +71,10 @@ lint rule or CI check, not an eval).
 - Always consult `.github/skills/find-package-skill/SKILL.md` (and the
   relevant package-specific `SKILL.md` if one is registered there)
   **before** modifying a package under `sdk/`.
+- When pushing new commits to an **existing** pull request, re-check that
+  the PR description still matches the current changes. If iterating has
+  made it inaccurate or incomplete, update the description in the same
+  step — don't leave a stale description behind.
 
 ## Where new guidance belongs
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext } from "../../api/networkCloudContext.js";
+import type { NetworkCloudContext } from "../../api/networkCloudContext.js";
 import {
   runReadCommands,
   enableRemoteVendorManagement,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageAppliances/operations.js";
-import {
+import type {
   StorageAppliancesRunReadCommandsOptionalParams,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
@@ -24,14 +24,15 @@ import {
   StorageAppliancesCreateOrUpdateOptionalParams,
   StorageAppliancesGetOptionalParams,
 } from "../../api/storageAppliances/options.js";
-import {
+import type {
   OperationStatusResult,
   StorageAppliance,
   StorageApplianceRunReadCommandsParameters,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageAppliances operations. */
 export interface StorageAppliancesOperations {

@@ -18,6 +18,7 @@ https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-terraform?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-durabletask?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval?view=azure-node-preview
@@ -83,6 +84,9 @@ https://learn.microsoft.com/javascript/api/@azure/arm-previewalertrule?view=azur
 https://www.npmjs.com/package/@azure/arm-previewalertrule
 https://learn.microsoft.com/javascript/api/@azure/arm-discovery?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-discovery
+https://learn.microsoft.com/javascript/api/@azure/ai-discovery
+https://www.npmjs.com/package/@azure/ai-discovery
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/discovery/ai-discovery/samples
 https://learn.microsoft.com/javascript/api/@azure/arm-appnetwork?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-appnetwork
 https://learn.microsoft.com/javascript/api/@azure/arm-horizondb?view=azure-node-preview
@@ -127,9 +131,15 @@ https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=a
 https://www.npmjs.com/package/@azure/arm-compute-bulkactions
 https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-commvaultcontentstore
+https://learn.microsoft.com/javascript/api/@azure/ai-translation-document
+https://www.npmjs.com/package/@azure/ai-translation-document
 https://learn.microsoft.com/javascript/api/@azure/arm-billing-trust?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-billing-trust
 https://learn.microsoft.com/javascript/api/@azure/arm-containerservicepreparedimgspec?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-containerservicepreparedimgspec
 https://learn.microsoft.com/javascript/api/@azure/arm-enclave?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-enclave
+https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-compute-bulkactions
+https://learn.microsoft.com/javascript/api/@azure/arm-containerserviceaimanager?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-containerserviceaimanager

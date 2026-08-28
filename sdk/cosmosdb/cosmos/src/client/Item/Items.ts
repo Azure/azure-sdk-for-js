@@ -992,7 +992,9 @@ export class Items {
               true,
             );
             if (overlappingRanges.length < 1) {
-              throw new Error("Partition split/merge detected but no overlapping ranges found.");
+              throw new Error("Partition split/merge detected but no overlapping ranges found.", {
+                cause: err,
+              });
             }
             // Handles both merge (overlappingRanges.length === 1) and split (overlappingRanges.length > 1) cases.
             if (overlappingRanges.length >= 1) {
@@ -1019,10 +1021,11 @@ export class Items {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
                 err.message,
+              { cause: err },
             );
           }
         } else {
-          throw new Error(`Bulk request errored with: ${err.message}`);
+          throw new Error(`Bulk request errored with: ${err.message}`, { cause: err });
         }
       }
       if (response) {
@@ -1251,7 +1254,7 @@ export class Items {
         if (this.clientContext.enableEncryption) {
           await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
         }
-        throw new Error(`Batch request error: ${err.message}`);
+        throw new Error(`Batch request error: ${err.message}`, { cause: err });
       }
       if (this.clientContext.enableEncryption) {
         try {

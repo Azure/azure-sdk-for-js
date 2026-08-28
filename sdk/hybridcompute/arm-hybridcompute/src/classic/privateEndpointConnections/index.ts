@@ -83,7 +83,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: HybridComputeManagementContext) {
   return {
     listByPrivateLinkScope: (
@@ -184,7 +183,6 @@ function _getPrivateEndpointConnections(context: HybridComputeManagementContext)
     ) => get(context, resourceGroupName, scopeName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: HybridComputeManagementContext,
 ): PrivateEndpointConnectionsOperations {
