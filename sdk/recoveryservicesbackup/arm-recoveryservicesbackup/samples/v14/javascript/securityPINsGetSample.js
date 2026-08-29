@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the security PIN.
  *
  * @summary get the security PIN.
- * x-ms-original-file: 2026-07-01/Common/BackupSecurityPin_Get.json
+ * x-ms-original-file: 2026-08-01/Common/BackupSecurityPin_Get.json
  */
 async function getVaultSecurityPin() {
   const credential = new DefaultAzureCredential();

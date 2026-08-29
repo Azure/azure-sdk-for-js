@@ -251,6 +251,7 @@ export type {
   ILRRequestUnion,
   AzureFileShareProvisionILRRequest,
   IaasVmilrRegistrationRequest,
+  InstantItemRecoveryOperationResultRequest,
   ProtectionPolicyResource,
   ProtectionPolicy,
   ProtectionPolicyUnion,
@@ -540,6 +541,7 @@ export type { FeatureSupportValidateOptionalParams } from "./api/featureSupport/
 export type { FetchTieringCostPostOptionalParams } from "./api/fetchTieringCost/index.js";
 export type { GetTieringCostOperationResultGetOptionalParams } from "./api/getTieringCostOperationResult/index.js";
 export type {
+  ItemLevelRecoveryConnectionsListInstantItemRecoveryOperationResultOptionalParams,
   ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
 } from "./api/itemLevelRecoveryConnections/index.js";

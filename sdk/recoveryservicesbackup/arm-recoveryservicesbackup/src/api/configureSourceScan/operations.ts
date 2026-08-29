@@ -33,7 +33,7 @@ export function _executeSend(
       fabricName: fabricName,
       containerName: containerName,
       protectedItemName: protectedItemName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,6 +90,6 @@ export function execute(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }

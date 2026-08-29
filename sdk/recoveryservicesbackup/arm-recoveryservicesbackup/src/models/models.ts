@@ -8812,6 +8812,20 @@ export function iaasVmilrRegistrationRequestSerializer(item: IaasVmilrRegistrati
   };
 }
 
+/** Parameters for the listInstantItemRecoveryOperationResult action. */
+export interface InstantItemRecoveryOperationResultRequest {
+  /** Operation ID returned by the prior provisionInstantItemRecovery action whose iSCSI mount scripts are to be retrieved. */
+  provisionInstantItemRecoveryOperationId: string;
+}
+
+export function instantItemRecoveryOperationResultRequestSerializer(
+  item: InstantItemRecoveryOperationResultRequest,
+): any {
+  return {
+    provisionInstantItemRecoveryOperationId: item["provisionInstantItemRecoveryOperationId"],
+  };
+}
+
 /** Base class for backup policy. Workload-specific backup policies are derived from this class. */
 export interface ProtectionPolicyResource extends ProxyResource {
   /** ProtectionPolicyResource properties */
@@ -14379,4 +14393,6 @@ export enum KnownVersions {
   V20260501 = "2026-05-01",
   /** The 2026-07-01 API version. */
   V20260701 = "2026-07-01",
+  /** The 2026-08-01 API version. */
+  V20260801 = "2026-08-01",
 }

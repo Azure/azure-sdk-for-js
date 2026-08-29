@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to fetches resource vault config.
  *
  * @summary fetches resource vault config.
- * x-ms-original-file: 2026-07-01/Common/BackupResourceVaultConfigs_Get.json
+ * x-ms-original-file: 2026-08-01/Common/BackupResourceVaultConfigs_Get.json
  */
 async function getVaultSecurityConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();

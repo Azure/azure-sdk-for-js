@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary delete Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: 2026-07-01/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-08-01/PrivateEndpointConnection/DeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
