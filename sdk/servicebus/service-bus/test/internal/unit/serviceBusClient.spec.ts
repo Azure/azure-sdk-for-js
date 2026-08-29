@@ -514,6 +514,11 @@ function createAbortSignal(): {
 describe("retry option defaults (Service Bus exponential backoff)", () => {
   const connectionString =
     "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
+  const tokenCredential: TokenCredential = {
+    async getToken() {
+      return { expiresOnTimestamp: 0, token: "" };
+    },
+  };
 
   it("getRetryOptionsWithServiceBusDefaults applies exponential defaults when unset", () => {
     const result = getRetryOptionsWithServiceBusDefaults(undefined);
@@ -561,6 +566,30 @@ describe("retry option defaults (Service Bus exponential backoff)", () => {
     assert.equal(retryOptions?.mode, RetryMode.Exponential);
     assert.equal(retryOptions?.retryDelayInMs, 800);
     assert.equal(retryOptions?.maxRetryDelayInMs, 60000);
+  });
+
+  it("a client created with a TokenCredential defaults to exponential backoff without mutating options", () => {
+    const options = Object.freeze({ retryOptions: Object.freeze({ maxRetries: 5 }) });
+    const client = new ServiceBusClient(
+      "testnamespace.servicebus.windows.net",
+      tokenCredential,
+      options,
+    );
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Exponential);
+    assert.equal(retryOptions?.retryDelayInMs, 800);
+    assert.equal(retryOptions?.maxRetryDelayInMs, 60000);
+    assert.equal(retryOptions?.maxRetries, 5);
+    assert.deepEqual(options.retryOptions, { maxRetries: 5 });
+  });
+
+  it("a client created with a connection string does not mutate frozen options", () => {
+    const options = Object.freeze({ retryOptions: Object.freeze({ maxRetries: 5 }) });
+    const client = new ServiceBusClient(connectionString, options);
+    const retryOptions = client["_clientOptions"].retryOptions;
+    assert.equal(retryOptions?.mode, RetryMode.Exponential);
+    assert.equal(retryOptions?.maxRetries, 5);
+    assert.deepEqual(options.retryOptions, { maxRetries: 5 });
   });
 
   it("a client created with explicit retryOptions preserves them", () => {

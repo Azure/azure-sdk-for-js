@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusAdministrationClient, ServiceBusClient } from "../src/index.js";
+import {
+  ServiceBusAdministrationClient,
+  ServiceBusClient,
+  type ServiceBusRetryOptions,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -15,6 +19,15 @@ describe("snippets", () => {
     const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
     const credential = new DefaultAzureCredential();
     const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+  });
+
+  it("ReadmeSampleConfigureRetries", async () => {
+    const retryOptions: ServiceBusRetryOptions = {
+      maxRetries: 5,
+      retryDelayInMs: 1000,
+      maxRetryDelayInMs: 60000,
+    };
+    const serviceBusClient = new ServiceBusClient("<connectionString>", { retryOptions });
   });
 
   it("ReadmeSampleSendMessage", async () => {
