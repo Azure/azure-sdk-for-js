@@ -7,6 +7,7 @@ import type {
   MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
+  RawHttpHeadersInput,
   RequestBodyType,
 } from "../interfaces.js";
 import { isRestError, RestError } from "../restError.js";
@@ -69,6 +70,27 @@ export async function sendRequest(
 }
 
 /**
+ * Get the value of a header in the headers option ignoring case
+ * @param headers - headers passed in the request options
+ * @param headerName - lower case name of the header to look up
+ * @returns returns the header value, or undefined when the header is not set
+ */
+function getHeaderValue(
+  headers: RawHttpHeadersInput | undefined,
+  headerName: string,
+): string | number | boolean | undefined {
+  if (headers) {
+    const lowerCaseName = headerName.toLowerCase();
+    const actualHeaderName = Object.keys(headers).find((x) => x.toLowerCase() === lowerCaseName);
+    if (actualHeaderName) {
+      return headers[actualHeaderName];
+    }
+  }
+
+  return undefined;
+}
+
+/**
  * Function to determine the request content type
  * @param options - request options InternalRequestParameters
  * @returns returns the content-type
@@ -77,7 +99,7 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
   if (options.contentType) {
     return options.contentType;
   }
-  const headerContentType = options.headers?.["content-type"];
+  const headerContentType = getHeaderValue(options.headers, "content-type");
   if (typeof headerContentType === "string") {
     return headerContentType;
   }
@@ -135,7 +157,7 @@ function buildPipelineRequest(
 
   const accept =
     options.accept ??
-    options.headers?.accept ??
+    getHeaderValue(options.headers, "accept") ??
     (options.noDefaultAcceptHeader ? undefined : "application/json");
 
   const headers = createHttpHeaders({

@@ -417,6 +417,33 @@ describe("sendRequest", () => {
     });
   });
 
+  it("should set content-type via headers option regardless of header name casing", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "application/xml");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "Content-Type": "application/xml" },
+      body: { a: 1 },
+    });
+  });
+
+  it("should respect options.contentType over a headers entry with different casing", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "text/plain");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      contentType: "text/plain",
+      headers: { "Content-Type": "application/xml" },
+      body: { a: 1 },
+    });
+  });
+
   it("should set custom accept", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
@@ -435,6 +462,29 @@ describe("sendRequest", () => {
     };
 
     await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
+  });
+
+  it("should set accept via headers option regardless of header name casing", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "text/plain");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { Accept: "text/plain" } });
+  });
+
+  it("should respect options.accept over a headers entry with different casing", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "testContent");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      accept: "testContent",
+      headers: { Accept: "text/plain" },
+    });
   });
 
   it("should not set a default accept header when noDefaultAcceptHeader is true", async () => {
