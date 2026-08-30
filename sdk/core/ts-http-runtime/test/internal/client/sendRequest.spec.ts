@@ -430,6 +430,22 @@ describe("sendRequest", () => {
     });
   });
 
+  it("should not re-encode a string body when a canonical content-type header opts out of json", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "text/plain");
+      // The header used to be missed, so the content type was inferred from the
+      // body and this json parsable string was encoded a second time.
+      assert.equal(request.body, '{"a":1}');
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      headers: { "Content-Type": "text/plain" },
+      body: '{"a":1}',
+    });
+  });
+
   it("should respect options.contentType over a headers entry with different casing", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {

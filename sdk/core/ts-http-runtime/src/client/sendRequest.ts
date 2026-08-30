@@ -81,6 +81,11 @@ function getHeaderValue(
 ): string | number | boolean | undefined {
   if (headers) {
     const lowerCaseName = headerName.toLowerCase();
+    // The lower case spelling is the one that worked before, so it keeps
+    // winning when a bag carries the same header under two spellings.
+    if (headers[lowerCaseName] !== undefined) {
+      return headers[lowerCaseName];
+    }
     const actualHeaderName = Object.keys(headers).find((x) => x.toLowerCase() === lowerCaseName);
     if (actualHeaderName) {
       return headers[actualHeaderName];
