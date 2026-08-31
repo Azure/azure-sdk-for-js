@@ -28,6 +28,7 @@ const providerMocks = vi.hoisted(() => {
 });
 
 const configurationMocks = vi.hoisted(() => ({
+  initialize: vi.fn(),
   registerCallback: vi.fn(),
 }));
 
