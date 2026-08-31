@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext as Client } from "../index.js";
-import {
+import type { ProviderHubContext as Client } from "../index.js";
+import type {
   ResourceProviderManifest,
+  DefaultRollout,
+  FrontloadPayload,
+} from "../../models/models.js";
+import {
   resourceProviderManifestDeserializer,
   errorResponseDeserializer,
-  DefaultRollout,
   defaultRolloutDeserializer,
-  FrontloadPayload,
   frontloadPayloadSerializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   NewRegionFrontloadReleaseGenerateManifestOptionalParams,
   NewRegionFrontloadReleaseStopOptionalParams,
   NewRegionFrontloadReleaseCreateOrUpdateOptionalParams,
   NewRegionFrontloadReleaseGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _generateManifestSend(
   context: Client,
@@ -36,7 +34,7 @@ export function _generateManifestSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +54,9 @@ export async function _generateManifestDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -87,7 +87,7 @@ export function _stopSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       releaseName: releaseName,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,7 +100,9 @@ export async function _stopDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +134,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       releaseName: releaseName,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -152,7 +154,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -190,7 +194,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       releaseName: releaseName,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,7 +210,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<De
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

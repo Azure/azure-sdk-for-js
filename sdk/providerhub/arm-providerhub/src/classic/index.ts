@@ -4,6 +4,7 @@
 export type { AuthorizedApplicationsOperations } from "./authorizedApplications/index.js";
 export type { CustomRolloutsOperations } from "./customRollouts/index.js";
 export type { DefaultRolloutsOperations } from "./defaultRollouts/index.js";
+export type { ManifestsOperations } from "./manifests/index.js";
 export type { NewRegionFrontloadReleaseOperations } from "./newRegionFrontloadRelease/index.js";
 export type { NotificationRegistrationsOperations } from "./notificationRegistrations/index.js";
 export type { OperationsOperations } from "./operations/index.js";

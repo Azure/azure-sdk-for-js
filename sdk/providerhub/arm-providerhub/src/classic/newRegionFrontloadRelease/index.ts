@@ -1,20 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProviderHubContext } from "../../api/providerHubContext.js";
+import type { ProviderHubContext } from "../../api/providerHubContext.js";
 import {
   generateManifest,
   stop,
   createOrUpdate,
   get,
 } from "../../api/newRegionFrontloadRelease/operations.js";
-import {
+import type {
   NewRegionFrontloadReleaseGenerateManifestOptionalParams,
   NewRegionFrontloadReleaseStopOptionalParams,
   NewRegionFrontloadReleaseCreateOrUpdateOptionalParams,
   NewRegionFrontloadReleaseGetOptionalParams,
 } from "../../api/newRegionFrontloadRelease/options.js";
-import { ResourceProviderManifest, DefaultRollout, FrontloadPayload } from "../../models/models.js";
+import type {
+  ResourceProviderManifest,
+  DefaultRollout,
+  FrontloadPayload,
+} from "../../models/models.js";
 
 /** Interface representing a NewRegionFrontloadRelease operations. */
 export interface NewRegionFrontloadReleaseOperations {
