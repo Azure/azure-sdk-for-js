@@ -70,15 +70,21 @@ export async function createRecorder(context: TestInfo): Promise<Recorder> {
 }
 
 /**
- * Create a Content Understanding client for sample tests
+ * Create a Content Understanding client for sample tests.
+ *
+ * @param recorder The active recorder for the current test.
+ * @param apiVersion Optional service api version. When omitted the client
+ *   uses its own default ({@link KnownVersions.V20260601Preview}).
+ *   Callers that participate in the multi-version matrix should pass the
+ *   `apiVersion` from `forEachServiceVersion`'s context.
  */
-export function createClient(recorder: Recorder): ContentUnderstandingClient {
+export function createClient(recorder: Recorder, apiVersion?: string): ContentUnderstandingClient {
   const endpoint = assertEnvironmentVariable(EnvVarKeys.ENDPOINT);
   const key = process.env[EnvVarKeys.KEY];
   return new ContentUnderstandingClient(
     endpoint,
     key ? new AzureKeyCredential(key) : createTestCredential(),
-    recorder.configureClientOptions({}),
+    recorder.configureClientOptions(apiVersion ? { apiVersion } : {}),
   );
 }
 

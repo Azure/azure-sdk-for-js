@@ -20,7 +20,7 @@ export function _getSubscriptionQuotaSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/usages{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,7 +47,6 @@ export async function _getSubscriptionQuotaDeserialize(
 
   return userSubscriptionQuotaListResultDeserializer(result.body);
 }
-
 /** Get the number of free and paid iot hubs in the subscription */
 export async function getSubscriptionQuota(
   context: Client,

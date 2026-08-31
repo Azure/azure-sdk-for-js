@@ -45,12 +45,12 @@ allowed:
   - "@opentelemetry/*"
 
 exceptions:
+  - dependency: "apache-arrow"
+    packages:
+      - "@azure/storage-blob"
   - dependency: "avsc"
     packages:
       - "@azure/schema-registry-avro"
-  - dependency: "chalk"
-    packages:
-      - "@azure/api-management-custom-widgets-scaffolder"
   - dependency: "eventemitter3"
     packages:
       - "@azure-rest/communication-messages"
@@ -58,12 +58,6 @@ exceptions:
   - dependency: "fast-json-stable-stringify"
     packages:
       - "@azure/cosmos"
-  - dependency: "glob"
-    packages:
-      - "@azure/api-management-custom-widgets-scaffolder"
-  - dependency: "inquirer"
-    packages:
-      - "@azure/api-management-custom-widgets-scaffolder"
   - dependency: "is-buffer"
     packages:
       - "@azure/event-hubs"
@@ -71,6 +65,7 @@ exceptions:
   - dependency: "jsonwebtoken"
     packages:
       - "@azure/web-pubsub"
+      - "@azure/web-pubsub-chat"
   - dependency: "jsrsasign"
     packages:
       - "@azure/attestation"
@@ -91,12 +86,6 @@ exceptions:
     packages:
       - "@azure/schema-registry-avro"
       - "@azure/schema-registry-json"
-  - dependency: "mime"
-    packages:
-      - "@azure/api-management-custom-widgets-tools"
-  - dependency: "mustache"
-    packages:
-      - "@azure/api-management-custom-widgets-scaffolder"
   - dependency: "open"
     packages:
       - "@azure/identity"
@@ -129,6 +118,3 @@ exceptions:
     packages:
       - "@azure/ai-voicelive"
       - "@azure/web-pubsub-client"
-  - dependency: "yargs-parser"
-    packages:
-      - "@azure/api-management-custom-widgets-scaffolder"

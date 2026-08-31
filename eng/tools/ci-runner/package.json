@@ -1,21 +1,33 @@
 {
   "name": "@azure-tools/ci-runner",
+  "version": "1.0.0",
+  "sdk-type": "utility",
   "type": "module",
+  "private": true,
   "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
-    "build": "npm run format && npm run lint && npm run typecheck && npm run test",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"src/**/*.js\" \"test/**/*.js\"",
+    "build": "pnpm run format && pnpm run lint && pnpm run typecheck && pnpm run test",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{js,mjs,json,md}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{js,mjs,json,md}\"",
     "typecheck": "tsc",
     "lint": "eslint index.js src test",
-    "test": "vitest"
+    "lint:fix": "eslint index.js src test --fix --fix-type [problem,suggestion]",
+    "test": "vitest run",
+    "test:browser": "echo skipped",
+    "test:node": "pnpm test",
+    "test:watch": "vitest --watch",
+    "update-snippets": "echo skipped"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@types/node": "^22.0.0",
-    "@vitest/coverage-istanbul": "^4.0.0",
-    "eslint": "^9.9.0",
-    "prettier": "^3.6.2",
-    "vitest": "^4.0.0",
-    "typescript": "~6.0.2"
+    "@eslint/js": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "eslint": "catalog:",
+    "globals": "^17.11.0",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   }
 }

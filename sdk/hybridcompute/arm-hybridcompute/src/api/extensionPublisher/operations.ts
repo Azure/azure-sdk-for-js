@@ -23,7 +23,7 @@ export function _listSend(
     "/providers/Microsoft.HybridCompute/locations/{location}/publishers{?api%2Dversion}",
     {
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-16-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -50,7 +50,6 @@ export async function _listDeserialize(
 
   return _extensionPublisherListResultDeserializer(result.body);
 }
-
 /** Gets all Extension publishers based on the location */
 export function list(
   context: Client,
@@ -62,10 +61,6 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-16-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }

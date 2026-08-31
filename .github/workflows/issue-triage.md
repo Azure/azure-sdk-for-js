@@ -28,6 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 tools:
+  bash: false
   web-fetch:
   github:
     toolsets: [issues, repos]
@@ -49,6 +50,10 @@ safe-outputs:
     target: "*"
   remove-labels:
     max: 7
+    target: "*"
+  set-issue-type:
+    allowed: [Bug, Feature, Task]
+    max: 1
     target: "*"
   add-comment:
     max: 2
@@ -79,7 +84,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9
+          uses: actions/github-script@v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:
@@ -252,12 +257,22 @@ Note: The gh-aw runtime provides additional baseline defenses including the XPIA
 
 Note the issue number — you must include it in every safe-output tool call:
 - For `add_labels`, `remove_labels`, and `add_comment`: pass it as `item_number`
-- For `assign_to_user` and `close_issue`: pass it as `issue_number`
+- For `set_issue_type`, `assign_to_user`, and `close_issue`: pass it as `issue_number`
 
 Retrieve the issue using the `get_issue` tool
 
-**Precondition checks** — exit without further action if any are true:
-- The issue already has labels
+Record the issue's current labels and issue type. Do not exit solely because labels are present; Step 2 determines whether they should suppress automated triage based on the author classification and, for team members, who applied them
+
+### Issue Type Classification
+
+Classify the issue before proceeding to Step 2 so label-based early exits do not leave it untyped
+
+- If the issue already has a non-empty issue type, preserve it and continue to Step 2 without calling `set_issue_type`
+- Otherwise, select exactly one type from the issue title and body:
+  - `Bug`: A defect, regression, error, or other incorrect behavior in existing functionality
+  - `Feature`: A request for new or expanded functionality, including support for a new API, service capability, or scenario
+  - `Task`: A question, documentation request, maintenance chore, investigation, tracking item, or any issue that cannot be confidently classified as `Bug` or `Feature`
+- Call `set_issue_type` exactly once with the target `issue_number` and the selected `issue_type`
 
 ## Step 2: Customer Evaluation
 
@@ -274,7 +289,7 @@ The following accounts bypass the normal customer evaluation; they are routed th
 - `microsoft-github-policy-service[bot]`
 - `github-actions[bot]`
 
-If the author matches the bot allowlist, add the "bot" label and continue to Step 3
+If the author matches the bot allowlist, follow the bot branch in the Author Decision below
 
 ### Author Association Check
 
@@ -294,19 +309,38 @@ web-fetch https://api.github.com/users/<AUTHOR_LOGIN>/orgs
 
 This returns a JSON array of the user's **public** organization memberships; if "Azure" appears in the list, the author is a team member; otherwise they are an external customer
 
+### Team-Member Label Attribution
+
+For team members, existing labels suppress automated triage only when the issue author applied at least one label that is still present
+
+If a team-member issue currently has labels:
+
+1. Confirm the issue number is a positive decimal integer
+2. Retrieve its events using `web-fetch`, starting with:
+   `https://api.github.com/repos/Azure/azure-sdk-for-js/issues/<ISSUE_NUMBER>/events?per_page=100&page=1`
+3. If a page contains 100 events, increment the `page` parameter and retrieve the next page. Continue until a page contains fewer than 100 events, then combine all retrieved pages before evaluating attribution
+4. For each currently applied label, find the `labeled` event with the latest `created_at` across all pages
+5. Treat the label as author-applied only when that event's `actor.login` matches the issue author's login (case-insensitive)
+6. Ignore events for labels that are no longer present
+
+Labels applied by GitHub Actions, bots, or other collaborators do not suppress triage. If the events cannot be retrieved or no current author-applied label can be confirmed, continue with automated triage
+
 ### Author Decision
 
 ```
 IF the author matches the bot allowlist:
+    - IF the issue already has labels: Exit the workflow
     - Add "bot" label only — do NOT add "customer-reported", "question", or any other labels in this step
     - Continue to Step 3
 
 IF author_association is OWNER, MEMBER, or COLLABORATOR
    (or the web-fetch fallback confirms Azure org membership):
-    - IF the issue has no labels: Add "needs-triage" label
-    - Exit the workflow (team members label their own issues)
+    - IF the issue has a current author-applied label: Exit the workflow
+    - Do NOT add "customer-reported" or "question"
+    - Continue to Step 3
 
 ELSE (external customer):
+    - IF the issue already has labels: Exit the workflow
     - Add "customer-reported" label
     - Add "question" label
     - Continue to Step 3
@@ -316,7 +350,9 @@ Note: `author_association` of `MEMBER` indicates the author belongs to the organ
 
 ## Step 3: Predict Labels
 
-All issues reaching this step proceed through label prediction and ownership routing regardless of whether they are customer-reported or bot-filed
+All issues reaching this step proceed through label prediction and ownership routing, including customer-reported, bot-filed, and team-member issues
+
+For a team-member issue, refresh the issue and repeat the Team-Member Label Attribution check immediately before the first `add_labels` call. If the author has since applied a current label, exit without adding labels, routing owners, or posting comments
 
 Analyze the issue title and body to determine appropriate labels
 

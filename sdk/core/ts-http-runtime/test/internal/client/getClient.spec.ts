@@ -326,4 +326,67 @@ describe("getClient", () => {
     assert.equal(client.pipeline, pipeline);
     assert.isEmpty(client.pipeline.getOrderedPolicies());
   });
+
+  describe("#noDefaultAcceptHeader", () => {
+    it("should add a default accept header by default", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const client = getClient("https://example.org");
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.equal(req.headers.get("accept"), "application/json");
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
+    });
+
+    it("should not add a default accept header when internal.noDefaultAcceptHeader is true", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const client = getClient("https://example.org", {
+        internal: { noDefaultAcceptHeader: true },
+      });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.isFalse(req.headers.has("accept"));
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
+    });
+
+    it("should keep operation-level accept when internal.noDefaultAcceptHeader is true", async () => {
+      const defaultHttpClient = getCachedDefaultHttpsClient();
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
+        return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
+      });
+
+      const client = getClient("https://example.org", {
+        internal: { noDefaultAcceptHeader: true },
+      });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.equal(req.headers.get("accept"), "application/xml");
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get({ accept: "application/xml" });
+    });
+  });
 });

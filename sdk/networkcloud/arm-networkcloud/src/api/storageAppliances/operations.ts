@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkCloudContext as Client } from "../index.js";
+import type { NetworkCloudContext as Client } from "../index.js";
+import type {
+  OperationStatusResult,
+  StorageAppliance,
+  _StorageApplianceList,
+  StorageApplianceRunReadCommandsParameters,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OperationStatusResult,
   operationStatusResultDeserializer,
-  StorageAppliance,
   storageApplianceSerializer,
   storageApplianceDeserializer,
   storageAppliancePatchParametersSerializer,
-  _StorageApplianceList,
   _storageApplianceListDeserializer,
   storageApplianceEnableRemoteVendorManagementParametersSerializer,
-  StorageApplianceRunReadCommandsParameters,
   storageApplianceRunReadCommandsParametersSerializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StorageAppliancesRunReadCommandsOptionalParams,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   StorageAppliancesDisableRemoteVendorManagementOptionalParams,
@@ -33,13 +33,9 @@ import {
   StorageAppliancesCreateOrUpdateOptionalParams,
   StorageAppliancesGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _runReadCommandsSend(
   context: Client,
@@ -54,7 +50,7 @@ export function _runReadCommandsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +71,9 @@ export async function _runReadCommandsDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -103,7 +101,7 @@ export function runReadCommands(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -119,7 +117,7 @@ export function _enableRemoteVendorManagementSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,10 +126,10 @@ export function _enableRemoteVendorManagementSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["storageApplianceEnableRemoteVendorManagementParameters"]
-      ? options["storageApplianceEnableRemoteVendorManagementParameters"]
+    body: !options?.storageApplianceEnableRemoteVendorManagementParameters
+      ? options?.storageApplianceEnableRemoteVendorManagementParameters
       : storageApplianceEnableRemoteVendorManagementParametersSerializer(
-          options["storageApplianceEnableRemoteVendorManagementParameters"],
+          options?.storageApplianceEnableRemoteVendorManagementParameters,
         ),
   });
 }
@@ -142,7 +140,9 @@ export async function _enableRemoteVendorManagementDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -172,7 +172,7 @@ export function enableRemoteVendorManagement(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01",
     },
   ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -189,7 +189,7 @@ export function _disableRemoteVendorManagementSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +204,9 @@ export async function _disableRemoteVendorManagementDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -234,7 +236,7 @@ export function disableRemoteVendorManagement(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-01",
     },
   ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -247,7 +249,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/storageAppliances{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -267,7 +269,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -285,11 +289,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -303,7 +303,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -323,7 +323,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -342,11 +344,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -362,7 +360,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +382,9 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -405,7 +405,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storageApplianceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -421,7 +421,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,9 +436,9 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: !options["storageApplianceUpdateParameters"]
-      ? options["storageApplianceUpdateParameters"]
-      : storageAppliancePatchParametersSerializer(options["storageApplianceUpdateParameters"]),
+    body: !options?.storageApplianceUpdateParameters
+      ? options?.storageApplianceUpdateParameters
+      : storageAppliancePatchParametersSerializer(options?.storageApplianceUpdateParameters),
   });
 }
 
@@ -446,7 +446,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -467,7 +469,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, storageApplianceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<StorageAppliance>, StorageAppliance>;
 }
 
@@ -484,7 +486,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,7 +511,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -537,7 +541,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<StorageAppliance>, StorageAppliance>;
 }
 
@@ -553,7 +557,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageApplianceName: storageApplianceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -569,7 +573,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<St
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

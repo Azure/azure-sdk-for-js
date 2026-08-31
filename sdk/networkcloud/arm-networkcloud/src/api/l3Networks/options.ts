@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { L3NetworkPatchParameters } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { L3NetworkPatchParameters } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface L3NetworksListBySubscriptionOptionalParams extends OperationOptions {

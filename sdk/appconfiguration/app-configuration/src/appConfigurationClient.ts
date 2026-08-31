@@ -188,11 +188,9 @@ export class AppConfigurationClient {
       ...appConfigOptions,
       userAgentOptions: {
         ...appConfigOptions.userAgentOptions,
-        userAgentPrefix: `azsdk-js-app-configuration/${packageVersion}${
-          appConfigOptions.userAgentOptions?.userAgentPrefix
-            ? ` ${appConfigOptions.userAgentOptions.userAgentPrefix}`
-            : ""
-        }`,
+        userAgentPrefix: appConfigOptions.userAgentOptions?.userAgentPrefix
+          ? `${appConfigOptions.userAgentOptions.userAgentPrefix} azsdk-js-app-configuration/${packageVersion}`
+          : `azsdk-js-app-configuration/${packageVersion}`,
       },
       loggingOptions: {
         logger: logger.info,

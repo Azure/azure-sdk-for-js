@@ -16,6 +16,8 @@ import type {
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
+  RangeModel,
+  ShareFileRange,
 } from "../generatedModels.js";
 import {
   HttpAuthorization,
@@ -496,7 +498,7 @@ export function getAccountNameFromUrl(url: string): string {
     }
     return accountName;
   } catch (error: any) {
-    throw new Error("Unable to extract accountName with provided information.");
+    throw new Error("Unable to extract accountName with provided information.", { cause: error });
   }
 }
 
@@ -574,6 +576,7 @@ export function getShareNameAndPathFromUrl(url: string): {
   } catch (error: any) {
     throw new Error(
       "Unable to extract shareName and filePath/directoryPath with provided information.",
+      { cause: error },
     );
   }
 }
@@ -818,6 +821,51 @@ export function ConvertInternalResponseOfListHandles(
  */
 export function removeEmptyString(value: string | undefined): string | undefined {
   return value ? value : undefined;
+}
+
+/**
+ * Merges the valid ranges and cleared ranges returned by the service into a single
+ * ordered sequence of {@link ShareFileRange} items, sorted by start position.
+ *
+ * This uses a two-pointer merge and assumes each input array is already sorted ascending
+ * by `start`, which is guaranteed by the List Ranges service response. If that invariant
+ * ever changes, the inputs must be sorted before merging to preserve output ordering.
+ *
+ * On a tie (equal `start`), the valid data range is emitted before the cleared range.
+ * @internal
+ */
+export function* extractShareFileRangeItems(
+  ranges: RangeModel[] = [],
+  clearRanges: RangeModel[] = [],
+): IterableIterator<ShareFileRange> {
+  let rangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (rangeIndex < ranges.length && clearRangeIndex < clearRanges.length) {
+    if (ranges[rangeIndex].start <= clearRanges[clearRangeIndex].start) {
+      yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+      ++rangeIndex;
+    } else {
+      yield {
+        start: clearRanges[clearRangeIndex].start,
+        end: clearRanges[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; rangeIndex < ranges.length; ++rangeIndex) {
+    yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+  }
+
+  for (; clearRangeIndex < clearRanges.length; ++clearRangeIndex) {
+    yield {
+      start: clearRanges[clearRangeIndex].start,
+      end: clearRanges[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
 }
 
 export function asSharePermission(value: string | SharePermission): SharePermission {

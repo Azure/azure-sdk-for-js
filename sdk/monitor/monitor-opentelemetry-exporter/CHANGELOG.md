@@ -1,6 +1,28 @@
 # Release History
 
-## 1.0.0-beta.44 (Unreleased)
+## 1.0.0-beta.45 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed global-to-regional ingestion redirects across trusted same-cloud Azure Monitor host suffixes and updated internal Statsbeat routing so EU SDK statistics use the EU Statsbeat destination. [#39622](https://github.com/Azure/azure-sdk-for-js/pull/39622)
+
+### Other Changes
+
+- Enabled process-wide OneSettings polling from exporter initialization and populated the standalone exporter profile for future feature targeting. Feature callbacks remain disabled. [#39764](https://github.com/Azure/azure-sdk-for-js/pull/39764)
+- Refactored internal Network and Long Interval Statsbeat lifecycle management behind a process-global manager. [#39693](https://github.com/Azure/azure-sdk-for-js/pull/39693)
+- Updated OpenTelemetry stable dependencies to `^2.10.0`, experimental dependencies to `^0.221.0`, and semantic conventions to `^1.43.0`. [#39649](https://github.com/Azure/azure-sdk-for-js/pull/39649)
+- Centralized native process execution and hardened Windows system executable
+  resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
+- Added an internal OneSettings HTTP request utility (`makeOneSettingsRequest`) that fetches dynamic configuration and parses the response, ETag, and refresh interval. Requests honor the standard proxy environment variables (`HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY`/`NO_PROXY`). This is groundwork with no user-facing behavior yet. [#39492](https://github.com/Azure/azure-sdk-for-js/pull/39492)
+- Added internal OneSettings feature evaluation (`evaluateFeature`) and a write-once SDK profile (`ConfigurationProfile`) that resolve typed setting values from defaults and override rules, including JSON-encoded configurations and list-valued conditions. This is groundwork with no user-facing behavior yet. [#39617](https://github.com/Azure/azure-sdk-for-js/pull/39617)
+- Implemented the internal OneSettings manager polling state machine, including ETag-based change detection, configuration caching, callback notification, and bounded retry backoff. Background scheduling and feature wiring remain disabled, so this has no user-facing behavior yet. [#39636](https://github.com/Azure/azure-sdk-for-js/pull/39636)
+- Added an internal OneSettings polling worker with randomized startup staggering, sequential dynamic scheduling, bounded refresh intervals, and restartable shutdown that cancels active requests and releases callbacks. Exporter and feature wiring remain disabled, so this has no user-facing behavior yet. [#39685](https://github.com/Azure/azure-sdk-for-js/pull/39685)
+
+## 1.0.0-beta.44 (2026-07-29)
 
 ### Bugs Fixed
 
@@ -8,7 +30,9 @@
 
 ### Other Changes
 
+- Updated OpenTelemetry experimental dependencies from `^0.219.0` to `^0.220.0` (`@opentelemetry/api-logs`, `@opentelemetry/sdk-logs`, `@opentelemetry/instrumentation`, `@opentelemetry/instrumentation-http`) and stable dependencies from `^2.8.0` to `^2.9.0` (`@opentelemetry/core`, `@opentelemetry/resources`, `@opentelemetry/sdk-metrics`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/sdk-trace-node`). [#39389](https://github.com/Azure/azure-sdk-for-js/pull/39389)
 - Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet. [#39295](https://github.com/Azure/azure-sdk-for-js/pull/39295)
+- Raised the minimum `@opentelemetry/api` version from `^1.9.0` to `^1.9.1`. [#39400](https://github.com/Azure/azure-sdk-for-js/pull/39400)
 
 ## 1.0.0-beta.43 (2026-07-01)
 
@@ -70,7 +94,7 @@
 
 ## 1.0.0-beta.39 (2026-02-20)
 
-### Features Added 
+### Features Added
 
 - Add ownership checks for storage directories.
 - Added a 64KB size limit on custom dimensions. Individual custom dimension values greater than 64KB are truncated to the upper limit of 64KB. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads.
@@ -79,14 +103,14 @@
 
 - Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
 
-### 1.0.0-beta.38 (2026-01-16)
+## 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
 - Updated customer SDK Stats metric names from preview format to stable format.
 
-### 1.0.0-beta.37 (2026-01-15)
+## 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 

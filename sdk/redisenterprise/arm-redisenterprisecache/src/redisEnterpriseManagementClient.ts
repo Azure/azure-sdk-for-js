@@ -10,8 +10,6 @@ import type { AccessPolicyAssignmentOperations } from "./classic/accessPolicyAss
 import { _getAccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
 import type { DatabasesOperations } from "./classic/databases/index.js";
 import { _getDatabasesOperations } from "./classic/databases/index.js";
-import type { MigrationOperations } from "./classic/migration/index.js";
-import { _getMigrationOperations } from "./classic/migration/index.js";
 import type { MigrationsOperations } from "./classic/migrations/index.js";
 import { _getMigrationsOperations } from "./classic/migrations/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -40,17 +38,9 @@ export class RedisEnterpriseManagementClient {
     subscriptionId: string,
     options: RedisEnterpriseManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createRedisEnterpriseManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createRedisEnterpriseManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.operationsStatus = _getOperationsStatusOperations(this._client);
-    this.migration = _getMigrationOperations(this._client);
     this.accessPolicyAssignment = _getAccessPolicyAssignmentOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.redisEnterprise = _getRedisEnterpriseOperations(this._client);
@@ -62,8 +52,6 @@ export class RedisEnterpriseManagementClient {
 
   /** The operation groups for operationsStatus */
   public readonly operationsStatus: OperationsStatusOperations;
-  /** The operation groups for migration */
-  public readonly migration: MigrationOperations;
   /** The operation groups for accessPolicyAssignment */
   public readonly accessPolicyAssignment: AccessPolicyAssignmentOperations;
   /** The operation groups for privateLinkResources */

@@ -1,26 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
+import type { BlockContext } from "../../api/blockContext.js";
 import {
-  Reservation,
-  ReservationUpdate,
-  LimitDetails,
-  ReservationBillingStatus,
-  ReservationBillingUsageReport,
-} from "../../models/models.js";
-import {
-  ReservationsGetBillingReportOptionalParams,
-  ReservationsGetBillingStatusOptionalParams,
-  ReservationsGetResourceLimitsOptionalParams,
-  ReservationsListBySubscriptionOptionalParams,
-  ReservationsListByResourceGroupOptionalParams,
-  ReservationsDeleteOptionalParams,
-  ReservationsUpdateOptionalParams,
-  ReservationsCreateOptionalParams,
-  ReservationsGetOptionalParams,
-} from "../../api/reservations/options.js";
-import {
+  latestLinkedSaaS,
+  linkSaaS,
   getBillingReport,
   getBillingStatus,
   getResourceLimits,
@@ -31,11 +15,46 @@ import {
   create,
   get,
 } from "../../api/reservations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  ReservationsLatestLinkedSaaSOptionalParams,
+  ReservationsLinkSaaSOptionalParams,
+  ReservationsGetBillingReportOptionalParams,
+  ReservationsGetBillingStatusOptionalParams,
+  ReservationsGetResourceLimitsOptionalParams,
+  ReservationsListBySubscriptionOptionalParams,
+  ReservationsListByResourceGroupOptionalParams,
+  ReservationsDeleteOptionalParams,
+  ReservationsUpdateOptionalParams,
+  ReservationsCreateOptionalParams,
+  ReservationsGetOptionalParams,
+} from "../../api/reservations/options.js";
+import type {
+  Reservation,
+  ReservationUpdate,
+  LimitDetails,
+  ReservationBillingStatus,
+  ReservationBillingUsageReport,
+  LinkSaaSRequest,
+  LatestLinkedSaaSResponse,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Reservations operations. */
 export interface ReservationsOperations {
+  /** Returns the latest SaaS linked to the reservation. */
+  latestLinkedSaaS: (
+    resourceGroupName: string,
+    reservationName: string,
+    options?: ReservationsLatestLinkedSaaSOptionalParams,
+  ) => Promise<LatestLinkedSaaSResponse>;
+  /** A long-running resource action. */
+  linkSaaS: (
+    resourceGroupName: string,
+    reservationName: string,
+    body: LinkSaaSRequest,
+    options?: ReservationsLinkSaaSOptionalParams,
+  ) => PollerLike<OperationState<Reservation>, Reservation>;
   /** Provides a summarized report along with actions for resources billed via given reservation */
   getBillingReport: (
     resourceGroupName: string,
@@ -64,11 +83,6 @@ export interface ReservationsOperations {
     options?: ReservationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Reservation>;
   /** Delete a reservation */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     reservationName: string,
@@ -95,9 +109,19 @@ export interface ReservationsOperations {
     options?: ReservationsGetOptionalParams,
   ) => Promise<Reservation>;
 }
-
 function _getReservations(context: BlockContext) {
   return {
+    latestLinkedSaaS: (
+      resourceGroupName: string,
+      reservationName: string,
+      options?: ReservationsLatestLinkedSaaSOptionalParams,
+    ) => latestLinkedSaaS(context, resourceGroupName, reservationName, options),
+    linkSaaS: (
+      resourceGroupName: string,
+      reservationName: string,
+      body: LinkSaaSRequest,
+      options?: ReservationsLinkSaaSOptionalParams,
+    ) => linkSaaS(context, resourceGroupName, reservationName, body, options),
     getBillingReport: (
       resourceGroupName: string,
       reservationName: string,
@@ -143,7 +167,6 @@ function _getReservations(context: BlockContext) {
     ) => get(context, resourceGroupName, reservationName, options),
   };
 }
-
 export function _getReservationsOperations(context: BlockContext): ReservationsOperations {
   return {
     ..._getReservations(context),
