@@ -50,11 +50,9 @@ describe("AzurePipelinesCredential (internal)", function () {
     });
 
     function assertSafeErrorDetails(error: any): void {
-      // The allow-listed headers and response metadata should be present...
       assert.include(error.message, `"status":${response.status}`);
       assert.include(error.message, "test-e2e-id");
       assert.include(error.message, "test-msedge-ref");
-      // ...but request headers - especially the Authorization header - must never be included.
       assert.notInclude(error.message.toLowerCase(), "authorization");
       assert.notInclude(error.message, "REDACTED");
       assert.notInclude(error.message.toLowerCase(), '"request"');
@@ -71,16 +69,13 @@ describe("AzurePipelinesCredential (internal)", function () {
     });
 
     it("includes status, body, and allow-listed headers but not request headers for a malformed (non-JSON) body", function () {
-      response.bodyAsText = "No service connection found with identifier frwerhq-241242-vsdkf-jw";
+      response.bodyAsText = "No service connection found with identifier fake-identifier";
       try {
         handleOidcResponse(response);
         assert.fail("Expected handleOidcResponse to throw");
       } catch (e: any) {
         assertSafeErrorDetails(e);
-        assert.include(
-          e.message,
-          "No service connection found with identifier frwerhq-241242-vsdkf-jw",
-        );
+        assert.include(e.message, "No service connection found with identifier fake-identifier");
       }
     });
 
