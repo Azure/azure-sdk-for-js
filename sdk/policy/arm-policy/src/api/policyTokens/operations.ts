@@ -10,11 +10,64 @@ import {
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  PolicyTokensAcquireAtResourceGroupOptionalParams,
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _acquireAtResourceGroupSend(
+  context: Client,
+  resourceGroupName: string,
+  parameters: PolicyTokenRequest,
+  options: PolicyTokensAcquireAtResourceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/acquirePolicyToken{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: policyTokenRequestSerializer(parameters),
+  });
+}
+
+export async function _acquireAtResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PolicyTokenResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return policyTokenResponseDeserializer(result.body);
+}
+
+/** This operation acquires a policy token in the given resource group for the given request body. */
+export async function acquireAtResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  parameters: PolicyTokenRequest,
+  options: PolicyTokensAcquireAtResourceGroupOptionalParams = { requestOptions: {} },
+): Promise<PolicyTokenResponse> {
+  const result = await _acquireAtResourceGroupSend(context, resourceGroupName, parameters, options);
+  return _acquireAtResourceGroupDeserialize(result);
+}
 
 export function _acquireAtManagementGroupSend(
   context: Client,
@@ -26,7 +79,7 @@ export function _acquireAtManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/acquirePolicyToken{?api%2Dversion}",
     {
       managementGroupName: managementGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -46,7 +99,10 @@ export async function _acquireAtManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -78,7 +134,7 @@ export function _acquireSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/acquirePolicyToken{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +154,10 @@ export async function _acquireDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

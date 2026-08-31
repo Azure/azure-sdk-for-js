@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-policy",
-  "version": "7.0.1",
+  "version": "8.0.0-beta.1",
   "description": "A generated SDK for PolicyClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,9 +46,9 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -194,6 +194,20 @@
       "require": {
         "types": "./dist/commonjs/api/policyDefinitions/index.d.ts",
         "default": "./dist/commonjs/api/policyDefinitions/index.js"
+      }
+    },
+    "./api/dataPolicyManifests": {
+      "browser": {
+        "types": "./dist/browser/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/browser/api/dataPolicyManifests/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/esm/api/dataPolicyManifests/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/dataPolicyManifests/index.d.ts",
+        "default": "./dist/commonjs/api/dataPolicyManifests/index.js"
       }
     },
     "./api/policyAssignments": {

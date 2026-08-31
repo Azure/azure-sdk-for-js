@@ -4,6 +4,9 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface PolicyTokensAcquireAtResourceGroupOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface PolicyTokensAcquireAtManagementGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

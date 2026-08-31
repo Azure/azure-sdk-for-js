@@ -25006,7 +25006,7 @@ importers:
   sdk/policy/arm-policy:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.9.0

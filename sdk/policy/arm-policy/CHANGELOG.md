@@ -1,5 +1,68 @@
 # Release History
 
+## 8.0.0-beta.1 (2026-08-25)
+Compared with version 7.0.1
+
+### Features Added
+  - Added operation group DataPolicyManifestsOperations
+  - Added operation PolicyTokensOperations.acquireAtResourceGroup
+  - Added Interface Alias
+  - Added Interface AliasPath
+  - Added Interface AliasPathMetadata
+  - Added Interface AliasPattern
+  - Added Interface DataEffect
+  - Added Interface DataManifestCustomResourceFunctionDefinition
+  - Added Interface DataManifestResourceFunctionsDefinition
+  - Added Interface DataPolicyManifest
+  - Added Interface DataPolicyManifestProperties
+  - Added Interface DataPolicyManifestsGetByPolicyModeOptionalParams
+  - Added Interface DataPolicyManifestsListOptionalParams
+  - Added Interface PolicyDefinitionVersionListResult
+  - Added Interface PolicySetDefinitionVersionListResult
+  - Added Interface PolicyTokenEvaluatedRequestDetails
+  - Added Interface PolicyTokensAcquireAtResourceGroupOptionalParams
+  - Added Interface ResourceTypeAliases
+  - Added Interface SelfServeExemptionSettings
+  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter additionalInfo
+  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter complianceState
+  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter endpointKind
+  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter policyAction
+  - Interface ExternalEvaluationEndpointInvocationResult has a new optional parameter policyEvaluationDetails
+  - Interface PolicyAssignment has a new optional parameter selfServeExemptionSettings
+  - Interface PolicyAssignmentProperties has a new optional parameter selfServeExemptionSettings
+  - Interface PolicyAssignmentUpdate has a new optional parameter selfServeExemptionSettings
+  - Interface PolicyAssignmentUpdateProperties has a new optional parameter selfServeExemptionSettings
+  - Interface PolicyTokenResponse has a new optional parameter requestDetails
+  - Interface Selector has a new optional parameter progress
+  - Added Type Alias AliasPathAttributes
+  - Added Type Alias AliasPathTokenType
+  - Added Type Alias AliasPatternType
+  - Added Type Alias AliasType
+  - Added Type Alias ComplianceState
+  - Added Type Alias PolicyAction
+  - Added Enum KnownAliasPathAttributes
+  - Added Enum KnownAliasPathTokenType
+  - Added Enum KnownComplianceState
+  - Added Enum KnownPolicyAction
+  - Enum KnownSelectorKind has a new value GroupPrincipalId
+  - Enum KnownSelectorKind has a new value ResourceRolloutPercentage
+  - Enum KnownSelectorKind has a new value UserPrincipalId
+  - Enum KnownVersions has a new value V20251101
+  - Enum KnownVersions has a new value V20260601
+  - Enum KnownVersions has a new value V20260701
+
+### Breaking Changes
+  - Operation PolicyAssignmentsOperations.delete has a new signature
+  - Interface PolicyLogInfo no longer has parameter ancestors
+  - Interface PolicyLogInfo no longer has parameter complianceReasonCode
+  - Interface PolicyLogInfo no longer has parameter policyAssignmentDisplayName
+  - Interface PolicyLogInfo no longer has parameter policyDefinitionDisplayName
+  - Interface PolicyLogInfo no longer has parameter policyDefinitionGroupNames
+  - Interface PolicyLogInfo no longer has parameter policyExemptionIds
+  - Interface PolicyLogInfo no longer has parameter policySetDefinitionCategory
+  - Interface PolicyLogInfo no longer has parameter policySetDefinitionDisplayName
+  - Interface PolicyLogInfo no longer has parameter resourceLocation
+
 ## 7.0.1 (2026-07-23)
 
 ### Bugs Fixed
