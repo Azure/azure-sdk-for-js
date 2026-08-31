@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Bound server-provided `Retry-After` polling intervals to the range supported by the platform timer. Previously an oversized `Retry-After` value (numeric seconds or a distant HTTP date) overflowed `setTimeout` and, on Node.js, was scheduled for `1` millisecond, causing a near-continuous polling loop. [#39793](https://github.com/Azure/azure-sdk-for-js/issues/39793)
+
 ### Other Changes
 
 - Preserve caught errors as the cause when wrapping them. [#39423](https://github.com/Azure/azure-sdk-for-js/issues/39423)
