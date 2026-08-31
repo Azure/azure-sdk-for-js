@@ -84,6 +84,8 @@ import type { TenantLevelSharedGalleryInvitesOperations } from "./classic/tenant
 import { _getTenantLevelSharedGalleryInvitesOperations } from "./classic/tenantLevelSharedGalleryInvites/index.js";
 import type { UsageOperations } from "./classic/usage/index.js";
 import { _getUsageOperations } from "./classic/usage/index.js";
+import type { VirtualMachineDiagnosticRunCommandsOperations } from "./classic/virtualMachineDiagnosticRunCommands/index.js";
+import { _getVirtualMachineDiagnosticRunCommandsOperations } from "./classic/virtualMachineDiagnosticRunCommands/index.js";
 import type { VirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
 import { _getVirtualMachineExtensionImagesOperations } from "./classic/virtualMachineExtensionImages/index.js";
 import type { VirtualMachineExtensionsOperations } from "./classic/virtualMachineExtensions/index.js";
@@ -100,6 +102,8 @@ import type { VirtualMachineScaleSetLifeCycleHookEventsOperations } from "./clas
 import { _getVirtualMachineScaleSetLifeCycleHookEventsOperations } from "./classic/virtualMachineScaleSetLifeCycleHookEvents/index.js";
 import type { VirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
 import { _getVirtualMachineScaleSetRollingUpgradesOperations } from "./classic/virtualMachineScaleSetRollingUpgrades/index.js";
+import type { VirtualMachineScaleSetVMDiagnosticRunCommandsOperations } from "./classic/virtualMachineScaleSetVMDiagnosticRunCommands/index.js";
+import { _getVirtualMachineScaleSetVMDiagnosticRunCommandsOperations } from "./classic/virtualMachineScaleSetVMDiagnosticRunCommands/index.js";
 import type { VirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
 import { _getVirtualMachineScaleSetVMExtensionsOperations } from "./classic/virtualMachineScaleSetVMExtensions/index.js";
 import type { VirtualMachineScaleSetVMRunCommandsOperations } from "./classic/virtualMachineScaleSetVMRunCommands/index.js";
@@ -184,6 +188,11 @@ export class ComputeManagementClient {
     this.diskEncryptionSets = _getDiskEncryptionSetsOperations(this._client);
     this.diskAccesses = _getDiskAccessesOperations(this._client);
     this.disks = _getDisksOperations(this._client);
+    this.virtualMachineScaleSetVMDiagnosticRunCommands =
+      _getVirtualMachineScaleSetVMDiagnosticRunCommandsOperations(this._client);
+    this.virtualMachineDiagnosticRunCommands = _getVirtualMachineDiagnosticRunCommandsOperations(
+      this._client,
+    );
     this.virtualMachineScaleSetVMRunCommands = _getVirtualMachineScaleSetVMRunCommandsOperations(
       this._client,
     );
@@ -279,6 +288,10 @@ export class ComputeManagementClient {
   public readonly diskAccesses: DiskAccessesOperations;
   /** The operation groups for disks */
   public readonly disks: DisksOperations;
+  /** The operation groups for virtualMachineScaleSetVMDiagnosticRunCommands */
+  public readonly virtualMachineScaleSetVMDiagnosticRunCommands: VirtualMachineScaleSetVMDiagnosticRunCommandsOperations;
+  /** The operation groups for virtualMachineDiagnosticRunCommands */
+  public readonly virtualMachineDiagnosticRunCommands: VirtualMachineDiagnosticRunCommandsOperations;
   /** The operation groups for virtualMachineScaleSetVMRunCommands */
   public readonly virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommandsOperations;
   /** The operation groups for virtualMachineRunCommands */

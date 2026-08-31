@@ -12,7 +12,6 @@ exports:
   "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts"
   "./api/fleetMembers": "./src/api/fleetMembers/index.ts"
   "./api/fleets": "./src/api/fleets/index.ts"
-  "./api/clusterMeshProfiles": "./src/api/clusterMeshProfiles/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
 

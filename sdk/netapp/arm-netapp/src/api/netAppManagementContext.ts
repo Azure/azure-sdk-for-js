@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/arm-netapp/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
 import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
@@ -36,7 +37,7 @@ export function createNetAppManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-netapp/24.2.0`;
+  const userAgentInfo = `azsdk-js-arm-netapp/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

@@ -32,7 +32,7 @@ export function _postSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -41,10 +41,7 @@ export function _postSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: spotPlacementScoresInputSerializer(spotPlacementScoresInput),
   });
 }
@@ -55,13 +52,15 @@ export async function _postDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return spotPlacementScoresResponseDeserializer(result.body);
 }
-
 /** Generates placement scores for Spot VM skus. */
 export async function post(
   context: Client,
@@ -83,7 +82,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,10 +90,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -104,13 +100,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return computeDiagnosticBaseDeserializer(result.body);
 }
-
 /** Gets Spot Placement Scores metadata. */
 export async function get(
   context: Client,

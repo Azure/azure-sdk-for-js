@@ -15,14 +15,12 @@ export interface ExtensionPublisherOperations {
     options?: ExtensionPublisherListOptionalParams,
   ) => PagedAsyncIterableIterator<ExtensionPublisher>;
 }
-
 function _getExtensionPublisher(context: HybridComputeManagementContext) {
   return {
     list: (location: string, options?: ExtensionPublisherListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getExtensionPublisherOperations(
   context: HybridComputeManagementContext,
 ): ExtensionPublisherOperations {

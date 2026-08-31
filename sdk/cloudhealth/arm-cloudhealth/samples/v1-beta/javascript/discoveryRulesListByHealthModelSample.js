@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list DiscoveryRule resources by HealthModel
  *
  * @summary list DiscoveryRule resources by HealthModel
- * x-ms-original-file: 2026-05-01-preview/DiscoveryRules_ListByHealthModel.json
+ * x-ms-original-file: 2026-09-01-preview/DiscoveryRules_ListByHealthModel.json
  */
 async function discoveryRulesListByHealthModel() {
   const credential = new DefaultAzureCredential();

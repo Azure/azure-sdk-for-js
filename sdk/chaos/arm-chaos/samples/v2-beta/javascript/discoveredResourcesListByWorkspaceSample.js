@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of discovered resources for a workspace.
  *
  * @summary get a list of discovered resources for a workspace.
- * x-ms-original-file: 2026-05-01-preview/DiscoveredResources_ListByWorkspace.json
+ * x-ms-original-file: 2026-08-01-preview/DiscoveredResources_ListByWorkspace.json
  */
 async function getAListOfDiscoveredResourcesForAWorkspace() {
   const credential = new DefaultAzureCredential();

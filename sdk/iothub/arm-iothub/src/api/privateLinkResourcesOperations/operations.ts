@@ -28,7 +28,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,6 @@ export async function _listDeserialize(
 
   return privateLinkResourcesDeserializer(result.body);
 }
-
 /** List private link resources for the given IotHub */
 export async function list(
   context: Client,
@@ -81,7 +80,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       groupId: groupId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +105,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gr
 
   return groupIdInformationDeserializer(result.body);
 }
-
 /** Get the specified private link resource for the given IotHub */
 export async function get(
   context: Client,

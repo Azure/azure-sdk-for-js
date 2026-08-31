@@ -27,7 +27,6 @@ export interface SpotPlacementScoresOperations {
     options?: SpotPlacementScoresGetOptionalParams,
   ) => Promise<ComputeDiagnosticBase>;
 }
-
 function _getSpotPlacementScores(context: ComputeRecommenderManagementContext) {
   return {
     post: (
@@ -39,7 +38,6 @@ function _getSpotPlacementScores(context: ComputeRecommenderManagementContext) {
       get(context, location, options),
   };
 }
-
 export function _getSpotPlacementScoresOperations(
   context: ComputeRecommenderManagementContext,
 ): SpotPlacementScoresOperations {

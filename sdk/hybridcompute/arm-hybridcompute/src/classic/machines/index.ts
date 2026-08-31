@@ -127,7 +127,6 @@ export interface MachinesOperations {
     options?: MachinesGetOptionalParams,
   ) => Promise<Machine>;
 }
-
 function _getMachines(context: HybridComputeManagementContext) {
   return {
     installPatches: (
@@ -218,7 +217,6 @@ function _getMachines(context: HybridComputeManagementContext) {
       get(context, resourceGroupName, machineName, options),
   };
 }
-
 export function _getMachinesOperations(
   context: HybridComputeManagementContext,
 ): MachinesOperations {

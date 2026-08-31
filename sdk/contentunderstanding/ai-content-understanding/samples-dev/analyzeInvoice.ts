@@ -2,18 +2,41 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Analyze an invoice from a URL using the prebuilt-invoice analyzer.
+ * @summary Analyze an invoice using prebuilt analyzer.
  *
- * This sample demonstrates how to analyze an invoice from a URL using the prebuilt-invoice
- * analyzer and extract structured fields from the result.
+ * This sample demonstrates how to analyze an invoice from a URL using the `prebuilt-invoice`
+ * analyzer, extract structured fields, and convert field results to LLM-friendly text with
+ * `toLlmInput()`.
  *
- * Content Understanding provides 70+ production-ready prebuilt analyzers that are ready to use
- * without any training or configuration. The prebuilt-invoice analyzer automatically extracts:
- * - Customer/Vendor information: Name, address, contact details
- * - Invoice metadata: Invoice number, date, due date, purchase order number
- * - Line items: Description, quantity, unit price, total for each item
- * - Financial totals: Subtotal, tax amount, shipping charges, total amount
- * - Payment information: Payment terms, payment method, remittance address
+ * ## About analyzing invoices
+ *
+ * Content Understanding provides a rich set of prebuilt analyzers that are ready to use
+ * without any configuration. These analyzers are powered by knowledge bases of thousands
+ * of real-world document examples, enabling them to understand document structure and
+ * adapt to variations in format and content.
+ *
+ * Prebuilt analyzers are ideal for:
+ * - **Content ingestion** in search and retrieval-augmented generation (RAG) workflows
+ * - **Intelligent document processing (IDP)** to extract structured data from common document types
+ * - **Agentic flows** as tools for extracting structured representations from input files
+ *
+ * The `prebuilt-invoice` analyzer automatically extracts:
+ * - **Customer/Vendor information**: Name, address, contact details
+ * - **Invoice metadata**: Invoice number, date, due date, purchase order number
+ * - **Line items**: Description, quantity, unit price, total for each item
+ * - **Financial totals**: Subtotal, tax amount, shipping charges, total amount
+ * - **Payment information**: Payment terms, payment method, remittance address
+ *
+ * `prebuilt-invoice` belongs to the **financial documents** category of prebuilt analyzers,
+ * which also includes:
+ * - `prebuilt-receipt` — Sales receipts from retail and dining establishments
+ * - `prebuilt-creditCard` — Credit card statements
+ * - `prebuilt-bankStatement.us` — US bank statements
+ * - `prebuilt-check.us` — US bank checks
+ * - `prebuilt-creditMemo` — Credit memos and refund documents
+ *
+ * For the complete list of prebuilt analyzers, see:
+ * https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/prebuilt-analyzers
  *
  * @azsdk-weight 88
  */
@@ -186,7 +209,7 @@ export async function main(): Promise<void> {
   //   output. Typically 1,000 tokens per page. Charged separately from LLM tokens.
   //
   // - tokens: Record of "{model}-input" / "{model}-output" token counts consumed by your
-  //   Foundry model deployment (e.g. "gpt-4.1-input", "gpt-4.1-output"). These are
+  //   Foundry model deployment (e.g. "gpt-5.2-input", "gpt-5.2-output"). These are
   //   billed on your Foundry deployment, not on Content Understanding.
   //
   // For full pricing details, see:
@@ -194,6 +217,13 @@ export async function main(): Promise<void> {
   const usage = poller.operationState?.usage;
   if (usage) {
     console.log("\nUsage Details:");
+    // Document page meters are three tiers (minimal / basic / standard).
+    if (usage.documentPagesMinimal !== undefined) {
+      console.log(`  Document pages (minimal): ${usage.documentPagesMinimal}`);
+    }
+    if (usage.documentPagesBasic !== undefined) {
+      console.log(`  Document pages (basic): ${usage.documentPagesBasic}`);
+    }
     if (usage.documentPagesStandard !== undefined) {
       console.log(`  Document pages (standard): ${usage.documentPagesStandard}`);
     }

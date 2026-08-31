@@ -5,6 +5,30 @@ import type { NetworkVirtualApplianceInstanceIds } from "../../models/microsoft/
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface NetworkVirtualAppliancesAbortMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesCommitMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesExecuteMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesPrepareMigrationOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

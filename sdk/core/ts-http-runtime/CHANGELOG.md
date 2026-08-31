@@ -1,14 +1,23 @@
 # Release History
 
-## 0.3.8 (Unreleased)
+## 0.3.9 (Unreleased)
 
 ### Features Added
-
-- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- `NodeHttpClient` request timeouts now remain active while buffered response bodies are being read. [Issue #39519](https://github.com/Azure/azure-sdk-for-js/issues/39519)
+- `FetchHttpClient` now surfaces the system error code (such as `ECONNRESET` or `ETIMEDOUT`) carried by the `cause` of a failed `fetch()` call on the resulting `RestError`, so that `systemErrorRetryPolicy` retries transient network failures instead of rethrowing them immediately. [Issue #39703](https://github.com/Azure/azure-sdk-for-js/issues/39703)
+
+### Other Changes
+
+## 0.3.8 (2026-07-29)
+
+### Features Added
+
+- Added an optional `internal` property to `ClientOptions` for `getClient`, carrying a `noDefaultAcceptHeader` flag (defaults to `false`). When set to `true`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients. [PR #39291](https://github.com/Azure/azure-sdk-for-js/pull/39291)
 
 ### Other Changes
 

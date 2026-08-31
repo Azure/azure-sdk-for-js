@@ -281,7 +281,7 @@ export async function analyzeWidget(
       throw new RestError(error.message, { code: error.statusCode });
     }
 
-    throw new Error(error);
+    throw new Error(error, { cause: error });
   }
 }
 

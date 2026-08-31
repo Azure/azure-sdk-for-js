@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.CloudHealth": "2026-05-01-preview"
+    "Microsoft.CloudHealth": "2026-09-01-preview"
   },
-  "emitterVersion": "0.55.0",
+  "emitterVersion": "0.56.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.CloudHealth",
     "CrossLanguageDefinitionId": {
@@ -53,6 +53,7 @@
       "@azure/arm-cloudhealth!AzureMonitorWorkspaceSignals:interface": "Microsoft.CloudHealth.AzureMonitorWorkspaceSignals",
       "@azure/arm-cloudhealth!DependenciesSignalGroupV2:interface": "Microsoft.CloudHealth.DependenciesSignalGroupV2",
       "@azure/arm-cloudhealth!ExternalSignalGroup:interface": "Microsoft.CloudHealth.ExternalSignalGroup",
+      "@azure/arm-cloudhealth!SignalAggregationGroup:interface": "Microsoft.CloudHealth.SignalAggregationGroup",
       "@azure/arm-cloudhealth!EntityAlerts:interface": "Microsoft.CloudHealth.EntityAlerts",
       "@azure/arm-cloudhealth!AlertConfiguration:interface": "Microsoft.CloudHealth.AlertConfiguration",
       "@azure/arm-cloudhealth!EntityListResult:interface": "Azure.ResourceManager.ResourceListResult",
@@ -92,7 +93,6 @@
       "@azure/arm-cloudhealth!KnownRefreshInterval:enum": "Microsoft.CloudHealth.RefreshInterval",
       "@azure/arm-cloudhealth!KnownSignalOperator:enum": "Microsoft.CloudHealth.SignalOperator",
       "@azure/arm-cloudhealth!KnownDynamicThresholdSensitivity:enum": "Microsoft.CloudHealth.DynamicThresholdSensitivity",
-      "@azure/arm-cloudhealth!KnownLookBackWindow:enum": "Microsoft.CloudHealth.LookBackWindow",
       "@azure/arm-cloudhealth!KnownMetricAggregationType:enum": "Microsoft.CloudHealth.MetricAggregationType",
       "@azure/arm-cloudhealth!KnownAuthenticationKind:enum": "Microsoft.CloudHealth.AuthenticationKind",
       "@azure/arm-cloudhealth!KnownEntityImpact:enum": "Microsoft.CloudHealth.EntityImpact",
@@ -102,8 +102,8 @@
       "@azure/arm-cloudhealth!KnownResourceHealthCategory:enum": "Microsoft.CloudHealth.ResourceHealthCategory",
       "@azure/arm-cloudhealth!KnownResourceHealthReasonType:enum": "Microsoft.CloudHealth.ResourceHealthReasonType",
       "@azure/arm-cloudhealth!KnownResourceHealthReasonChronicity:enum": "Microsoft.CloudHealth.ResourceHealthReasonChronicity",
-      "@azure/arm-cloudhealth!KnownDependenciesAggregationType:enum": "Microsoft.CloudHealth.DependenciesAggregationType",
-      "@azure/arm-cloudhealth!KnownDependenciesAggregationUnit:enum": "Microsoft.CloudHealth.DependenciesAggregationUnit",
+      "@azure/arm-cloudhealth!KnownAggregationType:enum": "Microsoft.CloudHealth.AggregationType",
+      "@azure/arm-cloudhealth!KnownAggregationUnit:enum": "Microsoft.CloudHealth.AggregationUnit",
       "@azure/arm-cloudhealth!KnownAlertSeverity:enum": "Microsoft.CloudHealth.AlertSeverity",
       "@azure/arm-cloudhealth!KnownDiscoveryRuleRelationshipDiscoveryBehavior:enum": "Microsoft.CloudHealth.DiscoveryRuleRelationshipDiscoveryBehavior",
       "@azure/arm-cloudhealth!KnownDiscoveryRuleRecommendedSignalsBehavior:enum": "Microsoft.CloudHealth.DiscoveryRuleRecommendedSignalsBehavior",

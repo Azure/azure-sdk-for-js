@@ -3,6 +3,7 @@ packages:
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
   - eng/containers/turborepo-remote-cache
+  - eng/tools/ci-runner
   - common/tools/vite-plugin-browser-test-map
   - common/tools/warp
   - '!sdk/**/src/**'
@@ -69,6 +70,14 @@ peerDependencyRules:
     'eslint-plugin-import>eslint': ^10.0.0
 
 linkWorkspacePackages: true
+
+# Exempt our own packages from the minimumReleaseAge delay so freshly published
+# Azure SDK packages (and the TypeSpec runtime we own) install immediately
+# instead of waiting out the default maturation window.
+minimumReleaseAgeExclude:
+  - '@azure/*'
+  - '@azure-rest/*'
+  - '@typespec/ts-http-runtime'
 
 # Ensure lockfile includes optional dependencies for all CI and development platforms
 # This prevents lockfile churn when running pnpm install on different OSes
