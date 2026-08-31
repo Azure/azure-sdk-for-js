@@ -50,7 +50,6 @@ describe("AzurePipelinesCredential (internal)", function () {
     });
 
     function assertSafeErrorDetails(error: any): void {
-      // The allow-listed headers and response metadata should be present...
       assert.include(error.message, `"status":${response.status}`);
       assert.include(error.message, "test-e2e-id");
       assert.include(error.message, "test-msedge-ref");
