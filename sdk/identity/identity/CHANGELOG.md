@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fixed `AzurePipelinesCredential` to only including relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
+- Fixed `AzurePipelinesCredential` to include only relevant details in error messages and logs when the OIDC token request fails. [#39774](https://github.com/Azure/azure-sdk-for-js/pull/39774)
 
 ## 4.14.0-beta.6 (Unreleased)
 
