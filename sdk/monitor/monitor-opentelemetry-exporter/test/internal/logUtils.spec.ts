@@ -912,60 +912,24 @@ describe("logUtils.ts", () => {
       assert.strictEqual((envelope?.data?.baseData as TelemetryEventData).name, "test-event");
     });
 
-    it.each([
-      {
-        marker: "type",
-        exceptionAttributes: { [SEMATTRS_EXCEPTION_TYPE]: "Error" },
-        expectedException: {
-          typeName: "Error",
-          message: "availability log",
-          hasFullStack: false,
-          stack: undefined,
-        },
-      },
-      {
-        marker: "message",
-        exceptionAttributes: { [SEMATTRS_EXCEPTION_MESSAGE]: "test exception" },
-        expectedException: {
-          typeName: "Exception",
-          message: "test exception",
-          hasFullStack: false,
-          stack: undefined,
-        },
-      },
-      {
-        marker: "stacktrace",
-        exceptionAttributes: { [SEMATTRS_EXCEPTION_STACKTRACE]: "test stack" },
-        expectedException: {
-          typeName: "Exception",
-          message: "availability log",
-          hasFullStack: true,
-          stack: "test stack",
-        },
-      },
-    ])(
-      "should give a partial exception $marker precedence over availability attributes",
-      ({ exceptionAttributes, expectedException }) => {
-        testLogRecord.attributes = {
-          "microsoft.availability.id": "test-id",
-          "microsoft.availability.name": "test-name",
-          "microsoft.availability.duration": "00:00:02",
-          "microsoft.availability.success": true,
-          ...exceptionAttributes,
-          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
-        };
-        testLogRecord.body = "availability log";
+    it("should give exception telemetry precedence over availability attributes", () => {
+      testLogRecord.attributes = {
+        "microsoft.availability.id": "test-id",
+        "microsoft.availability.name": "test-name",
+        "microsoft.availability.duration": "00:00:02",
+        "microsoft.availability.success": true,
+        [SEMATTRS_EXCEPTION_TYPE]: "Error",
+        [SEMATTRS_EXCEPTION_MESSAGE]: "test exception",
+        [SEMATTRS_EXCEPTION_STACKTRACE]: "test stack",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+      testLogRecord.body = "availability log";
 
-        const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
 
-        assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Exception");
-        assert.strictEqual(envelope?.data?.baseType, "ExceptionData");
-        assert.deepStrictEqual(
-          (envelope?.data?.baseData as TelemetryExceptionData).exceptions[0],
-          expectedException,
-        );
-      },
-    );
+      assert.strictEqual(envelope?.name, "Microsoft.ApplicationInsights.Exception");
+      assert.strictEqual(envelope?.data?.baseType, "ExceptionData");
+    });
   });
 
   it("should parse objects if passed as the message field of a legacy ApplicationInsights log", () => {

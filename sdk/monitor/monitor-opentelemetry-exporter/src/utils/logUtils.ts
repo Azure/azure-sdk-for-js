@@ -71,27 +71,21 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
-  const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
-  const isExceptionType =
-    exceptionType !== undefined ||
-    exceptionMessage !== undefined ||
-    exceptionStacktrace !== undefined;
+  const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
   const availabilityData = getAvailabilityData(log);
   const isMessageType: boolean =
     !log.attributes[ApplicationInsightsBaseType] &&
     !log.attributes[ApplicationInsightsCustomEventName] &&
-    !isExceptionType;
+    !exceptionType;
   if (isExceptionType) {
+    const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
     name = ApplicationInsightsExceptionName;
     baseType = ApplicationInsightsExceptionBaseType;
     const exceptionDetails: TelemetryExceptionDetails = {
-      typeName: exceptionType === undefined ? "Exception" : String(exceptionType),
-      message:
-        exceptionMessage === undefined
-          ? serializeAttribute(log.body ?? "Exception")
-          : String(exceptionMessage),
-      hasFullStack: exceptionStacktrace !== undefined,
-      stack: exceptionStacktrace === undefined ? undefined : String(exceptionStacktrace),
+      typeName: String(exceptionType),
+      message: String(exceptionMessage),
+      hasFullStack: exceptionStacktrace ? true : false,
+      stack: String(exceptionStacktrace),
     };
     const exceptionData: TelemetryExceptionData = {
       kind: "ExceptionData",
