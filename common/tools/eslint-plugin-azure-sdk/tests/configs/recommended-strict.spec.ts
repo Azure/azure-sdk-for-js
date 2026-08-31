@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
+import { ESLint, type Linter } from "eslint";
 import { recommendedStrictDelta } from "../../src/configs/recommended-strict.js";
 import plugin from "../../src/index.js";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
@@ -179,13 +180,39 @@ describe("recommendedStrictDelta", () => {
       expect(rules["@typescript-eslint/use-unknown-in-catch-callback-variable"]).toBe("error");
     });
 
-    it("should scope every emitted config object to JS/TS(X) files under src/ only", () => {
-      // Same scoping invariant as the non-type-checked variant: the strict
-      // delta must not fire for files outside `src/`.
+    it("should scope the always-on config objects to JS/TS(X) files under src/, and the type-checked ones to TS(X) only", () => {
+      // Same scoping invariant as the non-type-checked variant, plus: type-aware
+      // rules must not be enabled for `.js`/`.jsx`, which never get parser
+      // services (only TS extensions set `projectService`).
       expect(deltaConfigs.length).toBeGreaterThan(0);
+      const alwaysOnScope = ["**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"];
+      const typedScope = ["**/src/**/*.{ts,cts,mts,tsx}"];
+
       for (const config of deltaConfigs) {
-        expect(config.files).toEqual(["**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"]);
+        expect([alwaysOnScope, typedScope]).toContainEqual(config.files);
       }
+
+      // Every config object carrying a type-aware rule must use the TS-only scope.
+      const typedRuleNames = [
+        "@typescript-eslint/no-unnecessary-condition",
+        "@typescript-eslint/switch-exhaustiveness-check",
+        "@typescript-eslint/only-throw-error",
+        "@typescript-eslint/return-await",
+        "@typescript-eslint/no-deprecated",
+        "@typescript-eslint/prefer-readonly",
+        "@typescript-eslint/consistent-return",
+      ];
+      for (const config of deltaConfigs) {
+        const carriesTypedRule = typedRuleNames.some(
+          (name) => config.rules && name in config.rules,
+        );
+        if (carriesTypedRule) {
+          expect(config.files).toEqual(typedScope);
+        }
+      }
+
+      // ...and at least one config object actually did carry them.
+      expect(deltaConfigs.some((config) => config.files?.[0] === typedScope[0])).toBe(true);
     });
   });
 });
@@ -223,5 +250,69 @@ describe("plugin exports", () => {
     const result = plugin.configStrict();
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBeGreaterThan(0);
+  });
+});
+
+describe("recommendedStrictTypeChecked resolved scope (ESLint integration)", () => {
+  // Rules that require parser services. `prefer-readonly` etc. come from our
+  // strict delta; `await-thenable` / `no-floating-promises` are inherited from
+  // typescript-eslint's `recommendedTypeChecked` preset, which is not
+  // extension-scoped on its own.
+  const typedRules = [
+    "@typescript-eslint/prefer-readonly",
+    "@typescript-eslint/switch-exhaustiveness-check",
+    "@typescript-eslint/no-deprecated",
+    "@typescript-eslint/await-thenable",
+    "@typescript-eslint/no-floating-promises",
+  ];
+
+  /** Rules from the strict delta that do NOT need type information. */
+  const alwaysOnRules = ["max-classes-per-file", "sonarjs/cognitive-complexity"];
+
+  async function resolveConfigFor(filePath: string): Promise<Linter.Config> {
+    const eslint = new ESLint({
+      overrideConfigFile: true,
+      overrideConfig: plugin.configs.recommendedStrictTypeChecked as never,
+    });
+    return (await eslint.calculateConfigForFile(filePath)) as Linter.Config;
+  }
+
+  /** Returns the subset of `names` that resolve to an enabled (non-"off") rule. */
+  function enabledOf(config: Linter.Config, names: string[]): string[] {
+    return names.filter((name) => {
+      const entry = config.rules?.[name];
+      if (entry === undefined) return false;
+      const severity = Array.isArray(entry) ? entry[0] : entry;
+      return severity !== "off" && severity !== 0;
+    });
+  }
+
+  it.each(["src/example.js", "src/example.cjs", "src/example.mjs", "src/example.jsx"])(
+    "should NOT enable any type-aware rule for %s (no parser services are configured for JavaScript)",
+    async (filePath) => {
+      const config = await resolveConfigFor(filePath);
+      expect(enabledOf(config, typedRules)).toEqual([]);
+    },
+  );
+
+  it.each(["src/example.ts", "src/example.cts", "src/example.mts", "src/example.tsx"])(
+    "should enable type-aware rules for %s",
+    async (filePath) => {
+      const config = await resolveConfigFor(filePath);
+      expect(enabledOf(config, typedRules)).toEqual(typedRules);
+    },
+  );
+
+  it.each(["src/example.js", "src/example.jsx", "src/example.ts", "src/example.tsx"])(
+    "should still apply the non-type-aware strict rules to %s",
+    async (filePath) => {
+      const config = await resolveConfigFor(filePath);
+      expect(enabledOf(config, alwaysOnRules)).toEqual(alwaysOnRules);
+    },
+  );
+
+  it("should not apply the strict delta outside src/", async () => {
+    const config = await resolveConfigFor("test/example.ts");
+    expect(enabledOf(config, alwaysOnRules)).toEqual([]);
   });
 });

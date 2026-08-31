@@ -69,6 +69,17 @@ export default (plugin: FlatConfig.Plugin) => ({
   recommendedStrictTypeChecked: [
     ...recommended(plugin, { typeChecked: true }),
     ...recommendedStrictDelta({ typeChecked: true }),
+    // The strict delta already limits its own type-aware rules to TypeScript,
+    // but the inherited `recommendedTypeChecked` preset (e.g. `await-thenable`,
+    // `no-floating-promises`) is not extension-scoped. Parser services are only
+    // configured for TypeScript (see `azure-sdk-customized.ts`), so leaving them
+    // on for `.js`/`.jsx` makes ESLint fail with "you have used a rule which
+    // requires type information". Turn them off for JavaScript.
+    bypassTypeCheck({
+      ...typescriptEslint.configs.disableTypeChecked,
+      name: "@azure/azure-sdk/recommended-strict-disable-type-checked-for-js",
+      files: ["**/*.{js,cjs,mjs,jsx}"],
+    }),
   ],
   internal: defineConfig(
     {

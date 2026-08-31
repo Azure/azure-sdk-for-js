@@ -30,6 +30,19 @@ const MAX_PARAMS = 7;
 const STRICT_FILES: readonly string[] = ["**/src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"];
 
 /**
+ * Glob pattern used to scope the *type-checked* portion of the strict delta.
+ *
+ * Type-aware rules need parser services, and this plugin only enables
+ * `parserOptions.projectService` for TypeScript extensions (see
+ * `azure-sdk-customized.ts`). Enabling typed rules on `.js`/`.jsx` would make
+ * ESLint fail with "you have used a rule which requires type information"
+ * unless the consumer separately opts into typed JavaScript (`allowJs` plus a
+ * TSConfig that includes those files). Rather than impose that, the typed
+ * rules are limited to TypeScript sources.
+ */
+const STRICT_TYPED_FILES: readonly string[] = ["**/src/**/*.{ts,cts,mts,tsx}"];
+
+/**
  * Restrict a flat-config object so its rules only apply to JavaScript and
  * TypeScript files (including `.jsx`/`.tsx`) under `src/`. Any existing
  * `files` on the input is replaced — the strict preset owns the scoping
@@ -40,6 +53,15 @@ function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
 }
 
 /**
+ * Restrict a flat-config object so its rules only apply to TypeScript files
+ * (including `.tsx`) under `src/`. Used for the type-checked delta, which
+ * requires parser services that are only configured for TypeScript.
+ */
+function scopeToTypedSrc(config: FlatConfig.Config): FlatConfig.Config {
+  return { ...config, files: [...STRICT_TYPED_FILES] };
+}
+
+/**
  * Returns the strict-only delta config array — the additional rules that go
  * beyond the `recommended` / `recommendedTypeChecked` preset.
  *
@@ -47,7 +69,9 @@ function scopeToSrc(config: FlatConfig.Config): FlatConfig.Config {
  * (including `.jsx`/`.tsx`) under `src/`, so the strict delta never fires for
  * non-source files or files
  * under `test/`, `samples/`, `samples-dev/`, etc., even when composed with a
- * broader base preset.
+ * broader base preset. The type-checked rules are scoped more narrowly still —
+ * to TypeScript sources only — because parser services are not configured for
+ * JavaScript.
  *
  * @param options.typeChecked - When `true`, type-checked-only rules are included.
  *   When `false`, rules that require parser services are omitted.
@@ -182,5 +206,8 @@ export function recommendedStrictDelta(options: { typeChecked: boolean }): FlatC
     },
   });
 
-  return [...sonarjsBase, ...alwaysOnRules, ...typeCheckedRules].map(scopeToSrc);
+  return [
+    ...[...sonarjsBase, ...alwaysOnRules].map(scopeToSrc),
+    ...typeCheckedRules.map(scopeToTypedSrc),
+  ];
 }
