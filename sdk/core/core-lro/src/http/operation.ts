@@ -180,10 +180,10 @@ export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): numbe
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
   if (retryAfter !== undefined) {
     // Retry-After header value is either in HTTP date format, or in seconds
-    const retryAfterInSeconds = parseInt(retryAfter);
-    return isNaN(retryAfterInSeconds)
-      ? calculatePollingIntervalFromDate(new Date(retryAfter))
-      : retryAfterInSeconds * 1000;
+    if (/^[0-9]+$/.test(retryAfter)) {
+      return Number(retryAfter) * 1000;
+    }
+    return calculatePollingIntervalFromDate(new Date(retryAfter));
   }
   return undefined;
 }

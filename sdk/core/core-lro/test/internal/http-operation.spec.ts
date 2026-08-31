@@ -52,6 +52,22 @@ describe("http/operation.ts", () => {
       });
       assert.isUndefined(result);
     });
+
+    it("returns undefined for a negative delay-seconds value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "-1" } }),
+        flatResponse: {},
+      });
+      assert.isUndefined(result);
+    });
+
+    it("returns undefined for a partially numeric delay-seconds value", () => {
+      const result = parseRetryAfter({
+        rawResponse: makeRawResponse({ headers: { "retry-after": "1junk" } }),
+        flatResponse: {},
+      });
+      assert.isUndefined(result);
+    });
   });
 
   describe("calculatePollingIntervalFromDate (via parseRetryAfter)", () => {
