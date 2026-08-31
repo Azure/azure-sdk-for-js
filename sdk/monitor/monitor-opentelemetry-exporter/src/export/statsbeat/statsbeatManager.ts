@@ -23,8 +23,7 @@ export class StatsbeatManager {
   private oneSettingsEnabled: boolean | undefined;
   private configurationCallbackRegistered = false;
   private readonly configurationCallback: ConfigurationChangeCallback = async (settings) => {
-    this.oneSettingsEnabled =
-      evaluateFeature(ONE_SETTINGS_FEATURE_SDK_STATS, settings) === true;
+    this.oneSettingsEnabled = evaluateFeature(ONE_SETTINGS_FEATURE_SDK_STATS, settings) === true;
     if (this.oneSettingsEnabled) {
       this.initialize();
     } else {
