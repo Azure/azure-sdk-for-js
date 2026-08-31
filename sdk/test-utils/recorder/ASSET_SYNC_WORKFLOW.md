@@ -136,8 +136,8 @@ If you have an existing package with recordings that need to be migrated, run th
 # 1. Generate an assets.json with an empty tag for the package
 $ npx dev-tool test-proxy init
 
-# 2. Run the package tests to generate the recordings
-$ npm run test:node
+# 2. Run the package tests in record mode to generate the recordings
+$ TEST_MODE=record npm run test:node
 
 # 3. Push the recordings to the assets repo and update the tag in assets.json
 $ npx dev-tool test-proxy push
