@@ -19,7 +19,9 @@ vi.mock("@azure/core-util", async (importOriginal) => {
 });
 
 import { createTestPoller } from "../utils/router.js";
+import type { OperationState } from "../../src/index.js";
 import { MAX_POLLING_INTERVAL_IN_MS, POLL_INTERVAL_IN_MS } from "../../src/poller/constants.js";
+import { buildCreatePoller } from "../../src/poller/poller.js";
 
 async function runPoller(options: { intervalInMs?: number; retryAfter?: string }): Promise<void> {
   const { intervalInMs, retryAfter } = options;
@@ -98,6 +100,30 @@ describe("poller bounds oversized polling intervals", () => {
     await runPoller({ intervalInMs: Infinity });
 
     assert.deepEqual(delayCalls, [POLL_INTERVAL_IN_MS]);
+  });
+
+  it("uses the configured interval for a negative server-provided interval", async () => {
+    const configuredIntervalInMs = 5000;
+    let pollCount = 0;
+    const createPoller = buildCreatePoller<unknown, unknown, OperationState<unknown>>({
+      getStatusFromInitialResponse: () => "running",
+      getStatusFromPollResponse: () => (++pollCount === 1 ? "running" : "succeeded"),
+      isOperationError: () => false,
+      getResourceLocation: () => undefined,
+      getPollingInterval: () => -1,
+      resolveOnUnsuccessful: false,
+    });
+    const poller = createPoller(
+      {
+        init: async () => ({ response: {}, operationLocation: "path/poll" }),
+        poll: async () => ({}),
+      },
+      { intervalInMs: configuredIntervalInMs },
+    );
+
+    await poller.pollUntilDone();
+
+    assert.deepEqual(delayCalls, [configuredIntervalInMs]);
   });
 
   it("preserves the configured interval for a non-finite Retry-After value", async () => {

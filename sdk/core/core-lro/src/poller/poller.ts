@@ -20,15 +20,18 @@ import { delay } from "@azure/core-util";
  * to `1`, which would turn an intended long delay into a near-continuous polling
  * loop. This guard is applied to every source of the polling interval — the
  * caller-supplied `intervalInMs` and any server-provided `Retry-After` value —
- * so oversized values are never scheduled directly on the timer. A non-finite
- * caller-supplied interval falls back to the default polling interval.
+ * so invalid or oversized values are never scheduled directly on the timer.
  */
-function boundPollingInterval(intervalInMs: number): number {
-  if (!Number.isFinite(intervalInMs)) {
-    return POLL_INTERVAL_IN_MS;
+function boundPollingInterval(
+  intervalInMs: number,
+  fallbackIntervalInMs = POLL_INTERVAL_IN_MS,
+): number {
+  if (!Number.isFinite(intervalInMs) || intervalInMs < 0) {
+    return fallbackIntervalInMs;
   }
   return Math.min(intervalInMs, MAX_POLLING_INTERVAL_IN_MS);
 }
+
 /**
  * Returns a poller factory.
  */
@@ -90,7 +93,8 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
-    let currentPollIntervalInMs = boundPollingInterval(intervalInMs);
+    const configuredPollIntervalInMs = boundPollingInterval(intervalInMs);
+    let currentPollIntervalInMs = configuredPollIntervalInMs;
 
     const poller: PollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
@@ -196,7 +200,10 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {
-            currentPollIntervalInMs = boundPollingInterval(pollIntervalInMs);
+            currentPollIntervalInMs = boundPollingInterval(
+              pollIntervalInMs,
+              configuredPollIntervalInMs,
+            );
           },
           setErrorAsResult: !resolveOnUnsuccessful,
         });
