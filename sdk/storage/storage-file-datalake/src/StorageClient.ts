@@ -4,7 +4,8 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient.js";
 import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline, PipelineLike } from "./Pipeline.js";
+import { getCoreClientOptions } from "./Pipeline.js";
 import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms.js";
@@ -14,8 +15,6 @@ import {
   getURLScheme,
   iEqual,
 } from "./utils/utils.common.js";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
-import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import { DataLakeClientConfig } from "./models.js";
 
@@ -24,26 +23,6 @@ import { DataLakeClientConfig } from "./models.js";
  */
 export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
-}
-
-// This function relies on the Pipeline already being initialized by a storage-blob client
-function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
-  const { httpClient: v1Client, ...restOptions } = pipeline.options as StoragePipelineOptions;
-  const httpClient: HttpClient = (pipeline as any)._coreHttpClient;
-  if (!httpClient) {
-    throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
-  }
-
-  const corePipeline: CorePipeline = (pipeline as any)._corePipeline;
-  if (!corePipeline) {
-    throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
-  }
-  return {
-    ...restOptions,
-    allowInsecureConnection: true,
-    httpClient,
-    pipeline: corePipeline,
-  };
 }
 
 /**
@@ -113,12 +92,14 @@ export abstract class StorageClient {
     this.dfsEndpointUrl = toDfsEndpointUrl(this.url);
     this.accountName = getAccountNameFromUrl(this.blobEndpointUrl);
     this.pipeline = pipeline;
+    // Seed the shared core (V2) pipeline with Data Lake package details before constructing the
+    // inner BlobServiceClient. The Blob client only initializes `_corePipeline` when it is unset,
+    // so seeding it here ensures Data Lake requests carry the azsdk-js-storagedatalake user agent
+    // rather than azsdk-js-storageblob.
+    const coreClientOptions = getCoreClientOptions(pipeline);
     // creating this BlobServiceClient allows us to use the converted V2 Pipeline attached to `pipeline`.
     const blobClient = new BlobServiceClient(url, pipeline);
-    this.storageClientContext = new StorageContextClient(
-      this.dfsEndpointUrl,
-      getCoreClientOptions(pipeline),
-    );
+    this.storageClientContext = new StorageContextClient(this.dfsEndpointUrl, coreClientOptions);
 
     this.storageClientContextToBlobEndpoint = new StorageContextClient(
       this.blobEndpointUrl,

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Restored the core v1 user agent string prefix, `azsdk-js-storageblob`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+
 ### Other Changes
 
 ## 12.34.0-beta.1 (2026-08-03)

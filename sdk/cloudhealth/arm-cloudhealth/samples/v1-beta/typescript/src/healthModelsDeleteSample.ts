@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a HealthModel
  *
  * @summary delete a HealthModel
- * x-ms-original-file: 2026-05-01-preview/HealthModels_Delete.json
+ * x-ms-original-file: 2026-09-01-preview/HealthModels_Delete.json
  */
 async function healthModelsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
